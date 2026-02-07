@@ -4,6 +4,7 @@ export default function CalendarGrid({
   days,
   selectedDate,
   onSelect,
+  onSpeak,
   language,
   translations,
 }) {
@@ -240,7 +241,10 @@ export default function CalendarGrid({
             return (
               <button
                 key={day.date}
-                onClick={() => onSelect(day)}
+                onClick={() => {
+                  onSelect(day);
+                  if (onSpeak) onSpeak(day);
+                }}
                 className="group aspect-square rounded-xl text-left p-1.5 sm:p-2.5 transition-all duration-200 border-[2.5px] relative overflow-hidden flex flex-col"
                 style={
                   isSelected
