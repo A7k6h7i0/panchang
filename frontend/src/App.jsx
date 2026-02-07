@@ -22,9 +22,13 @@ function App() {
   const [days, setDays] = useState([]);
   const [selectedDay, setSelectedDay] = useState(null);
   const [language, setLanguage] = useState("en");
+  const [showDatePicker, setShowDatePicker] = useState(false);
   const [showYearPicker, setShowYearPicker] = useState(false);
+  const [tempYear, setTempYear] = useState(today.year);
+  const [tempMonth, setTempMonth] = useState(today.month);
+  const [tempDay, setTempDay] = useState(today.day);
+  const datePickerRef = useRef(null);
   const yearPickerRef = useRef(null);
-  const scrollContainerRef = useRef(null);
 
   const t = translations[language];
 
@@ -39,7 +43,7 @@ function App() {
         });
 
         setDays(monthDays);
-        
+
         // Check if we're viewing the current month and year
         if (year === today.year && month === today.month) {
           // Find today's date in the data
@@ -47,7 +51,7 @@ function App() {
             today.month + 1
           ).padStart(2, "0")}/${today.year}`;
           const todayData = monthDays.find((d) => d.date === todayStr);
-          
+
           if (todayData) {
             setSelectedDay(todayData);
           } else if (monthDays.length > 0) {
@@ -62,39 +66,39 @@ function App() {
       });
   }, [year, month]);
 
-  // Close year picker when clicking outside
+  // Close date picker and year picker when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (yearPickerRef.current && !yearPickerRef.current.contains(event.target)) {
+      if (datePickerRef.current && !datePickerRef.current.contains(event.target)) {
+        setShowDatePicker(false);
         setShowYearPicker(false);
       }
     };
 
-    if (showYearPicker) {
+    if (showDatePicker) {
       document.addEventListener("mousedown", handleClickOutside);
     }
 
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [showYearPicker]);
+  }, [showDatePicker]);
 
-  // Scroll to selected year when picker opens
+  // Scroll to selected year when year picker opens
   useEffect(() => {
-    if (showYearPicker && scrollContainerRef.current) {
-      const selectedIndex = YEARS.indexOf(year);
-      const itemHeight = 60;
-      const containerHeight = 300;
-      const scrollPosition = selectedIndex * itemHeight - containerHeight / 2 + itemHeight / 2;
-      
+    if (showYearPicker && yearPickerRef.current) {
       setTimeout(() => {
-        scrollContainerRef.current.scrollTo({
+        const yearIndex = YEARS.indexOf(tempYear);
+        const itemHeight = 48;
+        const containerHeight = 240;
+        const scrollPosition = yearIndex * itemHeight - containerHeight / 2 + itemHeight / 2;
+        yearPickerRef.current.scrollTo({
           top: Math.max(0, scrollPosition),
           behavior: "smooth"
         });
-      }, 50);
+      }, 100);
     }
-  }, [showYearPicker, year]);
+  }, [showYearPicker, tempYear]);
 
   const goPrevMonth = () => {
     if (month === 0) {
@@ -123,8 +127,71 @@ function App() {
     [month, language]
   );
 
-  const handleYearSelect = (selectedYear) => {
-    setYear(selectedYear);
+  // Get days in selected month
+  const getDaysInMonth = (year, month) => {
+    return new Date(year, month + 1, 0).getDate();
+  };
+
+  // Get calendar grid days with empty slots for alignment
+  const getCalendarDays = (year, month) => {
+    const firstDay = new Date(year, month, 1).getDay(); // 0 = Sunday
+    const daysInMonth = getDaysInMonth(year, month);
+    const days = [];
+    // Add empty slots for days before the first day of month
+    for (let i = 0; i < firstDay; i++) {
+      days.push(null);
+    }
+    // Add actual days
+    for (let i = 1; i <= daysInMonth; i++) {
+      days.push(i);
+    }
+    return days;
+  };
+
+  const calendarDays = getCalendarDays(tempYear, tempMonth);
+
+  // Format the selected date for display
+  const getFormattedDate = () => {
+    const date = new Date(tempYear, tempMonth, tempDay);
+    const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    return `${days[date.getDay()]}, ${months[tempMonth]} ${tempDay}`;
+  };
+
+  const handleDatePickerOk = () => {
+    setYear(tempYear);
+    setMonth(tempMonth);
+
+    // Find the selected date in the data and set it as selectedDay
+    fetch(`/data/${tempYear}.json`)
+      .then((res) => res.json())
+      .then((data) => {
+        const dateStr = `${String(tempDay).padStart(2, "0")}/${String(tempMonth + 1).padStart(2, "0")}/${tempYear}`;
+        const dayData = data.find((d) => d.date === dateStr);
+        if (dayData) {
+          setSelectedDay(dayData);
+        }
+      })
+      .catch((err) => {
+        console.error("Error fetching date data:", err);
+      });
+
+    setShowDatePicker(false);
+  };
+
+  const handleDatePickerCancel = () => {
+    setTempYear(year);
+    setTempMonth(month);
+    setTempDay(selectedDay ? parseInt(selectedDay.date.split("/")[0]) : today.day);
+    setShowDatePicker(false);
+    setShowYearPicker(false);
+  };
+
+  const openDatePicker = () => {
+    setTempYear(year);
+    setTempMonth(month);
+    setTempDay(selectedDay ? parseInt(selectedDay.date.split("/")[0]) : today.day);
+    setShowDatePicker(true);
     setShowYearPicker(false);
   };
 
@@ -157,7 +224,7 @@ function App() {
             animation: "sparkle 3s ease-in-out infinite",
           }}
         />
-        
+
         <div 
           className="relative w-full max-w-md rounded-3xl p-8 text-center backdrop-blur-md"
           style={{
@@ -265,7 +332,7 @@ function App() {
         }}
       />
 
-      {/* ============= COMPACT HEADER WITH REDUCED HEIGHT ============= */}
+      {/* ============= HEADER WITH DAY DETAILS CARD ============= */}
       <header className="relative z-40">
         {/* Dark gradient overlay */}
         <div
@@ -276,17 +343,370 @@ function App() {
         />
 
         <div className="relative mx-auto max-w-7xl px-3 sm:px-6 lg:px-8 py-2.5 sm:py-4">
-          {/* ROW 1: Icon + Title + Language */}
-          <div className="flex items-center justify-between gap-2 sm:gap-3 mb-2.5 sm:mb-4">
-            {/* Left: Icon + Title */}
-            <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
+          {/* DAY DETAILS CARD - Compact Version for Header */}
+          <DayDetails day={selectedDay} language={language} translations={t} isHeaderMode={true} />
+        </div>
+      </header>
+
+      {/* ============= MONTH MOVER - CENTERED BETWEEN HEADER AND CALENDAR ============= */}
+      <div className="relative z-30 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex justify-center mb-4">
+        <div
+          className="flex items-center justify-between px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 md:py-3 text-sm sm:text-base md:text-xl font-black"
+          style={{
+            background: "linear-gradient(180deg, #ff4d0d 0%, #ff5c1a 10%, #ff6b28 20%, #ff7935 30%, #ff8743 40%, #ff7935 50%, #ff6b28 60%, #ff5c1a 70%, #ff4d0d 80%, #d94100 90%, #c23800 100%)",
+            color: "#FFFFFF",
+            border: "2.5px solid rgba(255, 140, 50, 0.8)",
+            borderRadius: "14px",
+            minWidth: "140px",
+            maxWidth: "200px",
+            boxShadow: `
+              0 0 25px rgba(255, 140, 50, 0.8),
+              0 0 50px rgba(255, 100, 30, 0.6),
+              inset 0 0 20px rgba(255, 180, 80, 0.25)
+            `,
+            textShadow: "0 2px 8px rgba(0, 0, 0, 0.5)",
+          }}
+        >
+          {/* LEFT ARROW */}
+          <button
+            onClick={goPrevMonth}
+            className="px-1 sm:px-2 text-base sm:text-lg font-black transition-all hover:scale-125 active:scale-95"
+            style={{
+              background: "transparent",
+              color: "#FFFFFF",
+              border: "none",
+              cursor: "pointer",
+            }}
+            aria-label="Previous month"
+          >
+            ←
+          </button>
+
+          {/* MONTH NAME */}
+          <span className="flex-1 text-center px-1 sm:px-2 truncate">
+            {monthLabel}
+          </span>
+
+          {/* RIGHT ARROW */}
+          <button
+            onClick={goNextMonth}
+            className="px-1 sm:px-2 text-base sm:text-lg font-black transition-all hover:scale-125 active:scale-95"
+            style={{
+              background: "transparent",
+              color: "#FFFFFF",
+              border: "none",
+              cursor: "pointer",
+            }}
+            aria-label="Next month"
+          >
+            →
+          </button>
+        </div>
+      </div>
+
+      {/* ============= MAIN CONTENT ============= */}
+      <main className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-4 sm:py-6 grid grid-cols-1 lg:grid-cols-[1.5fr_1fr] gap-4 sm:gap-6">
+        {/* CALENDAR SECTION */}
+        <section 
+          className="rounded-2xl sm:rounded-3xl p-4 sm:p-5 md:p-6 backdrop-blur-md"
+          style={{
+            background: "rgba(255, 255, 255, 0.94)",
+            border: "3px solid rgba(255, 140, 50, 0.6)",
+            boxShadow: "0 8px 32px rgba(255, 100, 30, 0.4), 0 0 80px rgba(255, 140, 50, 0.2)",
+          }}
+        >
+          {/* All controls in one responsive row */}
+          <div className="flex items-center gap-2 mb-4 flex-wrap">
+            {/* YEAR DISPLAY BUTTON */}
+            <button
+              onClick={openDatePicker}
+              className="px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-bold outline-none cursor-pointer transition-all hover:scale-105"
+              style={{
+                background: "linear-gradient(180deg, #ff4d0d 0%, #ff5c1a 10%, #ff6b28 20%, #ff7935 30%, #ff8743 40%, #ff7935 50%, #ff6b28 60%, #ff5c1a 70%, #ff4d0d 80%, #d94100 90%, #c23800 100%)",
+                color: "#FFFFFF",
+                border: "2.5px solid rgba(255, 140, 50, 0.8)",
+                borderRadius: "12px",
+                boxShadow: `
+                  0 0 20px rgba(255, 140, 50, 0.8),
+                  0 0 40px rgba(255, 100, 30, 0.6),
+                  inset 0 0 15px rgba(255, 180, 80, 0.2)
+                `,
+                minWidth: "70px",
+              }}
+              aria-label="Select Year"
+            >
+              {year}
+            </button>
+
+            {/* iOS-STYLE DATE PICKER MODAL - CALENDAR-BASED */}
+            {showDatePicker && (
+              <div
+                className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center"
+                style={{
+                  background: "rgba(0, 0, 0, 0.5)",
+                  backdropFilter: "blur(4px)",
+                }}
+              >
+                <div
+                  ref={datePickerRef}
+                  className="w-full sm:w-auto sm:max-w-[540px] rounded-t-3xl sm:rounded-3xl overflow-hidden relative"
+                  style={{
+                    background: "#FFFFFF",
+                    boxShadow: "0 20px 60px rgba(0, 0, 0, 0.3)",
+                  }}
+                >
+                  {/* Orange Header with Month/Year Navigation */}
+                  <div
+                    className="flex items-center justify-between px-6 py-4"
+                    style={{
+                      background: "linear-gradient(90deg, #FF8C42 0%, #FF6B35 50%, #FF5722 100%)",
+                    }}
+                  >
+                    <button
+                      onClick={() => {
+                        const newMonth = tempMonth === 0 ? 11 : tempMonth - 1;
+                        const newYear = tempMonth === 0 ? tempYear - 1 : tempYear;
+                        setTempMonth(newMonth);
+                        setTempYear(newYear);
+                        // Adjust day if needed
+                        const daysInNewMonth = getDaysInMonth(newYear, newMonth);
+                        if (tempDay > daysInNewMonth) {
+                          setTempDay(daysInNewMonth);
+                        }
+                      }}
+                      className="text-white text-2xl font-bold transition-transform hover:scale-110"
+                      style={{
+                        background: "transparent",
+                        border: "none",
+                        cursor: "pointer",
+                      }}
+                    >
+                      ←
+                    </button>
+
+                    <div className="flex flex-col items-center">
+                      <button
+                        onClick={() => setShowYearPicker(true)}
+                        className="text-white text-2xl font-bold tracking-wide transition-transform hover:scale-105"
+                        style={{
+                          background: "transparent",
+                          border: "none",
+                          cursor: "pointer",
+                        }}
+                      >
+                        {t.months[tempMonth]} {tempYear}
+                      </button>
+                    </div>
+
+                    <button
+                      onClick={() => {
+                        const newMonth = tempMonth === 11 ? 0 : tempMonth + 1;
+                        const newYear = tempMonth === 11 ? tempYear + 1 : tempYear;
+                        setTempMonth(newMonth);
+                        setTempYear(newYear);
+                        // Adjust day if needed
+                        const daysInNewMonth = getDaysInMonth(newYear, newMonth);
+                        if (tempDay > daysInNewMonth) {
+                          setTempDay(daysInNewMonth);
+                        }
+                      }}
+                      className="text-white text-2xl font-bold transition-transform hover:scale-110"
+                      style={{
+                        background: "transparent",
+                        border: "none",
+                        cursor: "pointer",
+                      }}
+                    >
+                      →
+                    </button>
+                  </div>
+
+                  {/* Year Selector Modal */}
+                  {showYearPicker && (
+                    <div
+                      ref={yearPickerRef}
+                      className="absolute inset-0 z-20 bg-white overflow-y-scroll"
+                      style={{
+                        scrollbarWidth: "none",
+                        msOverflowStyle: "none",
+                      }}
+                    >
+                      <div style={{ paddingTop: "96px", paddingBottom: "96px" }}>
+                        {YEARS.map((y) => (
+                          <button
+                            key={y}
+                            onClick={() => {
+                              setTempYear(y);
+                              const daysInNewMonth = getDaysInMonth(y, tempMonth);
+                              if (tempDay > daysInNewMonth) {
+                                setTempDay(daysInNewMonth);
+                              }
+                              setShowYearPicker(false);
+                            }}
+                            className="w-full text-center font-medium transition-all"
+                            style={{
+                              height: "48px",
+                              color: y === tempYear ? "#FF6C37" : "#999999",
+                              fontSize: y === tempYear ? "20px" : "16px",
+                              fontWeight: y === tempYear ? "700" : "400",
+                              background: "transparent",
+                              border: "none",
+                              cursor: "pointer",
+                              padding: "0",
+                            }}
+                          >
+                            {y}
+                          </button>
+                        ))}
+                      </div>
+                      {/* Close button for year picker */}
+                      <button
+                        onClick={() => setShowYearPicker(false)}
+                        className="w-full py-3 text-center font-semibold transition-all active:bg-gray-100"
+                        style={{
+                          color: "#757575",
+                          background: "#FFFFFF",
+                          border: "none",
+                          cursor: "pointer",
+                          fontSize: "14px",
+                          borderTop: "1px solid #E0E0E0",
+                        }}
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  )}
+
+                  {/* Calendar Grid */}
+                  <div className="p-4 bg-white">
+                    {/* Weekday Headers */}
+                    <div className="grid grid-cols-7 mb-2">
+                      {t.weekdaysShort.map((day, idx) => (
+                        <div
+                          key={idx}
+                          className="text-center py-2 text-sm font-semibold"
+                          style={{ color: "#757575" }}
+                        >
+                          {day}
+                        </div>
+                      ))}
+                    </div>
+                    {/* Days Grid */}
+                    <div className="grid grid-cols-7 gap-1">
+                      {calendarDays.map((day, idx) => (
+                        <button
+                          key={idx}
+                          onClick={() => day && setTempDay(day)}
+                          disabled={day === null}
+                          className="aspect-square flex items-center justify-center text-center font-medium transition-all"
+                          style={{
+                            height: "40px",
+                            color: day === tempDay ? "#FFFFFF" : (day ? "#333333" : "transparent"),
+                            fontSize: day === tempDay ? "16px" : "14px",
+                            fontWeight: day === tempDay ? "700" : "400",
+                            background: day === tempDay ? "#FF6C37" : (day ? "rgba(0, 0, 0, 0.02)" : "transparent"),
+                            border: day === tempDay ? "none" : (day ? "1px solid rgba(0, 0, 0, 0.08)" : "none"),
+                            borderRadius: day === tempDay ? "50%" : "4px",
+                            cursor: day ? "pointer" : "default",
+                          }}
+                        >
+                          {day || ""}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Action Buttons */}
+                  <div className="flex border-t" style={{ borderTop: "1px solid #E0E0E0" }}>
+                    <button
+                      onClick={handleDatePickerCancel}
+                      className="flex-1 py-4 text-center font-semibold transition-all active:bg-gray-100"
+                      style={{
+                        color: "#757575",
+                        background: "#FFFFFF",
+                        border: "none",
+                        borderRight: "1px solid #E0E0E0",
+                        cursor: "pointer",
+                        fontSize: "15px",
+                        letterSpacing: "0.5px",
+                      }}
+                    >
+                      CANCEL
+                    </button>
+                    <button
+                      onClick={handleDatePickerOk}
+                      className="flex-1 py-4 text-center font-bold transition-all active:bg-orange-50"
+                      style={{
+                        color: "#FF6C37",
+                        background: "#FFFFFF",
+                        border: "none",
+                        cursor: "pointer",
+                        fontSize: "15px",
+                        letterSpacing: "0.5px",
+                      }}
+                    >
+                      OK
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* TAP A DATE HEADING */}
+            <div 
+              className="px-2 sm:px-3 py-1.5 sm:py-2 rounded-xl ml-auto"
+              style={{
+                background: "linear-gradient(135deg, rgba(80, 20, 10, 0.95) 0%, rgba(100, 25, 12, 0.9) 100%)",
+                border: "2px solid rgba(255, 140, 50, 0.6)",
+                boxShadow: "0 0 15px rgba(255, 140, 50, 0.4), inset 0 0 10px rgba(255, 140, 50, 0.1)",
+              }}
+            >
+              <div 
+                className="text-xs sm:text-sm font-bold whitespace-nowrap"
+                style={{
+                  color: "#FFE4B5",
+                  textShadow: "0 2px 4px rgba(0, 0, 0, 0.5)",
+                }}
+              >
+                {t.tapDate}
+              </div>
+            </div>
+          </div>
+
+          <CalendarGrid
+            days={days}
+            selectedDate={selectedDay}
+            onSelect={setSelectedDay}
+            language={language}
+            translations={t}
+          />
+        </section>
+
+        {/* RIGHT SIDEBAR WITH SWASTIK + PANCHANG + DETAILS */}
+        <section 
+          className="rounded-2xl sm:rounded-3xl p-4 sm:p-5 md:p-6 backdrop-blur-md"
+          style={{
+            background: "linear-gradient(135deg, rgba(80, 20, 10, 0.98) 0%, rgba(100, 25, 12, 0.95) 50%, rgba(120, 30, 15, 0.92) 100%)",
+            border: "3px solid rgba(255, 140, 50, 0.8)",
+            boxShadow: `
+              0 0 35px rgba(255, 140, 50, 0.8),
+              0 0 70px rgba(255, 100, 30, 0.6),
+              0 0 105px rgba(255, 80, 20, 0.4),
+              inset 0 0 30px rgba(255, 140, 50, 0.2)
+            `,
+          }}
+        >
+          {/* HEADER ROW: SWASTIK + PANCHANG CALENDAR + LANGUAGE SELECTOR */}
+          <div className="flex items-center justify-between gap-3 mb-6 pb-4" style={{ borderBottom: "2px solid rgba(255, 140, 50, 0.4)" }}>
+            {/* Left: Swastik + Panchang Calendar Title */}
+            <div className="flex items-center gap-3 flex-1 min-w-0">
               {/* SWASTIK ICON BOX */}
               <div
-                className="h-11 w-11 sm:h-13 sm:w-13 md:h-16 md:w-16 flex items-center justify-center flex-shrink-0 relative"
+                className="h-12 w-12 sm:h-14 sm:w-14 flex items-center justify-center flex-shrink-0 relative"
                 style={{
                   background: "linear-gradient(135deg, #1a0a05 0%, #2d1208 50%, #401a0c 100%)",
                   border: "4px solid #ff8c32",
-                  borderRadius: "24px",
+                  borderRadius: "20px",
                   boxShadow: `
                     0 0 40px rgba(255, 140, 50, 1),
                     0 0 80px rgba(255, 100, 30, 0.8),
@@ -303,11 +723,11 @@ function App() {
                   style={{
                     border: "2px solid rgba(255, 180, 80, 0.6)",
                     margin: "4px",
-                    borderRadius: "18px",
+                    borderRadius: "16px",
                   }}
                 />
                 <span
-                  className="text-2xl sm:text-3xl md:text-4xl relative z-10"
+                  className="text-2xl sm:text-3xl relative z-10"
                   style={{
                     background: "linear-gradient(135deg, #ffe9a0 0%, #ffd54f 25%, #ffb300 50%, #ff8f00 75%, #ff6f00 100%)",
                     WebkitBackgroundClip: "text",
@@ -321,49 +741,47 @@ function App() {
                 </span>
               </div>
 
-              {/* TITLE TEXT */}
-              <div className="min-w-0 flex-1">
-                <h1
-                  className="font-black tracking-tight whitespace-nowrap overflow-hidden text-ellipsis"
-                  style={{
-                    color: "#FFFFFF",
-                    textShadow: `
-                      0 2px 10px rgba(0, 0, 0, 0.7),
-                      0 0 30px rgba(255, 140, 50, 0.5),
-                      0 4px 20px rgba(0, 0, 0, 0.5)
-                    `,
-                    lineHeight: "1.1",
-                    fontSize: "clamp(0.95rem, 3.5vw, 3rem)",
-                  }}
-                >
-                  {t.appTitle}
-                </h1>
-              </div>
+              {/* PANCHANG CALENDAR TITLE */}
+              <h1
+                className="font-black tracking-tight min-w-0 flex-1"
+                style={{
+                  color: "#FFFFFF",
+                  textShadow: `
+                    0 2px 10px rgba(0, 0, 0, 0.7),
+                    0 0 30px rgba(255, 140, 50, 0.5),
+                    0 4px 20px rgba(0, 0, 0, 0.5)
+                  `,
+                  lineHeight: "1.1",
+                  fontSize: "clamp(1rem, 3vw, 1.75rem)",
+                }}
+              >
+                {t.appTitle}
+              </h1>
             </div>
 
             {/* Right: Language Selector */}
-            <div className="flex items-center flex-shrink-0">
+            <div className="flex-shrink-0">
               <select
                 value={language}
                 onChange={(e) => setLanguage(e.target.value)}
-                className="px-2.5 sm:px-4 md:px-6 py-1.5 sm:py-2 md:py-2.5 text-xs sm:text-sm md:text-base font-bold outline-none cursor-pointer transition-all hover:scale-105"
+                className="px-2.5 sm:px-3 md:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-bold outline-none cursor-pointer transition-all hover:scale-105"
                 style={{
-                  background: "linear-gradient(135deg, #1B5E20 0%, #2E7D32 50%, #43A047 100%)",
+                  background: "linear-gradient(180deg, #ff4d0d 0%, #ff5c1a 10%, #ff6b28 20%, #ff7935 30%, #ff8743 40%, #ff7935 50%, #ff6b28 60%, #ff5c1a 70%, #ff4d0d 80%, #d94100 90%, #c23800 100%)",
                   color: "#FFFFFF",
-                  border: "2.5px solid #66BB6A",
+                  border: "2.5px solid rgba(255, 140, 50, 0.8)",
                   borderRadius: "14px",
                   boxShadow: `
-                    0 0 25px rgba(102, 187, 106, 0.9),
-                    0 0 50px rgba(76, 175, 80, 0.7),
-                    inset 0 0 20px rgba(129, 199, 132, 0.25),
-                    inset 0 2px 4px rgba(200, 230, 201, 0.3)
+                    0 0 25px rgba(255, 140, 50, 0.9),
+                    0 0 50px rgba(255, 100, 30, 0.7),
+                    inset 0 0 20px rgba(255, 180, 80, 0.25),
+                    inset 0 2px 4px rgba(255, 200, 100, 0.3)
                   `,
                   appearance: "none",
                   backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23FFFFFF' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E")`,
                   backgroundRepeat: "no-repeat",
-                  backgroundPosition: "right 8px center",
-                  backgroundSize: "12px",
-                  paddingRight: "30px",
+                  backgroundPosition: "right 6px center",
+                  backgroundSize: "10px",
+                  paddingRight: "26px",
                 }}
                 aria-label="Select Language"
               >
@@ -373,7 +791,7 @@ function App() {
                     value={lang.code}
                     className="font-bold"
                     style={{
-                      background: "#1B5E20",
+                      background: "#ff4d0d",
                       color: "#FFFFFF",
                     }}
                   >
@@ -384,288 +802,9 @@ function App() {
             </div>
           </div>
 
-          {/* ROW 2: Month Navigation with Arrows Inside and iOS-Style Year Picker */}
-          <div className="flex items-center justify-center gap-3 sm:gap-4 flex-wrap pb-2">
-            {/* MONTH DISPLAY WITH INTEGRATED ARROWS */}
-            <div className="flex items-center gap-0">
-              {/* MONTH CONTAINER WITH ARROWS INSIDE */}
-              <div
-                className="flex items-center justify-between px-3 sm:px-4 py-2 sm:py-3 text-base sm:text-xl md:text-2xl font-black min-w-[200px] sm:min-w-[280px]"
-                style={{
-                  background: "linear-gradient(135deg, #1B5E20 0%, #2E7D32 50%, #43A047 100%)",
-                  color: "#FFFFFF",
-                  border: "3px solid #66BB6A",
-                  borderRadius: "16px",
-                  boxShadow: `
-                    0 0 35px rgba(102, 187, 106, 0.95),
-                    0 0 70px rgba(76, 175, 80, 0.85),
-                    0 0 105px rgba(56, 142, 60, 0.65),
-                    inset 0 0 30px rgba(129, 199, 132, 0.35)
-                  `,
-                  textShadow: `
-                    0 2px 10px rgba(0, 0, 0, 0.6),
-                    0 0 25px rgba(200, 230, 201, 0.5)
-                  `,
-                }}
-              >
-                {/* LEFT ARROW BUTTON */}
-                <button
-                  onClick={goPrevMonth}
-                  className="px-2 py-1 text-lg sm:text-xl font-black transition-all hover:scale-125 active:scale-95 flex items-center justify-center"
-                  style={{
-                    background: "transparent",
-                    color: "#FFFFFF",
-                    border: "none",
-                    cursor: "pointer",
-                  }}
-                  aria-label="Previous month"
-                >
-                  ←
-                </button>
-
-                {/* MONTH NAME */}
-                <span className="flex-1 text-center px-2">
-                  {monthLabel}
-                </span>
-
-                {/* RIGHT ARROW BUTTON */}
-                <button
-                  onClick={goNextMonth}
-                  className="px-2 py-1 text-lg sm:text-xl font-black transition-all hover:scale-125 active:scale-95 flex items-center justify-center"
-                  style={{
-                    background: "transparent",
-                    color: "#FFFFFF",
-                    border: "none",
-                    cursor: "pointer",
-                  }}
-                  aria-label="Next month"
-                >
-                  →
-                </button>
-              </div>
-            </div>
-
-            {/* MONTH DROPDOWN */}
-            <select
-              value={month}
-              onChange={(e) => setMonth(Number(e.target.value))}
-              className="px-2.5 sm:px-3 md:px-4 py-1.5 sm:py-2 text-xs sm:text-sm md:text-base font-bold outline-none cursor-pointer transition-all hover:scale-105"
-              style={{
-                background: "linear-gradient(135deg, #1B5E20 0%, #2E7D32 50%, #43A047 100%)",
-                color: "#FFFFFF",
-                border: "2.5px solid #66BB6A",
-                borderRadius: "14px",
-                boxShadow: `
-                  0 0 25px rgba(102, 187, 106, 0.9),
-                  0 0 50px rgba(76, 175, 80, 0.7),
-                  inset 0 0 20px rgba(129, 199, 132, 0.25)
-                `,
-                appearance: "none",
-                backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23FFFFFF' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E")`,
-                backgroundRepeat: "no-repeat",
-                backgroundPosition: "right 8px center",
-                backgroundSize: "12px",
-                paddingRight: "30px",
-              }}
-              aria-label="Select month"
-            >
-              {t.months.map((m, idx) => (
-                <option
-                  key={idx}
-                  value={idx}
-                  className="font-bold"
-                  style={{
-                    background: "#1B5E20",
-                    color: "#FFFFFF",
-                  }}
-                >
-                  {m}
-                </option>
-              ))}
-            </select>
-
-            {/* iOS-STYLE YEAR PICKER */}
-            <div className="relative" ref={yearPickerRef}>
-              <button
-                onClick={() => setShowYearPicker(!showYearPicker)}
-                className="px-2.5 sm:px-3 md:px-4 py-1.5 sm:py-2 text-xs sm:text-sm md:text-base font-bold outline-none cursor-pointer transition-all hover:scale-105 min-w-[80px] text-center"
-                style={{
-                  background: "linear-gradient(135deg, #1B5E20 0%, #2E7D32 50%, #43A047 100%)",
-                  color: "#FFFFFF",
-                  border: "2.5px solid #66BB6A",
-                  borderRadius: "14px",
-                  boxShadow: `
-                    0 0 25px rgba(102, 187, 106, 0.9),
-                    0 0 50px rgba(76, 175, 80, 0.7),
-                    inset 0 0 20px rgba(129, 199, 132, 0.25)
-                  `,
-                }}
-                aria-label="Select year"
-              >
-                {year}
-              </button>
-
-              {/* iOS-STYLE YEAR ROLLER PICKER */}
-              {showYearPicker && (
-                <div
-                  className="absolute z-50 mt-2 rounded-2xl overflow-hidden"
-                  style={{
-                    background: "#FFFFFF",
-                    border: "3px solid #E0E0E0",
-                    boxShadow: `
-                      0 10px 40px rgba(0, 0, 0, 0.2),
-                      0 0 0 1px rgba(0, 0, 0, 0.05)
-                    `,
-                    width: "140px",
-                    right: 0,
-                  }}
-                >
-                  {/* Date display at top */}
-                  <div
-                    className="text-center py-3 border-b"
-                    style={{
-                      background: "#F5F5F5",
-                      borderBottom: "1px solid #E0E0E0",
-                    }}
-                  >
-                    <div
-                      className="text-xs font-semibold"
-                      style={{ color: "#757575" }}
-                    >
-                      {`${String(month + 1).padStart(2, "0")}/${String(today.day).padStart(2, "0")}/${year}`}
-                    </div>
-                  </div>
-
-                  {/* Column labels */}
-                  <div
-                    className="flex justify-center py-2 border-b"
-                    style={{
-                      background: "#FAFAFA",
-                      borderBottom: "1px solid #E0E0E0",
-                    }}
-                  >
-                    <div
-                      className="text-xs font-bold"
-                      style={{ color: "#424242" }}
-                    >
-                      Year
-                    </div>
-                  </div>
-
-                  {/* Top fade overlay */}
-                  <div
-                    className="absolute left-0 right-0 pointer-events-none z-10"
-                    style={{
-                      top: "82px",
-                      height: "60px",
-                      background: "linear-gradient(180deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.8) 40%, transparent 100%)",
-                    }}
-                  />
-
-                  {/* Selection highlight bar */}
-                  <div
-                    className="absolute left-0 right-0 pointer-events-none z-10"
-                    style={{
-                      top: "50%",
-                      transform: "translateY(-50%)",
-                      height: "60px",
-                      background: "rgba(240, 240, 240, 0.6)",
-                      borderTop: "1px solid rgba(200, 200, 200, 0.4)",
-                      borderBottom: "1px solid rgba(200, 200, 200, 0.4)",
-                    }}
-                  />
-
-                  {/* Scrollable year list */}
-                  <div
-                    ref={scrollContainerRef}
-                    className="overflow-y-scroll"
-                    style={{
-                      height: "300px",
-                      paddingTop: "120px",
-                      paddingBottom: "120px",
-                      scrollBehavior: "smooth",
-                      scrollbarWidth: "none",
-                      msOverflowStyle: "none",
-                    }}
-                  >
-                    {YEARS.map((y) => (
-                      <button
-                        key={y}
-                        onClick={() => handleYearSelect(y)}
-                        className="w-full py-3 text-center font-medium transition-all"
-                        style={{
-                          height: "60px",
-                          color: y === year ? "#212121" : "#757575",
-                          fontSize: y === year ? "22px" : "18px",
-                          fontWeight: y === year ? "600" : "400",
-                          background: "transparent",
-                          border: "none",
-                          cursor: "pointer",
-                        }}
-                      >
-                        {y}
-                      </button>
-                    ))}
-                  </div>
-
-                  {/* Bottom fade overlay */}
-                  <div
-                    className="absolute bottom-0 left-0 right-0 pointer-events-none z-10"
-                    style={{
-                      height: "60px",
-                      background: "linear-gradient(0deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.8) 40%, transparent 100%)",
-                    }}
-                  />
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      </header>
-
-      {/* ============= MAIN CONTENT ============= */}
-      <main className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-4 sm:py-6 grid grid-cols-1 lg:grid-cols-[1.5fr_1fr] gap-4 sm:gap-6">
-        {/* CALENDAR SECTION */}
-        <section 
-          className="rounded-2xl sm:rounded-3xl p-4 sm:p-5 md:p-6 backdrop-blur-md"
-          style={{
-            background: "rgba(255, 255, 255, 0.94)",
-            border: "3px solid rgba(255, 140, 50, 0.6)",
-            boxShadow: "0 8px 32px rgba(255, 100, 30, 0.4), 0 0 80px rgba(255, 140, 50, 0.2)",
-          }}
-        >
-          <div className="flex items-center justify-between gap-3 mb-4">
-            <h2 
-              className="text-base sm:text-lg md:text-xl font-black drop-shadow-sm"
-              style={{
-                color: "#c62828",
-              }}
-            >
-              {t.calendar}
-            </h2>
-            <div 
-              className="text-xs sm:text-sm md:text-base font-bold"
-              style={{
-                color: "rgba(198, 40, 40, 0.7)",
-              }}
-            >
-              {t.tapDate}
-            </div>
-          </div>
-
-          <CalendarGrid
-            year={year}
-            month={month}
-            days={days}
-            selectedDate={selectedDay}
-            onSelect={setSelectedDay}
-            language={language}
-            translations={t}
-          />
+          {/* PANCHANG ELEMENTS AND INAUSPICIOUS TIMINGS */}
+          <DayDetails day={selectedDay} language={language} translations={t} isSidebarMode={true} />
         </section>
-
-        {/* DAY DETAILS SECTION */}
-        <DayDetails day={selectedDay} language={language} translations={t} />
       </main>
 
       {/* FOOTER */}
@@ -703,7 +842,7 @@ function App() {
           transform: scale(0.95);
         }
 
-        /* Hide scrollbar for year picker */
+        /* Hide scrollbar for date picker columns */
         div::-webkit-scrollbar {
           display: none;
         }
