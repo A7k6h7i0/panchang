@@ -359,11 +359,11 @@ export default function DayDetails({
     console.log("🔄 Notification flags reset for new day");
   }, [day?.date]);
 
-  // If in header mode, render compact version (UNCHANGED)
+  // If in header mode, render compact version (without "Day Details" heading)
   if (isHeaderMode) {
     return (
       <div
-        className="rounded-2xl overflow-hidden backdrop-blur-sm mb-3"
+        className="rounded-2xl overflow-hidden backdrop-blur-sm"
         style={{
           background:
             "linear-gradient(135deg, rgba(80, 20, 10, 0.98) 0%, rgba(100, 25, 12, 0.95) 50%, rgba(120, 30, 15, 0.92) 100%)",
@@ -376,28 +376,6 @@ export default function DayDetails({
         }}
       >
         <div className="p-4 sm:p-5">
-          {/* DayDetails Heading */}
-          <div
-            className="mb-3 px-3 py-2 rounded-xl inline-block"
-            style={{
-              background:
-                "linear-gradient(135deg, rgba(100, 30, 15, 0.95) 0%, rgba(120, 35, 18, 0.9) 100%)",
-              border: "2px solid rgba(255, 140, 50, 0.6)",
-              boxShadow:
-                "0 0 15px rgba(255, 140, 50, 0.4), inset 0 0 10px rgba(255, 140, 50, 0.1)",
-            }}
-          >
-            <div
-              className="text-xs sm:text-sm font-bold"
-              style={{
-                color: "#FFE4B5",
-                textShadow: "0 2px 4px rgba(0, 0, 0, 0.5)",
-              }}
-            >
-              {translations.dayDetails || "Day Details"}
-            </div>
-          </div>
-
           {/* MAIN DATE CARD */}
           <div
             className="rounded-xl p-3 sm:p-4 backdrop-blur-sm"
@@ -486,25 +464,25 @@ export default function DayDetails({
                 </div>
               )}
 
-              {/* Year Name (only name, no number) - ALWAYS beside Paksha */}
+              {/* Year Name (only name, no number) - SAME STYLE AS KRISHNA PAKSHA */}
               {vShakaSamvat !== "-" && (
                 <div
                   className="inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-bold transition-all hover:scale-105 backdrop-blur-sm"
                   style={{
                     background:
-                      "linear-gradient(135deg, rgba(100, 120, 180, 0.5) 0%, rgba(80, 100, 160, 0.6) 100%)",
-                    border: "2.5px solid rgba(120, 150, 220, 0.7)",
-                    color: "#E0F0FF",
+                      "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
+                    border: "2.5px solid rgba(255, 140, 50, 0.7)",
+                    color: "#FFE4B5",
                     boxShadow: `
-                      0 0 20px rgba(120, 150, 220, 0.6),
-                      0 0 40px rgba(100, 130, 200, 0.4),
-                      inset 0 0 15px rgba(150, 180, 240, 0.2)
+                      0 0 20px rgba(255, 140, 50, 0.6),
+                      0 0 40px rgba(255, 100, 30, 0.4),
+                      inset 0 0 15px rgba(255, 200, 100, 0.2)
                     `,
                   }}
                 >
-                  <span style={{ color: "#B0D0FF" }}>📅</span>
-                  <span style={{ color: "#B0D0FF" }}>{getYearLabel()}:</span>
-                  <span style={{ color: "#E0F0FF" }}>{vShakaSamvat}</span>
+                  <span style={{ color: "#D4AF37" }}>📅</span>
+                  <span style={{ color: "#D4AF37" }}>{getYearLabel()}:</span>
+                  <span>{vShakaSamvat}</span>
                 </div>
               )}
             </div>
@@ -766,11 +744,14 @@ function InfoRow({ label, value }) {
 
 function TimeBox({ label, value, scheme }) {
   const isOrange = scheme === "orange";
+  const isBlue = scheme === "blue";
   const bg = isOrange
     ? "linear-gradient(135deg, #FF6B35 0%, #FF8C42 50%, #FFA458 100%)"
-    : "linear-gradient(135deg, #1E3A8A 0%, #2563EB 50%, #3B82F6 100%)";
-  const border = isOrange ? "#FFB380" : "#60A5FA";
-  const labelColor = isOrange ? "#FFF5E6" : "#E0F2FE";
+    : isBlue
+      ? "linear-gradient(135deg, rgba(100, 120, 160, 0.5) 0%, rgba(80, 100, 140, 0.6) 100%)"
+      : "transparent";
+  const border = isOrange ? "#FFB380" : isBlue ? "rgba(120, 150, 180, 0.7)" : "transparent";
+  const labelColor = isOrange ? "#FFF5E6" : "#E0E8F0";
 
   return (
     <div

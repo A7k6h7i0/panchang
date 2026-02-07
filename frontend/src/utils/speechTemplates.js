@@ -448,3 +448,37 @@ export function getMuhurtaName(key, language) {
 export function isAuspiciousMuhurta(key) {
   return key === "Abhijit" || key === "Amrit Kalam";
 }
+
+// Get speech for date selection (Tithi, Paksha, Year name)
+export function getDateSelectionSpeech({ language, tithi, paksha, yearName }) {
+  // Extract just the year name from Shaka Samvat if present
+  const year = yearName ? yearName.trim().split(/\s+/).slice(1).join(" ") : "";
+
+  switch (language) {
+    case "te":
+      return year
+        ? `${tithi} ${paksha} ${year}`
+        : `${tithi} ${paksha}`;
+    case "hi":
+      return year
+        ? `${tithi} ${paksha} ${year}`
+        : `${tithi} ${paksha}`;
+    case "kn":
+      return year
+        ? `${tithi} ${paksha} ${year}`
+        : `${tithi} ${paksha}`;
+    case "ta":
+      return year
+        ? `${tithi} ${paksha} ${year}`
+        : `${tithi} ${paksha}`;
+    case "ml":
+      return year
+        ? `${tithi} ${paksha} ${year}`
+        : `${tithi} ${paksha}`;
+    case "en":
+    default:
+      return year
+        ? `${tithi} ${paksha} ${year}`
+        : `${tithi} ${paksha}`;
+  }
+}
