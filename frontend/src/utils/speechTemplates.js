@@ -121,6 +121,40 @@ ${dateText}日の പഞ്ചാംഗ വിവരങ്ങൾ ഇങ്ങന
   }
 }
 
+export function getDateClickSpeech({ language, tithi, amrit }) {
+  const amritPart =
+    amrit && amrit !== "-" ? ` ${amrit} ` : ""; // allows missing Amrit Kalam
+
+  switch (language) {
+    case "te":
+      return amrit && amrit !== "-"
+        ? `ఈ రోజు తిథి ${tithi}. అమృతకాలం సమయం ${amrit}.`
+        : `ఈ రోజు తిథి ${tithi}.`;
+    case "hi":
+      return amrit && amrit !== "-"
+        ? `आज की तिथि ${tithi} है. अमृत काल का समय ${amrit} है.`
+        : `आज की तिथि ${tithi} है.`;
+    case "kn":
+      return amrit && amrit !== "-"
+        ? `ಇಂದಿನ ತಿಥಿ ${tithi}. ಅಮೃತ ಕಾಲದ ಸಮಯ ${amrit}.`
+        : `ಇಂದಿನ ತಿಥಿ ${tithi}.`;
+    case "ta":
+      return amrit && amrit !== "-"
+        ? `இன்றைய திதி ${tithi}. அமிர்த காலம் ${amrit}.`
+        : `இன்றைய திதி ${tithi}.`;
+    case "ml":
+      return amrit && amrit !== "-"
+        ? `ഇന്നത്തെ തിഥി ${tithi}. അമൃതകാലം ${amrit} ആണ്.`
+        : `ഇന്നത്തെ തിഥി ${tithi} ആണ്.`;
+    case "en":
+    default:
+      return amrit && amrit !== "-"
+        ? `Today's Tithi is ${tithi}. Amrit Kalam is from ${amrit}.`
+        : `Today's Tithi is ${tithi}.`;
+  }
+}
+
+
 // Helper function for Tithi speech only
 export function getTithiSpeech({ language, tithi }) {
   switch (language) {
