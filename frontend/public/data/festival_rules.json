@@ -1,0 +1,59 @@
+{
+  "Ugadi": {
+    "type": "lunar",
+    "month": "Chaitra",
+    "paksha": "Shukla",
+    "tithi": "Padyami"
+  },
+
+  "Rama Navami": {
+    "type": "lunar",
+    "month": "Chaitra",
+    "paksha": "Shukla",
+    "tithi": "Navami"
+  },
+
+  "Hanuman Jayanti": {
+    "type": "lunar",
+    "month": "Chaitra",
+    "tithi": "Purnima"
+  },
+
+  "Diwali": {
+    "type": "lunar",
+    "month": "Kartika",
+    "tithi": "Amavasya"
+  },
+
+  "Holi": {
+    "type": "lunar",
+    "month": "Phalguna",
+    "tithi": "Purnima"
+  },
+
+  "Maha Shivaratri": {
+    "type": "lunar",
+    "month": "Magha",
+    "paksha": "Krishna",
+    "tithi": "Chaturdashi"
+  },
+
+  "Makara Sankranti": {
+    "type": "solar",
+    "sun_sign": "Makara"
+  },
+
+  "Ganesh Chaturthi": {
+    "type": "lunar",
+    "month": "Bhadrapada",
+    "paksha": "Shukla",
+    "tithi": "Chaturthi"
+  },
+
+  "Krishna Janmashtami": {
+    "type": "lunar",
+    "month": "Shravana",
+    "paksha": "Krishna",
+    "tithi": "Ashtami"
+  }
+}

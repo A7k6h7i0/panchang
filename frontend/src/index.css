@@ -1,0 +1,196 @@
+@import "tailwindcss";
+
+/* Base */
+:root {
+  color-scheme: dark;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial,
+    Noto Sans, Apple Color Emoji, Segoe UI Emoji;
+}
+
+/* =========================================================
+   BACKGROUND — layered particles + warm glow (matches images)
+   ========================================================= */
+.app-bg {
+  position: relative;
+  isolation: isolate;
+  background:
+    radial-gradient(1200px 720px at 10% 14%, rgba(255, 183, 70, 0.20), transparent 62%),
+    radial-gradient(980px 560px at 92% 18%, rgba(255, 92, 36, 0.18), transparent 64%),
+    radial-gradient(1200px 760px at 50% 110%, rgba(220, 38, 38, 0.16), transparent 64%),
+    radial-gradient(1000px 580px at 50% -12%, rgba(255, 140, 60, 0.18), transparent 62%),
+    linear-gradient(180deg, #120205 0%, #1a0609 40%, #120205 100%);
+  background-attachment: fixed;
+  overflow: hidden;
+}
+
+/* Dense golden dust field */
+.app-bg::before {
+  content: "";
+  position: fixed;
+  inset: -40vh -40vw;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.88;
+  background:
+    radial-gradient(circle at 12px 14px, rgba(255, 214, 102, 0.18) 1.2px, transparent 1.8px),
+    radial-gradient(circle at 34px 40px, rgba(255, 214, 102, 0.14) 1.0px, transparent 1.6px),
+    radial-gradient(circle at 62px 22px, rgba(255, 214, 102, 0.10) 0.9px, transparent 1.5px),
+    radial-gradient(circle at 92px 78px, rgba(255, 214, 102, 0.09) 0.9px, transparent 1.6px),
+    radial-gradient(circle at 140px 28px, rgba(255, 214, 102, 0.08) 1.0px, transparent 1.7px),
+    radial-gradient(circle at 18px 92px, rgba(255, 214, 102, 0.10) 0.9px, transparent 1.5px),
+    radial-gradient(circle at 170px 120px, rgba(255, 214, 102, 0.08) 0.9px, transparent 1.6px),
+    radial-gradient(circle at 210px 66px, rgba(255, 214, 102, 0.06) 0.8px, transparent 1.6px);
+  background-size:
+    220px 180px,
+    220px 180px,
+    220px 180px,
+    260px 220px,
+    280px 240px,
+    240px 200px,
+    300px 260px,
+    320px 280px;
+  mix-blend-mode: screen;
+  filter: blur(0.2px);
+  transform: translateZ(0);
+}
+
+/* Warm floating glow haze */
+.app-bg::after {
+  content: "";
+  position: fixed;
+  inset: -20vh -20vw;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.92;
+  background:
+    radial-gradient(900px 420px at 15% 12%, rgba(255, 180, 70, 0.12), transparent 70%),
+    radial-gradient(840px 420px at 85% 12%, rgba(255, 95, 35, 0.14), transparent 72%),
+    radial-gradient(880px 520px at 50% 0%, rgba(255, 140, 60, 0.10), transparent 74%),
+    radial-gradient(980px 560px at 50% 100%, rgba(220, 38, 38, 0.10), transparent 76%);
+  mix-blend-mode: screen;
+  filter: blur(1.2px);
+  transform: translateZ(0);
+}
+
+/* Ensure app content sits above background layers */
+.app-bg > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* =========================================================
+   Glow frame utilities (reused)
+   ========================================================= */
+.neon-frame {
+  position: relative;
+  border-radius: 18px;
+  box-shadow:
+    0 0 0 2px rgba(255, 204, 88, 0.35),
+    0 0 0 6px rgba(255, 122, 62, 0.18),
+    0 12px 40px rgba(0, 0, 0, 0.55),
+    0 0 34px rgba(255, 140, 40, 0.25);
+}
+
+.neon-frame::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 210, 110, 0.65),
+    rgba(255, 140, 40, 0.35) 45%,
+    rgba(220, 38, 38, 0.25)
+  );
+  filter: blur(8px);
+  opacity: 0.65;
+  z-index: -1;
+}
+
+.inner-bevel {
+  position: relative;
+}
+
+.inner-bevel::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.18), transparent 35%),
+    linear-gradient(0deg, rgba(0, 0, 0, 0.35), transparent 38%);
+  mix-blend-mode: soft-light;
+  opacity: 0.85;
+}
+
+/* Yellow dot (tile corner dot) */
+.tile-dot {
+  position: absolute;
+  right: 10px;
+  top: 12px;
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: radial-gradient(circle at 35% 35%, #fff2b3 0%, #ffd66a 35%, #f4b334 70%, #b46a12 100%);
+  box-shadow:
+    0 0 0 1px rgba(255, 230, 140, 0.35),
+    0 0 16px rgba(255, 214, 102, 0.55),
+    0 0 28px rgba(255, 140, 40, 0.35);
+  opacity: 0.95;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 214, 102, 0.08);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 122, 62, 0.28);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(220, 38, 38, 0.35);
+}
+
+/* Utility helpers */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(255, 214, 102, 0.1);
+  border-radius: 12px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(255, 122, 62, 0.55), rgba(220, 38, 38, 0.55));
+  border-radius: 12px;
+  border: 2px solid transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, rgba(255, 122, 62, 0.75), rgba(220, 38, 38, 0.75));
+}
+
+@media (max-width: 640px) {
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+}
+
