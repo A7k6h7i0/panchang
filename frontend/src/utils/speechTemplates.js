@@ -186,6 +186,7 @@ export function getTithiSpeech({ language, tithi, amToken, pmToken }) {
   }
   
   const timeStr = timeMatch[0].trim(); // e.g., "10:22 PM"
+  const spokenTime = getSpokenTimeString({ language, timeStr, amToken, pmToken });
   
   // Remove the time from the tithi string to get just the tithi name
   let tithiName = tithi
@@ -209,36 +210,76 @@ export function getTithiSpeech({ language, tithi, amToken, pmToken }) {
   }
   
   // Determine if the time is today or tomorrow
-  const isTodayTime = isTimeInCurrentDay(timeStr, { amToken, pmToken });
+  const isTodayTime = isTimeInCurrentDay(spokenTime.dayCheckTime, { amToken, pmToken });
   
   // Build the speech text based on language with native phrasing
   switch (language) {
     case "te":
       return isTodayTime 
-        ? `ఈ రోజు తిథి ${tithiName}. ${timeStr} వరకు.`
-        : `ఈ రోజు తిథి ${tithiName}. రేపు ${timeStr} వరకు.`;
+        ? `ఈ రోజు తిథి ${tithiName}. ${spokenTime.text} వరకు.`
+        : `ఈ రోజు తిథి ${tithiName}. రేపు ${spokenTime.text} వరకు.`;
     case "hi":
       return isTodayTime 
-        ? `आज की तिथि ${tithiName}. ${timeStr} तक.`
-        : `आज की तिथि ${tithiName}. कल ${timeStr} तक.`;
+        ? `आज की तिथि ${tithiName}. ${spokenTime.text} तक.`
+        : `आज की तिथि ${tithiName}. कल ${spokenTime.text} तक.`;
     case "kn":
       return isTodayTime 
-        ? `ಇಂದಿನ ತಿಥಿ ${tithiName}. ${timeStr} ವರೆಗೆ.`
-        : `ಇಂದಿನ ತಿಥಿ ${tithiName}. ನಾಳೆ ${timeStr} ವರೆಗೆ.`;
+        ? `ಇಂದಿನ ತಿಥಿ ${tithiName}. ${spokenTime.text} ವರೆಗೆ.`
+        : `ಇಂದಿನ ತಿಥಿ ${tithiName}. ನಾಳೆ ${spokenTime.text} ವರೆಗೆ.`;
     case "ta":
       return isTodayTime 
-        ? `இன்றைய திதி ${tithiName}. ${timeStr} வரை.`
-        : `இன்றைய திதி ${tithiName}. நாளை ${timeStr} வரை.`;
+        ? `இன்றைய திதி ${tithiName}. ${spokenTime.text} வரை.`
+        : `இன்றைய திதி ${tithiName}. நாளை ${spokenTime.text} வரை.`;
     case "ml":
       return isTodayTime 
-        ? `ഇന്നത്തെ തിഥി ${tithiName}. ${timeStr} വരെ.`
-        : `ഇന്നത്തെ തിഥി ${tithiName}. നാളെ ${timeStr} വരെ.`;
+        ? `ഇന്നത്തെ തിഥി ${tithiName}. ${spokenTime.text} വരെ.`
+        : `ഇന്നത്തെ തിഥി ${tithiName}. നാളെ ${spokenTime.text} വരെ.`;
     case "en":
     default:
       return isTodayTime 
-        ? `Today's Tithi is ${tithiName}. Valid up to ${timeStr}.`
-        : `Today's Tithi is ${tithiName}. Valid up to tomorrow ${timeStr}.`;
+        ? `Today's Tithi is ${tithiName}. Valid up to ${spokenTime.text}.`
+        : `Today's Tithi is ${tithiName}. Valid up to tomorrow ${spokenTime.text}.`;
   }
+}
+
+function getSpokenTimeString({ language, timeStr, amToken, pmToken }) {
+  const clockMatch = (timeStr || "").match(/(\d{1,2}:\d{2})/);
+  if (!clockMatch) {
+    return { text: timeStr || "", dayCheckTime: timeStr || "" };
+  }
+
+  const hhmm = clockMatch[1];
+  const normalized = (timeStr || "").toLowerCase();
+  const amNorm = (amToken || "").toLowerCase();
+  const pmNorm = (pmToken || "").toLowerCase();
+
+  const hasAM = /\bam\b/i.test(timeStr || "") || (!!amNorm && normalized.includes(amNorm));
+  const hasPM = /\bpm\b/i.test(timeStr || "") || (!!pmNorm && normalized.includes(pmNorm));
+
+  const defaultPeriodWords = {
+    te: { am: "ఉదయం", pm: "సాయంత్రం" },
+    hi: { am: "सुबह", pm: "शाम" },
+    kn: { am: "ಬೆಳಿಗ್ಗೆ", pm: "ಸಂಜೆ" },
+    ta: { am: "காலை", pm: "மாலை" },
+    ml: { am: "രാവിലെ", pm: "വൈകുന്നേരം" },
+    en: { am: "AM", pm: "PM" },
+  };
+
+  const langPeriods = defaultPeriodWords[language] || defaultPeriodWords.en;
+  const amWord = amToken || langPeriods.am;
+  const pmWord = pmToken || langPeriods.pm;
+
+  if (language === "en") {
+    if (hasAM) return { text: `${hhmm} AM`, dayCheckTime: `${hhmm} AM` };
+    if (hasPM) return { text: `${hhmm} PM`, dayCheckTime: `${hhmm} PM` };
+    return { text: hhmm, dayCheckTime: hhmm };
+  }
+
+  // Non-English: place period once after the time for natural phrasing.
+  if (hasAM) return { text: `${hhmm} ${amWord}`, dayCheckTime: `${hhmm} AM` };
+  if (hasPM) return { text: `${hhmm} ${pmWord}`, dayCheckTime: `${hhmm} PM` };
+
+  return { text: hhmm, dayCheckTime: hhmm };
 }
 
 // Helper function to determine if a time string belongs to today or tomorrow

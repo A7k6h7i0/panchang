@@ -241,13 +241,19 @@ export default function DayDetails({
       });
       if (tithiText) {
         console.log(`🗣️ Speaking Tithi in ${language}`);
-        await speakCloud(tithiText, language);
+        const tithiResult = await speakCloud(tithiText, language);
+        if (tithiResult?.interrupted) {
+          return;
+        }
       }
 
       const muhurtaText = await buildImmediateMuhurtaTextIfNeeded();
       if (muhurtaText) {
         console.log(`🗣️ Speaking immediate muhurta in ${language}`);
-        await speakCloud(muhurtaText, language);
+        const muhurtaResult = await speakCloud(muhurtaText, language);
+        if (muhurtaResult?.interrupted) {
+          return;
+        }
       }
 
       globalSpeechState.spokenLanguages.add(language);
@@ -270,6 +276,7 @@ export default function DayDetails({
     if (langChanged) {
       console.log(`🔄 Language changed from ${prevLang} to ${language}`);
       stopSpeech();
+      globalSpeechState.isSpeaking = false;
     }
 
     // Small delay to prevent double execution in StrictMode
@@ -396,7 +403,10 @@ export default function DayDetails({
         console.log(`🗣️ Speaking alert in ${language}:`, text);
         
         try {
-          await speakCloud(text, language);
+          const result = await speakCloud(text, language);
+          if (result?.interrupted) {
+            return;
+          }
 
           // Mark all muhurtas in this group as sent for current language
           groupedMuhurtas.forEach((m) => {
@@ -888,3 +898,5 @@ function DangerBox({ label, value }) {
     </div>
   );
 }
+
+
