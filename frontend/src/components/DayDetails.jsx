@@ -131,7 +131,11 @@ export default function DayDetails({
     const shakaSamvat = day?.["Shaka Samvat"] || "-";
     if (shakaSamvat === "-") return "-";
     const parts = shakaSamvat.trim().split(/\s+/);
-    const yearKey = parts.length > 1 ? parts.slice(1).join(" ") : shakaSamvat;
+    let yearKey = parts.length > 1 ? parts.slice(1).join(" ") : shakaSamvat;
+    // Data uses "Vishvavasu", translations use "Vishwavasu".
+    if (yearKey === "Vishvavasu") {
+      yearKey = "Vishwavasu";
+    }
     return translateText(yearKey, translations) || yearKey;
   };
 
@@ -655,9 +659,7 @@ export default function DayDetails({
 
           {vAmrit !== "-" && (
             <InfoRow
-              label={
-                translations.amritKalamAuspicious || "Amrit Kalam (Auspicious)"
-              }
+              label={translations.amritKalam || "Amrit Kalam"}
               value={vAmrit}
             />
           )}
