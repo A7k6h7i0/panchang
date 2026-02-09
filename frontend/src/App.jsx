@@ -9,6 +9,7 @@ import { getDateSelectionSpeech } from "./utils/speechTemplates";
 
 const YEARS = Array.from({ length: 186 }, (_, i) => 1940 + i);
 const DATE_STATE_KEY = "panchang:selected-date";
+const LANGUAGE_KEY = "panchang:selected-language";
 
 const getTodayInfo = () => {
   const today = new Date();
@@ -44,6 +45,19 @@ const loadInitialSelection = (today) => {
   return today;
 };
 
+const loadInitialLanguage = () => {
+  if (typeof window === "undefined") return "en";
+  try {
+    const saved = localStorage.getItem(LANGUAGE_KEY);
+    if (saved && languages.some((l) => l.code === saved)) {
+      return saved;
+    }
+  } catch (error) {
+    console.error("Failed to read saved language:", error);
+  }
+  return "en";
+};
+
 const getFestivalDateKeyFromSlashDate = (dateStr) => {
   const [day, month, year] = (dateStr || "").split("/");
   if (!day || !month || !year) return "";
@@ -77,7 +91,7 @@ function App() {
   const [days, setDays] = useState([]);
   const [selectedDay, setSelectedDay] = useState(null);
   const [preferredDay, setPreferredDay] = useState(initialSelection.day);
-  const [language, setLanguage] = useState("en");
+  const [language, setLanguage] = useState(loadInitialLanguage);
   const [showDatePicker, setShowDatePicker] = useState(false);
   
   // Temp state for date picker popup only
@@ -162,6 +176,12 @@ function App() {
       })
     );
   }, [year, month, preferredDay, selectedDay]);
+
+  // Keep selected language on refresh.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    localStorage.setItem(LANGUAGE_KEY, language);
+  }, [language]);
 
   const goPrevMonth = () => {
     const newMonth = month === 0 ? 11 : month - 1;
@@ -516,9 +536,9 @@ function App() {
           }}
         />
 
-        <div className="relative mx-auto max-w-7xl px-3 sm:px-6 lg:px-8 py-1">
+        <div className="relative mx-auto max-w-7xl px-3 sm:px-6 lg:px-8 py-0.5 sm:py-1">
           {/* HEADER: Swastik + Title + Language Selector */}
-          <div className="flex items-center justify-between gap-3 mb-1 pb-1" style={{ borderBottom: "2px solid rgba(255, 140, 50, 0.4)" }}>
+          <div className="flex items-center justify-between gap-3 mb-0.5 pb-0.5" style={{ borderBottom: "2px solid rgba(255, 140, 50, 0.4)" }}>
             {/* Left: Swastik + Panchang Calendar Title */}
             <div className="flex items-center gap-3 flex-1 min-w-0">
               {/* SWASTIK ICON BOX */}
@@ -585,7 +605,7 @@ function App() {
               <select
                 value={language}
                 onChange={(e) => setLanguage(e.target.value)}
-                className="px-3 py-1.5 text-xs sm:text-sm font-bold outline-none cursor-pointer transition-all hover:scale-105 rounded-full"
+                className="px-3 py-1.5 text-xs sm:text-sm font-bold outline-none cursor-pointer transition-all hover:scale-105 rounded-full backdrop-blur-sm"
                 style={{
                   background: "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
                   color: "#FFE4B5",
@@ -627,7 +647,7 @@ function App() {
       </header>
 
       {/* ============= MAIN CONTENT ============= */}
-      <main className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-1 sm:py-2 grid grid-cols-1 lg:grid-cols-[1.5fr_1fr] gap-2 sm:gap-2">
+      <main className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-0.5 sm:py-1 grid grid-cols-1 lg:grid-cols-[1.5fr_1fr] gap-1 sm:gap-1.5">
         {/* CALENDAR SECTION */}
         <section 
           className="rounded-2xl sm:rounded-3xl p-3 sm:p-4 md:p-5 backdrop-blur-md"
@@ -736,7 +756,7 @@ function App() {
 
       {/* FOOTER */}
       <footer 
-        className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-6 sm:pb-8 text-center text-xs sm:text-sm font-bold"
+        className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-3 sm:pb-5 text-center text-xs sm:text-sm font-bold"
         style={{
           color: "rgba(255, 255, 255, 0.8)",
           textShadow: "0 2px 4px rgba(0, 0, 0, 0.6)",
