@@ -9,6 +9,15 @@ import {
 } from "../utils/speechTemplates";
 import { speakCloud, stopSpeech, initAudioContext } from "../utils/cloudSpeech";
 
+// GLOBAL singleton to prevent multiple component instances from duplicating speech
+const globalSpeechState = {
+  spokenLanguages: new Set(),
+  sentAlerts: new Set(),
+  activeInterval: null,
+  isSpeaking: false,
+  currentDate: null,
+};
+
 export default function DayDetails({
   day,
   language,
@@ -20,10 +29,10 @@ export default function DayDetails({
   const [festivals, setFestivals] = useState([]);
   const [userInteracted, setUserInteracted] = useState(false);
 
-  // speech control
-  const spokenLanguagesRef = useRef(new Set()); // languages already spoken in this app session
+  // Local refs for this component instance
   const prevLanguageRef = useRef(language);
-  const isSpeakingSequenceRef = useRef(false);
+  const componentIdRef = useRef(Math.random().toString(36).substr(2, 9));
+  const isActiveInstanceRef = useRef(false);
 
   // Handle user interaction to enable audio
   useEffect(() => {
@@ -117,12 +126,13 @@ export default function DayDetails({
   const vNakshatra = v("Nakshatra");
   const vYoga = v("Yoga");
 
-  // Extract only year name from "Shaka Samvat" field
+  // Extract only year name from "Shaka Samvat" field and translate it
   const getYearName = () => {
     const shakaSamvat = day?.["Shaka Samvat"] || "-";
     if (shakaSamvat === "-") return "-";
     const parts = shakaSamvat.trim().split(/\s+/);
-    return parts.length > 1 ? parts.slice(1).join(" ") : shakaSamvat;
+    const yearKey = parts.length > 1 ? parts.slice(1).join(" ") : shakaSamvat;
+    return translateText(yearKey, translations) || yearKey;
   };
 
   const vShakaSamvat = getYearName();
@@ -206,38 +216,45 @@ export default function DayDetails({
   // Single controlled sequence: Tithi first, then muhurta (if any)
   const speakSequence = async () => {
     if (!isToday || !userInteracted) return;
-    if (isSpeakingSequenceRef.current) return;
-
-    const spokenSet = spokenLanguagesRef.current;
-    if (spokenSet.has(language)) {
-      // this language already spoken in this app session
+    if (globalSpeechState.isSpeaking) {
+      console.log("⏸️ Speech already in progress, skipping...");
       return;
     }
 
-    isSpeakingSequenceRef.current = true;
+    // Check if this language was already spoken
+    if (globalSpeechState.spokenLanguages.has(language)) {
+      console.log(`✓ Tithi already spoken in ${language}, skipping`);
+      return;
+    }
+
+    globalSpeechState.isSpeaking = true;
+    console.log(`🎤 Starting speech sequence for ${language}`);
+
     try {
-      // Always stop any current speech before new language starts
       stopSpeech();
 
       const tithiText = getTithiSpeech({ language, tithi: vTithi });
       if (tithiText) {
+        console.log(`🗣️ Speaking Tithi in ${language}`);
         await speakCloud(tithiText, language);
       }
 
       const muhurtaText = await buildImmediateMuhurtaTextIfNeeded();
       if (muhurtaText) {
+        console.log(`🗣️ Speaking immediate muhurta in ${language}`);
         await speakCloud(muhurtaText, language);
       }
 
-      spokenSet.add(language);
+      globalSpeechState.spokenLanguages.add(language);
+      console.log(`✅ Speech sequence completed for ${language}`);
+    } catch (error) {
+      console.error(`❌ Speech error:`, error);
     } finally {
-      isSpeakingSequenceRef.current = false;
+      globalSpeechState.isSpeaking = false;
     }
   };
 
-  // Trigger speech:
-  // - on first load for today
-  // - on language changes for today
+  // Trigger speech on first load or language change
   useEffect(() => {
     if (!isToday || !userInteracted) return;
 
@@ -246,19 +263,46 @@ export default function DayDetails({
     prevLanguageRef.current = language;
 
     if (langChanged) {
+      console.log(`🔄 Language changed from ${prevLang} to ${language}`);
       stopSpeech();
     }
 
-    speakSequence();
+    // Small delay to prevent double execution in StrictMode
+    const timer = setTimeout(() => {
+      speakSequence();
+    }, 100);
+
+    return () => clearTimeout(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [language, isToday, userInteracted]);
 
-  // 🔔 Universal Muhurta Notification Effect (with combined muhurtas)
+  // 🔔 Universal Muhurta Notification Effect (SINGLETON PATTERN)
   useEffect(() => {
+    // Reset alerts if date changed
+    if (globalSpeechState.currentDate !== day?.date) {
+      console.log("📅 Date changed - resetting all alerts");
+      globalSpeechState.sentAlerts.clear();
+      globalSpeechState.spokenLanguages.clear();
+      globalSpeechState.currentDate = day?.date;
+      setNotificationsSent({});
+    }
+
     if (!isToday || !userInteracted) {
       console.log("⏸️ Notification checker paused:", { isToday, userInteracted });
+      isActiveInstanceRef.current = false;
       return;
     }
+
+    // Only ONE component instance should run the interval
+    // First one to mount becomes the active instance
+    if (globalSpeechState.activeInterval) {
+      console.log(`⚠️ Instance ${componentIdRef.current} - another instance already running notifications`);
+      isActiveInstanceRef.current = false;
+      return;
+    }
+
+    isActiveInstanceRef.current = true;
+    console.log(`✅ Instance ${componentIdRef.current} - becoming ACTIVE notification instance for ${language}`);
 
     const muhurtas = [
       { key: "Dur Muhurtam", value: day["Dur Muhurtam"] },
@@ -270,14 +314,19 @@ export default function DayDetails({
       { key: "Varjyam", value: day["Varjyam"] },
     ];
 
-    const muhurtaGroups = new Map();
-
     const checkAllNotifications = async () => {
-      muhurtaGroups.clear();
+      const muhurtaGroups = new Map();
 
       for (const muhurta of muhurtas) {
         if (!muhurta.value || muhurta.value === "-") continue;
-        if (notificationsSent[muhurta.key]) continue;
+
+        // Create unique key per muhurta + language
+        const alertKey = `${muhurta.key}-${language}`;
+
+        // Skip if already sent for this language
+        if (globalSpeechState.sentAlerts.has(alertKey)) {
+          continue;
+        }
 
         try {
           const response = await fetch("http://localhost:5000/check-notification", {
@@ -289,37 +338,44 @@ export default function DayDetails({
           const data = await response.json();
 
           if (data.shouldTrigger) {
-            const alertKey = data.alertTime.substring(0, 5);
-            if (!muhurtaGroups.has(alertKey)) {
-              muhurtaGroups.set(alertKey, []);
+            const timeKey = data.alertTime.substring(0, 5);
+            if (!muhurtaGroups.has(timeKey)) {
+              muhurtaGroups.set(timeKey, []);
             }
-            muhurtaGroups.get(alertKey).push(muhurta);
+            muhurtaGroups.get(timeKey).push(muhurta);
           }
         } catch (error) {
-          console.error(
-            `❌ Error checking ${muhurta.key} notification:`,
-            error
-          );
+          console.error(`❌ Error checking ${muhurta.key} notification:`, error);
         }
       }
 
+      // Process grouped alerts
       for (const [, groupedMuhurtas] of muhurtaGroups.entries()) {
         if (groupedMuhurtas.length === 0) continue;
 
-        const alreadySent = groupedMuhurtas.some(
-          (m) => notificationsSent[m.key]
+        // Check if ANY muhurta in this group was already sent for current language
+        const alreadySent = groupedMuhurtas.some((m) =>
+          globalSpeechState.sentAlerts.has(`${m.key}-${language}`)
         );
-        if (alreadySent) continue;
+
+        if (alreadySent) {
+          continue;
+        }
+
+        // Prevent duplicate speech
+        if (globalSpeechState.isSpeaking) {
+          console.log("⏸️ Speech in progress, delaying alert...");
+          continue;
+        }
+
+        globalSpeechState.isSpeaking = true;
 
         console.log(
-          `🔔 TRIGGERING ALERT for: ${groupedMuhurtas
-            .map((m) => m.key)
-            .join(", ")}`
+          `🔔 TRIGGERING ALERT (${language}) for:`,
+          groupedMuhurtas.map((m) => m.key).join(", ")
         );
 
-        const names = groupedMuhurtas.map((m) =>
-          getMuhurtaName(m.key, language)
-        );
+        const names = groupedMuhurtas.map((m) => getMuhurtaName(m.key, language));
         const timings = groupedMuhurtas.map((m) => m.value);
         const isAuspicious = groupedMuhurtas.every((m) =>
           isAuspiciousMuhurta(m.key)
@@ -332,34 +388,48 @@ export default function DayDetails({
           isAuspicious,
         });
 
-        console.log(`🗣️ Speaking in ${language}:`, text);
-        await speakCloud(text, language);
+        console.log(`🗣️ Speaking alert in ${language}:`, text);
+        
+        try {
+          await speakCloud(text, language);
 
-        const updates = {};
-        groupedMuhurtas.forEach((m) => {
-          updates[m.key] = true;
-        });
-        setNotificationsSent((prev) => ({ ...prev, ...updates }));
+          // Mark all muhurtas in this group as sent for current language
+          groupedMuhurtas.forEach((m) => {
+            const alertKey = `${m.key}-${language}`;
+            globalSpeechState.sentAlerts.add(alertKey);
+          });
+
+          // Update state for UI consistency
+          const updates = {};
+          groupedMuhurtas.forEach((m) => {
+            updates[`${m.key}-${language}`] = true;
+          });
+          setNotificationsSent((prev) => ({ ...prev, ...updates }));
+
+          console.log(`✅ Alert completed for ${language}`);
+        } catch (error) {
+          console.error(`❌ Speech error:`, error);
+        } finally {
+          globalSpeechState.isSpeaking = false;
+        }
       }
     };
 
-    console.log("✅ Starting notification checker for all muhurtas");
-    checkAllNotifications();
-    const interval = setInterval(checkAllNotifications, 10000);
+    console.log(`✅ Starting notification checker for ${language}`);
+    checkAllNotifications(); // Run immediately
+    globalSpeechState.activeInterval = setInterval(checkAllNotifications, 10000);
 
     return () => {
-      clearInterval(interval);
-      console.log("🛑 Stopping notification checker");
+      if (isActiveInstanceRef.current && globalSpeechState.activeInterval) {
+        clearInterval(globalSpeechState.activeInterval);
+        globalSpeechState.activeInterval = null;
+        console.log(`🛑 Instance ${componentIdRef.current} - stopping notification checker`);
+      }
+      isActiveInstanceRef.current = false;
     };
-  }, [day, language, notificationsSent, isToday, userInteracted]);
+  }, [day, language, isToday, userInteracted]);
 
-  // Reset notification flags when day changes
-  useEffect(() => {
-    setNotificationsSent({});
-    console.log("🔄 Notification flags reset for new day");
-  }, [day?.date]);
-
-  // If in header mode, render compact version (without "Day Details" heading)
+  // If in header mode, render compact version
   if (isHeaderMode) {
     return (
       <div
@@ -367,7 +437,7 @@ export default function DayDetails({
         style={{
           background:
             "linear-gradient(135deg, rgba(80, 20, 10, 0.98) 0%, rgba(100, 25, 12, 0.95) 50%, rgba(120, 30, 15, 0.92) 100%)",
-          border: "3px solid rgba(255, 140, 50, 0.8)",
+          border: "2.5px solid rgba(255, 168, 67, 0.8)",
           boxShadow: `
             0 0 35px rgba(255, 140, 50, 0.8),
             0 0 70px rgba(255, 100, 30, 0.6),
@@ -376,13 +446,12 @@ export default function DayDetails({
         }}
       >
         <div className="p-4 sm:p-5">
-          {/* MAIN DATE CARD */}
           <div
             className="rounded-xl p-3 sm:p-4 backdrop-blur-sm"
             style={{
               background:
                 "linear-gradient(135deg, rgba(100, 30, 15, 0.95) 0%, rgba(120, 35, 18, 0.9) 100%)",
-              border: "3px solid rgba(255, 140, 50, 0.7)",
+              border: "2.5px solid rgba(255, 168, 67, 0.8)",
               boxShadow: `
                 0 0 25px rgba(255, 140, 50, 0.7),
                 0 0 50px rgba(255, 100, 30, 0.5),
@@ -390,9 +459,7 @@ export default function DayDetails({
               `,
             }}
           >
-            {/* Date icon + Day Name + Tithi Name */}
             <div className="flex items-start gap-3 mb-2">
-              {/* Calendar Icon Box */}
               <div
                 className="h-12 w-12 sm:h-14 sm:w-14 rounded-xl flex items-center justify-center flex-shrink-0 backdrop-blur-sm"
                 style={{
@@ -418,7 +485,6 @@ export default function DayDetails({
                 </span>
               </div>
 
-              {/* Day Name and Tithi */}
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 flex-wrap">
                   <div
@@ -442,7 +508,6 @@ export default function DayDetails({
               </div>
             </div>
 
-            {/* Paksha and Year ALWAYS in same row */}
             <div className="flex items-center gap-2 flex-wrap">
               {vPaksha !== "-" && (
                 <div
@@ -464,7 +529,6 @@ export default function DayDetails({
                 </div>
               )}
 
-              {/* Year Name (only name, no number) - SAME STYLE AS KRISHNA PAKSHA */}
               {vShakaSamvat !== "-" && (
                 <div
                   className="inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-bold transition-all hover:scale-105 backdrop-blur-sm"
@@ -487,7 +551,6 @@ export default function DayDetails({
               )}
             </div>
 
-            {/* Festival Section */}
             {festivals.length > 0 && (
               <div className="space-y-1 mt-2">
                 {festivals.map((festival, idx) => (
@@ -531,49 +594,16 @@ export default function DayDetails({
     );
   }
 
-  // SIDEBAR MODE – sections with new UI
+  // SIDEBAR MODE
   if (isSidebarMode) {
     return (
       <div className="space-y-3">
-        {/* Panchang Elements - EXACT DATE-CELL GREEN */}
-        <SectionCard
-          title={translations.panchangElements || "Panchang Elements"}
-          icon="✦"
-          variant="panchang"
-        >
-          <InfoRow
-            label={translations.nakshatra || "Nakshatra"}
-            value={vNakshatra}
-          />
-          <InfoRow label={translations.yoga || "Yoga"} value={vYoga} />
-
-          {/* Auspicious Timings - Amrit above Abhijit */}
-          {vAmrit !== "-" && (
-            <InfoRow
-              label={
-                translations.amritKalamAuspicious || "Amrit Kalam (Auspicious)"
-              }
-              value={vAmrit}
-            />
-          )}
-          {vAbhijit !== "-" && (
-            <InfoRow
-              label={
-                translations.abhijitAuspicious || "Abhijit (Auspicious)"
-              }
-              value={vAbhijit}
-            />
-          )}
-        </SectionCard>
-
-        {/* Sun/Moon Timings */}
         <SectionCard
           title={translations.sunMoonTimings || "Sun & Moon Timings"}
           icon="☀"
           variant="sunmoon"
         >
           <div className="grid grid-cols-2 gap-2">
-            {/* Sunrise / Sunset – orange */}
             <TimeBox
               label={translations.sunrise || "Sunrise"}
               value={vSunrise}
@@ -584,7 +614,6 @@ export default function DayDetails({
               value={vSunset}
               scheme="orange"
             />
-            {/* Moonrise / Moonset – blue */}
             <TimeBox
               label={translations.moonrise || "Moonrise"}
               value={vMoonrise}
@@ -598,7 +627,33 @@ export default function DayDetails({
           </div>
         </SectionCard>
 
-        {/* Inauspicious Timings WITH BLINKING RED DOT */}
+        <SectionCard
+          title={translations.panchangElements || "Panchang Elements"}
+          icon="✦"
+          variant="panchang"
+        >
+          <InfoRow
+            label={translations.nakshatra || "Nakshatra"}
+            value={vNakshatra}
+          />
+          <InfoRow label={translations.yoga || "Yoga"} value={vYoga} />
+
+          {vAmrit !== "-" && (
+            <InfoRow
+              label={
+                translations.amritKalamAuspicious || "Amrit Kalam (Auspicious)"
+              }
+              value={vAmrit}
+            />
+          )}
+          {vAbhijit !== "-" && (
+            <InfoRow
+              label={translations.abhijitAuspicious || "Abhijit (Auspicious)"}
+              value={vAbhijit}
+            />
+          )}
+        </SectionCard>
+
         <div className="relative">
           <div
             className="absolute -top-1 -right-1 h-3 w-3 rounded-full animate-pulse"
@@ -650,7 +705,6 @@ export default function DayDetails({
     );
   }
 
-  // Full version (original - not used anymore but kept for fallback)
   return null;
 }
 
@@ -661,44 +715,55 @@ function SectionCard({ title, icon, children, variant }) {
   const isSunMoon = variant === "sunmoon";
   const isInauspicious = variant === "inauspicious";
 
+  const consistentBorder = "2.5px solid rgba(255, 140, 50, 0.7)";
+  const consistentShadow =
+    "0 0 20px rgba(255, 140, 50, 0.5), inset 0 0 15px rgba(255, 140, 50, 0.1)";
+
   let background =
     "linear-gradient(135deg, rgba(120, 35, 18, 0.7) 0%, rgba(100, 30, 15, 0.75) 100%)";
-  let border = "2px solid rgba(255, 140, 50, 0.5)";
-  let boxShadow =
-    "0 0 20px rgba(255, 140, 50, 0.4), inset 0 0 15px rgba(255, 140, 50, 0.1)";
+  let border = consistentBorder;
+  let boxShadow = consistentShadow;
 
   if (isPanchang) {
-    // match date-cell green
     background =
       "linear-gradient(135deg, #2a5a1f 0%, #3a6e2d 30%, #4a8238 60%, #5a9645 100%)";
-    border = "2.5px solid #d4a847";
+    border = "2.5px solid rgba(255, 168, 67, 0.8)";
     boxShadow =
-      "0 0 18px rgba(212,168,71,0.3), inset 0 1px 2px rgba(255,255,255,0.1), inset 0 -1px 2px rgba(0,0,0,0.2)";
+      "0 0 18px rgba(212,168,71,0.4), inset 0 1px 2px rgba(255,255,255,0.15), inset 0 -1px 2px rgba(0,0,0,0.2)";
   } else if (isSunMoon) {
     background =
       "linear-gradient(135deg, #FF6B35 0%, #FF8C32 40%, #FF9F45 100%)";
-    border = "2px solid rgba(255, 180, 120, 0.9)";
+    border = "2.5px solid rgba(255, 168, 67, 0.8)";
     boxShadow =
       "0 0 22px rgba(255,140,50,0.5), inset 0 0 15px rgba(255,255,255,0.15)";
   } else if (isInauspicious) {
     background =
       "linear-gradient(135deg, #8B0000 0%, #B22222 40%, #DC143C 100%)";
-    border = "2px solid rgba(255, 107, 107, 0.9)";
+    border = "2.5px solid rgba(255, 168, 67, 0.8)";
     boxShadow =
       "0 0 22px rgba(220,20,60,0.6), inset 0 0 15px rgba(0,0,0,0.3)";
   }
 
   return (
     <div
-      className="rounded-xl p-3 backdrop-blur-sm"
+      className="rounded-2xl p-3 backdrop-blur-sm"
       style={{
         background,
         border,
         boxShadow,
       }}
     >
-      <div className="flex items-center gap-2 mb-2">
-        <span className="text-lg">{icon}</span>
+      <div
+        className="inline-flex items-center gap-2 rounded-full px-3 py-1.5 mb-3"
+        style={{
+          background:
+            "linear-gradient(135deg, rgba(180, 130, 50, 0.4) 0%, rgba(140, 100, 40, 0.5) 100%)",
+          border: "2px solid rgba(255, 168, 67, 0.8)",
+          boxShadow:
+            "0 0 15px rgba(255, 140, 50, 0.4), inset 0 0 10px rgba(255, 200, 100, 0.1)",
+        }}
+      >
+        <span className="text-base">{icon}</span>
         <h3
           className="text-xs sm:text-sm font-bold uppercase tracking-wide"
           style={{
@@ -716,7 +781,7 @@ function SectionCard({ title, icon, children, variant }) {
 function InfoRow({ label, value }) {
   return (
     <div
-      className="rounded-lg p-2.5 backdrop-blur-sm"
+      className="rounded-xl p-2.5 backdrop-blur-sm"
       style={{
         background: "rgba(0, 0, 0, 0.25)",
         border: "1.5px solid rgba(255, 237, 179, 0.4)",
@@ -750,12 +815,16 @@ function TimeBox({ label, value, scheme }) {
     : isBlue
       ? "linear-gradient(135deg, rgba(100, 120, 160, 0.5) 0%, rgba(80, 100, 140, 0.6) 100%)"
       : "transparent";
-  const border = isOrange ? "#FFB380" : isBlue ? "rgba(120, 150, 180, 0.7)" : "transparent";
+  const border = isOrange
+    ? "#FFB380"
+    : isBlue
+      ? "rgba(120, 150, 180, 0.7)"
+      : "transparent";
   const labelColor = isOrange ? "#FFF5E6" : "#E0E8F0";
 
   return (
     <div
-      className="rounded-lg p-2.5 text-center"
+      className="rounded-xl p-2.5 text-center"
       style={{
         background: bg,
         border: `2px solid ${border}`,
@@ -785,7 +854,7 @@ function TimeBox({ label, value, scheme }) {
 function DangerBox({ label, value }) {
   return (
     <div
-      className="rounded-lg p-2.5 mb-2 backdrop-blur-sm flex justify-between items-center"
+      className="rounded-xl p-2.5 mb-2 backdrop-blur-sm"
       style={{
         background:
           "linear-gradient(135deg, #DC143C 0%, #B22222 50%, #8B0000 100%)",
@@ -795,9 +864,9 @@ function DangerBox({ label, value }) {
       }}
     >
       <div
-        className="text-xs uppercase tracking-wide font-semibold"
+        className="text-xs uppercase tracking-wide mb-1 font-semibold"
         style={{
-          color: "#FFF5F5",
+          color: "#FFE4B5",
         }}
       >
         {label}

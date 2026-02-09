@@ -28,6 +28,7 @@ export default function CalendarGrid({
       style={{
         background:
           "linear-gradient(180deg, #ff4d0d 0%, #ff5c1a 10%, #ff6b28 20%, #ff7935 30%, #ff8743 40%, #ff7935 50%, #ff6b28 60%, #ff5c1a 70%, #ff4d0d 80%, #d94100 90%, #c23800 100%)",
+        border: "2.5px solid rgba(255, 168, 67, 0.8)",
       }}
     >
       {/* Dense sparkle layer 1 - Small sparkles */}
