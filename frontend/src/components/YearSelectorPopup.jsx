@@ -4,6 +4,11 @@ import CalendarGrid from "./CalendarGrid";
 
 const YEARS = Array.from({ length: 186 }, (_, i) => 1940 + i);
 const MONTHS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+const getFestivalDateKey = (dateStr) => {
+  const [day, month, year] = (dateStr || "").split("/");
+  if (!day || !month || !year) return "";
+  return `${year}-${month}-${day}`;
+};
 
 export default function YearSelectorPopup({
   isOpen,
@@ -50,14 +55,23 @@ export default function YearSelectorPopup({
     if (isOpen) {
       setIsLoading(true);
       setPopupDays([]);
-      fetch(`/data/${tempYear}.json`)
-        .then((res) => res.json())
-        .then((data) => {
-          const monthDays = data.filter((d) => {
+      Promise.all([
+        fetch(`/data/${tempYear}.json`).then((res) => res.json()),
+        fetch(`/data/festivals/${tempYear}.json`)
+          .then((res) => (res.ok ? res.json() : {}))
+          .catch(() => ({})),
+      ])
+        .then(([data, festivalMap]) => {
+          const monthDays = data
+            .filter((d) => {
             const [, m] = d.date.split("/");
             const dateMonth = parseInt(m, 10) - 1;
             return dateMonth === tempMonth;
-          });
+            })
+            .map((d) => ({
+              ...d,
+              Festivals: festivalMap?.[getFestivalDateKey(d.date)] || [],
+            }));
           setPopupDays(monthDays);
           setIsLoading(false);
         })
@@ -116,14 +130,23 @@ export default function YearSelectorPopup({
       setTempYear(newYear);
       setTempMonth(newMonth);
       
-      fetch(`/data/${newYear}.json`)
-        .then((res) => res.json())
-        .then((data) => {
-          const monthDays = data.filter((d) => {
+      Promise.all([
+        fetch(`/data/${newYear}.json`).then((res) => res.json()),
+        fetch(`/data/festivals/${newYear}.json`)
+          .then((res) => (res.ok ? res.json() : {}))
+          .catch(() => ({})),
+      ])
+        .then(([data, festivalMap]) => {
+          const monthDays = data
+            .filter((d) => {
             const [, m] = d.date.split("/");
             const dateMonth = parseInt(m, 10) - 1;
             return dateMonth === newMonth;
-          });
+            })
+            .map((d) => ({
+              ...d,
+              Festivals: festivalMap?.[getFestivalDateKey(d.date)] || [],
+            }));
           setPopupDays(monthDays);
         })
         .catch((err) => {
@@ -145,14 +168,23 @@ export default function YearSelectorPopup({
       setTempYear(newYear);
       setTempMonth(newMonth);
       
-      fetch(`/data/${newYear}.json`)
-        .then((res) => res.json())
-        .then((data) => {
-          const monthDays = data.filter((d) => {
+      Promise.all([
+        fetch(`/data/${newYear}.json`).then((res) => res.json()),
+        fetch(`/data/festivals/${newYear}.json`)
+          .then((res) => (res.ok ? res.json() : {}))
+          .catch(() => ({})),
+      ])
+        .then(([data, festivalMap]) => {
+          const monthDays = data
+            .filter((d) => {
             const [, m] = d.date.split("/");
             const dateMonth = parseInt(m, 10) - 1;
             return dateMonth === newMonth;
-          });
+            })
+            .map((d) => ({
+              ...d,
+              Festivals: festivalMap?.[getFestivalDateKey(d.date)] || [],
+            }));
           setPopupDays(monthDays);
         })
         .catch((err) => {

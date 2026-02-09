@@ -323,19 +323,6 @@ export default function CalendarGrid({
                       </span>
                     )}
 
-                    {hasFestival && (
-                      <span
-                        className="h-1.5 w-1.5 sm:h-2 sm:w-2 rounded-full"
-                        style={{
-                          background:
-                            "linear-gradient(135deg, #ef4444 0%, #f97316 100%)",
-                          boxShadow:
-                            "0 0 12px rgba(239, 68, 68, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.2)",
-                          border: "1px solid rgba(239, 68, 68, 0.4)",
-                        }}
-                      />
-                    )}
-
                     {/* Purnima: yellow circle */}
                     {isPurnima && (
                       <span
