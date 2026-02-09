@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from "react";
+import CalendarGrid from "./CalendarGrid";
 
 const YEARS = Array.from({ length: 186 }, (_, i) => 1940 + i);
+const MONTHS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 
 export default function YearSelectorPopup({
   isOpen,
@@ -11,11 +13,15 @@ export default function YearSelectorPopup({
   initialDay,
   language,
   translations,
+  days,
+  onYearMonthChange,
 }) {
   const [tempYear, setTempYear] = useState(initialYear);
   const [tempMonth, setTempMonth] = useState(initialMonth);
   const [tempDay, setTempDay] = useState(initialDay);
   const [showYearPicker, setShowYearPicker] = useState(false);
+  const [showMonthPicker, setShowMonthPicker] = useState(false);
+
   const yearPickerRef = useRef(null);
 
   // Update temp state when initial values change
@@ -36,6 +42,7 @@ export default function YearSelectorPopup({
         const containerHeight = 240;
         const scrollPosition =
           yearIndex * itemHeight - containerHeight / 2 + itemHeight / 2;
+
         yearPickerRef.current.scrollTo({
           top: Math.max(0, scrollPosition),
           behavior: "smooth",
@@ -44,37 +51,16 @@ export default function YearSelectorPopup({
     }
   }, [showYearPicker, tempYear]);
 
-  // Get days in month
-  const getDaysInMonth = (year, month) => {
-    return new Date(year, month + 1, 0).getDate();
-  };
-
-  // Get calendar grid days
-  const getCalendarDays = (year, month) => {
-    const firstDay = new Date(year, month, 1).getDay(); // 0 = Sunday
-    const daysInMonth = getDaysInMonth(year, month);
-    const days = [];
-    // Add empty slots
-    for (let i = 0; i < firstDay; i++) {
-      days.push(null);
-    }
-    // Add actual days
-    for (let i = 1; i <= daysInMonth; i++) {
-      days.push(i);
-    }
-    return days;
-  };
-
-  const calendarDays = getCalendarDays(tempYear, tempMonth);
-
   const goPrevMonth = () => {
     if (tempMonth === 0) {
       if (tempYear > 1940) {
         setTempYear(tempYear - 1);
         setTempMonth(11);
+        onYearMonthChange(tempYear - 1, 11);
       }
     } else {
       setTempMonth(tempMonth - 1);
+      onYearMonthChange(tempYear, tempMonth - 1);
     }
   };
 
@@ -83,30 +69,82 @@ export default function YearSelectorPopup({
       if (tempYear < 2125) {
         setTempYear(tempYear + 1);
         setTempMonth(0);
+        onYearMonthChange(tempYear + 1, 0);
       }
     } else {
       setTempMonth(tempMonth + 1);
+      onYearMonthChange(tempYear, tempMonth + 1);
     }
   };
 
   const handleYearSelect = (year) => {
     setTempYear(year);
-    // Adjust day if needed
-    const daysInNewMonth = getDaysInMonth(year, tempMonth);
-    if (tempDay > daysInNewMonth) {
-      setTempDay(daysInNewMonth);
-    }
     setShowYearPicker(false);
+    // Immediately update parent state
+    onYearMonthChange(year, tempMonth);
+    
+    // Also fetch and update selected day for the new year
+    fetch(`/data/${year}.json`)
+      .then((res) => res.json())
+      .then((data) => {
+        const dateStr = `${String(tempDay).padStart(2, "0")}/${String(tempMonth + 1).padStart(2, "0")}/${year}`;
+        const dayData = data.find((d) => d.date === dateStr);
+        if (dayData) {
+          // Call onConfirm with updated year
+          onConfirm({
+            year: year,
+            month: tempMonth,
+            day: tempDay,
+            dayData: dayData
+          });
+        } else {
+          // If day not valid in new year, use first day of month
+          const firstDayStr = `${String(1).padStart(2, "0")}/${String(tempMonth + 1).padStart(2, "0")}/${year}`;
+          const firstDayData = data.find((d) => d.date === firstDayStr);
+          if (firstDayData) {
+            onConfirm({
+              year: year,
+              month: tempMonth,
+              day: 1,
+              dayData: firstDayData
+            });
+          }
+        }
+      });
+  };
+
+  const handleMonthSelect = (month) => {
+    setTempMonth(month);
+    setShowMonthPicker(false);
+    // Immediately update parent state
+    onYearMonthChange(tempYear, month);
+    
+    // Also fetch and update selected day for the new month
+    fetch(`/data/${tempYear}.json`)
+      .then((res) => res.json())
+      .then((data) => {
+        const dateStr = `${String(tempDay).padStart(2, "0")}/${String(month + 1).padStart(2, "0")}/${tempYear}`;
+        const dayData = data.find((d) => d.date === dateStr);
+        if (dayData) {
+          setTempDay(parseInt(dayData.date.split("/")[0], 10));
+        } else {
+          // If day not valid in new month, find last day of month
+          const lastDay = new Date(tempYear, month + 1, 0).getDate();
+          setTempDay(lastDay);
+        }
+      });
   };
 
   const handleDateSelect = (day) => {
-    if (day) {
-      setTempDay(day);
-    }
+    setTempDay(day);
   };
 
   const handleConfirm = () => {
-    onConfirm({ year: tempYear, month: tempMonth, day: tempDay });
+    onConfirm({
+      year: tempYear,
+      month: tempMonth,
+      day: tempDay,
+    });
   };
 
   const handleCancel = () => {
@@ -114,204 +152,198 @@ export default function YearSelectorPopup({
     setTempMonth(initialMonth);
     setTempDay(initialDay);
     setShowYearPicker(false);
+    setShowMonthPicker(false);
     onClose();
   };
 
   if (!isOpen) return null;
 
   return (
-    <div
-      className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center"
-      style={{
-        background: "rgba(0, 0, 0, 0.5)",
-        backdropFilter: "blur(4px)",
-      }}
-    >
-      <div
-        className="w-full sm:w-auto sm:max-w-[540px] rounded-t-3xl sm:rounded-3xl overflow-hidden relative"
-        style={{
-          background: "#FFFFFF",
-          boxShadow: "0 20px 60px rgba(0, 0, 0, 0.3)",
-        }}
-      >
-        {/* Orange Header with Month/Year Navigation */}
-        <div
-          className="flex items-center justify-between px-6 py-4"
-          style={{
-            background: "linear-gradient(90deg, #FF8C42 0%, #FF6B35 50%, #FF5722 100%)",
-          }}
-        >
-          <button
-            onClick={goPrevMonth}
-            className="text-white text-2xl font-bold transition-transform hover:scale-110"
-            style={{
-              background: "transparent",
-              border: "none",
-              cursor: "pointer",
-            }}
-          >
-            ←
-          </button>
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+      <div className="bg-gradient-to-br from-orange-50 via-yellow-50 to-orange-100 rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-auto">
+        {/* Header */}
+        <div className="bg-gradient-to-r from-orange-600 via-red-600 to-orange-700 text-white p-6 rounded-t-2xl sticky top-0 z-10">
+          <h2 className="text-2xl font-bold text-center">{tempYear}</h2>
+        </div>
 
-          <div className="flex flex-col items-center">
+        {/* Content */}
+        <div className="p-6">
+          {/* Month Navigation */}
+          <div className="flex items-center justify-between mb-6">
+            <button
+              onClick={goPrevMonth}
+              className="flex items-center space-x-2 bg-white hover:bg-orange-50 px-4 py-2 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg text-orange-900 font-medium"
+            >
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15 19l-7-7 7-7"
+                />
+              </svg>
+              <span>{translations.prev}</span>
+            </button>
+
+            <button
+              onClick={() => setShowMonthPicker(true)}
+              className="bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white px-6 py-3 rounded-xl font-bold text-lg shadow-lg hover:shadow-xl transition-all duration-200"
+            >
+              {translations.months[tempMonth]}
+            </button>
+
+            <button
+              onClick={goNextMonth}
+              className="flex items-center space-x-2 bg-white hover:bg-orange-50 px-4 py-2 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg text-orange-900 font-medium"
+            >
+              <span>{translations.next}</span>
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
+            </button>
+          </div>
+
+          {/* Calendar */}
+          <div className="mb-6">
+            <CalendarGrid
+              days={days}
+              selectedDate={`${String(tempDay).padStart(2, "0")}/${String(
+                tempMonth + 1
+              ).padStart(2, "0")}/${tempYear}`}
+              onSelect={(day) => {
+                const dayNum = parseInt(day.date.split("/")[0]);
+                handleDateSelect(dayNum);
+                // Trigger speech for selected date
+                if (typeof onSpeak === 'function') {
+                  onSpeak(day);
+                }
+              }}
+              onSpeak={(day) => {
+                if (typeof onSpeak === 'function') {
+                  onSpeak(day);
+                }
+              }}
+              language={language}
+              translations={translations}
+            />
+          </div>
+
+          {/* Action Buttons */}
+          <div className="flex justify-end space-x-4">
+            <button
+              onClick={handleCancel}
+              className="px-6 py-2.5 rounded-lg bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold transition-all duration-200 shadow-md hover:shadow-lg"
+            >
+              {translations.cancel || "Cancel"}
+            </button>
             <button
               onClick={() => setShowYearPicker(true)}
-              className="text-white text-2xl font-bold tracking-wide transition-transform hover:scale-105"
+              className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-bold transition-all hover:scale-105 cursor-pointer"
               style={{
-                background: "transparent",
-                border: "none",
-                cursor: "pointer",
+                background: "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
+                border: "2.5px solid rgba(255, 140, 50, 0.7)",
+                color: "#FFE4B5",
+                boxShadow: `
+                  0 0 20px rgba(255, 140, 50, 0.6),
+                  0 0 40px rgba(255, 100, 30, 0.4),
+                  inset 0 0 15px rgba(255, 200, 100, 0.2)
+                `,
               }}
             >
-              {translations.months[tempMonth]} {tempYear}
+              <span style={{ color: "#D4AF37" }}>📅</span>
+              <span>{translations.selectYear || "Select Year"}</span>
             </button>
-          </div>
-
-          <button
-            onClick={goNextMonth}
-            className="text-white text-2xl font-bold transition-transform hover:scale-110"
-            style={{
-              background: "transparent",
-              border: "none",
-              cursor: "pointer",
-            }}
-          >
-            →
-          </button>
-        </div>
-
-        {/* Year Selector Modal */}
-        {showYearPicker && (
-          <div
-            ref={yearPickerRef}
-            className="absolute inset-0 z-20 bg-white overflow-y-scroll"
-            style={{
-              scrollbarWidth: "none",
-              msOverflowStyle: "none",
-              paddingTop: "96px",
-              paddingBottom: "96px",
-            }}
-          >
-            {YEARS.map((y) => (
-              <button
-                key={y}
-                onClick={() => handleYearSelect(y)}
-                className="w-full text-center font-medium transition-all"
-                style={{
-                  height: "48px",
-                  color: y === tempYear ? "#FF6C37" : "#999999",
-                  fontSize: y === tempYear ? "20px" : "16px",
-                  fontWeight: y === tempYear ? "700" : "400",
-                  background: "transparent",
-                  border: "none",
-                  cursor: "pointer",
-                  padding: "0",
-                }}
-              >
-                {y}
-              </button>
-            ))}
-            {/* Close button for year picker */}
             <button
-              onClick={() => setShowYearPicker(false)}
-              className="w-full py-3 text-center font-semibold transition-all active:bg-gray-100"
-              style={{
-                color: "#757575",
-                background: "#FFFFFF",
-                border: "none",
-                cursor: "pointer",
-                fontSize: "14px",
-                borderTop: "1px solid #E0E0E0",
-              }}
+              onClick={handleConfirm}
+              className="px-6 py-2.5 rounded-lg bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-semibold transition-all duration-200 shadow-lg hover:shadow-xl"
             >
-              Cancel
+              {translations.ok || "OK"}
             </button>
           </div>
-        )}
-
-        {/* Calendar Grid */}
-        <div className="p-4 bg-white">
-          {/* Weekday Headers */}
-          <div className="grid grid-cols-7 mb-2">
-            {translations.weekdaysShort.map((day, idx) => (
-              <div
-                key={idx}
-                className="text-center py-2 text-sm font-semibold"
-                style={{ color: "#757575" }}
-              >
-                {day}
-              </div>
-            ))}
-          </div>
-          {/* Days Grid */}
-          <div className="grid grid-cols-7 gap-1">
-            {calendarDays.map((day, idx) => (
-              <button
-                key={idx}
-                onClick={() => handleDateSelect(day)}
-                disabled={day === null}
-                className="aspect-square flex items-center justify-center text-center font-medium transition-all"
-                style={{
-                  height: "40px",
-                  color:
-                    day === tempDay
-                      ? "#FFFFFF"
-                      : day
-                      ? "#333333"
-                      : "transparent",
-                  fontSize: day === tempDay ? "16px" : "14px",
-                  fontWeight: day === tempDay ? "700" : "400",
-                  background:
-                    day === tempDay ? "#FF6C37" : day ? "rgba(0, 0, 0, 0.02)" : "transparent",
-                  border:
-                    day === tempDay
-                      ? "none"
-                      : day
-                      ? "1px solid rgba(0, 0, 0, 0.08)"
-                      : "none",
-                  borderRadius: day === tempDay ? "50%" : "4px",
-                  cursor: day ? "pointer" : "default",
-                }}
-              >
-                {day || ""}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Action Buttons */}
-        <div className="flex border-t" style={{ borderTop: "1px solid #E0E0E0" }}>
-          <button
-            onClick={handleCancel}
-            className="flex-1 py-4 text-center font-semibold transition-all active:bg-gray-100"
-            style={{
-              color: "#757575",
-              background: "#FFFFFF",
-              border: "none",
-              borderRight: "1px solid #E0E0E0",
-              cursor: "pointer",
-              fontSize: "15px",
-              letterSpacing: "0.5px",
-            }}
-          >
-            CANCEL
-          </button>
-          <button
-            onClick={handleConfirm}
-            className="flex-1 py-4 text-center font-bold transition-all active:bg-orange-50"
-            style={{
-              color: "#FF6C37",
-              background: "#FFFFFF",
-              border: "none",
-              cursor: "pointer",
-              fontSize: "15px",
-              letterSpacing: "0.5px",
-            }}
-          >
-            OK
-          </button>
         </div>
       </div>
+
+      {/* Year Picker Modal */}
+      {showYearPicker && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50">
+          <div className="bg-gradient-to-br from-orange-50 via-yellow-50 to-orange-100 rounded-2xl shadow-2xl p-6 max-w-sm w-full mx-4">
+            <h3 className="text-xl font-bold text-orange-900 mb-4 text-center">
+              {translations.selectYear || "Select Year"}
+            </h3>
+            <div
+              ref={yearPickerRef}
+              className="h-60 overflow-y-auto rounded-lg bg-white shadow-inner p-2"
+            >
+              {YEARS.map((year) => (
+                <button
+                  key={year}
+                  onClick={() => handleYearSelect(year)}
+                  className={`w-full text-left px-4 py-3 rounded-lg mb-1 transition-all duration-200 font-medium ${
+                    year === tempYear
+                      ? "bg-gradient-to-r from-orange-500 to-red-500 text-white shadow-lg"
+                      : "hover:bg-orange-100 text-orange-900"
+                  }`}
+                >
+                  {year}
+                </button>
+              ))}
+            </div>
+            <button
+              onClick={() => setShowYearPicker(false)}
+              className="w-full mt-4 px-6 py-2.5 rounded-lg bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold transition-all duration-200"
+            >
+              {translations.cancel || "Cancel"}
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Month Picker Modal */}
+      {showMonthPicker && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50">
+          <div className="bg-gradient-to-br from-orange-50 via-yellow-50 to-orange-100 rounded-2xl shadow-2xl p-6 max-w-sm w-full mx-4">
+            <h3 className="text-xl font-bold text-orange-900 mb-4 text-center">
+              {translations.selectMonth || "Select Month"}
+            </h3>
+            <div className="grid grid-cols-2 gap-3">
+              {MONTHS.map((month) => (
+                <button
+                  key={month}
+                  onClick={() => handleMonthSelect(month)}
+                  className={`px-4 py-3 rounded-lg font-medium transition-all duration-200 ${
+                    month === tempMonth
+                      ? "bg-gradient-to-r from-orange-500 to-red-500 text-white shadow-lg"
+                      : "bg-white hover:bg-orange-100 text-orange-900 shadow-md"
+                  }`}
+                >
+                  {translations.months[month]}
+                </button>
+              ))}
+            </div>
+            <button
+              onClick={() => setShowMonthPicker(false)}
+              className="w-full mt-4 px-6 py-2.5 rounded-lg bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold transition-all duration-200"
+            >
+              {translations.cancel || "Cancel"}
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -450,35 +450,37 @@ export function isAuspiciousMuhurta(key) {
 }
 
 // Get speech for date selection (Tithi, Paksha, Year name)
-export function getDateSelectionSpeech({ language, tithi, paksha, yearName }) {
+export function getDateSelectionSpeech({ language, day, month, tithi, paksha, yearName }) {
   // Extract just the year name from Shaka Samvat if present
   const year = yearName ? yearName.trim().split(/\s+/).slice(1).join(" ") : "";
+  const monthName = month || "";
+  const dayNum = day || "";
 
   switch (language) {
     case "te":
       return year
-        ? `${tithi} ${paksha} ${year}`
-        : `${tithi} ${paksha}`;
+        ? `${monthName} ${dayNum} తేదీ, తిథి ${tithi}, పక్షం ${paksha}, సంవత్సరం ${year}`
+        : `${monthName} ${dayNum} తేదీ, తిథి ${tithi}, పక్షం ${paksha}`;
     case "hi":
       return year
-        ? `${tithi} ${paksha} ${year}`
-        : `${tithi} ${paksha}`;
+        ? `${monthName} ${day} तारीख को, तिथि ${tithi}, पक्ष ${paksha}, वर्ष ${year}`
+        : `${monthName} ${day} तारीख को, तिथि ${tithi}, पक्ष ${paksha}`;
     case "kn":
       return year
-        ? `${tithi} ${paksha} ${year}`
-        : `${tithi} ${paksha}`;
+        ? `${monthName} ${dayNum} ದಿನ, ತಿಥಿ ${tithi}, ಪಕ್ಷ ${paksha}, ವರ್ಷ ${year}`
+        : `${monthName} ${dayNum} ದಿನ, ತಿಥಿ ${tithi}, ಪಕ್ಷ ${paksha}`;
     case "ta":
       return year
-        ? `${tithi} ${paksha} ${year}`
-        : `${tithi} ${paksha}`;
+        ? `${monthName} ${dayNum} நாள், திதி ${tithi}, பக்ஷம் ${paksha}, ஆண்டு ${year}`
+        : `${monthName} ${dayNum} நாள், திதி ${tithi}, பக்ஷம் ${paksha}`;
     case "ml":
       return year
-        ? `${tithi} ${paksha} ${year}`
-        : `${tithi} ${paksha}`;
+        ? `${monthName} ${dayNum} ദിവസം, തിഥി ${tithi}, പക്ഷം ${paksha}, വർഷം ${year}`
+        : `${monthName} ${dayNum} ദിവസം, തിഥി ${tithi}, പക്ഷം ${paksha}`;
     case "en":
     default:
       return year
-        ? `${tithi} ${paksha} ${year}`
-        : `${tithi} ${paksha}`;
+        ? `On ${monthName} ${dayNum}, Tithi is ${tithi}, Paksha is ${paksha}, Year is ${year}`
+        : `On ${monthName} ${dayNum}, Tithi is ${tithi}, Paksha is ${paksha}`;
   }
 }

@@ -20,17 +20,34 @@ const getTodayInfo = () => {
 
 function App() {
   const today = getTodayInfo();
+  
+  // Unified state - selectedDay is the single source of truth for date selection
   const [year, setYear] = useState(today.year);
   const [month, setMonth] = useState(today.month);
   const [days, setDays] = useState([]);
   const [selectedDay, setSelectedDay] = useState(null);
   const [language, setLanguage] = useState("en");
   const [showDatePicker, setShowDatePicker] = useState(false);
+  
+  // Temp state for date picker popup only
   const [tempYear, setTempYear] = useState(today.year);
   const [tempMonth, setTempMonth] = useState(today.month);
   const [tempDay, setTempDay] = useState(today.day);
 
   const t = translations[language];
+
+  // Helper to get day number from selectedDay
+  const getSelectedDayNum = () => {
+    if (selectedDay && selectedDay.date) {
+      return parseInt(selectedDay.date.split("/")[0], 10);
+    }
+    return tempDay;
+  };
+
+  // Helper to get date string from year/month/day
+  const getDateString = (y, m, d) => {
+    return `${String(d).padStart(2, "0")}/${String(m + 1).padStart(2, "0")}/${y}`;
+  };
 
   useEffect(() => {
     fetch(`/data/${year}.json`)
@@ -67,25 +84,41 @@ function App() {
   }, [year, month]);
 
   const goPrevMonth = () => {
-    if (month === 0) {
-      if (year > 1940) {
-        setYear(year - 1);
-        setMonth(11);
-      }
-    } else {
-      setMonth(month - 1);
-    }
+    const newMonth = month === 0 ? 11 : month - 1;
+    const newYear = month === 0 ? year - 1 : year;
+    
+    setMonth(newMonth);
+    setYear(newYear);
+    
+    // Update selectedDay to first day of new month if valid
+    const dateStr = getDateString(newYear, newMonth, 1);
+    fetch(`/data/${newYear}.json`)
+      .then((res) => res.json())
+      .then((data) => {
+        const dayData = data.find((d) => d.date === dateStr);
+        if (dayData) {
+          setSelectedDay(dayData);
+        }
+      });
   };
 
   const goNextMonth = () => {
-    if (month === 11) {
-      if (year < 2125) {
-        setYear(year + 1);
-        setMonth(0);
-      }
-    } else {
-      setMonth(month + 1);
-    }
+    const newMonth = month === 11 ? 0 : month + 1;
+    const newYear = month === 11 ? year + 1 : year;
+    
+    setMonth(newMonth);
+    setYear(newYear);
+    
+    // Update selectedDay to first day of new month if valid
+    const dateStr = getDateString(newYear, newMonth, 1);
+    fetch(`/data/${newYear}.json`)
+      .then((res) => res.json())
+      .then((data) => {
+        const dayData = data.find((d) => d.date === dateStr);
+        if (dayData) {
+          setSelectedDay(dayData);
+        }
+      });
   };
 
   const monthLabel = useMemo(
@@ -124,16 +157,29 @@ function App() {
     return `${days[date.getDay()]}, ${months[tempMonth]} ${tempDay}`;
   };
 
-  const handleDatePickerOk = () => {
-    setYear(tempYear);
-    setMonth(tempMonth);
-
+  const handleDatePickerOk = (data) => {
+    const { year: newYear, month: newMonth, day: newDay, dayData } = data || {};
+    
+    const y = newYear ?? tempYear;
+    const m = newMonth ?? tempMonth;
+    const d = newDay ?? tempDay;
+    
+    setYear(y);
+    setMonth(m);
+    
+    if (dayData) {
+      // Use the already-fetched dayData
+      setSelectedDay(dayData);
+      setShowDatePicker(false);
+      return;
+    }
+    
     // Find the selected date in the data and set it as selectedDay
-    fetch(`/data/${tempYear}.json`)
+    fetch(`/data/${y}.json`)
       .then((res) => res.json())
       .then((data) => {
-        const dateStr = `${String(tempDay).padStart(2, "0")}/${String(tempMonth + 1).padStart(2, "0")}/${tempYear}`;
-        const dayData = data.find((d) => d.date === dateStr);
+        const dateStr = `${String(d).padStart(2, "0")}/${String(m + 1).padStart(2, "0")}/${y}`;
+        const dayData = data.find((item) => item.date === dateStr);
         if (dayData) {
           setSelectedDay(dayData);
         }
@@ -161,10 +207,28 @@ function App() {
 
   // Speech handler for date click
   const handleDateClickSpeech = (day) => {
+    if (!day || !day.date) return;
+    
+    // Parse date from day object
+    const dateParts = day.date.split("/");
+    if (dateParts.length < 3) return;
+    
+    const dayNum = dateParts[0];
+    const monthNum = parseInt(dateParts[1], 10) - 1;
+    const monthName = t?.months?.[monthNum] || "";
+    
     const tithi = translateText(day.Tithi, t);
     const paksha = translateText(day.Paksha, t);
     const yearName = day["Shaka Samvat"] || "";
-    const speechText = getDateSelectionSpeech({ language, tithi, paksha, yearName });
+    
+    const speechText = getDateSelectionSpeech({ 
+      language, 
+      day: dayNum, 
+      month: monthName, 
+      tithi, 
+      paksha, 
+      yearName 
+    });
     speakCloud(speechText, language);
   };
 
@@ -315,9 +379,9 @@ function App() {
           }}
         />
 
-        <div className="relative mx-auto max-w-7xl px-3 sm:px-6 lg:px-8 py-2.5 sm:py-4">
+        <div className="relative mx-auto max-w-7xl px-3 sm:px-6 lg:px-8 py-1.5 sm:py-2">
           {/* HEADER: Swastik + Title + Language Selector */}
-          <div className="flex items-center justify-between gap-3 mb-4 pb-4" style={{ borderBottom: "2px solid rgba(255, 140, 50, 0.4)" }}>
+          <div className="flex items-center justify-between gap-3 mb-2 pb-2" style={{ borderBottom: "2px solid rgba(255, 140, 50, 0.4)" }}>
             {/* Left: Swastik + Panchang Calendar Title */}
             <div className="flex items-center gap-3 flex-1 min-w-0">
               {/* SWASTIK ICON BOX */}
@@ -377,27 +441,27 @@ function App() {
               </h1>
             </div>
 
-            {/* Right: Language Selector */}
+            {/* Right: Language Selector - Paksha Button Style */}
             <div className="flex-shrink-0">
               <select
                 value={language}
                 onChange={(e) => setLanguage(e.target.value)}
-                className="px-2 sm:px-3 py-1 text-xs sm:text-sm font-bold outline-none cursor-pointer transition-all hover:scale-105"
+                className="px-3 py-1.5 text-xs sm:text-sm font-bold outline-none cursor-pointer transition-all hover:scale-105 rounded-full"
                 style={{
-                  background: "linear-gradient(180deg, #ff4d0d 0%, #ff5c1a 10%, #ff6b28 20%, #ff7935 30%, #ff8743 40%, #ff7935 50%, #ff6b28 60%, #ff5c1a 70%, #ff4d0d 80%, #d94100 90%, #c23800 100%)",
-                  color: "#FFFFFF",
-                  border: "2px solid rgba(255, 140, 50, 0.8)",
-                  borderRadius: "10px",
+                  background: "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
+                  color: "#FFE4B5",
+                  border: "2.5px solid rgba(255, 140, 50, 0.7)",
                   boxShadow: `
-                    0 0 20px rgba(255, 140, 50, 0.8),
-                    inset 0 0 15px rgba(255, 180, 80, 0.2)
+                    0 0 20px rgba(255, 140, 50, 0.6),
+                    0 0 40px rgba(255, 100, 30, 0.4),
+                    inset 0 0 15px rgba(255, 200, 100, 0.2)
                   `,
                   appearance: "none",
-                  backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23FFFFFF' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E")`,
+                  backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23FFE4B5' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E")`,
                   backgroundRepeat: "no-repeat",
-                  backgroundPosition: "right 6px center",
+                  backgroundPosition: "right 8px center",
                   backgroundSize: "10px",
-                  paddingRight: "24px",
+                  paddingRight: "28px",
                 }}
                 aria-label="Select Language"
               >
@@ -424,7 +488,7 @@ function App() {
       </header>
 
       {/* ============= MAIN CONTENT ============= */}
-      <main className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-4 sm:py-6 grid grid-cols-1 lg:grid-cols-[1.5fr_1fr] gap-4 sm:gap-6">
+      <main className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-3 sm:py-4 grid grid-cols-1 lg:grid-cols-[1.5fr_1fr] gap-4 sm:gap-4">
         {/* CALENDAR SECTION */}
         <section 
           className="rounded-2xl sm:rounded-3xl p-4 sm:p-5 md:p-6 backdrop-blur-md"
@@ -438,58 +502,51 @@ function App() {
             `,
           }}
         >
-          {/* Calendar Header: Month Arrows + Year + Tap a date in ONE ROW */}
-          <div className="flex items-center justify-between gap-2 mb-4 pb-3" style={{ borderBottom: "2px solid rgba(255, 140, 50, 0.4)" }}>
-            {/* Month Arrows with Year Display */}
-            <div className="flex items-center gap-2">
-              <button
-                onClick={goPrevMonth}
-                className="px-2 py-1 text-lg font-bold transition-all hover:scale-110"
-                style={{
-                  background: "transparent",
-                  color: "#FFFFFF",
-                  border: "none",
-                  cursor: "pointer",
-                }}
-                aria-label="Previous month"
-              >
-                ←
-              </button>
-
-              <span className="text-base sm:text-lg font-black px-2" style={{ color: "#FFFFFF", textShadow: "0 2px 4px rgba(0, 0, 0, 0.5)" }}>
-                {monthLabel} {year}
-              </span>
-
-              <button
-                onClick={goNextMonth}
-                className="px-2 py-1 text-lg font-bold transition-all hover:scale-110"
-                style={{
-                  background: "transparent",
-                  color: "#FFFFFF",
-                  border: "none",
-                  cursor: "pointer",
-                }}
-                aria-label="Next month"
-              >
-                →
-              </button>
-            </div>
-
-            {/* Tap a date to view details */}
+          {/* Calendar Header: Month with Arrows + Year Button */}
+          <div 
+            className="flex items-center justify-between gap-2 mb-4 pb-3 px-3 py-2"
+            style={{ 
+              borderBottom: "2px solid rgba(255, 140, 50, 0.4)",
+              background: "linear-gradient(180deg, rgba(80, 20, 10, 0.8) 0%, rgba(60, 15, 8, 0.7) 100%)",
+              borderRadius: "12px"
+            }}
+          >
+            {/* Month Button with Arrows Inside */}
             <button
-              onClick={openDatePicker}
-              className="px-3 py-1.5 text-xs font-bold rounded-lg transition-all hover:scale-105"
+              className="inline-flex items-center gap-3 rounded-full px-4 py-1.5 text-sm font-bold transition-all hover:scale-105 cursor-pointer"
               style={{
                 background: "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
-                border: "2px solid rgba(255, 140, 50, 0.7)",
-                color: "rgba(255, 228, 181, 0.8)",
+                border: "2.5px solid rgba(255, 140, 50, 0.7)",
+                color: "#FFE4B5",
                 boxShadow: `
-                  0 0 15px rgba(255, 140, 50, 0.5),
-                  inset 0 0 10px rgba(255, 180, 80, 0.2)
+                  0 0 20px rgba(255, 140, 50, 0.6),
+                  0 0 40px rgba(255, 100, 30, 0.4),
+                  inset 0 0 15px rgba(255, 200, 100, 0.2)
                 `,
               }}
             >
-              {t.tapDate}
+              <span onClick={(e) => { e.stopPropagation(); goPrevMonth(); }} style={{ cursor: 'pointer', color: '#FFE4B5' }}>←</span>
+              <span style={{ color: "#D4AF37" }}>{monthLabel}</span>
+              <span onClick={(e) => { e.stopPropagation(); goNextMonth(); }} style={{ cursor: 'pointer', color: '#FFE4B5' }}>→</span>
+            </button>
+
+            {/* Year Button */}
+            <button
+              onClick={openDatePicker}
+              className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-sm font-bold transition-all hover:scale-105 cursor-pointer"
+              style={{
+                background: "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
+                border: "2.5px solid rgba(255, 140, 50, 0.7)",
+                color: "#FFE4B5",
+                boxShadow: `
+                  0 0 20px rgba(255, 140, 50, 0.6),
+                  0 0 40px rgba(255, 100, 30, 0.4),
+                  inset 0 0 15px rgba(255, 200, 100, 0.2)
+                `,
+              }}
+            >
+              <span style={{ color: "#D4AF37" }}>📅</span>
+              <span>{year}</span>
             </button>
           </div>
 
@@ -504,6 +561,20 @@ function App() {
                 initialDay={tempDay}
                 language={language}
                 translations={t}
+                days={days}
+                onSpeak={handleDateClickSpeech}
+                onYearMonthChange={(y, m) => {
+                  fetch(`/data/${y}.json`)
+                    .then((res) => res.json())
+                    .then((data) => {
+                      const monthDays = data.filter((d) => {
+                        const [, monthStr] = d.date.split("/");
+                        const dateMonth = parseInt(monthStr, 10) - 1;
+                        return dateMonth === m;
+                      });
+                      setDays(monthDays);
+                    });
+                }}
               />
             )}
 
