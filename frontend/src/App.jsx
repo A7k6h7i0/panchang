@@ -8,6 +8,7 @@ import { speakCloud } from "./utils/cloudSpeech";
 import { getDateSelectionSpeech } from "./utils/speechTemplates";
 
 const YEARS = Array.from({ length: 186 }, (_, i) => 1940 + i);
+const DATE_STATE_KEY = "panchang:selected-date";
 
 const getTodayInfo = () => {
   const today = new Date();
@@ -18,21 +19,71 @@ const getTodayInfo = () => {
   };
 };
 
+const formatDateString = (y, m, d) =>
+  `${String(d).padStart(2, "0")}/${String(m + 1).padStart(2, "0")}/${y}`;
+
+const loadInitialSelection = (today) => {
+  if (typeof window === "undefined") return today;
+
+  try {
+    const raw = sessionStorage.getItem(DATE_STATE_KEY);
+    if (!raw) return today;
+    const parsed = JSON.parse(raw);
+
+    if (
+      typeof parsed?.year === "number" &&
+      typeof parsed?.month === "number" &&
+      typeof parsed?.day === "number"
+    ) {
+      return parsed;
+    }
+  } catch (error) {
+    console.error("Failed to read saved date:", error);
+  }
+
+  return today;
+};
+
+const getFestivalDateKeyFromSlashDate = (dateStr) => {
+  const [day, month, year] = (dateStr || "").split("/");
+  if (!day || !month || !year) return "";
+  return `${year}-${month}-${day}`;
+};
+
+const fetchFestivalMap = async (year) => {
+  try {
+    const res = await fetch(`/data/festivals/${year}.json`);
+    if (!res.ok) return {};
+    return await res.json();
+  } catch {
+    return {};
+  }
+};
+
+const withFestivalsFromMap = (dayData, festivalMap) => {
+  if (!dayData?.date) return dayData;
+  const key = getFestivalDateKeyFromSlashDate(dayData.date);
+  const festivals = festivalMap?.[key] || [];
+  return { ...dayData, Festivals: festivals };
+};
+
 function App() {
   const today = getTodayInfo();
+  const initialSelection = loadInitialSelection(today);
   
   // Unified state - selectedDay is the single source of truth for date selection
-  const [year, setYear] = useState(today.year);
-  const [month, setMonth] = useState(today.month);
+  const [year, setYear] = useState(initialSelection.year);
+  const [month, setMonth] = useState(initialSelection.month);
   const [days, setDays] = useState([]);
   const [selectedDay, setSelectedDay] = useState(null);
+  const [preferredDay, setPreferredDay] = useState(initialSelection.day);
   const [language, setLanguage] = useState("en");
   const [showDatePicker, setShowDatePicker] = useState(false);
   
   // Temp state for date picker popup only
-  const [tempYear, setTempYear] = useState(today.year);
-  const [tempMonth, setTempMonth] = useState(today.month);
-  const [tempDay, setTempDay] = useState(today.day);
+  const [tempYear, setTempYear] = useState(initialSelection.year);
+  const [tempMonth, setTempMonth] = useState(initialSelection.month);
+  const [tempDay, setTempDay] = useState(initialSelection.day);
 
   const t = translations[language];
 
@@ -44,47 +95,73 @@ function App() {
     return tempDay;
   };
 
-  // Helper to get date string from year/month/day
-  const getDateString = (y, m, d) => {
-    return `${String(d).padStart(2, "0")}/${String(m + 1).padStart(2, "0")}/${y}`;
-  };
-
   useEffect(() => {
     console.log("useEffect triggered: year=", year, "month=", month);
-    fetch(`/data/${year}.json`)
-      .then((res) => res.json())
-      .then((data) => {
+    Promise.all([
+      fetch(`/data/${year}.json`).then((res) => res.json()),
+      fetchFestivalMap(year),
+    ])
+      .then(([data, festivalMap]) => {
         console.log("Data fetched for year", year);
-        const monthDays = data.filter((d) => {
+        const monthDays = data
+          .filter((d) => {
           const [, m] = d.date.split("/");
           const dateMonth = parseInt(m, 10) - 1;
           return dateMonth === month;
-        });
+          })
+          .map((d) => withFestivalsFromMap(d, festivalMap));
 
         console.log("Days found for month", month, ":", monthDays.length);
         setDays(monthDays);
 
-        // Check if we're viewing the current month and year
+        if (monthDays.length === 0) return;
+
+        // Try to keep the selected/persisted day first.
+        const preferredDateStr = formatDateString(year, month, preferredDay);
+        const preferredData = monthDays.find((d) => d.date === preferredDateStr);
+        if (preferredData) {
+          setSelectedDay(preferredData);
+          return;
+        }
+
+        // If we're viewing current month/year, default to today.
         if (year === today.year && month === today.month) {
-          // Find today's date in the data
-          const todayStr = `${String(today.day).padStart(2, "0")}/${String(
-            today.month + 1
-          ).padStart(2, "0")}/${today.year}`;
+          const todayStr = formatDateString(today.year, today.month, today.day);
           const todayData = monthDays.find((d) => d.date === todayStr);
 
           if (todayData) {
             setSelectedDay(todayData);
-          } else if (monthDays.length > 0) {
-            setSelectedDay(monthDays[0]);
+            setPreferredDay(today.day);
+            return;
           }
-        } else if (monthDays.length > 0) {
-          setSelectedDay(monthDays[0]);
         }
+
+        const firstDay = monthDays[0];
+        setSelectedDay(firstDay);
+        setPreferredDay(parseInt(firstDay.date.split("/")[0], 10));
       })
       .catch((err) => {
         console.error("Error fetching data:", err);
       });
-  }, [year, month]);
+  }, [year, month, preferredDay, today.day, today.month, today.year]);
+
+  // Keep selected date on refresh for this session only.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const dayNum = selectedDay?.date
+      ? parseInt(selectedDay.date.split("/")[0], 10)
+      : preferredDay;
+
+    sessionStorage.setItem(
+      DATE_STATE_KEY,
+      JSON.stringify({
+        year,
+        month,
+        day: dayNum,
+      })
+    );
+  }, [year, month, preferredDay, selectedDay]);
 
   const goPrevMonth = () => {
     const newMonth = month === 0 ? 11 : month - 1;
@@ -94,13 +171,16 @@ function App() {
     setYear(newYear);
     
     // Update selectedDay to first day of new month if valid
-    const dateStr = getDateString(newYear, newMonth, 1);
-    fetch(`/data/${newYear}.json`)
-      .then((res) => res.json())
-      .then((data) => {
+    const dateStr = formatDateString(newYear, newMonth, 1);
+    Promise.all([
+      fetch(`/data/${newYear}.json`).then((res) => res.json()),
+      fetchFestivalMap(newYear),
+    ])
+      .then(([data, festivalMap]) => {
         const dayData = data.find((d) => d.date === dateStr);
         if (dayData) {
-          setSelectedDay(dayData);
+          setSelectedDay(withFestivalsFromMap(dayData, festivalMap));
+          setPreferredDay(1);
         }
       });
   };
@@ -113,13 +193,16 @@ function App() {
     setYear(newYear);
     
     // Update selectedDay to first day of new month if valid
-    const dateStr = getDateString(newYear, newMonth, 1);
-    fetch(`/data/${newYear}.json`)
-      .then((res) => res.json())
-      .then((data) => {
+    const dateStr = formatDateString(newYear, newMonth, 1);
+    Promise.all([
+      fetch(`/data/${newYear}.json`).then((res) => res.json()),
+      fetchFestivalMap(newYear),
+    ])
+      .then(([data, festivalMap]) => {
         const dayData = data.find((d) => d.date === dateStr);
         if (dayData) {
-          setSelectedDay(dayData);
+          setSelectedDay(withFestivalsFromMap(dayData, festivalMap));
+          setPreferredDay(1);
         }
       });
   };
@@ -172,37 +255,43 @@ function App() {
     setMonth(m);
     
     // Find or create dayData for the selected date
-    const dateStr = `${String(d).padStart(2, "0")}/${String(m + 1).padStart(2, "0")}/${y}`;
+    const dateStr = formatDateString(y, m, d);
+    setPreferredDay(d);
     
-    if (dayData) {
-      setSelectedDay(dayData);
-    } else {
-      // Fetch and find the dayData
-      fetch(`/data/${y}.json`)
-        .then((res) => res.json())
-        .then((data) => {
-          const foundDayData = data.find((item) => item.date === dateStr);
-          if (foundDayData) {
-            setSelectedDay(foundDayData);
-          } else {
-            // Create a minimal dayData object if not found
-            const minimalDayData = {
-              date: dateStr,
-              Tithi: "Prathama",
-              Nakshatra: "Ashwini",
-              Paksha: "Shukla",
-              Yoga: "Vishkumbha",
-              Rahu: "-",
-              Sunrise: "06:00",
-              Sunset: "18:00"
-            };
-            setSelectedDay(minimalDayData);
-          }
-        })
-        .catch((err) => {
-          console.error("Error fetching date data:", err);
-        });
-    }
+    Promise.all([
+      fetchFestivalMap(y),
+      dayData
+        ? Promise.resolve(null)
+        : fetch(`/data/${y}.json`).then((res) => res.json()),
+    ])
+      .then(([festivalMap, yearData]) => {
+        if (dayData) {
+          setSelectedDay(withFestivalsFromMap(dayData, festivalMap));
+          return;
+        }
+
+        const foundDayData = yearData?.find((item) => item.date === dateStr);
+        if (foundDayData) {
+          setSelectedDay(withFestivalsFromMap(foundDayData, festivalMap));
+        } else {
+          // Create a minimal dayData object if not found
+          const minimalDayData = {
+            date: dateStr,
+            Tithi: "Prathama",
+            Nakshatra: "Ashwini",
+            Paksha: "Shukla",
+            Yoga: "Vishkumbha",
+            Rahu: "-",
+            Sunrise: "06:00",
+            Sunset: "18:00",
+            Festivals: festivalMap?.[getFestivalDateKeyFromSlashDate(dateStr)] || [],
+          };
+          setSelectedDay(minimalDayData);
+        }
+      })
+      .catch((err) => {
+        console.error("Error fetching date data:", err);
+      });
 
     setShowDatePicker(false);
   };
@@ -222,7 +311,7 @@ function App() {
   };
 
   // Speech handler for date click
-  const handleDateClickSpeech = (day) => {
+  const handleDateClickSpeech = async (day) => {
     if (!day || !day.date) return;
     
     // Parse date from day object
@@ -236,9 +325,26 @@ function App() {
     const tithi = translateText(day.Tithi, t);
     const paksha = translateText(day.Paksha, t);
     const yearName = day["Shaka Samvat"] || "";
-    const festivals = Array.isArray(day.Festivals)
+
+    let festivals = Array.isArray(day.Festivals)
       ? day.Festivals.map((f) => translateText(f, t))
       : [];
+
+    // Some data files store festivals in a separate year map.
+    if (festivals.length === 0) {
+      try {
+        const festivalYear = dateParts[2];
+        const festivalRes = await fetch(`/data/festivals/${festivalYear}.json`);
+        if (festivalRes.ok) {
+          const festivalMap = await festivalRes.json();
+          const dateKey = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
+          const dayFestivals = festivalMap?.[dateKey] || [];
+          festivals = dayFestivals.map((f) => translateText(f, t));
+        }
+      } catch (error) {
+        console.error("Error loading date-click festivals:", error);
+      }
+    }
     
     const speechText = getDateSelectionSpeech({ 
       language, 
@@ -250,6 +356,17 @@ function App() {
       festivals,
     });
     speakCloud(speechText, language);
+  };
+
+  const handleMainDateSelect = (day) => {
+    setSelectedDay(day);
+    if (day?.date) {
+      const dayNum = parseInt(day.date.split("/")[0], 10);
+      setPreferredDay(dayNum);
+      setTempYear(year);
+      setTempMonth(month);
+      setTempDay(dayNum);
+    }
   };
 
   if (!days.length)
@@ -450,11 +567,13 @@ function App() {
                 style={{
                   color: "#FFFFFF",
                   textShadow: `
-                    0 2px 8px rgba(0, 0, 0, 0.7),
-                    0 0 20px rgba(255, 140, 50, 0.5)
+                    0 1px 2px rgba(0, 0, 0, 0.85),
+                    0 6px 18px rgba(255, 140, 50, 0.45)
                   `,
-                  lineHeight: "1.1",
-                  fontSize: "clamp(0.875rem, 2.5vw, 1.5rem)",
+                  lineHeight: "1.05",
+                  letterSpacing: "0.02em",
+                  fontSize: "clamp(1rem, 2.6vw, 1.7rem)",
+                  fontWeight: "900",
                 }}
               >
                 {t.appTitle}
@@ -588,7 +707,7 @@ function App() {
           <CalendarGrid
             days={days}
             selectedDate={selectedDay}
-            onSelect={setSelectedDay}
+            onSelect={handleMainDateSelect}
             onSpeak={handleDateClickSpeech}
             language={language}
             translations={t}
