@@ -218,22 +218,11 @@ export default function YearSelectorPopup({
         <div className="p-2 sm:p-3 pb-1 sm:pb-2 flex-shrink-0">
           {/* Month Navigation Row */}
           <div className="flex items-center justify-between mb-1 sm:mb-2">
-            {/* Previous Button */}
-            <button
-              onClick={goPrevMonth}
-              className="p-2 rounded-lg hover:bg-orange-500/30 transition-colors cursor-pointer flex items-center justify-center"
-              style={{ background: "rgba(255, 140, 50, 0.2)" }}
-            >
-              <svg className="w-5 h-5 text-orange-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
-              </svg>
-            </button>
-
             {/* Month and Year Selectors */}
-            <div className="flex gap-1 sm:gap-2">
+            <div className="flex gap-1 sm:gap-2 w-full justify-center">
               <button
                 onClick={() => setShowMonthPicker(true)}
-                className="px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg font-bold text-sm transition-all hover:scale-105 cursor-pointer"
+                className="px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg font-bold text-sm transition-all hover:scale-105 cursor-pointer inline-flex items-center gap-2"
                 style={{
                   background: "linear-gradient(135deg, rgba(255, 140, 50, 0.4) 0%, rgba(255, 100, 30, 0.5) 100%)",
                   border: "2px solid rgba(255, 140, 50, 0.6)",
@@ -241,7 +230,23 @@ export default function YearSelectorPopup({
                   boxShadow: "0 0 10px rgba(255, 140, 50, 0.3)",
                 }}
               >
-                {translations.months[tempMonth]}
+                <span
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    goPrevMonth();
+                  }}
+                >
+                  ‹
+                </span>
+                <span>{translations.months[tempMonth]}</span>
+                <span
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    goNextMonth();
+                  }}
+                >
+                  ›
+                </span>
               </button>
               <button
                 onClick={() => setShowYearPicker(true)}
@@ -256,17 +261,6 @@ export default function YearSelectorPopup({
                 {tempYear}
               </button>
             </div>
-
-            {/* Next Button */}
-            <button
-              onClick={goNextMonth}
-              className="p-2 rounded-lg hover:bg-orange-500/30 transition-colors cursor-pointer flex items-center justify-center"
-              style={{ background: "rgba(255, 140, 50, 0.2)" }}
-            >
-              <svg className="w-5 h-5 text-orange-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
-              </svg>
-            </button>
           </div>
         </div>
 
