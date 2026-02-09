@@ -111,9 +111,9 @@ ${dateText}日の பஞ்சாங்க விவரங்கள் பின
         : `
 ${dateText}日の പഞ്ചാംഗ വിവരങ്ങൾ ഇങ്ങനെ ആണ്.
 തിഥി ${tithi}.
-നക്ഷത്രം ${nakshatra}.
-രാഹുകാലം ${rahu}.
-യമഗണ്ഡം ${yama}.
+നക్�ഷത್ರಂ ${nakshatra}.
+രാഹുകാಲಂ ${rahu}.
+യമഗണ്ಡം ${yama}.
 `;
 
     default:
@@ -156,23 +156,144 @@ export function getDateClickSpeech({ language, tithi, amrit }) {
 
 
 // Helper function for Tithi speech only
-export function getTithiSpeech({ language, tithi }) {
+export function getTithiSpeech({ language, tithi, amToken, pmToken }) {
+  // Parse tithi string to extract name and timing
+  // Format varies by language:
+  // English: "TithiName upto HH:MM AM/PM"
+  // Other languages: "TithiName HH:MM AM/PM uptoWord"
+  
+  // Try to find time pattern in the string (e.g., "10:22 PM", "5:21 AM",
+  // or localized AM/PM strings after HH:MM)
+  const timeMatch = tithi?.match(/(\d{1,2}:\d{2}(?:\s*[^\s,.;:]+)?)/i);
+  
+  if (!timeMatch) {
+    // Fallback for unformatted tithi
+    switch (language) {
+      case "te":
+        return `ఈ రోజు తిథి ${tithi}`;
+      case "hi":
+        return `आज की तिथि ${tithi} है`;
+      case "kn":
+        return `ಇಂದಿನ ತಿಥಿ ${tithi}`;
+      case "ta":
+        return `இன்றைய திதி ${tithi}`;
+      case "ml":
+        return `ഇന്നത്തെ തിഥി ${tithi}`;
+      case "en":
+      default:
+        return `Today's Tithi is ${tithi}`;
+    }
+  }
+  
+  const timeStr = timeMatch[0].trim(); // e.g., "10:22 PM"
+  
+  // Remove the time from the tithi string to get just the tithi name
+  let tithiName = tithi
+    ?.replace(timeMatch[0], "")
+    .replace(/\s*upto\s*/i, "")
+    .replace(/\s+upto\s+/i, "")
+    .trim() || tithi;
+  
+  // Also remove any trailing translated "upto" words (Telugu: వరకు, Hindi: तक, etc.)
+  const uptoWords = {
+    te: "వరకు",
+    hi: "तक",
+    kn: "ವರೆಗೆ",
+    ta: "வரை",
+    ml: "വരെ"
+  };
+  const uptoWord = uptoWords[language];
+  if (uptoWord) {
+    const parts = tithiName.split(uptoWord);
+    tithiName = parts[0].trim();
+  }
+  
+  // Determine if the time is today or tomorrow
+  const isTodayTime = isTimeInCurrentDay(timeStr, { amToken, pmToken });
+  
+  // Build the speech text based on language with native phrasing
   switch (language) {
     case "te":
-      return `ఈ రోజు తిథి ${tithi}`;
+      return isTodayTime 
+        ? `ఈ రోజు తిథి ${tithiName}. ${timeStr} వరకు.`
+        : `ఈ రోజు తిథి ${tithiName}. రేపు ${timeStr} వరకు.`;
     case "hi":
-      return `आज की तिथि ${tithi} है`;
+      return isTodayTime 
+        ? `आज की तिथि ${tithiName}. ${timeStr} तक.`
+        : `आज की तिथि ${tithiName}. कल ${timeStr} तक.`;
     case "kn":
-      return `ಇಂದಿನ ತಿಥಿ ${tithi}`;
+      return isTodayTime 
+        ? `ಇಂದಿನ ತಿಥಿ ${tithiName}. ${timeStr} ವರೆಗೆ.`
+        : `ಇಂದಿನ ತಿಥಿ ${tithiName}. ನಾಳೆ ${timeStr} ವರೆಗೆ.`;
     case "ta":
-      return `இன்றைய திதி ${tithi}`;
+      return isTodayTime 
+        ? `இன்றைய திதி ${tithiName}. ${timeStr} வரை.`
+        : `இன்றைய திதி ${tithiName}. நாளை ${timeStr} வரை.`;
     case "ml":
-      return `ഇന്നത്തെ തിഥി ${tithi}`;
+      return isTodayTime 
+        ? `ഇന്നത്തെ തിഥി ${tithiName}. ${timeStr} വരെ.`
+        : `ഇന്നത്തെ തിഥി ${tithiName}. നാളെ ${timeStr} വരെ.`;
     case "en":
     default:
-      return `Today's Tithi is ${tithi}`;
+      return isTodayTime 
+        ? `Today's Tithi is ${tithiName}. Valid up to ${timeStr}.`
+        : `Today's Tithi is ${tithiName}. Valid up to tomorrow ${timeStr}.`;
   }
 }
+
+// Helper function to determine if a time string belongs to today or tomorrow
+// Returns true if the time is today, false if it's tomorrow
+function isTimeInCurrentDay(timeStr, { amToken, pmToken } = {}) {
+  // Parse the numeric time first
+  const timeMatch = timeStr?.match(/(\d{1,2}):(\d{2})/);
+  
+  if (!timeMatch) {
+    return true; // Default to today if can't parse
+  }
+  
+  let hours = parseInt(timeMatch[1], 10);
+  const minutes = parseInt(timeMatch[2], 10);
+  const normalized = (timeStr || "").toLowerCase();
+  const amNorm = (amToken || "").toLowerCase();
+  const pmNorm = (pmToken || "").toLowerCase();
+  const hasEnglishAM = /\bam\b/i.test(timeStr || "");
+  const hasEnglishPM = /\bpm\b/i.test(timeStr || "");
+  const hasLocalAM = !!amNorm && normalized.includes(amNorm);
+  const hasLocalPM = !!pmNorm && normalized.includes(pmNorm);
+  const isAM = hasEnglishAM || hasLocalAM;
+  const isPM = hasEnglishPM || hasLocalPM;
+  const period = isPM ? "PM" : "AM";
+  
+  // Convert to 24-hour format
+  if (period === "AM") {
+    if (hours === 12) {
+      hours = 0; // 12 AM is midnight
+    }
+  } else {
+    // PM
+    if (hours !== 12) {
+      hours += 12; // Convert PM hours to 24-hour
+    }
+  }
+  
+  const now = new Date();
+  const currentHour = now.getHours();
+  const currentMinute = now.getMinutes();
+  
+  // If the time is AM, it may refer to tomorrow in Panchang format.
+  // For unrecognized markers, keep previous behavior (treat as today).
+  if (isAM || (!isPM && hours < 12)) {
+    // If AM time has already passed today (current time is later), it belongs to tomorrow
+    if (currentHour > hours || (currentHour === hours && currentMinute >= minutes)) {
+      return false; // Tomorrow
+    }
+    return true; // Today
+  }
+  
+  // PM times are always today
+  return true;
+}
+
 
 // 🔔 Generic Muhurta Alert - 1 hour before (Different wording for auspicious vs inauspicious)
 export function getMuhurtaAlert({ language, names, timings, isAuspicious = false }) {
@@ -187,7 +308,7 @@ export function getMuhurtaAlert({ language, names, timings, isAuspicious = false
     hi: "और",
     kn: "ಮತ್ತು",
     ta: "மற்றும்",
-    ml: "ഒപ്പം"
+    ml: "ഒപ്പம்"
   };
 
   const and = andWord[language] || andWord.en;
@@ -215,7 +336,7 @@ export function getMuhurtaAlert({ language, names, timings, isAuspicious = false
 హెచ్చరిక! ఒక గంటలో ${combinedNames} ఘడియలు ప్రారంభం అవుతాయి.
 సమయం ${start} నుండి ${end} వరకు.
 `;
-    
+      
     case "hi":
       if (isAuspicious) {
         return `
@@ -227,7 +348,7 @@ export function getMuhurtaAlert({ language, names, timings, isAuspicious = false
 सावधान! एक घंटे में ${combinedNames} है।
 समय ${start} से ${end} तक है।
 `;
-    
+      
     case "kn":
       if (isAuspicious) {
         return `
@@ -239,7 +360,7 @@ export function getMuhurtaAlert({ language, names, timings, isAuspicious = false
 ಎಚ್ಚರಿಕೆ! ಒಂದು ಗಂಟೆಯಲ್ಲಿ ${combinedNames} ಇದೆ.
 ಸಮಯ ${start} ರಿಂದ ${end} ವರೆಗೆ.
 `;
-    
+      
     case "ta":
       if (isAuspicious) {
         return `
@@ -251,19 +372,19 @@ export function getMuhurtaAlert({ language, names, timings, isAuspicious = false
 எச்சரிக்கை! ஒரு மணி நேரத்தில் ${combinedNames} உள்ளது.
 நேரம் ${start} முதல் ${end} வரை.
 `;
-    
+      
     case "ml":
       if (isAuspicious) {
         return `
 ശ്രദ്ധിക്കുക! ഒരു മണിക്കൂറിൽ ${combinedNames} ഉണ്ട്.
-സമയം ${start} മുതൽ ${end} വരെ.
+സമയം ${start} മുതൽ ${end} വരೆ.
 `;
       }
       return `
 മുന്നറിയിപ്പ്! ഒരു മണിക്കൂറിൽ ${combinedNames} ഉണ്ട്.
-സമയം ${start} മുതൽ ${end} വരെ.
+സമയം ${start} മുത೽ ${end} വരೆ.
 `;
-    
+      
     case "en":
     default:
       if (isAuspicious) {
@@ -290,7 +411,7 @@ export function getMuhurtaImmediateAlert({ language, names, timings, minutesLeft
     hi: "और",
     kn: "ಮತ್ತು",
     ta: "மற்றும்",
-    ml: "ഒപ്പം"
+    ml: "ഒപ്പம்"
   };
 
   const and = andWord[language] || andWord.en;
@@ -316,7 +437,7 @@ export function getMuhurtaImmediateAlert({ language, names, timings, minutesLeft
 హెచ్చరిక! ${minutesLeft} నిమిషాల్లో ${combinedNames} ప్రారంభమవుతుంది.
 సమయం ${start} నుండి ${end} వరకు.
 `;
-    
+      
     case "hi":
       if (isAuspicious) {
         return `
@@ -328,7 +449,7 @@ export function getMuhurtaImmediateAlert({ language, names, timings, minutesLeft
 सावधान! ${minutesLeft} मिनट में ${combinedNames} शुरू होगा।
 समय ${start} से ${end} तक है।
 `;
-    
+      
     case "kn":
       if (isAuspicious) {
         return `
@@ -340,7 +461,7 @@ export function getMuhurtaImmediateAlert({ language, names, timings, minutesLeft
 ಎಚ್ಚರಿಕೆ! ${minutesLeft} ನಿಮಿಷಗಳಲ್ಲಿ ${combinedNames} ಪ್ರಾರಂಭವಾಗುತ್ತದೆ.
 ಸಮಯ ${start} ರಿಂದ ${end} ವರೆಗೆ.
 `;
-    
+      
     case "ta":
       if (isAuspicious) {
         return `
@@ -352,19 +473,19 @@ export function getMuhurtaImmediateAlert({ language, names, timings, minutesLeft
 எச்சரிக்கை! ${minutesLeft} நிமிடங்களில் ${combinedNames} தொடங்கும்.
 நேரம் ${start} முதல் ${end} வரை.
 `;
-    
+      
     case "ml":
       if (isAuspicious) {
         return `
 ശ്രദ്ധിക്കുക! ${minutesLeft} മിനിറ്റിൽ ${combinedNames} ആരംഭിക്കും.
-സമയം ${start} മുതൽ ${end} വരെ.
+സമയം ${start} മുത೽ ${end} വരೆ.
 `;
       }
       return `
 മുന്നറിയിപ്പ്! ${minutesLeft} മിനിറ്റിൽ ${combinedNames} ആരംഭിക്കും.
-സമയം ${start} മുതൽ ${end} വരെ.
+സമയം ${start} മುತ೽ ${end} വരೆ.
 `;
-    
+      
     case "en":
     default:
       if (isAuspicious) {
@@ -397,7 +518,7 @@ export function getMuhurtaName(key, language) {
       hi: "यमगंड",
       kn: "ಯಮಗಂಡ",
       ta: "யமகண்டம்",
-      ml: "യമഗണ്ഡം"
+      ml: "യമഗണ്ಡം"
     },
     "Gulikai Kalam": {
       en: "Gulikai Kalam",
@@ -405,7 +526,7 @@ export function getMuhurtaName(key, language) {
       hi: "गुलिकाई काल",
       kn: "ಗುಳಿಕೈ ಕಾಲ",
       ta: "குலிகை காலம்",
-      ml: "ഗുളിക കാലം"
+      ml: "ഗുളിക ಕಾಲಂ"
     },
     "Dur Muhurtam": {
       en: "Durmuhurtham",
@@ -413,7 +534,7 @@ export function getMuhurtaName(key, language) {
       hi: "दुर्मुहूर्त",
       kn: "ದುರ್ಮುಹೂರ್ತ",
       ta: "துர்முஹூர்த்தம்",
-      ml: "ദുർമുഹൂർത്തം"
+      ml: "ദുർമுஹூர்த்தം"
     },
     "Abhijit": {
       en: "Abhijit",
@@ -429,7 +550,7 @@ export function getMuhurtaName(key, language) {
       hi: "अमृत काल",
       kn: "ಅಮೃತ ಕಾಲ",
       ta: "அம்ருத காலம்",
-      ml: "അമൃത കാലം"
+      ml: "അമೃತ ಕಾಲಂ"
     },
     "Varjyam": {
       en: "Varjyam",
@@ -450,37 +571,62 @@ export function isAuspiciousMuhurta(key) {
 }
 
 // Get speech for date selection (Tithi, Paksha, Year name)
-export function getDateSelectionSpeech({ language, day, month, tithi, paksha, yearName }) {
+function buildFestivalSpeech({ language, festivals }) {
+  const list = (festivals || []).filter(Boolean);
+  if (list.length === 0) return "";
+
+  const joined = list.join(", ");
+  const isSingle = list.length === 1;
+
+  switch (language) {
+    case "te":
+      return isSingle ? `, పండుగ ${joined}` : `, పండుగలు ${joined}`;
+    case "hi":
+      return isSingle ? `, त्योहार ${joined}` : `, त्योहार ${joined}`;
+    case "kn":
+      return isSingle ? `, ಹಬ್ಬ ${joined}` : `, ಹಬ್ಬಗಳು ${joined}`;
+    case "ta":
+      return isSingle ? `, திருவிழா ${joined}` : `, திருவிழாக்கள் ${joined}`;
+    case "ml":
+      return isSingle ? `, ഉത്സവം ${joined}` : `, ഉത്സവങ്ങൾ ${joined}`;
+    case "en":
+    default:
+      return isSingle ? `, Festival is ${joined}` : `, Festivals are ${joined}`;
+  }
+}
+
+export function getDateSelectionSpeech({ language, day, month, tithi, paksha, yearName, festivals = [] }) {
   // Extract just the year name from Shaka Samvat if present
   const year = yearName ? yearName.trim().split(/\s+/).slice(1).join(" ") : "";
   const monthName = month || "";
   const dayNum = day || "";
+  const festivalPart = buildFestivalSpeech({ language, festivals });
 
   switch (language) {
     case "te":
       return year
-        ? `${monthName} ${dayNum} తేదీ, తిథి ${tithi}, పక్షం ${paksha}, సంవత్సరం ${year}`
-        : `${monthName} ${dayNum} తేదీ, తిథి ${tithi}, పక్షం ${paksha}`;
+        ? `${monthName} ${dayNum} తేదీ, తిథి ${tithi}, పక్షం ${paksha}, సంవత్సరం ${year}${festivalPart}`
+        : `${monthName} ${dayNum} తేదీ, తిథి ${tithi}, పక్షం ${paksha}${festivalPart}`;
     case "hi":
       return year
-        ? `${monthName} ${day} तारीख को, तिथि ${tithi}, पक्ष ${paksha}, वर्ष ${year}`
-        : `${monthName} ${day} तारीख को, तिथि ${tithi}, पक्ष ${paksha}`;
+        ? `${monthName} ${day} तारीख को, तिथि ${tithi}, पक्ष ${paksha}, वर्ष ${year}${festivalPart}`
+        : `${monthName} ${day} तारीख को, तिथि ${tithi}, पक्ष ${paksha}${festivalPart}`;
     case "kn":
       return year
-        ? `${monthName} ${dayNum} ದಿನ, ತಿಥಿ ${tithi}, ಪಕ್ಷ ${paksha}, ವರ್ಷ ${year}`
-        : `${monthName} ${dayNum} ದಿನ, ತಿಥಿ ${tithi}, ಪಕ್ಷ ${paksha}`;
+        ? `${monthName} ${dayNum} ದಿನ, ತಿಥಿ ${tithi}, ಪಕ್ಷ ${paksha}, ವರ್ಷ ${year}${festivalPart}`
+        : `${monthName} ${dayNum} ದಿನ, ತಿಥಿ ${tithi}, ಪಕ್ಷ ${paksha}${festivalPart}`;
     case "ta":
       return year
-        ? `${monthName} ${dayNum} நாள், திதி ${tithi}, பக்ஷம் ${paksha}, ஆண்டு ${year}`
-        : `${monthName} ${dayNum} நாள், திதி ${tithi}, பக்ஷம் ${paksha}`;
+        ? `${monthName} ${dayNum} நாள், திதி ${tithi}, பக்ஷம் ${paksha}, ஆண்டு ${year}${festivalPart}`
+        : `${monthName} ${dayNum} நாள், திதி ${tithi}, பக்ஷம் ${paksha}${festivalPart}`;
     case "ml":
       return year
-        ? `${monthName} ${dayNum} ദിവസം, തിഥി ${tithi}, പക്ഷം ${paksha}, വർഷം ${year}`
-        : `${monthName} ${dayNum} ദിവസം, തിഥി ${tithi}, പക്ഷം ${paksha}`;
+        ? `${monthName} ${dayNum} ദിവസം, തിഥി ${tithi}, പക്ഷം ${paksha}, വർഷം ${year}${festivalPart}`
+        : `${monthName} ${dayNum} ദിവസം, തിഥി ${tithi}, പക്ഷം ${paksha}${festivalPart}`;
     case "en":
     default:
       return year
-        ? `On ${monthName} ${dayNum}, Tithi is ${tithi}, Paksha is ${paksha}, Year is ${year}`
-        : `On ${monthName} ${dayNum}, Tithi is ${tithi}, Paksha is ${paksha}`;
+        ? `On ${monthName} ${dayNum}, Tithi is ${tithi}, Paksha is ${paksha}, Year is ${year}${festivalPart}`
+        : `On ${monthName} ${dayNum}, Tithi is ${tithi}, Paksha is ${paksha}${festivalPart}`;
   }
 }

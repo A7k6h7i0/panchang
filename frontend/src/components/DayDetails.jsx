@@ -233,7 +233,12 @@ export default function DayDetails({
     try {
       stopSpeech();
 
-      const tithiText = getTithiSpeech({ language, tithi: vTithi });
+      const tithiText = getTithiSpeech({
+        language,
+        tithi: vTithi,
+        amToken: translations?.am,
+        pmToken: translations?.pm,
+      });
       if (tithiText) {
         console.log(`🗣️ Speaking Tithi in ${language}`);
         await speakCloud(tithiText, language);
