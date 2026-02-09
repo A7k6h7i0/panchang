@@ -50,15 +50,18 @@ function App() {
   };
 
   useEffect(() => {
+    console.log("useEffect triggered: year=", year, "month=", month);
     fetch(`/data/${year}.json`)
       .then((res) => res.json())
       .then((data) => {
+        console.log("Data fetched for year", year);
         const monthDays = data.filter((d) => {
           const [, m] = d.date.split("/");
           const dateMonth = parseInt(m, 10) - 1;
           return dateMonth === month;
         });
 
+        console.log("Days found for month", month, ":", monthDays.length);
         setDays(monthDays);
 
         // Check if we're viewing the current month and year
@@ -164,29 +167,42 @@ function App() {
     const m = newMonth ?? tempMonth;
     const d = newDay ?? tempDay;
     
+    // Always set year and month first
     setYear(y);
     setMonth(m);
     
-    if (dayData) {
-      // Use the already-fetched dayData
-      setSelectedDay(dayData);
-      setShowDatePicker(false);
-      return;
-    }
+    // Find or create dayData for the selected date
+    const dateStr = `${String(d).padStart(2, "0")}/${String(m + 1).padStart(2, "0")}/${y}`;
     
-    // Find the selected date in the data and set it as selectedDay
-    fetch(`/data/${y}.json`)
-      .then((res) => res.json())
-      .then((data) => {
-        const dateStr = `${String(d).padStart(2, "0")}/${String(m + 1).padStart(2, "0")}/${y}`;
-        const dayData = data.find((item) => item.date === dateStr);
-        if (dayData) {
-          setSelectedDay(dayData);
-        }
-      })
-      .catch((err) => {
-        console.error("Error fetching date data:", err);
-      });
+    if (dayData) {
+      setSelectedDay(dayData);
+    } else {
+      // Fetch and find the dayData
+      fetch(`/data/${y}.json`)
+        .then((res) => res.json())
+        .then((data) => {
+          const foundDayData = data.find((item) => item.date === dateStr);
+          if (foundDayData) {
+            setSelectedDay(foundDayData);
+          } else {
+            // Create a minimal dayData object if not found
+            const minimalDayData = {
+              date: dateStr,
+              Tithi: "Prathama",
+              Nakshatra: "Ashwini",
+              Paksha: "Shukla",
+              Yoga: "Vishkumbha",
+              Rahu: "-",
+              Sunrise: "06:00",
+              Sunset: "18:00"
+            };
+            setSelectedDay(minimalDayData);
+          }
+        })
+        .catch((err) => {
+          console.error("Error fetching date data:", err);
+        });
+    }
 
     setShowDatePicker(false);
   };
@@ -220,6 +236,9 @@ function App() {
     const tithi = translateText(day.Tithi, t);
     const paksha = translateText(day.Paksha, t);
     const yearName = day["Shaka Samvat"] || "";
+    const festivals = Array.isArray(day.Festivals)
+      ? day.Festivals.map((f) => translateText(f, t))
+      : [];
     
     const speechText = getDateSelectionSpeech({ 
       language, 
@@ -227,7 +246,8 @@ function App() {
       month: monthName, 
       tithi, 
       paksha, 
-      yearName 
+      yearName,
+      festivals,
     });
     speakCloud(speechText, language);
   };
@@ -379,9 +399,9 @@ function App() {
           }}
         />
 
-        <div className="relative mx-auto max-w-7xl px-3 sm:px-6 lg:px-8 py-1.5 sm:py-2">
+        <div className="relative mx-auto max-w-7xl px-3 sm:px-6 lg:px-8 py-1">
           {/* HEADER: Swastik + Title + Language Selector */}
-          <div className="flex items-center justify-between gap-3 mb-2 pb-2" style={{ borderBottom: "2px solid rgba(255, 140, 50, 0.4)" }}>
+          <div className="flex items-center justify-between gap-3 mb-1 pb-1" style={{ borderBottom: "2px solid rgba(255, 140, 50, 0.4)" }}>
             {/* Left: Swastik + Panchang Calendar Title */}
             <div className="flex items-center gap-3 flex-1 min-w-0">
               {/* SWASTIK ICON BOX */}
@@ -488,10 +508,10 @@ function App() {
       </header>
 
       {/* ============= MAIN CONTENT ============= */}
-      <main className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-3 sm:py-4 grid grid-cols-1 lg:grid-cols-[1.5fr_1fr] gap-4 sm:gap-4">
+      <main className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-1 sm:py-2 grid grid-cols-1 lg:grid-cols-[1.5fr_1fr] gap-2 sm:gap-2">
         {/* CALENDAR SECTION */}
         <section 
-          className="rounded-2xl sm:rounded-3xl p-4 sm:p-5 md:p-6 backdrop-blur-md"
+          className="rounded-2xl sm:rounded-3xl p-3 sm:p-4 md:p-5 backdrop-blur-md"
           style={{
             background: "linear-gradient(135deg, rgba(80, 20, 10, 0.98) 0%, rgba(100, 25, 12, 0.95) 50%, rgba(120, 30, 15, 0.92) 100%)",
             border: "3px solid rgba(255, 140, 50, 0.8)",
@@ -504,7 +524,7 @@ function App() {
         >
           {/* Calendar Header: Month with Arrows + Year Button */}
           <div 
-            className="flex items-center justify-between gap-2 mb-4 pb-3 px-3 py-2"
+            className="flex items-center justify-between gap-2 mb-2 pb-2 px-3 py-1.5"
             style={{ 
               borderBottom: "2px solid rgba(255, 140, 50, 0.4)",
               background: "linear-gradient(180deg, rgba(80, 20, 10, 0.8) 0%, rgba(60, 15, 8, 0.7) 100%)",
@@ -561,20 +581,7 @@ function App() {
                 initialDay={tempDay}
                 language={language}
                 translations={t}
-                days={days}
                 onSpeak={handleDateClickSpeech}
-                onYearMonthChange={(y, m) => {
-                  fetch(`/data/${y}.json`)
-                    .then((res) => res.json())
-                    .then((data) => {
-                      const monthDays = data.filter((d) => {
-                        const [, monthStr] = d.date.split("/");
-                        const dateMonth = parseInt(monthStr, 10) - 1;
-                        return dateMonth === m;
-                      });
-                      setDays(monthDays);
-                    });
-                }}
               />
             )}
 
@@ -590,7 +597,7 @@ function App() {
 
         {/* RIGHT SIDEBAR - DayDetails only (Swastik/Title/Language moved to header) */}
         <section 
-          className="rounded-2xl sm:rounded-3xl p-4 sm:p-5 md:p-6 backdrop-blur-md"
+          className="rounded-2xl sm:rounded-3xl p-3 sm:p-4 md:p-5 backdrop-blur-md"
           style={{
             background: "linear-gradient(135deg, rgba(80, 20, 10, 0.98) 0%, rgba(100, 25, 12, 0.95) 50%, rgba(120, 30, 15, 0.92) 100%)",
             border: "3px solid rgba(255, 140, 50, 0.8)",
