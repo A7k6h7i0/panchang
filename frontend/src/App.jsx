@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, useRef } from "react";
+import { useEffect, useMemo, useState } from "react";
 import CalendarGrid from "./components/CalendarGrid";
 import DayDetails from "./components/DayDetails";
 import YearSelectorPopup from "./components/YearSelectorPopup";
@@ -94,7 +94,6 @@ function App() {
   const [language, setLanguage] = useState(loadInitialLanguage);
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [isLanguageMenuOpen, setIsLanguageMenuOpen] = useState(false);
-  const languageMenuRef = useRef(null);
   
   // Temp state for date picker popup only
   const [tempYear, setTempYear] = useState(initialSelection.year);
@@ -103,6 +102,14 @@ function App() {
 
   const t = translations[language];
   const selectedLanguage = languages.find((lang) => lang.code === language) || languages[0];
+  const shubhamasthuByLang = {
+    en: "Shubhamasthu",
+    te: "శుభమస్తు",
+    hi: "शुभमस्तु",
+    ml: "ശുഭമസ്തു",
+    kn: "ಶುಭಮಸ್ತು",
+    ta: "சுபமஸ்து",
+  };
 
   // Helper to get day number from selectedDay
   const getSelectedDayNum = () => {
@@ -188,28 +195,11 @@ function App() {
 
   useEffect(() => {
     if (!isLanguageMenuOpen) return;
-
-    const handlePointerDown = (event) => {
-      if (languageMenuRef.current && !languageMenuRef.current.contains(event.target)) {
-        setIsLanguageMenuOpen(false);
-      }
-    };
-
     const handleEscape = (event) => {
-      if (event.key === "Escape") {
-        setIsLanguageMenuOpen(false);
-      }
+      if (event.key === "Escape") setIsLanguageMenuOpen(false);
     };
-
-    document.addEventListener("mousedown", handlePointerDown);
-    document.addEventListener("touchstart", handlePointerDown);
     document.addEventListener("keydown", handleEscape);
-
-    return () => {
-      document.removeEventListener("mousedown", handlePointerDown);
-      document.removeEventListener("touchstart", handlePointerDown);
-      document.removeEventListener("keydown", handleEscape);
-    };
+    return () => document.removeEventListener("keydown", handleEscape);
   }, [isLanguageMenuOpen]);
 
   const goPrevMonth = () => {
@@ -630,7 +620,7 @@ function App() {
             </div>
 
             {/* Right: Language Selector - Paksha Button Style */}
-            <div className="flex-shrink-0 relative" ref={languageMenuRef}>
+            <div className="flex-shrink-0 relative">
               <button
                 type="button"
                 onClick={() => setIsLanguageMenuOpen((open) => !open)}
@@ -672,41 +662,56 @@ function App() {
 
               {isLanguageMenuOpen && (
                 <div
-                  role="listbox"
-                  aria-label="Select Language"
-                  className="absolute right-0 mt-1 z-50 overflow-hidden"
-                  style={{
-                    background: "#ff4d0d",
-                    border: "1.5px solid #9fd2ff",
-                    borderRadius: "4px",
-                    minWidth: "170px",
-                    boxShadow: "0 12px 24px rgba(0, 0, 0, 0.35)",
-                  }}
+                  className="fixed inset-0 z-[1100] flex items-start sm:items-center justify-center bg-black/55 backdrop-blur-sm p-4"
+                  onClick={() => setIsLanguageMenuOpen(false)}
                 >
-                  {languages.map((lang) => {
-                    const isActive = lang.code === language;
-                    return (
-                      <button
-                        key={lang.code}
-                        type="button"
-                        role="option"
-                        aria-selected={isActive}
-                        onClick={() => {
-                          setLanguage(lang.code);
-                          setIsLanguageMenuOpen(false);
-                        }}
-                        className="w-full text-left px-4 py-2 text-lg font-bold"
-                        style={{
-                          background: isActive ? "#83acd9" : "#ff4d0d",
-                          color: isActive ? "#1f2937" : "#FFFFFF",
-                          borderBottom: "1px solid rgba(255, 255, 255, 0.18)",
-                          lineHeight: "1.15",
-                        }}
-                      >
-                        {lang.nativeName}
-                      </button>
-                    );
-                  })}
+                  <div
+                    role="listbox"
+                    aria-label="Select Language"
+                    className="w-full max-w-xs overflow-hidden mt-12 sm:mt-0"
+                    onClick={(e) => e.stopPropagation()}
+                    style={{
+                      background: "linear-gradient(135deg, #ff4d0d 0%, #ff5a1f 50%, #ff4d0d 100%)",
+                      border: "2px solid rgba(255, 220, 150, 0.85)",
+                      borderRadius: "20px",
+                      boxShadow: "0 16px 40px rgba(0, 0, 0, 0.5), 0 0 24px rgba(255, 90, 31, 0.45)",
+                    }}
+                  >
+                    <div
+                      className="px-4 py-3 text-sm font-bold"
+                      style={{
+                        color: "#FFE4B5",
+                        borderBottom: "1px solid rgba(255, 255, 255, 0.2)",
+                        background: "rgba(90, 25, 8, 0.35)",
+                      }}
+                    >
+                      Select Language
+                    </div>
+                    {languages.map((lang) => {
+                      const isActive = lang.code === language;
+                      return (
+                        <button
+                          key={lang.code}
+                          type="button"
+                          role="option"
+                          aria-selected={isActive}
+                          onClick={() => {
+                            setLanguage(lang.code);
+                            setIsLanguageMenuOpen(false);
+                          }}
+                          className="w-full text-left px-5 py-3 text-2xl font-bold"
+                          style={{
+                            background: isActive ? "#83acd9" : "rgba(255, 77, 13, 0.96)",
+                            color: isActive ? "#1f2937" : "#FFFFFF",
+                            borderBottom: "1px solid rgba(255, 255, 255, 0.2)",
+                            lineHeight: "1.1",
+                          }}
+                        >
+                          {lang.nativeName}
+                        </button>
+                      );
+                    })}
+                  </div>
                 </div>
               )}
             </div>
@@ -833,7 +838,7 @@ function App() {
           textShadow: "0 2px 4px rgba(0, 0, 0, 0.6)",
         }}
       >
-        {t.builtWith} {new Date().getFullYear()}
+        {shubhamasthuByLang[language] || "Shubhamasthu"}
       </footer>
 
       {/* GLOBAL STYLES */}
