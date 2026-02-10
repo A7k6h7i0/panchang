@@ -1,3 +1,11 @@
+function resolveSpeechLanguage(language) {
+  // Route newly added languages to the closest existing speech templates.
+  if (language === "mrw") return "hi";
+  if (language === "gu") return "hi";
+  if (language === "bn") return "hi";
+  return language;
+}
+
 export function getSpeechText({
   language,
   isToday,
@@ -7,7 +15,8 @@ export function getSpeechText({
   rahu,
   yama,
 }) {
-  switch (language) {
+  const resolvedLanguage = resolveSpeechLanguage(language);
+  switch (resolvedLanguage) {
     // 🌍 ENGLISH
     case "en":
       return isToday
@@ -122,10 +131,11 @@ ${dateText}日の പഞ്ചാംഗ വിവരങ്ങൾ ഇങ്ങന
 }
 
 export function getDateClickSpeech({ language, tithi, amrit }) {
+  const resolvedLanguage = resolveSpeechLanguage(language);
   const amritPart =
     amrit && amrit !== "-" ? ` ${amrit} ` : ""; // allows missing Amrit Kalam
 
-  switch (language) {
+  switch (resolvedLanguage) {
     case "te":
       return amrit && amrit !== "-"
         ? `ఈ రోజు తిథి ${tithi}. అమృతకాలం సమయం ${amrit}.`
@@ -157,6 +167,7 @@ export function getDateClickSpeech({ language, tithi, amrit }) {
 
 // Helper function for Tithi speech only
 export function getTithiSpeech({ language, tithi, amToken, pmToken }) {
+  const resolvedLanguage = resolveSpeechLanguage(language);
   // Parse tithi string to extract name and timing
   // Format varies by language:
   // English: "TithiName upto HH:MM AM/PM"
@@ -168,7 +179,7 @@ export function getTithiSpeech({ language, tithi, amToken, pmToken }) {
   
   if (!timeMatch) {
     // Fallback for unformatted tithi
-    switch (language) {
+    switch (resolvedLanguage) {
       case "te":
         return `ఈ రోజు తిథి ${tithi}`;
       case "hi":
@@ -186,7 +197,7 @@ export function getTithiSpeech({ language, tithi, amToken, pmToken }) {
   }
   
   const timeStr = timeMatch[0].trim(); // e.g., "10:22 PM"
-  const spokenTime = getSpokenTimeString({ language, timeStr, amToken, pmToken });
+  const spokenTime = getSpokenTimeString({ language: resolvedLanguage, timeStr, amToken, pmToken });
   
   // Remove the time from the tithi string to get just the tithi name
   let tithiName = tithi
@@ -203,7 +214,7 @@ export function getTithiSpeech({ language, tithi, amToken, pmToken }) {
     ta: "வரை",
     ml: "വരെ"
   };
-  const uptoWord = uptoWords[language];
+  const uptoWord = uptoWords[resolvedLanguage];
   if (uptoWord) {
     const parts = tithiName.split(uptoWord);
     tithiName = parts[0].trim();
@@ -213,7 +224,7 @@ export function getTithiSpeech({ language, tithi, amToken, pmToken }) {
   const isTodayTime = isTimeInCurrentDay(spokenTime.dayCheckTime, { amToken, pmToken });
   
   // Build the speech text based on language with native phrasing
-  switch (language) {
+  switch (resolvedLanguage) {
     case "te":
       return isTodayTime 
         ? `ఈ రోజు తిథి ${tithiName}. ${spokenTime.text} వరకు.`
@@ -243,6 +254,7 @@ export function getTithiSpeech({ language, tithi, amToken, pmToken }) {
 }
 
 function getSpokenTimeString({ language, timeStr, amToken, pmToken }) {
+  const resolvedLanguage = resolveSpeechLanguage(language);
   const clockMatch = (timeStr || "").match(/(\d{1,2}:\d{2})/);
   if (!clockMatch) {
     return { text: timeStr || "", dayCheckTime: timeStr || "" };
@@ -265,11 +277,11 @@ function getSpokenTimeString({ language, timeStr, amToken, pmToken }) {
     en: { am: "AM", pm: "PM" },
   };
 
-  const langPeriods = defaultPeriodWords[language] || defaultPeriodWords.en;
+  const langPeriods = defaultPeriodWords[resolvedLanguage] || defaultPeriodWords.en;
   const amWord = amToken || langPeriods.am;
   const pmWord = pmToken || langPeriods.pm;
 
-  if (language === "en") {
+  if (resolvedLanguage === "en") {
     if (hasAM) return { text: `${hhmm} AM`, dayCheckTime: `${hhmm} AM` };
     if (hasPM) return { text: `${hhmm} PM`, dayCheckTime: `${hhmm} PM` };
     return { text: hhmm, dayCheckTime: hhmm };
@@ -338,6 +350,7 @@ function isTimeInCurrentDay(timeStr, { amToken, pmToken } = {}) {
 
 // 🔔 Generic Muhurta Alert - 1 hour before (Different wording for auspicious vs inauspicious)
 export function getMuhurtaAlert({ language, names, timings, isAuspicious = false }) {
+  const resolvedLanguage = resolveSpeechLanguage(language);
   // names and timings are arrays now to support multiple simultaneous muhurtas
   const nameList = Array.isArray(names) ? names : [names];
   const timingList = Array.isArray(timings) ? timings : [timings];
@@ -352,7 +365,7 @@ export function getMuhurtaAlert({ language, names, timings, isAuspicious = false
     ml: "ഒപ്പம்"
   };
 
-  const and = andWord[language] || andWord.en;
+  const and = andWord[resolvedLanguage] || andWord.en;
   
   // Join names with "and"
   const combinedNames = nameList.length > 1 
@@ -365,7 +378,7 @@ export function getMuhurtaAlert({ language, names, timings, isAuspicious = false
   const start = times[0]?.trim() || "";
   const end = times[1]?.trim() || "";
 
-  switch (language) {
+  switch (resolvedLanguage) {
     case "te":
       if (isAuspicious) {
         return `
@@ -443,6 +456,7 @@ The timing is from ${start} to ${end}.
 
 // 🔔 Immediate Muhurta Alert - within 1 hour
 export function getMuhurtaImmediateAlert({ language, names, timings, minutesLeft, isAuspicious = false }) {
+  const resolvedLanguage = resolveSpeechLanguage(language);
   const nameList = Array.isArray(names) ? names : [names];
   const timingList = Array.isArray(timings) ? timings : [timings];
   
@@ -455,7 +469,7 @@ export function getMuhurtaImmediateAlert({ language, names, timings, minutesLeft
     ml: "ഒപ്പம்"
   };
 
-  const and = andWord[language] || andWord.en;
+  const and = andWord[resolvedLanguage] || andWord.en;
   
   const combinedNames = nameList.length > 1 
     ? nameList.slice(0, -1).join(", ") + " " + and + " " + nameList[nameList.length - 1]
@@ -466,7 +480,7 @@ export function getMuhurtaImmediateAlert({ language, names, timings, minutesLeft
   const start = times[0]?.trim() || "";
   const end = times[1]?.trim() || "";
 
-  switch (language) {
+  switch (resolvedLanguage) {
     case "te":
       if (isAuspicious) {
         return `
@@ -544,6 +558,7 @@ The timing is from ${start} to ${end}.
 
 // Helper to get localized muhurta names
 export function getMuhurtaName(key, language) {
+  const resolvedLanguage = resolveSpeechLanguage(language);
   const names = {
     "Rahu Kalam": {
       en: "Rahu Kalam",
@@ -603,7 +618,7 @@ export function getMuhurtaName(key, language) {
     }
   };
 
-  return names[key]?.[language] || names[key]?.en || key;
+  return names[key]?.[resolvedLanguage] || names[key]?.en || key;
 }
 
 // Helper to check if muhurta is auspicious
@@ -613,13 +628,14 @@ export function isAuspiciousMuhurta(key) {
 
 // Get speech for date selection (Tithi, Paksha, Year name)
 function buildFestivalSpeech({ language, festivals }) {
+  const resolvedLanguage = resolveSpeechLanguage(language);
   const list = (festivals || []).filter(Boolean);
   if (list.length === 0) return "";
 
   const joined = list.join(", ");
   const isSingle = list.length === 1;
 
-  switch (language) {
+  switch (resolvedLanguage) {
     case "te":
       return isSingle ? `, పండుగ ${joined}` : `, పండుగలు ${joined}`;
     case "hi":
@@ -637,13 +653,14 @@ function buildFestivalSpeech({ language, festivals }) {
 }
 
 export function getDateSelectionSpeech({ language, day, month, tithi, paksha, yearName, festivals = [] }) {
+  const resolvedLanguage = resolveSpeechLanguage(language);
   // Extract just the year name from Shaka Samvat if present
   const year = yearName ? yearName.trim().split(/\s+/).slice(1).join(" ") : "";
   const monthName = month || "";
   const dayNum = day || "";
-  const festivalPart = buildFestivalSpeech({ language, festivals });
+  const festivalPart = buildFestivalSpeech({ language: resolvedLanguage, festivals });
 
-  switch (language) {
+  switch (resolvedLanguage) {
     case "te":
       return year
         ? `${monthName} ${dayNum} తేదీ, తిథి ${tithi}, పక్షం ${paksha}, సంవత్సరం ${year}${festivalPart}`

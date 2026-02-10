@@ -21,6 +21,9 @@ const voiceMap = {
   ta: { languageCode: "ta-IN", name: "ta-IN-Standard-A" },
   kn: { languageCode: "kn-IN", name: "kn-IN-Standard-A" },
   ml: { languageCode: "ml-IN", name: "ml-IN-Standard-A" },
+  gu: { languageCode: "gu-IN", name: "gu-IN-Standard-A" },
+  bn: { languageCode: "bn-IN", name: "bn-IN-Standard-A" },
+  mrw: { languageCode: "hi-IN", name: "hi-IN-Neural2-A" },
 };
 
 // Store scheduled notifications

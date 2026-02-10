@@ -742,7 +742,7 @@ function App() {
                     className="w-full max-w-xs overflow-hidden mt-12 sm:mt-0"
                     onClick={(e) => e.stopPropagation()}
                     style={{
-                      background: "linear-gradient(135deg, #ff4d0d 0%, #ff5a1f 50%, #ff4d0d 100%)",
+                      background: "linear-gradient(135deg, #4a0e0e 0%, #d8691e 50%, #4a0e0e 100%)",
                       border: "2px solid rgba(255, 220, 150, 0.85)",
                       borderRadius: "20px",
                       boxShadow: "0 16px 40px rgba(0, 0, 0, 0.5), 0 0 24px rgba(255, 90, 31, 0.45)",
@@ -770,10 +770,12 @@ function App() {
                             setLanguage(lang.code);
                             setIsLanguageMenuOpen(false);
                           }}
-                          className="w-full text-left px-5 py-3 text-2xl font-bold"
+                          className={`w-full text-left px-5 py-3 text-2xl font-bold transition-all duration-200 ${
+                            isActive
+                              ? "bg-orange-500 text-white shadow-lg"
+                              : "bg-orange-700/95 hover:bg-orange-600 text-orange-100"
+                          }`}
                           style={{
-                            background: isActive ? "#83acd9" : "rgba(255, 77, 13, 0.96)",
-                            color: isActive ? "#1f2937" : "#FFFFFF",
                             borderBottom: "1px solid rgba(255, 255, 255, 0.2)",
                             lineHeight: "1.1",
                           }}
