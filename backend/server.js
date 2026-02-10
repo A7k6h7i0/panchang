@@ -12,6 +12,10 @@ app.use(express.json());
 // 🔑 PUT YOUR API KEY HERE (or use env later)
 const GOOGLE_TTS_API_KEY = process.env.GOOGLE_TTS_API_KEY;
 
+// Import chatbot route
+import chatbotRoutes from "./routes/chatbot.js";
+app.use("/api", chatbotRoutes);
+
 
 // Language → Google voice mapping
 const voiceMap = {
