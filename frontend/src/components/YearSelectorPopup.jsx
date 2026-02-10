@@ -236,14 +236,14 @@ export default function YearSelectorPopup({
       className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-1 sm:p-4 z-[1000]"
       onClick={handleBackdropClick}
     >
-      <div 
-        ref={popupRef}
-        className="rounded-2xl shadow-2xl w-full max-w-sm overflow-hidden flex flex-col"
-        style={{
-          background: "linear-gradient(135deg, #4a0e0e 0%, #6b1515 50%, #4a0e0e 100%)",
-          maxHeight: popupViewportMaxHeight,
-          zIndex: 1001
-        }}
+        <div 
+          ref={popupRef}
+          className="rounded-2xl shadow-2xl w-full max-w-sm overflow-hidden flex flex-col"
+          style={{
+            background: "linear-gradient(135deg, #4a0e0e 0%, #d8691e 50%, #4a0e0e 100%)",
+            maxHeight: popupViewportMaxHeight,
+            zIndex: 1001
+          }}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header Section */}
@@ -361,7 +361,7 @@ export default function YearSelectorPopup({
           <div 
             className="rounded-2xl shadow-2xl p-4 max-w-xs w-full mx-4 flex flex-col"
             style={{
-              background: "linear-gradient(135deg, #4a0e0e 0%, #6b1515 50%, #4a0e0e 100%)",
+              background: "linear-gradient(135deg, #4a0e0e 0%, #d8691e 50%, #4a0e0e 100%)",
               maxHeight: "calc(100dvh - 1rem)",
             }}
             onClick={(e) => e.stopPropagation()}
@@ -371,8 +371,12 @@ export default function YearSelectorPopup({
             </h3>
             <div
               ref={yearPickerRef}
-              className="h-56 overflow-y-auto rounded-lg bg-black/20 shadow-inner p-2"
-              style={{ flex: 1, minHeight: 0 }}
+              className="h-56 overflow-y-auto rounded-lg shadow-inner p-2"
+              style={{
+                flex: 1,
+                minHeight: 0,
+                background: "linear-gradient(180deg, rgba(255, 110, 40, 0.35) 0%, rgba(255, 90, 25, 0.25) 100%)",
+              }}
             >
               {YEARS.map((year) => (
                 <button
@@ -381,7 +385,7 @@ export default function YearSelectorPopup({
                   className={`w-full text-left px-3 py-2.5 rounded-lg mb-1 transition-all duration-200 font-medium text-sm ${
                     year === tempYear
                       ? "bg-orange-500 text-white shadow-lg"
-                      : "bg-amber-900/80 hover:bg-amber-800 text-orange-200"
+                      : "bg-orange-700/95 hover:bg-orange-600 text-orange-100"
                   }`}
                 >
                   {year}
@@ -410,7 +414,7 @@ export default function YearSelectorPopup({
           <div 
             className="rounded-2xl shadow-2xl p-4 max-w-xs w-full mx-4 flex flex-col"
             style={{
-              background: "linear-gradient(135deg, #4a0e0e 0%, #6b1515 50%, #4a0e0e 100%)",
+              background: "linear-gradient(135deg, #4a0e0e 0%, #d8691e 50%, #4a0e0e 100%)",
               maxHeight: "calc(100dvh - 1rem)",
             }}
             onClick={(e) => e.stopPropagation()}
