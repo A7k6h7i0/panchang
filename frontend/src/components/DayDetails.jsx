@@ -154,6 +154,19 @@ export default function DayDetails({
   const vAmrit = v("Amrit Kalam");
   const vVarjyam = v("Varjyam");
 
+  // Get rashiphalalu label based on language
+  const getRashiphalaluLabel = () => {
+    const labels = {
+      en: "Rashiphalalu",
+      te: "రాశిఫలాలు",
+      ta: "ராசிபலம்",
+      ml: "രാശിഫലം",
+      kn: "ರಾಶಿಫಲ",
+      hi: "राशिफल",
+    };
+    return labels[language] || "Rashiphalalu";
+  };
+
   // Get year label based on language
   const getYearLabel = () => {
     const labels = {
@@ -163,9 +176,6 @@ export default function DayDetails({
       ml: "വർഷം",
       kn: "ವರ್ಷ",
       hi: "वर्ष",
-      gu: "????",
-      mrw: "???",
-      bn: "???",
     };
     return labels[language] || "Year";
   };
@@ -481,7 +491,7 @@ export default function DayDetails({
               `,
             }}
           >
-            <div className="flex items-start gap-3 mb-2">
+            <div className="flex items-start gap-3">
               <div
                 className="h-12 w-12 sm:h-14 sm:w-14 rounded-xl flex items-center justify-center flex-shrink-0 backdrop-blur-sm"
                 style={{
@@ -508,7 +518,7 @@ export default function DayDetails({
               </div>
 
               <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2 flex-wrap">
+                <div className="flex flex-wrap items-center gap-2">
                   <div
                     className="text-lg sm:text-xl font-black"
                     style={{
@@ -518,31 +528,49 @@ export default function DayDetails({
                   >
                     {weekday}
                   </div>
+                  {/* Rashiphalalu Button - fixed to the right */}
                   <div
-                    className="text-sm sm:text-base font-bold"
+                    className="inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-bold transition-all hover:scale-105 backdrop-blur-sm ml-auto"
                     style={{
-                      color: "#D4AF37",
+                      background:
+                        "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
+                      border: "2.5px solid rgba(255, 140, 50, 0.7)",
+                      color: "#FFE4B5",
+                      boxShadow: `
+                        0 0 15px rgba(255, 140, 50, 0.5),
+                        inset 0 0 10px rgba(255, 200, 100, 0.15)
+                      `,
                     }}
                   >
-                    • {vTithi}
+                    <span style={{ color: "#D4AF37" }}>☀</span>
+                    <span>{getRashiphalaluLabel()}</span>
                   </div>
+                </div>
+                {/* Tithi remains after weekday */}
+                <div
+                  className="text-sm sm:text-base font-bold mt-1"
+                  style={{
+                    color: "#D4AF37",
+                  }}
+                >
+                  • {vTithi}
                 </div>
               </div>
             </div>
 
-            <div className="flex items-center gap-2 flex-wrap">
+            {/* Paksha and Year in a row below date */}
+            <div className="flex items-center gap-2 flex-wrap mt-2">
               {vPaksha !== "-" && (
                 <div
-                  className="inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-bold transition-all hover:scale-105 backdrop-blur-sm"
+                  className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-bold transition-all hover:scale-105 backdrop-blur-sm"
                   style={{
                     background:
                       "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
                     border: "2.5px solid rgba(255, 140, 50, 0.7)",
                     color: "#FFE4B5",
                     boxShadow: `
-                      0 0 20px rgba(255, 140, 50, 0.6),
-                      0 0 40px rgba(255, 100, 30, 0.4),
-                      inset 0 0 15px rgba(255, 200, 100, 0.2)
+                      0 0 15px rgba(255, 140, 50, 0.5),
+                      inset 0 0 10px rgba(255, 200, 100, 0.15)
                     `,
                   }}
                 >
@@ -553,16 +581,15 @@ export default function DayDetails({
 
               {vShakaSamvat !== "-" && (
                 <div
-                  className="inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-bold transition-all hover:scale-105 backdrop-blur-sm"
+                  className="inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-bold transition-all hover:scale-105 backdrop-blur-sm ml-auto"
                   style={{
                     background:
                       "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
                     border: "2.5px solid rgba(255, 140, 50, 0.7)",
                     color: "#FFE4B5",
                     boxShadow: `
-                      0 0 20px rgba(255, 140, 50, 0.6),
-                      0 0 40px rgba(255, 100, 30, 0.4),
-                      inset 0 0 15px rgba(255, 200, 100, 0.2)
+                      0 0 15px rgba(255, 140, 50, 0.5),
+                      inset 0 0 10px rgba(255, 200, 100, 0.15)
                     `,
                   }}
                 >
