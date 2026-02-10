@@ -12,10 +12,18 @@ const containsWord = (text, word) =>
     text
   );
 
+const normalizeCompact = (text) =>
+  String(text || "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]/g, "");
+
 const containsAny = (text, checks) =>
   checks.some((check) =>
     check instanceof RegExp ? check.test(text) : containsWord(text, check)
   );
+
+const containsAnyCompact = (compactText, compactChecks) =>
+  compactChecks.some((entry) => compactText.includes(normalizeCompact(entry)));
 
 const readField = (data, keys) => {
   for (const key of keys) {
@@ -70,22 +78,130 @@ const formatDateLabel = (dateText, weekdayText) => {
     : `${day}-${month}-${year}`;
 };
 
-const getMonthGoodDays = (monthData) => {
+const parseSlashDate = (dateText) => {
+  const match = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/.exec(String(dateText || "").trim());
+  if (!match) return null;
+  const day = Number(match[1]);
+  const month = Number(match[2]);
+  const year = Number(match[3]);
+  return new Date(year, month - 1, day, 0, 0, 0, 0);
+};
+
+const getReferenceDate = (selectedDay) => {
+  const selected = parseSlashDate(selectedDay?.date);
+  if (selected) return selected;
+  const now = new Date();
+  return new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0, 0);
+};
+
+const getMonthGoodDays = (monthData, selectedDay) => {
   const rows = Array.isArray(monthData) ? monthData.filter(Boolean) : [];
   if (!rows.length) return [];
 
+  const referenceDate = getReferenceDate(selectedDay);
+
   return rows
     .filter((day) => {
+      const dateObj = parseSlashDate(day?.date);
+      if (!dateObj || dateObj < referenceDate) return false;
+
       const tithi = readField(day, ["Tithi"]);
       if (!tithi) return false;
-      return !isInauspiciousForBeginnings(tithi);
+      if (isInauspiciousForBeginnings(tithi)) return false;
+
+      // Keep only days where core inauspicious timing windows are available.
+      const rahu = readField(day, ["Rahu Kalam", "Rahu"]);
+      const yama = readField(day, ["Yamaganda"]);
+      const gulikai = readField(day, ["Gulikai Kalam"]);
+      return Boolean(rahu && yama && gulikai);
     })
     .map((day) => {
       const label = formatDateLabel(day?.date, day?.Weekday);
       const tithi = readField(day, ["Tithi"]);
-      return label && tithi ? `${label} (${tithi})` : null;
+      const hasAbhijit = Boolean(readField(day, ["Abhijit"]));
+      const hasAmrit = Boolean(readField(day, ["Amrit Kalam"]));
+      const score = (hasAbhijit ? 1 : 0) + (hasAmrit ? 1 : 0);
+
+      if (!label || !tithi) return null;
+      return {
+        label: `${label} (${tithi})`,
+        dateObj: parseSlashDate(day?.date),
+        score,
+      };
     })
-    .filter(Boolean);
+    .filter(Boolean)
+    .sort((a, b) => {
+      if (b.score !== a.score) return b.score - a.score;
+      return a.dateObj - b.dateObj;
+    })
+    .slice(0, 3)
+    .map((d) => d.label);
+};
+
+const getMonthFestivalEntries = (monthData) => {
+  const rows = Array.isArray(monthData) ? monthData.filter(Boolean) : [];
+  const entries = [];
+
+  for (const day of rows) {
+    const list = Array.isArray(day?.Festivals) ? day.Festivals : [];
+    if (!list.length) continue;
+    const label = formatDateLabel(day?.date, day?.Weekday);
+    for (const name of list) {
+      if (typeof name !== "string" || !name.trim()) continue;
+      entries.push({
+        festival: name.trim(),
+        compactFestival: normalizeCompact(name),
+        dateLabel: label,
+      });
+    }
+  }
+  return entries;
+};
+
+const levenshtein = (a, b) => {
+  const s = String(a || "");
+  const t = String(b || "");
+  const dp = Array.from({ length: s.length + 1 }, () =>
+    new Array(t.length + 1).fill(0)
+  );
+
+  for (let i = 0; i <= s.length; i++) dp[i][0] = i;
+  for (let j = 0; j <= t.length; j++) dp[0][j] = j;
+
+  for (let i = 1; i <= s.length; i++) {
+    for (let j = 1; j <= t.length; j++) {
+      const cost = s[i - 1] === t[j - 1] ? 0 : 1;
+      dp[i][j] = Math.min(
+        dp[i - 1][j] + 1,
+        dp[i][j - 1] + 1,
+        dp[i - 1][j - 1] + cost
+      );
+    }
+  }
+
+  return dp[s.length][t.length];
+};
+
+const findFestivalMatch = (compactQuery, festivalEntries) => {
+  if (!compactQuery || !festivalEntries.length) return null;
+
+  let best = null;
+  for (const item of festivalEntries) {
+    const f = item.compactFestival;
+    if (!f) continue;
+
+    if (compactQuery.includes(f) || f.includes(compactQuery)) {
+      return item;
+    }
+
+    const dist = levenshtein(compactQuery, f);
+    const limit = Math.max(2, Math.floor(f.length * 0.25));
+    if (dist <= limit && (!best || dist < best.dist)) {
+      best = { ...item, dist };
+    }
+  }
+
+  return best;
 };
 
 const handleChatbot = async (req, res) => {
@@ -117,6 +233,8 @@ const handleChatbot = async (req, res) => {
     const varjyam = readField(currentData, ["Varjyam"]);
 
     const lowerMessage = String(message || "").toLowerCase().trim();
+    const compactMessage = normalizeCompact(lowerMessage);
+    const monthFestivalEntries = getMonthFestivalEntries(calendarData);
 
     if (!lowerMessage) {
       return res.json({ response: ONLY_PANCHANG });
@@ -142,24 +260,41 @@ const handleChatbot = async (req, res) => {
       "moonrise",
       "moonset",
       "rahu",
+      "rahukalam",
+      "rahu kaalam",
       "yamaganda",
+      "yamagandam",
       "gulikai",
+      "gulika",
       "dur muhurtam",
+      "durmuhurtham",
       "muhurta",
       "muhurtam",
       "varjyam",
       "abhijit",
+      "abhijeet",
       "amrit",
+      "amrith",
       "auspicious",
       "inauspicious",
       "good day",
       "new work",
       "start work",
       "new beginning",
+      "festival list",
     ];
 
     const isPanchangQuestion =
       panchangKeywords.some((k) => containsWord(lowerMessage, k)) ||
+      containsAnyCompact(compactMessage, [
+        "rahukalam",
+        "yamagandam",
+        "gulikaikalam",
+        "durmuhurtham",
+        "abhijeet",
+        "amrithkalam",
+        "festival",
+      ]) ||
       containsAny(lowerMessage, [
         /th+i+th+i+/i,
         /ti?thi/i,
@@ -169,7 +304,8 @@ const handleChatbot = async (req, res) => {
         /yo+g(a|am)?/i,
         /kara?na?m?/i,
         /muhur?t?a?m?/i,
-      ]);
+      ]) ||
+      Boolean(findFestivalMatch(compactMessage, monthFestivalEntries));
 
     if (!isGreetingOnly && !isPanchangQuestion) {
       return res.json({ response: ONLY_PANCHANG });
@@ -198,13 +334,51 @@ const handleChatbot = async (req, res) => {
       containsWord(lowerMessage, "timing") ||
       containsWord(lowerMessage, "muhurta") ||
       containsWord(lowerMessage, "muhurtam") ||
-      containsWord(lowerMessage, "rahu") ||
-      containsWord(lowerMessage, "yamaganda") ||
-      containsWord(lowerMessage, "gulikai") ||
-      containsWord(lowerMessage, "dur muhurtam") ||
-      containsWord(lowerMessage, "varjyam") ||
-      containsWord(lowerMessage, "abhijit") ||
-      containsWord(lowerMessage, "amrit");
+      containsWord(lowerMessage, "muhurtham");
+
+    const askAuspiciousOnly =
+      containsAny(lowerMessage, [
+        "auspicious",
+        "shubha",
+        "good time",
+        "best time",
+      ]) && !containsAny(lowerMessage, ["inauspicious", "bad time", "ashubha"]);
+
+    const askInauspiciousOnly = containsAny(lowerMessage, [
+      "inauspicious",
+      "bad time",
+      "ashubha",
+    ]);
+
+    const askRahu =
+      containsAny(lowerMessage, ["rahu", "rahu kalam", "rahukalam"]) ||
+      containsAnyCompact(compactMessage, ["rahukalam", "rahukaalam", "raahukalam"]);
+    const askYamaganda = containsAny(lowerMessage, [
+      "yamaganda",
+      "yamagandam",
+      "yamagand",
+    ]) || containsAnyCompact(compactMessage, ["yamagandam", "yamagand"]);
+    const askGulikai =
+      containsAny(lowerMessage, ["gulikai", "gulikai kalam", "kuligai", "gulika"]) ||
+      containsAnyCompact(compactMessage, ["gulikaikalam", "gulikakalam", "kuligai"]);
+    const askDurMuhurtam = containsAny(lowerMessage, [
+      "dur muhurtam",
+      "durmuhurtam",
+      "durmuhurtham",
+      "dur muhurtham",
+    ]) || containsAnyCompact(compactMessage, ["durmuhurtham", "durmuhurtam", "durmuhuratam"]);
+    const askVarjyam =
+      containsAny(lowerMessage, ["varjyam", "varjam"]) ||
+      containsAnyCompact(compactMessage, ["varjyam", "varjam", "varjyam"]);
+    const askAbhijit =
+      containsAny(lowerMessage, ["abhijit", "abhijeet"]) ||
+      containsAnyCompact(compactMessage, ["abhijit", "abhijeet", "abhijith"]);
+    const askAmrit = containsAny(lowerMessage, [
+      "amrit",
+      "amrith",
+      "amrit kalam",
+      "amrith kalam",
+    ]) || containsAnyCompact(compactMessage, ["amritkalam", "amrithkalam", "amrutha"]);
 
     const askGoodDay =
       lowerMessage.includes("good day") ||
@@ -216,8 +390,19 @@ const handleChatbot = async (req, res) => {
       lowerMessage.includes("joining") ||
       lowerMessage.includes("job");
 
-    const askFestival = containsWord(lowerMessage, "festival");
-    const askMonthLevel = containsWord(lowerMessage, "month");
+    const askFestival =
+      containsWord(lowerMessage, "festival") ||
+      containsAnyCompact(compactMessage, ["festival", "festivals", "utsav"]);
+    const askMonthLevel =
+      containsWord(lowerMessage, "month") || containsAnyCompact(compactMessage, ["thismonth", "month"]);
+    const askFestivalMonthList =
+      (askFestival &&
+        askMonthLevel &&
+        containsAny(lowerMessage, ["all", "list", "give", "show"])) ||
+      containsAnyCompact(compactMessage, ["allfestivals", "festivalsinthismonth"]);
+    const askFestivalDate =
+      containsAny(lowerMessage, ["which day", "what day", "when is", "date"]) &&
+      (askFestival || Boolean(findFestivalMatch(compactMessage, monthFestivalEntries)));
 
     const askOverview =
       lowerMessage.includes("full panchang") ||
@@ -231,20 +416,60 @@ const handleChatbot = async (req, res) => {
         !askYoga &&
         !askKaranam &&
         !askTimings &&
+        !askAuspiciousOnly &&
+        !askInauspiciousOnly &&
+        !askRahu &&
+        !askYamaganda &&
+        !askGulikai &&
+        !askDurMuhurtam &&
+        !askVarjyam &&
+        !askAbhijit &&
+        !askAmrit &&
         !askGoodDay &&
         !askFestival);
 
     if (askMonthLevel && askGoodDay) {
-      const monthGoodDays = getMonthGoodDays(calendarData);
+      const monthGoodDays = getMonthGoodDays(calendarData, selectedDay);
       if (!monthGoodDays.length) {
         return res.json({ response: MISSING_INFO });
       }
 
-      const topDays = monthGoodDays.slice(0, 8);
       return res.json({
-        response: `Based on the available Panchang data for this month, these days are generally suitable for starting new work or joining a job:\n\n${topDays
+        response: `Based on the available Panchang data for this month, the next suitable dates from the current date are:\n\n${monthGoodDays
           .map((d, i) => `${i + 1}. ${d}`)
-          .join("\n")}\n\nPlease avoid inauspicious timings such as Rahu Kalam, Yamaganda, Gulikai Kalam, Dur Muhurtam, and Varjyam on the chosen day.`,
+          .join("\n")}\n\nThese recommendations prioritize dates that are not already passed, avoid Ashtami/Navami/Amavasya, and consider timing availability. On the selected day, please still avoid Rahu Kalam, Yamaganda, Gulikai Kalam, Dur Muhurtam, and Varjyam.`,
+      });
+    }
+
+    if (askFestivalMonthList) {
+      if (!monthFestivalEntries.length) {
+        return res.json({ response: MISSING_INFO });
+      }
+
+      const grouped = new Map();
+      monthFestivalEntries.forEach((item) => {
+        const key = `${item.festival}|${item.dateLabel}`;
+        grouped.set(key, item);
+      });
+
+      const list = Array.from(grouped.values()).map(
+        (x) => `${x.festival} - ${x.dateLabel || MISSING_INFO}`
+      );
+
+      return res.json({
+        response: `Festivals in this month from the available Panchang data:\n\n${list
+          .map((row, i) => `${i + 1}. ${row}`)
+          .join("\n")}`,
+      });
+    }
+
+    if (askFestivalDate) {
+      const match = findFestivalMatch(compactMessage, monthFestivalEntries);
+      if (!match) {
+        return res.json({ response: MISSING_INFO });
+      }
+      return res.json({
+        response: `${match.festival} is observed on ${match.dateLabel || MISSING_INFO}.`,
       });
     }
 
@@ -286,7 +511,7 @@ const handleChatbot = async (req, res) => {
       );
     }
 
-    if (askOverview || askTimings) {
+    if (askOverview) {
       parts.push("Auspicious timings:");
       pushField("Abhijit", abhijit);
       pushField("Amrit Kalam", amrit);
@@ -298,12 +523,52 @@ const handleChatbot = async (req, res) => {
       pushField("Varjyam", varjyam);
     }
 
+    if (askAuspiciousOnly) {
+      parts.push("Auspicious timings:");
+      pushField("Abhijit", abhijit);
+      pushField("Amrit Kalam", amrit);
+    }
+
+    if (askInauspiciousOnly) {
+      parts.push("Inauspicious timings:");
+      pushField("Rahu Kalam", rahuKalam);
+      pushField("Yamaganda", yamaganda);
+      pushField("Gulikai Kalam", gulikai);
+      pushField("Dur Muhurtam", durMuhurtam);
+      pushField("Varjyam", varjyam);
+    }
+
+    if (askTimings && !askAuspiciousOnly && !askInauspiciousOnly) {
+      parts.push("Auspicious timings:");
+      pushField("Abhijit", abhijit);
+      pushField("Amrit Kalam", amrit);
+      parts.push("Inauspicious timings:");
+      pushField("Rahu Kalam", rahuKalam);
+      pushField("Yamaganda", yamaganda);
+      pushField("Gulikai Kalam", gulikai);
+      pushField("Dur Muhurtam", durMuhurtam);
+      pushField("Varjyam", varjyam);
+    }
+
+    if (askRahu) pushField("Rahu Kalam", rahuKalam);
+    if (askYamaganda) pushField("Yamaganda", yamaganda);
+    if (askGulikai) pushField("Gulikai Kalam", gulikai);
+    if (askDurMuhurtam) pushField("Dur Muhurtam", durMuhurtam);
+    if (askVarjyam) pushField("Varjyam", varjyam);
+    if (askAbhijit) pushField("Abhijit", abhijit);
+    if (askAmrit) pushField("Amrit Kalam", amrit);
+
     if (askOverview || askFestival) {
-      parts.push(
-        festivals.length
-          ? `Festivals: ${festivals.join(", ")}`
-          : `Festivals: ${MISSING_INFO}`
-      );
+      if (festivals.length) {
+        parts.push(`Festivals: ${festivals.join(", ")}`);
+      } else if (monthFestivalEntries.length && askFestival) {
+        const uniqueNames = Array.from(
+          new Set(monthFestivalEntries.map((x) => x.festival))
+        ).slice(0, 10);
+        parts.push(`Festivals this month: ${uniqueNames.join(", ")}`);
+      } else {
+        parts.push(`Festivals: ${MISSING_INFO}`);
+      }
     }
 
     if (askOverview) {
