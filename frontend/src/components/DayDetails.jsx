@@ -163,6 +163,9 @@ export default function DayDetails({
       ml: "വർഷം",
       kn: "ವರ್ಷ",
       hi: "वर्ष",
+      gu: "????",
+      mrw: "???",
+      bn: "???",
     };
     return labels[language] || "Year";
   };
