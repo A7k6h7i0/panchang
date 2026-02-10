@@ -830,15 +830,78 @@ function App() {
         </section>
       </main>
 
-      {/* FOOTER */}
-      <footer 
-        className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-3 sm:pb-5 text-center text-xs sm:text-sm font-bold"
+      {/* CHATBOT PLACEHOLDER BUTTON */}
+      <button
+        type="button"
+        aria-label="Open chatbot"
+        title="Chatbot (Coming soon)"
+        onClick={() => {}}
+        className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-40 inline-flex items-center justify-center rounded-full h-12 w-12 sm:h-14 sm:w-14 backdrop-blur-md cursor-pointer"
         style={{
-          color: "rgba(255, 255, 255, 0.8)",
-          textShadow: "0 2px 4px rgba(0, 0, 0, 0.6)",
+          background:
+            "linear-gradient(145deg, rgba(255, 210, 155, 0.22) 0%, rgba(255, 150, 80, 0.16) 55%, rgba(255, 120, 45, 0.2) 100%)",
+          border: "2px solid rgba(255, 226, 176, 0.75)",
+          boxShadow:
+            "0 12px 28px rgba(0, 0, 0, 0.4), 0 0 26px rgba(255, 145, 65, 0.4), inset 0 1px 8px rgba(255, 250, 240, 0.22)",
         }}
       >
-        {shubhamasthuByLang[language] || "Shubhamasthu"}
+        <span
+          className="inline-flex items-center justify-center rounded-full h-8 w-8 sm:h-9 sm:w-9"
+          style={{
+            background:
+              "linear-gradient(145deg, rgba(255, 176, 102, 0.38) 0%, rgba(255, 122, 55, 0.32) 100%)",
+            border: "1px solid rgba(255, 224, 170, 0.65)",
+            boxShadow: "inset 0 0 10px rgba(255, 239, 210, 0.2)",
+            color: "#FFF1D6",
+            fontSize: "17px",
+            lineHeight: "1",
+          }}
+        >
+          💬
+        </span>
+      </button>
+
+      {/* FOOTER */}
+      <footer 
+        className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-3 sm:pb-5 text-center"
+        style={{
+          textShadow: "0 2px 6px rgba(0, 0, 0, 0.6)",
+        }}
+      >
+        <span
+          className="inline-block text-sm sm:text-base md:text-lg font-black tracking-[0.08em]"
+          style={{
+            position: "relative",
+            paddingBottom: "2px",
+          }}
+        >
+          <span
+            style={{
+              background:
+                "linear-gradient(135deg, #fff1bf 0%, #ffd678 25%, #ffb347 50%, #ff8c2f 75%, #ffd89a 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+              filter:
+                "drop-shadow(0 0 8px rgba(255, 190, 90, 0.55)) drop-shadow(0 0 14px rgba(255, 120, 35, 0.45))",
+            }}
+          >
+            {shubhamasthuByLang[language] || "Shubhamasthu"}
+          </span>
+          <span
+            aria-hidden="true"
+            style={{
+              position: "absolute",
+              left: "0",
+              right: "0",
+              bottom: "0",
+              height: "2px",
+              borderRadius: "2px",
+              background: "linear-gradient(90deg, rgba(255, 190, 110, 0) 0%, rgba(255, 190, 110, 0.95) 50%, rgba(255, 190, 110, 0) 100%)",
+              boxShadow: "0 0 10px rgba(255, 165, 80, 0.6)",
+            }}
+          />
+        </span>
       </footer>
 
       {/* GLOBAL STYLES */}
