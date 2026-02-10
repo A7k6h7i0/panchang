@@ -93,6 +93,8 @@ function App() {
   const [preferredDay, setPreferredDay] = useState(initialSelection.day);
   const [language, setLanguage] = useState(loadInitialLanguage);
   const [showDatePicker, setShowDatePicker] = useState(false);
+  const [isLanguageMenuOpen, setIsLanguageMenuOpen] = useState(false);
+  const languageMenuRef = useRef(null);
   
   // Temp state for date picker popup only
   const [tempYear, setTempYear] = useState(initialSelection.year);
@@ -100,6 +102,7 @@ function App() {
   const [tempDay, setTempDay] = useState(initialSelection.day);
 
   const t = translations[language];
+  const selectedLanguage = languages.find((lang) => lang.code === language) || languages[0];
 
   // Helper to get day number from selectedDay
   const getSelectedDayNum = () => {
@@ -182,6 +185,32 @@ function App() {
     if (typeof window === "undefined") return;
     localStorage.setItem(LANGUAGE_KEY, language);
   }, [language]);
+
+  useEffect(() => {
+    if (!isLanguageMenuOpen) return;
+
+    const handlePointerDown = (event) => {
+      if (languageMenuRef.current && !languageMenuRef.current.contains(event.target)) {
+        setIsLanguageMenuOpen(false);
+      }
+    };
+
+    const handleEscape = (event) => {
+      if (event.key === "Escape") {
+        setIsLanguageMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handlePointerDown);
+    document.addEventListener("touchstart", handlePointerDown);
+    document.addEventListener("keydown", handleEscape);
+
+    return () => {
+      document.removeEventListener("mousedown", handlePointerDown);
+      document.removeEventListener("touchstart", handlePointerDown);
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, [isLanguageMenuOpen]);
 
   const goPrevMonth = () => {
     const newMonth = month === 0 ? 11 : month - 1;
@@ -601,11 +630,11 @@ function App() {
             </div>
 
             {/* Right: Language Selector - Paksha Button Style */}
-            <div className="flex-shrink-0">
-              <select
-                value={language}
-                onChange={(e) => setLanguage(e.target.value)}
-                className="px-3 py-1.5 text-xs sm:text-sm font-bold outline-none cursor-pointer transition-all hover:scale-105 rounded-full backdrop-blur-sm"
+            <div className="flex-shrink-0 relative" ref={languageMenuRef}>
+              <button
+                type="button"
+                onClick={() => setIsLanguageMenuOpen((open) => !open)}
+                className="w-full px-3 py-1.5 text-xs sm:text-sm font-bold outline-none transition-all hover:scale-105 rounded-full backdrop-blur-sm text-left"
                 style={{
                   background: "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
                   color: "#FFE4B5",
@@ -615,29 +644,71 @@ function App() {
                     0 0 40px rgba(255, 100, 30, 0.4),
                     inset 0 0 15px rgba(255, 200, 100, 0.2)
                   `,
-                  appearance: "none",
-                  backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23FFE4B5' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E")`,
-                  backgroundRepeat: "no-repeat",
-                  backgroundPosition: "right 8px center",
-                  backgroundSize: "10px",
-                  paddingRight: "28px",
+                  minWidth: "130px",
+                  paddingRight: "30px",
+                  position: "relative",
                 }}
+                aria-haspopup="listbox"
+                aria-expanded={isLanguageMenuOpen}
                 aria-label="Select Language"
               >
-                {languages.map((lang) => (
-                  <option
-                    key={lang.code}
-                    value={lang.code}
-                    className="font-bold"
-                    style={{
-                      background: "#ff4d0d",
-                      color: "#FFFFFF",
-                    }}
-                  >
-                    {lang.nativeName}
-                  </option>
-                ))}
-              </select>
+                {selectedLanguage.nativeName}
+                <span
+                  aria-hidden="true"
+                  style={{
+                    position: "absolute",
+                    right: "10px",
+                    top: "50%",
+                    transform: `translateY(-50%) rotate(${isLanguageMenuOpen ? "180deg" : "0deg"})`,
+                    transition: "transform 150ms ease",
+                    fontSize: "10px",
+                    color: "#FFE4B5",
+                    pointerEvents: "none",
+                  }}
+                >
+                  ▼
+                </span>
+              </button>
+
+              {isLanguageMenuOpen && (
+                <div
+                  role="listbox"
+                  aria-label="Select Language"
+                  className="absolute right-0 mt-1 z-50 overflow-hidden"
+                  style={{
+                    background: "#ff4d0d",
+                    border: "1.5px solid #9fd2ff",
+                    borderRadius: "4px",
+                    minWidth: "170px",
+                    boxShadow: "0 12px 24px rgba(0, 0, 0, 0.35)",
+                  }}
+                >
+                  {languages.map((lang) => {
+                    const isActive = lang.code === language;
+                    return (
+                      <button
+                        key={lang.code}
+                        type="button"
+                        role="option"
+                        aria-selected={isActive}
+                        onClick={() => {
+                          setLanguage(lang.code);
+                          setIsLanguageMenuOpen(false);
+                        }}
+                        className="w-full text-left px-4 py-2 text-lg font-bold"
+                        style={{
+                          background: isActive ? "#83acd9" : "#ff4d0d",
+                          color: isActive ? "#1f2937" : "#FFFFFF",
+                          borderBottom: "1px solid rgba(255, 255, 255, 0.18)",
+                          lineHeight: "1.15",
+                        }}
+                      >
+                        {lang.nativeName}
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
             </div>
           </div>
 
