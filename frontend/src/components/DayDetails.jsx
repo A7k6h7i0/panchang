@@ -830,14 +830,14 @@ function TimeBox({ label, value, scheme }) {
   const bg = isOrange
     ? "linear-gradient(135deg, #FF6B35 0%, #FF8C42 50%, #FFA458 100%)"
     : isBlue
-      ? "linear-gradient(135deg, #FF6B35 0%, #FF8C42 50%, #FFA458 100%)"
+      ? "linear-gradient(135deg, #B55A3C 0%, #CC6B46 50%, #D98555 100%)"
       : "transparent";
   const border = isOrange
     ? "#FFB380"
     : isBlue
-      ? "#FFB380"
+      ? "#E2A57C"
       : "transparent";
-  const labelColor = isOrange || isBlue ? "#FFF5E6" : "#E0E8F0";
+  const labelColor = isOrange ? "#FFF5E6" : isBlue ? "#FFE8D8" : "#E0E8F0";
 
   return (
     <div
