@@ -113,6 +113,14 @@ export const translations = {
     months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
     monthsShort: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
     weekdaysShort: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+    
+    // Chatbot translations
+    chatbotTitle: "Panchang Assistant",
+    chatbotWelcome: "Welcome! Ask me about:",
+    chatbotHint: "Tip: Use voice for voice responses, type for text responses",
+    listening: "Listening...",
+    typeQuestion: "Type your question...",
+    error: "I'm sorry, I couldn't process your request. Please try again.",
   },
   
   te: {
@@ -232,6 +240,14 @@ export const translations = {
     months: ["జనవరి", "ఫిబ్రవరి", "మార్చి", "ఏప్రిల్", "మే", "జూన్", "జూలై", "ఆగస్టు", "సెప్టెంబర్", "అక్టోబర్", "నవంబర్", "డిసెంబర్"],
     monthsShort: ["జన", "ఫిబ్ర", "మార్చి", "ఏప్రి", "మే", "జూన్", "జూలై", "ఆగ", "సెప్టె", "అక్టో", "నవం", "డిసె"],
     weekdaysShort: ["ఆది", "సోమ", "మంగళ", "బుధ", "గురు", "శుక్ర", "శని"],
+    
+    // Chatbot translations
+    chatbotTitle: "పంచాంగ సహాయకుడు",
+    chatbotWelcome: "స్వాగతం! నాకు ఇది అడగండి:",
+    chatbotHint: "సలుపు: వాయిస్‌కి వాయిస్ రెస్పాన్స్‌లు, టైప్‌కి టెక్స్ట్ రెస్పాన్స్‌లు",
+    listening: "వింటున్నాను...",
+    typeQuestion: "మీ ప్రశ్న రాయండి...",
+    error: "క్షమించండి, మీ అభ్యర్థనను ప్రాసెస్ చేయలేకపోయాను. దయచేసి మళ్ళీ ప్రయత్నించండి.",
   },
   
   hi: {
@@ -349,6 +365,14 @@ export const translations = {
     months: ["जनवरी", "फरवरी", "मार्च", "अप्रैल", "मई", "जून", "जुलाई", "अगस्त", "सितंबर", "अक्टूबर", "नवंबर", "दिसंबर"],
     monthsShort: ["जन", "फर", "मार्च", "अप्रै", "मई", "जून", "जुला", "अग", "सित", "अक्टू", "नव", "दिस"],
     weekdaysShort: ["रवि", "सोम", "मंगल", "बुध", "गुरु", "शुक्र", "शनि"],
+    
+    // Chatbot translations
+    chatbotTitle: "पंचांग सहायक",
+    chatbotWelcome: "स्वागत है! मुझसे यह पूछें:",
+    chatbotHint: "सुझाव: आवाज़ के लिए आवाज़, टाइप के लिए टेक्स्ट जवाब",
+    listening: "सुन रहा हूं...",
+    typeQuestion: "अपना सवाल लिखें...",
+    error: "मुझे खेद है, मैं आपके अनुरोध को संसाधित नहीं कर सका। कृपया फिर से प्रयास करें।",
   },
   
   ml: {

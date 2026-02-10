@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import CalendarGrid from "./components/CalendarGrid";
 import DayDetails from "./components/DayDetails";
 import YearSelectorPopup from "./components/YearSelectorPopup";
+import Chatbot from "./components/Chatbot";
 import { translations, languages } from "./translations";
 import { translateText } from "./translations";
 import { speakCloud } from "./utils/cloudSpeech";
@@ -95,6 +96,7 @@ function App() {
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [isLanguageMenuOpen, setIsLanguageMenuOpen] = useState(false);
   const [chatButtonPos, setChatButtonPos] = useState({ x: null, y: null });
+  const [isChatbotOpen, setIsChatbotOpen] = useState(false);
   const chatButtonRef = useRef(null);
   const dragStateRef = useRef({ dragging: false, offsetX: 0, offsetY: 0 });
   
@@ -909,7 +911,7 @@ function App() {
         type="button"
         aria-label="Open chatbot"
         title="Chatbot (Coming soon)"
-        onClick={() => {}}
+        onClick={() => setIsChatbotOpen(true)}
         onPointerDown={handleChatButtonPointerDown}
         className="fixed z-40 inline-flex items-center justify-center rounded-full h-12 w-12 sm:h-14 sm:w-14 backdrop-blur-md cursor-grab active:cursor-grabbing"
         style={{
@@ -939,6 +941,16 @@ function App() {
           💬
         </span>
       </button>
+
+      {/* CHATBOT */}
+      <Chatbot 
+        isOpen={isChatbotOpen}
+        onClose={() => setIsChatbotOpen(false)}
+        language={language}
+        translations={t}
+        currentDateData={days}
+        selectedDay={selectedDay}
+      />
 
       {/* FOOTER */}
       <footer 
