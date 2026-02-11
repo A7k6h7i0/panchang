@@ -166,193 +166,21 @@ function Rashiphalalu({ language, translations: t, onBack }) {
 
       {/* Main Content */}
       <main className="relative z-10 mx-auto max-w-4xl px-1.5 py-1 space-y-1.5">
-        {/* Period Selector */}
-        <div
-          className="rounded-lg p-1 backdrop-blur-md"
-          style={{
-            background: "linear-gradient(135deg, rgba(80, 20, 10, 0.95) 0%, rgba(100, 25, 12, 0.9) 100%)",
-            border: "2px solid rgba(255, 140, 50, 0.6)",
-          }}
-        >
-          <div className="flex gap-1">
-            {Object.values(PERIOD_TYPES).map((period) => (
-              <button
-                key={period.key}
-                onClick={() => setSelectedPeriod(period.key)}
-                className={`flex-1 inline-flex items-center justify-center gap-1 rounded-md px-2 py-1.5 text-xs font-bold transition-all ${
-                  selectedPeriod === period.key ? "scale-[1.02]" : "hover:scale-[1.01]"
-                }`}
-                style={{
-                  background: selectedPeriod === period.key
-                    ? "linear-gradient(135deg, rgba(255, 140, 50, 0.8) 0%, rgba(255, 100, 30, 0.9) 100%)"
-                    : "transparent",
-                  border: selectedPeriod === period.key
-                    ? "2px solid rgba(255, 140, 50, 0.9)"
-                    : "2px solid transparent",
-                  color: selectedPeriod === period.key ? "#FFFFFF" : "#FFE4B5",
-                  boxShadow: selectedPeriod === period.key
-                    ? "0 0 10px rgba(255, 140, 50, 0.5)"
-                    : "none",
-                }}
-              >
-                {getPeriodLabel(period.key)}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Selected Rashi Display */}
+        {/* Rashi Selection Grid - Moved above details */}
         <div
           className="rounded-lg p-3 backdrop-blur-md"
           style={{
             background: "linear-gradient(135deg, rgba(80, 20, 10, 0.98) 0%, rgba(100, 25, 12, 0.95) 50%, rgba(120, 30, 15, 0.92) 100%)",
-            border: "2px solid rgba(255, 140, 50, 0.8)",
+            border: "3px solid rgba(255, 140, 50, 0.8)",
             boxShadow: `
-              0 0 15px rgba(255, 140, 50, 0.8),
-              0 0 30px rgba(255, 100, 30, 0.6),
-              inset 0 0 12px rgba(255, 140, 50, 0.2)
-            `,
-          }}
-        >
-          <div className="flex flex-col items-center">
-            {/* Rashi Icon */}
-            <div
-              className="inline-flex items-center justify-center h-10 w-10 rounded-full mb-1.5"
-              style={{
-                background: "linear-gradient(135deg, #1a0a05 0%, #2d1208 50%, #401a0c 100%)",
-                border: "2px solid #ff8c32",
-                boxShadow: `
-                  0 0 15px rgba(255, 140, 50, 1),
-                  0 0 30px rgba(255, 100, 30, 0.8),
-                  inset 0 0 10px rgba(255, 140, 50, 0.3)
-                `,
-              }}
-            >
-              <span className="text-xl">{selectedRashi.icon}</span>
-            </div>
-            
-            {/* Selected Rashi Name */}
-            <h2
-              className="font-black text-base"
-              style={{
-                color: "#FFFFFF",
-                textShadow: "0 1px 3px rgba(0, 0, 0, 0.5), 0 0 10px rgba(255, 140, 50, 0.4)",
-              }}
-            >
-              {rashiphalaluData.name}
-            </h2>
-          </div>
-
-          {/* Rashiphalalu Details */}
-          <div className="mt-2 space-y-1.5">
-            {/* Text */}
-            <div
-              className="rounded-lg p-2.5"
-              style={{
-                background: "rgba(80, 20, 10, 0.8)",
-                border: "2px solid rgba(255, 140, 50, 0.5)",
-              }}
-            >
-              <p
-                className="text-sm sm:text-base leading-relaxed"
-                style={{ color: "#FFE4B5" }}
-              >
-                {rashiphalaluData.text}
-              </p>
-            </div>
-
-            {/* Lucky Colors */}
-            <div
-              className="rounded-lg p-2"
-              style={{
-                background: "rgba(80, 20, 10, 0.8)",
-                border: "2px solid rgba(255, 140, 50, 0.5)",
-              }}
-            >
-              <h3
-                className="font-bold text-[10px] mb-1.5"
-                style={{ color: "#D4AF37" }}
-              >
-                Lucky Colors
-              </h3>
-              <div className="flex gap-1.5 flex-wrap">
-                {rashiphalaluData.colors?.map((color, idx) => (
-                  <span
-                    key={idx}
-                    className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-bold"
-                    style={{
-                      background: "rgba(255, 140, 50, 0.3)",
-                      border: "1.5px solid rgba(255, 140, 50, 0.6)",
-                      color: "#FFE4B5",
-                    }}
-                  >
-                    <span 
-                      className="w-1.5 h-1.5 rounded-full" 
-                      style={{
-                        background: color.toLowerCase().replace(' ', ''),
-                        display: 'inline-block',
-                        minWidth: '6px',
-                        minHeight: '6px'
-                      }}
-                    ></span>
-                    {color}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            {/* Stats */}
-            <div className="grid grid-cols-5 gap-1.5">
-              {Object.entries(rashiphalaluData.stats || {}).map(([key, value]) => (
-                <div
-                  key={key}
-                  className="rounded-lg p-1.5 text-center"
-                  style={{
-                    background: "rgba(80, 20, 10, 0.8)",
-                    border: "2px solid rgba(255, 140, 50, 0.5)",
-                  }}
-                >
-                  <h4
-                    className="font-bold text-[9px] mb-1"
-                    style={{ color: "#D4AF37" }}
-                  >
-                    {getStatLabel(key)}
-                  </h4>
-                  <div className="flex items-center justify-center gap-1">
-                    <div className="flex-1 h-1 rounded-full bg-gray-700 overflow-hidden">
-                      <div
-                        className="h-full rounded-full"
-                        style={{
-                          width: `${value}%`,
-                          background: `linear-gradient(90deg, rgba(255, 140, 50, 0.8), rgba(255, 100, 30, 0.9))`,
-                        }}
-                      />
-                    </div>
-                    <span className="text-[10px] font-bold" style={{ color: "#FFFFFF" }}>
-                      {value}%
-                    </span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Rashi Selection Grid */}
-        <div
-          className="rounded-lg p-2.5 backdrop-blur-md"
-          style={{
-            background: "linear-gradient(135deg, rgba(80, 20, 10, 0.98) 0%, rgba(100, 25, 12, 0.95) 50%, rgba(120, 30, 15, 0.92) 100%)",
-            border: "2px solid rgba(255, 140, 50, 0.8)",
-            boxShadow: `
-              0 0 15px rgba(255, 140, 50, 0.8),
-              0 0 30px rgba(255, 100, 30, 0.6),
-              inset 0 0 12px rgba(255, 140, 50, 0.2)
+              0 0 20px rgba(255, 140, 50, 0.8),
+              0 0 40px rgba(255, 100, 30, 0.6),
+              inset 0 0 15px rgba(255, 140, 50, 0.2)
             `,
           }}
         >
           <h3
-            className="font-bold text-xs mb-2 text-center"
+            className="font-bold text-sm mb-2.5 text-center"
             style={{
               color: "#FFFFFF",
               textShadow: "0 1px 3px rgba(0, 0, 0, 0.5)",
@@ -361,12 +189,12 @@ function Rashiphalalu({ language, translations: t, onBack }) {
             Select Your Rashi
           </h3>
           
-          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-1.5">
+          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2">
             {RASHIS.map((rashi) => (
               <button
                 key={rashi.id}
                 onClick={() => setSelectedRashi(rashi)}
-                className={`rounded-lg p-1.5 transition-all hover:scale-105 ${
+                className={`rounded-lg p-2 transition-all hover:scale-105 ${
                   selectedRashi.id === rashi.id ? "ring-2 ring-offset-2 ring-offset-transparent" : ""
                 }`}
                 style={{
@@ -378,20 +206,192 @@ function Rashiphalalu({ language, translations: t, onBack }) {
                     : "2px solid rgba(255, 140, 50, 0.4)",
                   boxShadow: selectedRashi.id === rashi.id
                     ? `
-                      0 0 12px rgba(255, 140, 50, 0.8),
-                      0 0 25px rgba(255, 100, 30, 0.6),
-                      inset 0 0 6px rgba(255, 200, 100, 0.2)
+                      0 0 15px rgba(255, 140, 50, 0.8),
+                      0 0 30px rgba(255, 100, 30, 0.6),
+                      inset 0 0 8px rgba(255, 200, 100, 0.2)
                     `
                     : "none",
                   color: selectedRashi.id === rashi.id ? "#FFFFFF" : "#FFE4B5",
                 }}
               >
-                <div className="text-lg mb-0.5">{rashi.icon}</div>
-                <div className="text-[10px] font-bold truncate">
+                <div className="text-xl mb-1">{rashi.icon}</div>
+                <div className="text-xs font-bold truncate">
                   {RASHI_NAMES[rashi.id]?.[language] || rashi.name}
                 </div>
               </button>
             ))}
+          </div>
+        </div>
+
+        {/* Period Selector */}
+        <div
+          className="rounded-lg p-2 backdrop-blur-md"
+          style={{
+            background: "linear-gradient(135deg, rgba(80, 20, 10, 0.95) 0%, rgba(100, 25, 12, 0.9) 100%)",
+            border: "2px solid rgba(255, 140, 50, 0.6)",
+          }}
+        >
+          <div className="flex gap-1">
+            {Object.values(PERIOD_TYPES).map((period) => (
+              <button
+                key={period.key}
+                onClick={() => setSelectedPeriod(period.key)}
+                className={`flex-1 inline-flex items-center justify-center gap-1 rounded-md px-3 py-2 text-sm font-bold transition-all ${
+                  selectedPeriod === period.key ? "scale-[1.02]" : "hover:scale-[1.01]"
+                }`}
+                style={{
+                  background: selectedPeriod === period.key
+                    ? "linear-gradient(135deg, rgba(255, 140, 50, 0.8) 0%, rgba(255, 100, 30, 0.9) 100%)"
+                    : "transparent",
+                  border: selectedPeriod === period.key
+                    ? "2px solid rgba(255, 140, 50, 0.9)"
+                    : "2px solid transparent",
+                  color: selectedPeriod === period.key ? "#FFFFFF" : "#FFE4B5",
+                  boxShadow: selectedPeriod === period.key
+                    ? "0 0 12px rgba(255, 140, 50, 0.5)"
+                    : "none",
+                }}
+              >
+                {getPeriodLabel(period.key)}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Selected Rashi Display - Now below selector */}
+        <div
+          className="rounded-lg p-4 backdrop-blur-md"
+          style={{
+            background: "linear-gradient(135deg, rgba(80, 20, 10, 0.98) 0%, rgba(100, 25, 12, 0.95) 50%, rgba(120, 30, 15, 0.92) 100%)",
+            border: "3px solid rgba(255, 140, 50, 0.8)",
+            boxShadow: `
+              0 0 20px rgba(255, 140, 50, 0.8),
+              0 0 40px rgba(255, 100, 30, 0.6),
+              inset 0 0 15px rgba(255, 140, 50, 0.2)
+            `,
+          }}
+        >
+          <div className="flex flex-col items-center">
+            {/* Rashi Icon */}
+            <div
+              className="inline-flex items-center justify-center h-14 w-14 rounded-full mb-2"
+              style={{
+                background: "linear-gradient(135deg, #1a0a05 0%, #2d1208 50%, #401a0c 100%)",
+                border: "3px solid #ff8c32",
+                boxShadow: `
+                  0 0 20px rgba(255, 140, 50, 1),
+                  0 0 40px rgba(255, 100, 30, 0.8),
+                  inset 0 0 12px rgba(255, 140, 50, 0.3)
+                `,
+              }}
+            >
+              <span className="text-2xl">{selectedRashi.icon}</span>
+            </div>
+            
+            {/* Selected Rashi Name */}
+            <h2
+              className="font-black text-lg"
+              style={{
+                color: "#FFFFFF",
+                textShadow: "0 1px 3px rgba(0, 0, 0, 0.5), 0 0 12px rgba(255, 140, 50, 0.4)",
+              }}
+            >
+              {rashiphalaluData.name}
+            </h2>
+          </div>
+
+          {/* Rashiphalalu Details */}
+          <div className="mt-3 space-y-2">
+            {/* Text */}
+            <div
+              className="rounded-lg p-3"
+              style={{
+                background: "rgba(80, 20, 10, 0.8)",
+                border: "2px solid rgba(255, 140, 50, 0.5)",
+              }}
+            >
+              <p
+                className="text-base sm:text-lg leading-relaxed"
+                style={{ color: "#FFE4B5" }}
+              >
+                {rashiphalaluData.text}
+              </p>
+            </div>
+
+            {/* Lucky Colors */}
+            <div
+              className="rounded-lg p-2.5"
+              style={{
+                background: "rgba(80, 20, 10, 0.8)",
+                border: "2px solid rgba(255, 140, 50, 0.5)",
+              }}
+            >
+              <h3
+                className="font-bold text-xs mb-1.5"
+                style={{ color: "#D4AF37" }}
+              >
+                Lucky Colors
+              </h3>
+              <div className="flex gap-2 flex-wrap">
+                {rashiphalaluData.colors?.map((color, idx) => (
+                  <span
+                    key={idx}
+                    className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-bold"
+                    style={{
+                      background: "rgba(255, 140, 50, 0.3)",
+                      border: "1.5px solid rgba(255, 140, 50, 0.6)",
+                      color: "#FFE4B5",
+                    }}
+                  >
+                    <span 
+                      className="w-2 h-2 rounded-full" 
+                      style={{
+                        background: color.toLowerCase().replace(' ', ''),
+                        display: 'inline-block',
+                        minWidth: '8px',
+                        minHeight: '8px'
+                      }}
+                    ></span>
+                    {color}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* Stats */}
+            <div className="grid grid-cols-5 gap-2">
+              {Object.entries(rashiphalaluData.stats || {}).map(([key, value]) => (
+                <div
+                  key={key}
+                  className="rounded-lg p-2 text-center"
+                  style={{
+                    background: "rgba(80, 20, 10, 0.8)",
+                    border: "2px solid rgba(255, 140, 50, 0.5)",
+                  }}
+                >
+                  <h4
+                    className="font-bold text-xs mb-1.5"
+                    style={{ color: "#D4AF37" }}
+                  >
+                    {getStatLabel(key)}
+                  </h4>
+                  <div className="flex items-center justify-center gap-1">
+                    <div className="flex-1 h-1.5 rounded-full bg-gray-700 overflow-hidden">
+                      <div
+                        className="h-full rounded-full"
+                        style={{
+                          width: `${value}%`,
+                          background: `linear-gradient(90deg, rgba(255, 140, 50, 0.8), rgba(255, 100, 30, 0.9))`,
+                        }}
+                      />
+                    </div>
+                    <span className="text-sm font-bold" style={{ color: "#FFFFFF" }}>
+                      {value}%
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </main>

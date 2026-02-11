@@ -698,43 +698,43 @@ function App() {
             </div>
 
             {/* Right: Voice Toggle + Language Selector */}
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1">
               {/* Voice Toggle Button */}
               <button
                 type="button"
                 onClick={() => setVoiceEnabled(!voiceEnabled)}
-                className="w-full px-3 py-1.5 text-xs sm:text-sm font-bold outline-none transition-all hover:scale-105 rounded-full backdrop-blur-sm"
+                className="px-2 py-1 text-xs font-bold outline-none transition-all hover:scale-105 rounded-full backdrop-blur-sm"
                 style={{
                   background: voiceEnabled
                     ? "linear-gradient(135deg, rgba(76, 175, 80, 0.6) 0%, rgba(56, 142, 60, 0.7) 100%)"
                     : "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
                   color: voiceEnabled ? "#C8E6C9" : "#FFE4B5",
                   border: voiceEnabled
-                    ? "2.5px solid rgba(76, 175, 80, 0.8)"
-                    : "2.5px solid rgba(255, 140, 50, 0.7)",
+                    ? "2px solid rgba(76, 175, 80, 0.8)"
+                    : "2px solid rgba(255, 140, 50, 0.7)",
                   boxShadow: voiceEnabled
                     ? `
-                      0 0 20px rgba(76, 175, 80, 0.6),
-                      0 0 40px rgba(56, 142, 60, 0.4),
-                      inset 0 0 15px rgba(200, 255, 200, 0.2)
+                      0 0 15px rgba(76, 175, 80, 0.6),
+                      0 0 30px rgba(56, 142, 60, 0.4),
+                      inset 0 0 10px rgba(200, 255, 200, 0.2)
                     `
                     : `
-                      0 0 20px rgba(255, 140, 50, 0.6),
-                      0 0 40px rgba(255, 100, 30, 0.4),
-                      inset 0 0 15px rgba(255, 200, 100, 0.2)
+                      0 0 15px rgba(255, 140, 50, 0.6),
+                      0 0 30px rgba(255, 100, 30, 0.4),
+                      inset 0 0 10px rgba(255, 200, 100, 0.2)
                     `,
-                  minWidth: "70px",
+                  minWidth: "36px",
                 }}
                 aria-label={voiceEnabled ? "Voice Enabled" : "Voice Disabled"}
               >
-                <span className="inline-flex items-center gap-1">
+                <span className="inline-flex items-center justify-center">
                   {voiceEnabled ? (
-                    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                    <svg className="w-3 h-3" viewBox="0 0 24 24" fill="currentColor">
                       <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
                       <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
                     </svg>
                   ) : (
-                    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                    <svg className="w-3 h-3" viewBox="0 0 24 24" fill="currentColor">
                       <path d="M19 11h-1.7c0 .74-.16 1.43-.43 2.05l1.23 1.23c.56-.98.9-2.09.9-3.28zm-4.02.17c0-.06.02-.11.02-.17V5c0-1.66-1.34-3-3-3S9 3.34 9 5v.18l5.98 5.99zM4.27 3L3 4.27l6.01 6.01V11c0 1.66 1.33 3 2.99 3 .22 0 .44-.03.65-.08l1.66 1.66c-.71.33-1.5.52-2.31.52-2.76 0-5.3-2.1-5.3-5.1H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c.91-.13 1.77-.45 2.54-.9L19.73 21 21 19.73 4.27 3z"/>
                     </svg>
                   )}
@@ -746,18 +746,18 @@ function App() {
                 <button
                   type="button"
                   onClick={() => setIsLanguageMenuOpen((open) => !open)}
-                  className="w-full px-2 py-1.5 text-xs sm:text-sm font-bold outline-none transition-all hover:scale-105 rounded-full backdrop-blur-sm text-left"
+                  className="px-2 py-1 text-xs font-bold outline-none transition-all hover:scale-105 rounded-full backdrop-blur-sm text-left"
                   style={{
                     background: "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
                     color: "#FFE4B5",
-                    border: "2.5px solid rgba(255, 140, 50, 0.7)",
+                    border: "2px solid rgba(255, 140, 50, 0.7)",
                     boxShadow: `
-                      0 0 20px rgba(255, 140, 50, 0.6),
-                      0 0 40px rgba(255, 100, 30, 0.4),
-                      inset 0 0 15px rgba(255, 200, 100, 0.2)
+                      0 0 15px rgba(255, 140, 50, 0.6),
+                      0 0 30px rgba(255, 100, 30, 0.4),
+                      inset 0 0 10px rgba(255, 200, 100, 0.2)
                     `,
-                    minWidth: "100px",
-                    paddingRight: "25px",
+                    minWidth: "60px",
+                    paddingRight: "20px",
                     position: "relative",
                   }}
                   aria-haspopup="listbox"
@@ -769,11 +769,11 @@ function App() {
                     aria-hidden="true"
                     style={{
                       position: "absolute",
-                      right: "10px",
+                      right: "6px",
                       top: "50%",
                       transform: `translateY(-50%) rotate(${isLanguageMenuOpen ? "180deg" : "0deg"})`,
                       transition: "transform 150ms ease",
-                      fontSize: "10px",
+                      fontSize: "8px",
                       color: "#FFE4B5",
                       pointerEvents: "none",
                     }}
@@ -844,15 +844,28 @@ function App() {
             </div>
           </div>
           
-          {/* DayDetails Header Row */}
-          <div className="mt-1 px-2">
-            <DayDetails 
-              day={selectedDay} 
-              language={language} 
-              translations={t} 
-              isHeaderMode={true} 
-              voiceEnabled={voiceEnabled}
-            />
+          {/* DayDetails Header Row with Outer Container */}
+          <div className="mt-1 px-4 sm:px-6 lg:px-8">
+            <div
+              className="rounded-xl sm:rounded-2xl p-3 backdrop-blur-md"
+              style={{
+                background: "linear-gradient(135deg, rgba(80, 20, 10, 0.98) 0%, rgba(100, 25, 12, 0.95) 50%, rgba(120, 30, 15, 0.92) 100%)",
+                border: "3px solid rgba(255, 140, 50, 0.8)",
+                boxShadow: `
+                  0 0 35px rgba(255, 140, 50, 0.8),
+                  0 0 70px rgba(255, 100, 30, 0.6),
+                  inset 0 0 30px rgba(255, 140, 50, 0.2)
+                `,
+              }}
+            >
+              <DayDetails 
+                day={selectedDay} 
+                language={language} 
+                translations={t} 
+                isHeaderMode={true} 
+                voiceEnabled={voiceEnabled}
+              />
+            </div>
           </div>
         </header>
 
