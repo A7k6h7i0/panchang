@@ -445,19 +445,19 @@ export default function DayDetails({
   if (isHeaderMode) {
     return (
       <div
-        className="rounded-2xl overflow-hidden backdrop-blur-sm"
+        className="rounded-xl overflow-hidden backdrop-blur-sm"
         style={{
           background:
             "linear-gradient(135deg, rgba(80, 20, 10, 0.98) 0%, rgba(100, 25, 12, 0.95) 50%, rgba(120, 30, 15, 0.92) 100%)",
-          border: "2.5px solid rgba(255, 168, 67, 0.8)",
+          border: "2px solid rgba(255, 168, 67, 0.8)",
           boxShadow: `
-            0 0 35px rgba(255, 140, 50, 0.8),
-            0 0 70px rgba(255, 100, 30, 0.6),
-            inset 0 0 30px rgba(255, 140, 50, 0.2)
+            0 0 25px rgba(255, 140, 50, 0.8),
+            0 0 50px rgba(255, 100, 30, 0.6),
+            inset 0 0 20px rgba(255, 140, 50, 0.2)
           `,
         }}
       >
-        <div className="p-4 sm:p-5">
+        <div className="p-3 sm:p-4">
           <div
             className="rounded-xl p-3 sm:p-4 backdrop-blur-sm"
             style={{
@@ -471,26 +471,26 @@ export default function DayDetails({
               `,
             }}
           >
-            <div className="flex items-start gap-3">
+            <div className="flex items-start gap-2 sm:gap-3">
               <div
-                className="h-12 w-12 sm:h-14 sm:w-14 rounded-xl flex items-center justify-center flex-shrink-0 backdrop-blur-sm"
+                className="h-10 w-10 sm:h-12 sm:w-12 rounded-lg flex items-center justify-center flex-shrink-0 backdrop-blur-sm"
                 style={{
                   background:
                     "linear-gradient(135deg, rgba(255, 180, 70, 0.3) 0%, rgba(180, 130, 50, 0.4) 100%)",
-                  border: "2.5px solid rgba(255, 140, 50, 0.8)",
+                  border: "2px solid rgba(255, 140, 50, 0.8)",
                   boxShadow: `
-                    0 0 20px rgba(255, 140, 50, 0.8),
-                    0 0 40px rgba(255, 100, 30, 0.6),
-                    inset 0 0 15px rgba(255, 200, 100, 0.3)
+                    0 0 15px rgba(255, 140, 50, 0.8),
+                    0 0 30px rgba(255, 100, 30, 0.6),
+                    inset 0 0 10px rgba(255, 200, 100, 0.3)
                   `,
                 }}
               >
                 <span
-                  className="text-2xl sm:text-3xl font-black"
+                  className="text-xl sm:text-2xl font-black"
                   style={{
                     color: "#FFE4B5",
                     textShadow:
-                      "0 2px 8px rgba(0, 0, 0, 0.6), 0 0 15px rgba(255, 215, 0, 0.6)",
+                      "0 2px 6px rgba(0, 0, 0, 0.6), 0 0 12px rgba(255, 215, 0, 0.6)",
                   }}
                 >
                   {dayNum}
@@ -498,12 +498,12 @@ export default function DayDetails({
               </div>
 
               <div className="flex-1 min-w-0">
-                <div className="flex flex-wrap items-center gap-2">
+                <div className="flex flex-wrap items-center gap-1 sm:gap-2">
                   <div
-                    className="text-lg sm:text-xl font-black"
+                    className="text-base sm:text-lg font-black"
                     style={{
                       color: "#FFE4B5",
-                      textShadow: "0 2px 6px rgba(0, 0, 0, 0.5)",
+                      textShadow: "0 2px 4px rgba(0, 0, 0, 0.5)",
                     }}
                   >
                     {weekday}
@@ -511,7 +511,7 @@ export default function DayDetails({
                 </div>
                 {/* Tithi remains after weekday */}
                 <div
-                  className="text-sm sm:text-base font-bold mt-1"
+                  className="text-xs sm:text-sm font-bold mt-0.5"
                   style={{
                     color: "#D4AF37",
                   }}
@@ -522,18 +522,18 @@ export default function DayDetails({
             </div>
 
             {/* Paksha and Year in a row below date */}
-            <div className="flex items-center gap-2 flex-wrap mt-2">
+            <div className="flex items-center gap-1.5 flex-wrap mt-2">
               {vPaksha !== "-" && (
                 <div
-                  className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-bold transition-all hover:scale-105 backdrop-blur-sm"
+                  className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-bold transition-all hover:scale-105 backdrop-blur-sm"
                   style={{
                     background:
                       "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
-                    border: "2.5px solid rgba(255, 140, 50, 0.7)",
+                    border: "2px solid rgba(255, 140, 50, 0.7)",
                     color: "#FFE4B5",
                     boxShadow: `
-                      0 0 15px rgba(255, 140, 50, 0.5),
-                      inset 0 0 10px rgba(255, 200, 100, 0.15)
+                      0 0 10px rgba(255, 140, 50, 0.5),
+                      inset 0 0 6px rgba(255, 200, 100, 0.15)
                     `,
                   }}
                 >
@@ -544,19 +544,18 @@ export default function DayDetails({
 
               {vShakaSamvat !== "-" && (
                 <div
-                  className="inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-bold transition-all hover:scale-105 backdrop-blur-sm ml-auto"
+                  className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-bold transition-all hover:scale-105 backdrop-blur-sm ml-auto"
                   style={{
                     background:
                       "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
-                    border: "2.5px solid rgba(255, 140, 50, 0.7)",
+                    border: "2px solid rgba(255, 140, 50, 0.7)",
                     color: "#FFE4B5",
                     boxShadow: `
-                      0 0 15px rgba(255, 140, 50, 0.5),
-                      inset 0 0 10px rgba(255, 200, 100, 0.15)
+                      0 0 10px rgba(255, 140, 50, 0.5),
+                      inset 0 0 6px rgba(255, 200, 100, 0.15)
                     `,
                   }}
                 >
-                  
                   <span style={{ color: "#D4AF37" }}>{getYearLabel()}:</span>
                   <span>{vShakaSamvat}</span>
                 </div>
@@ -568,20 +567,20 @@ export default function DayDetails({
                 {festivals.map((festival, idx) => (
                   <div
                     key={idx}
-                    className="inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-bold mr-2 mb-1 backdrop-blur-sm"
+                    className="inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-bold mr-1 mb-1 backdrop-blur-sm"
                     style={{
                       background: "rgba(255, 100, 50, 0.3)",
-                      border: "2px solid rgba(255, 100, 50, 0.6)",
+                      border: "1.5px solid rgba(255, 100, 50, 0.6)",
                       color: "#FFE4B5",
                       boxShadow:
-                        "0 0 15px rgba(255, 100, 50, 0.5), inset 0 0 10px rgba(255, 140, 50, 0.2)",
+                        "0 0 10px rgba(255, 100, 50, 0.5), inset 0 0 6px rgba(255, 140, 50, 0.2)",
                     }}
                   >
                     <span
-                      className="h-2 w-2 rounded-full animate-pulse"
+                      className="h-1.5 w-1.5 rounded-full animate-pulse"
                       style={{
                         background: "#FF4444",
-                        boxShadow: "0 0 10px rgba(255, 68, 68, 0.8)",
+                        boxShadow: "0 0 6px rgba(255, 68, 68, 0.8)",
                       }}
                     />
                     {festival}
@@ -592,7 +591,7 @@ export default function DayDetails({
 
             {festivals.length === 0 && (
               <div
-                className="text-xs mt-2"
+                className="text-[10px] mt-1"
                 style={{
                   color: "rgba(212, 175, 55, 0.6)",
                 }}
