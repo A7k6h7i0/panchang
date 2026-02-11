@@ -3,6 +3,7 @@ import CalendarGrid from "./components/CalendarGrid";
 import DayDetails from "./components/DayDetails";
 import YearSelectorPopup from "./components/YearSelectorPopup";
 import Chatbot from "./components/Chatbot";
+import Rashiphalalu from "./components/Rashiphalalu";
 import { translations, languages } from "./translations";
 import { translateText } from "./translations";
 import { speakCloud } from "./utils/cloudSpeech";
@@ -844,7 +845,7 @@ function App() {
           </div>
           
           {/* DayDetails Header Row */}
-          <div className="mt-2 px-2">
+          <div className="mt-1 px-2">
             <DayDetails 
               day={selectedDay} 
               language={language} 
@@ -855,151 +856,155 @@ function App() {
           </div>
         </header>
 
-      {/* ============= MAIN CONTENT (Calendar View) ============= */}
-      <main className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-0.5 sm:py-1 grid grid-cols-1 lg:grid-cols-[1.5fr_1fr] gap-1 sm:gap-1.5">
-        {/* CALENDAR SECTION */}
-        <section 
-          className="rounded-2xl sm:rounded-3xl p-3 sm:p-4 md:p-5 backdrop-blur-md"
-          style={{
-            background: "linear-gradient(135deg, rgba(80, 20, 10, 0.98) 0%, rgba(100, 25, 12, 0.95) 50%, rgba(120, 30, 15, 0.92) 100%)",
-            border: "3px solid rgba(255, 140, 50, 0.8)",
-            boxShadow: `
-              0 0 35px rgba(255, 140, 50, 0.8),
-              0 0 70px rgba(255, 100, 30, 0.6),
-              inset 0 0 30px rgba(255, 140, 50, 0.2)
-            `,
-          }}
-        >
-          
-          {/* Calendar Header: Month with Arrows + Year Button */}
-          <div 
-            className="flex items-center justify-between gap-2 mb-2 pb-2 px-3 py-1.5"
-            style={{ 
-              borderBottom: "2px solid rgba(255, 140, 50, 0.4)",
-              background: "linear-gradient(180deg, rgba(80, 20, 10, 0.8) 0%, rgba(60, 15, 8, 0.7) 100%)",
-              borderRadius: "12px"
-            }}
-          >
-            {/* Month Button with Arrows Inside */}
-            <button
-              className="inline-flex items-center gap-3 rounded-full px-4 py-1.5 text-sm font-bold transition-all hover:scale-105 cursor-pointer"
+      {/* ============= MAIN CONTENT (Calendar View or Rashiphalalu) ============= */}
+      <main className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-0.5 sm:py-1">
+        {currentView === "rashiphalalu" ? (
+          <Rashiphalalu language={language} translations={t} onBack={() => setCurrentView("calendar")} />
+        ) : (
+          <div className="grid grid-cols-1 lg:grid-cols-[1.5fr_1fr] gap-1 sm:gap-1">
+            {/* CALENDAR SECTION */}
+            <section 
+              className="rounded-xl sm:rounded-2xl p-3 sm:p-4 backdrop-blur-md"
               style={{
-                background: "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
-                border: "2.5px solid rgba(255, 140, 50, 0.7)",
-                color: "#FFE4B5",
+                background: "linear-gradient(135deg, rgba(80, 20, 10, 0.98) 0%, rgba(100, 25, 12, 0.95) 50%, rgba(120, 30, 15, 0.92) 100%)",
+                border: "3px solid rgba(255, 140, 50, 0.8)",
                 boxShadow: `
-                  0 0 20px rgba(255, 140, 50, 0.6),
-                  0 0 40px rgba(255, 100, 30, 0.4),
-                  inset 0 0 15px rgba(255, 200, 100, 0.2)
+                  0 0 35px rgba(255, 140, 50, 0.8),
+                  0 0 70px rgba(255, 100, 30, 0.6),
+                  inset 0 0 30px rgba(255, 140, 50, 0.2)
                 `,
               }}
             >
-              <span onClick={(e) => { e.stopPropagation(); goPrevMonth(); }} style={{ cursor: 'pointer', color: '#FFE4B5' }}>←</span>
-              <span style={{ color: "#D4AF37" }}>{monthLabel}</span>
-              <span onClick={(e) => { e.stopPropagation(); goNextMonth(); }} style={{ cursor: 'pointer', color: '#FFE4B5' }}>→</span>
-            </button>
+              {/* Calendar Header: Month with Arrows + Year Button */}
+              <div 
+                className="flex items-center justify-between gap-2 mb-2 pb-2 px-3 py-1.5"
+                style={{ 
+                  borderBottom: "2px solid rgba(255, 140, 50, 0.4)",
+                  background: "linear-gradient(180deg, rgba(80, 20, 10, 0.8) 0%, rgba(60, 15, 8, 0.7) 100%)",
+                  borderRadius: "12px"
+                }}
+              >
+                {/* Month Button with Arrows Inside */}
+                <button
+                  className="inline-flex items-center gap-3 rounded-full px-4 py-1.5 text-sm font-bold transition-all hover:scale-105 cursor-pointer"
+                  style={{
+                    background: "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
+                    border: "2.5px solid rgba(255, 140, 50, 0.7)",
+                    color: "#FFE4B5",
+                    boxShadow: `
+                      0 0 20px rgba(255, 140, 50, 0.6),
+                      0 0 40px rgba(255, 100, 30, 0.4),
+                      inset 0 0 15px rgba(255, 200, 100, 0.2)
+                    `,
+                  }}
+                >
+                  <span onClick={(e) => { e.stopPropagation(); goPrevMonth(); }} style={{ cursor: 'pointer', color: '#FFE4B5' }}>←</span>
+                  <span style={{ color: "#D4AF37" }}>{monthLabel}</span>
+                  <span onClick={(e) => { e.stopPropagation(); goNextMonth(); }} style={{ cursor: 'pointer', color: '#FFE4B5' }}>→</span>
+                </button>
 
-            {/* Year Button */}
-            <button
-              onClick={openDatePicker}
-              className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-sm font-bold transition-all hover:scale-105 cursor-pointer"
-              style={{
-                background: "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
-                border: "2.5px solid rgba(255, 140, 50, 0.7)",
-                color: "#FFE4B5",
-                boxShadow: `
-                  0 0 20px rgba(255, 140, 50, 0.6),
-                  0 0 40px rgba(255, 100, 30, 0.4),
-                  inset 0 0 15px rgba(255, 200, 100, 0.2)
-                `,
-              }}
-            >
-              <span style={{ color: "#D4AF37" }}>📅</span>
-              <span>{year}</span>
-            </button>
-          </div>
+                {/* Year Button */}
+                <button
+                  onClick={openDatePicker}
+                  className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-sm font-bold transition-all hover:scale-105 cursor-pointer"
+                  style={{
+                    background: "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
+                    border: "2.5px solid rgba(255, 140, 50, 0.7)",
+                    color: "#FFE4B5",
+                    boxShadow: `
+                      0 0 20px rgba(255, 140, 50, 0.6),
+                      0 0 40px rgba(255, 100, 30, 0.4),
+                      inset 0 0 15px rgba(255, 200, 100, 0.2)
+                    `,
+                  }}
+                >
+                  <span style={{ color: "#D4AF37" }}>📅</span>
+                  <span>{year}</span>
+                </button>
+              </div>
 
-            {/* YearSelectorPopup - replaces inline date picker */}
-            {showDatePicker && (
-              <YearSelectorPopup
-                isOpen={showDatePicker}
-                onClose={handleDatePickerCancel}
-                onConfirm={handleDatePickerOk}
-                initialYear={tempYear}
-                initialMonth={tempMonth}
-                initialDay={tempDay}
+                {/* YearSelectorPopup - replaces inline date picker */}
+                {showDatePicker && (
+                  <YearSelectorPopup
+                    isOpen={showDatePicker}
+                    onClose={handleDatePickerCancel}
+                    onConfirm={handleDatePickerOk}
+                    initialYear={tempYear}
+                    initialMonth={tempMonth}
+                    initialDay={tempDay}
+                    language={language}
+                    translations={t}
+                    onSpeak={handleDateClickSpeech}
+                  />
+                )}
+
+              <CalendarGrid
+                days={days}
+                selectedDate={selectedDay}
+                onSelect={handleMainDateSelect}
+                onSpeak={handleDateClickSpeech}
                 language={language}
                 translations={t}
-                onSpeak={handleDateClickSpeech}
+                voiceEnabled={voiceEnabled}
               />
-            )}
+            </section>
 
-          <CalendarGrid
-            days={days}
-            selectedDate={selectedDay}
-            onSelect={handleMainDateSelect}
-            onSpeak={handleDateClickSpeech}
-            language={language}
-            translations={t}
-            voiceEnabled={voiceEnabled}
-          />
-        </section>
+            {/* RASHIPHALALU BUTTON CONTAINER */}
+            <section 
+              className="rounded-xl sm:rounded-2xl p-2 sm:p-3 backdrop-blur-md"
+              style={{
+                background: "linear-gradient(135deg, rgba(80, 20, 10, 0.98) 0%, rgba(100, 25, 12, 0.95) 50%, rgba(120, 30, 15, 0.92) 100%)",
+                border: "3px solid rgba(255, 140, 50, 0.8)",
+                boxShadow: `
+                  0 0 35px rgba(255, 140, 50, 0.8),
+                  0 0 70px rgba(255, 100, 30, 0.6),
+                  inset 0 0 30px rgba(255, 140, 50, 0.2)
+                `,
+              }}
+            >
+              {/* RASHIPHALALU BUTTON */}
+              <button
+                onClick={() => setCurrentView("rashiphalalu")}
+                className="w-full py-3 px-4 rounded-xl font-bold text-lg transition-all hover:scale-[1.02] cursor-pointer"
+                style={{
+                  background: "linear-gradient(135deg, #2a5a1f 0%, #3a6e2d 30%, #4a8238 60%, #5a9645 100%)",
+                  border: "2.5px solid rgba(212, 168, 71, 0.8)",
+                  color: "#ffedb3",
+                  boxShadow: `
+                    0 0 18px rgba(212, 168, 71, 0.3),
+                    inset 0 1px 2px rgba(255, 255, 255, 0.1),
+                    inset 0 -1px 2px rgba(0, 0, 0, 0.2)
+                  `,
+                }}
+              >
+                <svg className="inline-block w-6 h-6 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2"/>
+                  <path d="M12 6V12L16 14" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                  <circle cx="12" cy="12" r="3" fill="currentColor"/>
+                </svg>
+                {t.rashiphalalu || "Rashiphalalu"}
+              </button>
+            </section>
 
-        {/* RASHIPHALALU BUTTON CONTAINER */}
-        <section 
-          className="rounded-2xl sm:rounded-3xl p-3 sm:p-4 backdrop-blur-md"
-          style={{
-            background: "linear-gradient(135deg, rgba(80, 20, 10, 0.98) 0%, rgba(100, 25, 12, 0.95) 50%, rgba(120, 30, 15, 0.92) 100%)",
-            border: "3px solid rgba(255, 140, 50, 0.8)",
-            boxShadow: `
-              0 0 35px rgba(255, 140, 50, 0.8),
-              0 0 70px rgba(255, 100, 30, 0.6),
-              inset 0 0 30px rgba(255, 140, 50, 0.2)
-            `,
-          }}
-        >
-          {/* RASHIPHALALU BUTTON */}
-          <button
-            onClick={() => setCurrentView("rashiphalalu")}
-            className="w-full py-3 px-4 rounded-xl font-bold text-lg transition-all hover:scale-[1.02] cursor-pointer"
-            style={{
-              background: "linear-gradient(135deg, #2a5a1f 0%, #3a6e2d 30%, #4a8238 60%, #5a9645 100%)",
-              border: "2.5px solid rgba(212, 168, 71, 0.8)",
-              color: "#ffedb3",
-              boxShadow: `
-                0 0 18px rgba(212, 168, 71, 0.3),
-                inset 0 1px 2px rgba(255, 255, 255, 0.1),
-                inset 0 -1px 2px rgba(0, 0, 0, 0.2)
-              `,
-            }}
-          >
-            <svg className="inline-block w-6 h-6 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2"/>
-              <path d="M12 6V12L16 14" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-              <circle cx="12" cy="12" r="3" fill="currentColor"/>
-            </svg>
-            {t.rashiphalalu || "Rashiphalalu"}
-          </button>
-        </section>
-
-        {/* RIGHT SIDEBAR - DayDetails only (Swastik/Title/Language moved to header) */}
-        <section 
-          className="rounded-2xl sm:rounded-3xl p-3 sm:p-4 md:p-5 backdrop-blur-md"
-          style={{
-            background: "linear-gradient(135deg, rgba(80, 20, 10, 0.98) 0%, rgba(100, 25, 12, 0.95) 50%, rgba(120, 30, 15, 0.92) 100%)",
-            border: "3px solid rgba(255, 140, 50, 0.8)",
-            boxShadow: `
-              0 0 35px rgba(255, 140, 50, 0.8),
-              0 0 70px rgba(255, 100, 30, 0.6),
-              0 0 105px rgba(255, 80, 20, 0.4),
-              inset 0 0 30px rgba(255, 140, 50, 0.2)
-            `,
-          }}
-        >
-
-          {/* PANCHANG ELEMENTS AND INAUSPICIOUS TIMINGS */}
-          <DayDetails day={selectedDay} language={language} translations={t} isSidebarMode={true} onRashiphalaluClick={() => setCurrentView("rashiphalalu")} voiceEnabled={voiceEnabled} />
-        </section>
+            {/* RIGHT SIDEBAR - DayDetails only */}
+            <section 
+              className="rounded-xl sm:rounded-2xl p-3 backdrop-blur-md"
+              style={{
+                background: "linear-gradient(135deg, rgba(80, 20, 10, 0.98) 0%, rgba(100, 25, 12, 0.95) 50%, rgba(120, 30, 15, 0.92) 100%)",
+                border: "3px solid rgba(255, 140, 50, 0.8)",
+                boxShadow: `
+                  0 0 35px rgba(255, 140, 50, 0.8),
+                  0 0 70px rgba(255, 100, 30, 0.6),
+                  0 0 105px rgba(255, 80, 20, 0.4),
+                  inset 0 0 30px rgba(255, 140, 50, 0.2)
+                `,
+              }}
+            >
+              {/* PANCHANG ELEMENTS AND INAUSPICIOUS TIMINGS */}
+              <DayDetails day={selectedDay} language={language} translations={t} isSidebarMode={true} onRashiphalaluClick={() => setCurrentView("rashiphalalu")} voiceEnabled={voiceEnabled} />
+            </section>
+          </div>
+        )}
       </main>
 
       {/* CHATBOT PLACEHOLDER BUTTON */}
