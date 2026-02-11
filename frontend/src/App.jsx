@@ -3,6 +3,7 @@ import CalendarGrid from "./components/CalendarGrid";
 import DayDetails from "./components/DayDetails";
 import YearSelectorPopup from "./components/YearSelectorPopup";
 import Chatbot from "./components/Chatbot";
+import Rashiphalalu from "./components/Rashiphalalu";
 import { translations, languages } from "./translations";
 import { translateText } from "./translations";
 import { speakCloud } from "./utils/cloudSpeech";
@@ -97,6 +98,7 @@ function App() {
   const [isLanguageMenuOpen, setIsLanguageMenuOpen] = useState(false);
   const [chatButtonPos, setChatButtonPos] = useState({ x: null, y: null });
   const [isChatbotOpen, setIsChatbotOpen] = useState(false);
+  const [currentView, setCurrentView] = useState("calendar"); // "calendar" or "rashiphalalu"
   const chatButtonRef = useRef(null);
   const dragStateRef = useRef({ dragging: false, offsetX: 0, offsetY: 0 });
   
@@ -793,11 +795,17 @@ function App() {
           </div>
 
           {/* DAY DETAILS CARD - Compact Version for Header (without "Day Details" heading) */}
-          <DayDetails day={selectedDay} language={language} translations={t} isHeaderMode={true} />
+          <DayDetails day={selectedDay} language={language} translations={t} isHeaderMode={true} onRashiphalaluClick={() => setCurrentView("rashiphalalu")} />
         </div>
       </header>
 
-      {/* ============= MAIN CONTENT ============= */}
+      {/* ============= RASHIPHALALU VIEW ============= */}
+      {currentView === "rashiphalalu" && (
+        <Rashiphalalu language={language} translations={t} onBack={() => setCurrentView("calendar")} />
+      )}
+
+      {/* ============= MAIN CONTENT (Calendar View) ============= */}
+      {currentView === "calendar" && (
       <main className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-0.5 sm:py-1 grid grid-cols-1 lg:grid-cols-[1.5fr_1fr] gap-1 sm:gap-1.5">
         {/* CALENDAR SECTION */}
         <section 
@@ -901,9 +909,10 @@ function App() {
         >
 
           {/* PANCHANG ELEMENTS AND INAUSPICIOUS TIMINGS */}
-          <DayDetails day={selectedDay} language={language} translations={t} isSidebarMode={true} />
+          <DayDetails day={selectedDay} language={language} translations={t} isSidebarMode={true} onRashiphalaluClick={() => setCurrentView("rashiphalalu")} />
         </section>
       </main>
+      )}
 
       {/* CHATBOT PLACEHOLDER BUTTON */}
       <button

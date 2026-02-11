@@ -24,6 +24,7 @@ export default function DayDetails({
   translations,
   isHeaderMode = false,
   isSidebarMode = false,
+  onRashiphalaluClick,
 }) {
   const [notificationsSent, setNotificationsSent] = useState({});
   const [festivals, setFestivals] = useState([]);
@@ -529,8 +530,9 @@ export default function DayDetails({
                     {weekday}
                   </div>
                   {/* Rashiphalalu Button - fixed to the right */}
-                  <div
-                    className="inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-bold transition-all hover:scale-105 backdrop-blur-sm ml-auto"
+                  <button
+                    onClick={onRashiphalaluClick}
+                    className="inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-bold transition-all hover:scale-105 backdrop-blur-sm ml-auto cursor-pointer"
                     style={{
                       background:
                         "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
@@ -544,7 +546,7 @@ export default function DayDetails({
                   >
                     <span style={{ color: "#D4AF37" }}>☀</span>
                     <span>{getRashiphalaluLabel()}</span>
-                  </div>
+                  </button>
                 </div>
                 {/* Tithi remains after weekday */}
                 <div
@@ -593,7 +595,7 @@ export default function DayDetails({
                     `,
                   }}
                 >
-                  <span style={{ color: "#D4AF37" }}>📅</span>
+                  
                   <span style={{ color: "#D4AF37" }}>{getYearLabel()}:</span>
                   <span>{vShakaSamvat}</span>
                 </div>

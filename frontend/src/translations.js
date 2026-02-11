@@ -121,6 +121,14 @@ export const translations = {
     listening: "Listening...",
     typeQuestion: "Type your question...",
     error: "I'm sorry, I couldn't process your request. Please try again.",
+    
+    // Rashiphalalu translations
+    rashiphalalu: "Daily Horoscope",
+    back: "Back",
+    general: "General",
+    luckyColor: "Lucky Color",
+    luckyNumber: "Lucky Number",
+    selectRashi: "Select Your Rashi",
   },
   
   te: {
@@ -248,6 +256,14 @@ export const translations = {
     listening: "వింటున్నాను...",
     typeQuestion: "మీ ప్రశ్న రాయండి...",
     error: "క్షమించండి, మీ అభ్యర్థనను ప్రాసెస్ చేయలేకపోయాను. దయచేసి మళ్ళీ ప్రయత్నించండి.",
+    
+    // Rashiphalalu translations
+    rashiphalalu: "రాశిఫలాలు",
+    back: "వెనుకకు",
+    general: "సాధారణ",
+    luckyColor: " అదృష్ట రంగు",
+    luckyNumber: "అదృష్ట సంఖ్య",
+    selectRashi: "మీ రాశిని ఎంచుకోండి",
   },
   
   hi: {
@@ -373,6 +389,14 @@ export const translations = {
     listening: "सुन रहा हूं...",
     typeQuestion: "अपना सवाल लिखें...",
     error: "मुझे खेद है, मैं आपके अनुरोध को संसाधित नहीं कर सका। कृपया फिर से प्रयास करें।",
+    
+    // Rashiphalalu translations
+    rashiphalalu: "दैनिक राशिफल",
+    back: "वापस",
+    general: "सामान्य",
+    luckyColor: "भाग्यशाली रंग",
+    luckyNumber: "भाग्यशाली नंबर",
+    selectRashi: "अपनी राशि चुनें",
   },
   
   ml: {
@@ -826,3 +850,5 @@ export function getTithiIndicator(tithiText) {
   
   return null;
 }
+
+
