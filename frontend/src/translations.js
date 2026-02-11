@@ -4,6 +4,7 @@ export const translations = {
     appSubtitle: "Hindu Calendar with Tithi & Nakshatra",
     calendar: "Calendar",
     dayDetails: "Day Details",
+    rashiphalalu: "Rashiphalalu",
     tapDate: "Tap a date to view details",
     noFestival: "No festival",
     noFestivalListed: "No festival listed.",
