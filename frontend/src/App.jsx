@@ -746,7 +746,7 @@ function App() {
                 <button
                   type="button"
                   onClick={() => setIsLanguageMenuOpen((open) => !open)}
-                  className="w-full px-3 py-1.5 text-xs sm:text-sm font-bold outline-none transition-all hover:scale-105 rounded-full backdrop-blur-sm text-left"
+                  className="w-full px-2 py-1.5 text-xs sm:text-sm font-bold outline-none transition-all hover:scale-105 rounded-full backdrop-blur-sm text-left"
                   style={{
                     background: "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
                     color: "#FFE4B5",
@@ -756,8 +756,8 @@ function App() {
                       0 0 40px rgba(255, 100, 30, 0.4),
                       inset 0 0 15px rgba(255, 200, 100, 0.2)
                     `,
-                    minWidth: "130px",
-                    paddingRight: "30px",
+                    minWidth: "100px",
+                    paddingRight: "25px",
                     position: "relative",
                   }}
                   aria-haspopup="listbox"
