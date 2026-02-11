@@ -254,7 +254,7 @@ function Rashiphalalu({ language, translations: t, onBack }) {
               }}
             >
               <p
-                className="text-xs leading-relaxed"
+                className="text-sm sm:text-base leading-relaxed"
                 style={{ color: "#FFE4B5" }}
               >
                 {rashiphalaluData.text}

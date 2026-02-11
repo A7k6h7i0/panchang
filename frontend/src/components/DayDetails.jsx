@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { translateText } from "../translations";
 import {
   getTithiSpeech,
@@ -18,6 +18,150 @@ const globalSpeechState = {
   currentDate: null,
 };
 
+// Helper: Parse time string like "10:30 AM" to minutes from midnight
+const parseTimeToMinutes = (timeStr) => {
+  if (!timeStr || timeStr === "-") return null;
+  
+  try {
+    const cleanTime = timeStr.trim().toUpperCase();
+    const hasAM = cleanTime.includes("AM");
+    const hasPM = cleanTime.includes("PM");
+    
+    const timePart = cleanTime.replace(/AM|PM/gi, "").trim();
+    const [hours, minutes] = timePart.split(":").map(Number);
+    
+    if (isNaN(hours) || isNaN(minutes)) return null;
+    
+    let totalHours = hours;
+    if (hasPM && hours !== 12) {
+      totalHours = hours + 12;
+    } else if (hasAM && hours === 12) {
+      totalHours = 0;
+    }
+    
+    return totalHours * 60 + minutes;
+  } catch (e) {
+    return null;
+  }
+};
+
+// Helper: Check if current time is within a time range
+const isTimeInRange = (currentMinutes, startMinutes, endMinutes) => {
+  if (startMinutes === null || endMinutes === null) return false;
+  
+  // Handle overnight ranges (e.g., 22:00 to 06:00)
+  if (endMinutes < startMinutes) {
+    return currentMinutes >= startMinutes || currentMinutes <= endMinutes;
+  }
+  
+  return currentMinutes >= startMinutes && currentMinutes <= endMinutes;
+};
+
+// Helper: Calculate progress percentage
+const calculateProgress = (currentMinutes, startMinutes, endMinutes) => {
+  if (startMinutes === null || endMinutes === null) return 0;
+  
+  const totalDuration = endMinutes - startMinutes;
+  if (totalDuration <= 0) return 100;
+  
+  const elapsed = currentMinutes - startMinutes;
+  return Math.min(100, Math.max(0, (elapsed / totalDuration) * 100));
+};
+
+// MuhurthaTimer Component
+function MuhurthaTimer({ startTime, endTime, isAuspicious }) {
+  const [progress, setProgress] = useState(0);
+  const [isActive, setIsActive] = useState(false);
+  const [currentMinutes, setCurrentMinutes] = useState(null);
+  const intervalRef = useRef(null);
+
+  useEffect(() => {
+    // Get current time in minutes
+    const now = new Date();
+    const currentMins = now.getHours() * 60 + now.getMinutes();
+    setCurrentMinutes(currentMins);
+
+    const startMins = parseTimeToMinutes(startTime);
+    const endMins = parseTimeToMinutes(endTime);
+
+    if (startMins === null || endMins === null) {
+      setIsActive(false);
+      return;
+    }
+
+    const inRange = isTimeInRange(currentMins, startMins, endMins);
+    setIsActive(inRange);
+
+    if (inRange) {
+      const prog = calculateProgress(currentMins, startMins, endMins);
+      setProgress(prog);
+
+      // Update every second
+      intervalRef.current = setInterval(() => {
+        const now2 = new Date();
+        const mins = now2.getHours() * 60 + now2.getMinutes();
+        setCurrentMinutes(mins);
+
+        const p = calculateProgress(mins, startMins, endMins);
+        setProgress(p);
+
+        // Stop if time ended
+        if (mins > endMins) {
+          setIsActive(false);
+          if (intervalRef.current) {
+            clearInterval(intervalRef.current);
+          }
+        }
+      }, 1000);
+    }
+
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    };
+  }, [startTime, endTime]);
+
+  // Don't render if not active
+  if (!isActive) return null;
+
+  // For inauspicious: fill with red that gets replaced by green as time passes
+  return (
+    <div
+      className="w-full h-1.5 rounded-full overflow-hidden mt-1"
+      style={{
+        background: "rgba(0, 0, 0, 0.3)",
+        boxShadow: "inset 0 1px 2px rgba(0, 0, 0, 0.3)",
+      }}
+    >
+      <div
+        className="h-full rounded-full transition-all duration-1000"
+        style={{
+          width: `${progress}%`,
+          background: isAuspicious
+            ? `linear-gradient(90deg, rgba(76, 175, 80, 1), rgba(76, 175, 80, 0.8))`
+            : `linear-gradient(90deg, rgba(220, 20, 60, 1), rgba(220, 20, 60, 0.9))`,
+          boxShadow: isAuspicious
+            ? "0 0 8px rgba(76, 175, 80, 0.8)"
+            : "0 0 8px rgba(220, 20, 60, 0.8)",
+        }}
+      />
+      {/* Inauspicious background shows remaining time in green */}
+      {!isAuspicious && (
+        <div
+          className="absolute top-0 left-0 h-full rounded-full"
+          style={{
+            width: `${100 - progress}%`,
+            marginLeft: `${progress}%`,
+            background: `linear-gradient(90deg, rgba(76, 175, 80, 1), rgba(76, 175, 80, 0.8))`,
+            boxShadow: "0 0 8px rgba(76, 175, 80, 0.8)",
+          }}
+        />
+      )}
+    </div>
+  );
+}
+
 export default function DayDetails({
   day,
   language,
@@ -29,6 +173,7 @@ export default function DayDetails({
 }) {
   const [notificationsSent, setNotificationsSent] = useState({});
   const [festivals, setFestivals] = useState([]);
+  const [festivalsLoaded, setFestivalsLoaded] = useState(false);
 
   // Local refs for this component instance
   const prevLanguageRef = useRef(language);
@@ -48,10 +193,12 @@ export default function DayDetails({
         const dateKey = `${yearPart}-${monthPart}-${dayPart}`;
         const dayFestivals = data[dateKey] || [];
         setFestivals(dayFestivals);
+        setFestivalsLoaded(true);
       })
       .catch((err) => {
         console.error("Error fetching festivals:", err);
         setFestivals([]);
+        setFestivalsLoaded(true);
       });
   }, [day]);
 
@@ -458,148 +605,134 @@ export default function DayDetails({
         }}
       >
         <div className="p-3 sm:p-4">
-          <div
-            className="rounded-xl p-3 sm:p-4 backdrop-blur-sm"
-            style={{
-              background:
-                "linear-gradient(135deg, rgba(100, 30, 15, 0.95) 0%, rgba(120, 35, 18, 0.9) 100%)",
-              border: "2.5px solid rgba(255, 168, 67, 0.8)",
-              boxShadow: `
-                0 0 25px rgba(255, 140, 50, 0.7),
-                0 0 50px rgba(255, 100, 30, 0.5),
-                inset 0 0 20px rgba(255, 140, 50, 0.15)
-              `,
-            }}
-          >
-            <div className="flex items-start gap-2 sm:gap-3">
-              <div
-                className="h-10 w-10 sm:h-12 sm:w-12 rounded-lg flex items-center justify-center flex-shrink-0 backdrop-blur-sm"
+          <div className="flex items-start gap-2 sm:gap-3">
+            <div
+              className="h-10 w-10 sm:h-12 sm:w-12 rounded-lg flex items-center justify-center flex-shrink-0 backdrop-blur-sm"
+              style={{
+                background:
+                  "linear-gradient(135deg, rgba(255, 180, 70, 0.3) 0%, rgba(180, 130, 50, 0.4) 100%)",
+                border: "2px solid rgba(255, 140, 50, 0.8)",
+                boxShadow: `
+                  0 0 15px rgba(255, 140, 50, 0.8),
+                  0 0 30px rgba(255, 100, 30, 0.6),
+                  inset 0 0 10px rgba(255, 200, 100, 0.3)
+                `,
+              }}
+            >
+              <span
+                className="text-xl sm:text-2xl font-black"
                 style={{
-                  background:
-                    "linear-gradient(135deg, rgba(255, 180, 70, 0.3) 0%, rgba(180, 130, 50, 0.4) 100%)",
-                  border: "2px solid rgba(255, 140, 50, 0.8)",
-                  boxShadow: `
-                    0 0 15px rgba(255, 140, 50, 0.8),
-                    0 0 30px rgba(255, 100, 30, 0.6),
-                    inset 0 0 10px rgba(255, 200, 100, 0.3)
-                  `,
+                  color: "#FFE4B5",
+                  textShadow:
+                    "0 2px 6px rgba(0, 0, 0, 0.6), 0 0 12px rgba(255, 215, 0, 0.6)",
                 }}
               >
-                <span
-                  className="text-xl sm:text-2xl font-black"
-                  style={{
-                    color: "#FFE4B5",
-                    textShadow:
-                      "0 2px 6px rgba(0, 0, 0, 0.6), 0 0 12px rgba(255, 215, 0, 0.6)",
-                  }}
-                >
-                  {dayNum}
-                </span>
-              </div>
-
-              <div className="flex-1 min-w-0">
-                <div className="flex flex-wrap items-center gap-1 sm:gap-2">
-                  <div
-                    className="text-base sm:text-lg font-black"
-                    style={{
-                      color: "#FFE4B5",
-                      textShadow: "0 2px 4px rgba(0, 0, 0, 0.5)",
-                    }}
-                  >
-                    {weekday}
-                  </div>
-                </div>
-                {/* Tithi remains after weekday */}
-                <div
-                  className="text-xs sm:text-sm font-bold mt-0.5"
-                  style={{
-                    color: "#D4AF37",
-                  }}
-                >
-                  • {vTithi}
-                </div>
-              </div>
+                {dayNum}
+              </span>
             </div>
 
-            {/* Paksha and Year in a row below date */}
-            <div className="flex items-center gap-1.5 flex-wrap mt-2">
-              {vPaksha !== "-" && (
+            <div className="flex-1 min-w-0">
+              <div className="flex flex-wrap items-center gap-1 sm:gap-2">
                 <div
-                  className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-bold transition-all hover:scale-105 backdrop-blur-sm"
+                  className="text-base sm:text-lg font-black"
                   style={{
-                    background:
-                      "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
-                    border: "2px solid rgba(255, 140, 50, 0.7)",
                     color: "#FFE4B5",
-                    boxShadow: `
-                      0 0 10px rgba(255, 140, 50, 0.5),
-                      inset 0 0 6px rgba(255, 200, 100, 0.15)
-                    `,
+                    textShadow: "0 2px 4px rgba(0, 0, 0, 0.5)",
                   }}
                 >
-                  <span style={{ color: "#D4AF37" }}>◐</span>
-                  {vPaksha}
+                  {weekday}
                 </div>
-              )}
-
-              {vShakaSamvat !== "-" && (
-                <div
-                  className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-bold transition-all hover:scale-105 backdrop-blur-sm ml-auto"
-                  style={{
-                    background:
-                      "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
-                    border: "2px solid rgba(255, 140, 50, 0.7)",
-                    color: "#FFE4B5",
-                    boxShadow: `
-                      0 0 10px rgba(255, 140, 50, 0.5),
-                      inset 0 0 6px rgba(255, 200, 100, 0.15)
-                    `,
-                  }}
-                >
-                  <span style={{ color: "#D4AF37" }}>{getYearLabel()}:</span>
-                  <span>{vShakaSamvat}</span>
-                </div>
-              )}
-            </div>
-
-            {festivals.length > 0 && (
-              <div className="space-y-1 mt-2">
-                {festivals.map((festival, idx) => (
-                  <div
-                    key={idx}
-                    className="inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-bold mr-1 mb-1 backdrop-blur-sm"
-                    style={{
-                      background: "rgba(255, 100, 50, 0.3)",
-                      border: "1.5px solid rgba(255, 100, 50, 0.6)",
-                      color: "#FFE4B5",
-                      boxShadow:
-                        "0 0 10px rgba(255, 100, 50, 0.5), inset 0 0 6px rgba(255, 140, 50, 0.2)",
-                    }}
-                  >
-                    <span
-                      className="h-1.5 w-1.5 rounded-full animate-pulse"
-                      style={{
-                        background: "#FF4444",
-                        boxShadow: "0 0 6px rgba(255, 68, 68, 0.8)",
-                      }}
-                    />
-                    {festival}
-                  </div>
-                ))}
               </div>
-            )}
-
-            {festivals.length === 0 && (
+              {/* Tithi remains after weekday */}
               <div
-                className="text-[10px] mt-1"
+                className="text-xs sm:text-sm font-bold mt-0.5"
                 style={{
-                  color: "rgba(212, 175, 55, 0.6)",
+                  color: "#D4AF37",
                 }}
               >
-                {translations.noFestivalListed || "No festival listed."}
+                • {vTithi}
               </div>
-            )}
+            </div>
           </div>
+
+           {/* Paksha and Year in a row below date */}
+           <div className="flex items-center gap-1.5 flex-wrap mt-2">
+             {vPaksha !== "-" && (
+               <div
+                 className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-bold transition-all hover:scale-105 backdrop-blur-sm"
+                 style={{
+                   background:
+                     "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
+                   border: "2px solid rgba(255, 140, 50, 0.7)",
+                   color: "#FFE4B5",
+                   boxShadow: `
+                     0 0 10px rgba(255, 140, 50, 0.5),
+                     inset 0 0 6px rgba(255, 200, 100, 0.15)
+                   `,
+                 }}
+               >
+                 <span style={{ color: "#D4AF37" }}>◐</span>
+                 {vPaksha}
+               </div>
+             )}
+
+             {vShakaSamvat !== "-" && (
+               <div
+                 className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-bold transition-all hover:scale-105 backdrop-blur-sm"
+                 style={{
+                   background:
+                     "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
+                   border: "2px solid rgba(255, 140, 50, 0.7)",
+                   color: "#FFE4B5",
+                   boxShadow: `
+                     0 0 10px rgba(255, 140, 50, 0.5),
+                     inset 0 0 6px rgba(255, 200, 100, 0.15)
+                   `,
+                 }}
+               >
+                 <span style={{ color: "#D4AF37" }}>{getYearLabel()}:</span>
+                 <span>{vShakaSamvat}</span>
+               </div>
+             )}
+           </div>
+
+          {festivals.length > 0 && (
+            <div className="space-y-1 mt-2">
+              {festivals.map((festival, idx) => (
+                <div
+                  key={idx}
+                  className="inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-bold mr-1 mb-1 backdrop-blur-sm"
+                  style={{
+                    background: "rgba(255, 100, 50, 0.3)",
+                    border: "1.5px solid rgba(255, 100, 50, 0.6)",
+                    color: "#FFE4B5",
+                    boxShadow:
+                      "0 0 10px rgba(255, 100, 50, 0.5), inset 0 0 6px rgba(255, 140, 50, 0.2)",
+                  }}
+                >
+                  <span
+                    className="h-1.5 w-1.5 rounded-full animate-pulse"
+                    style={{
+                      background: "#FF4444",
+                      boxShadow: "0 0 6px rgba(255, 68, 68, 0.8)",
+                    }}
+                  />
+                  {festival}
+                </div>
+              ))}
+            </div>
+          )}
+
+          {festivalsLoaded && festivals.length === 0 && (
+            <div
+              className="text-[10px] mt-1"
+              style={{
+                color: "rgba(212, 175, 55, 0.6)",
+              }}
+            >
+              {translations.noFestivalListed || "No festival listed."}
+            </div>
+          )}
         </div>
       </div>
     );
@@ -682,30 +815,35 @@ export default function DayDetails({
               <DangerBox
                 label={translations.rahuKalam || "Rahu Kalam"}
                 value={vRahu}
+                isAuspicious={false}
               />
             )}
             {vYamaganda !== "-" && (
               <DangerBox
                 label={translations.yamaganda || "Yamaganda"}
                 value={vYamaganda}
+                isAuspicious={false}
               />
             )}
             {vGulikai !== "-" && (
               <DangerBox
                 label={translations.gulikaiKalam || "Gulikai Kalam"}
                 value={vGulikai}
+                isAuspicious={false}
               />
             )}
             {vDur !== "-" && (
               <DangerBox
                 label={translations.durMuhurtam || "Dur Muhurtam"}
                 value={vDur}
+                isAuspicious={false}
               />
             )}
             {vVarjyam !== "-" && (
               <DangerBox
                 label={translations.varjyam || "Varjyam"}
                 value={vVarjyam}
+                isAuspicious={false}
               />
             )}
           </SectionCard>
@@ -787,7 +925,25 @@ function SectionCard({ title, icon, children, variant }) {
   );
 }
 
-function InfoRow({ label, value }) {
+function InfoRow({ label, value, isAuspicious }) {
+  // Parse time range from value (e.g., "7:30 AM - 8:30 AM" or "10:30 to 12:30")
+  const parseTimeRange = (val) => {
+    if (!val || val === "-") return { startTime: null, endTime: null };
+    
+    try {
+      // Split on either " - " or " to "
+      const parts = val.split(/\s*(?:-|to)\s*/);
+      if (parts.length !== 2) return { startTime: null, endTime: null };
+      
+      return { startTime: parts[0].trim(), endTime: parts[1].trim() };
+    } catch (e) {
+      console.error("Error parsing time range:", val, e);
+      return { startTime: null, endTime: null };
+    }
+  };
+  
+  const { startTime, endTime } = parseTimeRange(value);
+  
   return (
     <div
       className="rounded-xl p-2.5 backdrop-blur-sm"
@@ -812,6 +968,14 @@ function InfoRow({ label, value }) {
       >
         {value}
       </div>
+      {/* Progress Timer (only show if valid time range) */}
+      {startTime && endTime && (
+        <MuhurthaTimer
+          startTime={startTime}
+          endTime={endTime}
+          isAuspicious={isAuspicious}
+        />
+      )}
     </div>
   );
 }
@@ -860,7 +1024,82 @@ function TimeBox({ label, value, scheme }) {
   );
 }
 
-function DangerBox({ label, value }) {
+function AuspiciousBox({ label, value, isAuspicious = true }) {
+  // Parse time range from value (e.g., "7:30 AM - 8:30 AM" or "10:30 to 12:30")
+  const parseTimeRange = (val) => {
+    if (!val || val === "-") return { startTime: null, endTime: null };
+    
+    try {
+      // Split on either " - " or " to "
+      const parts = val.split(/\s*(?:-|to)\s*/);
+      if (parts.length !== 2) return { startTime: val, endTime: val };
+      
+      return { startTime: parts[0].trim(), endTime: parts[1].trim() };
+    } catch (e) {
+      console.error("Error parsing time range:", val, e);
+      return { startTime: val, endTime: val };
+    }
+  };
+  
+  const { startTime, endTime } = parseTimeRange(value);
+  
+  return (
+    <div
+      className="rounded-xl p-2.5 mb-2 backdrop-blur-sm"
+      style={{
+        background:
+          "linear-gradient(135deg, #4CAF50 0%, #388E3C 50%, #2E7D32 100%)",
+        border: "2px solid rgba(0, 255, 0, 0.6)",
+        boxShadow:
+          "0 0 15px rgba(76,175,80,0.5), inset 0 1px 2px rgba(255,255,255,0.1)",
+      }}
+    >
+      <div
+        className="text-xs uppercase tracking-wide mb-1 font-semibold"
+        style={{
+          color: "#FFE4B5",
+        }}
+      >
+        {label}
+      </div>
+      <div
+        className="text-sm font-bold"
+        style={{
+          color: "#FFFFFF",
+          textShadow: "0 2px 4px rgba(0,0,0,0.5)",
+        }}
+      >
+        {value}
+      </div>
+      {/* Progress Timer */}
+      <MuhurthaTimer
+        startTime={startTime}
+        endTime={endTime}
+        isAuspicious={isAuspicious}
+      />
+    </div>
+  );
+}
+
+function DangerBox({ label, value, isAuspicious = false }) {
+  // Parse time range from value (e.g., "7:30 AM - 8:30 AM" or "10:30 to 12:30")
+  const parseTimeRange = (val) => {
+    if (!val || val === "-") return { startTime: null, endTime: null };
+    
+    try {
+      // Split on either " - " or " to "
+      const parts = val.split(/\s*(?:-|to)\s*/);
+      if (parts.length !== 2) return { startTime: val, endTime: val };
+      
+      return { startTime: parts[0].trim(), endTime: parts[1].trim() };
+    } catch (e) {
+      console.error("Error parsing time range:", val, e);
+      return { startTime: val, endTime: val };
+    }
+  };
+  
+  const { startTime, endTime } = parseTimeRange(value);
+  
   return (
     <div
       className="rounded-xl p-2.5 mb-2 backdrop-blur-sm"
@@ -889,8 +1128,12 @@ function DangerBox({ label, value }) {
       >
         {value}
       </div>
+      {/* Progress Timer */}
+      <MuhurthaTimer
+        startTime={startTime}
+        endTime={endTime}
+        isAuspicious={isAuspicious}
+      />
     </div>
   );
 }
-
-
