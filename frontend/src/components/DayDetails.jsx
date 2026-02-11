@@ -591,111 +591,113 @@ export default function DayDetails({
   // If in header mode, render compact version
   if (isHeaderMode) {
     return (
-      <div
-        className="rounded-xl sm:rounded-2xl p-3 sm:p-4 backdrop-blur-md"
-        style={{
-          background: "linear-gradient(135deg, rgba(80, 20, 10, 0.98) 0%, rgba(100, 25, 12, 0.95) 50%, rgba(120, 30, 15, 0.92) 100%)",
-          border: "3px solid rgba(255, 140, 50, 0.8)",
-          boxShadow: `
-            0 0 35px rgba(255, 140, 50, 0.8),
-            0 0 70px rgba(255, 100, 30, 0.6),
-            inset 0 0 30px rgba(255, 140, 50, 0.2)
-          `,
-        }}
-      >
-        <div className="flex items-start gap-3">
-          <div
-            className="h-12 w-12 rounded-lg flex items-center justify-center flex-shrink-0 backdrop-blur-sm"
-            style={{
-              background:
-                "linear-gradient(135deg, rgba(255, 180, 70, 0.3) 0%, rgba(180, 130, 50, 0.4) 100%)",
-              border: "2px solid rgba(255, 140, 50, 0.8)",
-              boxShadow: `
-                0 0 15px rgba(255, 140, 50, 0.8),
-                0 0 30px rgba(255, 100, 30, 0.6),
-                inset 0 0 10px rgba(255, 200, 100, 0.3)
-              `,
-            }}
-          >
-            <span
-              className="text-2xl font-black"
+      // Outer container for header mode
+      <div className="w-full">
+        <div
+          className="rounded-xl sm:rounded-2xl p-4 sm:p-5 backdrop-blur-md"
+          style={{
+            background: "linear-gradient(135deg, rgba(80, 20, 10, 0.98) 0%, rgba(100, 25, 12, 0.95) 50%, rgba(120, 30, 15, 0.92) 100%)",
+            border: "3px solid rgba(255, 140, 50, 0.8)",
+            boxShadow: `
+              0 0 35px rgba(255, 140, 50, 0.8),
+              0 0 70px rgba(255, 100, 30, 0.6),
+              inset 0 0 30px rgba(255, 140, 50, 0.2)
+            `,
+          }}
+        >
+          <div className="flex items-start gap-3 sm:gap-4">
+            <div
+              className="h-14 w-14 sm:h-16 sm:w-16 rounded-lg flex items-center justify-center flex-shrink-0 backdrop-blur-sm"
               style={{
-                color: "#FFE4B5",
-                textShadow:
-                  "0 2px 6px rgba(0, 0, 0, 0.6), 0 0 12px rgba(255, 215, 0, 0.6)",
+                background:
+                  "linear-gradient(135deg, rgba(255, 180, 70, 0.3) 0%, rgba(180, 130, 50, 0.4) 100%)",
+                border: "2px solid rgba(255, 140, 50, 0.8)",
+                boxShadow: `
+                  0 0 15px rgba(255, 140, 50, 0.8),
+                  0 0 30px rgba(255, 100, 30, 0.6),
+                  inset 0 0 10px rgba(255, 200, 100, 0.3)
+                `,
               }}
             >
-              {dayNum}
-            </span>
-          </div>
-
-          <div className="flex-1 min-w-0">
-            <div className="flex flex-wrap items-center gap-2">
-              <div
-                className="text-lg font-black"
+              <span
+                className="text-2.5xl sm:text-3xl font-black"
                 style={{
                   color: "#FFE4B5",
-                  textShadow: "0 2px 4px rgba(0, 0, 0, 0.5)",
+                  textShadow:
+                    "0 2px 6px rgba(0, 0, 0, 0.6), 0 0 12px rgba(255, 215, 0, 0.6)",
                 }}
               >
-                {weekday}
+                {dayNum}
+              </span>
+            </div>
+
+            <div className="flex-1 min-w-0">
+              <div className="flex flex-wrap items-center gap-2">
+                <div
+                  className="text-xl sm:text-2xl font-black"
+                  style={{
+                    color: "#FFE4B5",
+                    textShadow: "0 2px 4px rgba(0, 0, 0, 0.5)",
+                  }}
+                >
+                  {weekday}
+                </div>
+              </div>
+              {/* Tithi remains after weekday */}
+              <div
+                className="text-base sm:text-lg font-bold mt-1.5"
+                style={{
+                  color: "#D4AF37",
+                }}
+              >
+                • {vTithi}
               </div>
             </div>
-            {/* Tithi remains after weekday */}
-            <div
-              className="text-sm font-bold mt-1"
-              style={{
-                color: "#D4AF37",
-              }}
-            >
-              • {vTithi}
-            </div>
           </div>
-        </div>
 
-         {/* Paksha and Year in a row below date */}
-         <div className="flex items-center gap-2 flex-wrap mt-3">
-           {vPaksha !== "-" && (
-             <div
-               className="inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-sm font-bold transition-all hover:scale-105 backdrop-blur-sm"
-               style={{
-                 background:
-                   "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
-                 border: "2px solid rgba(255, 140, 50, 0.7)",
-                 color: "#FFE4B5",
-                 boxShadow: `
-                   0 0 10px rgba(255, 140, 50, 0.5),
-                   inset 0 0 6px rgba(255, 200, 100, 0.15)
-                 `,
-               }}
-             >
-               <span style={{ color: "#D4AF37" }}>◐</span>
-               {vPaksha}
-             </div>
-           )}
+          {/* Paksha and Year in a row below date */}
+          <div className="flex items-center gap-2.5 flex-wrap mt-4">
+            {vPaksha !== "-" && (
+              <div
+                className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-sm font-bold transition-all hover:scale-105 backdrop-blur-sm"
+                style={{
+                  background:
+                    "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
+                  border: "2px solid rgba(255, 140, 50, 0.7)",
+                  color: "#FFE4B5",
+                  boxShadow: `
+                    0 0 10px rgba(255, 140, 50, 0.5),
+                    inset 0 0 6px rgba(255, 200, 100, 0.15)
+                  `,
+                }}
+              >
+                <span style={{ color: "#D4AF37" }}>◐</span>
+                {vPaksha}
+              </div>
+            )}
 
-           {vShakaSamvat !== "-" && (
-             <div
-               className="inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-sm font-bold transition-all hover:scale-105 backdrop-blur-sm"
-               style={{
-                 background:
-                   "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
-                 border: "2px solid rgba(255, 140, 50, 0.7)",
-                 color: "#FFE4B5",
-                 boxShadow: `
-                   0 0 10px rgba(255, 140, 50, 0.5),
-                   inset 0 0 6px rgba(255, 200, 100, 0.15)
-                 `,
-               }}
-             >
-               <span style={{ color: "#D4AF37" }}>{getYearLabel()}:</span>
-               <span>{vShakaSamvat}</span>
-             </div>
-           )}
-         </div>
+            {vShakaSamvat !== "-" && (
+              <div
+                className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-sm font-bold transition-all hover:scale-105 backdrop-blur-sm"
+                style={{
+                  background:
+                    "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
+                  border: "2px solid rgba(255, 140, 50, 0.7)",
+                  color: "#FFE4B5",
+                  boxShadow: `
+                    0 0 10px rgba(255, 140, 50, 0.5),
+                    inset 0 0 6px rgba(255, 200, 100, 0.15)
+                  `,
+                }}
+              >
+                <span style={{ color: "#D4AF37" }}>{getYearLabel()}:</span>
+                <span>{vShakaSamvat}</span>
+              </div>
+            )}
+          </div>
 
-        {festivals.length > 0 && (
-          <div className="space-y-1.5 mt-3">
+          {festivals.length > 0 && (
+            <div className="space-y-2 mt-4">
             {festivals.map((festival, idx) => (
               <div
                 key={idx}
@@ -731,6 +733,7 @@ export default function DayDetails({
             {translations.noFestivalListed || "No festival listed."}
           </div>
         )}
+      </div>
       </div>
     );
   }
