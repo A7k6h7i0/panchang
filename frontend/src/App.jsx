@@ -977,7 +977,11 @@ function App() {
             >
               {/* RASHIPHALALU BUTTON */}
               <button
-                onClick={() => setCurrentView("rashiphalalu")}
+                onClick={(e) => {
+                  console.log("App.jsx: Rashiphalalu button clicked");
+                  console.log("Current view before:", currentView);
+                  setCurrentView("rashiphalalu");
+                }}
                 className="w-full py-3 px-4 rounded-xl font-bold text-lg transition-all hover:scale-[1.02] cursor-pointer"
                 style={{
                   background: "linear-gradient(135deg, #2a5a1f 0%, #3a6e2d 30%, #4a8238 60%, #5a9645 100%)",
