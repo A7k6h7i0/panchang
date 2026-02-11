@@ -7,7 +7,7 @@ import {
   getMuhurtaName,
   isAuspiciousMuhurta,
 } from "../utils/speechTemplates";
-import { speakCloud, stopSpeech, initAudioContext } from "../utils/cloudSpeech";
+import { speakCloud, stopSpeech } from "../utils/cloudSpeech";
 
 // GLOBAL singleton to prevent multiple component instances from duplicating speech
 const globalSpeechState = {
@@ -25,36 +25,15 @@ export default function DayDetails({
   isHeaderMode = false,
   isSidebarMode = false,
   onRashiphalaluClick,
+  voiceEnabled = false,
 }) {
   const [notificationsSent, setNotificationsSent] = useState({});
   const [festivals, setFestivals] = useState([]);
-  const [userInteracted, setUserInteracted] = useState(false);
 
   // Local refs for this component instance
   const prevLanguageRef = useRef(language);
   const componentIdRef = useRef(Math.random().toString(36).substr(2, 9));
   const isActiveInstanceRef = useRef(false);
-
-  // Handle user interaction to enable audio
-  useEffect(() => {
-    const handleInteraction = () => {
-      if (!userInteracted) {
-        initAudioContext();
-        setUserInteracted(true);
-        console.log("✅ User interaction detected - audio enabled");
-      }
-    };
-
-    document.addEventListener("click", handleInteraction, { once: true });
-    document.addEventListener("touchstart", handleInteraction, { once: true });
-    document.addEventListener("keydown", handleInteraction, { once: true });
-
-    return () => {
-      document.removeEventListener("click", handleInteraction);
-      document.removeEventListener("touchstart", handleInteraction);
-      document.removeEventListener("keydown", handleInteraction);
-    };
-  }, [userInteracted]);
 
   // Load festivals data
   useEffect(() => {
@@ -233,7 +212,7 @@ export default function DayDetails({
 
   // Single controlled sequence: Tithi first, then muhurta (if any)
   const speakSequence = async () => {
-    if (!isToday || !userInteracted) return;
+    if (!isToday || !voiceEnabled) return;
     if (globalSpeechState.isSpeaking) {
       console.log("⏸️ Speech already in progress, skipping...");
       return;
@@ -285,7 +264,7 @@ export default function DayDetails({
 
   // Trigger speech on first load or language change
   useEffect(() => {
-    if (!isToday || !userInteracted) return;
+    if (!isToday || !voiceEnabled) return;
 
     const prevLang = prevLanguageRef.current;
     const langChanged = prevLang !== language;
@@ -304,7 +283,7 @@ export default function DayDetails({
 
     return () => clearTimeout(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [language, isToday, userInteracted]);
+  }, [language, isToday, voiceEnabled]);
 
   // 🔔 Universal Muhurta Notification Effect (SINGLETON PATTERN)
   useEffect(() => {
@@ -317,8 +296,8 @@ export default function DayDetails({
       setNotificationsSent({});
     }
 
-    if (!isToday || !userInteracted) {
-      console.log("⏸️ Notification checker paused:", { isToday, userInteracted });
+    if (!isToday || !voiceEnabled) {
+      console.log("⏸️ Notification checker paused:", { isToday, voiceEnabled });
       isActiveInstanceRef.current = false;
       return;
     }
@@ -460,7 +439,7 @@ export default function DayDetails({
       }
       isActiveInstanceRef.current = false;
     };
-  }, [day, language, isToday, userInteracted]);
+  }, [day, language, isToday, voiceEnabled]);
 
   // If in header mode, render compact version
   if (isHeaderMode) {
@@ -529,24 +508,6 @@ export default function DayDetails({
                   >
                     {weekday}
                   </div>
-                  {/* Rashiphalalu Button - fixed to the right */}
-                  <button
-                    onClick={onRashiphalaluClick}
-                    className="inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-bold transition-all hover:scale-105 backdrop-blur-sm ml-auto cursor-pointer"
-                    style={{
-                      background:
-                        "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
-                      border: "2.5px solid rgba(255, 140, 50, 0.7)",
-                      color: "#FFE4B5",
-                      boxShadow: `
-                        0 0 15px rgba(255, 140, 50, 0.5),
-                        inset 0 0 10px rgba(255, 200, 100, 0.15)
-                      `,
-                    }}
-                  >
-                    <span style={{ color: "#D4AF37" }}>☀</span>
-                    <span>{getRashiphalaluLabel()}</span>
-                  </button>
                 </div>
                 {/* Tithi remains after weekday */}
                 <div
