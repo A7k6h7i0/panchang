@@ -3,7 +3,6 @@ import CalendarGrid from "./components/CalendarGrid";
 import DayDetails from "./components/DayDetails";
 import YearSelectorPopup from "./components/YearSelectorPopup";
 import Chatbot from "./components/Chatbot";
-import Rashiphalalu from "./components/Rashiphalalu";
 import { translations, languages } from "./translations";
 import { translateText } from "./translations";
 import { speakCloud } from "./utils/cloudSpeech";
@@ -99,6 +98,7 @@ function App() {
   const [chatButtonPos, setChatButtonPos] = useState({ x: null, y: null });
   const [isChatbotOpen, setIsChatbotOpen] = useState(false);
   const [currentView, setCurrentView] = useState("calendar"); // "calendar" or "rashiphalalu"
+  const [voiceEnabled, setVoiceEnabled] = useState(false); // Voice TTS toggle - disabled by default
   const chatButtonRef = useRef(null);
   const dragStateRef = useRef({ dragging: false, offsetX: 0, offsetY: 0 });
   
@@ -469,7 +469,9 @@ function App() {
       yearName,
       festivals,
     });
-    speakCloud(speechText, language);
+    if (voiceEnabled) {
+      speakCloud(speechText, language);
+    }
   };
 
   const handleMainDateSelect = (day) => {
@@ -632,7 +634,7 @@ function App() {
 
         <div className="relative mx-auto max-w-7xl px-3 sm:px-6 lg:px-8 py-0.5 sm:py-1">
           {/* HEADER: Swastik + Title + Language Selector */}
-          <div className="flex items-center justify-between gap-3 mb-0.5 pb-0.5" style={{ borderBottom: "2px solid rgba(255, 140, 50, 0.4)" }}>
+          <div className="flex flex-wrap items-center justify-between gap-3 mb-0.5 pb-0.5" style={{ borderBottom: "2px solid rgba(255, 140, 50, 0.4)" }}>
             {/* Left: Swastik + Panchang Calendar Title */}
             <div className="flex items-center gap-3 flex-1 min-w-0">
               {/* SWASTIK ICON BOX */}
@@ -694,118 +696,166 @@ function App() {
               </h1>
             </div>
 
-            {/* Right: Language Selector - Paksha Button Style */}
-            <div className="flex-shrink-0 relative">
+            {/* Right: Voice Toggle + Language Selector */}
+            <div className="flex items-center gap-2">
+              {/* Voice Toggle Button */}
               <button
                 type="button"
-                onClick={() => setIsLanguageMenuOpen((open) => !open)}
-                className="w-full px-3 py-1.5 text-xs sm:text-sm font-bold outline-none transition-all hover:scale-105 rounded-full backdrop-blur-sm text-left"
+                onClick={() => setVoiceEnabled(!voiceEnabled)}
+                className="w-full px-3 py-1.5 text-xs sm:text-sm font-bold outline-none transition-all hover:scale-105 rounded-full backdrop-blur-sm"
                 style={{
-                  background: "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
-                  color: "#FFE4B5",
-                  border: "2.5px solid rgba(255, 140, 50, 0.7)",
-                  boxShadow: `
-                    0 0 20px rgba(255, 140, 50, 0.6),
-                    0 0 40px rgba(255, 100, 30, 0.4),
-                    inset 0 0 15px rgba(255, 200, 100, 0.2)
-                  `,
-                  minWidth: "130px",
-                  paddingRight: "30px",
-                  position: "relative",
+                  background: voiceEnabled
+                    ? "linear-gradient(135deg, rgba(76, 175, 80, 0.6) 0%, rgba(56, 142, 60, 0.7) 100%)"
+                    : "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
+                  color: voiceEnabled ? "#C8E6C9" : "#FFE4B5",
+                  border: voiceEnabled
+                    ? "2.5px solid rgba(76, 175, 80, 0.8)"
+                    : "2.5px solid rgba(255, 140, 50, 0.7)",
+                  boxShadow: voiceEnabled
+                    ? `
+                      0 0 20px rgba(76, 175, 80, 0.6),
+                      0 0 40px rgba(56, 142, 60, 0.4),
+                      inset 0 0 15px rgba(200, 255, 200, 0.2)
+                    `
+                    : `
+                      0 0 20px rgba(255, 140, 50, 0.6),
+                      0 0 40px rgba(255, 100, 30, 0.4),
+                      inset 0 0 15px rgba(255, 200, 100, 0.2)
+                    `,
+                  minWidth: "70px",
                 }}
-                aria-haspopup="listbox"
-                aria-expanded={isLanguageMenuOpen}
-                aria-label="Select Language"
+                aria-label={voiceEnabled ? "Voice Enabled" : "Voice Disabled"}
               >
-                {selectedLanguage.nativeName}
-                <span
-                  aria-hidden="true"
-                  style={{
-                    position: "absolute",
-                    right: "10px",
-                    top: "50%",
-                    transform: `translateY(-50%) rotate(${isLanguageMenuOpen ? "180deg" : "0deg"})`,
-                    transition: "transform 150ms ease",
-                    fontSize: "10px",
-                    color: "#FFE4B5",
-                    pointerEvents: "none",
-                  }}
-                >
-                  ▼
+                <span className="inline-flex items-center gap-1">
+                  {voiceEnabled ? (
+                    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                      <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                    </svg>
+                  ) : (
+                    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M19 11h-1.7c0 .74-.16 1.43-.43 2.05l1.23 1.23c.56-.98.9-2.09.9-3.28zm-4.02.17c0-.06.02-.11.02-.17V5c0-1.66-1.34-3-3-3S9 3.34 9 5v.18l5.98 5.99zM4.27 3L3 4.27l6.01 6.01V11c0 1.66 1.33 3 2.99 3 .22 0 .44-.03.65-.08l1.66 1.66c-.71.33-1.5.52-2.31.52-2.76 0-5.3-2.1-5.3-5.1H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c.91-.13 1.77-.45 2.54-.9L19.73 21 21 19.73 4.27 3z"/>
+                    </svg>
+                  )}
                 </span>
               </button>
 
-              {isLanguageMenuOpen && (
-                <div
-                  className="fixed inset-0 z-[1100] flex items-start sm:items-center justify-center bg-black/55 backdrop-blur-sm p-4"
-                  onClick={() => setIsLanguageMenuOpen(false)}
+              {/* Language Selector */}
+              <div className="flex-shrink-0 relative">
+                <button
+                  type="button"
+                  onClick={() => setIsLanguageMenuOpen((open) => !open)}
+                  className="w-full px-3 py-1.5 text-xs sm:text-sm font-bold outline-none transition-all hover:scale-105 rounded-full backdrop-blur-sm text-left"
+                  style={{
+                    background: "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
+                    color: "#FFE4B5",
+                    border: "2.5px solid rgba(255, 140, 50, 0.7)",
+                    boxShadow: `
+                      0 0 20px rgba(255, 140, 50, 0.6),
+                      0 0 40px rgba(255, 100, 30, 0.4),
+                      inset 0 0 15px rgba(255, 200, 100, 0.2)
+                    `,
+                    minWidth: "130px",
+                    paddingRight: "30px",
+                    position: "relative",
+                  }}
+                  aria-haspopup="listbox"
+                  aria-expanded={isLanguageMenuOpen}
+                  aria-label="Select Language"
                 >
-                  <div
-                    role="listbox"
-                    aria-label="Select Language"
-                    className="w-full max-w-xs overflow-hidden mt-12 sm:mt-0"
-                    onClick={(e) => e.stopPropagation()}
+                  {selectedLanguage.nativeName}
+                  <span
+                    aria-hidden="true"
                     style={{
-                      background: "linear-gradient(135deg, #4a0e0e 0%, #d8691e 50%, #4a0e0e 100%)",
-                      border: "2px solid rgba(255, 220, 150, 0.85)",
-                      borderRadius: "20px",
-                      boxShadow: "0 16px 40px rgba(0, 0, 0, 0.5), 0 0 24px rgba(255, 90, 31, 0.45)",
+                      position: "absolute",
+                      right: "10px",
+                      top: "50%",
+                      transform: `translateY(-50%) rotate(${isLanguageMenuOpen ? "180deg" : "0deg"})`,
+                      transition: "transform 150ms ease",
+                      fontSize: "10px",
+                      color: "#FFE4B5",
+                      pointerEvents: "none",
                     }}
                   >
+                    ▼
+                  </span>
+                </button>
+
+                {isLanguageMenuOpen && (
+                  <div
+                    className="fixed inset-0 z-[1100] flex items-start sm:items-center justify-center bg-black/55 backdrop-blur-sm p-4"
+                    onClick={() => setIsLanguageMenuOpen(false)}
+                  >
                     <div
-                      className="px-4 py-3 text-sm font-bold"
+                      role="listbox"
+                      aria-label="Select Language"
+                      className="w-full max-w-xs overflow-hidden mt-12 sm:mt-0"
+                      onClick={(e) => e.stopPropagation()}
                       style={{
-                        color: "#FFE4B5",
-                        borderBottom: "1px solid rgba(255, 255, 255, 0.2)",
-                        background: "rgba(90, 25, 8, 0.35)",
+                        background: "linear-gradient(135deg, #4a0e0e 0%, #d8691e 50%, #4a0e0e 100%)",
+                        border: "2px solid rgba(255, 220, 150, 0.85)",
+                        borderRadius: "20px",
+                        boxShadow: "0 16px 40px rgba(0, 0, 0, 0.5), 0 0 24px rgba(255, 90, 31, 0.45)",
                       }}
                     >
-                      Select Language
+                      <div
+                        className="px-4 py-3 text-sm font-bold"
+                        style={{
+                          color: "#FFE4B5",
+                          borderBottom: "1px solid rgba(255, 255, 255, 0.2)",
+                          background: "rgba(90, 25, 8, 0.35)",
+                        }}
+                      >
+                        Select Language
+                      </div>
+                      {languages.map((lang) => {
+                        const isActive = lang.code === language;
+                        return (
+                          <button
+                            key={lang.code}
+                            type="button"
+                            role="option"
+                            aria-selected={isActive}
+                            onClick={() => {
+                              setLanguage(lang.code);
+                              setIsLanguageMenuOpen(false);
+                            }}
+                            className={`w-full text-left px-5 py-3 text-2xl font-bold transition-all duration-200 ${
+                              isActive
+                                ? "bg-orange-500 text-white shadow-lg"
+                                : "bg-orange-700/95 hover:bg-orange-600 text-orange-100"
+                            }`}
+                            style={{
+                              borderBottom: "1px solid rgba(255, 255, 255, 0.2)",
+                              lineHeight: "1.1",
+                            }}
+                          >
+                            {lang.nativeName}
+                          </button>
+                        );
+                      })}
                     </div>
-                    {languages.map((lang) => {
-                      const isActive = lang.code === language;
-                      return (
-                        <button
-                          key={lang.code}
-                          type="button"
-                          role="option"
-                          aria-selected={isActive}
-                          onClick={() => {
-                            setLanguage(lang.code);
-                            setIsLanguageMenuOpen(false);
-                          }}
-                          className={`w-full text-left px-5 py-3 text-2xl font-bold transition-all duration-200 ${
-                            isActive
-                              ? "bg-orange-500 text-white shadow-lg"
-                              : "bg-orange-700/95 hover:bg-orange-600 text-orange-100"
-                          }`}
-                          style={{
-                            borderBottom: "1px solid rgba(255, 255, 255, 0.2)",
-                            lineHeight: "1.1",
-                          }}
-                        >
-                          {lang.nativeName}
-                        </button>
-                      );
-                    })}
                   </div>
+
+                )}
                 </div>
-              )}
+              </div>
             </div>
           </div>
-
-          {/* DAY DETAILS CARD - Compact Version for Header (without "Day Details" heading) */}
-          <DayDetails day={selectedDay} language={language} translations={t} isHeaderMode={true} onRashiphalaluClick={() => setCurrentView("rashiphalalu")} />
-        </div>
-      </header>
-
-      {/* ============= RASHIPHALALU VIEW ============= */}
-      {currentView === "rashiphalalu" && (
-        <Rashiphalalu language={language} translations={t} onBack={() => setCurrentView("calendar")} />
-      )}
+          
+          {/* DayDetails Header Row */}
+          <div className="mt-2 px-2">
+            <DayDetails 
+              day={selectedDay} 
+              language={language} 
+              translations={t} 
+              isHeaderMode={true} 
+              voiceEnabled={voiceEnabled}
+            />
+          </div>
+        </header>
 
       {/* ============= MAIN CONTENT (Calendar View) ============= */}
-      {currentView === "calendar" && (
       <main className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-0.5 sm:py-1 grid grid-cols-1 lg:grid-cols-[1.5fr_1fr] gap-1 sm:gap-1.5">
         {/* CALENDAR SECTION */}
         <section 
@@ -820,6 +870,7 @@ function App() {
             `,
           }}
         >
+          
           {/* Calendar Header: Month with Arrows + Year Button */}
           <div 
             className="flex items-center justify-between gap-2 mb-2 pb-2 px-3 py-1.5"
@@ -890,7 +941,45 @@ function App() {
             onSpeak={handleDateClickSpeech}
             language={language}
             translations={t}
+            voiceEnabled={voiceEnabled}
           />
+        </section>
+
+        {/* RASHIPHALALU BUTTON CONTAINER */}
+        <section 
+          className="rounded-2xl sm:rounded-3xl p-3 sm:p-4 backdrop-blur-md"
+          style={{
+            background: "linear-gradient(135deg, rgba(80, 20, 10, 0.98) 0%, rgba(100, 25, 12, 0.95) 50%, rgba(120, 30, 15, 0.92) 100%)",
+            border: "3px solid rgba(255, 140, 50, 0.8)",
+            boxShadow: `
+              0 0 35px rgba(255, 140, 50, 0.8),
+              0 0 70px rgba(255, 100, 30, 0.6),
+              inset 0 0 30px rgba(255, 140, 50, 0.2)
+            `,
+          }}
+        >
+          {/* RASHIPHALALU BUTTON */}
+          <button
+            onClick={() => setCurrentView("rashiphalalu")}
+            className="w-full py-3 px-4 rounded-xl font-bold text-lg transition-all hover:scale-[1.02] cursor-pointer"
+            style={{
+              background: "linear-gradient(135deg, #2a5a1f 0%, #3a6e2d 30%, #4a8238 60%, #5a9645 100%)",
+              border: "2.5px solid rgba(212, 168, 71, 0.8)",
+              color: "#ffedb3",
+              boxShadow: `
+                0 0 18px rgba(212, 168, 71, 0.3),
+                inset 0 1px 2px rgba(255, 255, 255, 0.1),
+                inset 0 -1px 2px rgba(0, 0, 0, 0.2)
+              `,
+            }}
+          >
+            <svg className="inline-block w-6 h-6 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2"/>
+              <path d="M12 6V12L16 14" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+              <circle cx="12" cy="12" r="3" fill="currentColor"/>
+            </svg>
+            {t.rashiphalalu || "Rashiphalalu"}
+          </button>
         </section>
 
         {/* RIGHT SIDEBAR - DayDetails only (Swastik/Title/Language moved to header) */}
@@ -909,10 +998,9 @@ function App() {
         >
 
           {/* PANCHANG ELEMENTS AND INAUSPICIOUS TIMINGS */}
-          <DayDetails day={selectedDay} language={language} translations={t} isSidebarMode={true} onRashiphalaluClick={() => setCurrentView("rashiphalalu")} />
+          <DayDetails day={selectedDay} language={language} translations={t} isSidebarMode={true} onRashiphalaluClick={() => setCurrentView("rashiphalalu")} voiceEnabled={voiceEnabled} />
         </section>
       </main>
-      )}
 
       {/* CHATBOT PLACEHOLDER BUTTON */}
       <button
@@ -959,6 +1047,7 @@ function App() {
         translations={t}
         currentDateData={days}
         selectedDay={selectedDay}
+        voiceEnabled={voiceEnabled}
       />
 
       {/* FOOTER */}

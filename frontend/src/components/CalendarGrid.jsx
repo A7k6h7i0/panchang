@@ -7,6 +7,7 @@ export default function CalendarGrid({
   onSpeak,
   language,
   translations,
+  voiceEnabled = false,
 }) {
   const parseDate = (dateStr) => {
     const [day, month, year] = dateStr.split("/");
@@ -244,7 +245,7 @@ export default function CalendarGrid({
                 key={day.date}
                 onClick={() => {
                   onSelect(day);
-                  if (onSpeak) onSpeak(day);
+                  if (voiceEnabled && onSpeak) onSpeak(day);
                 }}
                 className="group aspect-square rounded-xl text-left p-1.5 sm:p-2.5 transition-all duration-200 border-[2.5px] relative overflow-hidden flex flex-col"
                 style={

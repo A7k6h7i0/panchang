@@ -17,7 +17,8 @@ export default function Chatbot({
   language, 
   translations, 
   currentDateData,
-  selectedDay 
+  selectedDay,
+  voiceEnabled = false
 }) {
   const [messages, setMessages] = useState([]);
   const [inputText, setInputText] = useState("");
@@ -146,7 +147,7 @@ export default function Chatbot({
       setMessages(prev => [...prev, botMessage]);
 
       // If user used voice, respond with voice
-      if (currentMode === 'voice') {
+      if (currentMode === 'voice' && voiceEnabled) {
         speakCloud(botMessage.text, language);
       }
 
@@ -258,7 +259,7 @@ export default function Chatbot({
                   {message.mode === 'voice' && message.type === 'user' && (
                     <span className="text-xs opacity-70">🎙️</span>
                   )}
-                  {message.mode === 'voice' && message.type === 'bot' && (
+                  {message.mode === 'voice' && message.type === 'bot' && voiceEnabled && (
                     <button
                       onClick={() => speakCloud(message.text, language)}
                       className="text-xs opacity-70 hover:opacity-100"
