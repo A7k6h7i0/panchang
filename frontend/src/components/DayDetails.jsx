@@ -761,7 +761,7 @@ export default function DayDetails({
               }}
             >
               <span
-                className="text-2xl sm:text-2xl font-semibold"
+                className="text-xl sm:text-xl font-bold"
                 style={{
                   color: "#FFE4B5",
                   textShadow:
@@ -776,7 +776,7 @@ export default function DayDetails({
             <div className="flex-1 min-w-0">
               <div className="flex flex-wrap items-center gap-2">
                 <div
-                  className="text-xl sm:text-2xl font-semibold "
+                  className="text-lg sm:text-xl font-bold"
                   style={{
                     color: "#FFE4B5",
                     textShadow: "0 2px 4px rgba(0, 0, 0, 0.5)",
@@ -787,7 +787,7 @@ export default function DayDetails({
               </div>
               {/* Tithi remains after weekday */}
               <div
-                className="text-base sm:text-lg font-semibold mt-1"
+                className="text-xs sm:text-sm font-semibold mt-1"
                 style={{
                   color: "#D4AF37",
                 }}
