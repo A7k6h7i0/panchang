@@ -907,7 +907,7 @@ export default function DayDetails({
 
             {vShakaSamvat !== "-" && (
               <div
-                className="inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs sm:text-sm font-bold transition-all hover:scale-105 backdrop-blur-sm flex-shrink-0"
+                className="inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs sm:text-sm font-bold transition-all hover:scale-105 backdrop-blur-sm flex-shrink-0 ml-auto"
                 style={{
                   background:
                     "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
