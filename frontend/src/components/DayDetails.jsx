@@ -77,28 +77,76 @@ const extractTimeRange = (value, language, translations) => {
   if (!value || value === "-") return { startTime: null, endTime: null };
 
   try {
-    const normalized = normalizeTimeString(value, language, translations);
-    const timeMatches = normalized.match(/(?:AM|PM)?\s*\d{1,2}\s*[:.]\s*\d{2}\s*(?:AM|PM)?/gi);
+    const normalized = normalizeDigits(value);
+    
+    // Find all time patterns in the string (language-independent)
+    const timeMatches = normalized.match(/(\d{1,2})\s*[:.]\s*(\d{2})\s*(?:AM|PM|ఉదయం|पूर्वाह्न|రాత్రి|రేయి|సాయంత్రం|अपराह्न|രാവിലെ|വൈകുന്നേരം)?/gi);
+    
     if (timeMatches && timeMatches.length >= 2) {
       return { startTime: timeMatches[0].trim(), endTime: timeMatches[1].trim() };
     }
     if (timeMatches && timeMatches.length === 1) {
       return { startTime: timeMatches[0].trim(), endTime: timeMatches[0].trim() };
     }
-
+    
+    // Fallback: try splitting by common separators
     const lang = translations?.[language];
     const extraTokens = [lang?.to, lang?.upto].filter(Boolean).map(escapeRegExp);
     const extraPattern = extraTokens.length ? `|${extraTokens.join("|")}` : "";
     const splitRegex = new RegExp(`\\s*(?:-|–|—|to|upto|up\\s*to${extraPattern})\\s*`, "i");
     const parts = normalized.split(splitRegex);
     if (parts.length === 2) {
-      return { startTime: parts[0].trim(), endTime: parts[1].trim() };
+      // Try to extract time from each part
+      const startMatch = parts[0].match(/(\d{1,2})\s*[:.]\s*(\d{2})/);
+      const endMatch = parts[1].match(/(\d{1,2})\s*[:.]\s*(\d{2})/);
+      if (startMatch && endMatch) {
+        return { 
+          startTime: parts[0].trim(), 
+          endTime: parts[1].trim() 
+        };
+      }
     }
   } catch (e) {
     console.error("Error parsing time range:", value, e);
   }
 
   return { startTime: null, endTime: null };
+};
+
+// Helper: Parse time string to minutes - language-independent version for timer
+// Supports all languages by detecting AM/PM patterns from any translation
+const parseTimeToMinutesEnglish = (timeStr) => {
+  if (!timeStr || timeStr === "-") return null;
+
+  try {
+    const cleanTime = timeStr.trim().toUpperCase();
+    
+    // Detect AM in any language (English, Telugu, Hindi, Malayalam, Tamil, Kannada, etc.)
+    const hasAM = /AM|ఉదయం|पूर्वाह्न|ராவிளೆ|రాత్రి|రేయి|காலை|ಬೆಳಗ್ಗೆ/i.test(cleanTime);
+    // Detect PM in any language
+    const hasPM = /PM|సాయంత్రం|अपराह्न|വൈകുந்நேரம்|పాత్ర|వేళ|மாலை|ಸಂಜೆ/i.test(cleanTime);
+    
+    // Extract hours and minutes - supports formats like: 10:30, 10.30, 10 : 30
+    const timePart = cleanTime.replace(/AM|PM|ఉదయం|पूर्वाह्न|रావిలೆ|రాత్రి|రేయి|సాయంత్రం|अपराह्न|വൈകുന്നേരം|పాత్ర|వేళ/gi, "").trim();
+    const match = timePart.match(/(\d{1,2})\s*[:.]\s*(\d{2})/);
+    if (!match) return null;
+
+    let hours = Number(match[1]);
+    const minutes = Number(match[2]);
+    if (isNaN(hours) || isNaN(minutes)) return null;
+
+    // Handle 12-hour to 24-hour conversion
+    let totalHours = hours;
+    if (hasPM && hours !== 12) {
+      totalHours = hours + 12;
+    } else if (hasAM && hours === 12) {
+      totalHours = 0;
+    }
+
+    return totalHours * 60 + minutes;
+  } catch (e) {
+    return null;
+  }
 };
 
 // Helper: Parse time string like "10:30 AM" to minutes from midnight
@@ -173,8 +221,9 @@ function MuhurthaTimer({ startTime, endTime, isAuspicious, language, translation
     setCurrentMinutes(currentMins);
 
 
-    const startMins = parseTimeToMinutes(startTime, language, translations);
-    const endMins = parseTimeToMinutes(endTime, language, translations);
+    // Use language-independent parsing for timer (works for all languages)
+    const startMins = parseTimeToMinutesEnglish(startTime);
+    const endMins = parseTimeToMinutesEnglish(endTime);
 
 
     if (startMins === null || endMins === null) {
@@ -1241,16 +1290,7 @@ export default function DayDetails({
                     {translations.reminderTime || "Reminder Time"}
                   </div>
                   <select
-                    className="min-w-0 max-w-[55%] truncate rounded-lg px-2 py-1 text-xs font-bold outline-none cursor-pointer"
-                    style={{
-                      color: "#FFE4B5",
-                      background: "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
-                      border: "2px solid rgba(255, 140, 50, 0.7)",
-                      boxShadow: `
-                        0 0 10px rgba(255, 140, 50, 0.4),
-                        inset 0 0 5px rgba(255, 200, 100, 0.2)
-                      `,
-                    }}
+                    className="min-w-0 max-w-[55%] truncate rounded-lg px-2 py-1 text-xs font-bold outline-none cursor-pointer chanting-alarm-select"
                     value={alarmSettings.reminderTime}
                     onChange={(e) =>
                       setAlarmSettings((prev) => ({
@@ -1260,7 +1300,7 @@ export default function DayDetails({
                     }
                   >
                     {[15, 30, 60, 90, 120].map((value) => (
-                      <option key={value} value={value} style={{ background: "#FF8C32", color: "#FFFFFF" }}>
+                      <option key={value} value={value}>
                         {value} {translations.minutesBeforeStart || "minutes before start"}
                       </option>
                     ))}
@@ -1651,3 +1691,7 @@ function DangerBox({ label, value, isAuspicious = false, isToday = false, langua
     </div>
   );
 }
+
+
+
+
