@@ -10,6 +10,8 @@ import {
 import { speakCloud, stopSpeech } from "../utils/cloudSpeech";
 
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
+
 // GLOBAL singleton to prevent multiple component instances from duplicating speech
 const globalSpeechState = {
   spokenLanguages: new Set(),
@@ -558,7 +560,7 @@ export default function DayDetails({
     for (const m of muhurtas) {
       if (!m.value || m.value === "-") continue;
       try {
-        const res = await fetch("http://localhost:5000/check-durmuhurtham-status", {
+        const res = await fetch(`${API_BASE_URL}/check-durmuhurtham-status`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ timeString: m.value }),
@@ -738,9 +740,8 @@ export default function DayDetails({
           continue;
         }
 
-
         try {
-          const response = await fetch("http://localhost:5000/check-notification", {
+          const response = await fetch(`${API_BASE_URL}/check-notification`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ timeString: muhurta.value }),
