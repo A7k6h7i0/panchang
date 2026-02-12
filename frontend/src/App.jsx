@@ -243,8 +243,13 @@ function App() {
     if (typeof window === "undefined") return;
 
     const handlePopState = (event) => {
-      const savedView = sessionStorage.getItem(VIEW_STATE_KEY);
-      const view = (savedView === "rashiphalalu" || savedView === "calendar") ? savedView : "calendar";
+      const nextView = event.state?.view;
+      const view =
+        nextView === "rashiphalalu" || nextView === "calendar"
+          ? nextView
+          : "calendar";
+
+      sessionStorage.setItem(VIEW_STATE_KEY, view);
       setCurrentView(view);
     };
 
