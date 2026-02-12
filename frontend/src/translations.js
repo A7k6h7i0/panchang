@@ -137,6 +137,8 @@ export const translations = {
     // Rashiphalalu translations
     rashiphalalu: "Daily Horoscope",
     back: "Back",
+    scrollUp: "Scroll Up",
+    addToAlbum: "Add To Album",
     general: "General",
     luckyColor: "Lucky Color",
     luckyNumber: "Lucky Number",
@@ -287,6 +289,8 @@ export const translations = {
     luckyColor: " అదృష్ట రంగు",
     luckyNumber: "అదృష్ట సంఖ్య",
     selectRashi: "మీ రాశిని ఎంచుకోండి",
+    scrollUp: "స్క్రోల్ అప్",
+    addToAlbum: "ఆల్బమ్‌కి జోడించు",
   },
   
   hi: {
@@ -431,6 +435,8 @@ export const translations = {
     luckyColor: "भाग्यशाली रंग",
     luckyNumber: "भाग्यशाली नंबर",
     selectRashi: "अपनी राशि चुनें",
+    scrollUp: "स्क्रॉल ऊपर",
+    addToAlbum: "एल्बम में जोड़ें",
   },
   
   ml: {
@@ -490,6 +496,9 @@ export const translations = {
    weekdaysLabel: "ആഴ്ചയിലെ ദിനങ്ങള്‍",
    saveSettings: "ക്രമീകരണങ്ങള്‍ സംരക്ഷിക്കുക",
    resetDefaults: "ഡിഫോള്‍ട്ടിലേക്ക് പുനഃസജ്ജമാക്കുക",
+   scrollUp: "സ്ക്രോൾ അപ്പ്",
+   addToAlbum: "ആൽബത്തിലേക്ക് ചേർക്കുക",
+
    
     Sunday: "ഞായറാഴ്ښ",
    inauspiciousTimings: "അശുഭ സമയങ്ങൾ",
@@ -628,6 +637,9 @@ export const translations = {
     saveSettings: "ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ಉಳಿಸಿ",
     saveSettings: "ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ಉಳಿಸಿ",
     resetDefaults: "ಡೀಫಾಲ್ಟ್‌ಗಳಿಗೆ ಮರುಹೊಂದಿಸಿ",
+    scrollUp: "ಸ್ಕ್ರೋಲ್ ಅಪ್",
+    addToAlbum: "ಆಲ್ಬಮ್‌ಗೆ ಸೇರಿಸಿ",
+
     
     Sunday: "ಭಾನುವಾರ",
     inauspiciousTimings: "ಅಶುಭ ಮುಹೂರ್ತಗಳು",
@@ -705,6 +717,16 @@ export const translations = {
     months: ["ಜನವರಿ", "ಫೆಬ್ರವರಿ", "ಮಾರ್ಚ್", "ಏಪ್ರಿಲ್", "ಮೇ", "ಜೂನ್", "ಜುಲೈ", "ಆಗಸ್ಟ್", "ಸೆಪ್ಟೆಂಬರ್", "ಅಕ್ಟೋಬರ್", "ನವೆಂಬರ್", "ಡಿಸೆಂಬರ್"],
     monthsShort: ["ಜನ", "ಫೆಬ್", "ಮಾರ್ಚ್", "ಏಪ್ರಿ", "ಮೇ", "ಜೂನ್", "ಜುಲೈ", "ಆಗ", "ಸೆಪ್ಟೆ", "ಅಕ್ಟೋ", "ನವೆಂ", "ಡಿಸೆಂ"],
     weekdaysShort: ["ಭಾನು", "ಸೋಮ", "ಮಂಗಳ", "ಬುಧ", "ಗುರು", "ಶುಕ್ರ", "ಶನಿ"],
+
+    // Rashiphalalu translations
+    rashiphalalu: "ದೈನಂದಿನ ರಾಶಿಫಲ",
+    back: "ಹಿಂದೆ",
+    general: "ಸಾಮಾನ್ಯ",
+    luckyColor: "ಅದೃಷ್ಟ ಬಣ್ಣ",
+    luckyNumber: "ಅದೃಷ್ಟ ಸಂಖ್ಯೆ",
+    selectRashi: "ನಿಮ್ಮ ರಾಶಿ ಆಯ್ಕೆ ಮಾಡಿ",
+    scrollUp: "ಮೇಲೆ ಸ್ಕ್ರೋಲ್ ಮಾಡಿ",
+    addToAlbum: "ಆಲ್ಬಮ್‌ಗೆ ಸೇರಿಸಿ",
   },
     
   ta: {
@@ -762,6 +784,9 @@ export const translations = {
     weekdaysLabel: "வாரத்தின் நாட்கள்",
     saveSettings: "அமைப்புகளை சேமி",
     resetDefaults: "இயல்புடன் மீட்டமை",
+    scrollUp: "ஸ்க்ரோல் அப்",
+    addToAlbum: "ஆல்பத்துக்கு சேர்",
+
     
     Sunday: "ஞாயிறு", Monday: "திங்கள்", Tuesday: "செவ்வாய்", Wednesday: "புதன்",
     Thursday: "வியாழன்", Friday: "வெள்ளி", Saturday: "சனி",
@@ -834,6 +859,16 @@ export const translations = {
     months: ["ஜனவரி", "பிப்ரவரி", "மார்ச்", "ஏப்ரல்", "மே", "ஜூன்", "ஜூலை", "ஆகஸ்ட்", "செப்டம்பர்", "அக்டோபர்", "நவம்பர்", "டிசம்பர்"],
     monthsShort: ["ஜன", "பிப்", "மார்", "ஏப்", "மே", "ஜூன்", "ஜூலை", "ஆக", "செப்", "அக்", "நவ", "டிச"],
     weekdaysShort: ["ஞா", "தி", "செ", "பு", "வி", "வெ", "ச"],
+
+    // Rashiphalalu translations
+    rashiphalalu: "தினசரி ராசிபலன்",
+    back: "மீண்டும்",
+    general: "பொதுவான",
+    luckyColor: "அதிர்ஷ்ட நிறம்",
+    luckyNumber: "அதிர்ஷ்ட எண்",
+    selectRashi: "உங்கள் ராசியைத் தேர்ந்தெடுக்கவும்",
+    scrollUp: "மேலே உருட்டவும்",
+    addToAlbum: "ஆல்பத்தில் சேர்க்கவும்",
   },
 };
 

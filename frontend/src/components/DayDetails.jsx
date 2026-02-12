@@ -1309,7 +1309,7 @@ export default function DayDetails({
                       "0 0 12px rgba(212, 168, 71, 0.25), inset 0 1px 2px rgba(255, 255, 255, 0.08), inset 0 -1px 2px rgba(0, 0, 0, 0.18)",
                   }}
                 >
-                  Scroll Up
+                  {translations.scrollUp || "Scroll Up"}
                 </button>
                 <button
                   type="button"
@@ -1323,7 +1323,7 @@ export default function DayDetails({
                       "0 0 12px rgba(212, 168, 71, 0.25), inset 0 1px 2px rgba(255, 255, 255, 0.08), inset 0 -1px 2px rgba(0, 0, 0, 0.18)",
                   }}
                 >
-                  Add To Album
+                  {translations.addToAlbum || "Add To Album"}
                 </button>
               </div>
             </div>
