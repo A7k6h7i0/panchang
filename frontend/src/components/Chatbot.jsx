@@ -215,7 +215,7 @@ export default function Chatbot({
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 bg-gradient-to-r from-orange-600 to-amber-600 text-white">
           <div className="flex items-center gap-3">
-            <span className="text-2xl">🕉️</span>
+            <span className="text-2xl">卐</span>
             <div>
               <h2 className="text-lg font-bold">{modeTitle}</h2>
               <p className="text-xs opacity-90">
