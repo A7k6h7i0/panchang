@@ -2,10 +2,8 @@ import { useState, useRef, useEffect } from "react";
 import { speakCloud } from "../utils/cloudSpeech";
 
 function buildChatbotUrl() {
-  const rawBase =
-    import.meta.env.VITE_API_URL || import.meta.env.VITE_API_BASE_URL || "";
+  const rawBase = import.meta.env.VITE_API_URL || import.meta.env.VITE_API_BASE_URL || "";
   const base = String(rawBase).trim().replace(/\/+$/, "");
-
   if (!base) return "/api/chatbot";
   if (base.endsWith("/api")) return `${base}/chatbot`;
   return `${base}/api/chatbot`;
@@ -16,9 +14,10 @@ export default function Chatbot({
   onClose, 
   language, 
   translations, 
-  currentDateData,
-  selectedDay,
-  voiceEnabled = false
+  currentDateData, 
+  selectedDay, 
+  voiceEnabled = false,
+  mode = "panchang" // "panchang" or "rashiphalalu"
 }) {
   const [messages, setMessages] = useState([]);
   const [inputText, setInputText] = useState("");
@@ -35,6 +34,24 @@ export default function Chatbot({
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
+
+  // Show welcome message based on mode
+  useEffect(() => {
+    if (isOpen && messages.length === 0) {
+      const welcomeMsg = mode === "rashiphalalu" 
+        ? {
+            type: 'bot',
+            text: translations?.rashiphalaluWelcome || "Welcome to Rashiphalalu! Ask me about your zodiac predictions.",
+            timestamp: new Date()
+          }
+        : {
+            type: 'bot',
+            text: translations?.panchangWelcome || "Welcome to Panchang AI Assistant! Ask me about tithi, nakshatra, festivals, auspicious timings, or anything about the Panchang.",
+            timestamp: new Date()
+          };
+      setMessages([welcomeMsg]);
+    }
+  }, [isOpen, mode]);
 
   // Initialize speech recognition
   useEffect(() => {
@@ -76,10 +93,10 @@ export default function Chatbot({
 
   const handleVoiceInput = () => {
     if (!recognitionRef.current) {
-      alert("Voice recognition is not supported in your browser.");
+      alert(translations?.voiceNotSupported || "Voice recognition is not supported in your browser.");
       return;
     }
-    
+
     if (isRecording) {
       try {
         recognitionRef.current.stop();
@@ -100,8 +117,8 @@ export default function Chatbot({
 
   const handleSendMessage = async () => {
     if (!inputText.trim()) return;
-    const currentMode = inputMode;
 
+    const currentMode = inputMode;
     const userMessage = {
       type: 'user',
       text: inputText,
@@ -122,7 +139,8 @@ export default function Chatbot({
           message: inputText,
           language,
           calendarData: currentDateData,
-          selectedDay
+          selectedDay,
+          mode // Pass current mode to backend
         })
       });
 
@@ -139,7 +157,7 @@ export default function Chatbot({
 
       const botMessage = {
         type: 'bot',
-        text: data?.response || "This information is not available in the Panchang data.",
+        text: data?.response || translations?.noDataAvailable || "This information is not available in the Panchang data.",
         mode: currentMode === 'voice' ? 'voice' : 'text',
         timestamp: new Date()
       };
@@ -173,100 +191,71 @@ export default function Chatbot({
     }
   };
 
+  // Format message text with markdown-like formatting
+  const formatMessage = (text) => {
+    // Bold text between **
+    const parts = text.split(/\*\*(.+?)\*\*/g);
+    return parts.map((part, idx) => {
+      if (idx % 2 === 1) {
+        return <strong key={idx}>{part}</strong>;
+      }
+      return part;
+    });
+  };
+
   if (!isOpen) return null;
 
+  const modeTitle = mode === "rashiphalalu" 
+    ? (translations?.rashiphalalu || "Rashiphalalu") 
+    : (translations?.panchangAssistant || "Panchang AI Assistant");
+
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
-      <div 
-        className="rounded-2xl shadow-2xl w-full max-w-md flex flex-col"
-        style={{
-          background: "linear-gradient(135deg, #4a0e0e 0%, #d8691e 50%, #4a0e0e 100%)",
-          maxHeight: "calc(100dvh - 2rem)",
-        }}
-      >
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+      <div className="relative w-full max-w-2xl h-[600px] bg-gradient-to-br from-orange-50 to-amber-50 dark:from-gray-900 dark:to-gray-800 rounded-2xl shadow-2xl flex flex-col overflow-hidden">
         {/* Header */}
-        <div 
-          className="p-4 flex items-center justify-between rounded-t-2xl"
-          style={{
-            background: "rgba(90, 25, 8, 0.5)",
-            borderBottom: "2px solid rgba(255, 140, 50, 0.5)"
-          }}
-        >
+        <div className="flex items-center justify-between px-6 py-4 bg-gradient-to-r from-orange-600 to-amber-600 text-white">
           <div className="flex items-center gap-3">
-            <div 
-              className="w-10 h-10 rounded-full flex items-center justify-center"
-              style={{
-                background: "linear-gradient(135deg, rgba(255, 140, 50, 0.8) 0%, rgba(255, 100, 30, 0.9) 100%)",
-              }}
-            >
-              <span className="text-xl">🗣️</span>
-            </div>
+            <span className="text-2xl">🕉️</span>
             <div>
-              <h3 className="font-bold text-lg" style={{ color: "#FFE4B5" }}>
-                {translations?.chatbotTitle || "Panchang Assistant"}
-              </h3>
-              <p className="text-xs" style={{ color: "rgba(255, 228, 181, 0.7)" }}>
-                {isRecording ? "🎙️ Listening..." : "Ask about tithi, nakshatra & more"}
+              <h2 className="text-lg font-bold">{modeTitle}</h2>
+              <p className="text-xs opacity-90">
+                {isRecording 
+                  ? (translations?.listening || "🎙️ Listening...") 
+                  : (translations?.askAnything || "Ask about tithi, nakshatra & more")}
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-2 rounded-full hover:bg-white/10 transition-colors"
-            style={{ color: "#FFE4B5" }}
+            className="p-2 hover:bg-white/20 rounded-full transition-colors"
+            aria-label="Close"
           >
-            ✕
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
           </button>
         </div>
 
         {/* Messages */}
         <div className="flex-1 overflow-y-auto p-4 space-y-4">
-          {messages.length === 0 && (
-            <div className="text-center py-8" style={{ color: "rgba(255, 228, 181, 0.7)" }}>
-              <div className="text-4xl mb-4">🗓️</div>
-              <p className="text-sm">
-                {translations?.chatbotWelcome || "Welcome! Ask me about:"}
-              </p>
-              <ul className="text-xs mt-2 space-y-1" style={{ color: "rgba(255, 228, 181, 0.5)" }}>
-                <li>• {translations?.tithi || "Today's tithi"}</li>
-                <li>• {translations?.nakshatra || "Current nakshatra"}</li>
-                <li>• {translations?.festivals || "Festival details"}</li>
-                <li>• {translations?.muhurta || "Muhurta timings"}</li>
-              </ul>
-            </div>
-          )}
-
-          {messages.map((message, index) => (
+          {messages.map((msg, idx) => (
             <div
-              key={index}
-              className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}
+              key={idx}
+              className={`flex ${msg.type === 'user' ? 'justify-end' : 'justify-start'}`}
             >
               <div
-                className={`max-w-[80%] rounded-2xl px-4 py-3 ${
-                  message.type === 'user'
-                    ? 'rounded-br-md'
-                    : 'rounded-bl-md'
+                className={`max-w-[80%] px-4 py-3 rounded-2xl shadow-md ${
+                  msg.type === 'user'
+                    ? 'bg-gradient-to-br from-orange-500 to-amber-500 text-white'
+                    : 'bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200'
                 }`}
-                style={{
-                  background: message.type === 'user'
-                    ? "linear-gradient(135deg, rgba(255, 140, 50, 0.9) 0%, rgba(255, 100, 30, 0.95) 100%)"
-                    : "rgba(255, 255, 255, 0.1)",
-                  color: message.type === 'user' ? "#FFFFFF" : "#FFE4B5",
-                }}
               >
-                <div className="flex items-center gap-2 mb-1">
-                  <span className="text-sm">{message.text}</span>
-                  {message.mode === 'voice' && message.type === 'user' && (
-                    <span className="text-xs opacity-70">🎙️</span>
-                  )}
-                  {message.mode === 'voice' && message.type === 'bot' && voiceEnabled && (
-                    <button
-                      onClick={() => speakCloud(message.text, language)}
-                      className="text-xs opacity-70 hover:opacity-100"
-                    >
-                      🔊
-                    </button>
-                  )}
+                <div className="text-sm whitespace-pre-wrap break-words leading-relaxed">
+                  {formatMessage(msg.text)}
+                </div>
+                <div className={`text-xs mt-1 ${msg.type === 'user' ? 'text-orange-100' : 'text-gray-500 dark:text-gray-400'}`}>
+                  {msg.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                  {msg.mode === 'voice' && ' 🎙️'}
                 </div>
               </div>
             </div>
@@ -274,14 +263,11 @@ export default function Chatbot({
 
           {isLoading && (
             <div className="flex justify-start">
-              <div 
-                className="rounded-2xl rounded-bl-md px-4 py-3"
-                style={{ background: "rgba(255, 255, 255, 0.1)", color: "#FFE4B5" }}
-              >
-                <div className="flex gap-1">
-                  <span className="animate-bounce">●</span>
-                  <span className="animate-bounce delay-100">●</span>
-                  <span className="animate-bounce delay-200">●</span>
+              <div className="bg-white dark:bg-gray-800 px-4 py-3 rounded-2xl shadow-md">
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-orange-500 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                  <div className="w-2 h-2 bg-orange-500 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                  <div className="w-2 h-2 bg-orange-500 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
                 </div>
               </div>
             </div>
@@ -291,71 +277,49 @@ export default function Chatbot({
         </div>
 
         {/* Input Area */}
-        <div 
-          className="p-4 rounded-b-2xl"
-          style={{
-            background: "rgba(90, 25, 8, 0.5)",
-            borderTop: "2px solid rgba(255, 140, 50, 0.5)"
-          }}
-        >
-          <div className="flex items-center gap-2">
+        <div className="border-t border-orange-200 dark:border-gray-700 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm p-4">
+          <div className="flex items-end gap-2">
             <button
               onClick={handleVoiceInput}
+              disabled={isLoading}
               className={`p-3 rounded-full transition-all ${
-                isRecording 
-                  ? "animate-pulse" 
-                  : "hover:bg-white/10"
-              }`}
-              style={{
-                background: isRecording 
-                  ? "rgba(255, 50, 50, 0.8)" 
-                  : "rgba(255, 140, 50, 0.3)",
-                color: "#FFE4B5"
-              }}
+                isRecording
+                  ? 'bg-red-500 text-white animate-pulse'
+                  : 'bg-orange-100 dark:bg-gray-700 text-orange-600 dark:text-orange-400 hover:bg-orange-200 dark:hover:bg-gray-600'
+              } disabled:opacity-50 disabled:cursor-not-allowed`}
+              aria-label={isRecording ? "Stop recording" : "Start voice input"}
             >
-              {isRecording ? "⏹️" : "🎙️"}
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M7 4a3 3 0 016 0v4a3 3 0 11-6 0V4zm4 10.93A7.001 7.001 0 0017 8a1 1 0 10-2 0A5 5 0 015 8a1 1 0 00-2 0 7.001 7.001 0 006 6.93V17H6a1 1 0 100 2h8a1 1 0 100-2h-3v-2.07z" clipRule="evenodd" />
+              </svg>
             </button>
-            
-            <input
-              type="text"
+
+            <textarea
               value={inputText}
-              onChange={(e) => {
-                setInputText(e.target.value);
-                if (!isRecording) {
-                  setInputMode("text");
-                }
-              }}
+              onChange={(e) => setInputText(e.target.value)}
               onKeyPress={handleKeyPress}
-              placeholder={isRecording 
-                ? translations?.listening || "Listening..." 
-                : translations?.typeQuestion || "Type your question..."
-              }
-              className="flex-1 px-4 py-3 rounded-full outline-none"
-              style={{
-                background: "rgba(255, 255, 255, 0.1)",
-                color: "#FFE4B5",
-                border: "2px solid rgba(255, 140, 50, 0.3)"
-              }}
+              placeholder={translations?.typeMessage || "Type your question..."}
+              disabled={isLoading || isRecording}
+              rows={1}
+              className="flex-1 px-4 py-3 bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-orange-500 disabled:opacity-50 resize-none max-h-32"
+              style={{ minHeight: '48px' }}
             />
-            
+
             <button
               onClick={handleSendMessage}
               disabled={!inputText.trim() || isLoading}
-              className="p-3 rounded-full transition-all hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
-              style={{
-                background: inputText.trim() && !isLoading
-                  ? "linear-gradient(135deg, rgba(255, 140, 50, 0.9) 0%, rgba(255, 100, 30, 0.95) 100%)"
-                  : "rgba(255, 140, 50, 0.3)",
-                color: "#FFFFFF"
-              }}
+              className="p-3 bg-gradient-to-br from-orange-500 to-amber-500 text-white rounded-full hover:from-orange-600 hover:to-amber-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
+              aria-label="Send message"
             >
-              ➤
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+              </svg>
             </button>
           </div>
-          
-          <p className="text-xs text-center mt-2" style={{ color: "rgba(255, 228, 181, 0.5)" }}>
-            {translations?.chatbotHint || "Tip: Use voice for voice responses, type for text responses"}
-          </p>
+
+          <div className="mt-2 text-xs text-gray-500 dark:text-gray-400 text-center">
+            {translations?.chatbotHint || "💡 Tip: Ask about tithi, nakshatra, festivals, or auspicious timings"}
+          </div>
         </div>
       </div>
     </div>
