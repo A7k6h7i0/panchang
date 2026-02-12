@@ -4,13 +4,13 @@ import path from "path";
 
 const router = express.Router();
 
-const MISSING_INFO =
-  "This information is currently unavailable in the Panchang data.";
-const ONLY_PANCHANG =
-  "I can answer only Panchang-related questions. Please ask about tithi, nakshatra, yogam, karanam, auspicious or inauspicious timings, or whether the day is good for starting new work.";
+// ========== CONSTANTS ==========
+const MISSING_INFO = "This information is currently unavailable in the Panchang data.";
+const FESTIVAL_2026_ONLY = "Festival data is available only for 2026.";
+const RASHIPHALALU_MODE_MSG = "Please switch to Rashiphalalu mode to ask zodiac-related questions.";
+const PANCHANG_MODE_MSG = "Please switch to Panchang mode to ask Panchang-related questions.";
 
 // ========== LOCAL DATA ACCESS ==========
-
 const dataCache = new Map();
 const festivalCache = new Map();
 let dataRootCache = null;
@@ -29,6 +29,7 @@ const getDataRoot = async () => {
   const candidates = [
     path.join(process.cwd(), "frontend", "public", "data"),
     path.join(process.cwd(), "..", "frontend", "public", "data"),
+    path.join(process.cwd(), "public", "data"),
   ];
   for (const candidate of candidates) {
     try {
@@ -62,14 +63,10 @@ const fetchFestivalData = async (year) => {
 };
 
 // ========== HELPER FUNCTIONS ==========
-
-const containsWord = (text, word) =>
-  new RegExp(`\\b${word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\b`, "i").test(text);
-
 const normalizeText = (text) =>
   String(text || "")
     .toLowerCase()
-    .replace(/[’']/g, "")
+    .replace(/['']/g, "")
     .replace(/[^a-z0-9\s]/g, " ")
     .replace(/\s+/g, " ")
     .trim();
@@ -78,48 +75,6 @@ const normalizeCompact = (text) =>
   normalizeText(text).replace(/\s+/g, "");
 
 const tokenize = (text) => normalizeText(text).split(" ").filter(Boolean);
-
-const containsAny = (text, checks) =>
-  checks.some((check) =>
-    check instanceof RegExp ? check.test(text) : containsWord(text, check)
-  );
-
-const readField = (data, keys) => {
-  for (const key of keys) {
-    const value = data?.[key];
-    if (typeof value === "string") {
-      const trimmed = value.trim();
-      if (
-        trimmed &&
-        trimmed !== "-" &&
-        trimmed.toLowerCase() !== "not available"
-      ) {
-        return trimmed;
-      }
-    }
-  }
-  return null;
-};
-
-const parseSlashDate = (dateText) => {
-  const match = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/.exec(String(dateText || "").trim());
-  if (!match) return null;
-  const day = Number(match[1]);
-  const month = Number(match[2]);
-  const year = Number(match[3]);
-  return new Date(year, month - 1, day, 0, 0, 0, 0);
-};
-
-const formatDateLabel = (dateText, weekdayText) => {
-  if (!dateText) return null;
-  const match = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/.exec(String(dateText).trim());
-  if (!match) return null;
-  const day = match[1].padStart(2, "0");
-  const month = match[2].padStart(2, "0");
-  return weekdayText
-    ? `${weekdayText}, ${day}-${month}`
-    : `${day}-${month}`;
-};
 
 const levenshtein = (a, b) => {
   const s = String(a || "");
@@ -138,62 +93,117 @@ const levenshtein = (a, b) => {
   return dp[s.length][t.length];
 };
 
-const fuzzyTokenMatch = (token, candidate) => {
-  if (!token || !candidate) return false;
-  if (token === candidate) return true;
-  const dist = levenshtein(token, candidate);
-  const len = Math.max(token.length, candidate.length);
-  const maxDist = len <= 4 ? 1 : len <= 7 ? 2 : 3;
-  return dist <= maxDist;
+const fuzzyMatch = (input, target, threshold = 0.3) => {
+  if (!input || !target) return false;
+  const inputNorm = normalizeText(input);
+  const targetNorm = normalizeText(target);
+
+  if (inputNorm === targetNorm) return true;
+  if (targetNorm.includes(inputNorm) || inputNorm.includes(targetNorm)) return true;
+
+  const dist = levenshtein(inputNorm, targetNorm);
+  const maxLen = Math.max(inputNorm.length, targetNorm.length);
+  return (dist / maxLen) <= threshold;
 };
 
-const hasKeyword = (tokens, compact, keywords) => {
-  for (const keyword of keywords) {
-    const kw = String(keyword || "").toLowerCase();
-    if (!kw) continue;
-    if (kw.includes(" ")) {
-      if (compact.includes(normalizeCompact(kw))) return true;
-      continue;
+// ========== TITHI/NAKSHATRA VARIATIONS ==========
+const TITHI_VARIATIONS = {
+  "ekadashi": ["ekadashi", "ekadasi", "ekdashi", "ekdasi", "11"],
+  "amavasya": ["amavasya", "amavasy", "amavas", "new moon"],
+  "purnima": ["purnima", "pournima", "poornima", "full moon"],
+  "dashami": ["dashami", "dasami", "10"],
+  "navami": ["navami", "navmi", "9"],
+  "ashtami": ["ashtami", "astami", "8"],
+  "saptami": ["saptami", "7"],
+  "shashthi": ["shashthi", "shasti", "sashti", "6"],
+  "panchami": ["panchami", "panchmi", "5"],
+  "chaturthi": ["chaturthi", "chaturth", "4"],
+  "tritiya": ["tritiya", "3"],
+  "dvitiya": ["dvitiya", "dwitiya", "2"],
+  "prathama": ["prathama", "pratham", "padyami", "1"],
+  "chaturdashi": ["chaturdashi", "14"],
+  "trayodashi": ["trayodashi", "13"],
+  "dwadashi": ["dwadashi", "dvadashi", "12"]
+};
+
+const NAKSHATRA_VARIATIONS = {
+  "ashwini": ["ashwini", "aswini", "ashwani"],
+  "bharani": ["bharani", "bharni"],
+  "krittika": ["krittika", "kritika", "krithika"],
+  "rohini": ["rohini", "rohni"],
+  "mrigashira": ["mrigashira", "mrigasira", "mrigshira"],
+  "ardra": ["ardra", "arudra"],
+  "punarvasu": ["punarvasu", "punarvas"],
+  "pushya": ["pushya", "pushyami"],
+  "ashlesha": ["ashlesha", "aslesha"],
+  "magha": ["magha", "magah"],
+  "purva phalguni": ["purva phalguni", "poorva phalguni", "purvaphalguni"],
+  "uttara phalguni": ["uttara phalguni", "uthara phalguni", "uttaraphalguni"],
+  "hasta": ["hasta", "hastha"],
+  "chitra": ["chitra", "chitta"],
+  "swati": ["swati", "svati"],
+  "vishakha": ["vishakha", "visakha"],
+  "anuradha": ["anuradha", "anurrada"],
+  "jyeshtha": ["jyeshtha", "jyestha", "jyeshta"],
+  "moola": ["moola", "mula", "mool"],
+  "purva ashadha": ["purva ashadha", "poorvashadha", "purvaashadha"],
+  "uttara ashadha": ["uttara ashadha", "uttarashadha", "utharashadha"],
+  "shravana": ["shravana", "sravana", "shravan"],
+  "dhanishta": ["dhanishta", "dhanishtha"],
+  "shatabhisha": ["shatabhisha", "shatabhish", "satabhisha"],
+  "purva bhadrapada": ["purva bhadrapada", "purvabhadra", "purvabhadrapada"],
+  "uttara bhadrapada": ["uttara bhadrapada", "uttarabhadra", "uttarabhadrapada"],
+  "revati": ["revati", "revathi"]
+};
+
+const TIMING_VARIATIONS = {
+  "rahukalam": ["rahukalam", "rahu kalam", "rahu", "rahukaal"],
+  "yamaganda": ["yamaganda", "yamagandam", "yama ganda"],
+  "gulikai": ["gulikai", "gulik", "gulika", "gulika kalam"],
+  "abhijit": ["abhijit", "abhijith", "abhijit muhurtham"],
+  "amrita": ["amrita", "amrit", "amritha", "amrit kalam"],
+  "varjyam": ["varjyam", "varjya", "varjyam"],
+  "durmuhurtam": ["durmuhurtam", "dur muhurtam", "durmuhurta"]
+};
+
+const findMatchingTithi = (input) => {
+  const inputNorm = normalizeText(input);
+  for (const [canonical, variations] of Object.entries(TITHI_VARIATIONS)) {
+    if (variations.some(v => fuzzyMatch(inputNorm, v, 0.25))) {
+      return canonical;
     }
-    if (tokens.some((token) => fuzzyTokenMatch(token, kw))) return true;
   }
-  return false;
+  return null;
 };
 
-const getMonthFestivalEntries = async (calendarData, year) => {
-  const rows = Array.isArray(calendarData) ? calendarData.filter(Boolean) : [];
-  
-  // Fetch festival data from the festivals file
-  const festivalData = await fetchFestivalData(year);
-  
-  const entries = [];
-  
-  for (const day of rows) {
-    const [dayPart, monthPart] = (day?.date || "").split("/");
-    if (!dayPart || !monthPart) continue;
-    
-    // Create date key for festival lookup
-    const dateKey = `${year}-${monthPart}-${dayPart}`;
-    const dayFestivals = festivalData[dateKey] || [];
-    
-    if (!dayFestivals.length) continue;
-    
-    const label = formatDateLabel(day?.date, day?.Weekday);
-    for (const name of dayFestivals) {
-      if (typeof name !== "string" || !name.trim()) continue;
-      entries.push({ festival: name.trim(), dateLabel: label, dateObj: parseSlashDate(day?.date) });
+const findMatchingNakshatra = (input) => {
+  const inputNorm = normalizeText(input);
+  for (const [canonical, variations] of Object.entries(NAKSHATRA_VARIATIONS)) {
+    if (variations.some(v => fuzzyMatch(inputNorm, v, 0.25))) {
+      return canonical;
     }
   }
-  return entries;
+  return null;
 };
 
-// ========== DATE REFERENCE ==========
+// ========== DATE PARSING ==========
+const parseSlashDate = (dateText) => {
+  const match = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/.exec(String(dateText || "").trim());
+  if (!match) return null;
+  const day = Number(match[1]);
+  const month = Number(match[2]);
+  const year = Number(match[3]);
+  return new Date(year, month - 1, day, 0, 0, 0, 0);
+};
 
-const getReferenceDate = (selectedDay) => {
-  const selected = parseSlashDate(selectedDay?.date);
-  if (selected) return selected;
-  const now = new Date();
-  return new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0, 0);
+const formatDateLabel = (dateText, weekdayText) => {
+  if (!dateText) return null;
+  const match = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/.exec(String(dateText).trim());
+  if (!match) return null;
+  const day = match[1].padStart(2, "0");
+  const month = match[2].padStart(2, "0");
+  const year = match[3];
+  return weekdayText ? `${weekdayText}, ${day}-${month}-${year}` : `${day}-${month}-${year}`;
 };
 
 const MONTHS = {
@@ -211,889 +221,343 @@ const MONTHS = {
   december: 12, dec: 12
 };
 
-const parseDayNumber = (token) => {
-  const match = String(token || "").match(/\d{1,2}/);
-  if (!match) return null;
-  const day = Number(match[0]);
-  if (day >= 1 && day <= 31) return day;
-  return null;
-};
-
-const parseNumericDate = (message, referenceYear) => {
-  const match = /\b(\d{1,2})[\/\-](\d{1,2})(?:[\/\-](\d{2,4}))?\b/.exec(message);
-  if (!match) return null;
-  const first = Number(match[1]);
-  const second = Number(match[2]);
-  let year = match[3] ? Number(match[3]) : referenceYear;
-  if (year < 100) year += 2000;
-
-  let month = first;
-  let day = second;
-  if (first > 12 && second <= 12) {
-    day = first;
-    month = second;
-  } else if (second > 12 && first <= 12) {
-    month = first;
-    day = second;
-  }
-
-  if (month < 1 || month > 12 || day < 1 || day > 31) return null;
-  return new Date(year, month - 1, day, 0, 0, 0, 0);
-};
-
-const findMonthNumber = (token) => {
-  if (!token) return null;
-  const direct = MONTHS[token];
-  if (direct) return direct;
-  const keys = Object.keys(MONTHS);
-  for (const key of keys) {
-    if (fuzzyTokenMatch(token, key)) return MONTHS[key];
-  }
-  return null;
-};
-
-const extractDateFromText = (message, referenceDate) => {
+const extractDateFromMessage = (message, selectedDay) => {
   const lower = normalizeText(message);
-  const compact = normalizeCompact(message);
   const tokens = tokenize(message);
-  const referenceYear = referenceDate.getFullYear();
 
-  if (lower.includes("day after tomorrow")) {
-    const date = new Date(referenceDate);
-    date.setDate(date.getDate() + 2);
-    return { date, label: "day after tomorrow" };
-  }
-  if (lower.includes("tomorrow") || lower.includes("next day")) {
-    const date = new Date(referenceDate);
-    date.setDate(date.getDate() + 1);
-    return { date, label: "tomorrow" };
-  }
-  if (lower.includes("yesterday")) {
-    const date = new Date(referenceDate);
-    date.setDate(date.getDate() - 1);
-    return { date, label: "yesterday" };
-  }
-  if (lower.includes("today") || lower.includes("current") || lower.includes("now")) {
-    return { date: referenceDate, label: "today" };
+  // Check for "today"
+  if (lower.includes("today") || lower.includes("aaj")) {
+    return parseSlashDate(selectedDay?.date) || new Date();
   }
 
-  const numericDate = parseNumericDate(message, referenceYear);
-  if (numericDate) return { date: numericDate, label: "numeric" };
-
-  for (let i = 0; i < tokens.length; i++) {
-    const month = findMonthNumber(tokens[i]);
-    if (!month) continue;
-
-    const nextDay = parseDayNumber(tokens[i + 1]);
-    const prevDay = parseDayNumber(tokens[i - 1]);
-    let day = nextDay || prevDay;
-    if (!day) continue;
-
-    let year = referenceYear;
-    const yearToken = tokens[i + 2];
-    if (yearToken && /^\d{4}$/.test(yearToken)) year = Number(yearToken);
-
-    const date = new Date(year, month - 1, day, 0, 0, 0, 0);
-    return { date, label: "explicit" };
+  // Check for "tomorrow"
+  if (lower.includes("tomorrow") || lower.includes("kal")) {
+    const today = parseSlashDate(selectedDay?.date) || new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    return tomorrow;
   }
 
-  if (compact) {
-    for (const [name, monthNum] of Object.entries(MONTHS)) {
-      const key = normalizeCompact(name);
-      if (!compact.includes(key)) continue;
-      const dayMatch = compact.match(/\d{1,2}/);
-      if (!dayMatch) continue;
-      const day = Number(dayMatch[0]);
-      if (day < 1 || day > 31) continue;
-      const date = new Date(referenceYear, monthNum - 1, day, 0, 0, 0, 0);
-      return { date, label: "compact" };
+  // Parse numeric date (14/2, 14-2, 14/2/2026)
+  const numMatch = /(\d{1,2})[\/-](\d{1,2})(?:[\/-](\d{2,4}))?/.exec(message);
+  if (numMatch) {
+    const first = Number(numMatch[1]);
+    const second = Number(numMatch[2]);
+    let year = numMatch[3] ? Number(numMatch[3]) : new Date().getFullYear();
+    if (year < 100) year += 2000;
+
+    const month = first > 12 ? second : first;
+    const day = first > 12 ? first : second;
+
+    if (month >= 1 && month <= 12 && day >= 1 && day <= 31) {
+      return new Date(year, month - 1, day);
+    }
+  }
+
+  // Parse "14 feb" or "feb 14"
+  for (let i = 0; i < tokens.length - 1; i++) {
+    const monthNum = MONTHS[tokens[i]];
+    const dayNum = parseInt(tokens[i + 1]);
+
+    if (monthNum && dayNum >= 1 && dayNum <= 31) {
+      return new Date(new Date().getFullYear(), monthNum - 1, dayNum);
+    }
+
+    const dayNum2 = parseInt(tokens[i]);
+    const monthNum2 = MONTHS[tokens[i + 1]];
+    if (dayNum2 >= 1 && dayNum2 <= 31 && monthNum2) {
+      return new Date(new Date().getFullYear(), monthNum2 - 1, dayNum2);
     }
   }
 
   return null;
 };
 
-const findDayData = (calendarData, targetDate) => {
-  const calendarArray = Array.isArray(calendarData) ? calendarData.filter(Boolean) : [];
-  for (const day of calendarArray) {
-    const dateObj = parseSlashDate(day?.date);
-    if (dateObj && dateObj.getTime() === targetDate.getTime()) {
-      return day;
-    }
-  }
-  return null;
-};
+// ========== FIND DATA FOR DATE ==========
+const findDataForDate = async (targetDate, selectedDay) => {
+  if (!targetDate) targetDate = parseSlashDate(selectedDay?.date) || new Date();
 
-const findDayDataWithFallback = async (calendarData, targetDate) => {
-  const inMemory = findDayData(calendarData, targetDate);
-  if (inMemory) return inMemory;
-  const yearData = await getYearData(targetDate.getFullYear());
-  return findDayData(yearData, targetDate);
-};
+  const year = targetDate.getFullYear();
+  const month = targetDate.getMonth() + 1;
+  const day = targetDate.getDate();
 
-// ========== TITHI MATCHING ==========
+  const dateStr = `${String(day).padStart(2, "0")}/${String(month).padStart(2, "0")}/${year}`;
 
-const TITHI_PATTERNS = [
-  // Shukla Paksha
-  { patterns: [/prathama/i, /padya/i, /first/i, /padyami/i], paksha: "Shukla Paksha", name: "Prathama" },
-  { patterns: [/dvitiya/i, /dwithiya/i, /dwitiya/i, /second/i], paksha: "Shukla Paksha", name: "Dvitiya" },
-  { patterns: [/tritiya/i, /trithiya/i, /third/i, /tadive/i], paksha: "Shukla Paksha", name: "Tritiya" },
-  { patterns: [/chaturthi/i, /chavithi/i, /fourth/i, /chaturt/i], paksha: "Shukla Paksha", name: "Chaturthi" },
-  { patterns: [/panchami/i, /panchami/i, /fifth/i, /panch/i], paksha: "Shukla Paksha", name: "Panchami" },
-  { patterns: [/shashthi/i, /shashti/i, /sixth/i, /sashti/i], paksha: "Shukla Paksha", name: "Shashthi" },
-  { patterns: [/saptami/i, /sapthami/i, /seventh/i, /sapt/i], paksha: "Shukla Paksha", name: "Saptami" },
-  { patterns: [/ashtami/i, /ashtami/i, /eighth/i, /ashta/i], paksha: "Shukla Paksha", name: "Ashtami" },
-  { patterns: [/navami/i, /navami/i, /ninth/i, /nava/i], paksha: "Shukla Paksha", name: "Navami" },
-  { patterns: [/dashami/i, /dasami/i, /tenth/i, /dasha/i], paksha: "Shukla Paksha", name: "Dashami" },
-  { patterns: [/ekadashi/i, /ekadasi/i, /ekaadashi/i, /ekadashi/i], paksha: null, name: "Ekadashi" },
-  { patterns: [/dwadashi/i, /dwadasi/i, /twelfth/i, /dwa/i], paksha: "Shukla Paksha", name: "Dwadashi" },
-  { patterns: [/trayodashi/i, /trayodasi/i, /thirteenth/i, /traya/i], paksha: "Shukla Paksha", name: "Trayodashi" },
-  { patterns: [/chaturdashi/i, /chaturdasi/i, /fourteenth/i, /chat/i], paksha: "Shukla Paksha", name: "Chaturdashi" },
-  { patterns: [/purnima/i, /poornima/i, /full moon/i, /pournima/i], paksha: null, name: "Purnima" },
-  // Krishna Paksha
-  { patterns: [/krishna.*prathama/i, /krishna.*padya/i], paksha: "Krishna Paksha", name: "Prathama" },
-  { patterns: [/krishna.*dvitiya/i, /krishna.*dwithiya/i], paksha: "Krishna Paksha", name: "Dvitiya" },
-  { patterns: [/krishna.*tritiya/i, /krishna.*trithiya/i], paksha: "Krishna Paksha", name: "Tritiya" },
-  { patterns: [/krishna.*chaturthi/i, /krishna.*chavithi/i], paksha: "Krishna Paksha", name: "Chaturthi" },
-  { patterns: [/krishna.*panchami/i], paksha: "Krishna Paksha", name: "Panchami" },
-  { patterns: [/krishna.*shashthi/i, /krishna.*shashti/i], paksha: "Krishna Paksha", name: "Shashthi" },
-  { patterns: [/krishna.*saptami/i, /krishna.*sapthami/i], paksha: "Krishna Paksha", name: "Saptami" },
-  { patterns: [/krishna.*ashtami/i], paksha: "Krishna Paksha", name: "Ashtami" },
-  { patterns: [/krishna.*navami/i], paksha: "Krishna Paksha", name: "Navami" },
-  { patterns: [/krishna.*dashami/i, /krishna.*dasami/i], paksha: "Krishna Paksha", name: "Dashami" },
-  { patterns: [/krishna.*ekadashi/i, /krishna.*ekadasi/i], paksha: "Krishna Paksha", name: "Ekadashi" },
-  { patterns: [/krishna.*dwadashi/i, /krishna.*dwadasi/i], paksha: "Krishna Paksha", name: "Dwadashi" },
-  { patterns: [/krishna.*trayodashi/i, /krishna.*trayodasi/i], paksha: "Krishna Paksha", name: "Trayodashi" },
-  { patterns: [/krishna.*chaturdashi/i, /krishna.*chaturdasi/i], paksha: "Krishna Paksha", name: "Chaturdashi" },
-  { patterns: [/amavasya/i, /amavasya/i, /new moon/i, /amava/i], paksha: null, name: "Amavasya" },
-];
-
-const findTithiName = (query) => {
-  for (const { patterns, name, paksha } of TITHI_PATTERNS) {
-    for (const pattern of patterns) {
-      if (pattern.test(query)) {
-        return { name, paksha };
-      }
-    }
-  }
-  return null;
-};
-
-const TITHI_TERMS = [
-  "prathama", "dvitiya", "tritiya", "chaturthi", "panchami", "shashthi",
-  "saptami", "ashtami", "navami", "dashami", "ekadashi", "dwadashi",
-  "trayodashi", "chaturdashi", "purnima", "amavasya"
-];
-
-const findTithiNameFuzzy = (message) => {
-  const direct = findTithiName(message);
-  if (direct) return direct;
-  const tokens = tokenize(message);
-  const compact = normalizeCompact(message);
-
-  for (const term of TITHI_TERMS) {
-    if (compact.includes(normalizeCompact(term))) {
-      return { name: term.charAt(0).toUpperCase() + term.slice(1), paksha: null };
-    }
-    if (tokens.some((token) => fuzzyTokenMatch(token, term))) {
-      return { name: term.charAt(0).toUpperCase() + term.slice(1), paksha: null };
-    }
-  }
-
-  return null;
-};
-
-const findNextTithiOccurrence = (calendarData, referenceDate, tithiInfo) => {
-  const calendarArray = Array.isArray(calendarData) ? calendarData.filter(Boolean) : [];
-  const results = [];
-  
-  for (const day of calendarArray) {
-    const dateObj = parseSlashDate(day?.date);
-    if (!dateObj || dateObj < referenceDate) continue;
-    
-    const dayTithi = readField(day, ["Tithi"]);
-    if (!dayTithi) continue;
-    
-    const dayPaksha = readField(day, ["Paksha"]) || "";
-    const normalizedTithi = normalizeCompact(dayTithi);
-    
-    // Check if this tithi matches
-    let matches = false;
-    if (tithiInfo.name === "Ekadashi" || tithiInfo.name === "Purnima" || tithiInfo.name === "Amavasya") {
-      // These can be in either paksha
-      if (normalizedTithi.includes(normalizeCompact(tithiInfo.name))) {
-        matches = true;
-      }
-    } else if (!tithiInfo.paksha) {
-      if (normalizedTithi.includes(normalizeCompact(tithiInfo.name))) {
-        matches = true;
-      }
-    } else if (tithiInfo.paksha) {
-      // Match with specific paksha
-      if (normalizedTithi.includes(normalizeCompact(tithiInfo.name)) &&
-          (dayPaksha.toLowerCase().includes(tithiInfo.paksha.toLowerCase()) ||
-           dayPaksha.toLowerCase().includes(tithiInfo.name.toLowerCase()))) {
-        matches = true;
-      }
-    }
-    
-    if (matches) {
-      results.push({
-        day,
-        dateObj,
-        dateLabel: formatDateLabel(day?.date, day?.Weekday),
-        tithi: dayTithi
-      });
-    }
-  }
-  
-  if (results.length === 0) return null;
-  results.sort((a, b) => a.dateObj - b.dateObj);
-  return results[0];
-};
-
-// ========== FESTIVAL MATCHING ==========
-
-const FESTIVAL_ALIASES = {
-  // Shiva
-  "Maha Shivarathri": [/maha.*shivarathri/i, /maha.*shivaratri/i, /shivarathri/i, /shivaratri/i, /shivratri/i, /shiv.*rathri/i, /mahashivratri/i, /maha.*shivratri/i, /shiv\s*ratri/i],
-  // Ganesha
-  "Ganesh Chaturthi": [/ganesh.*chaturthi/i, /ganesh.*festival/i, /vinayaka.*chaturthi/i, /ganeshotsav/i],
-  // Navratri
-  "Navratri": [/navratri/i, /navaratri/i, /navarathri/i, /nine.*nights/i],
-  // Dussehra
-  "Dussehra": [/dussehra/i, /dasara/i, /vijayadashami/i, /dassera/i],
-  // Diwali
-  "Diwali": [/diwali/i, /deepavali/i, /deepavali/i, /divali/i, /festival.*lights/i],
-  // Holi
-  "Holi": [/holi/i, /holi.*festival/i, /phagwah/i],
-  // Krishna Janmashtami
-  "Janmashtami": [/janmashtami/i, /krishna.*janmashtami/i, /janmastami/i, /birth.*krishna/i],
-  // Ram Navami
-  "Ram Navami": [/ram.*navami/i, /rama.*navami/i, /birth.*rama/i],
-  // Hanuman Jayanti
-  "Hanuman Jayanti": [/hanuman.*jayanti/i, /hanuman.*festival/i],
-  // Pongal
-  "Pongal": [/pongal/i, /pongal.*festival/i, /thai.*pongal/i],
-  // Onam
-  "Onam": [/onam/i, /onam.*festival/i],
-  // Vishu
-  "Vishu": [/vishu/i, /vishu.*festival/i],
-  // Guru Purnima
-  "Guru Purnima": [/guru.*purnima/i, /guru.*purnima/i, /vyasa.*purnima/i],
-  // Makar Sankranti
-  "Makar Sankranti": [/makar.*sankranti/i, /sankranti/i, /uttarayan/i],
-  // Baisakhi
-  "Baisakhi": [/baisakhi/i, /vasakhi/i, /vaisakhi/i],
-  // Rath Yatra
-  "Rath Yatra": [/rath.*yatra/i, /jagannath.*yatra/i, /yatra/i],
-};
-
-const findFestivalName = (query) => {
-  for (const [name, patterns] of Object.entries(FESTIVAL_ALIASES)) {
-    for (const pattern of patterns) {
-      if (pattern.test(query)) {
-        return name;
-      }
-    }
-  }
-  return null;
-};
-
-const FESTIVAL_ALIAS_STRINGS = {
-  "Maha Shivarathri": ["maha shivarathri", "maha shivaratri", "maha shivratri", "shivarathri", "shivaratri", "shivratri", "shiv ratri"],
-  "Ganesh Chaturthi": ["ganesh chaturthi", "ganesha chaturthi", "vinayaka chaturthi", "ganeshotsav"],
-  "Navratri": ["navratri", "navarathri", "navaratri", "nine nights"],
-  "Dussehra": ["dussehra", "dasara", "vijayadashami", "dassera"],
-  "Diwali": ["diwali", "deepavali", "divali", "festival of lights"],
-  "Holi": ["holi", "phagwah"],
-  "Janmashtami": ["janmashtami", "janmastami", "krishna janmashtami"],
-  "Ram Navami": ["ram navami", "rama navami"],
-  "Hanuman Jayanti": ["hanuman jayanti"],
-  "Pongal": ["pongal", "thai pongal"],
-  "Onam": ["onam"],
-  "Vishu": ["vishu"],
-  "Guru Purnima": ["guru purnima", "vyasa purnima"],
-  "Makar Sankranti": ["makar sankranti", "sankranti", "uttarayan"],
-  "Baisakhi": ["baisakhi", "vaisakhi", "vasakhi"],
-  "Rath Yatra": ["rath yatra", "jagannath yatra"]
-};
-
-const findFestivalNameFuzzy = (message) => {
-  const direct = findFestivalName(message);
-  if (direct) return direct;
-  const tokens = tokenize(message);
-  const compact = normalizeCompact(message);
-
-  for (const [name, aliases] of Object.entries(FESTIVAL_ALIAS_STRINGS)) {
-    for (const alias of aliases) {
-      const aliasCompact = normalizeCompact(alias);
-      if (compact.includes(aliasCompact)) return name;
-      if (tokens.some((token) => fuzzyTokenMatch(token, aliasCompact))) return name;
-    }
-  }
-  return null;
-};
-
-const findNextFestival = async (calendarData, year, referenceDate, festivalName) => {
-  const festivalData = await fetchFestivalData(year);
   const yearData = await getYearData(year);
-  const calendarArray = Array.isArray(yearData) && yearData.length
-    ? yearData.filter(Boolean)
-    : Array.isArray(calendarData)
-      ? calendarData.filter(Boolean)
-      : [];
+  const dayData = yearData.find(d => d.date === dateStr);
 
-  const results = [];
-  const normalizedQuery = normalizeCompact(festivalName);
+  if (dayData) {
+    // Attach festivals
+    const festivalData = await fetchFestivalData(year);
+    const dateKey = `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+    dayData.Festivals = festivalData[dateKey] || [];
+  }
 
-  for (const day of calendarArray) {
-    const dateObj = parseSlashDate(day?.date);
-    if (!dateObj || dateObj < referenceDate) continue;
+  return dayData;
+};
 
-    const [dayPart, monthPart] = (day?.date || "").split("/");
-    if (!dayPart || !monthPart) continue;
+// ========== SEARCH FUTURE TITHI ==========
+const searchFutureTithi = async (tithiName, startDate, maxDays = 60) => {
+  let currentDate = new Date(startDate);
+  currentDate.setDate(currentDate.getDate() + 1); // Start from next day
 
-    const dateKey = `${year}-${monthPart}-${dayPart}`;
-    const dayFestivals = festivalData[dateKey] || [];
-
-    for (const fest of dayFestivals) {
-      const normalizedFest = normalizeCompact(fest);
-      if (normalizedFest.includes(normalizedQuery) || normalizedQuery.includes(normalizedFest)) {
-        results.push({
-          festival: fest,
-          dateObj,
-          dateLabel: formatDateLabel(day?.date, day?.Weekday)
-        });
+  for (let i = 0; i < maxDays; i++) {
+    const dayData = await findDataForDate(currentDate);
+    if (dayData && dayData.Tithi) {
+      const tithiNorm = normalizeText(dayData.Tithi);
+      if (tithiNorm.includes(tithiName) || fuzzyMatch(tithiNorm, tithiName, 0.3)) {
+        return {
+          date: currentDate,
+          data: dayData
+        };
       }
     }
+    currentDate.setDate(currentDate.getDate() + 1);
+  }
+  return null;
+};
+
+// ========== AUSPICIOUSNESS ASSESSMENT ==========
+const assessDay = (dayData) => {
+  if (!dayData) return { quality: "moderate", reason: "Data not available" };
+
+  const tithi = normalizeText(dayData.Tithi || "");
+  const nakshatra = normalizeText(dayData.Nakshatra || "");
+
+  // Highly inauspicious tithis
+  if (tithi.includes("amavasya")) {
+    return {
+      quality: "inauspicious",
+      reason: "Amavasya (New Moon) is generally avoided for new beginnings."
+    };
   }
 
-  if (results.length === 0) return null;
-  results.sort((a, b) => a.dateObj - b.dateObj);
-  return results[0];
-};
-
-const findFestivalInMonth = async (calendarData, year, festivalName) => {
-  const festivalData = await fetchFestivalData(year);
-  const yearData = await getYearData(year);
-  const calendarArray = Array.isArray(yearData) && yearData.length
-    ? yearData.filter(Boolean)
-    : Array.isArray(calendarData)
-      ? calendarData.filter(Boolean)
-      : [];
-
-  const results = [];
-  const normalizedQuery = normalizeCompact(festivalName);
-
-  for (const day of calendarArray) {
-    const [dayPart, monthPart] = (day?.date || "").split("/");
-    if (!dayPart || !monthPart) continue;
-
-    const dateKey = `${year}-${monthPart}-${dayPart}`;
-    const dayFestivals = festivalData[dateKey] || [];
-
-    for (const fest of dayFestivals) {
-      const normalizedFest = normalizeCompact(fest);
-      if (normalizedFest.includes(normalizedQuery) || normalizedQuery.includes(normalizedFest)) {
-        results.push({
-          festival: fest,
-          dateLabel: formatDateLabel(day?.date, day?.Weekday)
-        });
-      }
-    }
+  if (tithi.includes("ashtami") || tithi.includes("navami")) {
+    return {
+      quality: "moderate",
+      reason: "Ashtami and Navami are moderately auspicious. Avoid inauspicious timings."
+    };
   }
 
-  return results;
-};
-
-const getFestivalsForDate = async (year, dateObj) => {
-  const festivalData = await fetchFestivalData(year);
-  const day = String(dateObj.getDate()).padStart(2, "0");
-  const month = String(dateObj.getMonth() + 1).padStart(2, "0");
-  const dateKey = `${year}-${month}-${day}`;
-  const festivals = festivalData[dateKey] || [];
-  return Array.isArray(festivals) ? festivals.filter(Boolean) : [];
-};
-
-// ========== GREETING PATTERNS ==========
-
-const isGreeting = (msg) => {
-  return /^(hello|hi|hey|namaste|vanakkam|good\s*morning|good\s*afternoon|good\s*evening|hari\s*om|om)\W*$/i.test(msg.trim());
-};
-
-// Check if message contains any panchang-related keywords
-const isPanchangRelated = (msg) => {
-  const tokens = tokenize(msg);
-  const compact = normalizeCompact(msg);
-
-  const festivalKeywords = [
-    "festival", "festivals", "utsav", "shivarathri", "shivaratri", "shivratri",
-    "diwali", "deepavali", "holi", "navratri", "navaratri", "dussehra",
-    "dasara", "ganesh", "chaturthi", "janmashtami", "ram navami",
-    "pongal", "onam", "vishu", "sankranti", "baisakhi", "rath yatra",
-    "mahadev", "shiva"
-  ];
-
-  const tithiKeywords = ["tithi", "thithi", "paksha", "shukla", "krishna", ...TITHI_TERMS];
-  const nakshatraKeywords = ["nakshatra", "nakshatr"];
-  const muhurtaKeywords = ["muhurta", "muhurtam", "muhurtham", "timing", "timings", "time"];
-  const rahuKeywords = ["rahu", "rahukalam", "rahu kalam"];
-  const yogaKeywords = ["yoga", "yogam", "yog"];
-  const karanaKeywords = ["karana", "karanam"];
-
-  if (hasKeyword(tokens, compact, festivalKeywords)) return true;
-  if (hasKeyword(tokens, compact, tithiKeywords)) return true;
-  if (hasKeyword(tokens, compact, nakshatraKeywords)) return true;
-  if (hasKeyword(tokens, compact, muhurtaKeywords)) return true;
-  if (hasKeyword(tokens, compact, rahuKeywords)) return true;
-  if (hasKeyword(tokens, compact, yogaKeywords)) return true;
-  if (hasKeyword(tokens, compact, karanaKeywords)) return true;
-
-  const questionPatterns = [
-    /when\s+(is|does|will)/i,
-    /what\s+(is|was|will)/i,
-    /which\s+day/i,
-    /next\s+(tithi|festival|day)/i,
-    /upcoming/i,
-    /tomorrow/i,
-    /today/i
-  ];
-
-  if (questionPatterns.some((p) => p.test(msg))) return true;
-  return false;
-};
-
-const classifyIntent = (message) => {
-  const tokens = tokenize(message);
-  const compact = normalizeCompact(message);
-
-  const festivalName = findFestivalNameFuzzy(message);
-  const tithiInfo = findTithiNameFuzzy(message);
-
-  const hasRahu = hasKeyword(tokens, compact, ["rahu", "rahukalam", "rahu kalam"]);
-  const hasNakshatra = hasKeyword(tokens, compact, ["nakshatra", "nakshatr"]);
-  const hasTithi = hasKeyword(tokens, compact, ["tithi", "thithi"]) || !!tithiInfo;
-  const hasFestival = hasKeyword(tokens, compact, ["festival", "festivals", "utsav"]) || !!festivalName;
-  const hasMuhurta = hasKeyword(tokens, compact, ["muhurta", "muhurtam", "muhurtham", "timing", "timings"]);
-
-  if (hasFestival) return { intent: "festival", festivalName };
-  if (hasTithi) return { intent: "tithi", tithiInfo };
-  if (hasRahu) return { intent: "rahukalam" };
-  if (hasNakshatra) return { intent: "nakshatra" };
-  if (hasMuhurta) return { intent: "muhurtha" };
-
-  return { intent: "unknown" };
-};
-
-const formatDateFromData = (dayData, targetDate) => {
-  const weekday = dayData?.Weekday || "";
-  const label = formatDateLabel(dayData?.date, weekday);
-  if (label) return label;
-  const day = String(targetDate.getDate()).padStart(2, "0");
-  const month = String(targetDate.getMonth() + 1).padStart(2, "0");
-  return `${day}-${month}`;
-};
-
-const buildDateResponse = (label, fieldLabel, fieldValue) => {
-  if (!fieldValue) return MISSING_INFO;
-  return label
-    ? `${fieldLabel} on ${label} is ${fieldValue}.`
-    : `${fieldLabel} is ${fieldValue}.`;
-};
-
-const buildMuhurthaResponse = (label, dayData) => {
-  const abhijit = readField(dayData, ["Abhijit"]);
-  const amrit = readField(dayData, ["Amrit Kalam"]);
-  const rahu = readField(dayData, ["Rahu Kalam", "Rahu"]);
-  const yamaganda = readField(dayData, ["Yamaganda"]);
-  const gulikai = readField(dayData, ["Gulikai Kalam"]);
-  const durMuhurtam = readField(dayData, ["Dur Muhurtam"]);
-  const varjyam = readField(dayData, ["Varjyam"]);
-
-  if (!abhijit && !amrit && !rahu && !yamaganda && !gulikai && !durMuhurtam && !varjyam) {
-    return MISSING_INFO;
+  if (tithi.includes("ekadashi") || tithi.includes("purnima") || tithi.includes("dvitiya")) {
+    return {
+      quality: "auspicious",
+      reason: "This tithi is generally favorable for new beginnings."
+    };
   }
 
-  let response = label ? `Muhurta timings for ${label}:\n\n` : "Muhurta timings:\n\n";
-  response += "Auspicious:\n";
-  if (abhijit) response += `  Abhijit: ${abhijit}\n`;
-  if (amrit) response += `  Amrit Kalam: ${amrit}\n`;
-
-  response += "\nInauspicious:\n";
-  if (rahu) response += `  Rahu Kalam: ${rahu}\n`;
-  if (yamaganda) response += `  Yamaganda: ${yamaganda}\n`;
-  if (gulikai) response += `  Gulikai Kalam: ${gulikai}\n`;
-  if (durMuhurtam) response += `  Dur Muhurtam: ${durMuhurtam}\n`;
-  if (varjyam) response += `  Varjyam: ${varjyam}`;
-
-  return response.trim();
+  return {
+    quality: "moderate",
+    reason: "Generally favorable. Avoid Rahu Kalam and other inauspicious timings."
+  };
 };
 
-const buildFullPanchangResponse = (dayData, targetDate) => {
-  const tithi = readField(dayData, ["Tithi"]) || MISSING_INFO;
-  const nakshatra = readField(dayData, ["Nakshatra"]) || MISSING_INFO;
-  const yoga = readField(dayData, ["Yoga", "Yogam"]) || MISSING_INFO;
-  const karanam = readField(dayData, ["Karanam", "Karana"]) || MISSING_INFO;
-  const paksha = readField(dayData, ["Paksha"]) || "";
-  const festivals = Array.isArray(dayData?.Festivals) ? dayData.Festivals : [];
-  const sunrise = readField(dayData, ["Sunrise"]);
-  const sunset = readField(dayData, ["Sunset"]);
-  const abhijit = readField(dayData, ["Abhijit"]);
-  const amrit = readField(dayData, ["Amrit Kalam"]);
-  const rahu = readField(dayData, ["Rahu Kalam", "Rahu"]);
-  const yamaganda = readField(dayData, ["Yamaganda"]);
-  const gulikai = readField(dayData, ["Gulikai Kalam"]);
-  const durMuhurtam = readField(dayData, ["Dur Muhurtam"]);
-  const varjyam = readField(dayData, ["Varjyam"]);
+// ========== BUILD RESPONSES ==========
+const buildFullPanchangResponse = (dayData) => {
+  if (!dayData) return MISSING_INFO;
 
-  const dateLabel = formatDateFromData(dayData, targetDate);
+  const dateLabel = formatDateLabel(dayData.date, dayData.Weekday);
+  let response = `**Panchang for ${dateLabel}**\n\n`;
 
-  let response = `Date: ${dateLabel}\n\n`;
-  response += `Tithi: ${tithi}\n`;
-  response += `Nakshatra: ${nakshatra}\n`;
-  response += `Yoga: ${yoga}\n`;
-  response += `Karana: ${karanam}\n`;
-  if (paksha) response += `Paksha: ${paksha}\n`;
-  if (festivals.length) response += `Festivals: ${festivals.join(", ")}\n\n`;
+  response += `**Tithi:** ${dayData.Tithi || "-"}\n`;
+  response += `**Nakshatra:** ${dayData.Nakshatra || "-"}\n`;
+  response += `**Yoga:** ${dayData.Yoga || "-"}\n`;
+  response += `**Karanam:** ${dayData.Karanam || "-"}\n`;
+  response += `**Paksha:** ${dayData.Paksha || "-"}\n\n`;
 
-  response += "Sun & Moon:\n";
-  if (sunrise) response += `  Sunrise: ${sunrise}\n`;
-  if (sunset) response += `  Sunset: ${sunset}\n\n`;
+  response += `**Sunrise:** ${dayData.Sunrise || "-"}\n`;
+  response += `**Sunset:** ${dayData.Sunset || "-"}\n\n`;
 
-  response += "Auspicious:\n";
-  if (abhijit) response += `  Abhijit: ${abhijit}\n`;
-  if (amrit) response += `  Amrit Kalam: ${amrit}\n\n`;
+  response += `**Auspicious Timings:**\n`;
+  response += `Abhijit Muhurtham: ${dayData["Abhijit"] || dayData["Abhijit Muhurtham"] || "-"}\n`;
+  response += `Amrit Kalam: ${dayData["Amrit Kalam"] || dayData["Amritha Kalam"] || "-"}\n\n`;
 
-  response += "Inauspicious:\n";
-  if (rahu) response += `  Rahu Kalam: ${rahu}\n`;
-  if (yamaganda) response += `  Yamaganda: ${yamaganda}\n`;
-  if (gulikai) response += `  Gulikai Kalam: ${gulikai}\n`;
-  if (durMuhurtam) response += `  Dur Muhurtam: ${durMuhurtam}\n`;
-  if (varjyam) response += `  Varjyam: ${varjyam}`;
+  response += `**Inauspicious Timings:**\n`;
+  response += `Rahu Kalam: ${dayData["Rahu Kalam"] || dayData["Rahu"] || "-"}\n`;
+  response += `Yamaganda: ${dayData["Yamaganda"] || "-"}\n`;
+  response += `Gulikai: ${dayData["Gulikai Kalam"] || dayData["Gulikai"] || "-"}\n`;
+  response += `Varjyam: ${dayData["Varjyam"] || "-"}`;
 
-  return response.trim();
+  if (dayData.Festivals && dayData.Festivals.length > 0) {
+    response += `\n\n**Festivals:** ${dayData.Festivals.join(", ")}`;
+  }
+
+  return response;
 };
 
-// ========== MAIN HANDLER ==========
-
+// ========== MAIN CHATBOT HANDLER ==========
 const handleChatbot = async (req, res) => {
   try {
-    const { message, selectedDay, calendarData } = req.body;
-    const lowerMessage = String(message || "").toLowerCase().trim();
-    
-    if (!lowerMessage) {
-      return res.json({ response: ONLY_PANCHANG });
+    const { message, selectedDay, mode } = req.body;
+
+    if (!message || !message.trim()) {
+      return res.json({ response: "Please ask a question about the Panchang." });
     }
 
-    // Greeting
-    if (isGreeting(lowerMessage)) {
+    const lower = normalizeText(message);
+    const tokens = tokenize(message);
+    const compact = normalizeCompact(message);
+
+    // ========== MODE CHECKING ==========
+    // Check if user is in Rashiphalalu mode
+    if (mode === "rashiphalalu") {
+      return res.json({ response: PANCHANG_MODE_MSG });
+    }
+
+    // ========== TODAY PANCHANG ==========
+    if (lower.includes("today") || lower.includes("panchang") || lower.includes("details")) {
+      const dayData = await findDataForDate(null, selectedDay);
+      return res.json({ response: buildFullPanchangResponse(dayData) });
+    }
+
+    // ========== SPECIFIC DATE QUERY ==========
+    const targetDate = extractDateFromMessage(message, selectedDay);
+    if (targetDate && !lower.includes("next") && !lower.includes("when")) {
+      const dayData = await findDataForDate(targetDate, selectedDay);
+      return res.json({ response: buildFullPanchangResponse(dayData) });
+    }
+
+    // ========== TITHI QUERY ==========
+    if (lower.includes("tithi")) {
+      if (lower.includes("next") || lower.includes("when")) {
+        const tithiMatch = findMatchingTithi(message);
+        if (tithiMatch) {
+          const startDate = parseSlashDate(selectedDay?.date) || new Date();
+          const result = await searchFutureTithi(tithiMatch, startDate);
+
+          if (result) {
+            const dateLabel = formatDateLabel(result.data.date, result.data.Weekday);
+            return res.json({
+              response: `The next **${tithiMatch.charAt(0).toUpperCase() + tithiMatch.slice(1)}** is on **${dateLabel}**.`
+            });
+          } else {
+            return res.json({
+              response: `Could not find ${tithiMatch} in the next 60 days.`
+            });
+          }
+        }
+      }
+
+      const dayData = await findDataForDate(targetDate, selectedDay);
       return res.json({
-        response: "Namaste! I am your Panchang assistant. You can ask me about:\n• Today's panchang details\n• Tithi, Nakshatra, Yoga, Karana\n• Festival dates (like Diwali, Maha Shivarathri, Navratri)\n• Muhurta timings (auspicious and inauspicious)\n• Good days for new beginnings\n\nWhat would you like to know?"
+        response: `Tithi: **${dayData?.Tithi || "Data not available"}**`
       });
     }
 
-    // Only panchang questions
-    if (!isPanchangRelated(lowerMessage)) {
-      return res.json({ response: ONLY_PANCHANG });
-    }
-
-    // Get reference date
-    const referenceDate = getReferenceDate(selectedDay);
-    
-    // Extract year from selectedDay
-    const year = selectedDay?.date ? parseInt(selectedDay.date.split("/")[2], 10) : new Date().getFullYear();
-
-    const intentInfo = classifyIntent(lowerMessage);
-    const extractedDate = extractDateFromText(lowerMessage, referenceDate);
-    const targetDate = extractedDate?.date || referenceDate;
-    
-    // ========== 1. SPECIFIC TITHI DATE QUERY ==========
-    // "when is ekadashi", "next ekadashi", "when is Purnima", "when is Amavasya"
-    const tithiQueryPatterns = [
-      /when\s*(is|is\s*the|will|comes|occur)/i,
-      /next/i,
-      /upcoming/i,
-      /date\s*(of|for)/i,
-    ];
-    const isTithiDateQuery = tithiQueryPatterns.some(p => p.test(lowerMessage)) &&
-      (containsWord(lowerMessage, "tithi") || findTithiNameFuzzy(lowerMessage));
-    
-    if (isTithiDateQuery) {
-      const tithiInfo = findTithiNameFuzzy(lowerMessage);
-      if (tithiInfo) {
-        const result = findNextTithiOccurrence(calendarData, referenceDate, tithiInfo);
-        if (result) {
-          return res.json({
-            response: `${tithiInfo.name} occurs on ${result.dateLabel}.`
-          });
-        }
-        return res.json({ response: MISSING_INFO });
-      }
-    }
-
-    // ========== 1. DIRECT FESTIVAL NAME QUERY ==========
-    // "maha shivarathri", "diwali", "shivarathri" - just the name without question
-    const directFestivalName = findFestivalNameFuzzy(lowerMessage);
-    if (directFestivalName) {
-      const result = await findNextFestival(calendarData, year, referenceDate, directFestivalName);
-      if (result) {
-        return res.json({
-          response: `${result.festival} is observed on ${result.dateLabel}.`
-        });
-      }
-      // Check if festival exists in calendar at all
-      const festivalResults = await findFestivalInMonth(calendarData, year, directFestivalName);
-      if (festivalResults.length > 0) {
-        const dates = festivalResults.map(r => r.dateLabel).join(", ");
-        return res.json({
-          response: `${directFestivalName} is observed on: ${dates}.`
-        });
-      }
-      return res.json({ response: MISSING_INFO });
-    }
-
-    // ========== 2. SPECIFIC FESTIVAL DATE QUERY ==========
-    // "when is Diwali", "Diwali date", "when is maha shivarathri", etc.
-    const festivalName = findFestivalNameFuzzy(lowerMessage);
-    const isFestivalDateQuery = 
-      (containsWord(lowerMessage, "when") || containsWord(lowerMessage, "which") || 
-       containsWord(lowerMessage, "what") || containsWord(lowerMessage, "date")) &&
-      (containsWord(lowerMessage, "festival") || festivalName);
-    
-    if (isFestivalDateQuery) {
-      // Use the found festival name or search for it
-      const nameToFind = festivalName || findFestivalName(lowerMessage);
-      if (nameToFind) {
-        const result = await findNextFestival(calendarData, year, referenceDate, nameToFind);
-        if (result) {
-          return res.json({
-            response: `${result.festival} is observed on ${result.dateLabel}.`
-          });
-        }
-        // Check if festival exists in calendar at all
-        const festivalResults = await findFestivalInMonth(calendarData, year, nameToFind);
-        if (festivalResults.length > 0) {
-          const dates = festivalResults.map(r => r.dateLabel).join(", ");
-          return res.json({
-            response: `${nameToFind} is observed on: ${dates}.`
-          });
-        }
-      }
-      return res.json({ response: MISSING_INFO });
-    }
-
-    // ========== 3. DATE-SPECIFIC INTENT QUERIES ==========
-    if (extractedDate && intentInfo.intent !== "unknown") {
-      const dayData = await findDayDataWithFallback(calendarData, targetDate);
-      if (!dayData) {
-        return res.json({ response: MISSING_INFO });
-      }
-
-      const dateLabel = formatDateFromData(dayData, targetDate);
-
-      if (intentInfo.intent === "festival") {
-        const festivals = await getFestivalsForDate(targetDate.getFullYear(), targetDate);
-        if (festivals.length) {
-          return res.json({ response: `Festivals on ${dateLabel}: ${festivals.join(", ")}.` });
-        }
-        return res.json({ response: MISSING_INFO });
-      }
-
-      if (intentInfo.intent === "tithi") {
-        const tithi = readField(dayData, ["Tithi"]);
-        return res.json({ response: buildDateResponse(dateLabel, "Tithi", tithi) });
-      }
-
-      if (intentInfo.intent === "nakshatra") {
-        const nakshatra = readField(dayData, ["Nakshatra"]);
-        return res.json({ response: buildDateResponse(dateLabel, "Nakshatra", nakshatra) });
-      }
-
-      if (intentInfo.intent === "rahukalam") {
-        const rahu = readField(dayData, ["Rahu Kalam", "Rahu"]);
-        return res.json({ response: buildDateResponse(dateLabel, "Rahu Kalam", rahu) });
-      }
-
-      if (intentInfo.intent === "muhurtha") {
-        const response = buildMuhurthaResponse(dateLabel, dayData);
-        return res.json({ response });
-      }
-    }
-
-    if (extractedDate && intentInfo.intent === "unknown") {
-      if (containsWord(lowerMessage, "panchang") || containsWord(lowerMessage, "full") ||
-          containsWord(lowerMessage, "complete") || containsWord(lowerMessage, "details")) {
-        const dayData = await findDayDataWithFallback(calendarData, targetDate);
-        if (!dayData) return res.json({ response: MISSING_INFO });
-        const response = buildFullPanchangResponse(dayData, targetDate);
-        return res.json({ response });
-      }
-    }
-
-    // ========== 3. DIRECT TITHI NAME QUERY ==========
-    // "ekadashi", "purnima", "amavasya" - just the tithi name without question
-    const directTithiInfo = findTithiNameFuzzy(lowerMessage);
-    const isDirectTithiQuery = directTithiInfo && 
-      (containsWord(lowerMessage, "when") || containsWord(lowerMessage, "next") || 
-       containsWord(lowerMessage, "upcoming") || !containsWord(lowerMessage, "today"));
-    
-    if (isDirectTithiQuery) {
-      const result = findNextTithiOccurrence(calendarData, referenceDate, directTithiInfo);
-      if (result) {
-        return res.json({
-          response: `${result.tithi} occurs on ${result.dateLabel}.`
-        });
-      }
-      return res.json({ response: MISSING_INFO });
-    }
-
-    // ========== 4. TODAY'S SPECIFIC DETAIL ==========
-    // "what is today's tithi", "today's nakshatra", etc.
-    const currentData = selectedDay || {};
-    
-    if (intentInfo.intent === "tithi" && !containsWord(lowerMessage, "tomorrow")) {
-      const tithi = readField(currentData, ["Tithi"]);
-      if (tithi) {
-        return res.json({ response: `Today's tithi is ${tithi}.` });
-      }
-      return res.json({ response: MISSING_INFO });
-    }
-    
-    if (intentInfo.intent === "nakshatra") {
-      const nakshatra = readField(currentData, ["Nakshatra"]);
-      if (nakshatra) {
-        return res.json({ response: `Today's nakshatra is ${nakshatra}.` });
-      }
-      return res.json({ response: MISSING_INFO });
-    }
-    
-    if (containsWord(lowerMessage, "yoga") || containsWord(lowerMessage, "yogam")) {
-      const yoga = readField(currentData, ["Yoga", "Yogam"]);
-      if (yoga) {
-        return res.json({ response: `Today's yoga is ${yoga}.` });
-      }
-      return res.json({ response: MISSING_INFO });
-    }
-    
-    if (containsWord(lowerMessage, "karana") || containsWord(lowerMessage, "karanam")) {
-      const karana = readField(currentData, ["Karanam", "Karana"]);
-      if (karana) {
-        return res.json({ response: `Today's karana is ${karana}.` });
-      }
-      return res.json({ response: MISSING_INFO });
-    }
-    
-    if (containsWord(lowerMessage, "paksha")) {
-      const paksha = readField(currentData, ["Paksha"]);
-      if (paksha) {
-        return res.json({ response: `Current paksha is ${paksha}.` });
-      }
-      return res.json({ response: MISSING_INFO });
-    }
-    
-    if (containsWord(lowerMessage, "festival") && !containsWord(lowerMessage, "when")) {
-      const festivals = Array.isArray(currentData.Festivals) ? currentData.Festivals : [];
-      if (festivals.length) {
-        return res.json({ response: `Today's festivals: ${festivals.join(", ")}.` });
-      }
-      return res.json({ response: "No festivals today." });
-    }
-
-    // ========== 5. AUSPICIOUS TIMINGS ==========
-    if (containsWord(lowerMessage, "auspicious") || containsWord(lowerMessage, "shubha") || 
-        containsWord(lowerMessage, "good time") || containsWord(lowerMessage, "best time")) {
-      const abhijit = readField(currentData, ["Abhijit"]);
-      const amrit = readField(currentData, ["Amrit Kalam"]);
-      
-      let response = "Auspicious timings:\n";
-      if (abhijit) response += `Abhijit: ${abhijit}\n`;
-      if (amrit) response += `Amrit Kalam: ${amrit}`;
-      if (!abhijit && !amrit) response = MISSING_INFO;
-      
-      return res.json({ response });
-    }
-
-    // ========== 6. INAUSPICIOUS TIMINGS ==========
-    if (containsWord(lowerMessage, "inauspicious") || containsWord(lowerMessage, "ashubha") || 
-        containsWord(lowerMessage, "bad time") || containsWord(lowerMessage, "rahu") ||
-        containsWord(lowerMessage, "yamaganda") || containsWord(lowerMessage, "gulikai") ||
-        containsWord(lowerMessage, "varjyam") || containsWord(lowerMessage, "dur muhurtam")) {
-      
-      const rahu = readField(currentData, ["Rahu Kalam", "Rahu"]);
-      const yamaganda = readField(currentData, ["Yamaganda"]);
-      const gulikai = readField(currentData, ["Gulikai Kalam"]);
-      const durMuhurtam = readField(currentData, ["Dur Muhurtam"]);
-      const varjyam = readField(currentData, ["Varjyam"]);
-      
-      let response = "Inauspicious timings:\n";
-      if (rahu) response += `Rahu Kalam: ${rahu}\n`;
-      if (yamaganda) response += `Yamaganda: ${yamaganda}\n`;
-      if (gulikai) response += `Gulikai Kalam: ${gulikai}\n`;
-      if (durMuhurtam) response += `Dur Muhurtam: ${durMuhurtam}\n`;
-      if (varjyam) response += `Varjyam: ${varjyam}`;
-      
-      return res.json({ response: response.trim() || MISSING_INFO });
-    }
-
-    // ========== 7. GOOD DAY FOR NEW WORK ==========
-    if (containsWord(lowerMessage, "good day") || containsWord(lowerMessage, "new work") ||
-        containsWord(lowerMessage, "start work") || containsWord(lowerMessage, "new beginning") ||
-        containsWord(lowerMessage, "auspicious day") || containsWord(lowerMessage, "shukar vartham")) {
-      const tithi = readField(currentData, ["Tithi"]);
-      const weekday = currentData?.Weekday || "";
-      const dateLabel = formatDateLabel(currentData?.date, weekday);
-      
-      let quality = "";
-      if (tithi) {
-        const inauspicious = /(ashtami|navami|amavasya)/i.test(tithi);
-        if (inauspicious) {
-          quality = "The day is not good for starting new work. Traditional rule: Ashtami, Navami, and Amavasya are avoided.";
-        } else {
-          quality = "The day is generally good for starting new work, while still avoiding inauspicious timings.";
-        }
-      }
-      
-      let response = "";
-      if (dateLabel) response += `Selected day: ${dateLabel}\n\n`;
-      response += quality;
-      
-      return res.json({ response });
-    }
-
-    // ========== 8. ALL TIMINGS ==========
-    if (intentInfo.intent === "muhurtha") {
-      const response = buildMuhurthaResponse("today", currentData);
-      return res.json({ response });
-    }
-
-    // ========== 9. FESTIVAL LIST ==========
-    if (containsWord(lowerMessage, "festival") && (containsWord(lowerMessage, "list") || 
-        containsWord(lowerMessage, "all") || containsWord(lowerMessage, "month"))) {
-      const monthEntries = await getMonthFestivalEntries(calendarData, year);
-      if (monthEntries.length === 0) {
-        return res.json({ response: "No festivals found in this month's data." });
-      }
-      
-      const uniqueFestivals = [...new Set(monthEntries.map(e => `${e.festival} - ${e.dateLabel}`))];
+    // ========== NAKSHATRA QUERY ==========
+    if (lower.includes("nakshatra") || lower.includes("nakshtram")) {
+      const dayData = await findDataForDate(targetDate, selectedDay);
       return res.json({
-        response: `Festivals this month:\n\n${uniqueFestivals.map((f, i) => `${i + 1}. ${f}`).join("\n")}`
+        response: `Nakshatra: **${dayData?.Nakshatra || "Data not available"}**`
       });
     }
 
-    // ========== 10. FULL PANCHANG ==========
-    if (containsWord(lowerMessage, "full") || containsWord(lowerMessage, "complete") ||
-        containsWord(lowerMessage, "all") || containsWord(lowerMessage, "panchang details") ||
-        containsWord(lowerMessage, "today panchang") || containsWord(lowerMessage, "show panchang")) {
-      
-      const targetDate = referenceDate;
-      const response = buildFullPanchangResponse(currentData, targetDate);
+    // ========== FESTIVAL QUERY ==========
+    if (lower.includes("festival")) {
+      // Check if asking for specific festival
+      const festivalTokens = tokens.filter(t => t.length > 3 && !["when", "festival", "date"].includes(t));
+
+      if (festivalTokens.length > 0) {
+        const festivalData = await fetchFestivalData(2026);
+
+        for (const [dateKey, festivals] of Object.entries(festivalData)) {
+          for (const festival of festivals) {
+            if (festivalTokens.some(token => fuzzyMatch(token, festival, 0.3))) {
+              const [year, month, day] = dateKey.split("-");
+              const date = new Date(year, month - 1, day);
+              const dayData = await findDataForDate(date);
+              const dateLabel = formatDateLabel(dayData?.date, dayData?.Weekday);
+              return res.json({
+                response: `**${festival}** is on **${dateLabel}**.`
+              });
+            }
+          }
+        }
+
+        return res.json({ response: FESTIVAL_2026_ONLY });
+      }
+
+      // List all festivals in current month
+      const currentDate = parseSlashDate(selectedDay?.date) || new Date();
+      const year = currentDate.getFullYear();
+      const month = currentDate.getMonth() + 1;
+
+      if (year !== 2026) {
+        return res.json({ response: FESTIVAL_2026_ONLY });
+      }
+
+      const festivalData = await fetchFestivalData(2026);
+      const monthFestivals = [];
+
+      for (const [dateKey, festivals] of Object.entries(festivalData)) {
+        const [y, m] = dateKey.split("-");
+        if (parseInt(y) === year && parseInt(m) === month) {
+          const [, , day] = dateKey.split("-");
+          monthFestivals.push({ day: parseInt(day), festivals });
+        }
+      }
+
+      if (monthFestivals.length === 0) {
+        return res.json({ response: "No festivals found in this month." });
+      }
+
+      monthFestivals.sort((a, b) => a.day - b.day);
+      let response = "**Festivals this month:**\n\n";
+      monthFestivals.forEach(({ day, festivals }) => {
+        response += `**${day}:** ${festivals.join(", ")}\n`;
+      });
+
+      return res.json({ response });
+    }
+
+    // ========== AUSPICIOUS TIMING ==========
+    if (lower.includes("auspicious") || lower.includes("shubh") || lower.includes("abhijit") || lower.includes("amrit")) {
+      const dayData = await findDataForDate(targetDate, selectedDay);
+      let response = "**Auspicious Timings:**\n\n";
+      response += `Abhijit Muhurtham: ${dayData?.["Abhijit"] || dayData?.["Abhijit Muhurtham"] || "-"}\n`;
+      response += `Amrit Kalam: ${dayData?.["Amrit Kalam"] || dayData?.["Amritha Kalam"] || "-"}`;
+      return res.json({ response });
+    }
+
+    // ========== INAUSPICIOUS TIMING ==========
+    if (lower.includes("inauspicious") || lower.includes("ashubh") || lower.includes("rahu") || 
+        lower.includes("yamaganda") || lower.includes("gulikai") || lower.includes("varjyam")) {
+      const dayData = await findDataForDate(targetDate, selectedDay);
+      let response = "**Inauspicious Timings:**\n\n";
+      response += `Rahu Kalam: ${dayData?.["Rahu Kalam"] || dayData?.["Rahu"] || "-"}\n`;
+      response += `Yamaganda: ${dayData?.["Yamaganda"] || "-"}\n`;
+      response += `Gulikai: ${dayData?.["Gulikai Kalam"] || dayData?.["Gulikai"] || "-"}\n`;
+      response += `Varjyam: ${dayData?.["Varjyam"] || "-"}`;
+      return res.json({ response });
+    }
+
+    // ========== GOOD DAY FOR NEW WORK ==========
+    if (lower.includes("good day") || lower.includes("good for") || lower.includes("start") || 
+        lower.includes("new work") || lower.includes("new beginning") || lower.includes("new business") ||
+        lower.includes("new job")) {
+      const dayData = await findDataForDate(targetDate, selectedDay);
+      const assessment = assessDay(dayData);
+      const dateLabel = formatDateLabel(dayData?.date, dayData?.Weekday);
+
+      let response = `**Day Assessment for ${dateLabel}**\n\n`;
+      response += `**Quality:** ${assessment.quality.charAt(0).toUpperCase() + assessment.quality.slice(1)}\n\n`;
+      response += `**Reason:** ${assessment.reason}\n\n`;
+
+      if (assessment.quality !== "inauspicious") {
+        response += `**Recommendation:** Proceed while avoiding these timings:\n`;
+        response += `- Rahu Kalam: ${dayData?.["Rahu Kalam"] || "-"}\n`;
+        response += `- Yamaganda: ${dayData?.["Yamaganda"] || "-"}\n`;
+        response += `- Gulikai: ${dayData?.["Gulikai Kalam"] || "-"}`;
+      } else {
+        response += `**Recommendation:** It is advisable to choose another day for important new beginnings.`;
+      }
+
       return res.json({ response });
     }
 
     // ========== DEFAULT RESPONSE ==========
     return res.json({
-      response: "I can provide information about:\n• Today's panchang (tithi, nakshatra, yoga, karana)\n• Festival dates\n• Auspicious and inauspicious muhurta timings\n• Good days for new beginnings\n\nPlease ask a specific question about the panchang."
+      response: "I can help you with:\n\n• Today's Panchang details\n• Tithi, Nakshatra, Yoga, Karanam\n• Festival dates (2026 only)\n• Auspicious and inauspicious timings\n• Best days for new work\n• Future tithi dates\n\nPlease ask a specific question!"
     });
 
   } catch (error) {
@@ -1103,7 +567,6 @@ const handleChatbot = async (req, res) => {
 };
 
 // ========== ROUTES ==========
-
 router.post("/chatbot", handleChatbot);
 router.post("/", handleChatbot);
 

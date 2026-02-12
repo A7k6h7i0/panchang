@@ -20,6 +20,23 @@ const globalSpeechState = {
 };
 
 
+const ALARM_STORAGE_KEY = "panchangAlarmSettings";
+
+const defaultAlarmSettings = {
+  enabledMuhurtas: {
+    rahu: true,
+    yamaganda: true,
+    gulika: true,
+    durmuhurtham: true,
+    varjyam: true,
+  },
+  audioEnabled: true,
+  reminderTime: 60,
+  silentMode: false,
+  disabledDays: [],
+};
+
+
 // Helper: Parse time string like "10:30 AM" to minutes from midnight
 const parseTimeToMinutes = (timeStr) => {
   if (!timeStr || timeStr === "-") return null;
@@ -194,6 +211,7 @@ export default function DayDetails({
   const [notificationsSent, setNotificationsSent] = useState({});
   const [festivals, setFestivals] = useState([]);
   const [festivalsLoaded, setFestivalsLoaded] = useState(false);
+  const [alarmSettings, setAlarmSettings] = useState(defaultAlarmSettings);
 
 
   // Local refs for this component instance
@@ -225,6 +243,44 @@ export default function DayDetails({
         setFestivalsLoaded(true);
       });
   }, [day]);
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(ALARM_STORAGE_KEY);
+      if (!raw) return;
+      const parsed = JSON.parse(raw);
+      setAlarmSettings((prev) => ({
+        ...prev,
+        ...parsed,
+        enabledMuhurtas: {
+          ...prev.enabledMuhurtas,
+          ...(parsed.enabledMuhurtas || {}),
+        },
+        disabledDays: Array.isArray(parsed.disabledDays)
+          ? parsed.disabledDays
+          : prev.disabledDays,
+      }));
+    } catch (err) {
+      console.error("Failed to load alarm settings:", err);
+    }
+  }, []);
+
+  const saveAlarmSettings = () => {
+    try {
+      localStorage.setItem(ALARM_STORAGE_KEY, JSON.stringify(alarmSettings));
+    } catch (err) {
+      console.error("Failed to save alarm settings:", err);
+    }
+  };
+
+  const resetAlarmSettings = () => {
+    setAlarmSettings(defaultAlarmSettings);
+    try {
+      localStorage.setItem(ALARM_STORAGE_KEY, JSON.stringify(defaultAlarmSettings));
+    } catch (err) {
+      console.error("Failed to reset alarm settings:", err);
+    }
+  };
 
 
   if (!day) {
@@ -952,6 +1008,178 @@ export default function DayDetails({
             )}
           </SectionCard>
         </div>
+
+        <SectionCard
+          title={translations.alarmSettings || "Muhurta Alarm Settings"}
+          icon="⏰"
+          variant="alarm"
+        >
+          <div className="space-y-2">
+            <div
+              className="text-xs uppercase tracking-wide font-semibold"
+              style={{ color: "#FFE4B5" }}
+            >
+              {translations.enableMuhurtas || "Enable/Disable Muhurtas"}
+            </div>
+            {[
+              { key: "rahu", label: translations.rahuKalam || "Rahu Kalam" },
+              { key: "yamaganda", label: translations.yamaganda || "Yamaganda" },
+              { key: "gulika", label: translations.gulikaiKalam || "Gulikai Kalam" },
+              { key: "durmuhurtham", label: translations.durMuhurtam || "Dur Muhurtam" },
+              { key: "varjyam", label: translations.varjyam || "Varjyam" },
+            ].map((item) => (
+              <ToggleRow
+                key={item.key}
+                label={item.label}
+                checked={alarmSettings.enabledMuhurtas[item.key]}
+                onChange={(checked) =>
+                  setAlarmSettings((prev) => ({
+                    ...prev,
+                    enabledMuhurtas: {
+                      ...prev.enabledMuhurtas,
+                      [item.key]: checked,
+                    },
+                  }))
+                }
+              />
+            ))}
+          </div>
+
+          <div className="pt-2 space-y-2">
+            <div
+              className="text-xs uppercase tracking-wide font-semibold"
+              style={{ color: "#FFE4B5" }}
+            >
+              {translations.notificationPreferences || "Notification Preferences"}
+            </div>
+            <ToggleRow
+              label={translations.audioAlerts || "Audio Alerts"}
+              checked={alarmSettings.audioEnabled}
+              onChange={(checked) =>
+                setAlarmSettings((prev) => ({ ...prev, audioEnabled: checked }))
+              }
+            />
+            <ToggleRow
+              label={translations.silentMode || "Silent Mode"}
+              hint={translations.silentModeHint || "Overrides audio setting"}
+              checked={alarmSettings.silentMode}
+              onChange={(checked) =>
+                setAlarmSettings((prev) => ({ ...prev, silentMode: checked }))
+              }
+            />
+            <div
+              className="flex items-center justify-between rounded-xl px-3 py-2"
+              style={{
+                background: "rgba(0, 0, 0, 0.25)",
+                border: "1.5px solid rgba(255, 237, 179, 0.35)",
+              }}
+            >
+              <div
+                className="text-xs font-semibold"
+                style={{ color: "#FFE4B5" }}
+              >
+                {translations.reminderTime || "Reminder Time"}
+              </div>
+              <select
+                className="bg-transparent text-xs font-semibold outline-none"
+                style={{ color: "#FFFFFF" }}
+                value={alarmSettings.reminderTime}
+                onChange={(e) =>
+                  setAlarmSettings((prev) => ({
+                    ...prev,
+                    reminderTime: Number(e.target.value),
+                  }))
+                }
+              >
+                {[15, 30, 60, 90, 120].map((value) => (
+                  <option key={value} value={value} className="text-black">
+                    {value} {translations.minutesBeforeStart || "minutes before start"}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          <div className="pt-2 space-y-2">
+            <div
+              className="text-xs uppercase tracking-wide font-semibold"
+              style={{ color: "#FFE4B5" }}
+            >
+              {translations.disabledDays || "Disabled Days"}
+            </div>
+            <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+              {[
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday",
+                "Sunday",
+              ].map((dayName, index) => {
+                const dayValue = index + 1;
+                const active = alarmSettings.disabledDays.includes(dayValue);
+                return (
+                  <button
+                    key={dayName}
+                    type="button"
+                    onClick={() =>
+                      setAlarmSettings((prev) => ({
+                        ...prev,
+                        disabledDays: active
+                          ? prev.disabledDays.filter((d) => d !== dayValue)
+                          : [...prev.disabledDays, dayValue],
+                      }))
+                    }
+                  className="rounded-xl px-2 py-1.5 text-xs font-semibold transition"
+                  style={{
+                    background: active
+                        ? "linear-gradient(135deg, #8BC34A 0%, #4CAF50 100%)"
+                        : "rgba(0, 0, 0, 0.2)",
+                      border: active
+                        ? "1.5px solid rgba(143, 196, 105, 0.9)"
+                        : "1.5px solid rgba(255, 237, 179, 0.3)",
+                      color: active ? "#0B2A10" : "#FFE4B5",
+                      boxShadow: active
+                        ? "0 0 12px rgba(76, 175, 80, 0.45)"
+                        : "none",
+                    }}
+                  >
+                    {translations[dayName] || dayName}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="pt-3 flex flex-wrap gap-2">
+            <button
+              type="button"
+              onClick={saveAlarmSettings}
+              className="rounded-full px-4 py-2 text-xs font-bold uppercase tracking-wide"
+              style={{
+                background:
+                  "linear-gradient(135deg, #8BC34A 0%, #4CAF50 100%)",
+                color: "#0B2A10",
+                boxShadow: "0 0 12px rgba(76, 175, 80, 0.45)",
+              }}
+            >
+              {translations.saveSettings || "Save Settings"}
+            </button>
+            <button
+              type="button"
+              onClick={resetAlarmSettings}
+              className="rounded-full px-4 py-2 text-xs font-bold uppercase tracking-wide"
+              style={{
+                background: "rgba(20, 60, 25, 0.4)",
+                color: "#DFF0D8",
+                border: "1.5px solid rgba(143, 196, 105, 0.5)",
+              }}
+            >
+              {translations.resetDefaults || "Reset Defaults"}
+            </button>
+          </div>
+        </SectionCard>
       </div>
     );
   }
@@ -968,6 +1196,7 @@ function SectionCard({ title, icon, children, variant }) {
   const isPanchang = variant === "panchang";
   const isSunMoon = variant === "sunmoon";
   const isInauspicious = variant === "inauspicious";
+  const isAlarm = variant === "alarm";
 
 
   const consistentBorder = "2.5px solid rgba(255, 140, 50, 0.7)";
@@ -999,6 +1228,12 @@ function SectionCard({ title, icon, children, variant }) {
     border = "2.5px solid rgba(255, 168, 67, 0.8)";
     boxShadow =
       "0 0 22px rgba(220,20,60,0.6), inset 0 0 15px rgba(0,0,0,0.3)";
+  } else if (isAlarm) {
+    background =
+      "linear-gradient(135deg, #2a5a1f 0%, #3a6e2d 30%, #4a8238 60%, #5a9645 100%)";
+    border = "2.5px solid rgba(255, 168, 67, 0.8)";
+    boxShadow =
+      "0 0 18px rgba(212,168,71,0.4), inset 0 1px 2px rgba(255,255,255,0.15), inset 0 -1px 2px rgba(0,0,0,0.2)";
   }
 
 
@@ -1032,6 +1267,36 @@ function SectionCard({ title, icon, children, variant }) {
         </h3>
       </div>
       <div className="space-y-2">{children}</div>
+    </div>
+  );
+}
+
+
+function ToggleRow({ label, checked, onChange, hint }) {
+  return (
+    <div
+      className="flex items-center justify-between rounded-xl px-3 py-2"
+      style={{
+        background: "rgba(0, 0, 0, 0.25)",
+        border: "1.5px solid rgba(255, 237, 179, 0.35)",
+      }}
+    >
+      <div className="pr-3">
+        <div className="text-xs font-semibold" style={{ color: "#FFE4B5" }}>
+          {label}
+        </div>
+        {hint && (
+          <div className="text-[10px]" style={{ color: "#E9D3A7" }}>
+            {hint}
+          </div>
+        )}
+      </div>
+      <input
+        type="checkbox"
+        className="h-4 w-4 accent-green-500"
+        checked={!!checked}
+        onChange={(e) => onChange(e.target.checked)}
+      />
     </div>
   );
 }
