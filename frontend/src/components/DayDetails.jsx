@@ -1010,7 +1010,7 @@ export default function DayDetails({
         </div>
 
         <SectionCard
-          title={translations.alarmSettings || "Muhurta Alarm Settings"}
+          title={translations.alarmSettings || "Chanting Alarm"}
           icon="⏰"
           variant="alarm"
         >
@@ -1061,7 +1061,6 @@ export default function DayDetails({
             />
             <ToggleRow
               label={translations.silentMode || "Silent Mode"}
-              hint={translations.silentModeHint || "Overrides audio setting"}
               checked={alarmSettings.silentMode}
               onChange={(checked) =>
                 setAlarmSettings((prev) => ({ ...prev, silentMode: checked }))
