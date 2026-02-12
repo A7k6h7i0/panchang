@@ -157,6 +157,32 @@ const DAILY_STATEMENTS = {
       "పాత సంబంధాలు బలపడతాయి. పాత మిత్రులతో మళ్లీ కలుసుకునే అవకాశం ఉంటుంది.",
       "పొదుపు పెరుగుతుంది. భవిష్యత్తు ప్రణాళికలు రూపుదిద్దుకుంటాయి.",
       "సుభవార్త వస్తుంది. రోజు సానుకూలంగా ముగుస్తుంది."
+    ],
+    hi: [
+      "आज मेष राशि वालों में नई ऊर्जा और उत्साह रहेगा। आपका सक्रिय रवैया सफलता दिलाएगा।",
+      "आज आपके नेतृत्व गुण चमकेंगे। महत्वपूर्ण मामलों में पहल करें।",
+      "आर्थिक लाभ के संकेत हैं। छोटे निवेश अच्छे रिटर्न दे सकते हैं।",
+      "परिवारिक संबंध मजबूत होंगे। आपसी समझ बढ़ेगी।",
+      "मित्रों का उपयोगी सहयोग मिलेगा। उनकी सलाह लाभदायक होगी।",
+      "कार्यस्थल पर नए अवसर मिलेंगे। अपनी प्रतिभा दिखाने का समय है।",
+      "व्यवसाय विस्तार अनुकूल है। नई योजनाएं आत्मविश्वास से लागू करें।",
+      "स्वास्थ्य अच्छा रहेगा। शारीरिक ऊर्जा मजबूत रहेगी।",
+      "यात्राएं फलदायी रहेंगी। सफर से लाभ मिलेगा।",
+      "विद्यार्थियों को अच्छे परिणाम मिलेंगे। पढ़ाई पर ध्यान बढ़ेगा।",
+      "विवाद से बचें। शांत व्यवहार से समस्याएं कम होंगी।",
+      "आत्मविश्वास बढ़ेगा। निर्णयों पर भरोसा मजबूत होगा।",
+      "पुराने संबंध मजबूत होंगे। पुराने मित्रों से मुलाकात संभव है।",
+      "बचत बढ़ेगी। भविष्य की योजनाएं बनेंगी।",
+      "अच्छी खबर मिलेगी। दिन सकारात्मक अंत पर समाप्त होगा।"
+    ],
+    hi: [
+      "इस सप्ताह मेष राशि वालों को अवसर मिलेंगे। वृद्धि और विस्तार आपके पक्ष में रहेंगे।",
+      "पेशेवर उन्नति प्रमुख रहेगी। इस सप्ताह आपके प्रयासों की पहचान होगी।",
+      "आर्थिक सुधार संभव हैं। आय के स्रोत बढ़ेंगे और समृद्धि आएगी।",
+      "परिवार में उत्सव होंगे। खुशियों के अवसर सभी को साथ लाएंगे।",
+      "सामाजिक संपर्क बढ़ेंगे। नेटवर्किंग से सफलता के नए रास्ते खुलेंगे।",
+      "व्यावसायिक सौदे पूरे होंगे। इस सप्ताह बनी साझेदारियां लाभ देंगी।",
+      "ऊर्जा स्तर उच्च रहेगा। शारीरिक और मानसिक उत्साह लक्ष्य हासिल करने में मदद करेगा।"
     ]
   },
   vrishabha: {
@@ -193,6 +219,32 @@ const DAILY_STATEMENTS = {
       "సంబంధాలు గాఢమవుతాయి. భావోద్వేగ బంధాలు బలపడతాయి.",
       "ఆర్థిక ప్రణాళిక మెరుగవుతుంది. భవిష్య భద్రత బలపడుతుంది.",
       "సంతోషకర ఆశ్చర్యాలు ఎదురవుతాయి. రోజు సంతృప్తిని ఇస్తుంది."
+    ],
+    hi: [
+      "आज वृषभ राशि वालों को स्थिरता और शांति मिलेगी। धैर्य का अच्छा फल मिलेगा।",
+      "काम सुचारू रहेगा। लगातार प्रयासों के परिणाम दिखेंगे।",
+      "आर्थिक स्थिरता बढ़ेगी। आय के स्रोत धीरे-धीरे बढ़ेंगे।",
+      "परिवार में सामंजस्य रहेगा। घर में प्रेमपूर्ण माहौल होगा।",
+      "सामाजिक संबंध मजबूत होंगे। नई दोस्ती बन सकती है।",
+      "कैरियर में उन्नति संभव है। आपके काम की सराहना होगी।",
+      "व्यापारिक सौदे सफल होंगे। लाभदायक अवसर आगे हैं।",
+      "स्वास्थ्य मजबूत रहेगा। ऊर्जा स्तर ऊंचा रहेगा।",
+      "छोटी यात्राएं लाभकारी रहेंगी। स्थानीय यात्रा से लाभ होगा।",
+      "शैक्षणिक उपलब्धियां मिलेंगी। सीखना आनंददायक होगा।",
+      "विवाद सुलझेंगे। शांत दृष्टिकोण बेहतर रहेगा।",
+      "आंतरिक शक्ति बढ़ेगी। संकल्प दृढ़ होगा।",
+      "संबंध गहरे होंगे। भावनात्मक जुड़ाव बढ़ेगा।",
+      "वित्तीय योजना बेहतर होगी। भविष्य की सुरक्षा सुनिश्चित होगी।",
+      "सुखद आश्चर्य मिलेंगे। दिन संतोषजनक रहेगा।"
+    ],
+    hi: [
+      "इस सप्ताह वृषभ राशि वालों को स्थिर प्रगति मिलेगी। धैर्य से अच्छे परिणाम मिलेंगे।",
+      "काम के प्रोजेक्ट सफलतापूर्वक पूरे होंगे। गुणवत्ता भरे प्रयास उत्कृष्ट परिणाम देंगे।",
+      "आर्थिक वृद्धि जारी रहेगी। बचत और निवेश सकारात्मक दिखेंगे।",
+      "घर में सुधार की योजना बनेगी। घरेलू आराम और सुंदरता बढ़ेगी।",
+      "रिश्ते गहरे होंगे। भरोसा और निष्ठा मजबूत होंगी।",
+      "कैरियर की स्थिरता बनी रहेगी। दीर्घकालिक सुरक्षा आशाजनक है।",
+      "स्वास्थ्य दिनचर्या लाभ देगी। नियमित देखभाल से स्पष्ट सुधार दिखेगा।"
     ]
   },
   mithuna: {
@@ -229,6 +281,32 @@ const DAILY_STATEMENTS = {
       "స్నేహాలు చక్కగా పునరుజ్జీవిస్తాయి. పాత పరిచయాలు మళ్లీ కలుగుతాయి.",
       "పొదుపు అలవాట్లు పెరుగుతాయి. భవిష్య భద్రతకు ప్రాధాన్యం ఇస్తారు.",
       "సానుకూల పరిణామాలు జరుగుతాయి. రోజు విజయవంతంగా ముగుస్తుంది."
+    ],
+    hi: [
+      "आज मिथुन राशि वाले मानसिक रूप से तेज और संवादशील रहेंगे। विचार सहज बहेंगे।",
+      "रचनात्मक कार्य सफल होंगे। आपकी बहुमुखी प्रतिभा लोगों को प्रभावित करेगी।",
+      "धन मामलों में अच्छे संकेत हैं। आय के कई अवसर मिलेंगे।",
+      "घर का माहौल सामंजस्यपूर्ण होगा। परिवार का सहयोग मिलेगा।",
+      "नेटवर्किंग से लाभ मिलेगा। पेशेवर संपर्क सहायक होंगे।",
+      "नौकरी के अवसर आएंगे। आपकी क्षमता की पहचान होगी।",
+      "व्यावसायिक बातचीत सफल रहेगी। बातचीत आपके पक्ष में होगी।",
+      "शारीरिक स्वास्थ्य अच्छा रहेगा। मानसिक सतर्कता बढ़ेगी।",
+      "यात्रा योजनाएं सफल होंगी। सफर में लाभकारी संपर्क बनेंगे।",
+      "विद्यार्थी परीक्षाओं में अच्छा करेंगे। एकाग्रता बढ़ेगी।",
+      "विवाद से बचें। कूटनीति से समाधान होगा।",
+      "आत्मविश्वास बढ़ेगा। क्षमताओं पर भरोसा मजबूत होगा।",
+      "पुरानी दोस्तियां फिर से जीवित होंगी। पुराने संबंध लौटेंगे।",
+      "बचत की आदत बनेगी। भविष्य की सुरक्षा प्राथमिकता होगी।",
+      "सकारात्मक घटनाएं होंगी। दिन सफलतापूर्वक समाप्त होगा।"
+    ],
+    hi: [
+      "इस सप्ताह मिथुन राशि वालों को मानसिक उत्तेजना मिलेगी। संवाद कौशल चमकेगा।",
+      "कई अवसर आएंगे। आपकी बहुमुखी प्रतिभा सब संभालने में मदद करेगी।",
+      "आय के स्रोत विविध होंगे। वित्तीय लचीलापन बढ़ेगा।",
+      "परिवार में बातचीत बढ़ेगी। विचार साझा करने से नजदीकी बढ़ेगी।",
+      "सामाजिक गतिविधियां फलेंगी। आपका आकर्षण अच्छे लोगों को खींचेगा।",
+      "कैरियर में बहुमुखीता की कद्र होगी। अनुकूलता नए रास्ते खोलेगी।",
+      "सीखने की गति तेज होगी। नए कौशल आसानी से मिलेंगे।"
     ]
   },
   karka: {
@@ -265,489 +343,1412 @@ const DAILY_STATEMENTS = {
       "పాత సంబంధాలు సరిదిద్దబడతాయి. క్షమాభావం శాంతిని ఇస్తుంది.",
       "ఆర్థిక నిల్వ పెరుగుతుంది. అత్యవసర నిధులు కూడగడతారు.",
       "ఆత్మస్థైర్యాన్నిచ్చే వార్తలు వస్తాయి. రోజు ఆత్మీయంగా ముగుస్తుంది."
+    ],
+    hi: [
+      "आज कर्क राशि वाले भावनात्मक रूप से संतुलित और संवेदनशील रहेंगे। अंतर्ज्ञान मार्गदर्शन करेगा।",
+      "घरेलू कामकाज में सफलता मिलेगी। घरेलू सुख बढ़ेगा।",
+      "आर्थिक सुरक्षा मजबूत होगी। समझदारी से निवेश लाभ देगा।",
+      "परिवारिक बंधन मजबूत होंगे। आपकी देखभाल की सराहना होगी।",
+      "करीबी मित्र सहारा देंगे। उनकी उपस्थिति खुशी देगी।",
+      "कैरियर में स्थिरता रहेगी। दीर्घकालिक प्रोजेक्ट आगे बढ़ेंगे।",
+      "व्यावसायिक साझेदारियां फलेंगी। सहयोग से सफलता मिलेगी।",
+      "स्वास्थ्य धीरे-धीरे बेहतर होगा। भावनात्मक भलाई से शारीरिक स्वास्थ्य भी सुधरेगा।",
+      "रिश्तेदारों से मिलने की योजना बनेगी। पारिवारिक यात्राएं नजदीकी बढ़ाएंगी।",
+      "पढ़ाई पर ध्यान बढ़ेगा। स्मरण शक्ति बेहतर होगी।",
+      "विवाद अपने आप कम होंगे। करुणा भरा रवैया मदद करेगा।",
+      "आत्मविश्वास बनेगा। अंतर्ज्ञान पर भरोसा बढ़ेगा।",
+      "पुराने संबंध सुधरेंगे। क्षमा से शांति मिलेगी।",
+      "आर्थिक कुशन बढ़ेगा। आपातकालीन फंड जमा होगा।",
+      "सुकून देने वाली खबर मिलेगी। दिन गर्मजोशी के साथ समाप्त होगा।"
+    ],
+    hi: [
+      "इस सप्ताह कर्क राशि वालों को भावनात्मक सुरक्षा मिलेगी। घर और परिवार की प्राथमिकताएं संतुलित रहेंगी।",
+      "देखभाल से जुड़े काम सफल होंगे। आपकी परवरिश का बड़ा असर होगा।",
+      "आर्थिक सुरक्षा मजबूत होगी। समझदारी भरे फैसले भविष्य सुरक्षित करेंगे।",
+      "परिवार में सामंजस्य रहेगा। शांत माहौल संतोष देगा।",
+      "मित्रों का दायरा बढ़ेगा। संवेदनशील लोग जीवन में आएंगे।",
+      "कैरियर स्थिर रहेगा। भावनात्मक बुद्धिमत्ता पेशेवर सफलता में मदद करेगी।",
+      "स्वास्थ्य स्वाभाविक रूप से सुधरेगा। सेल्फ-केयर दिनचर्या प्रभावी रहेगी।"
     ]
   },
-  simha: [
-    "Today Leo natives radiate confidence and charisma. Natural leadership emerges strongly.",
-    "Creative expressions succeed. Your talents receive applause.",
-    "Financial prospects brighten. Lucrative opportunities present themselves.",
-    "Family pride increases. Achievements make loved ones happy.",
-    "Social status elevates. Respect from peers grows.",
-    "Professional recognition comes. Promotions or rewards possible.",
-    "Business ventures flourish. Bold decisions bring profits.",
-    "Vitality remains high. Physical strength and stamina excellent.",
-    "Exciting travels ahead. Adventures bring memorable experiences.",
-    "Students shine academically. Competitive exams favor you.",
-    "Ego clashes avoided. Humble approach wins hearts.",
-    "Self-belief strengthens. Inner power becomes evident.",
-    "Loyal friendships deepen. True companions stand by you.",
-    "Wealth accumulation accelerates. Prosperity mindset develops.",
-    "Celebratory moments occur. Day brings joy and pride."
-  ],
-  kanya: [
-    "Today Virgo natives display analytical precision and practicality. Attention to detail impresses.",
-    "Organizational skills shine. Efficiency at work increases.",
-    "Financial management improves. Budgeting brings better results.",
-    "Family health matters. Your care makes difference.",
-    "Helpful nature appreciated. Service to others brings satisfaction.",
-    "Work perfection recognized. Quality standards you set admired.",
-    "Business systems optimize. Streamlined processes increase profits.",
-    "Health consciousness pays. Dietary discipline shows benefits.",
-    "Planned trips execute smoothly. Methodical travel preparations help.",
-    "Study techniques improve. Systematic learning yields success.",
-    "Critical nature softens. Acceptance brings peace.",
-    "Self-improvement continues. Skill development progresses well.",
-    "Practical friendships form. Reliable people enter life.",
-    "Savings strategy works. Financial goals approach realization.",
-    "Productive outcomes achieved. Day ends with accomplishment."
-  ],
-  tula: [
-    "Today Libra natives seek harmony and balance. Diplomatic skills prove valuable.",
-    "Partnerships strengthen beautifully. Cooperation brings mutual benefits.",
-    "Financial balance achieved. Income and expenses align well.",
-    "Family peace maintained. Fair treatment keeps everyone happy.",
-    "Social grace shines. Pleasant interactions increase popularity.",
-    "Career collaborations succeed. Teamwork yields excellent results.",
-    "Business negotiations favorable. Win-win deals get finalized.",
-    "Health equilibrium maintained. Mind-body balance feels good.",
-    "Companionable travels planned. Journeys with partners enjoyable.",
-    "Group study benefits. Learning with others proves effective.",
-    "Disagreements mediated successfully. Peacemaking skills utilized.",
-    "Inner harmony found. Confidence in choices develops.",
-    "Relationships flourish romantically. Love life becomes sweeter.",
-    "Financial partnerships work. Joint ventures prove profitable.",
-    "Beautiful moments created. Day brings aesthetic pleasure."
-  ],
-  vrishchika: [
-    "Today Scorpio natives feel intense and transformative. Deep insights emerge clearly.",
-    "Investigative work succeeds. Hidden truths come to light.",
-    "Financial windfalls possible. Unexpected gains surprise you.",
-    "Family mysteries resolved. Deeper understanding of loved ones.",
-    "Trusted allies support. Loyal friends prove invaluable.",
-    "Career breakthroughs happen. Your determination overcomes obstacles.",
-    "Business strategies work. Calculated risks pay off handsomely.",
-    "Regenerative health practices. Healing processes accelerate naturally.",
-    "Transformative journeys ahead. Travels change perspectives.",
-    "Deep research pays. Thorough study brings mastery.",
-    "Confrontations handled wisely. Strategic approach wins.",
-    "Personal power realized. Inner strength becomes formidable.",
-    "Profound connections form. Soul-level friendships develop.",
-    "Resource management sharpens. Hidden assets discovered.",
-    "Powerful revelations occur. Day brings significant insights."
-  ],
-  dhanu: [
-    "Today Sagittarius natives display optimistic outlook. Clarity in thinking increases and courage to move forward builds.",
-    "Work enthusiasm visible. Tasks started progress rapidly.",
-    "Financial gains indicated. Small investments yield good results.",
-    "Family time joyful. Mutual understanding grows stronger.",
-    "Friend cooperation received. Their suggestions prove useful.",
-    "Job opportunities emerge. Right time to showcase talents.",
-    "Business expansion favorable. New ideas can be implemented.",
-    "Health remains good. Physical enthusiasm continues strong.",
-    "Travels become successful. Journeys bring profitable outcomes.",
-    "Students see good results. Study concentration increases significantly.",
-    "Conflicts should be avoided. Peaceful conduct reduces problems.",
-    "Self-confidence increases. Trust in decisions strengthens.",
-    "Old bonds strengthen. Reunion with old friends happens.",
-    "Savings grow steadily. Future planning takes shape.",
-    "Good news arrives. Day ends positively overall."
-  ],
-  makara: [
-    "Today Capricorn natives display discipline and ambition. Hard work brings recognition.",
-    "Career advancement likely. Professional goals come closer.",
-    "Financial stability strengthens. Long-term investments mature.",
-    "Family responsibilities managed. Your dedication appreciated.",
-    "Mentor relationships valuable. Guidance from elders helps.",
-    "Leadership roles assigned. Authority positions suit you.",
-    "Business foundations solid. Sustainable growth continues.",
-    "Health discipline maintained. Consistent routines pay off.",
-    "Business travels productive. Professional trips bring contracts.",
-    "Academic perseverance rewarded. Difficult subjects mastered.",
-    "Patience resolves issues. Time-tested approach works.",
-    "Self-discipline strengthens. Willpower becomes impressive.",
-    "Respectful relationships form. Professional friendships develop.",
-    "Wealth building continues. Assets accumulate steadily.",
-    "Achievements recognized. Day brings professional satisfaction."
-  ],
-  kumbha: [
-    "Today Aquarius natives think innovatively and independently. Original ideas impress others.",
-    "Humanitarian projects succeed. Social causes advance well.",
-    "Financial technology helps. Modern methods increase income.",
-    "Family freedom respected. Individual space maintained.",
-    "Friendship networks expand. Like-minded people gather.",
-    "Career innovation rewarded. Unconventional approaches appreciated.",
-    "Business modernization works. Technology adoption increases profits.",
-    "Health awareness grows. Alternative therapies explored.",
-    "Group travels planned. Social journeys bring connections.",
-    "Collaborative learning effective. Study groups prove beneficial.",
-    "Detachment helps conflicts. Objective view resolves issues.",
-    "Unique identity embraced. Individuality becomes strength.",
-    "Progressive friendships form. Future-oriented people connect.",
-    "Investment diversity grows. Portfolio spreads wisely.",
-    "Innovative breakthroughs occur. Day brings fresh perspectives."
-  ],
-  meena: [
-    "Today Pisces natives feel intuitive and compassionate. Creative imagination flows freely.",
-    "Artistic projects flourish. Your creativity inspires others.",
-    "Financial intuition strong. Instincts guide good decisions.",
-    "Family empathy deepens. Emotional support flows naturally.",
-    "Spiritual friends connect. Soulful conversations nourish.",
-    "Career creativity valued. Imaginative solutions appreciated.",
-    "Business adaptability helps. Flexible approaches succeed.",
-    "Holistic health improves. Mind-body-spirit integration happens.",
-    "Spiritual travels beckoned. Pilgrimages or retreats planned.",
-    "Intuitive learning effective. Abstract concepts understood easily.",
-    "Forgiveness dissolves conflicts. Compassion heals wounds.",
-    "Inner wisdom accessed. Trust in universal guidance.",
-    "Empathetic bonds form. Understanding friendships deepen.",
-    "Spiritual wealth grows. Material needs met effortlessly.",
-    "Mystical experiences occur. Day brings transcendent moments."
-  ]
+  simha: {
+    en: [
+      "Today Leo natives radiate confidence and charisma. Natural leadership emerges strongly.",
+      "Creative expressions succeed. Your talents receive applause.",
+      "Financial prospects brighten. Lucrative opportunities present themselves.",
+      "Family pride increases. Achievements make loved ones happy.",
+      "Social status elevates. Respect from peers grows.",
+      "Professional recognition comes. Promotions or rewards possible.",
+      "Business ventures flourish. Bold decisions bring profits.",
+      "Vitality remains high. Physical strength and stamina excellent.",
+      "Exciting travels ahead. Adventures bring memorable experiences.",
+      "Students shine academically. Competitive exams favor you.",
+      "Ego clashes avoided. Humble approach wins hearts.",
+      "Self-belief strengthens. Inner power becomes evident.",
+      "Loyal friendships deepen. True companions stand by you.",
+      "Wealth accumulation accelerates. Prosperity mindset develops.",
+      "Celebratory moments occur. Day brings joy and pride."
+    ],
+    te: [
+      "ఈ రోజు సింహ రాశివారు ఆత్మవిశ్వాసం, కరిజ్మాతో మెరిసిపోతారు. సహజ నాయకత్వం బలంగా కనిపిస్తుంది.",
+      "సృజనాత్మక వ్యక్తీకరణలు విజయవంతమవుతాయి. మీ ప్రతిభకు ప్రశంసలు లభిస్తాయి.",
+      "ఆర్థిక అవకాశాలు మెరుగవుతాయి. లాభదాయక అవకాశాలు ఎదురవుతాయి.",
+      "కుటుంబ గర్వం పెరుగుతుంది. మీ విజయాలు కుటుంబానికి ఆనందం ఇస్తాయి.",
+      "సామాజిక స్థానం పెరుగుతుంది. సహచరుల నుండి గౌరవం పెరుగుతుంది.",
+      "వృత్తిలో గుర్తింపు లభిస్తుంది. పదోన్నతి లేదా పురస్కారాలు సాధ్యమవుతాయి.",
+      "వ్యాపార ప్రయత్నాలు వికసిస్తాయి. ధైర్య నిర్ణయాలు లాభాలు ఇస్తాయి.",
+      "శక్తి స్థాయి అధికంగా ఉంటుంది. శారీరక బలం, స్థైర్యం అద్భుతంగా ఉంటుంది.",
+      "ఉత్సాహభరిత ప్రయాణాలు ఉంటాయి. సాహసాలు స్మరణీయ అనుభవాలు ఇస్తాయి.",
+      "విద్యార్థులు విద్యలో మెరిసిపోతారు. పోటీ పరీక్షలు అనుకూలంగా ఉంటాయి.",
+      "అహంకార ఘర్షణలను నివారించండి. వినయంతో వ్యవహరించడం మనసులు గెలిపిస్తుంది.",
+      "స్వీయ నమ్మకం బలపడుతుంది. అంతర్లీన శక్తి స్పష్టమవుతుంది.",
+      "నమ్మకమైన స్నేహాలు గాఢమవుతాయి. నిజమైన మిత్రులు మీతో నిలబడతారు.",
+      "ధనసంపాదన వేగంగా పెరుగుతుంది. సంపద దృష్టికోణం అభివృద్ధి చెందుతుంది.",
+      "ఉత్సవకర క్షణాలు వస్తాయి. రోజు ఆనందం, గర్వంతో ముగుస్తుంది."
+    ],
+    hi: [
+      "आज सिंह राशि वाले आत्मविश्वास और करिश्मा बिखेरेंगे। प्राकृतिक नेतृत्व उभरेगा।",
+      "रचनात्मक अभिव्यक्ति सफल होगी। आपकी प्रतिभा की सराहना होगी।",
+      "आर्थिक संभावनाएं बेहतर होंगी। लाभकारी अवसर मिलेंगे।",
+      "परिवार का गर्व बढ़ेगा। आपकी उपलब्धियां उन्हें खुश करेंगी।",
+      "सामाजिक प्रतिष्ठा बढ़ेगी। साथियों का सम्मान मिलेगा।",
+      "पेशेवर पहचान मिलेगी। पदोन्नति या पुरस्कार संभव है।",
+      "व्यवसाय फलेंगे। साहसिक निर्णय लाभ देंगे।",
+      "ऊर्जा उच्च रहेगी। शारीरिक शक्ति और सहनशक्ति अच्छी होगी।",
+      "रोमांचक यात्राएं होंगी। यादगार अनुभव मिलेंगे।",
+      "विद्यार्थी अकादमिक रूप से चमकेंगे। प्रतियोगी परीक्षाएं अनुकूल रहेंगी।",
+      "अहंकार टकराव से बचें। विनम्रता दिल जीतेगी।",
+      "आत्म-विश्वास मजबूत होगा। भीतर की शक्ति स्पष्ट होगी।",
+      "वफादार दोस्तियां गहरी होंगी। सच्चे साथी साथ निभाएंगे।",
+      "धन संचय तेज होगा। समृद्धि की सोच बनेगी।",
+      "उत्सव के क्षण आएंगे। दिन खुशी और गर्व देगा।"
+    ],
+    hi: [
+      "इस सप्ताह सिंह राशि वाले सभी का ध्यान आकर्षित करेंगे। नेतृत्व के अवसर बढ़ेंगे।",
+      "रचनात्मक प्रोजेक्ट सफल होंगे। आपकी कला की पहचान होगी।",
+      "आर्थिक अवसर अधिक होंगे। साहसिक कदम से बड़ा लाभ मिलेगा।",
+      "परिवार का गर्व बढ़ेगा। आपकी उपलब्धियां प्रेरणा देंगी।",
+      "सामाजिक पहचान बढ़ेगी। सम्मान और प्रशंसा सहज मिलेगी।",
+      "कैरियर में ब्रेकथ्रू होगा। पदोन्नति या नई भूमिका मिल सकती है।",
+      "आत्मविश्वास चरम पर रहेगा। भीतर की शक्ति स्पष्ट सफलता देगी।"
+    ]
+  },
+  kanya: {
+    en: [
+      "Today Virgo natives display analytical precision and practicality. Attention to detail impresses.",
+      "Organizational skills shine. Efficiency at work increases.",
+      "Financial management improves. Budgeting brings better results.",
+      "Family health matters. Your care makes difference.",
+      "Helpful nature appreciated. Service to others brings satisfaction.",
+      "Work perfection recognized. Quality standards you set admired.",
+      "Business systems optimize. Streamlined processes increase profits.",
+      "Health consciousness pays. Dietary discipline shows benefits.",
+      "Planned trips execute smoothly. Methodical travel preparations help.",
+      "Study techniques improve. Systematic learning yields success.",
+      "Critical nature softens. Acceptance brings peace.",
+      "Self-improvement continues. Skill development progresses well.",
+      "Practical friendships form. Reliable people enter life.",
+      "Savings strategy works. Financial goals approach realization.",
+      "Productive outcomes achieved. Day ends with accomplishment."
+    ],
+    te: [
+      "ఈ రోజు కన్య రాశివారు విశ్లేషణాత్మక నిష్కళంకత, ప్రాయోగికతను చూపిస్తారు. సూక్ష్మ విషయాలపై దృష్టి ఆకట్టుకుంటుంది.",
+      "వ్యవస్థీకరణ నైపుణ్యాలు మెరుగ్గా కనిపిస్తాయి. పనిలో సామర్థ్యం పెరుగుతుంది.",
+      "ఆర్థిక నిర్వహణ మెరుగవుతుంది. బడ్జెట్ కట్టుదిట్టం చేయడం మంచి ఫలితాలు ఇస్తుంది.",
+      "కుటుంబ ఆరోగ్య విషయాలు ముఖ్యమవుతాయి. మీ శ్రద్ధ మార్పు తీసుకువస్తుంది.",
+      "సహాయక స్వభావాన్ని ఇతరులు మెచ్చుకుంటారు. సేవ భావం సంతృప్తి ఇస్తుంది.",
+      "పని లో నాణ్యతకు గుర్తింపు వస్తుంది. మీరు పెట్టిన ప్రమాణాలు ప్రశంసించబడతాయి.",
+      "వ్యాపార వ్యవస్థలు మెరుగుపడతాయి. సరళీకరణ లాభాలను పెంచుతుంది.",
+      "ఆరోగ్య జాగ్రత్తలు ఫలిస్తాయి. ఆహార నియంత్రణ ప్రయోజనంగా ఉంటుంది.",
+      "ప్రణాళికాబద్ధ ప్రయాణాలు సాఫీగా సాగుతాయి. పద్ధతిగా చేసిన సిద్ధతలు సహాయపడతాయి.",
+      "చదువు పద్ధతులు మెరుగవుతాయి. క్రమబద్ధమైన అధ్యయనం విజయానికి దారి తీస్తుంది.",
+      "అతి విమర్శాత్మకత తగ్గుతుంది. స్వీకారం శాంతిని ఇస్తుంది.",
+      "స్వీయ మెరుగుదల కొనసాగుతుంది. నైపుణ్య అభివృద్ధి బాగా సాగుతుంది.",
+      "ప్రాయోగిక స్నేహాలు ఏర్పడతాయి. నమ్మకమైన వ్యక్తులు జీవితంలోకి వస్తారు.",
+      "పొదుపు వ్యూహం ఫలిస్తుంది. ఆర్థిక లక్ష్యాలు చేరువవుతాయి.",
+      "ఉత్పాదక ఫలితాలు పొందుతారు. రోజు సాధనతో ముగుస్తుంది."
+    ],
+    hi: [
+      "आज कन्या राशि वाले विश्लेषणात्मक सटीकता और व्यवहारिकता दिखाएंगे। विवरण पर ध्यान प्रभावित करेगा।",
+      "संगठन क्षमता चमकेगी। काम में दक्षता बढ़ेगी।",
+      "वित्तीय प्रबंधन बेहतर होगा। बजटिंग से अच्छे परिणाम मिलेंगे।",
+      "परिवार के स्वास्थ्य के मामले महत्वपूर्ण रहेंगे। आपकी देखभाल फर्क डालेगी।",
+      "आपकी मददगार प्रवृत्ति सराही जाएगी। सेवा से संतोष मिलेगा।",
+      "काम में परिपूर्णता की पहचान होगी। आपके गुणवत्ता मानक की प्रशंसा होगी।",
+      "व्यवसायिक सिस्टम बेहतर होंगे। सुव्यवस्थित प्रक्रियाएं लाभ बढ़ाएंगी।",
+      "स्वास्थ्य जागरूकता का लाभ मिलेगा। आहार अनुशासन के फायदे दिखेंगे।",
+      "योजनाबद्ध यात्राएं सुचारू रहेंगी। व्यवस्थित तैयारी मदद करेगी।",
+      "पढ़ाई की तकनीकें सुधरेंगी। व्यवस्थित सीखना सफलता देगा।",
+      "आलोचनात्मक स्वभाव नरम होगा। स्वीकार्यता से शांति मिलेगी।",
+      "आत्म-सुधार जारी रहेगा। कौशल विकास अच्छा रहेगा।",
+      "व्यावहारिक मित्रताएं बनेंगी। भरोसेमंद लोग जीवन में आएंगे।",
+      "बचत की रणनीति काम करेगी। वित्तीय लक्ष्य करीब आएंगे।",
+      "उत्पादक परिणाम मिलेंगे। दिन उपलब्धि के साथ समाप्त होगा।"
+    ],
+    hi: [
+      "इस सप्ताह कन्या राशि वाले सटीकता से आगे बढ़ेंगे। संगठन कौशल लाभ देंगे।",
+      "कार्य दक्षता बढ़ेगी। व्यवस्थित तरीका बेहतरीन परिणाम देगा।",
+      "वित्तीय योजना सफल होगी। बजट और रणनीतियां सही चलेंगी।",
+      "परिवार के स्वास्थ्य में सुधार होगा। आपकी देखभाल असर दिखाएगी।",
+      "सेवा से संतोष मिलेगा। दूसरों की मदद से तृप्ति होगी।",
+      "कैरियर में परिपूर्णता की कद्र होगी। उच्च मानकों से सम्मान मिलेगा।",
+      "स्वास्थ्य दिनचर्या प्रभावी रहेगी। अच्छी आदतों का लाभ दिखेगा।"
+    ]
+  },
+  tula: {
+    en: [
+      "Today Libra natives seek harmony and balance. Diplomatic skills prove valuable.",
+      "Partnerships strengthen beautifully. Cooperation brings mutual benefits.",
+      "Financial balance achieved. Income and expenses align well.",
+      "Family peace maintained. Fair treatment keeps everyone happy.",
+      "Social grace shines. Pleasant interactions increase popularity.",
+      "Career collaborations succeed. Teamwork yields excellent results.",
+      "Business negotiations favorable. Win-win deals get finalized.",
+      "Health equilibrium maintained. Mind-body balance feels good.",
+      "Companionable travels planned. Journeys with partners enjoyable.",
+      "Group study benefits. Learning with others proves effective.",
+      "Disagreements mediated successfully. Peacemaking skills utilized.",
+      "Inner harmony found. Confidence in choices develops.",
+      "Relationships flourish romantically. Love life becomes sweeter.",
+      "Financial partnerships work. Joint ventures prove profitable.",
+      "Beautiful moments created. Day brings aesthetic pleasure."
+    ],
+    te: [
+      "ఈ రోజు తుల రాశివారు సౌహార్దం, సమతుల్యత కోరుకుంటారు. దౌత్య నైపుణ్యాలు ఉపయోగపడతాయి.",
+      "భాగస్వామ్యాలు అందంగా బలపడతాయి. సహకారం పరస్పర లాభాలను ఇస్తుంది.",
+      "ఆర్థిక సమతుల్యత సాధ్యమవుతుంది. ఆదాయం మరియు ఖర్చులు సమన్వయంగా ఉంటాయి.",
+      "కుటుంబ శాంతి నిలుస్తుంది. న్యాయమైన వ్యవహారం అందరినీ సంతోషపరుస్తుంది.",
+      "సామాజిక సౌమ్యత మెరిసుతుంది. స్నేహపూర్వక సంభాషణలు ప్రజాదరణ పెంచుతాయి.",
+      "వృత్తిలో సహకారాలు సఫలమవుతాయి. జట్టు పని గొప్ప ఫలితాలను ఇస్తుంది.",
+      "వ్యాపార చర్చలు అనుకూలంగా ఉంటాయి. అందరికీ లాభదాయక ఒప్పందాలు జరుగుతాయి.",
+      "ఆరోగ్య సమతుల్యత నిలుస్తుంది. మనసు–శరీరం సమతుల్యత ఆనందం ఇస్తుంది.",
+      "స్నేహితులతో ప్రయాణాలు ప్లాన్ అవుతాయి. భాగస్వాములతో ప్రయాణం ఆనందకరం.",
+      "గుంపుగా చదవడం ప్రయోజనకరం. ఇతరులతో కలిసి నేర్చుకోవడం ఫలితం ఇస్తుంది.",
+      "వివాదాలు సాఫీగా పరిష్కారమవుతాయి. శాంతిస్థాపన నైపుణ్యాలు ఉపయోగపడతాయి.",
+      "అంతర్ముఖ సమతుల్యత కలుగుతుంది. నిర్ణయాలపై నమ్మకం పెరుగుతుంది.",
+      "సంబంధాలు రొమాంటిక్‌గా వికసిస్తాయి. ప్రేమ జీవితం మరింత మధురమవుతుంది.",
+      "ఆర్థిక భాగస్వామ్యాలు ఫలిస్తాయి. సంయుక్త ప్రయత్నాలు లాభదాయకం.",
+      "అందమైన క్షణాలు రూపొందుతాయి. రోజు సౌందర్యానందాన్ని ఇస్తుంది."
+    ],
+    hi: [
+      "आज तुला राशि वाले सामंजस्य और संतुलन चाहेंगे। कूटनीति कौशल काम आएगा।",
+      "साझेदारियां मजबूत होंगी। सहयोग से दोनों को लाभ मिलेगा।",
+      "आर्थिक संतुलन बनेगा। आय और खर्च में तालमेल रहेगा।",
+      "परिवार में शांति रहेगी। न्यायपूर्ण व्यवहार से सभी खुश रहेंगे।",
+      "सामाजिक शिष्टता चमकेगी। सुखद बातचीत से लोकप्रियता बढ़ेगी।",
+      "कैरियर में सहयोग सफल होगा। टीमवर्क से अच्छे परिणाम मिलेंगे।",
+      "व्यापारिक बातचीत अनुकूल रहेगी। विन-विन सौदे तय होंगे।",
+      "स्वास्थ्य संतुलन बना रहेगा। मन-शरीर संतुलन अच्छा लगेगा।",
+      "साथी के साथ यात्राएं बनेंगी। सफर आनंददायक रहेगा।",
+      "समूह अध्ययन लाभ देगा। दूसरों के साथ सीखना असरदार होगा।",
+      "मतभेद सुलझेंगे। मध्यस्थता कौशल काम आएगा।",
+      "भीतरी संतुलन मिलेगा। निर्णयों पर भरोसा बढ़ेगा।",
+      "रिश्ते रोमांटिक रूप से खिलेंगे। प्रेम जीवन मधुर होगा।",
+      "आर्थिक साझेदारियां सफल होंगी। संयुक्त उद्यम लाभदायक रहेंगे।",
+      "सुंदर क्षण बनेंगे। दिन सौंदर्यपूर्ण आनंद देगा।"
+    ],
+    hi: [
+      "इस सप्ताह तुला राशि वाले संतुलन बनाएंगे। हर क्षेत्र में सामंजस्य बढ़ेगा।",
+      "साझेदारियां खूबसूरती से खिलेंगी। सहयोग से संयुक्त सफलता मिलेगी।",
+      "आर्थिक संतुलन बनेगा। आय और खर्च में तालमेल रहेगा।",
+      "परिवार में शांति बनी रहेगी। कूटनीति से सभी मुद्दे सुलझेंगे।",
+      "सामाजिक जीवन सक्रिय रहेगा। सुखद मेलजोल से खुशी मिलेगी।",
+      "कैरियर में टीमवर्क सफल होगा। सामूहिक प्रयास परिणाम देंगे।",
+      "रिश्ते रोमांटिक रूप से गहरे होंगे। प्रेम जीवन अधिक संतोष देगा।"
+    ]
+  },
+  vrishchika: {
+    en: [
+      "Today Scorpio natives feel intense and transformative. Deep insights emerge clearly.",
+      "Investigative work succeeds. Hidden truths come to light.",
+      "Financial windfalls possible. Unexpected gains surprise you.",
+      "Family mysteries resolved. Deeper understanding of loved ones.",
+      "Trusted allies support. Loyal friends prove invaluable.",
+      "Career breakthroughs happen. Your determination overcomes obstacles.",
+      "Business strategies work. Calculated risks pay off handsomely.",
+      "Regenerative health practices. Healing processes accelerate naturally.",
+      "Transformative journeys ahead. Travels change perspectives.",
+      "Deep research pays. Thorough study brings mastery.",
+      "Confrontations handled wisely. Strategic approach wins.",
+      "Personal power realized. Inner strength becomes formidable.",
+      "Profound connections form. Soul-level friendships develop.",
+      "Resource management sharpens. Hidden assets discovered.",
+      "Powerful revelations occur. Day brings significant insights."
+    ],
+    te: [
+      "ఈ రోజు వృశ్చిక రాశివారికి తీవ్రత, మార్పు అనుభూతి ఉంటుంది. లోతైన అంతర్దృష్టి స్పష్టంగా వస్తుంది.",
+      "పరిశోధనా పనులు విజయవంతమవుతాయి. దాగి ఉన్న నిజాలు వెలుగులోకి వస్తాయి.",
+      "ఆర్థికంగా అకస్మాత్తు లాభాలు సాధ్యమే. అనుకోని లాభాలు ఆశ్చర్యపరుస్తాయి.",
+      "కుటుంబ రహస్యాలు పరిష్కారమవుతాయి. ప్రియులపై లోతైన అవగాహన పెరుగుతుంది.",
+      "నమ్మకమైన సహచరులు మద్దతు ఇస్తారు. విశ్వాసపాత్ర మిత్రులు అమూల్యంగా నిలుస్తారు.",
+      "వృత్తిలో పెద్ద మలుపులు వస్తాయి. మీ సంకల్పం అడ్డంకులను తొలగిస్తుంది.",
+      "వ్యాపార వ్యూహాలు ఫలిస్తాయి. లెక్కచేసిన ప్రమాదాలు మంచి లాభం ఇస్తాయి.",
+      "పునరుజ్జీవన ఆరోగ్య పద్ధతులు ఫలిస్తాయి. చికిత్సా ప్రక్రియలు వేగవంతమవుతాయి.",
+      "మార్పునిచ్చే ప్రయాణాలు ఉంటాయి. ప్రయాణాలు దృష్టికోణాన్ని మార్చుతాయి.",
+      "లోతైన పరిశోధన ఫలిస్తుంది. పూర్తిస్థాయి అధ్యయనం నైపుణ్యాన్ని ఇస్తుంది.",
+      "సంఘర్షణలను తెలివిగా ఎదుర్కొంటారు. వ్యూహాత్మక దృష్టి విజయానికి దారి తీస్తుంది.",
+      "వ్యక్తిగత శక్తి అవగాహనకు వస్తుంది. అంతర్గత బలం గట్టి రూపం దాల్చుతుంది.",
+      "లోతైన సంబంధాలు ఏర్పడతాయి. ఆత్మ స్థాయి స్నేహాలు వికసిస్తాయి.",
+      "వనరుల నిర్వహణ పదును పడుతుంది. దాగిన ఆస్తులు కనిపిస్తాయి.",
+      "బలమైన వెల్లడింపులు జరుగుతాయి. రోజు ముఖ్యమైన అంతర్దృష్టిని ఇస్తుంది."
+    ],
+    hi: [
+      "आज वृश्चिक राशि वाले तीव्र और परिवर्तनकारी महसूस करेंगे। गहरी अंतर्दृष्टि मिलेगी।",
+      "जांच-पड़ताल वाला काम सफल होगा। छिपी बातें सामने आएंगी।",
+      "आकस्मिक आर्थिक लाभ संभव है। अप्रत्याशित लाभ मिल सकते हैं।",
+      "परिवार की उलझनें सुलझेंगी। अपनों को बेहतर समझेंगे।",
+      "विश्वसनीय सहयोगियों का साथ मिलेगा। वफादार मित्र अनमोल साबित होंगे।",
+      "कैरियर में बड़ा ब्रेकथ्रू होगा। आपकी दृढ़ता बाधाएं पार करेगी।",
+      "व्यवसायिक रणनीतियां सफल होंगी। सोच-समझकर लिया जोखिम लाभ देगा।",
+      "पुनर्जीवनकारी स्वास्थ्य उपाय लाभ देंगे। उपचार तेजी से होगा।",
+      "परिवर्तनकारी यात्राएं होंगी। यात्रा से दृष्टिकोण बदलेगा।",
+      "गहन शोध का लाभ मिलेगा। अध्ययन से निपुणता आएगी।",
+      "टकराव समझदारी से संभलेंगे। रणनीतिक दृष्टि जीत दिलाएगी।",
+      "व्यक्तिगत शक्ति का एहसास होगा। भीतर की ताकत स्पष्ट होगी।",
+      "गहरे संबंध बनेंगे। आत्मीय मित्रताएं विकसित होंगी।",
+      "संसाधन प्रबंधन बेहतर होगा। छिपी संपत्ति सामने आएगी।",
+      "महत्वपूर्ण खुलासे होंगे। दिन अंतर्दृष्टि भरा रहेगा।"
+    ],
+    hi: [
+      "इस सप्ताह वृश्चिक राशि वालों को परिवर्तन का अनुभव होगा। गहरे बदलाव सकारात्मक वृद्धि देंगे।",
+      "जांच-पड़ताल कौशल चमकेगा। छिपे अवसर सफलतापूर्वक मिलेंगे।",
+      "आर्थिक ब्रेकथ्रू होगा। अप्रत्याशित संसाधन उपलब्ध होंगे।",
+      "परिवार में समझ बढ़ेगी। भावनात्मक बंधन मजबूत होंगे।",
+      "वफादार सहयोगी मिलेंगे। भरोसेमंद लोग आपके लक्ष्यों में साथ देंगे।",
+      "कैरियर में तीव्रता का फल मिलेगा। केंद्रित संकल्प बाधाएं हटाएगा।",
+      "व्यक्तिगत शक्ति बढ़ेगी। भीतर की ताकत सबको दिखेगी।"
+    ]
+  },
+  dhanu: {
+    en: [
+      "Today Sagittarius natives display optimistic outlook. Clarity in thinking increases and courage to move forward builds.",
+      "Work enthusiasm visible. Tasks started progress rapidly.",
+      "Financial gains indicated. Small investments yield good results.",
+      "Family time joyful. Mutual understanding grows stronger.",
+      "Friend cooperation received. Their suggestions prove useful.",
+      "Job opportunities emerge. Right time to showcase talents.",
+      "Business expansion favorable. New ideas can be implemented.",
+      "Health remains good. Physical enthusiasm continues strong.",
+      "Travels become successful. Journeys bring profitable outcomes.",
+      "Students see good results. Study concentration increases significantly.",
+      "Conflicts should be avoided. Peaceful conduct reduces problems.",
+      "Self-confidence increases. Trust in decisions strengthens.",
+      "Old bonds strengthen. Reunion with old friends happens.",
+      "Savings grow steadily. Future planning takes shape.",
+      "Good news arrives. Day ends positively overall."
+    ],
+    te: [
+      "ఈ రోజు ధనుస్సు రాశివారు ఆశావాదంగా ఉంటారు. ఆలోచనల్లో స్పష్టత పెరుగుతుంది, ముందుకు సాగేందుకు ధైర్యం పెరుగుతుంది.",
+      "పనిపట్ల ఉత్సాహం కనిపిస్తుంది. ప్రారంభించిన పనులు వేగంగా ముందుకు సాగుతాయి.",
+      "ఆర్థిక లాభ సూచనలు ఉన్నాయి. చిన్న పెట్టుబడులు మంచి ఫలితాలు ఇస్తాయి.",
+      "కుటుంబంతో గడిపే సమయం ఆనందంగా ఉంటుంది. పరస్పర అవగాహన బలపడుతుంది.",
+      "మిత్రుల సహకారం లభిస్తుంది. వారి సూచనలు ఉపయోగపడతాయి.",
+      "ఉద్యోగ అవకాశాలు వస్తాయి. మీ ప్రతిభ చూపించే సరైన సమయం ఇది.",
+      "వ్యాపార విస్తరణకు అనుకూలం. కొత్త ఆలోచనలను అమలు చేయవచ్చు.",
+      "ఆరోగ్యం బాగుంటుంది. శారీరక ఉత్సాహం నిలకడగా ఉంటుంది.",
+      "ప్రయాణాలు విజయవంతమవుతాయి. ప్రయాణాలు లాభదాయక ఫలితాలు ఇస్తాయి.",
+      "విద్యార్థులకు మంచి ఫలితాలు వస్తాయి. చదువుపై ఏకాగ్రత గణనీయంగా పెరుగుతుంది.",
+      "వివాదాలను నివారించండి. శాంతపూర్వక ప్రవర్తన సమస్యలను తగ్గిస్తుంది.",
+      "ఆత్మవిశ్వాసం పెరుగుతుంది. మీ నిర్ణయాలపై నమ్మకం బలపడుతుంది.",
+      "పాత బంధాలు బలపడతాయి. పాత మిత్రులతో మళ్లీ కలుసుకునే అవకాశం ఉంటుంది.",
+      "పొదుపు క్రమంగా పెరుగుతుంది. భవిష్య ప్రణాళికలు రూపుదిద్దుకుంటాయి.",
+      "సుభవార్త వస్తుంది. రోజు మొత్తంగా సానుకూలంగా ముగుస్తుంది."
+    ],
+    hi: [
+      "आज धनु राशि वाले आशावादी रहेंगे। सोच में स्पष्टता और आगे बढ़ने का साहस बढ़ेगा।",
+      "काम में उत्साह दिखेगा। शुरू किए काम तेज़ी से बढ़ेंगे।",
+      "आर्थिक लाभ के संकेत हैं। छोटे निवेश अच्छे परिणाम देंगे।",
+      "परिवार के साथ समय आनंददायक रहेगा। आपसी समझ मजबूत होगी।",
+      "मित्रों का सहयोग मिलेगा। उनकी सलाह उपयोगी होगी।",
+      "नौकरी के अवसर आएंगे। प्रतिभा दिखाने का सही समय है।",
+      "व्यवसाय विस्तार अनुकूल है। नई योजनाएं लागू कर सकते हैं।",
+      "स्वास्थ्य अच्छा रहेगा। शारीरिक उत्साह बना रहेगा।",
+      "यात्राएं सफल रहेंगी। सफर से लाभ मिलेगा।",
+      "विद्यार्थियों को अच्छे परिणाम मिलेंगे। पढ़ाई में एकाग्रता बढ़ेगी।",
+      "विवाद से बचें। शांत व्यवहार से समस्याएं कम होंगी।",
+      "आत्मविश्वास बढ़ेगा। निर्णयों पर भरोसा मजबूत होगा।",
+      "पुराने संबंध मजबूत होंगे। पुराने मित्रों से मिलना होगा।",
+      "बचत धीरे-धीरे बढ़ेगी। भविष्य की योजना बनेगी।",
+      "अच्छी खबर मिलेगी। दिन सकारात्मक रूप से समाप्त होगा।"
+    ],
+    hi: [
+      "इस सप्ताह धनु राशि वालों को विकास के अवसर मिलेंगे। आगे बढ़ने का उत्साह रहेगा।",
+      "कैरियर में प्रगति होगी। नए प्रोजेक्ट आपकी क्षमता दिखाएंगे।",
+      "आर्थिक स्थिति सुधरेगी। आय में विस्तार संभव है।",
+      "यात्राएं लाभकारी होंगी। नए संपर्क बनेंगे।",
+      "सीखने का दौर तेज रहेगा। ज्ञान और कौशल बढ़ेंगे।",
+      "आशावाद से अच्छे परिणाम मिलेंगे। सकारात्मक सोच मदद करेगी।",
+      "मित्रों का साथ मजबूत होगा। सहयोग और प्रेरणा मिलेगी।"
+    ]
+  },
+  makara: {
+    en: [
+      "Today Capricorn natives display discipline and ambition. Hard work brings recognition.",
+      "Career advancement likely. Professional goals come closer.",
+      "Financial stability strengthens. Long-term investments mature.",
+      "Family responsibilities managed. Your dedication appreciated.",
+      "Mentor relationships valuable. Guidance from elders helps.",
+      "Leadership roles assigned. Authority positions suit you.",
+      "Business foundations solid. Sustainable growth continues.",
+      "Health discipline maintained. Consistent routines pay off.",
+      "Business travels productive. Professional trips bring contracts.",
+      "Academic perseverance rewarded. Difficult subjects mastered.",
+      "Patience resolves issues. Time-tested approach works.",
+      "Self-discipline strengthens. Willpower becomes impressive.",
+      "Respectful relationships form. Professional friendships develop.",
+      "Wealth building continues. Assets accumulate steadily.",
+      "Achievements recognized. Day brings professional satisfaction."
+    ],
+    te: [
+      "ఈ రోజు మకర రాశివారు క్రమశిక్షణతో, ఆశయంతో వ్యవహరిస్తారు. కష్టపడి చేసిన పని గుర్తింపు తెస్తుంది.",
+      "వృత్తిలో పురోగతి సాధ్యమవుతుంది. వృత్తి లక్ష్యాలు దగ్గరపడతాయి.",
+      "ఆర్థిక స్థిరత్వం బలపడుతుంది. దీర్ఘకాల పెట్టుబడులు ఫలిస్తాయి.",
+      "కుటుంబ బాధ్యతలను సమర్థంగా నిర్వహిస్తారు. మీ అంకితభావం ప్రశంసించబడుతుంది.",
+      "గురువులతో సంబంధాలు విలువైనవి. పెద్దల మార్గదర్శకం సహాయపడుతుంది.",
+      "నాయకత్వ బాధ్యతలు వస్తాయి. అధికార స్థితులు మీకు సరిపోతాయి.",
+      "వ్యాపార పునాదులు బలంగా ఉంటాయి. స్థిరమైన వృద్ధి కొనసాగుతుంది.",
+      "ఆరోగ్య క్రమశిక్షణ నిలుస్తుంది. స్థిరమైన అలవాట్లు ఫలిస్తాయి.",
+      "వ్యాపార ప్రయాణాలు ఫలప్రదం. వృత్తి సంబంధిత ట్రిప్పులు ఒప్పందాలు తెస్తాయి.",
+      "విద్యలో పట్టుదలకి ఫలితం లభిస్తుంది. కఠినమైన విషయాలు పట్టు సాధ్యమవుతాయి.",
+      "సహనం సమస్యలను పరిష్కరిస్తుంది. కాలపరీక్షిత విధానం పనిచేస్తుంది.",
+      "స్వీయ క్రమశిక్షణ బలపడుతుంది. మనోబలం ప్రభావవంతమవుతుంది.",
+      "గౌరవంతో కూడిన సంబంధాలు ఏర్పడతాయి. వృత్తి స్నేహాలు పెరుగుతాయి.",
+      "ధన సమీకరణ కొనసాగుతుంది. ఆస్తులు క్రమంగా పెరుగుతాయి.",
+      "సాధించినవి గుర్తింపు పొందుతాయి. రోజు వృత్తి సంతృప్తిని ఇస్తుంది."
+    ],
+    hi: [
+      "आज मकर राशि वाले अनुशासन और महत्वाकांक्षा दिखाएंगे। मेहनत की पहचान होगी।",
+      "कैरियर में उन्नति संभव है। पेशेवर लक्ष्य करीब आएंगे।",
+      "आर्थिक स्थिरता मजबूत होगी। दीर्घकालीन निवेश पकेंगे।",
+      "परिवारिक जिम्मेदारियां संभलेंगी। आपकी निष्ठा सराही जाएगी।",
+      "गुरु/मेंटोर संबंध मूल्यवान रहेंगे। बड़ों का मार्गदर्शन लाभ देगा।",
+      "नेतृत्व भूमिकाएं मिलेंगी। अधिकार पद आपके लिए उपयुक्त हैं।",
+      "व्यवसाय की नींव मजबूत रहेगी। टिकाऊ वृद्धि जारी होगी।",
+      "स्वास्थ्य अनुशासन बना रहेगा। नियमित दिनचर्या का लाभ मिलेगा।",
+      "व्यावसायिक यात्राएं फलदायी होंगी। प्रोफेशनल ट्रिप से अनुबंध मिलेंगे।",
+      "पढ़ाई में लगन का फल मिलेगा। कठिन विषयों में सफलता मिलेगी।",
+      "धैर्य से समस्याएं सुलझेंगी। समय-परीक्षित तरीका काम करेगा।",
+      "आत्म-अनुशासन बढ़ेगा। इच्छाशक्ति प्रभावशाली होगी।",
+      "सम्मानजनक रिश्ते बनेंगे। पेशेवर दोस्तियां विकसित होंगी।",
+      "धन निर्माण जारी रहेगा। संपत्ति धीरे-धीरे बढ़ेगी।",
+      "उपलब्धियों की पहचान होगी। दिन पेशेवर संतोष देगा।"
+    ],
+    hi: [
+      "इस सप्ताह मकर राशि वालों की मेहनत रंग लाएगी। पेशेवर लक्ष्य करीब होंगे।",
+      "कैरियर में स्थिर प्रगति होगी। अनुशासन का लाभ मिलेगा।",
+      "आर्थिक आधार मजबूत होगा। निवेश पकने लगेंगे।",
+      "परिवार की जिम्मेदारियां अच्छे से निभेंगी। प्रशंसा मिलेगी।",
+      "बड़ों का मार्गदर्शन मदद करेगा। सही सलाह मिलेगी।",
+      "नेतृत्व की भूमिका मिलेगी। अधिकार पद अनुकूल रहेंगे।",
+      "स्वास्थ्य और दिनचर्या बेहतर रहेगी। नियमितता से लाभ होगा।"
+    ]
+  },
+  kumbha: {
+    en: [
+      "Today Aquarius natives think innovatively and independently. Original ideas impress others.",
+      "Humanitarian projects succeed. Social causes advance well.",
+      "Financial technology helps. Modern methods increase income.",
+      "Family freedom respected. Individual space maintained.",
+      "Friendship networks expand. Like-minded people gather.",
+      "Career innovation rewarded. Unconventional approaches appreciated.",
+      "Business modernization works. Technology adoption increases profits.",
+      "Health awareness grows. Alternative therapies explored.",
+      "Group travels planned. Social journeys bring connections.",
+      "Collaborative learning effective. Study groups prove beneficial.",
+      "Detachment helps conflicts. Objective view resolves issues.",
+      "Unique identity embraced. Individuality becomes strength.",
+      "Progressive friendships form. Future-oriented people connect.",
+      "Investment diversity grows. Portfolio spreads wisely.",
+      "Innovative breakthroughs occur. Day brings fresh perspectives."
+    ],
+    te: [
+      "ఈ రోజు కుంభ రాశివారు నవీనంగా, స్వతంత్రంగా ఆలోచిస్తారు. అసలైన ఆలోచనలు ఇతరులను ఆకట్టుకుంటాయి.",
+      "మానవతా ప్రాజెక్టులు విజయవంతమవుతాయి. సామాజిక కార్యక్రమాలు బాగా ముందుకు సాగుతాయి.",
+      "ఆర్థికంగా సాంకేతికత సహాయపడుతుంది. ఆధునిక పద్ధతులు ఆదాయాన్ని పెంచుతాయి.",
+      "కుటుంబంలో వ్యక్తిగత స్వేచ్ఛ గౌరవించబడుతుంది. ప్రతి ఒక్కరికీ వ్యక్తిగత స్థలం ఉంటుంది.",
+      "స్నేహ వలయాలు విస్తరిస్తాయి. మీలాంటి ఆలోచనలున్న వారు చేరుతారు.",
+      "వృత్తిలో నూతనతకు బహుమతి లభిస్తుంది. భిన్న దృక్పథం ప్రశంసించబడుతుంది.",
+      "వ్యాపార ఆధునీకరణ పనిచేస్తుంది. టెక్నాలజీ వినియోగం లాభాలను పెంచుతుంది.",
+      "ఆరోగ్య అవగాహన పెరుగుతుంది. ప్రత్యామ్నాయ చికిత్సలను పరిశీలిస్తారు.",
+      "సమూహ ప్రయాణాలు ప్లాన్ అవుతాయి. సామాజిక ప్రయాణాలు కొత్త పరిచయాలు ఇస్తాయి.",
+      "సహకార అధ్యయనం ప్రభావవంతంగా ఉంటుంది. స్టడీ గ్రూప్‌లు ఉపయోగపడతాయి.",
+      "నిర్లిప్తత సంఘర్షణలను తగ్గిస్తుంది. 객관 దృష్టి సమస్యలు పరిష్కరిస్తుంది.",
+      "మీ ప్రత్యేకతను అంగీకరిస్తారు. వ్యక్తిత్వం బలంగా మారుతుంది.",
+      "పురోగమన స్నేహాలు ఏర్పడతాయి. భవిష్య దృక్పథం ఉన్న వారు కలుస్తారు.",
+      "పెట్టుబడుల వైవిధ్యం పెరుగుతుంది. పోర్ట్‌ఫోలియో తెలివిగా విస్తరిస్తుంది.",
+      "నవీన బ్రేక్‌థ్రూలు జరుగుతాయి. రోజు కొత్త దృక్పథాలను ఇస్తుంది."
+    ],
+    hi: [
+      "आज कुंभ राशि वाले नवोन्मेषी और स्वतंत्र सोचेंगे। मौलिक विचार प्रभावित करेंगे।",
+      "मानवीय परियोजनाएं सफल होंगी। सामाजिक कार्य आगे बढ़ेंगे।",
+      "वित्तीय तकनीक मदद करेगी। आधुनिक तरीकों से आय बढ़ेगी।",
+      "परिवार में व्यक्तिगत स्वतंत्रता का सम्मान होगा।",
+      "मित्र नेटवर्क बढ़ेगा। समान विचार वाले लोग जुड़ेंगे।",
+      "कैरियर में नवाचार सराहा जाएगा। अनोखे तरीके की कदर होगी।",
+      "व्यापार का आधुनिकीकरण सफल होगा। तकनीक अपनाने से लाभ बढ़ेगा।",
+      "स्वास्थ्य जागरूकता बढ़ेगी। वैकल्पिक उपचारों में रुचि होगी।",
+      "समूह यात्राएं तय होंगी। सामाजिक यात्रा से नए संपर्क बनेंगे।",
+      "सहयोगी अध्ययन प्रभावी होगा। स्टडी ग्रुप लाभ देगा।",
+      "निरपेक्ष दृष्टि से विवाद सुलझेंगे। वस्तुनिष्ठता मदद करेगी।",
+      "अपनी विशिष्ट पहचान स्वीकार होगी। व्यक्तित्व शक्ति बनेगा।",
+      "प्रगतिशील मित्रताएं बनेंगी। भविष्यवादी लोग जुड़ेंगे।",
+      "निवेश का विविधीकरण बढ़ेगा। पोर्टफोलियो संतुलित होगा।",
+      "नए ब्रेकथ्रू होंगे। दिन ताज़ा दृष्टिकोण देगा।"
+    ],
+    hi: [
+      "इस सप्ताह कुंभ राशि वाले नए विचारों से आगे बढ़ेंगे। नवाचार से लाभ होगा।",
+      "मानवीय कार्य सफल होंगे। सामाजिक पहल में प्रगति दिखेगी।",
+      "वित्तीय तकनीक मदद करेगी। आधुनिक तरीकों से आय बढ़ेगी।",
+      "मित्र नेटवर्क बढ़ेगा। समान सोच वाले लोग जुड़ेंगे।",
+      "कैरियर में नवाचार की सराहना होगी। अलग तरीके मान्य होंगे।",
+      "सीखने और सहयोग से लाभ मिलेगा। टीम प्रयास असरदार होंगे।",
+      "निवेश में विविधता बढ़ेगी। जोखिम संतुलित रहेगा।"
+    ]
+  },
+  meena: {
+    en: [
+      "Today Pisces natives feel intuitive and compassionate. Creative imagination flows freely.",
+      "Artistic projects flourish. Your creativity inspires others.",
+      "Financial intuition strong. Instincts guide good decisions.",
+      "Family empathy deepens. Emotional support flows naturally.",
+      "Spiritual friends connect. Soulful conversations nourish.",
+      "Career creativity valued. Imaginative solutions appreciated.",
+      "Business adaptability helps. Flexible approaches succeed.",
+      "Holistic health improves. Mind-body-spirit integration happens.",
+      "Spiritual travels beckoned. Pilgrimages or retreats planned.",
+      "Intuitive learning effective. Abstract concepts understood easily.",
+      "Forgiveness dissolves conflicts. Compassion heals wounds.",
+      "Inner wisdom accessed. Trust in universal guidance.",
+      "Empathetic bonds form. Understanding friendships deepen.",
+      "Spiritual wealth grows. Material needs met effortlessly.",
+      "Mystical experiences occur. Day brings transcendent moments."
+    ],
+    te: [
+      "ఈ రోజు మీన రాశివారు అంతఃప్రజ్ఞతో, అనుకంపతో ఉంటారు. సృజనాత్మక ఊహాశక్తి స్వేచ్ఛగా ప్రవహిస్తుంది.",
+      "కళాత్మక ప్రాజెక్టులు వికసిస్తాయి. మీ సృజనాత్మకత ఇతరులకు ప్రేరణ ఇస్తుంది.",
+      "ఆర్థిక అంతఃప్రజ్ఞ బలంగా ఉంటుంది. అంతర్గత భావన సరైన నిర్ణయాలకు దారి తీస్తుంది.",
+      "కుటుంబ అనురక్తి పెరుగుతుంది. భావోద్వేగ మద్దతు సహజంగా ప్రవహిస్తుంది.",
+      "ఆధ్యాత్మిక స్నేహితులు కలుస్తారు. ఆత్మీయ సంభాషణలు పోషణ ఇస్తాయి.",
+      "వృత్తిలో సృజనాత్మకతకు విలువ ఉంటుంది. ఊహాశక్తి పరిష్కారాలు ప్రశంసించబడతాయి.",
+      "వ్యాపార అనుకూలత సహాయపడుతుంది. అనువైన విధానాలు విజయవంతమవుతాయి.",
+      "సమగ్ర ఆరోగ్యం మెరుగవుతుంది. మనసు-శరీరం-ఆత్మ సమన్వయం ఏర్పడుతుంది.",
+      "ఆధ్యాత్మిక ప్రయాణాలు ఆహ్వానిస్తాయి. తీర్థయాత్రలు లేదా రిట్రీట్లు ప్లాన్ అవుతాయి.",
+      "అంతఃప్రజ్ఞ ఆధారిత నేర్చుకోవడం ప్రభావవంతం. సారాంశ భావనలు సులభంగా అర్థమవుతాయి.",
+      "క్షమాభావం సంఘర్షణలను కరుగిస్తుంది. అనుకంప గాయాలను మాన్పుతుంది.",
+      "అంతర్గత జ్ఞానాన్ని అనుభవిస్తారు. విశ్వ మార్గదర్శనంపై నమ్మకం పెరుగుతుంది.",
+      "సానుభూతి బంధాలు ఏర్పడతాయి. అవగాహన స్నేహాలను గాఢం చేస్తుంది.",
+      "ఆధ్యాత్మిక సంపద పెరుగుతుంది. భౌతిక అవసరాలు సులభంగా తీరుతాయి.",
+      "రహస్య అనుభూతులు కలుగుతాయి. రోజు పరమానుభూతిని ఇస్తుంది."
+    ],
+    hi: [
+      "आज मीन राशि वाले सहज अंतर्ज्ञानी और करुणामय रहेंगे। सृजनात्मक कल्पना बहती रहेगी।",
+      "कलात्मक परियोजनाएं सफल होंगी। आपकी रचनात्मकता दूसरों को प्रेरित करेगी।",
+      "आर्थिक अंतर्ज्ञान मजबूत रहेगा। अंतःप्रेरणा अच्छे निर्णय कराएगी।",
+      "परिवार में सहानुभूति बढ़ेगी। भावनात्मक सहयोग सहज होगा।",
+      "आध्यात्मिक मित्र जुड़ेंगे। आत्मीय बातचीत पोषण देगी।",
+      "कैरियर में रचनात्मकता की कद्र होगी। कल्पनाशील समाधान पसंद किए जाएंगे।",
+      "व्यवसाय में अनुकूलता मदद करेगी। लचीला रवैया सफल होगा।",
+      "समग्र स्वास्थ्य बेहतर होगा। मन-शरीर-आत्मा का संतुलन बनेगा।",
+      "आध्यात्मिक यात्राओं का संकेत है। तीर्थ/रिट्रीट की योजना बनेगी।",
+      "अंतर्ज्ञानी सीखना प्रभावी होगा। अमूर्त अवधारणाएं सहज समझ आएंगी।",
+      "क्षमा से टकराव मिटेंगे। करुणा घाव भर देगी।",
+      "भीतरी ज्ञान से जुड़ाव होगा। दिव्य मार्गदर्शन पर भरोसा बढ़ेगा।",
+      "सहानुभूतिपूर्ण बंधन बनेंगे। समझदार दोस्तियां गहरी होंगी।",
+      "आध्यात्मिक संपदा बढ़ेगी। भौतिक जरूरतें सहज पूरी होंगी।",
+      "अलौकिक अनुभव होंगे। दिन अलौकिक क्षण देगा।"
+    ],
+    hi: [
+      "इस सप्ताह मीन राशि वालों की अंतर्ज्ञान शक्ति बढ़ेगी। रचनात्मकता प्रवाहित होगी।",
+      "कलात्मक कार्य सफल होंगे। आपकी कल्पना को सराहना मिलेगी।",
+      "आर्थिक निर्णय अंतःप्रेरणा से अच्छे होंगे। लाभ संभव है।",
+      "परिवार में करुणा बढ़ेगी। भावनात्मक समर्थन मिलेगा।",
+      "आध्यात्मिक संबंध मजबूत होंगे। सार्थक संवाद होंगे।",
+      "कैरियर में रचनात्मकता की कद्र होगी। नई सोच को महत्व मिलेगा।",
+      "समग्र स्वास्थ्य बेहतर होगा। मन-शरीर संतुलन बनेगा।"
+    ]
+  }
 };
 
 // Weekly horoscope statements (7 statements that rotate per week)
 const WEEKLY_STATEMENTS = {
-  mesha: [
-    "This week brings opportunities for Aries natives. Growth and expansion favor you significantly.",
-    "Professional advancement is highlighted. Your efforts receive due recognition this week.",
-    "Financial improvements are likely. Income sources multiply bringing prosperity.",
-    "Family celebrations occur. Joyous occasions bring everyone together happily.",
-    "Social connections expand. Networking opens new doors for success.",
-    "Business deals materialize. Partnerships formed this week prove beneficial.",
-    "Energy levels peak. Physical and mental vitality help achieve goals."
-  ],
-  vrishabha: [
-    "This week Taurus natives experience steady progress. Patience brings rewarding outcomes.",
-    "Work projects complete successfully. Quality efforts yield excellent results.",
-    "Financial growth continues. Savings and investments show positive trends.",
-    "Home improvements planned. Domestic comfort and beauty increase.",
-    "Relationships deepen meaningfully. Trust and loyalty strengthen bonds.",
-    "Career stability maintained. Long-term security looks promising.",
-    "Health routines benefit. Consistent self-care shows visible improvements."
-  ],
-  mithuna: [
-    "This week Gemini natives enjoy mental stimulation. Communication skills shine brightly.",
-    "Multiple opportunities arise. Versatility helps you manage everything well.",
-    "Income streams diversify. Financial flexibility improves significantly.",
-    "Family interactions increase. Sharing ideas brings closer connections.",
-    "Social activities flourish. Your charm attracts positive people.",
-    "Career versatility valued. Adaptability opens new career paths.",
-    "Learning accelerates rapidly. New skills acquired with ease."
-  ],
-  karka: [
-    "This week Cancer natives feel emotionally secure. Home and family priorities align well.",
-    "Nurturing activities succeed. Your care makes significant difference.",
-    "Financial security strengthens. Wise decisions protect future interests.",
-    "Family harmony prevails. Peaceful atmosphere brings contentment.",
-    "Friendship circles expand. Caring people enter your life.",
-    "Career stability assured. Emotional intelligence aids professional success.",
-    "Health improves naturally. Self-care routines prove highly effective."
-  ],
-  simha: [
-    "This week Leo natives command attention. Leadership opportunities multiply significantly.",
-    "Creative projects succeed. Your artistic talents receive recognition.",
-    "Financial opportunities abundant. Bold moves bring substantial gains.",
-    "Family pride grows. Your achievements inspire loved ones.",
-    "Social recognition increases. Respect and admiration come naturally.",
-    "Career breakthroughs happen. Promotions or new positions offered.",
-    "Confidence peaks high. Inner strength manifests in tangible success."
-  ],
-  kanya: [
-    "This week Virgo natives excel through precision. Organizational skills bring rewards.",
-    "Work efficiency increases. Systematic approach yields superior results.",
-    "Financial planning succeeds. Budgets and strategies work perfectly.",
-    "Family health improves. Your attentive care makes difference.",
-    "Service brings satisfaction. Helping others brings deep fulfillment.",
-    "Career perfectionism valued. High standards earn respect.",
-    "Wellness routines effective. Healthy habits show clear benefits."
-  ],
-  tula: [
-    "This week Libra natives create balance. Harmony in all areas increases.",
-    "Partnerships flourish beautifully. Collaborations bring mutual success.",
-    "Financial equilibrium achieved. Income and spending balance well.",
-    "Family peace maintained. Diplomatic skills resolve all issues.",
-    "Social life thrives. Pleasant interactions bring joy.",
-    "Career teamwork succeeds. Cooperative efforts yield results.",
-    "Relationships deepen romantically. Love life becomes more fulfilling."
-  ],
-  vrishchika: [
-    "This week Scorpio natives experience transformation. Deep changes bring positive growth.",
-    "Investigative skills shine. Hidden opportunities discovered successfully.",
-    "Financial breakthroughs occur. Unexpected resources become available.",
-    "Family understanding deepens. Emotional bonds strengthen significantly.",
-    "Loyal allies emerge. Trustworthy people support your goals.",
-    "Career intensity pays. Focused determination overcomes obstacles.",
-    "Personal power increases. Inner strength becomes evident to all."
-  ],
-  dhanu: [
-    "This week Sagittarius natives find favorable outcomes. Decisions made prove beneficial.",
-    "Career progress visible. Growth opportunities multiply rapidly.",
-    "Financial gains realized. Earnings increase and stabilize.",
-    "Family joy experienced. Happy events bring celebration.",
-    "Friendships strengthen meaningfully. Support systems prove reliable.",
-    "Business expansion succeeds. New ventures show promise.",
-    "Overall positivity prevails. Week unfolds advantageously for you."
-  ],
-  makara: [
-    "This week Capricorn natives advance professionally. Hard work receives recognition.",
-    "Career goals approached. Ambitions move closer to reality.",
-    "Financial foundation solidifies. Long-term security strengthens.",
-    "Family responsibilities fulfilled. Dedication earns appreciation.",
-    "Mentorship opportunities arise. Wisdom shared benefits all.",
-    "Leadership positions offered. Authority suits you naturally.",
-    "Achievements accumulate steadily. Success becomes tangible and real."
-  ],
-  kumbha: [
-    "This week Aquarius natives innovate successfully. Original thinking brings breakthroughs.",
-    "Social causes advance. Humanitarian efforts show results.",
-    "Financial innovation works. Modern approaches increase income.",
-    "Family independence respected. Personal space maintained harmoniously.",
-    "Friendships networks grow. Like-minded connections form.",
-    "Career uniqueness valued. Unconventional methods appreciated.",
-    "Progressive ideas manifest. Future-oriented plans take shape."
-  ],
-  meena: [
-    "This week Pisces natives tap intuition. Creative inspiration flows abundantly.",
-    "Artistic endeavors succeed. Imagination produces beautiful results.",
-    "Financial instincts guide. Intuitive choices prove profitable.",
-    "Family compassion deepens. Emotional support given and received.",
-    "Spiritual connections form. Soulful relationships develop naturally.",
-    "Career creativity valued. Imaginative solutions gain recognition.",
-    "Holistic wellness improves. Mind-body-spirit integration happens."
-  ]
+  mesha: {
+    en: [
+      "This week brings opportunities for Aries natives. Growth and expansion favor you significantly.",
+      "Professional advancement is highlighted. Your efforts receive due recognition this week.",
+      "Financial improvements are likely. Income sources multiply bringing prosperity.",
+      "Family celebrations occur. Joyous occasions bring everyone together happily.",
+      "Social connections expand. Networking opens new doors for success.",
+      "Business deals materialize. Partnerships formed this week prove beneficial.",
+      "Energy levels peak. Physical and mental vitality help achieve goals."
+    ],
+    te: [
+      "ఈ వారం మేష రాశివారికి అవకాశాలు లభిస్తాయి. వృద్ధి, విస్తరణ మీకు అనుకూలంగా ఉంటాయి.",
+      "వృత్తి పురోగతి ప్రాధాన్యం పొందుతుంది. మీ ప్రయత్నాలకు ఈ వారం సముచిత గుర్తింపు వస్తుంది.",
+      "ఆర్థిక మెరుగుదలలు సాధ్యమవుతాయి. ఆదాయ మార్గాలు పెరిగి సంపద పెరుగుతుంది.",
+      "కుటుంబ వేడుకలు జరుగుతాయి. ఆనందకర సందర్భాలు అందరినీ కలిసి ఉంచుతాయి.",
+      "సామాజిక సంబంధాలు విస్తరిస్తాయి. నెట్‌వర్కింగ్ విజయానికి కొత్త ద్వారాలు తెరుస్తుంది.",
+      "వ్యాపార ఒప్పందాలు సాకారం అవుతాయి. ఈ వారం ఏర్పడిన భాగస్వామ్యాలు లాభదాయకం.",
+      "శక్తి స్థాయి గరిష్టంగా ఉంటుంది. శారీరక, మానసిక ఉత్సాహం లక్ష్యాలను సాధించడంలో సహాయపడుతుంది."
+    ],
+    hi: [
+      "इस सप्ताह मेष राशि वालों को अवसर मिलेंगे। वृद्धि और विस्तार आपके पक्ष में रहेंगे।",
+      "पेशेवर उन्नति प्रमुख रहेगी। इस सप्ताह आपके प्रयासों की पहचान होगी।",
+      "आर्थिक सुधार संभव हैं। आय के स्रोत बढ़ेंगे और समृद्धि आएगी।",
+      "परिवार में उत्सव होंगे। खुशियों के अवसर सभी को साथ लाएंगे।",
+      "सामाजिक संपर्क बढ़ेंगे। नेटवर्किंग से सफलता के नए रास्ते खुलेंगे।",
+      "व्यावसायिक सौदे पूरे होंगे। इस सप्ताह बनी साझेदारियां लाभ देंगी।",
+      "ऊर्जा स्तर उच्च रहेगा। शारीरिक और मानसिक उत्साह लक्ष्य हासिल करने में मदद करेगा।"
+    ]
+  },
+  vrishabha: {
+    en: [
+      "This week Taurus natives experience steady progress. Patience brings rewarding outcomes.",
+      "Work projects complete successfully. Quality efforts yield excellent results.",
+      "Financial growth continues. Savings and investments show positive trends.",
+      "Home improvements planned. Domestic comfort and beauty increase.",
+      "Relationships deepen meaningfully. Trust and loyalty strengthen bonds.",
+      "Career stability maintained. Long-term security looks promising.",
+      "Health routines benefit. Consistent self-care shows visible improvements."
+    ],
+    te: [
+      "ఈ వారం వృషభ రాశివారికి స్థిరమైన పురోగతి ఉంటుంది. సహనం ఫలప్రదమైన ఫలితాలను ఇస్తుంది.",
+      "పని ప్రాజెక్టులు విజయవంతంగా పూర్తవుతాయి. నాణ్యత గల ప్రయత్నాలు అద్భుత ఫలితాలను ఇస్తాయి.",
+      "ఆర్థిక వృద్ధి కొనసాగుతుంది. పొదుపు మరియు పెట్టుబడులు సానుకూలంగా ఉంటాయి.",
+      "ఇంటి మెరుగుదల ప్రణాళికలు ఉంటాయి. గృహ సౌకర్యం, అందం పెరుగుతుంది.",
+      "సంబంధాలు అర్థవంతంగా గాఢమవుతాయి. నమ్మకం, విశ్వాసం బంధాలను బలపరుస్తాయి.",
+      "వృత్తిలో స్థిరత్వం కొనసాగుతుంది. దీర్ఘకాల భద్రత ఆశాజనకంగా ఉంటుంది.",
+      "ఆరోగ్య పద్ధతులు లాభిస్తాయి. క్రమబద్ధమైన స్వీయ సంరక్షణ స్పష్టమైన మెరుగుదలను చూపుతుంది."
+    ],
+    hi: [
+      "इस सप्ताह वृषभ राशि वालों को स्थिर प्रगति मिलेगी। धैर्य से अच्छे परिणाम मिलेंगे।",
+      "काम के प्रोजेक्ट सफलतापूर्वक पूरे होंगे। गुणवत्ता भरे प्रयास उत्कृष्ट परिणाम देंगे।",
+      "आर्थिक वृद्धि जारी रहेगी। बचत और निवेश सकारात्मक दिखेंगे।",
+      "घर में सुधार की योजना बनेगी। घरेलू आराम और सुंदरता बढ़ेगी।",
+      "रिश्ते गहरे होंगे। भरोसा और निष्ठा मजबूत होंगी।",
+      "कैरियर की स्थिरता बनी रहेगी। दीर्घकालिक सुरक्षा आशाजनक है।",
+      "स्वास्थ्य दिनचर्या लाभ देगी। नियमित देखभाल से स्पष्ट सुधार दिखेगा।"
+    ]
+  },
+  mithuna: {
+    en: [
+      "This week Gemini natives enjoy mental stimulation. Communication skills shine brightly.",
+      "Multiple opportunities arise. Versatility helps you manage everything well.",
+      "Income streams diversify. Financial flexibility improves significantly.",
+      "Family interactions increase. Sharing ideas brings closer connections.",
+      "Social activities flourish. Your charm attracts positive people.",
+      "Career versatility valued. Adaptability opens new career paths.",
+      "Learning accelerates rapidly. New skills acquired with ease."
+    ],
+    te: [
+      "ఈ వారం మిథున రాశివారికి మానసిక ఉత్సాహం పెరుగుతుంది. సంభాషణ నైపుణ్యాలు మెరిసిపోతాయి.",
+      "అనేక అవకాశాలు వస్తాయి. మీ బహుముఖత అన్నింటినీ బాగా నిర్వహించడంలో సహాయపడుతుంది.",
+      "ఆదాయ మార్గాలు విభిన్నమవుతాయి. ఆర్థిక లవచికత గణనీయంగా పెరుగుతుంది.",
+      "కుటుంబ పరస్పర సంబంధాలు పెరుగుతాయి. ఆలోచనలు పంచుకోవడం సన్నిహితతను పెంచుతుంది.",
+      "సామాజిక కార్యకలాపాలు వికసిస్తాయి. మీ ఆకర్షణ సానుకూల వ్యక్తులను ఆకర్షిస్తుంది.",
+      "వృత్తిలో బహుముఖతకు విలువ ఉంటుంది. అనుకూలత కొత్త కెరీర్ మార్గాలను తెరుస్తుంది.",
+      "నెర్చుకోవడం వేగంగా జరుగుతుంది. కొత్త నైపుణ్యాలు సులభంగా నేర్చుకుంటారు."
+    ],
+    hi: [
+      "इस सप्ताह मिथुन राशि वालों को मानसिक उत्तेजना मिलेगी। संवाद कौशल चमकेगा।",
+      "कई अवसर आएंगे। आपकी बहुमुखी प्रतिभा सब संभालने में मदद करेगी।",
+      "आय के स्रोत विविध होंगे। वित्तीय लचीलापन बढ़ेगा।",
+      "परिवार में बातचीत बढ़ेगी। विचार साझा करने से नजदीकी बढ़ेगी।",
+      "सामाजिक गतिविधियां फलेंगी। आपका आकर्षण अच्छे लोगों को खींचेगा।",
+      "कैरियर में बहुमुखीता की कद्र होगी। अनुकूलता नए रास्ते खोलेगी।",
+      "सीखने की गति तेज होगी। नए कौशल आसानी से मिलेंगे।"
+    ]
+  },
+  karka: {
+    en: [
+      "This week Cancer natives feel emotionally secure. Home and family priorities align well.",
+      "Nurturing activities succeed. Your care makes significant difference.",
+      "Financial security strengthens. Wise decisions protect future interests.",
+      "Family harmony prevails. Peaceful atmosphere brings contentment.",
+      "Friendship circles expand. Caring people enter your life.",
+      "Career stability assured. Emotional intelligence aids professional success.",
+      "Health improves naturally. Self-care routines prove highly effective."
+    ],
+    te: [
+      "ఈ వారం కర్కాటక రాశివారికి భావోద్వేగ భద్రత ఉంటుంది. ఇల్లు, కుటుంబ ప్రాధాన్యాలు సరిగా కుదురుతాయి.",
+      "పోషణ సంబంధిత కార్యకలాపాలు విజయవంతమవుతాయి. మీ శ్రద్ధ గొప్ప మార్పును తీసుకువస్తుంది.",
+      "ఆర్థిక భద్రత బలపడుతుంది. వివేకమైన నిర్ణయాలు భవిష్య ప్రయోజనాలను కాపాడతాయి.",
+      "కుటుంబ సౌహార్దం నిలుస్తుంది. శాంతియుత వాతావరణం సంతృప్తిని ఇస్తుంది.",
+      "స్నేహ వలయాలు విస్తరిస్తాయి. దయగల వ్యక్తులు జీవితంలోకి వస్తారు.",
+      "వృత్తి స్థిరత్వం ఉంటుంది. భావోద్వేగ తెలివితేటలు వృత్తి విజయాన్ని పెంపొందిస్తాయి.",
+      "ఆరోగ్యం సహజంగా మెరుగవుతుంది. స్వీయ సంరక్షణ పద్ధతులు ఎంతో ప్రభావవంతంగా ఉంటాయి."
+    ],
+    hi: [
+      "इस सप्ताह कर्क राशि वालों को भावनात्मक सुरक्षा मिलेगी। घर और परिवार की प्राथमिकताएं संतुलित रहेंगी।",
+      "देखभाल से जुड़े काम सफल होंगे। आपकी परवरिश का बड़ा असर होगा।",
+      "आर्थिक सुरक्षा मजबूत होगी। समझदारी भरे फैसले भविष्य सुरक्षित करेंगे।",
+      "परिवार में सामंजस्य रहेगा। शांत माहौल संतोष देगा।",
+      "मित्रों का दायरा बढ़ेगा। संवेदनशील लोग जीवन में आएंगे।",
+      "कैरियर स्थिर रहेगा। भावनात्मक बुद्धिमत्ता पेशेवर सफलता में मदद करेगी।",
+      "स्वास्थ्य स्वाभाविक रूप से सुधरेगा। सेल्फ-केयर दिनचर्या प्रभावी रहेगी।"
+    ]
+  },
+  simha: {
+    en: [
+      "This week Leo natives command attention. Leadership opportunities multiply significantly.",
+      "Creative projects succeed. Your artistic talents receive recognition.",
+      "Financial opportunities abundant. Bold moves bring substantial gains.",
+      "Family pride grows. Your achievements inspire loved ones.",
+      "Social recognition increases. Respect and admiration come naturally.",
+      "Career breakthroughs happen. Promotions or new positions offered.",
+      "Confidence peaks high. Inner strength manifests in tangible success."
+    ],
+    te: [
+      "ఈ వారం సింహ రాశివారు అందరి దృష్టిని ఆకర్షిస్తారు. నాయకత్వ అవకాశాలు గణనీయంగా పెరుగుతాయి.",
+      "సృజనాత్మక ప్రాజెక్టులు విజయవంతమవుతాయి. మీ కళాత్మక ప్రతిభకు గుర్తింపు వస్తుంది.",
+      "ఆర్థిక అవకాశాలు సమృద్ధిగా ఉంటాయి. ధైర్య నిర్ణయాలు పెద్ద లాభాలను ఇస్తాయి.",
+      "కుటుంబ గర్వం పెరుగుతుంది. మీ విజయాలు ప్రియులను ప్రేరేపిస్తాయి.",
+      "సామాజిక గుర్తింపు పెరుగుతుంది. గౌరవం, ప్రశంసలు సహజంగా లభిస్తాయి.",
+      "వృత్తిలో బ్రేక్‌థ్రూలు జరుగుతాయి. పదోన్నతులు లేదా కొత్త పదవులు అందవచ్చు.",
+      "ఆత్మవిశ్వాసం అత్యున్నత స్థాయికి చేరుతుంది. అంతర్గత బలం స్పష్టమైన విజయంగా కనిపిస్తుంది."
+    ],
+    hi: [
+      "इस सप्ताह सिंह राशि वाले सभी का ध्यान आकर्षित करेंगे। नेतृत्व के अवसर बढ़ेंगे।",
+      "रचनात्मक प्रोजेक्ट सफल होंगे। आपकी कला की पहचान होगी।",
+      "आर्थिक अवसर अधिक होंगे। साहसिक कदम से बड़ा लाभ मिलेगा।",
+      "परिवार का गर्व बढ़ेगा। आपकी उपलब्धियां प्रेरणा देंगी।",
+      "सामाजिक पहचान बढ़ेगी। सम्मान और प्रशंसा सहज मिलेगी।",
+      "कैरियर में ब्रेकथ्रू होगा। पदोन्नति या नई भूमिका मिल सकती है।",
+      "आत्मविश्वास चरम पर रहेगा। भीतर की शक्ति स्पष्ट सफलता देगी।"
+    ]
+  },
+  kanya: {
+    en: [
+      "This week Virgo natives excel through precision. Organizational skills bring rewards.",
+      "Work efficiency increases. Systematic approach yields superior results.",
+      "Financial planning succeeds. Budgets and strategies work perfectly.",
+      "Family health improves. Your attentive care makes difference.",
+      "Service brings satisfaction. Helping others brings deep fulfillment.",
+      "Career perfectionism valued. High standards earn respect.",
+      "Wellness routines effective. Healthy habits show clear benefits."
+    ],
+    te: [
+      "ఈ వారం కన్య రాశివారు ఖచ్చితత్వంతో మెరుగ్గా ముందుకు సాగుతారు. వ్యవస్థీకరణ నైపుణ్యాలు ఫలితాలను ఇస్తాయి.",
+      "పని సామర్థ్యం పెరుగుతుంది. క్రమబద్ధమైన విధానం అత్యుత్తమ ఫలితాలను ఇస్తుంది.",
+      "ఆర్థిక ప్రణాళిక విజయవంతమవుతుంది. బడ్జెట్లు, వ్యూహాలు చక్కగా పనిచేస్తాయి.",
+      "కుటుంబ ఆరోగ్యం మెరుగవుతుంది. మీ శ్రద్ధ గొప్ప మార్పును తీసుకువస్తుంది.",
+      "సేవలో సంతృప్తి లభిస్తుంది. ఇతరులకు సహాయం చేయడం లోతైన ఆనందాన్ని ఇస్తుంది.",
+      "వృత్తిలో పరిపూర్ణతకు విలువ ఉంటుంది. ఉన్నత ప్రమాణాలు గౌరవాన్ని తెస్తాయి.",
+      "ఆరోగ్య అలవాట్లు ప్రభావవంతంగా ఉంటాయి. మంచి అలవాట్ల ప్రయోజనాలు స్పష్టంగా కనిపిస్తాయి."
+    ],
+    hi: [
+      "इस सप्ताह कन्या राशि वाले सटीकता से आगे बढ़ेंगे। संगठन कौशल लाभ देंगे।",
+      "कार्य दक्षता बढ़ेगी। व्यवस्थित तरीका बेहतरीन परिणाम देगा।",
+      "वित्तीय योजना सफल होगी। बजट और रणनीतियां सही चलेंगी।",
+      "परिवार के स्वास्थ्य में सुधार होगा। आपकी देखभाल असर दिखाएगी।",
+      "सेवा से संतोष मिलेगा। दूसरों की मदद से तृप्ति होगी।",
+      "कैरियर में परिपूर्णता की कद्र होगी। उच्च मानकों से सम्मान मिलेगा।",
+      "स्वास्थ्य दिनचर्या प्रभावी रहेगी। अच्छी आदतों का लाभ दिखेगा।"
+    ]
+  },
+  tula: {
+    en: [
+      "This week Libra natives create balance. Harmony in all areas increases.",
+      "Partnerships flourish beautifully. Collaborations bring mutual success.",
+      "Financial equilibrium achieved. Income and spending balance well.",
+      "Family peace maintained. Diplomatic skills resolve all issues.",
+      "Social life thrives. Pleasant interactions bring joy.",
+      "Career teamwork succeeds. Cooperative efforts yield results.",
+      "Relationships deepen romantically. Love life becomes more fulfilling."
+    ],
+    te: [
+      "ఈ వారం తుల రాశివారు సమతుల్యతను సృష్టిస్తారు. అన్ని రంగాల్లో సౌహార్దం పెరుగుతుంది.",
+      "భాగస్వామ్యాలు అందంగా వికసిస్తాయి. సహకారాలు పరస్పర విజయాన్ని ఇస్తాయి.",
+      "ఆర్థిక సమతుల్యత సాధ్యమవుతుంది. ఆదాయం, ఖర్చులు సమంగా ఉంటాయి.",
+      "కుటుంబ శాంతి నిలుస్తుంది. దౌత్య నైపుణ్యాలు సమస్యలను పరిష్కరిస్తాయి.",
+      "సామాజిక జీవితం వికసిస్తుంది. సుఖదాయక పరస్పర చర్యలు ఆనందం ఇస్తాయి.",
+      "వృత్తిలో జట్టు పని విజయవంతమవుతుంది. సహకార ప్రయత్నాలు ఫలితాలు ఇస్తాయి.",
+      "సంబంధాలు రొమాంటిక్‌గా గాఢమవుతాయి. ప్రేమ జీవితం మరింత సంతృప్తిగా ఉంటుంది."
+    ],
+    hi: [
+      "इस सप्ताह तुला राशि वाले संतुलन बनाएंगे। हर क्षेत्र में सामंजस्य बढ़ेगा।",
+      "साझेदारियां खूबसूरती से खिलेंगी। सहयोग से संयुक्त सफलता मिलेगी।",
+      "आर्थिक संतुलन बनेगा। आय और खर्च में तालमेल रहेगा।",
+      "परिवार में शांति बनी रहेगी। कूटनीति से सभी मुद्दे सुलझेंगे।",
+      "सामाजिक जीवन सक्रिय रहेगा। सुखद मेलजोल से खुशी मिलेगी।",
+      "कैरियर में टीमवर्क सफल होगा। सामूहिक प्रयास परिणाम देंगे।",
+      "रिश्ते रोमांटिक रूप से गहरे होंगे। प्रेम जीवन अधिक संतोष देगा।"
+    ]
+  },
+  vrishchika: {
+    en: [
+      "This week Scorpio natives experience transformation. Deep changes bring positive growth.",
+      "Investigative skills shine. Hidden opportunities discovered successfully.",
+      "Financial breakthroughs occur. Unexpected resources become available.",
+      "Family understanding deepens. Emotional bonds strengthen significantly.",
+      "Loyal allies emerge. Trustworthy people support your goals.",
+      "Career intensity pays. Focused determination overcomes obstacles.",
+      "Personal power increases. Inner strength becomes evident to all."
+    ],
+    te: [
+      "ఈ వారం వృశ్చిక రాశివారికి మార్పు అనుభూతి ఉంటుంది. లోతైన మార్పులు సానుకూల ఎదుగుదలను తీసుకువస్తాయి.",
+      "విచారణాత్మక నైపుణ్యాలు మెరిసిపోతాయి. దాగిన అవకాశాలు విజయవంతంగా కనిపిస్తాయి.",
+      "ఆర్థిక బ్రేక్‌థ్రూలు జరుగుతాయి. అనుకోని వనరులు అందుబాటులోకి వస్తాయి.",
+      "కుటుంబ అవగాహన గాఢమవుతుంది. భావోద్వేగ బంధాలు బలపడతాయి.",
+      "నమ్మకమైన మిత్రులు ముందుకొస్తారు. విశ్వాసపాత్రులు మీ లక్ష్యాలకు మద్దతు ఇస్తారు.",
+      "వృత్తిలో తీవ్రత ఫలిస్తుంది. దృఢ సంకల్పం అడ్డంకులను తొలగిస్తుంది.",
+      "వ్యక్తిగత శక్తి పెరుగుతుంది. అంతర్గత బలం అందరికీ స్పష్టంగా కనిపిస్తుంది."
+    ],
+    hi: [
+      "इस सप्ताह वृश्चिक राशि वालों को परिवर्तन का अनुभव होगा। गहरे बदलाव सकारात्मक वृद्धि देंगे।",
+      "जांच-पड़ताल कौशल चमकेगा। छिपे अवसर सफलतापूर्वक मिलेंगे।",
+      "आर्थिक ब्रेकथ्रू होगा। अप्रत्याशित संसाधन उपलब्ध होंगे।",
+      "परिवार में समझ बढ़ेगी। भावनात्मक बंधन मजबूत होंगे।",
+      "वफादार सहयोगी मिलेंगे। भरोसेमंद लोग आपके लक्ष्यों में साथ देंगे।",
+      "कैरियर में तीव्रता का फल मिलेगा। केंद्रित संकल्प बाधाएं हटाएगा।",
+      "व्यक्तिगत शक्ति बढ़ेगी। भीतर की ताकत सबको दिखेगी।"
+    ]
+  },
+  dhanu: {
+    en: [
+      "This week Sagittarius natives find favorable outcomes. Decisions made prove beneficial.",
+      "Career progress visible. Growth opportunities multiply rapidly.",
+      "Financial gains realized. Earnings increase and stabilize.",
+      "Family joy experienced. Happy events bring celebration.",
+      "Friendships strengthen meaningfully. Support systems prove reliable.",
+      "Business expansion succeeds. New ventures show promise.",
+      "Overall positivity prevails. Week unfolds advantageously for you."
+    ],
+    te: [
+      "ఈ వారం ధనుస్సు రాశివారికి అనుకూల ఫలితాలు లభిస్తాయి. తీసుకున్న నిర్ణయాలు మేలు చేస్తాయి.",
+      "వృత్తి పురోగతి కనిపిస్తుంది. ఎదుగుదల అవకాశాలు వేగంగా పెరుగుతాయి.",
+      "ఆర్థిక లాభాలు కనిపిస్తాయి. ఆదాయం పెరిగి స్థిరపడుతుంది.",
+      "కుటుంబ ఆనందం అనుభూతి అవుతుంది. సంతోషకర సంఘటనలు జరుపుకుంటారు.",
+      "స్నేహాలు అర్థవంతంగా బలపడతాయి. మద్దతు వ్యవస్థలు నమ్మకంగా ఉంటాయి.",
+      "వ్యాపార విస్తరణ విజయవంతమవుతుంది. కొత్త వ్యాపార ప్రయత్నాలు ఆశాజనకంగా ఉంటాయి.",
+      "మొత్తంగా సానుకూలత పెరుగుతుంది. ఈ వారం మీకు అనుకూలంగా సాగుతుంది."
+    ],
+    hi: [
+      "इस सप्ताह धनु राशि वालों को अनुकूल परिणाम मिलेंगे। लिए गए निर्णय लाभकारी होंगे।",
+      "कैरियर में प्रगति दिखेगी। वृद्धि के अवसर तेजी से बढ़ेंगे।",
+      "आर्थिक लाभ मिलेगा। आय बढ़ेगी और स्थिर होगी।",
+      "परिवार में खुशी रहेगी। उत्सव जैसे मौके बनेंगे।",
+      "मित्रताएं मजबूत होंगी। सहयोग विश्वसनीय रहेगा।",
+      "व्यवसाय विस्तार सफल होगा। नए प्रयास आशाजनक होंगे।",
+      "कुल मिलाकर सकारात्मकता रहेगी। सप्ताह आपके लिए अनुकूल रहेगा।"
+    ]
+  },
+  makara: {
+    en: [
+      "This week Capricorn natives advance professionally. Hard work receives recognition.",
+      "Career goals approached. Ambitions move closer to reality.",
+      "Financial foundation solidifies. Long-term security strengthens.",
+      "Family responsibilities fulfilled. Dedication earns appreciation.",
+      "Mentorship opportunities arise. Wisdom shared benefits all.",
+      "Leadership positions offered. Authority suits you naturally.",
+      "Achievements accumulate steadily. Success becomes tangible and real."
+    ],
+    te: [
+      "ఈ వారం మకర రాశివారు వృత్తిలో ముందుకు సాగుతారు. కష్టపడి చేసిన పనికి గుర్తింపు వస్తుంది.",
+      "వృత్తి లక్ష్యాలకు చేరువవుతారు. ఆశయాలు వాస్తవానికి దగ్గరవుతాయి.",
+      "ఆర్థిక పునాది బలపడుతుంది. దీర్ఘకాల భద్రత పెరుగుతుంది.",
+      "కుటుంబ బాధ్యతలు నెరవేర్చబడతాయి. అంకితభావం ప్రశంసించబడుతుంది.",
+      "మార్గదర్శక అవకాశాలు వస్తాయి. పంచుకున్న జ్ఞానం అందరికీ మేలు చేస్తుంది.",
+      "నాయకత్వ స్థానాలు లభిస్తాయి. అధికార బాధ్యతలు మీకు సహజంగా సరిపోతాయి.",
+      "సాధింపులు క్రమంగా పెరుగుతాయి. విజయం స్పష్టంగా కనిపిస్తుంది."
+    ],
+    hi: [
+      "इस सप्ताह मकर राशि वाले पेशेवर रूप से आगे बढ़ेंगे। मेहनत की पहचान होगी।",
+      "कैरियर लक्ष्य करीब आएंगे। महत्वाकांक्षाएं वास्तविकता के पास होंगी।",
+      "आर्थिक आधार मजबूत होगा। दीर्घकालिक सुरक्षा बढ़ेगी।",
+      "परिवार की जिम्मेदारियां निभेंगी। समर्पण की सराहना होगी।",
+      "मार्गदर्शन के अवसर मिलेंगे। साझा ज्ञान सबके लिए लाभकारी होगा।",
+      "नेतृत्व भूमिकाएं मिलेंगी। अधिकार पद स्वाभाविक लगेंगे।",
+      "उपलब्धियां बढ़ेंगी। सफलता ठोस रूप लेगी।"
+    ]
+  },
+  kumbha: {
+    en: [
+      "This week Aquarius natives innovate successfully. Original thinking brings breakthroughs.",
+      "Social causes advance. Humanitarian efforts show results.",
+      "Financial innovation works. Modern approaches increase income.",
+      "Family independence respected. Personal space maintained harmoniously.",
+      "Friendships networks grow. Like-minded connections form.",
+      "Career uniqueness valued. Unconventional methods appreciated.",
+      "Progressive ideas manifest. Future-oriented plans take shape."
+    ],
+    te: [
+      "ఈ వారం కుంభ రాశివారు విజయవంతంగా నవీనతను చూపిస్తారు. అసలైన ఆలోచనలు బ్రేక్‌థ్రూలను తెస్తాయి.",
+      "సామాజిక కారణాలు ముందుకు సాగుతాయి. మానవతా ప్రయత్నాలు ఫలితాలను చూపిస్తాయి.",
+      "ఆర్థిక నవీనత పనిచేస్తుంది. ఆధునిక విధానాలు ఆదాయాన్ని పెంచుతాయి.",
+      "కుటుంబంలో స్వతంత్రత గౌరవించబడుతుంది. వ్యక్తిగత స్థలం సమతుల్యంగా నిలుస్తుంది.",
+      "స్నేహ వలయాలు పెరుగుతాయి. మీలాంటి ఆలోచనలున్న సంబంధాలు ఏర్పడతాయి.",
+      "వృత్తిలో ప్రత్యేకతకు విలువ ఉంటుంది. భిన్నమైన విధానాలు ప్రశంసించబడతాయి.",
+      "పురోగమన ఆలోచనలు రూపుదిద్దుకుంటాయి. భవిష్య దిశా ప్రణాళికలు స్థిరపడతాయి."
+    ],
+    hi: [
+      "इस सप्ताह कुंभ राशि वाले सफलतापूर्वक नवाचार करेंगे। मौलिक सोच ब्रेकथ्रू लाएगी।",
+      "सामाजिक कारण आगे बढ़ेंगे। मानवीय प्रयासों के परिणाम दिखेंगे।",
+      "वित्तीय नवाचार काम करेगा। आधुनिक तरीके आय बढ़ाएंगे।",
+      "परिवार में स्वतंत्रता का सम्मान होगा। व्यक्तिगत स्पेस बना रहेगा।",
+      "मित्रता नेटवर्क बढ़ेगा। समान सोच वाले संबंध बनेंगे।",
+      "कैरियर में अलगपन की सराहना होगी। असामान्य तरीके पसंद किए जाएंगे।",
+      "प्रगतिशील विचार साकार होंगे। भविष्य की योजनाएं आकार लेंगी।"
+    ]
+  },
+  meena: {
+    en: [
+      "This week Pisces natives tap intuition. Creative inspiration flows abundantly.",
+      "Artistic endeavors succeed. Imagination produces beautiful results.",
+      "Financial instincts guide. Intuitive choices prove profitable.",
+      "Family compassion deepens. Emotional support given and received.",
+      "Spiritual connections form. Soulful relationships develop naturally.",
+      "Career creativity valued. Imaginative solutions gain recognition.",
+      "Holistic wellness improves. Mind-body-spirit integration happens."
+    ],
+    te: [
+      "ఈ వారం మీన రాశివారు అంతఃప్రజ్ఞను ఆశ్రయిస్తారు. సృజనాత్మక ప్రేరణ సమృద్ధిగా ప్రవహిస్తుంది.",
+      "కళాత్మక ప్రయత్నాలు విజయవంతమవుతాయి. ఊహాశక్తి అందమైన ఫలితాలను ఇస్తుంది.",
+      "ఆర్థిక అంతఃప్రజ్ఞ మార్గనిర్దేశం చేస్తుంది. అంతర్గత ఎంపికలు లాభదాయకంగా మారతాయి.",
+      "కుటుంబ అనుకంప గాఢమవుతుంది. భావోద్వేగ మద్దతు ఇవ్వబడుతుంది, పొందబడుతుంది.",
+      "ఆధ్యాత్మిక సంబంధాలు ఏర్పడతాయి. ఆత్మీయ బంధాలు సహజంగా వికసిస్తాయి.",
+      "వృత్తిలో సృజనాత్మకతకు విలువ ఉంటుంది. ఊహాశక్తి పరిష్కారాలు గుర్తింపును పొందుతాయి.",
+      "సమగ్ర శ్రేయస్సు మెరుగవుతుంది. మనసు-శరీరం-ఆత్మ సమన్వయం ఏర్పడుతుంది."
+    ],
+    hi: [
+      "इस सप्ताह मीन राशि वाले अंतर्ज्ञान से जुड़ेंगे। रचनात्मक प्रेरणा भरपूर रहेगी।",
+      "कलात्मक प्रयास सफल होंगे। कल्पना सुंदर परिणाम देगी।",
+      "आर्थिक निर्णय अंतःप्रेरणा से होंगे। लाभ की संभावना रहेगी।",
+      "परिवार में करुणा बढ़ेगी। भावनात्मक सहयोग मिलेगा।",
+      "आध्यात्मिक संबंध बनेंगे। आत्मीय रिश्ते स्वाभाविक रूप से विकसित होंगे।",
+      "कैरियर में रचनात्मकता की कद्र होगी। कल्पनाशील समाधान पहचाने जाएंगे।",
+      "समग्र स्वास्थ्य बेहतर होगा। मन-शरीर-आत्मा का संतुलन बनेगा।"
+    ]
+  }
 };
 
 // Monthly horoscope statements (12 statements that rotate per month)
 const MONTHLY_STATEMENTS = {
-  mesha: [
-    "This month brings dynamic growth for Aries natives. Professional achievements and personal development align perfectly.",
-    "Career advancement opportunities abound. Your leadership skills receive recognition leading to promotions or new responsibilities.",
-    "Financial prosperity increases significantly. Multiple income sources and wise investments yield excellent returns throughout the month.",
-    "Family relationships flourish beautifully. Harmony at home provides strong foundation for all other activities and achievements.",
-    "Social status elevates noticeably. Your reputation grows and influential people take notice of your capabilities and character.",
-    "Business ventures prove lucrative. New partnerships and expansion plans materialize bringing substantial profits and growth.",
-    "Health and vitality remain strong. Physical energy and mental clarity support ambitious goals and busy schedule.",
-    "Travel opportunities arise frequently. Journeys undertaken this month bring valuable connections and profitable business outcomes.",
-    "Learning and skill development accelerate. Educational pursuits and training programs enhance your professional expertise significantly.",
-    "Relationships deepen meaningfully. Both personal and professional connections grow stronger providing lasting support and joy.",
-    "Creative projects succeed remarkably. Innovative ideas receive appreciation and practical implementation in your work.",
-    "Month concludes with satisfaction. Goals achieved and progress made set positive tone for upcoming period."
-  ],
-  vrishabha: [
-    "This month Taurus natives enjoy stability and gradual growth. Financial security and personal contentment increase steadily.",
-    "Professional recognition comes naturally. Quality work and consistent efforts bring appreciation from superiors and colleagues alike.",
-    "Income sources strengthen reliably. Salary increases or business profits provide enhanced financial comfort and security.",
-    "Home life becomes harmonious. Family bonds deepen and domestic environment brings peace and happiness to all.",
-    "Investments mature favorably. Long-term financial planning shows positive results encouraging continued wise money management.",
-    "Career stability maintained well. Job security and professional reputation remain solid supporting future advancement opportunities.",
-    "Health improves through discipline. Regular routines and healthy habits show visible benefits in physical appearance and energy.",
-    "Relationships grow more meaningful. Loyalty and trust characterize interactions with loved ones and close friends.",
-    "Practical projects complete successfully. Home improvements or work initiatives finish on time and within budget.",
-    "Social connections expand gradually. Quality friendships form with people who share similar values and interests.",
-    "Financial planning succeeds admirably. Budgets maintained and savings grow providing peace of mind and future security.",
-    "Month ends with contentment. Steady progress and peaceful atmosphere create foundation for continued success."
-  ],
-  mithuna: [
-    "This month Gemini natives experience intellectual stimulation and diverse opportunities. Communication skills open many doors.",
-    "Multiple projects advance simultaneously. Your versatility and adaptability help manage various responsibilities successfully.",
-    "Financial flexibility increases noticeably. Different income streams provide enhanced security and spending power.",
-    "Family communication improves significantly. Open dialogue resolves misunderstandings and strengthens emotional bonds beautifully.",
-    "Networking yields excellent results. Professional contacts made this month lead to valuable opportunities and collaborations.",
-    "Career versatility proves advantageous. Ability to handle different tasks makes you invaluable to organization.",
-    "Learning opportunities abound richly. New skills acquired quickly enhance both professional capabilities and personal interests.",
-    "Travel plans work out perfectly. Journeys undertaken bring enjoyment and also serve practical professional purposes.",
-    "Social life becomes vibrant. Interesting conversations and diverse social interactions keep life exciting and enriching.",
-    "Creative expression flourishes freely. Writing, speaking, or artistic pursuits receive positive feedback and recognition.",
-    "Mental agility increases remarkably. Quick thinking and problem-solving abilities help navigate challenges effectively.",
-    "Month concludes with variety. Diverse experiences and achievements bring satisfaction and anticipation for what comes next."
-  ],
-  karka: [
-    "This month Cancer natives find emotional fulfillment and domestic happiness. Home and family matters receive positive attention.",
-    "Nurturing activities bring joy. Caring for loved ones and creating comfortable environment provide deep satisfaction.",
-    "Financial security strengthens reliably. Wise investments and careful spending ensure stable financial foundation.",
-    "Family celebrations occur naturally. Happy occasions bring loved ones together creating beautiful memories.",
-    "Home improvements undertaken successfully. Living space becomes more comfortable and aesthetically pleasing.",
-    "Career emotional intelligence valued. Your ability to understand people helps advance professional goals effectively.",
-    "Health improves through self-care. Attention to emotional and physical needs shows positive results.",
-    "Relationships deepen significantly. Trust and mutual support characterize interactions with family and friends.",
-    "Intuition guides decisions wisely. Following inner voice leads to beneficial outcomes in various situations.",
-    "Domestic peace prevails harmoniously. Home becomes sanctuary providing rest and rejuvenation from outside demands.",
-    "Financial cushion grows steadily. Emergency funds and savings increase providing enhanced security and peace of mind.",
-    "Month ends with warmth. Emotional connections and domestic comfort create satisfying conclusion to period."
-  ],
-  simha: [
-    "This month Leo natives shine brilliantly in all areas. Leadership and creativity bring remarkable success and recognition.",
-    "Professional achievements multiply significantly. Promotions, awards, or new opportunities elevate career to new heights.",
-    "Financial prosperity increases dramatically. Bold investments and confident decisions yield substantial monetary gains.",
-    "Family pride and joy abound. Your accomplishments make loved ones happy and inspire younger family members.",
-    "Social recognition reaches new levels. Respect and admiration from peers enhance personal and professional reputation.",
-    "Creative projects receive acclaim. Artistic endeavors or innovative ideas gain appreciation and practical implementation.",
-    "Health and vitality peak high. Physical strength and mental confidence support ambitious goals and busy schedule.",
-    "Leadership roles multiply naturally. People look to you for guidance and direction in various situations.",
-    "Romantic life flourishes beautifully. Love relationships deepen or new romantic connections bring joy and excitement.",
-    "Business ventures prove highly profitable. Entrepreneurial efforts and risk-taking yield excellent returns and growth.",
-    "Personal charisma attracts opportunities. Your magnetic personality draws positive people and situations into life.",
-    "Month concludes with celebration. Achievements and recognition provide satisfaction and motivation for future success."
-  ],
-  kanya: [
-    "This month Virgo natives excel through precision and practicality. Organizational skills bring professional advancement and personal satisfaction.",
-    "Work efficiency reaches new heights. Systematic approaches and attention to detail yield superior results and recognition.",
-    "Financial management proves excellent. Careful budgeting and wise investments ensure growing prosperity and security.",
-    "Family health improves notably. Your attentive care and practical health advice benefit loved ones significantly.",
-    "Service activities bring fulfillment. Helping others and contributing to community provide deep sense of purpose.",
-    "Career perfectionism earns respect. High standards and quality work make you invaluable to organization.",
-    "Health consciousness pays dividends. Disciplined diet and exercise routines show visible improvements in well-being.",
-    "Analytical skills solve problems. Logical thinking and practical solutions help overcome challenges effectively.",
-    "Organization systems implemented successfully. Efficient processes improve both work productivity and home management.",
-    "Learning technical skills succeeds. Educational pursuits enhance professional expertise and career prospects significantly.",
-    "Practical friendships develop meaningfully. Reliable people who share values become important part of support network.",
-    "Month ends with accomplishment. Goals achieved through diligent effort provide satisfaction and confidence for future."
-  ],
-  tula: [
-    "This month Libra natives create beautiful balance in all life areas. Harmony and cooperation bring success and happiness.",
-    "Partnerships flourish remarkably. Both personal and professional relationships deepen bringing mutual benefits and joy.",
-    "Financial equilibrium achieved perfectly. Income and expenses align well creating comfortable and stable financial situation.",
-    "Family peace maintained consistently. Diplomatic skills resolve conflicts and create harmonious home environment.",
-    "Social life becomes fulfilling. Pleasant interactions and cultural activities enrich personal life significantly.",
-    "Career collaborations yield results. Teamwork and cooperative efforts lead to successful project completions.",
-    "Aesthetic pursuits bring pleasure. Involvement in arts, beauty, or design activities provides creative satisfaction.",
-    "Relationships deepen romantically. Love life becomes more satisfying through balanced give-and-take.",
-    "Negotiation skills prove valuable. Ability to find win-win solutions benefits both professional and personal situations.",
-    "Justice and fairness prevail. Your commitment to equality creates positive outcomes in various situations.",
-    "Financial partnerships succeed admirably. Joint ventures or shared investments prove mutually profitable.",
-    "Month concludes with harmony. Balanced approach to life creates satisfying and beautiful conclusion to period."
-  ],
-  vrishchika: [
-    "This month Scorpio natives experience profound transformation. Deep changes in various life areas bring positive growth.",
-    "Investigative abilities yield discoveries. Hidden opportunities and resources become revealed through persistent effort.",
-    "Financial breakthroughs occur unexpectedly. Windfalls or investment gains significantly improve monetary situation.",
-    "Family understanding reaches new depths. Emotional honesty and vulnerability strengthen bonds with loved ones.",
-    "Loyal allies provide invaluable support. Trustworthy friends prove their worth during challenging situations.",
-    "Career intensity brings breakthroughs. Focused determination and strategic thinking overcome obstacles to success.",
-    "Personal power increases dramatically. Inner strength becomes evident and attracts respect from others.",
-    "Research projects succeed remarkably. Thorough investigation and analysis lead to important discoveries or solutions.",
-    "Transformative experiences occur naturally. Life-changing insights or events shift perspective in positive ways.",
-    "Resource management skills sharpen. Ability to maximize available assets improves financial and material situation.",
-    "Profound connections form deeply. Soul-level friendships or relationships develop bringing lasting fulfillment.",
-    "Month ends with empowerment. Personal transformation and achievements provide strength and confidence for future."
-  ],
-  dhanu: [
-    "This month Sagittarius natives experience growth and expansion. Career advancement and personal development progress excellently.",
-    "Professional opportunities multiply rapidly. New projects and responsibilities showcase your capabilities and potential.",
-    "Financial situation improves substantially. Income increases and stabilizes providing enhanced comfort and security.",
-    "Family celebrations bring joy. Happy events and gatherings create wonderful memories and strengthen bonds.",
-    "Friendships provide valuable support. Loyal companions offer advice and assistance when needed most.",
-    "Business expansion proves successful. New ventures and market growth yield profitable results.",
-    "Travel opportunities arise frequently. Journeys undertaken bring both enjoyment and beneficial professional contacts.",
-    "Learning accelerates significantly. Educational pursuits and skill development enhance expertise and career prospects.",
-    "Optimism attracts positive outcomes. Enthusiastic attitude creates favorable circumstances and opportunities.",
-    "Physical health remains excellent. Energy levels stay high supporting active lifestyle and ambitious goals.",
-    "Long-term planning succeeds admirably. Future-oriented decisions and preparations set stage for continued success.",
-    "Month concludes with satisfaction. Progress achieved and opportunities grasped create positive outlook for future."
-  ],
-  makara: [
-    "This month Capricorn natives achieve professional milestones. Hard work and discipline bring deserved recognition and advancement.",
-    "Career goals come significantly closer. Promotions, raises, or new opportunities align with long-term ambitions.",
-    "Financial foundation solidifies strongly. Investments mature and income stability increases providing enhanced security.",
-    "Family responsibilities fulfilled admirably. Your dedication and reliability earn deep appreciation from loved ones.",
-    "Leadership positions offered naturally. Authority roles suit your capabilities and management style perfectly.",
-    "Business foundations strengthen substantially. Sustainable practices and strategic planning ensure continued growth.",
-    "Health discipline maintained consistently. Regular routines and healthy habits show cumulative positive effects.",
-    "Professional relationships develop valuably. Mentors and colleagues provide guidance and opportunities for advancement.",
-    "Long-term projects progress steadily. Patient, persistent effort moves important initiatives closer to completion.",
-    "Social standing improves notably. Professional achievements and ethical behavior earn respect from community.",
-    "Wealth accumulation continues reliably. Assets grow through wise management and strategic investments.",
-    "Month ends with achievement. Professional success and personal satisfaction provide confidence for continued progress."
-  ],
-  kumbha: [
-    "This month Aquarius natives innovate successfully. Original thinking and unconventional approaches bring breakthrough results.",
-    "Humanitarian projects advance significantly. Social causes and community initiatives show tangible positive results.",
-    "Financial innovation proves profitable. Technology-based or modern financial methods increase income substantially.",
-    "Family independence maintained harmoniously. Mutual respect for personal space strengthens relationships paradoxically.",
-    "Friendship networks expand meaningfully. Like-minded people gather creating valuable support and collaboration system.",
-    "Career uniqueness gets recognized. Unconventional methods and innovative solutions receive appreciation and implementation.",
-    "Progressive ideas materialize successfully. Future-oriented plans and projects begin taking concrete form.",
-    "Technological skills enhance opportunities. Digital literacy and modern tools increase professional effectiveness.",
-    "Social consciousness grows deeper. Awareness of global issues inspires action and contribution.",
-    "Intellectual pursuits prove stimulating. Learning and sharing knowledge bring satisfaction and recognition.",
-    "Investment diversity increases wisely. Portfolio spreads across different assets reducing risk and increasing potential.",
-    "Month concludes with innovation. Breakthroughs achieved and connections made create excitement for future possibilities."
-  ],
-  meena: [
-    "This month Pisces natives tap deep intuition. Creative and spiritual insights guide beneficial decisions and actions.",
-    "Artistic projects flourish beautifully. Creative endeavors receive recognition and appreciation from others.",
-    "Financial intuition proves accurate. Instinctive choices about money matters lead to profitable outcomes.",
-    "Family compassion deepens significantly. Emotional support flows freely creating warm and nurturing home environment.",
-    "Spiritual connections develop naturally. Meaningful relationships with kindred spirits enrich personal life profoundly.",
-    "Career creativity gets valued highly. Imaginative solutions and artistic approaches advance professional goals.",
-    "Holistic health improves noticeably. Mind-body-spirit integration practices show comprehensive wellness benefits.",
-    "Empathy strengthens relationships deeply. Understanding and compassion create powerful bonds with others.",
-    "Intuitive abilities increase remarkably. Psychic insights and gut feelings prove accurate and helpful.",
-    "Adaptability serves well professionally. Flexible approaches help navigate changing work situations successfully.",
-    "Spiritual wealth grows abundantly. Material needs met while inner peace and wisdom deepen.",
-    "Month ends with transcendence. Mystical experiences and creative achievements bring deep fulfillment and peace."
-  ]
+  mesha: {
+    en: [
+      "This month brings dynamic growth for Aries natives. Professional achievements and personal development align perfectly.",
+      "Career advancement opportunities abound. Your leadership skills receive recognition leading to promotions or new responsibilities.",
+      "Financial prosperity increases significantly. Multiple income sources and wise investments yield excellent returns throughout the month.",
+      "Family relationships flourish beautifully. Harmony at home provides strong foundation for all other activities and achievements.",
+      "Social status elevates noticeably. Your reputation grows and influential people take notice of your capabilities and character.",
+      "Business ventures prove lucrative. New partnerships and expansion plans materialize bringing substantial profits and growth.",
+      "Health and vitality remain strong. Physical energy and mental clarity support ambitious goals and busy schedule.",
+      "Travel opportunities arise frequently. Journeys undertaken this month bring valuable connections and profitable business outcomes.",
+      "Learning and skill development accelerate. Educational pursuits and training programs enhance your professional expertise significantly.",
+      "Relationships deepen meaningfully. Both personal and professional connections grow stronger providing lasting support and joy.",
+      "Creative projects succeed remarkably. Innovative ideas receive appreciation and practical implementation in your work.",
+      "Month concludes with satisfaction. Goals achieved and progress made set positive tone for upcoming period."
+    ],
+    te: [
+      "ఈ నెల మేష రాశివారికి చురుకైన ఎదుగుదల వస్తుంది. వృత్తి విజయాలు, వ్యక్తిగత అభివృద్ధి సమన్వయంగా ఉంటాయి.",
+      "వృత్తిలో పురోగతి అవకాశాలు ఎక్కువగా ఉంటాయి. మీ నాయకత్వ నైపుణ్యాలకు గుర్తింపు లభించి పదోన్నతులు లేదా కొత్త బాధ్యతలు రావచ్చు.",
+      "ఆర్థిక సంపన్నత గణనీయంగా పెరుగుతుంది. అనేక ఆదాయ వనరులు, వివేకమైన పెట్టుబడులు నెలంతా మంచి లాభాలు ఇస్తాయి.",
+      "కుటుంబ సంబంధాలు సుందరంగా వికసిస్తాయి. ఇంటి సౌహార్దం ఇతర పనులకు బలమైన ఆధారం అవుతుంది.",
+      "సామాజిక స్థానం స్పష్టంగా పెరుగుతుంది. మీ ప్రతిభ, స్వభావాన్ని ప్రభావవంతులు గమనిస్తారు.",
+      "వ్యాపార ప్రయత్నాలు లాభదాయకం. కొత్త భాగస్వామ్యాలు, విస్తరణ ప్రణాళికలు భారీ లాభాలను ఇస్తాయి.",
+      "ఆరోగ్యం, శక్తి బలంగా ఉంటాయి. శారీరక ఉత్సాహం, మానసిక స్పష్టత గట్టి లక్ష్యాలను మద్దతు ఇస్తాయి.",
+      "ప్రయాణ అవకాశాలు తరచుగా వస్తాయి. ఈ నెల ప్రయాణాలు విలువైన పరిచయాలు, లాభదాయక వ్యాపార ఫలితాలు ఇస్తాయి.",
+      "నెర్చుకోవడం, నైపుణ్యాభివృద్ధి వేగవంతమవుతాయి. విద్యా ప్రయత్నాలు మీ వృత్తి నైపుణ్యాన్ని పెంచుతాయి.",
+      "సంబంధాలు అర్థవంతంగా గాఢమవుతాయి. వ్యక్తిగత, వృత్తి సంబంధాలు బలపడతాయి.",
+      "సృజనాత్మక ప్రాజెక్టులు విశేషంగా విజయవంతమవుతాయి. వినూత్న ఆలోచనలు ప్రశంసలు పొందించి అమలవుతాయి.",
+      "నెల సంతృప్తితో ముగుస్తుంది. సాధించిన లక్ష్యాలు, పురోగతి తదుపరి కాలానికి సానుకూల దిశ ఇస్తాయి."
+    ],
+    hi: [
+      "इस महीने मेष राशि वालों के लिए तेज़ प्रगति रहेगी। पेशेवर उपलब्धियां और व्यक्तिगत विकास साथ चलेंगे।", "कैरियर में उन्नति के अवसर भरपूर होंगे। नेतृत्व कौशल की पहचान होगी और पदोन्नति या नई जिम्मेदारियां मिल सकती हैं।", "आर्थिक समृद्धि बढ़ेगी। कई आय स्रोत और समझदारी भरे निवेश अच्छे रिटर्न देंगे।", "पारिवारिक संबंध खूबसूरती से खिलेंगे। घर की सामंजस्यपूर्ण स्थिति बाकी कामों का मजबूत आधार बनेगी।", "सामाजिक प्रतिष्ठा बढ़ेगी। आपकी क्षमता और व्यक्तित्व को प्रभावशाली लोग नोटिस करेंगे।", "व्यवसाय में लाभ होगा। नई साझेदारियां और विस्तार योजनाएं अच्छा फायदा देंगी।", "स्वास्थ्य और ऊर्जा मजबूत रहेगी। शारीरिक उत्साह और मानसिक स्पष्टता लक्ष्यों में मदद करेगी।", "यात्रा के अवसर आएंगे। इस महीने की यात्राएं नए संपर्क और लाभकारी परिणाम देंगी।", "सीखने और कौशल-विकास की गति तेज होगी। प्रशिक्षण आपकी पेशेवर क्षमता बढ़ाएगा।", "रिश्ते अर्थपूर्ण रूप से गहरे होंगे। निजी और पेशेवर संबंध मजबूत होंगे।", "रचनात्मक प्रोजेक्ट सफल होंगे। नए विचारों को सराहना और लागू करने का मौका मिलेगा।", "महीना संतोष के साथ समाप्त होगा। हासिल लक्ष्यों से आगे की दिशा सकारात्मक बनेगी।"
+
+    ]
+  },
+  vrishabha: {
+    en: [
+      "This month Taurus natives enjoy stability and gradual growth. Financial security and personal contentment increase steadily.",
+      "Professional recognition comes naturally. Quality work and consistent efforts bring appreciation from superiors and colleagues alike.",
+      "Income sources strengthen reliably. Salary increases or business profits provide enhanced financial comfort and security.",
+      "Home life becomes harmonious. Family bonds deepen and domestic environment brings peace and happiness to all.",
+      "Investments mature favorably. Long-term financial planning shows positive results encouraging continued wise money management.",
+      "Career stability maintained well. Job security and professional reputation remain solid supporting future advancement opportunities.",
+      "Health improves through discipline. Regular routines and healthy habits show visible benefits in physical appearance and energy.",
+      "Relationships grow more meaningful. Loyalty and trust characterize interactions with loved ones and close friends.",
+      "Practical projects complete successfully. Home improvements or work initiatives finish on time and within budget.",
+      "Social connections expand gradually. Quality friendships form with people who share similar values and interests.",
+      "Financial planning succeeds admirably. Budgets maintained and savings grow providing peace of mind and future security.",
+      "Month ends with contentment. Steady progress and peaceful atmosphere create foundation for continued success."
+    ],
+    te: [
+      "ఈ నెల వృషభ రాశివారికి స్థిరత్వం, క్రమమైన ఎదుగుదల ఉంటుంది. ఆర్థిక భద్రత, వ్యక్తిగత సంతృప్తి పెరుగుతాయి.",
+      "వృత్తిలో సహజంగా గుర్తింపు లభిస్తుంది. నాణ్యమైన పని, నిరంతర ప్రయత్నాలు ఉన్నతుల ప్రశంసలు తెస్తాయి.",
+      "ఆదాయ వనరులు బలపడతాయి. జీతం పెరుగుదల లేదా వ్యాపార లాభాలు ఆర్థిక సౌకర్యం ఇస్తాయి.",
+      "ఇంటి జీవితం సౌహార్దంగా ఉంటుంది. కుటుంబ బంధాలు బలపడతాయి, ఇంట్లో శాంతి ఉంటుంది.",
+      "పెట్టుబడులు అనుకూలంగా పండుతాయి. దీర్ఘకాల ప్రణాళికలకు మంచి ఫలితాలు వస్తాయి.",
+      "వృత్తి స్థిరత్వం బాగా ఉంటుంది. ఉద్యోగ భద్రత, వృత్తి ప్రతిష్ఠ బలంగా ఉంటాయి.",
+      "క్రమశిక్షణతో ఆరోగ్యం మెరుగవుతుంది. నియమిత అలవాట్లు శక్తి, రూపంలో మార్పు చూపిస్తాయి.",
+      "సంబంధాలు మరింత అర్థవంతంగా మారుతాయి. విశ్వాసం, నిబద్ధత బలపడతాయి.",
+      "ప్రాయోగిక ప్రాజెక్టులు విజయవంతంగా పూర్తవుతాయి. ఇంటి లేదా పనిలో పనులు సమయానికి ముగుస్తాయి.",
+      "సామాజిక సంబంధాలు క్రమంగా విస్తరిస్తాయి. సమాన విలువలున్న స్నేహాలు ఏర్పడతాయి.",
+      "ఆర్థిక ప్రణాళికలు విజయవంతమవుతాయి. బడ్జెట్ నిర్వహణ, పొదుపు మానసిక ప్రశాంతత ఇస్తాయి.",
+      "నెల సంతృప్తితో ముగుస్తుంది. స్థిర పురోగతి, శాంతి వాతావరణం భవిష్య విజయానికి పునాది అవుతాయి."
+    ],
+    hi: [
+   "इस महीने वृषभ राशि वालों को स्थिरता और धीरे-धीरे वृद्धि मिलेगी। सुरक्षा की भावना मजबूत होगी।", "आर्थिक स्थिति बेहतर होगी। बचत और निवेश से स्थायित्व बढ़ेगा।", "काम में भरोसेमंद प्रगति होगी। आपकी गुणवत्ता की सराहना होगी।", "घर-परिवार में शांति और सुख बना रहेगा। घरेलू माहौल समर्थन देगा।", "रिश्ते विश्वास और निष्ठा से गहरे होंगे। भावनात्मक स्थिरता मिलेगी।", "संपत्ति या घर से जुड़े मामलों में अनुकूलता रहेगी। सुधार या खरीद के योग हैं।", "स्वास्थ्य अनुशासित दिनचर्या से बेहतर होगा। नियमितता लाभ देगी।", "व्यवसाय में स्थिर लाभ रहेगा। दीर्घकालिक योजनाएं आगे बढ़ेंगी।", "सामाजिक सम्मान बढ़ेगा। आपकी विश्वसनीय छवि मजबूत होगी।", "सीखने और कौशल बढ़ाने से करियर मजबूत होगा।", "छोटी यात्राएं उपयोगी रहेंगी। स्थानीय संपर्क लाभ देंगे।", "महीना संतोषजनक परिणामों के साथ समाप्त होगा।"
+
+    ]
+  },
+  mithuna: {
+    en: [
+      "This month Gemini natives experience intellectual stimulation and diverse opportunities. Communication skills open many doors.",
+      "Multiple projects advance simultaneously. Your versatility and adaptability help manage various responsibilities successfully.",
+      "Financial flexibility increases noticeably. Different income streams provide enhanced security and spending power.",
+      "Family communication improves significantly. Open dialogue resolves misunderstandings and strengthens emotional bonds beautifully.",
+      "Networking yields excellent results. Professional contacts made this month lead to valuable opportunities and collaborations.",
+      "Career versatility proves advantageous. Ability to handle different tasks makes you invaluable to organization.",
+      "Learning opportunities abound richly. New skills acquired quickly enhance both professional capabilities and personal interests.",
+      "Travel plans work out perfectly. Journeys undertaken bring enjoyment and also serve practical professional purposes.",
+      "Social life becomes vibrant. Interesting conversations and diverse social interactions keep life exciting and enriching.",
+      "Creative expression flourishes freely. Writing, speaking, or artistic pursuits receive positive feedback and recognition.",
+      "Mental agility increases remarkably. Quick thinking and problem-solving abilities help navigate challenges effectively.",
+      "Month concludes with variety. Diverse experiences and achievements bring satisfaction and anticipation for what comes next."
+    ],
+    te: [
+      "ఈ నెల మిథున రాశివారికి మానసిక ఉత్సాహం, విభిన్న అవకాశాలు లభిస్తాయి. సంభాషణ నైపుణ్యాలు ఎన్నో ద్వారాలు తెరుస్తాయి.",
+      "అనేక ప్రాజెక్టులు ఒకేసారి ముందుకు సాగుతాయి. మీ బహుముఖత వాటిని సమర్థంగా నిర్వహిస్తుంది.",
+      "ఆర్థిక లవచికత పెరుగుతుంది. విభిన్న ఆదాయ మార్గాలు భద్రత, ఖర్చు శక్తిని పెంచుతాయి.",
+      "కుటుంబ సంభాషణ స్పష్టంగా మెరుగవుతుంది. తెరవెనుక మాటలు అపోహలను తొలగించి బంధాలను బలపరుస్తాయి.",
+      "నెట్‌వర్కింగ్ అద్భుత ఫలితాలు ఇస్తుంది. వృత్తి పరిచయాలు విలువైన అవకాశాలకు దారి తీస్తాయి.",
+      "వృత్తిలో బహుముఖతకు ప్రయోజనం ఉంటుంది. విభిన్న పనులు చేయగలగడం మీ విలువ పెంచుతుంది.",
+      "నెర్చుకునే అవకాశాలు సమృద్ధిగా ఉంటాయి. కొత్త నైపుణ్యాలు త్వరగా నేర్చుకుంటారు.",
+      "ప్రయాణ ప్రణాళికలు చక్కగా సాకారం అవుతాయి. ప్రయాణాలు ఆనందం, వృత్తి ప్రయోజనం రెండూ ఇస్తాయి.",
+      "సామాజిక జీవితం ఉత్సాహభరితంగా ఉంటుంది. ఆసక్తికర సంభాషణలు జీవితాన్ని సమృద్ధిగా చేస్తాయి.",
+      "సృజనాత్మక వ్యక్తీకరణ స్వేచ్ఛగా వికసిస్తుంది. రచన/ప్రసంగం/కళలకు ప్రశంసలు లభిస్తాయి.",
+      "మానసిక చురుకుదనం పెరుగుతుంది. వేగంగా ఆలోచించడం, సమస్యలు పరిష్కరించడం సులభమవుతుంది.",
+      "నెల విభిన్నతతో ముగుస్తుంది. అనుభవాలు, విజయాలు సంతృప్తి మరియు తదుపరి ఆసక్తిని కలిగిస్తాయి."
+    ],
+    hi: [
+      "यह महीना मिथुन राशि वालों के लिए मानसिक रूप से सक्रिय और विविध रहेगा। नए अवसर मिलेंगे।", "संचार कौशल से लाभ होगा। बातचीत से काम बनेंगे।", "आय के कई स्रोत खुल सकते हैं। वित्तीय लचीलापन बढ़ेगा।", "परिवार में संवाद बढ़ेगा। विचार साझा करने से नजदीकी बढ़ेगी।", "नेटवर्किंग से लाभ मिलेगा। सामाजिक संपर्क सकारात्मक रहेंगे।", "कैरियर में बहुमुखीता की कद्र होगी। अनुकूलता नए रास्ते खोलेगी।", "सीखने की गति तेज होगी। नए कौशल आसानी से आएंगे।", "यात्राएं संभावित हैं। सफर से उपयोगी संपर्क मिलेंगे।", "रचनात्मक प्रोजेक्ट आगे बढ़ेंगे। नए विचार काम आएंगे।", "रिश्तों में स्पष्टता बढ़ेगी। संवाद से गलतफहमियां दूर होंगी।", "वित्तीय योजना बेहतर होगी। खर्च और बचत में संतुलन बनेगा।", "महीना उपलब्धियों और विविध अनुभवों के साथ समाप्त होगा।"
+
+    ]
+  },
+  karka: {
+    en: [
+      "This month Cancer natives find emotional fulfillment and domestic happiness. Home and family matters receive positive attention.",
+      "Nurturing activities bring joy. Caring for loved ones and creating comfortable environment provide deep satisfaction.",
+      "Financial security strengthens reliably. Wise investments and careful spending ensure stable financial foundation.",
+      "Family celebrations occur naturally. Happy occasions bring loved ones together creating beautiful memories.",
+      "Home improvements undertaken successfully. Living space becomes more comfortable and aesthetically pleasing.",
+      "Career emotional intelligence valued. Your ability to understand people helps advance professional goals effectively.",
+      "Health improves through self-care. Attention to emotional and physical needs shows positive results.",
+      "Relationships deepen significantly. Trust and mutual support characterize interactions with family and friends.",
+      "Intuition guides decisions wisely. Following inner voice leads to beneficial outcomes in various situations.",
+      "Domestic peace prevails harmoniously. Home becomes sanctuary providing rest and rejuvenation from outside demands.",
+      "Financial cushion grows steadily. Emergency funds and savings increase providing enhanced security and peace of mind.",
+      "Month ends with warmth. Emotional connections and domestic comfort create satisfying conclusion to period."
+    ],
+    te: [
+      "ఈ నెల కర్కాటక రాశివారికి భావోద్వేగ తృప్తి, గృహ సుఖం లభిస్తాయి. ఇల్లు, కుటుంబ విషయాలు సానుకూలంగా ఉంటాయి.",
+      "పోషణ కార్యకలాపాలు ఆనందం ఇస్తాయి. ప్రియులకు శ్రద్ధ చూపడం లోతైన సంతృప్తి ఇస్తుంది.",
+      "ఆర్థిక భద్రత స్థిరంగా బలపడుతుంది. వివేకమైన పెట్టుబడులు, ఖర్చుల నియంత్రణ మద్దతిస్తాయి.",
+      "కుటుంబ వేడుకలు సహజంగా జరుగుతాయి. ఆనందకర సందర్భాలు అందరినీ కలిపే అందమైన జ్ఞాపకాలు ఇస్తాయి.",
+      "ఇంటి మెరుగుదల పనులు విజయవంతమవుతాయి. నివాస స్థలం మరింత సౌకర్యంగా మారుతుంది.",
+      "వృత్తిలో భావోద్వేగ తెలివితేటలకు విలువ ఉంటుంది. వ్యక్తులను అర్థం చేసుకునే సామర్థ్యం లక్ష్యాలను ముందుకు తీస్తుంది.",
+      "స్వీయ సంరక్షణతో ఆరోగ్యం మెరుగవుతుంది. భావోద్వేగ, శారీరక అవసరాలకు శ్రద్ధ ఫలితం ఇస్తుంది.",
+      "సంబంధాలు గణనీయంగా గాఢమవుతాయి. కుటుంబం, మిత్రులతో నమ్మకం పెరుగుతుంది.",
+      "అంతఃప్రజ్ఞ నిర్ణయాలను మార్గనిర్దేశం చేస్తుంది. అంతర్గత స్వరం అనుకూల ఫలితాలు ఇస్తుంది.",
+      "ఇంటి శాంతి సౌహార్దంగా ఉంటుంది. గృహం విశ్రాంతికి ఆశ్రయంగా మారుతుంది.",
+      "ఆర్థిక నిల్వ క్రమంగా పెరుగుతుంది. అత్యవసర నిధులు, పొదుపు భద్రత ఇస్తాయి.",
+      "నెల ఆత్మీయతతో ముగుస్తుంది. భావోద్వేగ బంధాలు, గృహ సౌఖ్యం సంతృప్తిని ఇస్తాయి."
+    ],
+    hi: [
+      "यह महीना कर्क राशि वालों के लिए भावनात्मक सुरक्षा और पारिवारिक फोकस लाएगा।", "घर-परिवार में सुख बढ़ेगा। देखभाल और अपनापन मजबूत होगा।", "आर्थिक सुरक्षा में सुधार होगा। सावधानी से लिए फैसले लाभ देंगे।", "परिवारिक संबंध मजबूत होंगे। सहयोग और समझ बढ़ेगी।", "करीबी मित्रों का समर्थन मिलेगा। साथ से मनोबल बढ़ेगा।", "कैरियर स्थिर रहेगा। भावनात्मक बुद्धिमत्ता से लाभ होगा।", "स्वास्थ्य भावनात्मक संतुलन से सुधरेगा। आराम और नियमितता जरूरी रहेगी।", "संपत्ति या घर से जुड़े काम अनुकूल रहेंगे। सुधार संभव है।", "अंतर्ज्ञान सही दिशा देगा। निर्णयों में स्पष्टता आएगी।", "रिश्ते गहरे होंगे। भरोसा और निकटता बढ़ेगी।", "मानसिक शांति और संतोष महसूस होगा।", "महीना गर्मजोशी और स्थिरता के साथ समाप्त होगा।"
+
+    ]
+  },
+  simha: {
+    en: [
+      "This month Leo natives shine brilliantly in all areas. Leadership and creativity bring remarkable success and recognition.",
+      "Professional achievements multiply significantly. Promotions, awards, or new opportunities elevate career to new heights.",
+      "Financial prosperity increases dramatically. Bold investments and confident decisions yield substantial monetary gains.",
+      "Family pride and joy abound. Your accomplishments make loved ones happy and inspire younger family members.",
+      "Social recognition reaches new levels. Respect and admiration from peers enhance personal and professional reputation.",
+      "Creative projects receive acclaim. Artistic endeavors or innovative ideas gain appreciation and practical implementation.",
+      "Health and vitality peak high. Physical strength and mental confidence support ambitious goals and busy schedule.",
+      "Leadership roles multiply naturally. People look to you for guidance and direction in various situations.",
+      "Romantic life flourishes beautifully. Love relationships deepen or new romantic connections bring joy and excitement.",
+      "Business ventures prove highly profitable. Entrepreneurial efforts and risk-taking yield excellent returns and growth.",
+      "Personal charisma attracts opportunities. Your magnetic personality draws positive people and situations into life.",
+      "Month concludes with celebration. Achievements and recognition provide satisfaction and motivation for future success."
+    ],
+    te: [
+      "ఈ నెల సింహ రాశివారికి అన్ని రంగాల్లో ప్రకాశం ఉంటుంది. నాయకత్వం, సృజనాత్మకత గొప్ప విజయాలు, గుర్తింపును ఇస్తాయి.",
+      "వృత్తి విజయాలు గణనీయంగా పెరుగుతాయి. పదోన్నతులు, పురస్కారాలు లేదా కొత్త అవకాశాలు కెరీర్‌ను ఉన్నతస్థాయికి తీసుకెళ్తాయి.",
+      "ఆర్థిక సంపన్నత భారీగా పెరుగుతుంది. ధైర్య పెట్టుబడులు, ధైర్య నిర్ణయాలు గొప్ప లాభాలు ఇస్తాయి.",
+      "కుటుంబ గర్వం, ఆనందం పెరుగుతాయి. మీ విజయాలు ప్రియులను సంతోషపరచి చిన్నవారికి ప్రేరణ ఇస్తాయి.",
+      "సామాజిక గుర్తింపు కొత్త స్థాయికి చేరుతుంది. సహచరుల గౌరవం, ప్రశంసలు పేరును పెంచుతాయి.",
+      "సృజనాత్మక ప్రాజెక్టులకు ప్రశంసలు లభిస్తాయి. కళాత్మక ప్రయత్నాలు లేదా వినూత్న ఆలోచనలు అమలవుతాయి.",
+      "ఆరోగ్యం, శక్తి అత్యుత్తమంగా ఉంటాయి. శారీరక బలం, మానసిక ధైర్యం బిజీ షెడ్యూల్‌ను సపోర్ట్ చేస్తాయి.",
+      "నాయకత్వ పాత్రలు సహజంగా పెరుగుతాయి. వివిధ పరిస్థితుల్లో మార్గదర్శనానికి ప్రజలు మీను చూస్తారు.",
+      "ప్రేమ జీవితం అందంగా వికసిస్తుంది. ప్రేమ సంబంధాలు గాఢమవుతాయి లేదా కొత్త రొమాంటిక్ సంబంధాలు ఏర్పడతాయి.",
+      "వ్యాపార ప్రయత్నాలు చాలా లాభదాయకం. উদ্যమ ప్రయత్నాలు, రిస్క్ తీసుకోవడం గొప్ప వృద్ధి ఇస్తాయి.",
+      "వ్యక్తిగత ఆకర్షణ అవకాశాలను ఆకర్షిస్తుంది. మీ కరిజ్మా సానుకూల వ్యక్తులు, పరిస్థితులను దగ్గర చేస్తుంది.",
+      "నెల ఆనందోత్సవంతో ముగుస్తుంది. సాధించిన విజయాలు భవిష్య విజయానికి ప్రోత్సాహం ఇస్తాయి."
+    ],
+    hi: [
+      "इस महीने सिंह राशि वालों को पहचान और नेतृत्व के अवसर मिलेंगे। ध्यान केंद्रित रहेगा।", "रचनात्मक कामों में सफलता मिलेगी। आपकी प्रतिभा की सराहना होगी।", "आर्थिक अवसर बढ़ेंगे। साहसिक फैसले अच्छे लाभ दे सकते हैं।", "परिवार में गर्व का माहौल रहेगा। आपकी उपलब्धियां प्रेरणा बनेंगी।", "सामाजिक प्रतिष्ठा मजबूत होगी। सम्मान और प्रशंसा बढ़ेगी।", "कैरियर में उन्नति के संकेत हैं। नई जिम्मेदारियां मिल सकती हैं।", "ऊर्जा और आत्मविश्वास ऊंचे रहेंगे। लक्ष्यों पर ध्यान टिकेगा।", "यात्राएं लाभकारी हो सकती हैं। नए संपर्क बनेंगे।", "प्रेम जीवन में चमक आएगी। रिश्तों में उत्साह बढ़ेगा।", "व्यवसाय में विस्तार संभव है। नेतृत्व से लाभ होगा।", "स्वास्थ्य अच्छा रहेगा। सक्रिय जीवनशैली मदद करेगी।", "महीना उपलब्धियों और उत्साह के साथ समाप्त होगा।"
+
+    ]
+  },
+  kanya: {
+    en: [
+      "This month Virgo natives excel through precision and practicality. Organizational skills bring professional advancement and personal satisfaction.",
+      "Work efficiency reaches new heights. Systematic approaches and attention to detail yield superior results and recognition.",
+      "Financial management proves excellent. Careful budgeting and wise investments ensure growing prosperity and security.",
+      "Family health improves notably. Your attentive care and practical health advice benefit loved ones significantly.",
+      "Service activities bring fulfillment. Helping others and contributing to community provide deep sense of purpose.",
+      "Career perfectionism earns respect. High standards and quality work make you invaluable to organization.",
+      "Health consciousness pays dividends. Disciplined diet and exercise routines show visible improvements in well-being.",
+      "Analytical skills solve problems. Logical thinking and practical solutions help overcome challenges effectively.",
+      "Organization systems implemented successfully. Efficient processes improve both work productivity and home management.",
+      "Learning technical skills succeeds. Educational pursuits enhance professional expertise and career prospects significantly.",
+      "Practical friendships develop meaningfully. Reliable people who share values become important part of support network.",
+      "Month ends with accomplishment. Goals achieved through diligent effort provide satisfaction and confidence for future."
+    ],
+    te: [
+      "ఈ నెల కన్య రాశివారు ఖచ్చితత్వం, ప్రాయోగికతతో ముందుకు సాగుతారు. వ్యవస్థీకరణ నైపుణ్యాలు వృత్తి పురోగతి, వ్యక్తిగత సంతృప్తి ఇస్తాయి.",
+      "పని సామర్థ్యం కొత్త స్థాయికి చేరుతుంది. క్రమబద్ధమైన విధానం, సూక్ష్మ దృష్టి ఉత్తమ ఫలితాలు, గుర్తింపును ఇస్తాయి.",
+      "ఆర్థిక నిర్వహణ అద్భుతంగా ఉంటుంది. కట్టుదిట్టమైన బడ్జెట్, వివేకమైన పెట్టుబడులు సంపన్నతను పెంచుతాయి.",
+      "కుటుంబ ఆరోగ్యం గణనీయంగా మెరుగవుతుంది. మీ శ్రద్ధ, ప్రాయోగిక ఆరోగ్య సలహాలు ప్రియులకు మేలు చేస్తాయి.",
+      "సేవా కార్యకలాపాలు తృప్తిని ఇస్తాయి. ఇతరులకు సహాయం చేయడం, సమాజానికి తోడ్పడడం ఉద్దేశ్యభావాన్ని పెంపొందిస్తుంది.",
+      "వృత్తిలో పరిపూర్ణతకు గౌరవం లభిస్తుంది. ఉన్నత ప్రమాణాలు, నాణ్యత మీ విలువను పెంచుతాయి.",
+      "ఆరోగ్య జాగ్రత్తలు ఫలితమిస్తాయి. నియమిత ఆహారం, వ్యాయామం శ్రేయస్సును మెరుగుపరుస్తాయి.",
+      "విశ్లేషణ నైపుణ్యాలు సమస్యలను పరిష్కరిస్తాయి. తార్కిక ఆలోచన, ప్రాయోగిక పరిష్కారాలు సవాళ్లను తొలగిస్తాయి.",
+      "వ్యవస్థీకరణ పద్ధతులు విజయవంతంగా అమలవుతాయి. సమర్థమైన ప్రక్రియలు పనితీరు, ఇంటి నిర్వహణను మెరుగుపరుస్తాయి.",
+      "సాంకేతిక నైపుణ్యాలు నేర్చుకోవడం విజయవంతం. విద్యా ప్రయత్నాలు వృత్తి అవకాశాలను పెంచుతాయి.",
+      "ప్రాయోగిక స్నేహాలు బలపడతాయి. విశ్వసనీయ వ్యక్తులు మద్దతు నెట్‌వర్క్‌లో కీలకమవుతారు.",
+      "నెల సాధనతో ముగుస్తుంది. కృషితో సాధించిన లక్ష్యాలు భవిష్యత్తుకు నమ్మకాన్ని ఇస్తాయి."
+    ],
+    hi: [
+      "यह महीना कन्या राशि वालों के लिए सुव्यवस्थित प्रगति का है। सटीकता लाभ देगी।", "काम में दक्षता बढ़ेगी। व्यवस्थित तरीके से अच्छे परिणाम मिलेंगे।", "वित्तीय योजना सफल होगी। बजट और रणनीतियां सही चलेंगी।", "परिवार के स्वास्थ्य पर ध्यान रहेगा। आपकी देखभाल असर दिखाएगी।", "सेवा और सहयोग से संतोष मिलेगा। मददगार भूमिका सुकून देगी।", "कैरियर में गुणवत्ता का सम्मान मिलेगा। उच्च मानकों की कद्र होगी।", "स्वास्थ्य दिनचर्या से सुधार होगा। अनुशासन लाभ देगा।", "कौशल-विकास से पेशेवर मजबूती बढ़ेगी।", "योजनाबद्ध यात्रा सफल रहेगी। तैयारी लाभ देगी।", "रिश्तों में भरोसा बढ़ेगा। व्यावहारिक सहयोग मिलेगा।", "धन प्रबंधन बेहतर होगा। बचत स्थिर रहेगी।", "महीना ठोस उपलब्धियों के साथ समाप्त होगा।"
+
+    ]
+  },
+  tula: {
+    en: [
+      "This month Libra natives create beautiful balance in all life areas. Harmony and cooperation bring success and happiness.",
+      "Partnerships flourish remarkably. Both personal and professional relationships deepen bringing mutual benefits and joy.",
+      "Financial equilibrium achieved perfectly. Income and expenses align well creating comfortable and stable financial situation.",
+      "Family peace maintained consistently. Diplomatic skills resolve conflicts and create harmonious home environment.",
+      "Social life becomes fulfilling. Pleasant interactions and cultural activities enrich personal life significantly.",
+      "Career collaborations yield results. Teamwork and cooperative efforts lead to successful project completions.",
+      "Aesthetic pursuits bring pleasure. Involvement in arts, beauty, or design activities provides creative satisfaction.",
+      "Relationships deepen romantically. Love life becomes more satisfying through balanced give-and-take.",
+      "Negotiation skills prove valuable. Ability to find win-win solutions benefits both professional and personal situations.",
+      "Justice and fairness prevail. Your commitment to equality creates positive outcomes in various situations.",
+      "Financial partnerships succeed admirably. Joint ventures or shared investments prove mutually profitable.",
+      "Month concludes with harmony. Balanced approach to life creates satisfying and beautiful conclusion to period."
+    ],
+    te: [
+      "ఈ నెల తుల రాశివారు జీవన రంగాలన్నిటిలో అందమైన సమతుల్యతను సృష్టిస్తారు. సౌహార్దం, సహకారం విజయాన్ని ఇస్తాయి.",
+      "భాగస్వామ్యాలు అద్భుతంగా వికసిస్తాయి. వ్యక్తిగత, వృత్తి సంబంధాలు గాఢమై పరస్పర లాభం ఇస్తాయి.",
+      "ఆర్థిక సమతుల్యత సంపూర్ణంగా ఏర్పడుతుంది. ఆదాయం, ఖర్చులు సమన్వయంగా ఉండి స్థిరత్వాన్ని ఇస్తాయి.",
+      "కుటుంబ శాంతి స్థిరంగా ఉంటుంది. దౌత్య నైపుణ్యాలు విభేదాలను పరిష్కరించి సౌహార్దాన్ని పెంచుతాయి.",
+      "సామాజిక జీవితం సంతృప్తికరంగా ఉంటుంది. సుఖదాయక పరస్పర చర్యలు జీవనాన్ని సమృద్ధిగా చేస్తాయి.",
+      "వృత్తిలో సహకారాలు ఫలిస్తాయి. జట్టు పని విజయవంతంగా ప్రాజెక్టులను ముగిస్తుంది.",
+      "సౌందర్య సంబంధిత కార్యక్రమాలు ఆనందాన్ని ఇస్తాయి. కళలు, డిజైన్ వంటి పనులు సృజనాత్మక సంతృప్తి ఇస్తాయి.",
+      "సంబంధాలు రొమాంటిక్‌గా గాఢమవుతాయి. సమతుల్య సంబంధాలు ప్రేమ జీవితాన్ని సంతృప్తిగా చేస్తాయి.",
+      "చర్చా నైపుణ్యాలు విలువైనవిగా ఉంటాయి. అందరికీ లాభమయ్యే పరిష్కారాలు లభిస్తాయి.",
+      "న్యాయం, సమానత్వం నిలుస్తాయి. సమతత్వంపై మీ నిబద్ధత సానుకూల ఫలితాలు ఇస్తుంది.",
+      "ఆర్థిక భాగస్వామ్యాలు విజయవంతమవుతాయి. సంయుక్త పెట్టుబడులు లాభదాయకంగా ఉంటాయి.",
+      "నెల సౌహార్దంతో ముగుస్తుంది. సమతుల్య జీవన దృష్టి తృప్తికర ముగింపుని ఇస్తుంది."
+    ],
+    hi: [
+      "इस महीने तुला राशि वालों के जीवन में संतुलन और सामंजस्य बढ़ेगा।", "साझेदारियां मजबूत होंगी। सहयोग से सफलता मिलेगी।", "आर्थिक संतुलन बना रहेगा। आय-व्यय में तालमेल होगा।", "परिवार में शांति रहेगी। आपकी कूटनीति मदद करेगी।", "सामाजिक जीवन सक्रिय होगा। सुखद मेलजोल से आनंद मिलेगा।", "कैरियर में टीमवर्क सफल रहेगा। सहकार से परिणाम आएंगे।", "रिश्तों में रोमांस बढ़ेगा। प्रेम जीवन संतोष देगा।", "कलात्मक रुचि बढ़ेगी। सौंदर्य से जुड़े काम लाभ देंगे।", "यात्राएं आनंददायक होंगी। साथी के साथ समय मिलेगा।", "कानूनी या समझौतों में संतुलित निर्णय होंगे।", "स्वास्थ्य में संतुलन बना रहेगा। मन शांत रहेगा।", "महीना सुंदर अनुभवों के साथ समाप्त होगा।"
+
+    ]
+  },
+  vrishchika: {
+    en: [
+      "This month Scorpio natives experience profound transformation. Deep changes in various life areas bring positive growth.",
+      "Investigative abilities yield discoveries. Hidden opportunities and resources become revealed through persistent effort.",
+      "Financial breakthroughs occur unexpectedly. Windfalls or investment gains significantly improve monetary situation.",
+      "Family understanding reaches new depths. Emotional honesty and vulnerability strengthen bonds with loved ones.",
+      "Loyal allies provide invaluable support. Trustworthy friends prove their worth during challenging situations.",
+      "Career intensity brings breakthroughs. Focused determination and strategic thinking overcome obstacles to success.",
+      "Personal power increases dramatically. Inner strength becomes evident and attracts respect from others.",
+      "Research projects succeed remarkably. Thorough investigation and analysis lead to important discoveries or solutions.",
+      "Transformative experiences occur naturally. Life-changing insights or events shift perspective in positive ways.",
+      "Resource management skills sharpen. Ability to maximize available assets improves financial and material situation.",
+      "Profound connections form deeply. Soul-level friendships or relationships develop bringing lasting fulfillment.",
+      "Month ends with empowerment. Personal transformation and achievements provide strength and confidence for future."
+    ],
+    te: [
+      "ఈ నెల వృశ్చిక రాశివారికి లోతైన మార్పు అనుభూతి ఉంటుంది. జీవనంలోని వివిధ రంగాల్లో మార్పులు సానుకూల ఎదుగుదల ఇస్తాయి.",
+      "విచారణ నైపుణ్యాలు కొత్త ఆవిష్కరణలకు దారి తీస్తాయి. దాగిన అవకాశాలు, వనరులు వెలుగులోకి వస్తాయి.",
+      "ఆర్థిక బ్రేక్‌థ్రూలు అకస్మాత్తుగా జరుగుతాయి. అనుకోని లాభాలు ఆర్థిక స్థితిని మెరుగుపరుస్తాయి.",
+      "కుటుంబ అవగాహన కొత్త స్థాయికి చేరుతుంది. భావోద్వేగ నిజాయితీ బంధాలను బలపరుస్తుంది.",
+      "నమ్మకమైన మిత్రులు అమూల్య మద్దతు ఇస్తారు. కష్టం సమయంలో విశ్వాసపాత్రులు విలువను చూపుతారు.",
+      "వృత్తిలో తీవ్రత బ్రేక్‌థ్రూలకు దారి తీస్తుంది. దృఢ సంకల్పం అడ్డంకులను అధిగమిస్తుంది.",
+      "వ్యక్తిగత శక్తి గణనీయంగా పెరుగుతుంది. అంతర్గత బలం గౌరవాన్ని ఆకర్షిస్తుంది.",
+      "పరిశోధన ప్రాజెక్టులు అద్భుతంగా విజయవంతమవుతాయి. లోతైన విశ్లేషణ ముఖ్య పరిష్కారాలను ఇస్తుంది.",
+      "మార్పును తెచ్చే అనుభవాలు సహజంగా జరుగుతాయి. జీవన దృష్టికోణం సానుకూలంగా మారుతుంది.",
+      "వనరుల నిర్వహణ నైపుణ్యాలు పదును పడతాయి. అందుబాటులో ఉన్న ఆస్తులను గరిష్టంగా వినియోగిస్తారు.",
+      "లోతైన బంధాలు ఏర్పడతాయి. ఆత్మస్థాయి స్నేహాలు దీర్ఘకాల తృప్తిని ఇస్తాయి.",
+      "నెల శక్తివంతతతో ముగుస్తుంది. వ్యక్తిగత మార్పులు భవిష్య విశ్వాసాన్ని పెంచుతాయి."
+    ],
+    hi: [
+      "यह महीना वृश्चिक राशि वालों के लिए परिवर्तन और गहरी प्रगति का है।", "अन्वेषण और शोध में सफलता मिलेगी। छिपे अवसर सामने आएंगे।", "आर्थिक ब्रेकथ्रू संभव है। अचानक लाभ मिल सकता है।", "परिवार में समझ बढ़ेगी। भावनात्मक बंधन मजबूत होंगे।", "विश्वसनीय सहयोगी मिलेंगे। आपकी योजनाओं को समर्थन मिलेगा।", "कैरियर में तीव्रता का फल मिलेगा। दृढ़ता से बाधाएं हटेंगी।", "व्यवसाय में रणनीति सफल होगी। सोच-समझकर जोखिम लाभ देगा।", "स्वास्थ्य में सुधार होगा। पुनर्जीवनकारी आदतें लाभ देंगी।", "यात्राएं दृष्टिकोण बदल सकती हैं। अनुभव गहरे होंगे।", "आत्मबल बढ़ेगा। भीतर की शक्ति स्पष्ट होगी।", "रिश्तों में गहराई आएगी। भरोसा मजबूत होगा।", "महीना मजबूत उपलब्धियों के साथ समाप्त होगा।"
+
+    ]
+  },
+  dhanu: {
+    en: [
+      "This month Sagittarius natives experience growth and expansion. Career advancement and personal development progress excellently.",
+      "Professional opportunities multiply rapidly. New projects and responsibilities showcase your capabilities and potential.",
+      "Financial situation improves substantially. Income increases and stabilizes providing enhanced comfort and security.",
+      "Family celebrations bring joy. Happy events and gatherings create wonderful memories and strengthen bonds.",
+      "Friendships provide valuable support. Loyal companions offer advice and assistance when needed most.",
+      "Business expansion proves successful. New ventures and market growth yield profitable results.",
+      "Travel opportunities arise frequently. Journeys undertaken bring both enjoyment and beneficial professional contacts.",
+      "Learning accelerates significantly. Educational pursuits and skill development enhance expertise and career prospects.",
+      "Optimism attracts positive outcomes. Enthusiastic attitude creates favorable circumstances and opportunities.",
+      "Physical health remains excellent. Energy levels stay high supporting active lifestyle and ambitious goals.",
+      "Long-term planning succeeds admirably. Future-oriented decisions and preparations set stage for continued success.",
+      "Month concludes with satisfaction. Progress achieved and opportunities grasped create positive outlook for future."
+    ],
+    te: [
+      "ఈ నెల ధనుస్సు రాశివారికి ఎదుగుదల, విస్తరణ అనుభవంలోకి వస్తాయి. వృత్తి పురోగతి మరియు వ్యక్తిగత అభివృద్ధి అద్భుతంగా సాగుతాయి.",
+      "వృత్తి అవకాశాలు వేగంగా పెరుగుతాయి. కొత్త ప్రాజెక్టులు, బాధ్యతలు మీ సామర్థ్యాన్ని చూపిస్తాయి.",
+      "ఆర్థిక పరిస్థితి గణనీయంగా మెరుగవుతుంది. ఆదాయం పెరిగి స్థిరపడుతుంది.",
+      "కుటుంబ వేడుకలు ఆనందం తెస్తాయి. సంతోషకర సమావేశాలు బంధాలను బలపరుస్తాయి.",
+      "స్నేహాలు విలువైన మద్దతు ఇస్తాయి. నమ్మకమైన మిత్రులు అవసర సమయంలో సహాయం చేస్తారు.",
+      "వ్యాపార విస్తరణ విజయవంతమవుతుంది. కొత్త వ్యాపారాలు, మార్కెట్ వృద్ధి లాభాలు ఇస్తాయి.",
+      "ప్రయాణ అవకాశాలు తరచుగా వస్తాయి. ప్రయాణాలు ఆనందంతో పాటు వృత్తి ప్రయోజనం ఇస్తాయి.",
+      "నెర్చుకోవడం గణనీయంగా వేగవంతమవుతుంది. విద్య, నైపుణ్యాభివృద్ధి కెరీర్ అవకాశాలను పెంచుతుంది.",
+      "ఆశావాదం సానుకూల ఫలితాలను ఆకర్షిస్తుంది. ఉత్సాహం అనుకూల పరిస్థితులను ఏర్పరుస్తుంది.",
+      "శారీరక ఆరోగ్యం అద్భుతంగా ఉంటుంది. శక్తి స్థాయిలు అధికంగా ఉండి క్రియాశీల జీవనాన్ని మద్దతిస్తాయి.",
+      "దీర్ఘకాల ప్రణాళికలు విజయవంతమవుతాయి. భవిష్య దృష్టి నిర్ణయాలు విజయానికి దారి తీస్తాయి.",
+      "నెల సంతృప్తితో ముగుస్తుంది. సాధించిన పురోగతి భవిష్యానికి సానుకూల దిశ ఇస్తుంది."
+    ],
+    hi: [
+      "यह महीना धनु राशि वालों के लिए विस्तार और प्रगति का रहेगा। नए अवसर मिलेंगे।", "कैरियर में उन्नति होगी। आपकी क्षमता का सही उपयोग होगा।", "आर्थिक स्थिति बेहतर होगी। आय में वृद्धि संभव है।", "यात्राएं लाभकारी होंगी। नए संपर्क बनेंगे।", "सीखने और प्रशिक्षण से लाभ होगा। ज्ञान बढ़ेगा।", "मित्रों का सहयोग मिलेगा। समर्थन से आत्मविश्वास बढ़ेगा।", "व्यवसाय में विस्तार संभव है। नए प्रयास सफलता देंगे।", "स्वास्थ्य अच्छा रहेगा। सक्रियता बनी रहेगी।", "परिवार में खुशियां रहेंगी। साथ बिताया समय अच्छा रहेगा।", "दीर्घकालिक योजनाएं आकार लेंगी। भविष्य की दिशा स्पष्ट होगी।", "आशावाद से अच्छे परिणाम मिलेंगे। सकारात्मक सोच मदद करेगी।", "महीना सफल और उत्साहजनक रहेगा।"
+
+    ]
+  },
+  makara: {
+    en: [
+      "This month Capricorn natives achieve professional milestones. Hard work and discipline bring deserved recognition and advancement.",
+      "Career goals come significantly closer. Promotions, raises, or new opportunities align with long-term ambitions.",
+      "Financial foundation solidifies strongly. Investments mature and income stability increases providing enhanced security.",
+      "Family responsibilities fulfilled admirably. Your dedication and reliability earn deep appreciation from loved ones.",
+      "Leadership positions offered naturally. Authority roles suit your capabilities and management style perfectly.",
+      "Business foundations strengthen substantially. Sustainable practices and strategic planning ensure continued growth.",
+      "Health discipline maintained consistently. Regular routines and healthy habits show cumulative positive effects.",
+      "Professional relationships develop valuably. Mentors and colleagues provide guidance and opportunities for advancement.",
+      "Long-term projects progress steadily. Patient, persistent effort moves important initiatives closer to completion.",
+      "Social standing improves notably. Professional achievements and ethical behavior earn respect from community.",
+      "Wealth accumulation continues reliably. Assets grow through wise management and strategic investments.",
+      "Month ends with achievement. Professional success and personal satisfaction provide confidence for continued progress."
+    ],
+    te: [
+      "ఈ నెల మకర రాశివారు వృత్తి మైలురాళ్లు సాధిస్తారు. కష్టపడి పనిచేయడం, క్రమశిక్షణకు తగిన గుర్తింపు లభిస్తుంది.",
+      "వృత్తి లక్ష్యాలు మరింత దగ్గరపడతాయి. పదోన్నతులు, జీత పెంపు లేదా కొత్త అవకాశాలు ఆశయాలకు అనుగుణంగా వస్తాయి.",
+      "ఆర్థిక పునాది బలపడుతుంది. పెట్టుబడులు పండుతాయి, ఆదాయం స్థిరపడుతుంది.",
+      "కుటుంబ బాధ్యతలు చక్కగా నెరవేర్చుతారు. మీ నిబద్ధతకు లోతైన కృతజ్ఞత లభిస్తుంది.",
+      "నాయకత్వ స్థానాలు సహజంగా వస్తాయి. అధికార పాత్రలు మీ నిర్వహణ శైలికి సరిపోతాయి.",
+      "వ్యాపార పునాదులు బలపడతాయి. స్థిరమైన విధానాలు, వ్యూహాత్మక ప్రణాళికలు వృద్ధిని కొనసాగిస్తాయి.",
+      "ఆరోగ్య క్రమశిక్షణ నిలుస్తుంది. నియమిత అలవాట్లు దీర్ఘకాల ప్రయోజనాలను ఇస్తాయి.",
+      "వృత్తి సంబంధాలు విలువైనవిగా మారుతాయి. మెంటర్లు, సహచరులు పురోగతికి దారి చూపుతారు.",
+      "దీర్ఘకాల ప్రాజెక్టులు క్రమంగా ముందుకు సాగుతాయి. పట్టుదలతో లక్ష్యాలు చేరువవుతాయి.",
+      "సామాజిక స్థానం మెరుగవుతుంది. వృత్తి విజయాలు, నైతిక ప్రవర్తన గౌరవాన్ని తెస్తాయి.",
+      "ధన సమీకరణ నమ్మకంగా కొనసాగుతుంది. ఆస్తులు తెలివైన నిర్వహణతో పెరుగుతాయి.",
+      "నెల విజయంతో ముగుస్తుంది. వృత్తి విజయాలు భవిష్య పురోగతికి నమ్మకాన్ని ఇస్తాయి."
+    ],
+    hi: [
+      "यह महीना मकर राशि वालों के लिए अनुशासन और उपलब्धियों का है। मेहनत रंग लाएगी।",
+"कैरियर में स्थिर प्रगति होगी। लक्ष्य करीब आएंगे।",
+"आर्थिक आधार मजबूत होगा। निवेश से सुरक्षा बढ़ेगी।",
+"परिवार की जिम्मेदारियां अच्छे से निभेंगी। सराहना मिलेगी।",
+"नेतृत्व भूमिकाएं मिल सकती हैं। आपकी क्षमता पहचानी जाएगी।",
+"व्यवसाय की नींव मजबूत होगी। दीर्घकालिक विकास संभव है।",
+"स्वास्थ्य दिनचर्या से बेहतर होगा। अनुशासन लाभ देगा।",
+"पेशेवर यात्राएं फलदायी रहेंगी। नए अवसर बनेंगे।",
+"सीखने में धैर्य का फल मिलेगा। कठिन विषय आसान होंगे।",
+"सम्मान और प्रतिष्ठा बढ़ेगी। सामाजिक छवि मजबूत होगी।",
+"धन संचय होगा। संपत्ति बढ़ेगी।",
+"महीना ठोस प्रगति के साथ समाप्त होगा।"
+
+    ]
+  },
+  kumbha: {
+    en: [
+      "This month Aquarius natives innovate successfully. Original thinking and unconventional approaches bring breakthrough results.",
+      "Humanitarian projects advance significantly. Social causes and community initiatives show tangible positive results.",
+      "Financial innovation proves profitable. Technology-based or modern financial methods increase income substantially.",
+      "Family independence maintained harmoniously. Mutual respect for personal space strengthens relationships paradoxically.",
+      "Friendship networks expand meaningfully. Like-minded people gather creating valuable support and collaboration system.",
+      "Career uniqueness gets recognized. Unconventional methods and innovative solutions receive appreciation and implementation.",
+      "Progressive ideas materialize successfully. Future-oriented plans and projects begin taking concrete form.",
+      "Technological skills enhance opportunities. Digital literacy and modern tools increase professional effectiveness.",
+      "Social consciousness grows deeper. Awareness of global issues inspires action and contribution.",
+      "Intellectual pursuits prove stimulating. Learning and sharing knowledge bring satisfaction and recognition.",
+      "Investment diversity increases wisely. Portfolio spreads across different assets reducing risk and increasing potential.",
+      "Month concludes with innovation. Breakthroughs achieved and connections made create excitement for future possibilities."
+    ],
+    te: [
+      "ఈ నెల కుంభ రాశివారు నవీనతలో విజయాన్ని పొందుతారు. అసలైన ఆలోచనలు, అసాధారణ విధానాలు బ్రేక్‌థ్రూలను ఇస్తాయి.",
+      "మానవతా ప్రాజెక్టులు గణనీయంగా ముందుకు సాగుతాయి. సామాజిక కార్యక్రమాలు స్పష్టమైన ఫలితాలు ఇస్తాయి.",
+      "ఆర్థిక నవీనత లాభదాయకంగా ఉంటుంది. టెక్నాలజీ ఆధారిత విధానాలు ఆదాయాన్ని పెంచుతాయి.",
+      "కుటుంబ స్వతంత్రత సమతుల్యంగా నిలుస్తుంది. వ్యక్తిగత స్థలానికి గౌరవం బంధాలను బలపరుస్తుంది.",
+      "స్నేహ నెట్‌వర్క్లు అర్థవంతంగా విస్తరిస్తాయి. మీలాంటి ఆలోచనలున్న వారు మద్దతు ఇస్తారు.",
+      "వృత్తిలో ప్రత్యేకతకు గుర్తింపు లభిస్తుంది. వినూత్న పరిష్కారాలు అమలవుతాయి.",
+      "పురోగమన ఆలోచనలు రూపుదిద్దుకుంటాయి. భవిష్య దిశా ప్రణాళికలు కార్యరూపం దాల్చుతాయి.",
+      "సాంకేతిక నైపుణ్యాలు అవకాశాలను పెంచుతాయి. డిజిటల్ పరిజ్ఞానం పనితీరును పెంచుతుంది.",
+      "సామాజిక అవగాహన మరింత లోతుగా పెరుగుతుంది. గ్లోబల్ అంశాలపై ఆసక్తి చర్యలకు దారి తీస్తుంది.",
+      "బౌద్ధిక ప్రయత్నాలు ఉత్సాహాన్ని ఇస్తాయి. నేర్చుకోవడం, జ్ఞానం పంచుకోవడం సంతృప్తి ఇస్తుంది.",
+      "పెట్టుబడుల వైవిధ్యం బలపడుతుంది. విభిన్న ఆస్తుల్లో పెట్టుబడులు ప్రమాదాన్ని తగ్గిస్తాయి.",
+      "నెల నవీనతతో ముగుస్తుంది. సాధించిన బ్రేక్‌థ్రూలు భవిష్య అవకాశాలకు ఉత్సాహాన్ని ఇస్తాయి."
+    ],
+    hi: [
+      "यह महीना कुंभ राशि वालों के लिए नवाचार और नए विचारों का है।",
+"समाजिक कार्यों में प्रगति होगी। मानवीय प्रयास रंग लाएंगे।",
+"वित्तीय मामलों में आधुनिक तरीके लाभ देंगे।",
+"मित्रों का दायरा बढ़ेगा। समान सोच वाले लोग जुड़ेंगे।",
+"कैरियर में आपकी अलग पहचान बनेगी। नए प्रयोग सराहे जाएंगे।",
+"टीमवर्क से लाभ होगा। सहयोगी प्रयास फल देंगे।",
+"सीखने में नई तकनीकें मदद करेंगी। कौशल बढ़ेगा।",
+"यात्राएं सामाजिक संपर्क बढ़ाएंगी।",
+"स्वास्थ्य में जागरूकता बढ़ेगी। वैकल्पिक उपाय लाभ देंगे।",
+"निवेश में विविधता आएगी। जोखिम संतुलित रहेगा।",
+"नई योजनाएं आकार लेंगी। भविष्य के लिए दिशा बनेगी।",
+"महीना नवीनता और प्रगति के साथ समाप्त होगा।"
+
+    ]
+  },
+  meena: {
+    en: [
+      "This month Pisces natives tap deep intuition. Creative and spiritual insights guide beneficial decisions and actions.",
+      "Artistic projects flourish beautifully. Creative endeavors receive recognition and appreciation from others.",
+      "Financial intuition proves accurate. Instinctive choices about money matters lead to profitable outcomes.",
+      "Family compassion deepens significantly. Emotional support flows freely creating warm and nurturing home environment.",
+      "Spiritual connections develop naturally. Meaningful relationships with kindred spirits enrich personal life profoundly.",
+      "Career creativity gets valued highly. Imaginative solutions and artistic approaches advance professional goals.",
+      "Holistic health improves noticeably. Mind-body-spirit integration practices show comprehensive wellness benefits.",
+      "Empathy strengthens relationships deeply. Understanding and compassion create powerful bonds with others.",
+      "Intuitive abilities increase remarkably. Psychic insights and gut feelings prove accurate and helpful.",
+      "Adaptability serves well professionally. Flexible approaches help navigate changing work situations successfully.",
+      "Spiritual wealth grows abundantly. Material needs met while inner peace and wisdom deepen.",
+      "Month ends with transcendence. Mystical experiences and creative achievements bring deep fulfillment and peace."
+    ],
+    te: [
+      "ఈ నెల మీన రాశివారు లోతైన అంతఃప్రజ్ఞను అనుభవిస్తారు. సృజనాత్మక, ఆధ్యాత్మిక దృష్టి మంచి నిర్ణయాలకు దారి తీస్తుంది.",
+      "కళాత్మక ప్రాజెక్టులు అందంగా వికసిస్తాయి. సృజనాత్మక ప్రయత్నాలకు గుర్తింపు లభిస్తుంది.",
+      "ఆర్థిక అంతఃప్రజ్ఞ ఖచ్చితంగా పనిచేస్తుంది. ధన విషయాల్లో అంతర్గత నిర్ణయాలు లాభం ఇస్తాయి.",
+      "కుటుంబ అనుకంప గణనీయంగా పెరుగుతుంది. భావోద్వేగ మద్దతు ఇంటి వాతావరణాన్ని ఆత్మీయంగా చేస్తుంది.",
+      "ఆధ్యాత్మిక సంబంధాలు సహజంగా ఏర్పడతాయి. ఆత్మీయ బంధాలు జీవితాన్ని సమృద్ధిగా చేస్తాయి.",
+      "వృత్తిలో సృజనాత్మకతకు అధిక విలువ ఉంటుంది. ఊహాశక్తి పరిష్కారాలు లక్ష్యాలను ముందుకు నడిపిస్తాయి.",
+      "సమగ్ర ఆరోగ్యం స్పష్టంగా మెరుగవుతుంది. మనసు-శరీరం-ఆత్మ సమన్వయం శ్రేయస్సును ఇస్తుంది.",
+      "సానుభూతి బంధాలను లోతుగా బలపరుస్తుంది. అవగాహన, అనుకంప బలమైన సంబంధాలను నిర్మిస్తాయి.",
+      "అంతఃప్రజ్ఞ సామర్థ్యం గణనీయంగా పెరుగుతుంది. గట్ ఫీలింగ్‌లు సరైనదిగా నిరూపితమవుతాయి.",
+      "అనుకూలత వృత్తిలో ఉపయోగపడుతుంది. మార్పులకు సరిపోయే దృక్పథం విజయాన్ని ఇస్తుంది.",
+      "ఆధ్యాత్మిక సంపద సమృద్ధిగా పెరుగుతుంది. భౌతిక అవసరాలు తీరి అంతర్గత శాంతి లోతుగా పెరుగుతుంది.",
+      "నెల పరమానుభూతితో ముగుస్తుంది. ఆధ్యాత్మిక అనుభవాలు, సృజనాత్మక విజయాలు తృప్తిని ఇస్తాయి."
+    ],
+    hi: [
+      "यह महीना मीन राशि वालों के लिए अंतर्ज्ञान और रचनात्मकता का रहेगा।",
+"कलात्मक कार्यों में सफलता मिलेगी। आपकी कल्पना को सराहना मिलेगी।",
+"आर्थिक निर्णय अंतःप्रेरणा से बेहतर होंगे। लाभ संभव है।",
+"परिवार में करुणा और समर्थन बढ़ेगा। भावनात्मक नजदीकी बनेगी।",
+"आध्यात्मिक झुकाव बढ़ेगा। मानसिक शांति मिलेगी।",
+"कैरियर में रचनात्मक समाधान प्रभावी रहेंगे।",
+"स्वास्थ्य में समग्र सुधार होगा। मन-शरीर संतुलन बनेगा।",
+"यात्राएं प्रेरणादायक होंगी। अनुभव नए दृष्टिकोण देंगे।",
+"सहानुभूतिपूर्ण रिश्ते मजबूत होंगे।",
+"सीखने में सहजता रहेगी। नए विचार जल्दी समझ आएंगे।",
+"आध्यात्मिक विकास का संकेत है। भीतर की शांति बढ़ेगी।",
+"महीना संतोष और प्रेरणा के साथ समाप्त होगा।"
+
+    ]
+  }
 };
 
 // Yearly horoscope for 2026
 const YEARLY_HOROSCOPES = {
   mesha: {
     text: "2026 is a transformative year for Aries natives bringing remarkable growth and achievement. Career advancement reaches new heights with multiple opportunities for promotion and professional recognition. Financial prosperity increases substantially through wise investments and new income sources. Leadership roles multiply as your natural abilities receive widespread acknowledgment. Health remains excellent supporting ambitious goals and active lifestyle. Family relationships strengthen through shared success and mutual support. Business ventures prove highly profitable with expansion opportunities materializing successfully. Travel brings valuable connections and memorable experiences. Personal development accelerates through learning and skill acquisition. Overall this year marks significant progress across all life areas.",
+    text_hi: "2026 मेष राशि वालों के लिए परिवर्तन और उपलब्धियों का वर्ष है। करियर में उन्नति के अवसर मिलेंगे और पहचान बढ़ेगी। आर्थिक स्थिति मजबूत होगी, नए आय स्रोत बन सकते हैं और निवेश लाभ देंगे। नेतृत्व भूमिकाएं बढ़ेंगी और आपकी क्षमता की सराहना होगी। स्वास्थ्य अच्छा रहेगा जिससे आप लक्ष्य हासिल कर पाएंगे। परिवार में सहयोग और खुशहाली रहेगी। व्यवसाय में विस्तार और लाभ की संभावना है। यात्राएं लाभकारी संपर्क और अनुभव देंगी। सीखने और कौशल-विकास से व्यक्तिगत प्रगति तेज होगी। कुल मिलाकर यह वर्ष हर क्षेत्र में उल्लेखनीय प्रगति देगा।",
+    text_te: "2026 రాబోయే సంవత్సరం మేష రాశివారికి పెద్ద మార్పులు, విశేష విజయాలను తెస్తుంది. కెరీర్‌లో ఉన్నత స్థాయికి చేరుకోవడానికి ప్రమోషన్లు, గుర్తింపు అవకాశాలు పెరుగుతాయి. తెలివైన పెట్టుబడులు, కొత్త ఆదాయ మార్గాల ద్వారా ఆర్థిక సమృద్ధి గణనీయంగా పెరుగుతుంది. నాయకత్వ పాత్రలు మరింత పెరిగి మీ సహజ ప్రతిభకు గుర్తింపు లభిస్తుంది. ఆరోగ్యం బాగుండి లక్ష్యాల కోసం శక్తి, ఉత్సాహం కొనసాగుతుంది. కుటుంబ బంధాలు బలపడుతూ పరస్పర మద్దతు పెరుగుతుంది. వ్యాపారాల్లో విస్తరణలు సక్సెస్ అవుతూ లాభాలు వస్తాయి. ప్రయాణాలు ఉపయోగకరమైన పరిచయాలు, మంచి అనుభవాలను కల్పిస్తాయి. నేర్చుకోవడం, నైపుణ్యాల పెంపుదలతో వ్యక్తిగత వృద్ధి వేగంగా సాగుతుంది. మొత్తం మీద అన్ని రంగాల్లో గొప్ప పురోగతి కనిపించే సంవత్సరం ఇది.",
     colors: { en: ['Red', 'Gold', 'Orange'] },
     stats: { health: 90, wealth: 92, family: 88, love: 85, career: 95 }
   },
   vrishabha: {
     text: "2026 brings steady growth and enhanced security for Taurus natives. Financial stability reaches impressive levels through consistent effort and wise money management. Career advancement occurs gradually but reliably with recognition for quality work. Home and family life become increasingly harmonious providing strong emotional foundation. Investments mature favorably yielding excellent returns. Relationships deepen meaningfully with loyalty and trust characterizing interactions. Health improves through disciplined self-care routines. Property matters work out favorably including purchases or improvements. Business ventures prove steadily profitable with sustainable growth patterns. Overall this year provides solid progress and lasting achievements.",
+    text_hi: "2026 वृषभ राशि वालों के लिए स्थिर प्रगति और सुरक्षा का वर्ष है। लगातार प्रयासों से आर्थिक स्थिरता बढ़ेगी। करियर में धीरे लेकिन भरोसेमंद उन्नति होगी और गुणवत्ता की पहचान मिलेगी। घर-परिवार में सामंजस्य रहेगा और भावनात्मक आधार मजबूत होगा। निवेशों से अच्छे रिटर्न मिल सकते हैं। रिश्तों में भरोसा और निष्ठा गहरी होगी। स्वास्थ्य अनुशासन से बेहतर रहेगा। संपत्ति से जुड़े मामलों में अनुकूलता रहेगी। व्यवसाय में स्थिर लाभ और टिकाऊ वृद्धि संभव है। कुल मिलाकर यह वर्ष ठोस उपलब्धियों का संकेत देता है।",
+    text_te: "2026 వృషభ రాశివారికి స్థిరమైన వృద్ధి, భద్రతను తీసుకువస్తుంది. నిరంతర ప్రయత్నం, సరైన ఆర్థిక నిర్వహణ వల్ల ఆర్థిక స్థిరత్వం బలపడుతుంది. కెరీర్ పురోగతి నెమ్మదిగా కానీ నమ్మదగ్గ రీతిలో కొనసాగి మీ పనితీరుకు గుర్తింపు వస్తుంది. ఇంటి, కుటుంబ జీవితం మరింత సౌహార్దంగా ఉండి భావోద్వేగ బలం ఇస్తుంది. పెట్టుబడులు పక్వమై మంచి రాబడులు అందిస్తాయి. సంబంధాలు నమ్మకం, విశ్వాసంతో లోతుగా బలపడతాయి. క్రమబద్ధమైన ఆరోగ్య అలవాట్లతో శరీర ఆరోగ్యం మెరుగవుతుంది. ఆస్తి విషయాలు అనుకూలంగా సాగి కొనుగోలు లేదా మెరుగుదలలు సఫలం అవుతాయి. వ్యాపారాలు స్థిర లాభాలతో దీర్ఘకాలిక వృద్ధిని చూపుతాయి. మొత్తం మీద బలమైన పురోగతి, దీర్ఘకాలిక విజయాలు లభించే సంవత్సరం ఇది.",
     colors: { en: ['Green', 'Blue', 'Gold'] },
     stats: { health: 88, wealth: 90, family: 92, love: 90, career: 87 }
   },
   mithuna: {
     text: "2026 is an intellectually stimulating and diverse year for Gemini natives. Multiple opportunities arise requiring your versatility and adaptability. Communication skills open numerous doors professionally and personally. Income streams diversify providing enhanced financial flexibility. Career advancement occurs through showcasing multiple talents and skills. Learning accelerates rapidly with new knowledge easily acquired and applied. Social connections expand significantly bringing valuable contacts and friendships. Travel frequently for both business and pleasure. Creative projects succeed through innovative thinking. Relationships benefit from improved communication. Business ventures profit from diverse approaches. Overall this year brings variety, growth, and numerous achievements.",
+    text_hi: "2026 मिथुन राशि वालों के लिए बौद्धिक रूप से सक्रिय और विविधता से भरा वर्ष है। कई अवसर मिलेंगे जिनमें आपकी अनुकूलता और बहुमुखी प्रतिभा काम आएगी। संवाद कौशल से पेशेवर और व्यक्तिगत लाभ होंगे। आय के स्रोत बढ़ सकते हैं और वित्तीय लचीलापन आएगा। करियर में आपकी विभिन्न क्षमताओं से उन्नति होगी। सीखना तेज होगा और नए कौशल आसानी से आएंगे। सामाजिक संपर्क बढ़ेंगे और उपयोगी मित्रताएं बनेंगी। यात्रा और रचनात्मक परियोजनाएं लाभ देंगी। रिश्तों में संवाद से सुधार होगा। कुल मिलाकर यह वर्ष विविध उपलब्धियों का रहेगा।",
+    text_te: "2026 మిథున రాశివారికి బుద్ధిపరంగా ఉత్సాహాన్ని పెంచే, వైవిధ్యభరితమైన సంవత్సరం. అనేక అవకాశాలు వస్తాయి—మీ అనుకూలత, బహుముఖ ప్రతిభ అవసరం అవుతుంది. కమ్యూనికేషన్ నైపుణ్యాలు వృత్తి, వ్యక్తిగతంగా ఎన్నో ద్వారాలు తెరుస్తాయి. ఆదాయ మార్గాలు విభిన్నమై ఆర్థిక సౌలభ్యం పెరుగుతుంది. అనేక ప్రతిభలను చూపడం వల్ల కెరీర్‌లో పురోగతి సాధ్యమవుతుంది. నేర్చుకునే వేగం పెరిగి కొత్త జ్ఞానం సులభంగా పొందుకుని ప్రయోగించగలుగుతారు. సామాజిక పరిచయాలు పెరిగి విలువైన మిత్రబంధాలు ఏర్పడతాయి. వ్యాపారం, ఆనందం రెండింటికీ ప్రయాణాలు జరుగుతాయి. సృజనాత్మక ప్రాజెక్టులు కొత్త ఆలోచనలతో విజయవంతమవుతాయి. సంబంధాలు మెరుగైన కమ్యూనికేషన్‌తో బలపడతాయి. వ్యాపారాల్లో విభిన్న విధానాలు లాభాలను తెస్తాయి. మొత్తం మీద ఇది వైవిధ్యం, వృద్ధి, ఎన్నో విజయాల సంవత్సరంగా నిలుస్తుంది.",
     colors: { en: ['Yellow', 'Blue', 'Orange'] },
     stats: { health: 86, wealth: 88, family: 85, love: 87, career: 90 }
   },
   karka: {
     text: "2026 brings emotional fulfillment and domestic happiness for Cancer natives. Family bonds strengthen significantly through shared experiences and mutual support. Home becomes sanctuary providing peace and rejuvenation. Financial security increases through wise investments and careful planning. Career success comes through emotional intelligence and people skills. Nurturing activities bring deep satisfaction and purpose. Relationships deepen with trust and vulnerability strengthening connections. Health improves through attention to emotional well-being. Property matters work favorably including home improvements or purchases. Intuition guides beneficial decisions throughout year. Business partnerships thrive through caring approach. Overall this year provides warmth, security, and meaningful connections.",
+    text_hi: "2026 कर्क राशि वालों के लिए भावनात्मक संतोष और घरेलू सुख का वर्ष है। परिवार के बंधन मजबूत होंगे और घर में शांति बढ़ेगी। आर्थिक सुरक्षा में सुधार होगा और योजनाबद्ध निवेश लाभ देंगे। करियर में भावनात्मक बुद्धिमत्ता और लोगों से जुड़े कौशल से सफलता मिलेगी। देखभाल और पोषण देने वाले काम संतोष देंगे। रिश्तों में भरोसा और निकटता बढ़ेगी। स्वास्थ्य में सुधार होगा, खासकर मानसिक संतुलन से लाभ मिलेगा। संपत्ति से जुड़े मामलों में अनुकूलता रह सकती है। अंतर्ज्ञान सही निर्णयों में मदद करेगा। कुल मिलाकर यह वर्ष गर्मजोशी और स्थिरता देगा।",
+    text_te: "2026 కర్కాటక రాశివారికి భావోద్వేగ సంతృప్తి, గృహసౌఖ్యాన్ని ఇస్తుంది. కుటుంబ బంధాలు పరస్పర సహకారం, అనుభవాలతో బలపడతాయి. ఇల్లు ప్రశాంతత, పునరుత్తేజం ఇచ్చే ఆశ్రయంగా మారుతుంది. తెలివైన పెట్టుబడులు, జాగ్రత్తైన ప్రణాళికతో ఆర్థిక భద్రత పెరుగుతుంది. భావోద్వేగ బుద్ధి, వ్యక్తిగత నైపుణ్యాల ద్వారా కెరీర్‌లో విజయం లభిస్తుంది. సంరక్షణాత్మక పనులు తృప్తి, ఉద్దేశాన్ని ఇస్తాయి. విశ్వాసం, నిజాయితీతో సంబంధాలు లోతుగా బలపడతాయి. మానసిక ఆరోగ్యంపై శ్రద్ధ వల్ల శారీరక ఆరోగ్యం కూడా మెరుగవుతుంది. ఆస్తి విషయాలు అనుకూలంగా సాగి ఇల్లు కొనుగోలు/మెరుగుదలలు జరగవచ్చు. అనుభూతి శక్తి సంవత్సరం పొడవునా సరైన నిర్ణయాలకు మార్గం చూపుతుంది. వ్యాపార భాగస్వామ్యాలు ఆదరణతో అభివృద్ధి చెందుతాయి. మొత్తం మీద ఈ సంవత్సరం ఆప్యాయత, భద్రత, అర్థవంతమైన బంధాలను అందిస్తుంది.",
     colors: { en: ['White', 'Silver', 'Blue'] },
     stats: { health: 87, wealth: 89, family: 95, love: 92, career: 86 }
   },
   simha: {
     text: "2026 is a spectacular year for Leo natives filled with recognition and achievement. Leadership opportunities multiply across professional and personal spheres. Career advancement reaches impressive heights with promotions and prestigious positions. Financial prosperity increases dramatically through bold moves and confident decisions. Creative projects receive widespread acclaim and practical implementation. Social status elevates significantly with respect and admiration from peers. Romantic life flourishes bringing joy and excitement. Health and vitality remain excellent supporting ambitious goals. Business ventures prove highly profitable through entrepreneurial spirit. Personal charisma attracts opportunities and positive people. Overall this year marks period of outstanding success and fulfillment.",
+    text_hi: "2026 सिंह राशि वालों के लिए पहचान और उपलब्धियों से भरपूर शानदार वर्ष है। नेतृत्व के अवसर कई गुना बढ़ेंगे और करियर में प्रमोशन व प्रतिष्ठित भूमिकाएं मिल सकती हैं। आत्मविश्वासी फैसलों से आर्थिक समृद्धि बढ़ेगी। रचनात्मक प्रोजेक्ट्स को सराहना और समर्थन मिलेगा। सामाजिक प्रतिष्ठा में वृद्धि होगी और लोग आपकी बात को महत्व देंगे। प्रेम जीवन में उत्साह और आनंद रहेगा। स्वास्थ्य और ऊर्जा उत्कृष्ट रहेंगे, जिससे बड़े लक्ष्य पूरे होंगे। व्यवसाय में साहसिक पहल लाभकारी सिद्ध होगी। आपकी करिश्माई व्यक्तित्व से नए अवसर और सही लोग आकर्षित होंगे। कुल मिलाकर यह वर्ष बड़े सफलताओं और संतोष का है।",
+    text_te: "2026 సింహ రాశివారికి గుర్తింపు, విజయాలతో నిండిన అద్భుతమైన సంవత్సరం. వృత్తి మరియు వ్యక్తిగత రంగాల్లో నాయకత్వ అవకాశాలు పెరుగుతాయి. ప్రమోషన్లు, ప్రతిష్టాత్మక స్థానాలతో కెరీర్‌లో ఉన్నత స్థాయికి చేరుకుంటారు. ధైర్యమైన నిర్ణయాలు, ఆత్మవిశ్వాసంతో ఆర్థిక సమృద్ధి గణనీయంగా పెరుగుతుంది. సృజనాత్మక ప్రాజెక్టులు విశేష ప్రశంసలు పొందుతూ అమలు దిశగా సాగుతాయి. సమాజంలో స్థానం పెరిగి గౌరవం, ఆదరణ లభిస్తుంది. ప్రేమ జీవితం ఆనందం, ఉత్సాహంతో వికసిస్తుంది. ఆరోగ్యం, శక్తి స్థాయి అద్భుతంగా ఉండి లక్ష్యాలకు సహకరిస్తుంది. వ్యాపారాలు వ్యాపారోపాధితో గొప్ప లాభాలు అందిస్తాయి. మీ వ్యక్తిత్వ ఆకర్షణ వల్ల కొత్త అవకాశాలు, మంచి వ్యక్తులు చేరతారు. మొత్తంగా ఈ సంవత్సరం విశేష విజయాలు, తృప్తి కలిగించే కాలంగా నిలుస్తుంది.",
     colors: { en: ['Gold', 'Orange', 'Red'] },
     stats: { health: 92, wealth: 94, family: 90, love: 93, career: 96 }
   },
   kanya: {
     text: "2026 brings professional excellence and personal satisfaction for Virgo natives. Organizational skills receive recognition leading to career advancement. Financial management proves highly successful with growing prosperity. Work efficiency reaches new heights yielding superior results. Health improves significantly through disciplined wellness routines. Service activities provide deep sense of purpose and fulfillment. Analytical abilities solve important problems bringing respect. Career perfectionism earns advancement and increased responsibility. Practical projects complete successfully on time and within budget. Relationships with reliable people strengthen meaningfully. Learning technical skills enhances professional expertise. Overall this year rewards diligence, precision, and practical approach to life.",
+    text_hi: "2026 कन्या राशि वालों के लिए पेशेवर उत्कृष्टता और व्यक्तिगत संतोष का वर्ष है। संगठन और विश्लेषण कौशल की पहचान होगी और करियर में उन्नति मिलेगी। वित्तीय प्रबंधन सफल रहेगा और बचत बढ़ेगी। कार्य कुशलता से परिणाम बेहतर होंगे और गुणवत्ता की सराहना होगी। स्वास्थ्य अनुशासन से मजबूत रहेगा और दिनचर्या संतुलित होगी। परिवार में सहयोग मिलेगा और जिम्मेदारियां अच्छी तरह निभेंगी। शिक्षा और कौशल-विकास से लाभ होगा। निवेशों में सावधानी से स्थिर लाभ मिल सकता है। व्यावसायिक साझेदारियां भरोसेमंद रहेंगी। कुल मिलाकर यह वर्ष स्थिर प्रगति और संतुष्टि देगा।",
+    text_te: "2026 కన్య రాశివారికి వృత్తిలో మెరుగైన ప్రతిభ, వ్యక్తిగత తృప్తిని అందిస్తుంది. వ్యవస్థీకరణ నైపుణ్యాలకు గుర్తింపు వచ్చి కెరీర్ పురోగతికి దోహదపడుతుంది. ఆర్థిక నిర్వహణ విజయవంతంగా సాగి సంపద పెరుగుతుంది. పనితీరు మరింత సమర్థవంతంగా మారి అద్భుతమైన ఫలితాలు అందిస్తాయి. క్రమబద్ధమైన ఆరోగ్య అలవాట్లతో ఆరోగ్యం గణనీయంగా మెరుగవుతుంది. సేవా కార్యక్రమాలు లోతైన అర్థం, తృప్తిని ఇస్తాయి. విశ్లేషణాత్మక నైపుణ్యాలు ముఖ్య సమస్యలకు పరిష్కారాలు చూపి గౌరవం తెస్తాయి. పరిపూర్ణతకు మీ ఆకాంక్ష కెరీర్‌లో ముందడుగులకు, బాధ్యతల పెంపుకు దారి తీస్తుంది. ప్రాక్టికల్ ప్రాజెక్టులు సమయానికి, బడ్జెట్‌లోనే విజయవంతంగా పూర్తవుతాయి. నమ్మకమైన వ్యక్తులతో సంబంధాలు బలపడతాయి. సాంకేతిక నైపుణ్యాల అభ్యాసం వృత్తి నైపుణ్యాన్ని పెంచుతుంది. మొత్తం మీద శ్రమ, ఖచ్చితత్వం, ప్రాయోగిక దృష్టికి మంచి ఫలితాలు అందే సంవత్సరం ఇది.",
     colors: { en: ['Green', 'Brown', 'Gold'] },
     stats: { health: 91, wealth: 90, family: 88, love: 86, career: 93 }
   },
   tula: {
     text: "2026 is a harmonious year for Libra natives bringing balance and beauty to all life areas. Partnerships flourish remarkably in both personal and professional contexts. Career collaborations yield excellent results through teamwork. Financial equilibrium achieved with income and expenses aligning perfectly. Relationships deepen romantically bringing enhanced satisfaction and joy. Social life becomes rich and fulfilling with cultural activities. Diplomatic skills prove invaluable in resolving conflicts and creating opportunities. Aesthetic pursuits bring pleasure and sometimes profit. Business partnerships prove mutually beneficial and profitable. Justice and fairness prevail in various situations. Overall this year provides harmony, cooperation, and beautiful experiences.",
+    text_hi: "2026 तुला राशि वालों के लिए संतुलन और सामंजस्य का वर्ष है। व्यक्तिगत और पेशेवर साझेदारियां मजबूत होंगी और टीमवर्क से सफलता मिलेगी। वित्तीय स्थिति संतुलित रहेगी और खर्च नियंत्रण में रहेगा। प्रेम संबंधों में निकटता बढ़ेगी और आनंद मिलेगा। सामाजिक जीवन समृद्ध होगा और सांस्कृतिक गतिविधियों में भागीदारी बढ़ेगी। कूटनीतिक कौशल से विवाद सुलझेंगे और नए अवसर मिलेंगे। सौंदर्य और कला से जुड़े कामों में संतोष या लाभ मिलेगा। व्यवसायिक साझेदारियां लाभकारी रहेंगी। न्याय और निष्पक्षता का साथ मिलेगा। कुल मिलाकर यह वर्ष सामंजस्यपूर्ण प्रगति का है।",
+    text_te: "2026 తుల రాశివారికి సమతుల్యత, అందాన్ని తీసుకొచ్చే సామరస్యమయ సంవత్సరం. వ్యక్తిగతం మరియు వృత్తి రంగాల్లో భాగస్వామ్యాలు విశేషంగా వికసిస్తాయి. టీమ్‌వర్క్‌తో కూడిన కెరీర్ సహకారాలు అద్భుత ఫలితాలను ఇస్తాయి. ఆదాయం, ఖర్చులు సరైన సమతుల్యంలోకి వచ్చి ఆర్థిక స్థిరత్వం ఏర్పడుతుంది. ప్రేమ సంబంధాలు మరింత లోతుగా మారి ఆనందం, సంతృప్తిని పెంచుతాయి. సాంస్కృతిక కార్యక్రమాలతో సామాజిక జీవితం సమృద్ధిగా ఉంటుంది. దౌత్య నైపుణ్యాలు సంఘర్షణలను పరిష్కరించడంలో, అవకాశాలు సృష్టించడంలో అమూల్యంగా సహకరిస్తాయి. అందదృష్టి సంబంధిత ప్రయత్నాలు ఆనందం, కొన్నిసార్లు లాభం కూడా ఇస్తాయి. వ్యాపార భాగస్వామ్యాలు పరస్పర లాభదాయకంగా సాగుతాయి. న్యాయం, సమతుల్యత అనేక సందర్భాల్లో నిలిచిపోతాయి. మొత్తంగా ఇది సామరస్యం, సహకారం, అందమైన అనుభవాలతో నిండిన సంవత్సరం.",
     colors: { en: ['Pink', 'Blue', 'Gold'] },
     stats: { health: 88, wealth: 89, family: 90, love: 94, career: 89 }
   },
   vrishchika: {
     text: "2026 brings profound transformation and empowerment for Scorpio natives. Career breakthroughs occur through focused determination and strategic thinking. Financial windfalls and investment gains significantly improve prosperity. Personal power increases dramatically attracting respect and opportunities. Deep research and investigative work yield important discoveries. Relationships reach new depths through emotional honesty and vulnerability. Health improves through regenerative practices and holistic approaches. Business strategies prove highly successful with calculated risks paying off. Hidden resources and opportunities become revealed through persistence. Transformative experiences shift perspective in positive ways. Overall this year marks period of intense growth and powerful achievements.",
+    text_hi: "2026 वृश्चिक राशि वालों के लिए गहरा परिवर्तन और सशक्तिकरण का वर्ष है। लक्षित प्रयास और रणनीतिक सोच से करियर में बड़े बदलाव और सफलता मिलेगी। निवेशों और वित्तीय निर्णयों से उल्लेखनीय लाभ हो सकता है। आत्मविश्वास और प्रभाव में वृद्धि होगी। शोध और गहरी समझ वाले कार्यों में सफलता मिलेगी। रिश्तों में भावनात्मक ईमानदारी से निकटता बढ़ेगी। स्वास्थ्य में सुधार होगा, खासकर पुनर्जीवनकारी और समग्र तरीकों से। व्यवसाय में सुनियोजित जोखिम लाभ देंगे। छिपे अवसर सामने आएंगे। कुल मिलाकर यह वर्ष तीव्र विकास और उपलब्धियों का है।",
+    text_te: "2026 వృశ్చిక రాశివారికి గాఢమైన మార్పులు, శక్తివంతమైన ఎదుగుదలను అందిస్తుంది. లక్ష్యంపై కేంద్రీకృతమైన సంకల్పం, వ్యూహాత్మక ఆలోచనతో కెరీర్‌లో కీలక విజయాలు సాధిస్తారు. ఆకస్మిక ఆర్థిక లాభాలు, పెట్టుబడి లాభాలు సంపదను గణనీయంగా పెంచుతాయి. వ్యక్తిగత శక్తి పెరిగి గౌరవం, అవకాశాలు ఆకర్షితమవుతాయి. లోతైన పరిశోధనలు, అన్వేషణ పనులు ముఖ్యమైన కనుగొనుళ్లకు దారి తీస్తాయి. భావోద్వేగ నిజాయితీ, సున్నితత్వంతో సంబంధాలు మరింత లోతుగా బలపడతాయి. పునరుజ్జీవక అలవాట్లు, సమగ్ర ఆరోగ్య విధానాలతో ఆరోగ్యం మెరుగవుతుంది. వ్యాపార వ్యూహాలు అత్యంత విజయవంతంగా నిలిచి, లెక్కచేసిన రిస్కులు ఫలితం ఇస్తాయి. పట్టుదలతో దాగి ఉన్న వనరులు, అవకాశాలు బయటపడతాయి. మార్పునిచ్చే అనుభవాలు దృక్పథాన్ని సానుకూలంగా మార్చుతాయి. మొత్తంగా ఇది తీవ్ర వృద్ధి, గొప్ప విజయాలతో కూడిన సంవత్సరం.",
     colors: { en: ['Red', 'Black', 'Gold'] },
     stats: { health: 89, wealth: 93, family: 87, love: 90, career: 94 }
   },
   dhanu: {
     text: "2026 is a year of growth and expansion for Sagittarius natives. Career advancement and personal development progress excellently. Professional opportunities multiply with new projects showcasing capabilities. Financial situation improves substantially with increased income and stability. Travel opportunities abound bringing both enjoyment and beneficial contacts. Learning accelerates with educational pursuits enhancing expertise. Business expansion proves successful with ventures yielding profits. Optimistic attitude attracts positive outcomes and opportunities. Physical health remains excellent supporting active lifestyle. Long-term planning succeeds with future-oriented decisions bearing fruit. Friendships provide valuable support and encouragement. Overall this year brings progress, adventure, and numerous achievements.",
+    text_hi: "2026 धनु राशि वालों के लिए विकास और विस्तार का वर्ष है। करियर में उन्नति और व्यक्तिगत विकास के अच्छे अवसर मिलेंगे। नए प्रोजेक्ट्स से आपकी क्षमता सामने आएगी। आय बढ़ेगी और आर्थिक स्थिरता मजबूत होगी। यात्राएं सुखद रहेंगी और लाभकारी संपर्क बनेंगे। शिक्षा और सीखने में तेजी आएगी। व्यवसाय का विस्तार सफल रहेगा। आशावादी दृष्टिकोण अच्छे परिणाम दिलाएगा। स्वास्थ्य अच्छा रहेगा और सक्रिय जीवनशैली बनी रहेगी। दीर्घकालिक योजनाएं सफल होंगी। मित्रों से समर्थन मिलेगा। कुल मिलाकर यह वर्ष प्रगति, साहस और उपलब्धियों का है।",
+    text_te: "2026 ధనుస్సు రాశివారికి వృద్ధి, విస్తరణతో నిండిన సంవత్సరం. కెరీర్‌లో పురోగతి, వ్యక్తిగత అభివృద్ధి చక్కగా కొనసాగుతాయి. కొత్త ప్రాజెక్టులు మీ సామర్థ్యాన్ని చూపిస్తూ వృత్తి అవకాశాలు పెరుగుతాయి. ఆదాయం పెరిగి ఆర్థిక స్థితి గణనీయంగా మెరుగవుతుంది. ప్రయాణాలు ఎక్కువగా జరిగి ఆనందంతో పాటు ఉపయోగకరమైన పరిచయాలను అందిస్తాయి. విద్యా ప్రయత్నాలతో నేర్చుకునే వేగం పెరిగి నైపుణ్యం మెరుగవుతుంది. వ్యాపార విస్తరణలు విజయవంతంగా సాగి లాభాలు అందిస్తాయి. ఆశావాద దృక్పథం మంచి ఫలితాలు, అవకాశాలను ఆకర్షిస్తుంది. శారీరక ఆరోగ్యం బాగుండి చురుకైన జీవనశైలికి మద్దతిస్తుంది. దీర్ఘకాల ప్రణాళికలు ఫలించి ముందుచూపు నిర్ణయాలు ఫలితాలు ఇస్తాయి. మిత్రబంధాలు విలువైన సహాయం, ప్రోత్సాహాన్ని అందిస్తాయి. మొత్తంగా ఇది పురోగతి, సాహసం, ఎన్నో విజయాలతో కూడిన సంవత్సరం.",
     colors: { en: ['Yellow', 'Blue', 'Green'] },
     stats: { health: 90, wealth: 91, family: 88, love: 89, career: 93 }
   },
   makara: {
     text: "2026 is a year of professional achievement for Capricorn natives. Career goals materialize through persistent hard work and discipline. Financial foundation solidifies with investments maturing and income stabilizing. Leadership positions come naturally suiting capabilities perfectly. Business foundations strengthen ensuring sustainable growth. Professional recognition increases with ethical behavior earning respect. Wealth accumulation continues through wise management and strategic planning. Health discipline maintains excellent physical condition. Long-term projects progress steadily toward completion. Family responsibilities fulfilled earning appreciation from loved ones. Social standing improves through achievements and integrity. Overall this year rewards patience, persistence, and professional excellence.",
+    text_hi: "2026 मकर राशि वालों के लिए पेशेवर उपलब्धियों का वर्ष है। कठोर परिश्रम और अनुशासन से करियर लक्ष्य पूरे होंगे। निवेश परिपक्व होंगे और आय स्थिर होगी, जिससे वित्तीय आधार मजबूत होगा। नेतृत्व की भूमिकाएं स्वाभाविक रूप से मिलेंगी। व्यवसाय में स्थायी वृद्धि होगी। कार्य में नैतिकता से सम्मान और पहचान मिलेगी। रणनीतिक योजना से धन संचय बढ़ेगा। स्वास्थ्य अनुशासन से उत्तम रहेगा। दीर्घकालिक परियोजनाएं प्रगति करेंगी। परिवार की जिम्मेदारियां अच्छी तरह निभेंगी। सामाजिक प्रतिष्ठा बढ़ेगी। कुल मिलाकर यह वर्ष धैर्य और परिश्रम को फल देगा।",
+    text_te: "2026 మకర రాశివారికి వృత్తి విజయాలతో నిలిచే సంవత్సరం. నిరంతర కష్టపాటు, నియమశీలతతో కెరీర్ లక్ష్యాలు సాధ్యమవుతాయి. పెట్టుబడులు పక్వమై ఆదాయం స్థిరపడడంతో ఆర్థిక పునాది బలపడుతుంది. నాయకత్వ స్థానాలు సహజంగా మీకు అనుకూలంగా దక్కుతాయి. వ్యాపార పునాది బలపడుతూ నిలకడైన వృద్ధిని ఇస్తుంది. నైతికతతో చేసిన పనికి గౌరవం పెరిగి వృత్తి గుర్తింపు లభిస్తుంది. తెలివైన నిర్వహణ, వ్యూహాత్మక ప్రణాళికతో సంపద సేకరణ కొనసాగుతుంది. ఆరోగ్యంపై నియమశీలత వల్ల శారీరక స్థితి అద్భుతంగా ఉంటుంది. దీర్ఘకాల ప్రాజెక్టులు స్థిరంగా ముందుకు సాగి పూర్తి దశకు చేరుకుంటాయి. కుటుంబ బాధ్యతలు నెరవేర్చడంతో ఆత్మీయుల ఆదరణ లభిస్తుంది. విజయాలు, నిజాయితీ వల్ల సామాజిక స్థానం మెరుగవుతుంది. మొత్తంగా ఈ సంవత్సరం సహనం, పట్టుదల, వృత్తి నైపుణ్యాన్ని ఘనంగా ప్రతిఫలిస్తుంది.",
     colors: { en: ['Brown', 'Gray', 'Gold'] },
     stats: { health: 88, wealth: 95, family: 90, love: 85, career: 97 }
   },
   kumbha: {
     text: "2026 is an innovative year for Aquarius natives bringing breakthrough results. Original thinking and unconventional approaches gain recognition and implementation. Humanitarian projects advance with social causes showing tangible results. Financial innovation proves profitable through modern methods and technology. Career uniqueness gets appreciated with innovative solutions valued highly. Friendship networks expand meaningfully with like-minded connections forming. Progressive ideas materialize taking concrete form. Technological skills enhance professional opportunities significantly. Social consciousness inspires positive action and contribution. Intellectual pursuits prove stimulating and rewarding. Investment portfolio diversifies wisely spreading risk and increasing potential. Overall this year brings innovation, connection, and forward progress.",
+    text_hi: "2026 कुंभ राशि वालों के लिए नवाचार और ब्रेकथ्रू का वर्ष है। मौलिक सोच और अलग दृष्टिकोण को मान्यता मिलेगी। सामाजिक और मानवीय परियोजनाएं आगे बढ़ेंगी। आधुनिक तरीकों से वित्तीय लाभ होंगे। करियर में आपकी विशिष्टता की सराहना होगी। मित्रों का नेटवर्क बढ़ेगा और समान सोच वाले लोग जुड़ेंगे। प्रगतिशील विचार जमीन पर उतरेंगे। तकनीकी कौशल से नए अवसर मिलेंगे। सामाजिक चेतना से सकारात्मक योगदान होगा। बौद्धिक गतिविधियां प्रेरक रहेंगी। निवेश का विविधीकरण लाभकारी होगा। कुल मिलाकर यह वर्ष नई दिशा और आगे बढ़ने का है।",
+    text_te: "2026 కుంభ రాశివారికి వినూత్న ఆలోచనలతో బ్రేక్‌త్రూ ఫలితాలు తెచ్చే సంవత్సరం. ఒరిజినల్ ఆలోచనలు, అసాధారణ పద్ధతులు గుర్తింపు పొందుతూ అమలులోకి వస్తాయి. సామాజిక కారణాల కోసం చేసే కార్యక్రమాలు ముందుకు సాగి స్పష్టమైన ఫలితాలు ఇస్తాయి. ఆధునిక పద్ధతులు, టెక్నాలజీతో ఆర్థిక వినూత్నత లాభదాయకంగా ఉంటుంది. కెరీర్‌లో మీ ప్రత్యేకతకు విలువ పెరిగి కొత్త పరిష్కారాలు ప్రశంసలు పొందుతాయి. సమాన ఆలోచనలతో మిత్రవర్గం విస్తరిస్తుంది. ప్రగతిశీల ఆలోచనలు స్పష్ట రూపం దాల్చుతాయి. సాంకేతిక నైపుణ్యాలు వృత్తి అవకాశాలను గణనీయంగా పెంచుతాయి. సామాజిక అవగాహన మీకు సానుకూల కార్యాచరణ, సహకారం ప్రేరణనిస్తుంది. బౌద్ధిక ప్రయత్నాలు ఉత్సాహాన్ని, ఫలితాలను ఇస్తాయి. పెట్టుబడుల విభిన్నీకరణ రిస్క్ తగ్గించి అవకాశాలను పెంచుతుంది. మొత్తంగా ఇది ఇన్నోవేషన్, అనుసంధానం, ముందడుగుల సంవత్సరంగా నిలుస్తుంది.",
     colors: { en: ['Blue', 'White', 'Silver'] },
     stats: { health: 87, wealth: 90, family: 86, love: 88, career: 92 }
   },
   meena: {
     text: "2026 is a spiritually enriching year for Pisces natives. Intuition reaches new heights guiding beneficial decisions and actions. Creative projects flourish receiving recognition and appreciation. Financial intuition proves accurate with instinctive choices yielding profits. Compassion deepens family relationships creating warm nurturing environment. Spiritual connections develop with meaningful relationships enriching life profoundly. Career creativity gets valued with imaginative approaches advancing goals. Holistic health improves through mind-body-spirit integration practices. Empathy strengthens relationships creating powerful bonds with others. Adaptability serves professionally helping navigate changing situations. Mystical experiences bring deep fulfillment and inner peace. Overall this year provides transcendence, creativity, and spiritual growth.",
+    text_hi: "2026 मीन राशि वालों के लिए आध्यात्मिक समृद्धि और रचनात्मकता का वर्ष है। अंतर्ज्ञान मजबूत होगा और सही निर्णयों में मदद करेगा। रचनात्मक कार्यों को सराहना मिलेगी। वित्तीय मामलों में अंतःप्रज्ञा लाभ दे सकती है। परिवार में करुणा और अपनापन बढ़ेगा। अर्थपूर्ण रिश्ते बनेंगे। करियर में कल्पनाशीलता की कद्र होगी। मन-शरीर-आत्मा संतुलन से स्वास्थ्य बेहतर होगा। सहानुभूति से रिश्ते गहरे होंगे। बदलती परिस्थितियों में अनुकूलता काम आएगी। आध्यात्मिक अनुभव आंतरिक शांति देंगे। कुल मिलाकर यह वर्ष आत्मिक विकास और संतोष का है।",
+    text_te: "2026 మీన రాశివారికి ఆధ్యాత్మికంగా సమృద్ధిని ఇచ్చే సంవత్సరం. అంతర్గత అనుభూతి శక్తి కొత్త స్థాయికి చేరి సరైన నిర్ణయాలకు మార్గం చూపుతుంది. సృజనాత్మక ప్రాజెక్టులు వికసించి ప్రశంసలు, గుర్తింపు పొందుతాయి. ఆర్థికంగా అంతఃప్రజ్ఞ ఖచ్చితంగా పని చేసి లాభాలు ఇస్తుంది. అనుకంప కుటుంబ బంధాలను బలపరచి ఆప్యాయ వాతావరణాన్ని సృష్టిస్తుంది. ఆధ్యాత్మిక అనుసంధానాలు ఏర్పడి జీవితాన్ని లోతుగా సమృద్ధి చేస్తాయి. కెరీర్‌లో సృజనాత్మకతకు విలువ పెరిగి లక్ష్యాలు ముందుకు సాగుతాయి. మనసు-శరీరం-ఆత్మ సమన్వయంతో సమగ్ర ఆరోగ్యం మెరుగవుతుంది. సహానుభూతి సంబంధాలను బలపరచి గాఢమైన బంధాలను కల్పిస్తుంది. మారుతున్న పరిస్థితులకు అనుకూలత వృత్తిలో సహాయపడుతుంది. మిస్టికల్ అనుభవాలు అంతర్గత శాంతి, తృప్తిని ఇస్తాయి. మొత్తంగా ఇది ఆధ్యాత్మిక వికాసం, సృజనాత్మకత, లోతైన సంతృప్తితో నిండిన సంవత్సరం.",
     colors: { en: ['Purple', 'Blue', 'Silver'] },
     stats: { health: 89, wealth: 88, family: 91, love: 93, career: 87 }
   }
@@ -826,6 +1827,12 @@ export const getRashiText = (rashiId, period, date, language = 'en') => {
   if (!periodData) return 'No data available for this period';
 
   if (period === 'yearly') {
+    if (typeof periodData.text === 'object') {
+      return periodData.text[language] || periodData.text.en || Object.values(periodData.text)[0];
+    }
+    if (language !== 'en' && periodData[`text_${language}`]) {
+      return periodData[`text_${language}`];
+    }
     return periodData.text;
   }
 

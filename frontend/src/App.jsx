@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, useCallback } from "react";
 import CalendarGrid from "./components/CalendarGrid";
 import DayDetails from "./components/DayDetails";
 import YearSelectorPopup from "./components/YearSelectorPopup";
@@ -12,6 +12,8 @@ import { getDateSelectionSpeech } from "./utils/speechTemplates";
 const YEARS = Array.from({ length: 186 }, (_, i) => 1940 + i);
 const DATE_STATE_KEY = "panchang:selected-date";
 const LANGUAGE_KEY = "panchang:selected-language";
+const VIEW_STATE_KEY = "panchang:current-view";
+const RASHI_STATE_KEY = "panchang:rashi-selection";
 
 const getTodayInfo = () => {
   const today = new Date();
@@ -87,6 +89,31 @@ function App() {
   const today = getTodayInfo();
   const initialSelection = loadInitialSelection(today);
   
+  // Load initial view from sessionStorage
+  const loadInitialView = () => {
+    if (typeof window === "undefined") return "calendar";
+    try {
+      const saved = sessionStorage.getItem(VIEW_STATE_KEY);
+      return (saved === "rashiphalalu" || saved === "calendar") ? saved : "calendar";
+    } catch {
+      return "calendar";
+    }
+  };
+
+  // Load selected rashi from sessionStorage
+  const loadSavedRashi = () => {
+    if (typeof window === "undefined") return null;
+    try {
+      const saved = sessionStorage.getItem(RASHI_STATE_KEY);
+      if (saved) {
+        return JSON.parse(saved);
+      }
+    } catch {
+      // ignore
+    }
+    return null;
+  };
+  
   // Unified state - selectedDay is the single source of truth for date selection
   const [year, setYear] = useState(initialSelection.year);
   const [month, setMonth] = useState(initialSelection.month);
@@ -98,8 +125,9 @@ function App() {
   const [isLanguageMenuOpen, setIsLanguageMenuOpen] = useState(false);
   const [chatButtonPos, setChatButtonPos] = useState({ x: null, y: null });
   const [isChatbotOpen, setIsChatbotOpen] = useState(false);
-  const [currentView, setCurrentView] = useState("calendar"); // "calendar" or "rashiphalalu"
-  const [voiceEnabled, setVoiceEnabled] = useState(false); // Voice TTS toggle - disabled by default
+  const [currentView, setCurrentView] = useState(loadInitialView());
+  const [voiceEnabled, setVoiceEnabled] = useState(false);
+  const [selectedRashi, setSelectedRashi] = useState(loadSavedRashi());
   const chatButtonRef = useRef(null);
   const dragStateRef = useRef({ dragging: false, offsetX: 0, offsetY: 0 });
   
@@ -209,6 +237,52 @@ function App() {
     document.addEventListener("keydown", handleEscape);
     return () => document.removeEventListener("keydown", handleEscape);
   }, [isLanguageMenuOpen]);
+
+  // Handle browser back/forward button for Rashiphalalu navigation
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const handlePopState = (event) => {
+      const savedView = sessionStorage.getItem(VIEW_STATE_KEY);
+      const view = (savedView === "rashiphalalu" || savedView === "calendar") ? savedView : "calendar";
+      setCurrentView(view);
+    };
+
+    // Listen for browser back/forward navigation
+    window.addEventListener("popstate", handlePopState);
+
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, []);
+
+  // Push initial history state on mount if view is rashiphalalu
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    
+    // Only push state if we're on rashiphalalu and there's no state yet
+    if (currentView === "rashiphalalu" && !window.history.state?.view) {
+      window.history.replaceState({ view: "rashiphalalu" }, "", window.location.href);
+    } else if (currentView === "calendar" && !window.history.state?.view) {
+      window.history.replaceState({ view: "calendar" }, "", window.location.href);
+    }
+  }, [currentView]);
+
+  // Navigate to Rashiphalalu view with history support
+  const navigateToRashiphalalu = useCallback(() => {
+    if (typeof window !== "undefined") {
+      sessionStorage.setItem(VIEW_STATE_KEY, "rashiphalalu");
+      window.history.pushState({ view: "rashiphalalu" }, "", window.location.href);
+    }
+    setCurrentView("rashiphalalu");
+  }, []);
+
+  // Navigate back to calendar view with history support
+  const navigateToCalendar = useCallback(() => {
+    if (typeof window !== "undefined") {
+      sessionStorage.setItem(VIEW_STATE_KEY, "calendar");
+      window.history.pushState({ view: "calendar" }, "", window.location.href);
+    }
+    setCurrentView("calendar");
+  }, []);
 
   const clampChatPosition = (x, y) => {
     if (typeof window === "undefined") return { x, y };
@@ -872,7 +946,14 @@ function App() {
       {/* ============= MAIN CONTENT (Calendar View or Rashiphalalu) ============= */}
       <main className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-0.5 sm:py-1">
         {currentView === "rashiphalalu" ? (
-          <Rashiphalalu language={language} translations={t} onBack={() => setCurrentView("calendar")} />
+          <Rashiphalalu 
+            language={language} 
+            translations={t} 
+            onBack={navigateToCalendar} 
+            selectedRashi={selectedRashi}
+            setSelectedRashi={setSelectedRashi}
+            rashiStateKey={RASHI_STATE_KEY}
+          />
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-[1.5fr_1fr] gap-1 sm:gap-1">
             {/* CALENDAR SECTION */}
@@ -962,48 +1043,6 @@ function App() {
               />
             </section>
 
-            {/* RASHIPHALALU BUTTON CONTAINER */}
-            <section 
-              className="rounded-xl sm:rounded-2xl p-2 sm:p-3 backdrop-blur-md"
-              style={{
-                background: "linear-gradient(135deg, rgba(80, 20, 10, 0.98) 0%, rgba(100, 25, 12, 0.95) 50%, rgba(120, 30, 15, 0.92) 100%)",
-                border: "3px solid rgba(255, 140, 50, 0.8)",
-                boxShadow: `
-                  0 0 35px rgba(255, 140, 50, 0.8),
-                  0 0 70px rgba(255, 100, 30, 0.6),
-                  inset 0 0 30px rgba(255, 140, 50, 0.2)
-                `,
-              }}
-            >
-              {/* RASHIPHALALU BUTTON */}
-              <button
-                onClick={(e) => {
-                  console.log("App.jsx: Rashiphalalu button clicked");
-                  console.log("Current view before:", currentView);
-                  setCurrentView("rashiphalalu");
-                }}
-                className="w-full py-3 px-4 rounded-xl font-bold text-lg transition-all hover:scale-[1.02] cursor-pointer"
-                style={{
-                  background:
-                    "linear-gradient(180deg, #ff4d0d 0%, #ff5c1a 10%, #ff6b28 20%, #ff7935 30%, #ff8743 40%, #ff7935 50%, #ff6b28 60%, #ff5c1a 70%, #ff4d0d 80%, #d94100 90%, #c23800 100%)",
-                  border: "2.5px solid rgba(212, 168, 71, 0.8)",
-                  color: "#ffedb3",
-                  boxShadow: `
-                    0 0 18px rgba(212, 168, 71, 0.3),
-                    inset 0 1px 2px rgba(255, 255, 255, 0.1),
-                    inset 0 -1px 2px rgba(0, 0, 0, 0.2)
-                  `,
-                }}
-              >
-                <svg className="inline-block w-6 h-6 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2"/>
-                  <path d="M12 6V12L16 14" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-                  <circle cx="12" cy="12" r="3" fill="currentColor"/>
-                </svg>
-                {t.rashiphalalu || "Rashiphalalu"}
-              </button>
-            </section>
-
             {/* RIGHT SIDEBAR - DayDetails only */}
             <section 
               className="rounded-xl sm:rounded-2xl p-3 backdrop-blur-md"
@@ -1019,7 +1058,7 @@ function App() {
               }}
             >
               {/* PANCHANG ELEMENTS AND INAUSPICIOUS TIMINGS */}
-              <DayDetails day={selectedDay} language={language} translations={t} isSidebarMode={true} onRashiphalaluClick={() => setCurrentView("rashiphalalu")} voiceEnabled={voiceEnabled} />
+              <DayDetails day={selectedDay} language={language} translations={t} isSidebarMode={true} onRashiphalaluClick={navigateToRashiphalalu} voiceEnabled={voiceEnabled} />
             </section>
           </div>
         )}

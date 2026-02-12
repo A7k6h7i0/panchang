@@ -79,8 +79,7 @@ const PERIOD_TYPES = {
   yearly: { key: 'yearly' },
 };
 
-function Rashiphalalu({ language, translations: t, onBack }) {
-  const [selectedRashi, setSelectedRashi] = useState(null);
+function Rashiphalalu({ language, translations: t, onBack, selectedRashi, setSelectedRashi, rashiStateKey }) {
   const [selectedPeriod, setSelectedPeriod] = useState('daily');
   const [currentRashi, setCurrentRashi] = useState(null);
   const [rashiphalaluData, setRashiphalaluData] = useState(null);
@@ -90,14 +89,23 @@ function Rashiphalalu({ language, translations: t, onBack }) {
     const today = new Date();
     const rashi = getCurrentRashi(today);
     setCurrentRashi(rashi);
-    // Set selected rashi to current rashi on mount
-    const foundRashi = RASHIS.find(r => r.id === rashi);
-    if (foundRashi) {
-      setSelectedRashi(foundRashi);
-    } else {
-      setSelectedRashi(RASHIS[0]);
+    // Set selected rashi to current rashi on mount if not provided
+    if (!selectedRashi) {
+      const foundRashi = RASHIS.find(r => r.id === rashi);
+      if (foundRashi) {
+        setSelectedRashi(foundRashi);
+      } else {
+        setSelectedRashi(RASHIS[0]);
+      }
     }
   }, []);
+
+  // Persist selected rashi to sessionStorage
+  useEffect(() => {
+    if (selectedRashi && rashiStateKey) {
+      sessionStorage.setItem(rashiStateKey, JSON.stringify(selectedRashi));
+    }
+  }, [selectedRashi, rashiStateKey]);
 
   // Get rashiphalalu data when rashi or period changes
   useEffect(() => {

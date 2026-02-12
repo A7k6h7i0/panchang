@@ -37,27 +37,95 @@ const defaultAlarmSettings = {
 };
 
 
-// Helper: Parse time string like "10:30 AM" to minutes from midnight
-const parseTimeToMinutes = (timeStr) => {
-  if (!timeStr || timeStr === "-") return null;
-  
+const escapeRegExp = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+const normalizeDigits = (value) => {
+  if (!value) return value;
+  const digitMap = {
+    "٠": "0", "١": "1", "٢": "2", "٣": "3", "٤": "4", "٥": "5", "٦": "6", "٧": "7", "٨": "8", "٩": "9",
+    "۰": "0", "۱": "1", "۲": "2", "۳": "3", "۴": "4", "۵": "5", "۶": "6", "۷": "7", "۸": "8", "۹": "9",
+    "०": "0", "१": "1", "२": "2", "३": "3", "४": "4", "५": "5", "६": "6", "७": "7", "८": "8", "९": "9",
+    "০": "0", "১": "1", "২": "2", "৩": "3", "৪": "4", "৫": "5", "৬": "6", "৭": "7", "৮": "8", "৯": "9",
+    "੦": "0", "੧": "1", "੨": "2", "੩": "3", "੪": "4", "੫": "5", "੬": "6", "੭": "7", "੮": "8", "੯": "9",
+    "૦": "0", "૧": "1", "૨": "2", "૩": "3", "૪": "4", "૫": "5", "૬": "6", "૭": "7", "૮": "8", "૯": "9",
+    "୦": "0", "୧": "1", "୨": "2", "୩": "3", "୪": "4", "୫": "5", "୬": "6", "୭": "7", "୮": "8", "୯": "9",
+    "௦": "0", "௧": "1", "௨": "2", "௩": "3", "௪": "4", "௫": "5", "௬": "6", "௭": "7", "௮": "8", "௯": "9",
+    "౦": "0", "౧": "1", "౨": "2", "౩": "3", "౪": "4", "౫": "5", "౬": "6", "౭": "7", "౮": "8", "౯": "9",
+    "೦": "0", "೧": "1", "೨": "2", "೩": "3", "೪": "4", "೫": "5", "೬": "6", "೭": "7", "೮": "8", "೯": "9",
+    "൦": "0", "൧": "1", "൨": "2", "൩": "3", "൪": "4", "൫": "5", "൬": "6", "൭": "7", "൮": "8", "൯": "9",
+    "๐": "0", "๑": "1", "๒": "2", "๓": "3", "๔": "4", "๕": "5", "๖": "6", "๗": "7", "๘": "8", "๙": "9",
+  };
+  return value.replace(/[٠-٩۰-۹०-९০-৯੦-੯૦-૯୦-୯௦-௯౦-౯೦-೯൦-൯๐-๙]/g, (digit) => digitMap[digit] || digit);
+};
+
+const normalizeTimeString = (value, language, translations) => {
+  if (!value) return value;
+  let output = normalizeDigits(value);
+  const lang = translations?.[language];
+  const amToken = lang?.am;
+  const pmToken = lang?.pm;
+  if (amToken) {
+    output = output.replace(new RegExp(escapeRegExp(amToken), "gi"), "AM");
+  }
+  if (pmToken) {
+    output = output.replace(new RegExp(escapeRegExp(pmToken), "gi"), "PM");
+  }
+  return output;
+};
+
+const extractTimeRange = (value, language, translations) => {
+  if (!value || value === "-") return { startTime: null, endTime: null };
+
   try {
-    const cleanTime = timeStr.trim().toUpperCase();
-    const hasAM = cleanTime.includes("AM");
-    const hasPM = cleanTime.includes("PM");
-    
-    const timePart = cleanTime.replace(/AM|PM/gi, "").trim();
-    const [hours, minutes] = timePart.split(":").map(Number);
-    
+    const normalized = normalizeTimeString(value, language, translations);
+    const timeMatches = normalized.match(/(?:AM|PM)?\s*\d{1,2}\s*[:.]\s*\d{2}\s*(?:AM|PM)?/gi);
+    if (timeMatches && timeMatches.length >= 2) {
+      return { startTime: timeMatches[0].trim(), endTime: timeMatches[1].trim() };
+    }
+    if (timeMatches && timeMatches.length === 1) {
+      return { startTime: timeMatches[0].trim(), endTime: timeMatches[0].trim() };
+    }
+
+    const lang = translations?.[language];
+    const extraTokens = [lang?.to, lang?.upto].filter(Boolean).map(escapeRegExp);
+    const extraPattern = extraTokens.length ? `|${extraTokens.join("|")}` : "";
+    const splitRegex = new RegExp(`\\s*(?:-|–|—|to|upto|up\\s*to${extraPattern})\\s*`, "i");
+    const parts = normalized.split(splitRegex);
+    if (parts.length === 2) {
+      return { startTime: parts[0].trim(), endTime: parts[1].trim() };
+    }
+  } catch (e) {
+    console.error("Error parsing time range:", value, e);
+  }
+
+  return { startTime: null, endTime: null };
+};
+
+// Helper: Parse time string like "10:30 AM" to minutes from midnight
+const parseTimeToMinutes = (timeStr, language, translations) => {
+  if (!timeStr || timeStr === "-") return null;
+
+  try {
+    const normalized = normalizeTimeString(timeStr, language, translations);
+    const cleanTime = normalized.trim().toUpperCase();
+    const hasAM = /\bAM\b/.test(cleanTime);
+    const hasPM = /\bPM\b/.test(cleanTime);
+
+    const timePart = cleanTime.replace(/\bAM\b|\bPM\b/gi, "").trim();
+    const match = timePart.match(/(\d{1,2})\s*[:.]\s*(\d{2})/);
+    if (!match) return null;
+
+    const hours = Number(match[1]);
+    const minutes = Number(match[2]);
     if (isNaN(hours) || isNaN(minutes)) return null;
-    
+
     let totalHours = hours;
     if (hasPM && hours !== 12) {
       totalHours = hours + 12;
     } else if (hasAM && hours === 12) {
       totalHours = 0;
     }
-    
+
     return totalHours * 60 + minutes;
   } catch (e) {
     return null;
@@ -91,7 +159,7 @@ const calculateProgress = (currentMinutes, startMinutes, endMinutes) => {
 
 
 // MuhurthaTimer Component
-function MuhurthaTimer({ startTime, endTime, isAuspicious }) {
+function MuhurthaTimer({ startTime, endTime, isAuspicious, language, translations }) {
   const [progress, setProgress] = useState(0);
   const [isActive, setIsActive] = useState(false);
   const [currentMinutes, setCurrentMinutes] = useState(null);
@@ -105,8 +173,8 @@ function MuhurthaTimer({ startTime, endTime, isAuspicious }) {
     setCurrentMinutes(currentMins);
 
 
-    const startMins = parseTimeToMinutes(startTime);
-    const endMins = parseTimeToMinutes(endTime);
+    const startMins = parseTimeToMinutes(startTime, language, translations);
+    const endMins = parseTimeToMinutes(endTime, language, translations);
 
 
     if (startMins === null || endMins === null) {
@@ -184,6 +252,7 @@ function MuhurthaTimer({ startTime, endTime, isAuspicious }) {
       style={{
         background: "rgba(0, 0, 0, 0.3)",
         boxShadow: "inset 0 1px 2px rgba(0, 0, 0, 0.3)",
+        border: "1px solid rgba(255, 213, 79, 0.4)",
       }}
     >
       <div
@@ -933,12 +1002,16 @@ export default function DayDetails({
             value={vNakshatra}
             isToday={isToday}
             variant="panchang"
+            language={language}
+            translations={translations}
           />
           <InfoRow
             label={translations.yoga || "Yoga"}
             value={vYoga}
             isToday={isToday}
             variant="panchang"
+            language={language}
+            translations={translations}
           />
 
 
@@ -949,6 +1022,8 @@ export default function DayDetails({
               isAuspicious={true}
               isToday={isToday}
               variant="panchang"
+              language={language}
+              translations={translations}
             />
           )}
           {vAbhijit !== "-" && (
@@ -958,6 +1033,8 @@ export default function DayDetails({
               isAuspicious={true}
               isToday={isToday}
               variant="panchang"
+              language={language}
+              translations={translations}
             />
           )}
         </SectionCard>
@@ -984,6 +1061,8 @@ export default function DayDetails({
                 value={vRahu}
                 isAuspicious={false}
                 isToday={isToday}
+                language={language}
+                translations={translations}
               />
             )}
             {vYamaganda !== "-" && (
@@ -992,6 +1071,8 @@ export default function DayDetails({
                 value={vYamaganda}
                 isAuspicious={false}
                 isToday={isToday}
+                language={language}
+                translations={translations}
               />
             )}
             {vGulikai !== "-" && (
@@ -1000,6 +1081,8 @@ export default function DayDetails({
                 value={vGulikai}
                 isAuspicious={false}
                 isToday={isToday}
+                language={language}
+                translations={translations}
               />
             )}
             {vDur !== "-" && (
@@ -1008,6 +1091,8 @@ export default function DayDetails({
                 value={vDur}
                 isAuspicious={false}
                 isToday={isToday}
+                language={language}
+                translations={translations}
               />
             )}
             {vVarjyam !== "-" && (
@@ -1016,9 +1101,29 @@ export default function DayDetails({
                 value={vVarjyam}
                 isAuspicious={false}
                 isToday={isToday}
+                language={language}
+                translations={translations}
               />
             )}
           </SectionCard>
+        </div>
+
+        <div className="mt-3">
+          <button
+            type="button"
+            onClick={onRashiphalaluClick}
+            className="w-full py-2 px-3 rounded-xl font-bold text-sm uppercase tracking-wide transition-all hover:scale-[1.01]"
+            style={{
+              background:
+                "linear-gradient(180deg, #ff4d0d 0%, #ff5c1a 10%, #ff6b28 20%, #ff7935 30%, #ff8743 40%, #ff7935 50%, #ff6b28 60%, #ff5c1a 70%, #ff4d0d 80%, #d94100 90%, #c23800 100%)",
+              border: "2.5px solid rgba(212, 168, 71, 0.8)",
+              color: "#ffedb3",
+              boxShadow:
+                "0 0 18px rgba(212, 168, 71, 0.3), inset 0 1px 2px rgba(255, 255, 255, 0.1), inset 0 -1px 2px rgba(0, 0, 0, 0.2)",
+            }}
+          >
+            {translations.rashiphalalu || "Daily Horoscope"}
+          </button>
         </div>
 
         <SectionCard
@@ -1026,147 +1131,182 @@ export default function DayDetails({
           icon="⏰"
           variant="alarm"
         >
-          <div className="pt-2 space-y-2">
-            <div
-              className="text-xs uppercase tracking-wide font-semibold"
-              style={{ color: "#FFE4B5" }}
-            >
-              {translations.disabledDays || "Disabled Days"}
+          <div className="pt-2 grid grid-cols-2 gap-4">
+            <div className="rounded-2xl p-3 overflow-hidden" style={{ border: "1px solid rgba(212, 168, 71, 0.35)" }}>
+              <div
+                className="text-xs uppercase tracking-wide font-semibold"
+                style={{ color: "#FFE4B5" }}
+              >
+                {translations.weekdays || "Weekdays"}
+              </div>
+              <div className="mt-6 grid grid-rows-7 gap-2">
+                {[
+                  "Sunday",
+                  "Monday",
+                  "Tuesday",
+                  "Wednesday",
+                  "Thursday",
+                  "Friday",
+                  "Saturday",
+                ].map((dayName, index) => {
+                  const dayValue = dayName === "Sunday" ? 7 : index;
+                  const active = alarmSettings.disabledDays.includes(dayValue);
+                  return (
+                    <button
+                      key={dayName}
+                      type="button"
+                      onClick={() =>
+                        setAlarmSettings((prev) => ({
+                          ...prev,
+                          disabledDays: active
+                            ? prev.disabledDays.filter((d) => d !== dayValue)
+                            : [...prev.disabledDays, dayValue],
+                        }))
+                      }
+                      className="w-full rounded-lg px-2 py-1 text-[10px] font-semibold transition"
+                      style={{
+                        background: active
+                          ? "linear-gradient(135deg, #2a5a1f 0%, #3a6e2d 30%, #4a8238 60%, #5a9645 100%)"
+                          : "linear-gradient(135deg, rgba(42, 90, 31, 0.7) 0%, rgba(58, 110, 45, 0.7) 50%, rgba(90, 150, 69, 0.7) 100%)",
+                        border: active
+                          ? "2.5px solid #d4a847"
+                          : "2px solid rgba(212, 168, 71, 0.7)",
+                        color: "#ffedb3",
+                        boxShadow: active
+                          ? "0 0 18px rgba(212, 168, 71, 0.3), inset 0 1px 2px rgba(255, 255, 255, 0.1), inset 0 -1px 2px rgba(0, 0, 0, 0.2)"
+                          : "0 0 12px rgba(212, 168, 71, 0.2), inset 0 1px 2px rgba(255, 255, 255, 0.08), inset 0 -1px 2px rgba(0, 0, 0, 0.18)",
+                      }}
+                    >
+                      {translations[dayName] || dayName}
+                    </button>
+                  );
+                })}
+              </div>
             </div>
-            <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
-              {[
-                "Monday",
-                "Tuesday",
-                "Wednesday",
-                "Thursday",
-                "Friday",
-                "Saturday",
-                "Sunday",
-              ].map((dayName, index) => {
-                const dayValue = index + 1;
-                const active = alarmSettings.disabledDays.includes(dayValue);
-                return (
-                  <button
-                    key={dayName}
-                    type="button"
-                    onClick={() =>
+
+            <div className="rounded-2xl p-3" style={{ border: "1px solid rgba(212, 168, 71, 0.35)" }}>
+              <div
+                className="text-xs uppercase tracking-wide font-semibold"
+                style={{ color: "#FFE4B5" }}
+              >
+                {translations.notificationPreferences || "Notification Preferences"}
+              </div>
+              <div className="mt-2 grid grid-rows-7 gap-2">
+                <ToggleRow
+                  label={translations.audioAlerts || "Audio Alerts"}
+                  checked={alarmSettings.audioEnabled}
+                  onChange={(checked) =>
+                    setAlarmSettings((prev) => ({ ...prev, audioEnabled: checked }))
+                  }
+                  variant="panchang"
+                  size="sm"
+                  fullWidth
+                />
+                <ToggleRow
+                  label={translations.silentMode || "Silent Mode"}
+                  checked={alarmSettings.silentMode}
+                  onChange={(checked) =>
+                    setAlarmSettings((prev) => ({ ...prev, silentMode: checked }))
+                  }
+                  variant="panchang"
+                  size="sm"
+                  fullWidth
+                />
+                <div
+                  className="flex w-full min-w-0 items-center justify-between rounded-lg px-2 py-1"
+                  style={{
+                    background:
+                      "linear-gradient(135deg, #2a5a1f 0%, #3a6e2d 30%, #4a8238 60%, #5a9645 100%)",
+                    border: "2px solid #d4a847",
+                  }}
+                >
+                  <div
+                    className="min-w-0 flex-1 truncate text-[10px] font-semibold"
+                    style={{ color: "#ffedb3" }}
+                  >
+                    {translations.reminderTime || "Reminder Time"}
+                  </div>
+                  <select
+                    className="min-w-0 max-w-[55%] truncate bg-transparent text-[10px] font-semibold outline-none"
+                    style={{ color: "#ffedb3" }}
+                    value={alarmSettings.reminderTime}
+                    onChange={(e) =>
                       setAlarmSettings((prev) => ({
                         ...prev,
-                        disabledDays: active
-                          ? prev.disabledDays.filter((d) => d !== dayValue)
-                          : [...prev.disabledDays, dayValue],
+                        reminderTime: Number(e.target.value),
                       }))
                     }
-                  className="rounded-xl px-2 py-1.5 text-xs font-semibold transition"
-                  style={{
-                    background: active
-                        ? "linear-gradient(135deg, #2a5a1f 0%, #3a6e2d 30%, #4a8238 60%, #5a9645 100%)"
-                        : "linear-gradient(135deg, rgba(42, 90, 31, 0.7) 0%, rgba(58, 110, 45, 0.7) 50%, rgba(90, 150, 69, 0.7) 100%)",
-                      border: active
-                        ? "2.5px solid #d4a847"
-                        : "2px solid rgba(212, 168, 71, 0.7)",
-                      color: "#ffedb3",
-                      boxShadow: active
-                        ? "0 0 18px rgba(212, 168, 71, 0.3), inset 0 1px 2px rgba(255, 255, 255, 0.1), inset 0 -1px 2px rgba(0, 0, 0, 0.2)"
-                        : "0 0 12px rgba(212, 168, 71, 0.2), inset 0 1px 2px rgba(255, 255, 255, 0.08), inset 0 -1px 2px rgba(0, 0, 0, 0.18)",
-                    }}
                   >
-                    {translations[dayName] || dayName}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
-          <div className="pt-2 space-y-2">
-            <div
-              className="text-xs uppercase tracking-wide font-semibold"
-              style={{ color: "#FFE4B5" }}
-            >
-              {translations.notificationPreferences || "Notification Preferences"}
-            </div>
-            <ToggleRow
-              label={translations.audioAlerts || "Audio Alerts"}
-              checked={alarmSettings.audioEnabled}
-              onChange={(checked) =>
-                setAlarmSettings((prev) => ({ ...prev, audioEnabled: checked }))
-              }
-              variant="panchang"
-            />
-            <ToggleRow
-              label={translations.silentMode || "Silent Mode"}
-              checked={alarmSettings.silentMode}
-              onChange={(checked) =>
-                setAlarmSettings((prev) => ({ ...prev, silentMode: checked }))
-              }
-              variant="panchang"
-            />
-            <div
-              className="flex items-center justify-between rounded-xl px-3 py-2"
-              style={{
-                background:
-                  "linear-gradient(135deg, #2a5a1f 0%, #3a6e2d 30%, #4a8238 60%, #5a9645 100%)",
-                border: "2px solid #d4a847",
-              }}
-            >
-              <div
-                className="text-xs font-semibold"
-                style={{ color: "#ffedb3" }}
-              >
-                {translations.reminderTime || "Reminder Time"}
+                    {[15, 30, 60, 90, 120].map((value) => (
+                      <option key={value} value={value} className="text-black">
+                        {value} {translations.minutesBeforeStart || "minutes before start"}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <button
+                  type="button"
+                  onClick={saveAlarmSettings}
+                  className="w-full rounded-lg px-2 py-1 text-[10px] font-semibold uppercase tracking-wide"
+                  style={{
+                    background:
+                      "linear-gradient(135deg, #2a5a1f 0%, #3a6e2d 30%, #4a8238 60%, #5a9645 100%)",
+                    border: "2px solid #d4a847",
+                    color: "#ffedb3",
+                    boxShadow:
+                      "0 0 12px rgba(212, 168, 71, 0.25), inset 0 1px 2px rgba(255, 255, 255, 0.08), inset 0 -1px 2px rgba(0, 0, 0, 0.18)",
+                  }}
+                >
+                  {translations.saveSettings || "Save Settings"}
+                </button>
+                <button
+                  type="button"
+                  onClick={resetAlarmSettings}
+                  className="w-full rounded-lg px-2 py-1 text-[10px] font-semibold uppercase tracking-wide"
+                  style={{
+                    background:
+                      "linear-gradient(135deg, #2a5a1f 0%, #3a6e2d 30%, #4a8238 60%, #5a9645 100%)",
+                    border: "2px solid #d4a847",
+                    color: "#ffedb3",
+                    boxShadow:
+                      "0 0 12px rgba(212, 168, 71, 0.25), inset 0 1px 2px rgba(255, 255, 255, 0.08), inset 0 -1px 2px rgba(0, 0, 0, 0.18)",
+                  }}
+                >
+                  {translations.resetDefaults || "Reset Defaults"}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                  className="w-full rounded-lg px-2 py-1 text-[10px] font-semibold uppercase tracking-wide"
+                  style={{
+                    background:
+                      "linear-gradient(135deg, #2a5a1f 0%, #3a6e2d 30%, #4a8238 60%, #5a9645 100%)",
+                    border: "2px solid #d4a847",
+                    color: "#ffedb3",
+                    boxShadow:
+                      "0 0 12px rgba(212, 168, 71, 0.25), inset 0 1px 2px rgba(255, 255, 255, 0.08), inset 0 -1px 2px rgba(0, 0, 0, 0.18)",
+                  }}
+                >
+                  Scroll Up
+                </button>
+                <button
+                  type="button"
+                  className="w-full rounded-lg px-2 py-1 text-[10px] font-semibold uppercase tracking-wide"
+                  style={{
+                    background:
+                      "linear-gradient(135deg, #2a5a1f 0%, #3a6e2d 30%, #4a8238 60%, #5a9645 100%)",
+                    border: "2px solid #d4a847",
+                    color: "#ffedb3",
+                    boxShadow:
+                      "0 0 12px rgba(212, 168, 71, 0.25), inset 0 1px 2px rgba(255, 255, 255, 0.08), inset 0 -1px 2px rgba(0, 0, 0, 0.18)",
+                  }}
+                >
+                  Add To Album
+                </button>
               </div>
-              <select
-                className="bg-transparent text-xs font-semibold outline-none"
-                style={{ color: "#ffedb3" }}
-                value={alarmSettings.reminderTime}
-                onChange={(e) =>
-                  setAlarmSettings((prev) => ({
-                    ...prev,
-                    reminderTime: Number(e.target.value),
-                  }))
-                }
-              >
-                {[15, 30, 60, 90, 120].map((value) => (
-                  <option key={value} value={value} className="text-black">
-                    {value} {translations.minutesBeforeStart || "minutes before start"}
-                  </option>
-                ))}
-              </select>
             </div>
           </div>
 
-          <div className="pt-3 flex flex-wrap gap-2">
-            <button
-              type="button"
-              onClick={saveAlarmSettings}
-              className="rounded-full px-4 py-2 text-xs font-bold uppercase tracking-wide"
-              style={{
-                background:
-                  "linear-gradient(135deg, #2a5a1f 0%, #3a6e2d 30%, #4a8238 60%, #5a9645 100%)",
-                border: "2.5px solid #d4a847",
-                color: "#ffedb3",
-                boxShadow:
-                  "0 0 18px rgba(212, 168, 71, 0.3), inset 0 1px 2px rgba(255, 255, 255, 0.1), inset 0 -1px 2px rgba(0, 0, 0, 0.2)",
-              }}
-            >
-              {translations.saveSettings || "Save Settings"}
-            </button>
-            <button
-              type="button"
-              onClick={resetAlarmSettings}
-              className="rounded-full px-4 py-2 text-xs font-bold uppercase tracking-wide"
-              style={{
-                background:
-                  "linear-gradient(135deg, #2a5a1f 0%, #3a6e2d 30%, #4a8238 60%, #5a9645 100%)",
-                border: "2.5px solid #d4a847",
-                color: "#ffedb3",
-                boxShadow:
-                  "0 0 18px rgba(212, 168, 71, 0.3), inset 0 1px 2px rgba(255, 255, 255, 0.1), inset 0 -1px 2px rgba(0, 0, 0, 0.2)",
-              }}
-            >
-              {translations.resetDefaults || "Reset Defaults"}
-            </button>
-          </div>
         </SectionCard>
       </div>
     );
@@ -1264,8 +1404,9 @@ function SectionCard({ title, icon, children, variant }) {
 }
 
 
-function ToggleRow({ label, checked, onChange, hint, variant }) {
+function ToggleRow({ label, checked, onChange, hint, variant, size = "md", fullWidth = false }) {
   const isPanchang = variant === "panchang";
+  const isSmall = size === "sm";
   const background = isPanchang
     ? "linear-gradient(135deg, #2a5a1f 0%, #3a6e2d 30%, #4a8238 60%, #5a9645 100%)"
     : "rgba(0, 0, 0, 0.25)";
@@ -1275,25 +1416,25 @@ function ToggleRow({ label, checked, onChange, hint, variant }) {
 
   return (
     <div
-      className="flex items-center justify-between rounded-xl px-3 py-2"
+      className={`flex min-w-0 items-center justify-between ${fullWidth ? "w-full" : ""} ${isSmall ? "rounded-lg px-2 py-1" : "rounded-xl px-3 py-2"}`}
       style={{
         background,
         border,
       }}
     >
-      <div className="pr-3">
-        <div className="text-xs font-semibold" style={{ color: "#FFE4B5" }}>
+      <div className="min-w-0 flex-1 pr-3">
+        <div className={`${isSmall ? "text-[10px]" : "text-xs"} font-semibold truncate`} style={{ color: "#FFE4B5" }}>
           {label}
         </div>
         {hint && (
-          <div className="text-[10px]" style={{ color: "#E9D3A7" }}>
+          <div className="text-[10px] truncate" style={{ color: "#E9D3A7" }}>
             {hint}
           </div>
         )}
       </div>
       <input
         type="checkbox"
-        className="h-4 w-4 accent-green-500"
+        className={`${isSmall ? "h-3.5 w-3.5" : "h-4 w-4"} shrink-0 accent-green-500`}
         checked={!!checked}
         onChange={(e) => onChange(e.target.checked)}
       />
@@ -1302,24 +1443,8 @@ function ToggleRow({ label, checked, onChange, hint, variant }) {
 }
 
 
-function InfoRow({ label, value, isAuspicious, isToday = false, variant }) {
-  // Parse time range from value (e.g., "7:30 AM - 8:30 AM" or "10:30 to 12:30")
-  const parseTimeRange = (val) => {
-    if (!val || val === "-") return { startTime: null, endTime: null };
-    
-    try {
-      // Split on either " - " or " to "
-      const parts = val.split(/\s*(?:-|to)\s*/);
-      if (parts.length !== 2) return { startTime: null, endTime: null };
-      
-      return { startTime: parts[0].trim(), endTime: parts[1].trim() };
-    } catch (e) {
-      console.error("Error parsing time range:", val, e);
-      return { startTime: null, endTime: null };
-    }
-  };
-  
-  const { startTime, endTime } = parseTimeRange(value);
+function InfoRow({ label, value, isAuspicious, isToday = false, variant, language, translations }) {
+  const { startTime, endTime } = extractTimeRange(value, language, translations);
   
   const isPanchang = variant === "panchang";
   const background = isPanchang
@@ -1359,6 +1484,8 @@ function InfoRow({ label, value, isAuspicious, isToday = false, variant }) {
           startTime={startTime}
           endTime={endTime}
           isAuspicious={isAuspicious}
+          language={language}
+          translations={translations}
         />
       )}
     </div>
@@ -1412,24 +1539,8 @@ function TimeBox({ label, value, scheme }) {
 }
 
 
-function AuspiciousBox({ label, value, isAuspicious = true, isToday = false }) {
-  // Parse time range from value (e.g., "7:30 AM - 8:30 AM" or "10:30 to 12:30")
-  const parseTimeRange = (val) => {
-    if (!val || val === "-") return { startTime: null, endTime: null };
-    
-    try {
-      // Split on either " - " or " to "
-      const parts = val.split(/\s*(?:-|to)\s*/);
-      if (parts.length !== 2) return { startTime: val, endTime: val };
-      
-      return { startTime: parts[0].trim(), endTime: parts[1].trim() };
-    } catch (e) {
-      console.error("Error parsing time range:", val, e);
-      return { startTime: val, endTime: val };
-    }
-  };
-  
-  const { startTime, endTime } = parseTimeRange(value);
+function AuspiciousBox({ label, value, isAuspicious = true, isToday = false, language, translations }) {
+  const { startTime, endTime } = extractTimeRange(value, language, translations);
   
   return (
     <div
@@ -1465,6 +1576,8 @@ function AuspiciousBox({ label, value, isAuspicious = true, isToday = false }) {
           startTime={startTime}
           endTime={endTime}
           isAuspicious={isAuspicious}
+          language={language}
+          translations={translations}
         />
       )}
     </div>
@@ -1472,24 +1585,8 @@ function AuspiciousBox({ label, value, isAuspicious = true, isToday = false }) {
 }
 
 
-function DangerBox({ label, value, isAuspicious = false, isToday = false }) {
-  // Parse time range from value (e.g., "7:30 AM - 8:30 AM" or "10:30 to 12:30")
-  const parseTimeRange = (val) => {
-    if (!val || val === "-") return { startTime: null, endTime: null };
-    
-    try {
-      // Split on either " - " or " to "
-      const parts = val.split(/\s*(?:-|to)\s*/);
-      if (parts.length !== 2) return { startTime: val, endTime: val };
-      
-      return { startTime: parts[0].trim(), endTime: parts[1].trim() };
-    } catch (e) {
-      console.error("Error parsing time range:", val, e);
-      return { startTime: val, endTime: val };
-    }
-  };
-  
-  const { startTime, endTime } = parseTimeRange(value);
+function DangerBox({ label, value, isAuspicious = false, isToday = false, language, translations }) {
+  const { startTime, endTime } = extractTimeRange(value, language, translations);
   
   return (
     <div
@@ -1525,6 +1622,8 @@ function DangerBox({ label, value, isAuspicious = false, isToday = false }) {
           startTime={startTime}
           endTime={endTime}
           isAuspicious={isAuspicious}
+          language={language}
+          translations={translations}
         />
       )}
     </div>
