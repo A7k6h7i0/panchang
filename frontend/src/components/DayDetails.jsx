@@ -125,7 +125,23 @@ function MuhurthaTimer({ startTime, endTime, isAuspicious }) {
   // Don't render if not active
   if (!isActive) return null;
 
-  // For inauspicious: fill with red that gets replaced by green as time passes
+  // Calculate if the inauspicious period has completed
+  const isCompleted = progress >= 100;
+
+  // For auspicious: green progress bar
+  // For inauspicious: red initially, green when completed
+  const barColor = isAuspicious
+    ? `linear-gradient(90deg, rgba(76, 175, 80, 1), rgba(76, 175, 80, 0.8))`
+    : isCompleted
+      ? `linear-gradient(90deg, rgba(76, 175, 80, 1), rgba(76, 175, 80, 0.8))`
+      : `linear-gradient(90deg, rgba(220, 20, 60, 1), rgba(220, 20, 60, 0.9))`;
+
+  const barShadow = isAuspicious
+    ? "0 0 8px rgba(76, 175, 80, 0.8)"
+    : isCompleted
+      ? "0 0 8px rgba(76, 175, 80, 0.8)"
+      : "0 0 8px rgba(220, 20, 60, 0.8)";
+
   return (
     <div
       className="w-full h-1.5 rounded-full overflow-hidden mt-1"
@@ -138,26 +154,10 @@ function MuhurthaTimer({ startTime, endTime, isAuspicious }) {
         className="h-full rounded-full transition-all duration-1000"
         style={{
           width: `${progress}%`,
-          background: isAuspicious
-            ? `linear-gradient(90deg, rgba(76, 175, 80, 1), rgba(76, 175, 80, 0.8))`
-            : `linear-gradient(90deg, rgba(220, 20, 60, 1), rgba(220, 20, 60, 0.9))`,
-          boxShadow: isAuspicious
-            ? "0 0 8px rgba(76, 175, 80, 0.8)"
-            : "0 0 8px rgba(220, 20, 60, 0.8)",
+          background: barColor,
+          boxShadow: barShadow,
         }}
       />
-      {/* Inauspicious background shows remaining time in green */}
-      {!isAuspicious && (
-        <div
-          className="absolute top-0 left-0 h-full rounded-full"
-          style={{
-            width: `${100 - progress}%`,
-            marginLeft: `${progress}%`,
-            background: `linear-gradient(90deg, rgba(76, 175, 80, 1), rgba(76, 175, 80, 0.8))`,
-            boxShadow: "0 0 8px rgba(76, 175, 80, 0.8)",
-          }}
-        />
-      )}
     </div>
   );
 }
@@ -594,7 +594,7 @@ export default function DayDetails({
       // Outer container for header mode
       <div className="w-full">
         <div
-          className="rounded-xl sm:rounded-2xl p-4 sm:p-5 backdrop-blur-md"
+          className="rounded-xl sm:rounded-2xl p-3 sm:p-4 backdrop-blur-md"
           style={{
             background: "linear-gradient(135deg, rgba(80, 20, 10, 0.98) 0%, rgba(100, 25, 12, 0.95) 50%, rgba(120, 30, 15, 0.92) 100%)",
             border: "3px solid rgba(255, 140, 50, 0.8)",
@@ -605,9 +605,9 @@ export default function DayDetails({
             `,
           }}
         >
-          <div className="flex items-start gap-3 sm:gap-4">
+          <div className="flex items-start gap-2 sm:gap-4">
             <div
-              className="h-14 w-14 sm:h-16 sm:w-16 rounded-lg flex items-center justify-center flex-shrink-0 backdrop-blur-sm"
+              className="h-12 w-12 sm:h-16 sm:w-16 rounded-lg flex items-center justify-center flex-shrink-0 backdrop-blur-sm"
               style={{
                 background:
                   "linear-gradient(135deg, rgba(255, 180, 70, 0.3) 0%, rgba(180, 130, 50, 0.4) 100%)",
@@ -620,7 +620,7 @@ export default function DayDetails({
               }}
             >
               <span
-                className="text-2.5xl sm:text-3xl font-black"
+                className="text-3xl sm:text-4xl font-black"
                 style={{
                   color: "#FFE4B5",
                   textShadow:
@@ -645,7 +645,7 @@ export default function DayDetails({
               </div>
               {/* Tithi remains after weekday */}
               <div
-                className="text-base sm:text-lg font-bold mt-1.5"
+                className="text-base sm:text-lg font-bold mt-1"
                 style={{
                   color: "#D4AF37",
                 }}
@@ -656,18 +656,18 @@ export default function DayDetails({
           </div>
 
           {/* Paksha and Year in a row below date */}
-          <div className="flex items-center gap-2.5 flex-wrap mt-4">
+          <div className="flex items-center gap-2 flex-nowrap mt-3 overflow-x-auto">
             {vPaksha !== "-" && (
               <div
-                className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-sm font-bold transition-all hover:scale-105 backdrop-blur-sm"
+                className="inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs sm:text-sm font-bold transition-all hover:scale-105 backdrop-blur-sm flex-shrink-0"
                 style={{
                   background:
                     "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
-                  border: "2px solid rgba(255, 140, 50, 0.7)",
+                  border: "1.5px solid rgba(255, 140, 50, 0.7)",
                   color: "#FFE4B5",
                   boxShadow: `
-                    0 0 10px rgba(255, 140, 50, 0.5),
-                    inset 0 0 6px rgba(255, 200, 100, 0.15)
+                    0 0 8px rgba(255, 140, 50, 0.4),
+                    inset 0 0 4px rgba(255, 200, 100, 0.1)
                   `,
                 }}
               >
@@ -678,15 +678,15 @@ export default function DayDetails({
 
             {vShakaSamvat !== "-" && (
               <div
-                className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-sm font-bold transition-all hover:scale-105 backdrop-blur-sm"
+                className="inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs sm:text-sm font-bold transition-all hover:scale-105 backdrop-blur-sm flex-shrink-0"
                 style={{
                   background:
                     "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
-                  border: "2px solid rgba(255, 140, 50, 0.7)",
+                  border: "1.5px solid rgba(255, 140, 50, 0.7)",
                   color: "#FFE4B5",
                   boxShadow: `
-                    0 0 10px rgba(255, 140, 50, 0.5),
-                    inset 0 0 6px rgba(255, 200, 100, 0.15)
+                    0 0 8px rgba(255, 140, 50, 0.4),
+                    inset 0 0 4px rgba(255, 200, 100, 0.1)
                   `,
                 }}
               >
