@@ -9,6 +9,7 @@ import {
 } from "../utils/speechTemplates";
 import { speakCloud, stopSpeech } from "../utils/cloudSpeech";
 
+
 // GLOBAL singleton to prevent multiple component instances from duplicating speech
 const globalSpeechState = {
   spokenLanguages: new Set(),
@@ -17,6 +18,7 @@ const globalSpeechState = {
   isSpeaking: false,
   currentDate: null,
 };
+
 
 // Helper: Parse time string like "10:30 AM" to minutes from midnight
 const parseTimeToMinutes = (timeStr) => {
@@ -45,6 +47,7 @@ const parseTimeToMinutes = (timeStr) => {
   }
 };
 
+
 // Helper: Check if current time is within a time range
 const isTimeInRange = (currentMinutes, startMinutes, endMinutes) => {
   if (startMinutes === null || endMinutes === null) return false;
@@ -57,6 +60,7 @@ const isTimeInRange = (currentMinutes, startMinutes, endMinutes) => {
   return currentMinutes >= startMinutes && currentMinutes <= endMinutes;
 };
 
+
 // Helper: Calculate progress percentage
 const calculateProgress = (currentMinutes, startMinutes, endMinutes) => {
   if (startMinutes === null || endMinutes === null) return 0;
@@ -68,6 +72,7 @@ const calculateProgress = (currentMinutes, startMinutes, endMinutes) => {
   return Math.min(100, Math.max(0, (elapsed / totalDuration) * 100));
 };
 
+
 // MuhurthaTimer Component
 function MuhurthaTimer({ startTime, endTime, isAuspicious }) {
   const [progress, setProgress] = useState(0);
@@ -75,26 +80,32 @@ function MuhurthaTimer({ startTime, endTime, isAuspicious }) {
   const [currentMinutes, setCurrentMinutes] = useState(null);
   const intervalRef = useRef(null);
 
+
   useEffect(() => {
     // Get current time in minutes
     const now = new Date();
     const currentMins = now.getHours() * 60 + now.getMinutes();
     setCurrentMinutes(currentMins);
 
+
     const startMins = parseTimeToMinutes(startTime);
     const endMins = parseTimeToMinutes(endTime);
+
 
     if (startMins === null || endMins === null) {
       setIsActive(false);
       return;
     }
 
+
     const inRange = isTimeInRange(currentMins, startMins, endMins);
     setIsActive(inRange);
+
 
     if (inRange) {
       const prog = calculateProgress(currentMins, startMins, endMins);
       setProgress(prog);
+
 
       // Update every second
       intervalRef.current = setInterval(() => {
@@ -102,8 +113,10 @@ function MuhurthaTimer({ startTime, endTime, isAuspicious }) {
         const mins = now2.getHours() * 60 + now2.getMinutes();
         setCurrentMinutes(mins);
 
+
         const p = calculateProgress(mins, startMins, endMins);
         setProgress(p);
+
 
         // Stop if time ended
         if (mins > endMins) {
@@ -115,6 +128,7 @@ function MuhurthaTimer({ startTime, endTime, isAuspicious }) {
       }, 1000);
     }
 
+
     return () => {
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
@@ -122,11 +136,14 @@ function MuhurthaTimer({ startTime, endTime, isAuspicious }) {
     };
   }, [startTime, endTime]);
 
+
   // Don't render if not active
   if (!isActive) return null;
 
+
   // Calculate if the inauspicious period has completed
   const isCompleted = progress >= 100;
+
 
   // For auspicious: green progress bar
   // For inauspicious: red initially, green when completed
@@ -136,11 +153,13 @@ function MuhurthaTimer({ startTime, endTime, isAuspicious }) {
       ? `linear-gradient(90deg, rgba(76, 175, 80, 1), rgba(76, 175, 80, 0.8))`
       : `linear-gradient(90deg, rgba(220, 20, 60, 1), rgba(220, 20, 60, 0.9))`;
 
+
   const barShadow = isAuspicious
     ? "0 0 8px rgba(76, 175, 80, 0.8)"
     : isCompleted
       ? "0 0 8px rgba(76, 175, 80, 0.8)"
       : "0 0 8px rgba(220, 20, 60, 0.8)";
+
 
   return (
     <div
@@ -162,6 +181,7 @@ function MuhurthaTimer({ startTime, endTime, isAuspicious }) {
   );
 }
 
+
 export default function DayDetails({
   day,
   language,
@@ -175,17 +195,21 @@ export default function DayDetails({
   const [festivals, setFestivals] = useState([]);
   const [festivalsLoaded, setFestivalsLoaded] = useState(false);
 
+
   // Local refs for this component instance
   const prevLanguageRef = useRef(language);
   const componentIdRef = useRef(Math.random().toString(36).substr(2, 9));
   const isActiveInstanceRef = useRef(false);
 
+
   // Load festivals data
   useEffect(() => {
     if (!day) return;
 
+
     const [dayPart, monthPart, yearPart] = day.date.split("/");
     const year = parseInt(yearPart, 10);
+
 
     fetch(`/data/festivals/${year}.json`)
       .then((res) => res.json())
@@ -201,6 +225,7 @@ export default function DayDetails({
         setFestivalsLoaded(true);
       });
   }, [day]);
+
 
   if (!day) {
     return (
@@ -223,18 +248,22 @@ export default function DayDetails({
     );
   }
 
+
   const parseDate = (dateStr) => {
     const [d, m, y] = dateStr.split("/");
     return new Date(y, m - 1, d);
   };
 
+
   const dateObj = parseDate(day.date);
   const today = new Date();
+
 
   const isToday =
     dateObj.getDate() === today.getDate() &&
     dateObj.getMonth() === today.getMonth() &&
     dateObj.getFullYear() === today.getFullYear();
+
 
   const getLocalizedDate = () => {
     const dayNum = dateObj.getDate();
@@ -244,14 +273,18 @@ export default function DayDetails({
     return { dayNum, monthName, year, weekday };
   };
 
+
   const { dayNum, monthName, year, weekday } = getLocalizedDate();
 
+
   const v = (key) => (day?.[key] ? translateText(day[key], translations) : "-");
+
 
   const vPaksha = v("Paksha");
   const vTithi = v("Tithi");
   const vNakshatra = v("Nakshatra");
   const vYoga = v("Yoga");
+
 
   // Extract only year name from "Shaka Samvat" field and translate it
   const getYearName = () => {
@@ -266,12 +299,15 @@ export default function DayDetails({
     return translateText(yearKey, translations) || yearKey;
   };
 
+
   const vShakaSamvat = getYearName();
+
 
   const vSunrise = v("Sunrise");
   const vSunset = v("Sunset");
   const vMoonrise = v("Moonrise");
   const vMoonset = v("Moonset");
+
 
   const vAbhijit = v("Abhijit");
   const vRahu = v("Rahu Kalam");
@@ -280,6 +316,7 @@ export default function DayDetails({
   const vDur = v("Dur Muhurtam");
   const vAmrit = v("Amrit Kalam");
   const vVarjyam = v("Varjyam");
+
 
   // Get rashiphalalu label based on language
   const getRashiphalaluLabel = () => {
@@ -294,6 +331,7 @@ export default function DayDetails({
     return labels[language] || "Rashiphalalu";
   };
 
+
   // Get year label based on language
   const getYearLabel = () => {
     const labels = {
@@ -307,11 +345,14 @@ export default function DayDetails({
     return labels[language] || "Year";
   };
 
+
   // ---------- SPEECH SEQUENCE CONTROL ----------
+
 
   // builds a combined muhurta alert text if needed (for current time)
   const buildImmediateMuhurtaTextIfNeeded = async () => {
     if (!isToday) return null;
+
 
     const muhurtas = [
       { key: "Dur Muhurtam", value: day["Dur Muhurtam"] },
@@ -323,7 +364,9 @@ export default function DayDetails({
       { key: "Varjyam", value: day["Varjyam"] },
     ];
 
+
     const triggered = [];
+
 
     for (const m of muhurtas) {
       if (!m.value || m.value === "-") continue;
@@ -342,11 +385,14 @@ export default function DayDetails({
       }
     }
 
+
     if (!triggered.length) return null;
+
 
     const names = triggered.map((m) => getMuhurtaName(m.key, language));
     const timings = triggered.map((m) => m.value);
     const isAuspicious = triggered.every((m) => isAuspiciousMuhurta(m.key));
+
 
     return getMuhurtaImmediateAlert({
       language,
@@ -357,6 +403,7 @@ export default function DayDetails({
     });
   };
 
+
   // Single controlled sequence: Tithi first, then muhurta (if any)
   const speakSequence = async () => {
     if (!isToday || !voiceEnabled) return;
@@ -365,17 +412,21 @@ export default function DayDetails({
       return;
     }
 
+
     // Check if this language was already spoken
     if (globalSpeechState.spokenLanguages.has(language)) {
       console.log(`✓ Tithi already spoken in ${language}, skipping`);
       return;
     }
 
+
     globalSpeechState.isSpeaking = true;
     console.log(`🎤 Starting speech sequence for ${language}`);
 
+
     try {
       stopSpeech();
+
 
       const tithiText = getTithiSpeech({
         language,
@@ -391,6 +442,7 @@ export default function DayDetails({
         }
       }
 
+
       const muhurtaText = await buildImmediateMuhurtaTextIfNeeded();
       if (muhurtaText) {
         console.log(`🗣️ Speaking immediate muhurta in ${language}`);
@@ -399,6 +451,7 @@ export default function DayDetails({
           return;
         }
       }
+
 
       globalSpeechState.spokenLanguages.add(language);
       console.log(`✅ Speech sequence completed for ${language}`);
@@ -409,13 +462,16 @@ export default function DayDetails({
     }
   };
 
+
   // Trigger speech on first load or language change
   useEffect(() => {
     if (!isToday || !voiceEnabled) return;
 
+
     const prevLang = prevLanguageRef.current;
     const langChanged = prevLang !== language;
     prevLanguageRef.current = language;
+
 
     if (langChanged) {
       console.log(`🔄 Language changed from ${prevLang} to ${language}`);
@@ -423,14 +479,17 @@ export default function DayDetails({
       globalSpeechState.isSpeaking = false;
     }
 
+
     // Small delay to prevent double execution in StrictMode
     const timer = setTimeout(() => {
       speakSequence();
     }, 100);
 
+
     return () => clearTimeout(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [language, isToday, voiceEnabled]);
+
 
   // 🔔 Universal Muhurta Notification Effect (SINGLETON PATTERN)
   useEffect(() => {
@@ -443,11 +502,13 @@ export default function DayDetails({
       setNotificationsSent({});
     }
 
+
     if (!isToday || !voiceEnabled) {
       console.log("⏸️ Notification checker paused:", { isToday, voiceEnabled });
       isActiveInstanceRef.current = false;
       return;
     }
+
 
     // Only ONE component instance should run the interval
     // First one to mount becomes the active instance
@@ -457,8 +518,10 @@ export default function DayDetails({
       return;
     }
 
+
     isActiveInstanceRef.current = true;
     console.log(`✅ Instance ${componentIdRef.current} - becoming ACTIVE notification instance for ${language}`);
+
 
     const muhurtas = [
       { key: "Dur Muhurtam", value: day["Dur Muhurtam"] },
@@ -470,19 +533,24 @@ export default function DayDetails({
       { key: "Varjyam", value: day["Varjyam"] },
     ];
 
+
     const checkAllNotifications = async () => {
       const muhurtaGroups = new Map();
+
 
       for (const muhurta of muhurtas) {
         if (!muhurta.value || muhurta.value === "-") continue;
 
+
         // Create unique key per muhurta + language
         const alertKey = `${muhurta.key}-${language}`;
+
 
         // Skip if already sent for this language
         if (globalSpeechState.sentAlerts.has(alertKey)) {
           continue;
         }
+
 
         try {
           const response = await fetch("http://localhost:5000/check-notification", {
@@ -491,7 +559,9 @@ export default function DayDetails({
             body: JSON.stringify({ timeString: muhurta.value }),
           });
 
+
           const data = await response.json();
+
 
           if (data.shouldTrigger) {
             const timeKey = data.alertTime.substring(0, 5);
@@ -505,18 +575,22 @@ export default function DayDetails({
         }
       }
 
+
       // Process grouped alerts
       for (const [, groupedMuhurtas] of muhurtaGroups.entries()) {
         if (groupedMuhurtas.length === 0) continue;
+
 
         // Check if ANY muhurta in this group was already sent for current language
         const alreadySent = groupedMuhurtas.some((m) =>
           globalSpeechState.sentAlerts.has(`${m.key}-${language}`)
         );
 
+
         if (alreadySent) {
           continue;
         }
+
 
         // Prevent duplicate speech
         if (globalSpeechState.isSpeaking) {
@@ -524,12 +598,15 @@ export default function DayDetails({
           continue;
         }
 
+
         globalSpeechState.isSpeaking = true;
+
 
         console.log(
           `🔔 TRIGGERING ALERT (${language}) for:`,
           groupedMuhurtas.map((m) => m.key).join(", ")
         );
+
 
         const names = groupedMuhurtas.map((m) => getMuhurtaName(m.key, language));
         const timings = groupedMuhurtas.map((m) => m.value);
@@ -537,12 +614,14 @@ export default function DayDetails({
           isAuspiciousMuhurta(m.key)
         );
 
+
         const text = getMuhurtaAlert({
           language,
           names,
           timings,
           isAuspicious,
         });
+
 
         console.log(`🗣️ Speaking alert in ${language}:`, text);
         
@@ -552,11 +631,13 @@ export default function DayDetails({
             return;
           }
 
+
           // Mark all muhurtas in this group as sent for current language
           groupedMuhurtas.forEach((m) => {
             const alertKey = `${m.key}-${language}`;
             globalSpeechState.sentAlerts.add(alertKey);
           });
+
 
           // Update state for UI consistency
           const updates = {};
@@ -564,6 +645,7 @@ export default function DayDetails({
             updates[`${m.key}-${language}`] = true;
           });
           setNotificationsSent((prev) => ({ ...prev, ...updates }));
+
 
           console.log(`✅ Alert completed for ${language}`);
         } catch (error) {
@@ -574,9 +656,11 @@ export default function DayDetails({
       }
     };
 
+
     console.log(`✅ Starting notification checker for ${language}`);
     checkAllNotifications(); // Run immediately
     globalSpeechState.activeInterval = setInterval(checkAllNotifications, 10000);
+
 
     return () => {
       if (isActiveInstanceRef.current && globalSpeechState.activeInterval) {
@@ -587,6 +671,7 @@ export default function DayDetails({
       isActiveInstanceRef.current = false;
     };
   }, [day, language, isToday, voiceEnabled]);
+
 
   // If in header mode, render compact version
   if (isHeaderMode) {
@@ -620,7 +705,7 @@ export default function DayDetails({
               }}
             >
               <span
-                className="text-3xl sm:text-4xl font-black"
+                className="text-2xl sm:text-2xl font-semibold"
                 style={{
                   color: "#FFE4B5",
                   textShadow:
@@ -631,10 +716,11 @@ export default function DayDetails({
               </span>
             </div>
 
+
             <div className="flex-1 min-w-0">
               <div className="flex flex-wrap items-center gap-2">
                 <div
-                  className="text-xl sm:text-2xl font-black"
+                  className="text-xl sm:text-2xl font-semibold "
                   style={{
                     color: "#FFE4B5",
                     textShadow: "0 2px 4px rgba(0, 0, 0, 0.5)",
@@ -645,7 +731,7 @@ export default function DayDetails({
               </div>
               {/* Tithi remains after weekday */}
               <div
-                className="text-base sm:text-lg font-bold mt-1"
+                className="text-base sm:text-lg font-semibold mt-1"
                 style={{
                   color: "#D4AF37",
                 }}
@@ -654,6 +740,7 @@ export default function DayDetails({
               </div>
             </div>
           </div>
+
 
           {/* Paksha and Year in a row below date */}
           <div className="flex items-center gap-2 flex-nowrap mt-3 overflow-x-auto">
@@ -676,6 +763,7 @@ export default function DayDetails({
               </div>
             )}
 
+
             {vShakaSamvat !== "-" && (
               <div
                 className="inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs sm:text-sm font-bold transition-all hover:scale-105 backdrop-blur-sm flex-shrink-0"
@@ -695,6 +783,7 @@ export default function DayDetails({
               </div>
             )}
           </div>
+
 
           {festivals.length > 0 && (
             <div className="space-y-2 mt-4">
@@ -723,6 +812,7 @@ export default function DayDetails({
           </div>
         )}
 
+
         {festivalsLoaded && festivals.length === 0 && (
           <div
             className="text-xs mt-2"
@@ -737,6 +827,7 @@ export default function DayDetails({
       </div>
     );
   }
+
 
   // SIDEBAR MODE
   if (isSidebarMode) {
@@ -771,6 +862,7 @@ export default function DayDetails({
           </div>
         </SectionCard>
 
+
         <SectionCard
           title={translations.panchangElements || "Panchang Elements"}
           icon="✦"
@@ -779,22 +871,29 @@ export default function DayDetails({
           <InfoRow
             label={translations.nakshatra || "Nakshatra"}
             value={vNakshatra}
+            isToday={isToday}
           />
-          <InfoRow label={translations.yoga || "Yoga"} value={vYoga} />
+          <InfoRow label={translations.yoga || "Yoga"} value={vYoga} isToday={isToday} />
+
 
           {vAmrit !== "-" && (
             <InfoRow
               label={translations.amritKalam || "Amrit Kalam"}
               value={vAmrit}
+              isAuspicious={true}
+              isToday={isToday}
             />
           )}
           {vAbhijit !== "-" && (
             <InfoRow
               label={translations.abhijitAuspicious || "Abhijit (Auspicious)"}
               value={vAbhijit}
+              isAuspicious={true}
+              isToday={isToday}
             />
           )}
         </SectionCard>
+
 
         <div className="relative">
           <div
@@ -816,6 +915,7 @@ export default function DayDetails({
                 label={translations.rahuKalam || "Rahu Kalam"}
                 value={vRahu}
                 isAuspicious={false}
+                isToday={isToday}
               />
             )}
             {vYamaganda !== "-" && (
@@ -823,6 +923,7 @@ export default function DayDetails({
                 label={translations.yamaganda || "Yamaganda"}
                 value={vYamaganda}
                 isAuspicious={false}
+                isToday={isToday}
               />
             )}
             {vGulikai !== "-" && (
@@ -830,6 +931,7 @@ export default function DayDetails({
                 label={translations.gulikaiKalam || "Gulikai Kalam"}
                 value={vGulikai}
                 isAuspicious={false}
+                isToday={isToday}
               />
             )}
             {vDur !== "-" && (
@@ -837,6 +939,7 @@ export default function DayDetails({
                 label={translations.durMuhurtam || "Dur Muhurtam"}
                 value={vDur}
                 isAuspicious={false}
+                isToday={isToday}
               />
             )}
             {vVarjyam !== "-" && (
@@ -844,6 +947,7 @@ export default function DayDetails({
                 label={translations.varjyam || "Varjyam"}
                 value={vVarjyam}
                 isAuspicious={false}
+                isToday={isToday}
               />
             )}
           </SectionCard>
@@ -852,24 +956,30 @@ export default function DayDetails({
     );
   }
 
+
   return null;
 }
 
+
 // ========== COMPONENT HELPERS ==========
+
 
 function SectionCard({ title, icon, children, variant }) {
   const isPanchang = variant === "panchang";
   const isSunMoon = variant === "sunmoon";
   const isInauspicious = variant === "inauspicious";
 
+
   const consistentBorder = "2.5px solid rgba(255, 140, 50, 0.7)";
   const consistentShadow =
     "0 0 20px rgba(255, 140, 50, 0.5), inset 0 0 15px rgba(255, 140, 50, 0.1)";
+
 
   let background =
     "linear-gradient(135deg, rgba(120, 35, 18, 0.7) 0%, rgba(100, 30, 15, 0.75) 100%)";
   let border = consistentBorder;
   let boxShadow = consistentShadow;
+
 
   if (isPanchang) {
     background =
@@ -890,6 +1000,7 @@ function SectionCard({ title, icon, children, variant }) {
     boxShadow =
       "0 0 22px rgba(220,20,60,0.6), inset 0 0 15px rgba(0,0,0,0.3)";
   }
+
 
   return (
     <div
@@ -925,7 +1036,8 @@ function SectionCard({ title, icon, children, variant }) {
   );
 }
 
-function InfoRow({ label, value, isAuspicious }) {
+
+function InfoRow({ label, value, isAuspicious, isToday = false }) {
   // Parse time range from value (e.g., "7:30 AM - 8:30 AM" or "10:30 to 12:30")
   const parseTimeRange = (val) => {
     if (!val || val === "-") return { startTime: null, endTime: null };
@@ -968,8 +1080,8 @@ function InfoRow({ label, value, isAuspicious }) {
       >
         {value}
       </div>
-      {/* Progress Timer (only show if valid time range) */}
-      {startTime && endTime && (
+      {/* Progress Timer (only show if valid time range AND isToday is true) */}
+      {isToday && startTime && endTime && (
         <MuhurthaTimer
           startTime={startTime}
           endTime={endTime}
@@ -979,6 +1091,7 @@ function InfoRow({ label, value, isAuspicious }) {
     </div>
   );
 }
+
 
 function TimeBox({ label, value, scheme }) {
   const isOrange = scheme === "orange";
@@ -994,6 +1107,7 @@ function TimeBox({ label, value, scheme }) {
       ? "#E2A57C"
       : "transparent";
   const labelColor = isOrange ? "#FFF5E6" : isBlue ? "#FFE8D8" : "#E0E8F0";
+
 
   return (
     <div
@@ -1024,7 +1138,8 @@ function TimeBox({ label, value, scheme }) {
   );
 }
 
-function AuspiciousBox({ label, value, isAuspicious = true }) {
+
+function AuspiciousBox({ label, value, isAuspicious = true, isToday = false }) {
   // Parse time range from value (e.g., "7:30 AM - 8:30 AM" or "10:30 to 12:30")
   const parseTimeRange = (val) => {
     if (!val || val === "-") return { startTime: null, endTime: null };
@@ -1071,17 +1186,20 @@ function AuspiciousBox({ label, value, isAuspicious = true }) {
       >
         {value}
       </div>
-      {/* Progress Timer */}
-      <MuhurthaTimer
-        startTime={startTime}
-        endTime={endTime}
-        isAuspicious={isAuspicious}
-      />
+      {/* Progress Timer (only show if isToday is true) */}
+      {isToday && startTime && endTime && (
+        <MuhurthaTimer
+          startTime={startTime}
+          endTime={endTime}
+          isAuspicious={isAuspicious}
+        />
+      )}
     </div>
   );
 }
 
-function DangerBox({ label, value, isAuspicious = false }) {
+
+function DangerBox({ label, value, isAuspicious = false, isToday = false }) {
   // Parse time range from value (e.g., "7:30 AM - 8:30 AM" or "10:30 to 12:30")
   const parseTimeRange = (val) => {
     if (!val || val === "-") return { startTime: null, endTime: null };
@@ -1128,12 +1246,14 @@ function DangerBox({ label, value, isAuspicious = false }) {
       >
         {value}
       </div>
-      {/* Progress Timer */}
-      <MuhurthaTimer
-        startTime={startTime}
-        endTime={endTime}
-        isAuspicious={isAuspicious}
-      />
+      {/* Progress Timer (only show if isToday is true) */}
+      {isToday && startTime && endTime && (
+        <MuhurthaTimer
+          startTime={startTime}
+          endTime={endTime}
+          isAuspicious={isAuspicious}
+        />
+      )}
     </div>
   );
 }
