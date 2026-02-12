@@ -1033,7 +1033,7 @@ export default function DayDetails({
             >
               {translations.disabledDays || "Disabled Days"}
             </div>
-            <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+            <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
               {[
                 "Monday",
                 "Tuesday",
