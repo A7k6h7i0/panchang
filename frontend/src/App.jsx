@@ -984,7 +984,8 @@ function App() {
                 }}
                 className="w-full py-3 px-4 rounded-xl font-bold text-lg transition-all hover:scale-[1.02] cursor-pointer"
                 style={{
-                  background: "linear-gradient(135deg, #2a5a1f 0%, #3a6e2d 30%, #4a8238 60%, #5a9645 100%)",
+                  background:
+                    "linear-gradient(180deg, #ff4d0d 0%, #ff5c1a 10%, #ff6b28 20%, #ff7935 30%, #ff8743 40%, #ff7935 50%, #ff6b28 60%, #ff5c1a 70%, #ff4d0d 80%, #d94100 90%, #c23800 100%)",
                   border: "2.5px solid rgba(212, 168, 71, 0.8)",
                   color: "#ffedb3",
                   boxShadow: `

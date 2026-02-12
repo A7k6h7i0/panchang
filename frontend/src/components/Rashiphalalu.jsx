@@ -288,12 +288,12 @@ function Rashiphalalu({ language, translations: t, onBack }) {
             border: "3px solid rgba(255, 140, 50, 0.6)",
           }}
         >
-          <div className="flex gap-2">
+          <div className="flex flex-nowrap gap-2">
             {Object.values(PERIOD_TYPES).map((period) => (
               <button
                 key={period.key}
                 onClick={() => setSelectedPeriod(period.key)}
-                className={`flex-1 inline-flex items-center justify-center gap-1.5 rounded-lg px-4 py-3 text-base font-bold transition-all ${
+                className={`flex-1 min-w-0 inline-flex items-center justify-center gap-1.5 rounded-lg px-2 sm:px-4 py-2 sm:py-3 text-[clamp(0.72rem,2.2vw,1rem)] font-bold transition-all ${
                   selectedPeriod === period.key ? "scale-[1.02]" : "hover:scale-[1.01]"
                 }`}
                 style={{
@@ -317,7 +317,7 @@ function Rashiphalalu({ language, translations: t, onBack }) {
 
         {/* Selected Rashi Display - Now below selector */}
         <div
-          className="rounded-2xl sm:rounded-3xl p-6 backdrop-blur-md"
+          className="rounded-2xl sm:rounded-3xl p-6 backdrop-blur-md -mt-3"
           style={{
             background: "linear-gradient(135deg, rgba(80, 20, 10, 0.98) 0%, rgba(100, 25, 12, 0.95) 50%, rgba(120, 30, 15, 0.92) 100%)",
             border: "4px solid rgba(255, 140, 50, 0.8)",
