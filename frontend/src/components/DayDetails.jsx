@@ -737,7 +737,8 @@ export default function DayDetails({
         <div
           className="rounded-xl sm:rounded-2xl p-3 sm:p-4 backdrop-blur-md"
           style={{
-            background: "linear-gradient(135deg, rgba(80, 20, 10, 0.98) 0%, rgba(100, 25, 12, 0.95) 50%, rgba(120, 30, 15, 0.92) 100%)",
+            background:
+              "linear-gradient(180deg, #ff4d0d 0%, #ff5c1a 10%, #ff6b28 20%, #ff7935 30%, #ff8743 40%, #ff7935 50%, #ff6b28 60%, #ff5c1a 70%, #ff4d0d 80%, #d94100 90%, #c23800 100%)",
             border: "3px solid rgba(255, 140, 50, 0.8)",
             boxShadow: `
               0 0 35px rgba(255, 140, 50, 0.8),
@@ -751,21 +752,21 @@ export default function DayDetails({
               className="h-12 w-12 sm:h-16 sm:w-16 rounded-lg flex items-center justify-center flex-shrink-0 backdrop-blur-sm"
               style={{
                 background:
-                  "linear-gradient(135deg, rgba(255, 180, 70, 0.3) 0%, rgba(180, 130, 50, 0.4) 100%)",
-                border: "2px solid rgba(255, 140, 50, 0.8)",
+                  "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
+                border: "3px solid rgba(255, 200, 110, 0.95)",
                 boxShadow: `
-                  0 0 15px rgba(255, 140, 50, 0.8),
-                  0 0 30px rgba(255, 100, 30, 0.6),
-                  inset 0 0 10px rgba(255, 200, 100, 0.3)
+                  0 0 20px rgba(255, 140, 50, 0.6),
+                  0 0 40px rgba(255, 100, 30, 0.4),
+                  inset 0 0 15px rgba(255, 200, 100, 0.2)
                 `,
               }}
             >
               <span
                 className="text-xl sm:text-xl font-bold"
                 style={{
-                  color: "#FFE4B5",
+                  color: "#D4AF37",
                   textShadow:
-                    "0 2px 6px rgba(0, 0, 0, 0.6), 0 0 12px rgba(255, 215, 0, 0.6)",
+                    "0 2px 6px rgba(0, 0, 0, 0.6)",
                 }}
               >
                 {dayNum}
@@ -778,8 +779,8 @@ export default function DayDetails({
                 <div
                   className="text-lg sm:text-xl font-bold"
                   style={{
-                    color: "#FFE4B5",
-                    textShadow: "0 2px 4px rgba(0, 0, 0, 0.5)",
+                    color: "#ffedb3",
+                    textShadow: "0 2px 6px rgba(0,0,0,0.4)",
                   }}
                 >
                   {weekday}
@@ -789,7 +790,8 @@ export default function DayDetails({
               <div
                 className="text-xs sm:text-sm font-semibold mt-1"
                 style={{
-                  color: "#D4AF37",
+                  color: "#ffedb3",
+                  textShadow: "0 2px 6px rgba(0,0,0,0.4)",
                 }}
               >
                 • {vTithi}
@@ -806,11 +808,12 @@ export default function DayDetails({
                 style={{
                   background:
                     "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
-                  border: "1.5px solid rgba(255, 140, 50, 0.7)",
+                  border: "2.5px solid rgba(255, 140, 50, 0.7)",
                   color: "#FFE4B5",
                   boxShadow: `
-                    0 0 8px rgba(255, 140, 50, 0.4),
-                    inset 0 0 4px rgba(255, 200, 100, 0.1)
+                    0 0 20px rgba(255, 140, 50, 0.6),
+                    0 0 40px rgba(255, 100, 30, 0.4),
+                    inset 0 0 15px rgba(255, 200, 100, 0.2)
                   `,
                 }}
               >
@@ -826,11 +829,12 @@ export default function DayDetails({
                 style={{
                   background:
                     "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
-                  border: "1.5px solid rgba(255, 140, 50, 0.7)",
+                  border: "2.5px solid rgba(255, 140, 50, 0.7)",
                   color: "#FFE4B5",
                   boxShadow: `
-                    0 0 8px rgba(255, 140, 50, 0.4),
-                    inset 0 0 4px rgba(255, 200, 100, 0.1)
+                    0 0 20px rgba(255, 140, 50, 0.6),
+                    0 0 40px rgba(255, 100, 30, 0.4),
+                    inset 0 0 15px rgba(255, 200, 100, 0.2)
                   `,
                 }}
               >
@@ -928,8 +932,14 @@ export default function DayDetails({
             label={translations.nakshatra || "Nakshatra"}
             value={vNakshatra}
             isToday={isToday}
+            variant="panchang"
           />
-          <InfoRow label={translations.yoga || "Yoga"} value={vYoga} isToday={isToday} />
+          <InfoRow
+            label={translations.yoga || "Yoga"}
+            value={vYoga}
+            isToday={isToday}
+            variant="panchang"
+          />
 
 
           {vAmrit !== "-" && (
@@ -938,6 +948,7 @@ export default function DayDetails({
               value={vAmrit}
               isAuspicious={true}
               isToday={isToday}
+              variant="panchang"
             />
           )}
           {vAbhijit !== "-" && (
@@ -946,6 +957,7 @@ export default function DayDetails({
               value={vAbhijit}
               isAuspicious={true}
               isToday={isToday}
+              variant="panchang"
             />
           )}
         </SectionCard>
@@ -1014,91 +1026,6 @@ export default function DayDetails({
           icon="⏰"
           variant="alarm"
         >
-          <div className="space-y-2">
-            <div
-              className="text-xs uppercase tracking-wide font-semibold"
-              style={{ color: "#FFE4B5" }}
-            >
-              {translations.enableMuhurtas || "Enable/Disable Muhurtas"}
-            </div>
-            {[
-              { key: "rahu", label: translations.rahuKalam || "Rahu Kalam" },
-              { key: "yamaganda", label: translations.yamaganda || "Yamaganda" },
-              { key: "gulika", label: translations.gulikaiKalam || "Gulikai Kalam" },
-              { key: "durmuhurtham", label: translations.durMuhurtam || "Dur Muhurtam" },
-              { key: "varjyam", label: translations.varjyam || "Varjyam" },
-            ].map((item) => (
-              <ToggleRow
-                key={item.key}
-                label={item.label}
-                checked={alarmSettings.enabledMuhurtas[item.key]}
-                onChange={(checked) =>
-                  setAlarmSettings((prev) => ({
-                    ...prev,
-                    enabledMuhurtas: {
-                      ...prev.enabledMuhurtas,
-                      [item.key]: checked,
-                    },
-                  }))
-                }
-              />
-            ))}
-          </div>
-
-          <div className="pt-2 space-y-2">
-            <div
-              className="text-xs uppercase tracking-wide font-semibold"
-              style={{ color: "#FFE4B5" }}
-            >
-              {translations.notificationPreferences || "Notification Preferences"}
-            </div>
-            <ToggleRow
-              label={translations.audioAlerts || "Audio Alerts"}
-              checked={alarmSettings.audioEnabled}
-              onChange={(checked) =>
-                setAlarmSettings((prev) => ({ ...prev, audioEnabled: checked }))
-              }
-            />
-            <ToggleRow
-              label={translations.silentMode || "Silent Mode"}
-              checked={alarmSettings.silentMode}
-              onChange={(checked) =>
-                setAlarmSettings((prev) => ({ ...prev, silentMode: checked }))
-              }
-            />
-            <div
-              className="flex items-center justify-between rounded-xl px-3 py-2"
-              style={{
-                background: "rgba(0, 0, 0, 0.25)",
-                border: "1.5px solid rgba(255, 237, 179, 0.35)",
-              }}
-            >
-              <div
-                className="text-xs font-semibold"
-                style={{ color: "#FFE4B5" }}
-              >
-                {translations.reminderTime || "Reminder Time"}
-              </div>
-              <select
-                className="bg-transparent text-xs font-semibold outline-none"
-                style={{ color: "#FFFFFF" }}
-                value={alarmSettings.reminderTime}
-                onChange={(e) =>
-                  setAlarmSettings((prev) => ({
-                    ...prev,
-                    reminderTime: Number(e.target.value),
-                  }))
-                }
-              >
-                {[15, 30, 60, 90, 120].map((value) => (
-                  <option key={value} value={value} className="text-black">
-                    {value} {translations.minutesBeforeStart || "minutes before start"}
-                  </option>
-                ))}
-              </select>
-            </div>
-          </div>
-
           <div className="pt-2 space-y-2">
             <div
               className="text-xs uppercase tracking-wide font-semibold"
@@ -1133,21 +1060,78 @@ export default function DayDetails({
                   className="rounded-xl px-2 py-1.5 text-xs font-semibold transition"
                   style={{
                     background: active
-                        ? "linear-gradient(135deg, #8BC34A 0%, #4CAF50 100%)"
-                        : "rgba(0, 0, 0, 0.2)",
+                        ? "linear-gradient(135deg, #2a5a1f 0%, #3a6e2d 30%, #4a8238 60%, #5a9645 100%)"
+                        : "linear-gradient(135deg, rgba(42, 90, 31, 0.7) 0%, rgba(58, 110, 45, 0.7) 50%, rgba(90, 150, 69, 0.7) 100%)",
                       border: active
-                        ? "1.5px solid rgba(143, 196, 105, 0.9)"
-                        : "1.5px solid rgba(255, 237, 179, 0.3)",
-                      color: active ? "#0B2A10" : "#FFE4B5",
+                        ? "2.5px solid #d4a847"
+                        : "2px solid rgba(212, 168, 71, 0.7)",
+                      color: "#ffedb3",
                       boxShadow: active
-                        ? "0 0 12px rgba(76, 175, 80, 0.45)"
-                        : "none",
+                        ? "0 0 18px rgba(212, 168, 71, 0.3), inset 0 1px 2px rgba(255, 255, 255, 0.1), inset 0 -1px 2px rgba(0, 0, 0, 0.2)"
+                        : "0 0 12px rgba(212, 168, 71, 0.2), inset 0 1px 2px rgba(255, 255, 255, 0.08), inset 0 -1px 2px rgba(0, 0, 0, 0.18)",
                     }}
                   >
                     {translations[dayName] || dayName}
                   </button>
                 );
               })}
+            </div>
+          </div>
+
+          <div className="pt-2 space-y-2">
+            <div
+              className="text-xs uppercase tracking-wide font-semibold"
+              style={{ color: "#FFE4B5" }}
+            >
+              {translations.notificationPreferences || "Notification Preferences"}
+            </div>
+            <ToggleRow
+              label={translations.audioAlerts || "Audio Alerts"}
+              checked={alarmSettings.audioEnabled}
+              onChange={(checked) =>
+                setAlarmSettings((prev) => ({ ...prev, audioEnabled: checked }))
+              }
+              variant="panchang"
+            />
+            <ToggleRow
+              label={translations.silentMode || "Silent Mode"}
+              checked={alarmSettings.silentMode}
+              onChange={(checked) =>
+                setAlarmSettings((prev) => ({ ...prev, silentMode: checked }))
+              }
+              variant="panchang"
+            />
+            <div
+              className="flex items-center justify-between rounded-xl px-3 py-2"
+              style={{
+                background:
+                  "linear-gradient(135deg, #2a5a1f 0%, #3a6e2d 30%, #4a8238 60%, #5a9645 100%)",
+                border: "2px solid #d4a847",
+              }}
+            >
+              <div
+                className="text-xs font-semibold"
+                style={{ color: "#ffedb3" }}
+              >
+                {translations.reminderTime || "Reminder Time"}
+              </div>
+              <select
+                className="bg-transparent text-xs font-semibold outline-none"
+                style={{ color: "#ffedb3" }}
+                value={alarmSettings.reminderTime}
+                onChange={(e) =>
+                  setAlarmSettings((prev) => ({
+                    ...prev,
+                    reminderTime: Number(e.target.value),
+                  }))
+                }
+              >
+                {[15, 30, 60, 90, 120].map((value) => (
+                  <option key={value} value={value} className="text-black">
+                    {value} {translations.minutesBeforeStart || "minutes before start"}
+                  </option>
+                ))}
+              </select>
             </div>
           </div>
 
@@ -1158,9 +1142,11 @@ export default function DayDetails({
               className="rounded-full px-4 py-2 text-xs font-bold uppercase tracking-wide"
               style={{
                 background:
-                  "linear-gradient(135deg, #8BC34A 0%, #4CAF50 100%)",
-                color: "#0B2A10",
-                boxShadow: "0 0 12px rgba(76, 175, 80, 0.45)",
+                  "linear-gradient(135deg, #2a5a1f 0%, #3a6e2d 30%, #4a8238 60%, #5a9645 100%)",
+                border: "2.5px solid #d4a847",
+                color: "#ffedb3",
+                boxShadow:
+                  "0 0 18px rgba(212, 168, 71, 0.3), inset 0 1px 2px rgba(255, 255, 255, 0.1), inset 0 -1px 2px rgba(0, 0, 0, 0.2)",
               }}
             >
               {translations.saveSettings || "Save Settings"}
@@ -1170,9 +1156,12 @@ export default function DayDetails({
               onClick={resetAlarmSettings}
               className="rounded-full px-4 py-2 text-xs font-bold uppercase tracking-wide"
               style={{
-                background: "rgba(20, 60, 25, 0.4)",
-                color: "#DFF0D8",
-                border: "1.5px solid rgba(143, 196, 105, 0.5)",
+                background:
+                  "linear-gradient(135deg, #2a5a1f 0%, #3a6e2d 30%, #4a8238 60%, #5a9645 100%)",
+                border: "2.5px solid #d4a847",
+                color: "#ffedb3",
+                boxShadow:
+                  "0 0 18px rgba(212, 168, 71, 0.3), inset 0 1px 2px rgba(255, 255, 255, 0.1), inset 0 -1px 2px rgba(0, 0, 0, 0.2)",
               }}
             >
               {translations.resetDefaults || "Reset Defaults"}
@@ -1211,7 +1200,7 @@ function SectionCard({ title, icon, children, variant }) {
 
   if (isPanchang) {
     background =
-      "linear-gradient(135deg, #2a5a1f 0%, #3a6e2d 30%, #4a8238 60%, #5a9645 100%)";
+      "linear-gradient(180deg, #ff4d0d 0%, #ff5c1a 10%, #ff6b28 20%, #ff7935 30%, #ff8743 40%, #ff7935 50%, #ff6b28 60%, #ff5c1a 70%, #ff4d0d 80%, #d94100 90%, #c23800 100%)";
     border = "2.5px solid rgba(255, 168, 67, 0.8)";
     boxShadow =
       "0 0 18px rgba(212,168,71,0.4), inset 0 1px 2px rgba(255,255,255,0.15), inset 0 -1px 2px rgba(0,0,0,0.2)";
@@ -1223,13 +1212,13 @@ function SectionCard({ title, icon, children, variant }) {
       "0 0 22px rgba(255,140,50,0.5), inset 0 0 15px rgba(255,255,255,0.15)";
   } else if (isInauspicious) {
     background =
-      "linear-gradient(135deg, #8B0000 0%, #B22222 40%, #DC143C 100%)";
+      "linear-gradient(180deg, #ff4d0d 0%, #ff5c1a 10%, #ff6b28 20%, #ff7935 30%, #ff8743 40%, #ff7935 50%, #ff6b28 60%, #ff5c1a 70%, #ff4d0d 80%, #d94100 90%, #c23800 100%)";
     border = "2.5px solid rgba(255, 168, 67, 0.8)";
     boxShadow =
       "0 0 22px rgba(220,20,60,0.6), inset 0 0 15px rgba(0,0,0,0.3)";
   } else if (isAlarm) {
     background =
-      "linear-gradient(135deg, #2a5a1f 0%, #3a6e2d 30%, #4a8238 60%, #5a9645 100%)";
+      "linear-gradient(180deg, #ff4d0d 0%, #ff5c1a 10%, #ff6b28 20%, #ff7935 30%, #ff8743 40%, #ff7935 50%, #ff6b28 60%, #ff5c1a 70%, #ff4d0d 80%, #d94100 90%, #c23800 100%)";
     border = "2.5px solid rgba(255, 168, 67, 0.8)";
     boxShadow =
       "0 0 18px rgba(212,168,71,0.4), inset 0 1px 2px rgba(255,255,255,0.15), inset 0 -1px 2px rgba(0,0,0,0.2)";
@@ -1248,18 +1237,22 @@ function SectionCard({ title, icon, children, variant }) {
       <div
         className="inline-flex items-center gap-2 rounded-full px-3 py-1.5 mb-3"
         style={{
-          background:
-            "linear-gradient(135deg, rgba(180, 130, 50, 0.4) 0%, rgba(140, 100, 40, 0.5) 100%)",
-          border: "2px solid rgba(255, 168, 67, 0.8)",
-          boxShadow:
-            "0 0 15px rgba(255, 140, 50, 0.4), inset 0 0 10px rgba(255, 200, 100, 0.1)",
+          background: isAlarm
+            ? "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)"
+            : "linear-gradient(135deg, rgba(180, 130, 50, 0.4) 0%, rgba(140, 100, 40, 0.5) 100%)",
+          border: isAlarm
+            ? "2.5px solid rgba(255, 140, 50, 0.7)"
+            : "2px solid rgba(255, 168, 67, 0.8)",
+          boxShadow: isAlarm
+            ? "0 0 20px rgba(255, 140, 50, 0.6), 0 0 40px rgba(255, 100, 30, 0.4), inset 0 0 15px rgba(255, 200, 100, 0.2)"
+            : "0 0 15px rgba(255, 140, 50, 0.4), inset 0 0 10px rgba(255, 200, 100, 0.1)",
         }}
       >
         <span className="text-base">{icon}</span>
         <h3
           className="text-xs sm:text-sm font-bold uppercase tracking-wide"
           style={{
-            color: "#FFE4B5",
+            color: isAlarm ? "#D4AF37" : "#FFE4B5",
           }}
         >
           {title}
@@ -1271,13 +1264,21 @@ function SectionCard({ title, icon, children, variant }) {
 }
 
 
-function ToggleRow({ label, checked, onChange, hint }) {
+function ToggleRow({ label, checked, onChange, hint, variant }) {
+  const isPanchang = variant === "panchang";
+  const background = isPanchang
+    ? "linear-gradient(135deg, #2a5a1f 0%, #3a6e2d 30%, #4a8238 60%, #5a9645 100%)"
+    : "rgba(0, 0, 0, 0.25)";
+  const border = isPanchang
+    ? "2px solid #d4a847"
+    : "1.5px solid rgba(255, 237, 179, 0.35)";
+
   return (
     <div
       className="flex items-center justify-between rounded-xl px-3 py-2"
       style={{
-        background: "rgba(0, 0, 0, 0.25)",
-        border: "1.5px solid rgba(255, 237, 179, 0.35)",
+        background,
+        border,
       }}
     >
       <div className="pr-3">
@@ -1301,7 +1302,7 @@ function ToggleRow({ label, checked, onChange, hint }) {
 }
 
 
-function InfoRow({ label, value, isAuspicious, isToday = false }) {
+function InfoRow({ label, value, isAuspicious, isToday = false, variant }) {
   // Parse time range from value (e.g., "7:30 AM - 8:30 AM" or "10:30 to 12:30")
   const parseTimeRange = (val) => {
     if (!val || val === "-") return { startTime: null, endTime: null };
@@ -1320,12 +1321,20 @@ function InfoRow({ label, value, isAuspicious, isToday = false }) {
   
   const { startTime, endTime } = parseTimeRange(value);
   
+  const isPanchang = variant === "panchang";
+  const background = isPanchang
+    ? "linear-gradient(135deg, #2a5a1f 0%, #3a6e2d 30%, #4a8238 60%, #5a9645 100%)"
+    : "rgba(0, 0, 0, 0.25)";
+  const border = isPanchang
+    ? "2px solid #d4a847"
+    : "1.5px solid rgba(255, 237, 179, 0.4)";
+
   return (
     <div
       className="rounded-xl p-2.5 backdrop-blur-sm"
       style={{
-        background: "rgba(0, 0, 0, 0.25)",
-        border: "1.5px solid rgba(255, 237, 179, 0.4)",
+        background,
+        border,
       }}
     >
       <div
