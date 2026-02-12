@@ -318,19 +318,7 @@ function MuhurthaTimer({ startTime, endTime, isAuspicious, language, translation
   );
 }
 
-// Global styles for select dropdown
-const selectStyles = `
-  select option {
-    background-color: #FF8C32;
-    color: #FFFFFF;
-  }
-  select option:hover {
-    background-color: #FF6347 !important;
-  }
-  select option:checked {
-    background-color: #FF6347 !important;
-  }
-`;
+const REMINDER_TIME_OPTIONS = [15, 30, 60, 90, 120];
 
 export default function DayDetails({
   day,
@@ -1194,7 +1182,6 @@ export default function DayDetails({
           icon="⏰"
           variant="alarm"
         >
-          <style>{selectStyles}</style>
           <div className="pt-2 grid grid-cols-2 gap-4">
             <div className="rounded-2xl p-3 overflow-hidden flex flex-col h-full" style={{ border: "1px solid rgba(212, 168, 71, 0.35)" }}>
               <div
@@ -1290,23 +1277,18 @@ export default function DayDetails({
                   >
                     {translations.reminderTime || "Reminder Time"}
                   </div>
-                  <select
-                    className="min-w-0 max-w-[55%] truncate rounded-lg px-2 py-1 text-xs font-bold outline-none cursor-pointer chanting-alarm-select"
-                    value={alarmSettings.reminderTime}
-                    onChange={(e) =>
-                      setAlarmSettings((prev) => ({
-                        ...prev,
-                        reminderTime: Number(e.target.value),
-                      }))
-                    }
-                  >
-                    {[15, 30, 60, 90, 120].map((value) => (
-                      <option key={value} value={value}>
-                        {value} {translations.minutesBeforeStart || "minutes before start"}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+	                  <ReminderTimeDropdown
+	                    value={alarmSettings.reminderTime}
+	                    options={REMINDER_TIME_OPTIONS}
+	                    suffix={translations.minutesBeforeStart || "minutes before start"}
+	                    onChange={(nextValue) =>
+	                      setAlarmSettings((prev) => ({
+	                        ...prev,
+	                        reminderTime: nextValue,
+	                      }))
+	                    }
+	                  />
+	                </div>
                 <button
                   type="button"
                   onClick={saveAlarmSettings}
@@ -1505,6 +1487,97 @@ function ToggleRow({ label, checked, onChange, hint, variant, size = "md", fullW
   );
 }
 
+
+function ReminderTimeDropdown({ value, options, suffix, onChange }) {
+  const [open, setOpen] = useState(false);
+  const rootRef = useRef(null);
+
+  useEffect(() => {
+    if (!open) return;
+
+    const handlePointerDown = (event) => {
+      if (!rootRef.current) return;
+      if (!rootRef.current.contains(event.target)) setOpen(false);
+    };
+
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") setOpen(false);
+    };
+
+    document.addEventListener("pointerdown", handlePointerDown);
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("pointerdown", handlePointerDown);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [open]);
+
+  const selectedText = `${value} ${suffix}`;
+
+  return (
+    <div ref={rootRef} className="relative min-w-0 max-w-[55%]">
+      <button
+        type="button"
+        onClick={() => setOpen((prev) => !prev)}
+        className="w-full truncate rounded-lg px-2 py-1 text-left text-xs font-bold outline-none"
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        style={{
+          background:
+            "linear-gradient(180deg, rgba(255, 140, 50, 0.35) 0%, rgba(255, 107, 40, 0.35) 100%)",
+          border: "2px solid rgba(212, 168, 71, 0.85)",
+          color: "#ffedb3",
+          boxShadow:
+            "0 0 10px rgba(212, 168, 71, 0.18), inset 0 1px 2px rgba(255, 255, 255, 0.08), inset 0 -1px 2px rgba(0, 0, 0, 0.18)",
+        }}
+      >
+        {selectedText}
+      </button>
+
+      {open && (
+        <div
+          className="absolute right-0 z-50 mt-1 w-56 max-w-[85vw] overflow-hidden rounded-xl"
+          role="listbox"
+          style={{
+            background:
+              "linear-gradient(180deg, rgba(255, 140, 50, 0.98) 0%, rgba(255, 107, 40, 0.98) 55%, rgba(217, 65, 0, 0.98) 100%)",
+            border: "2px solid rgba(212, 168, 71, 0.9)",
+            boxShadow:
+              "0 12px 30px rgba(0, 0, 0, 0.35), 0 0 18px rgba(212, 168, 71, 0.18)",
+          }}
+        >
+          <div className="max-h-64 overflow-auto">
+            {options.map((optionValue) => {
+              const isSelected = optionValue === value;
+              return (
+                <button
+                  key={optionValue}
+                  type="button"
+                  role="option"
+                  aria-selected={isSelected}
+                  onClick={() => {
+                    onChange(optionValue);
+                    setOpen(false);
+                  }}
+                  className="w-full px-3 py-2 text-left text-xs font-bold"
+                  style={{
+                    background: isSelected
+                      ? "linear-gradient(135deg, rgba(42, 90, 31, 0.95) 0%, rgba(58, 110, 45, 0.95) 40%, rgba(90, 150, 69, 0.95) 100%)"
+                      : "transparent",
+                    color: "#ffffff",
+                    borderBottom: "1px solid rgba(255, 255, 255, 0.18)",
+                  }}
+                >
+                  {optionValue} {suffix}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
 
 function InfoRow({ label, value, isAuspicious, isToday = false, variant, language, translations }) {
   const { startTime, endTime } = extractTimeRange(value, language, translations);
