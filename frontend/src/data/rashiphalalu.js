@@ -1,16 +1,18 @@
+// Rashiphalalu data file
+
 export const RASHIS = [
-  { id: 'mesha', name: 'Mesha', icon: '♈' },
-  { id: 'vrishabha', name: 'Vrishabha', icon: '♉' },
-  { id: 'mithuna', name: 'Mithuna', icon: '♊' },
-  { id: 'karka', name: 'Karka', icon: '♋' },
-  { id: 'simha', name: 'Simha', icon: '♌' },
-  { id: 'kanya', name: 'Kanya', icon: '♍' },
-  { id: 'tula', name: 'Tula', icon: '♎' },
-  { id: 'vrishchika', name: 'Vrishchika', icon: '♏' },
-  { id: 'dhanu', name: 'Dhanu', icon: '♐' },
-  { id: 'makara', name: 'Makara', icon: '♑' },
-  { id: 'kumbha', name: 'Kumbha', icon: '♒' },
-  { id: 'meena', name: 'Meena', icon: '♓' }
+  { id: 'mesha', name: 'Mesha', icon: '🐏' },        // Ram for Aries
+  { id: 'vrishabha', name: 'Vrishabha', icon: '🐂' },  // Bull for Taurus
+  { id: 'mithuna', name: 'Mithuna', icon: '👯' },    // Twins for Gemini
+  { id: 'karka', name: 'Karka', icon: '🦀' },        // Crab for Cancer
+  { id: 'simha', name: 'Simha', icon: '🦁' },        // Lion for Leo
+  { id: 'kanya', name: 'Kanya', icon: '👧' },        // Maiden for Virgo
+  { id: 'tula', name: 'Tula', icon: '⚖️' },          // Scales for Libra
+  { id: 'vrishchika', name: 'Vrishchika', icon: '🦂' }, // Scorpion for Scorpio
+  { id: 'dhanu', name: 'Dhanu', icon: '🏹' },        // Bow and Arrow for Sagittarius
+  { id: 'makara', name: 'Makara', icon: '🐐' },      // Goat for Capricorn
+  { id: 'kumbha', name: 'Kumbha', icon: '🏺' },      // Water Bearer/Pot for Aquarius
+  { id: 'meena', name: 'Meena', icon: '🐟' }         // Fish for Pisces
 ];
 
 export const RASHI_NAMES = {
@@ -42,7 +44,7 @@ export const RASHI_NAMES = {
     en: 'Cancer',
     te: 'కర్కాటకం',
     hi: 'कर्क',
-    ml: 'കര്‍ക്കടകം',
+    ml: 'കര്ക്കടകം',
     kn: 'ಕರ್ಕಾಟಕ',
     ta: 'கடகம்'
   },
@@ -685,17 +687,17 @@ Object.keys(RASHI_NAMES).forEach(rashiId => {
       statements: DAILY_STATEMENTS[rashiId],
       colors: {
         en: rashiId === 'mesha' ? ['Red', 'Orange'] :
-            rashiId === 'vrishabha' ? ['Green', 'Blue'] :
-            rashiId === 'mithuna' ? ['Yellow', 'Orange'] :
-            rashiId === 'karka' ? ['White', 'Silver'] :
-            rashiId === 'simha' ? ['Gold', 'Yellow'] :
-            rashiId === 'kanya' ? ['Green', 'Brown'] :
-            rashiId === 'tula' ? ['Pink', 'Blue'] :
-            rashiId === 'vrishchika' ? ['Red', 'Black'] :
-            rashiId === 'dhanu' ? ['Yellow', 'Blue', 'Green'] :
-            rashiId === 'makara' ? ['Brown', 'Gray'] :
-            rashiId === 'kumbha' ? ['Blue', 'White'] :
-            ['Purple', 'Blue']
+          rashiId === 'vrishabha' ? ['Green', 'Blue'] :
+          rashiId === 'mithuna' ? ['Yellow', 'Orange'] :
+          rashiId === 'karka' ? ['White', 'Silver'] :
+          rashiId === 'simha' ? ['Gold', 'Yellow'] :
+          rashiId === 'kanya' ? ['Green', 'Brown'] :
+          rashiId === 'tula' ? ['Pink', 'Blue'] :
+          rashiId === 'vrishchika' ? ['Red', 'Black'] :
+          rashiId === 'dhanu' ? ['Yellow', 'Blue', 'Green'] :
+          rashiId === 'makara' ? ['Brown', 'Gray'] :
+          rashiId === 'kumbha' ? ['Blue', 'White'] :
+          ['Purple', 'Blue']
       },
       stats: { health: 80 + Math.floor(Math.random() * 10), wealth: 75 + Math.floor(Math.random() * 15), family: 78 + Math.floor(Math.random() * 12), love: 75 + Math.floor(Math.random() * 15), career: 85 + Math.floor(Math.random() * 10) }
     },
@@ -703,17 +705,17 @@ Object.keys(RASHI_NAMES).forEach(rashiId => {
       statements: WEEKLY_STATEMENTS[rashiId],
       colors: {
         en: rashiId === 'mesha' ? ['Red', 'Yellow'] :
-            rashiId === 'vrishabha' ? ['Green', 'Gold'] :
-            rashiId === 'mithuna' ? ['Yellow', 'Blue'] :
-            rashiId === 'karka' ? ['Silver', 'Blue'] :
-            rashiId === 'simha' ? ['Gold', 'Orange'] :
-            rashiId === 'kanya' ? ['Brown', 'Green'] :
-            rashiId === 'tula' ? ['Pink', 'Gold'] :
-            rashiId === 'vrishchika' ? ['Black', 'Red'] :
-            rashiId === 'dhanu' ? ['Blue', 'Indigo'] :
-            rashiId === 'makara' ? ['Gray', 'Gold'] :
-            rashiId === 'kumbha' ? ['Blue', 'Silver'] :
-            ['Purple', 'Silver']
+          rashiId === 'vrishabha' ? ['Green', 'Gold'] :
+          rashiId === 'mithuna' ? ['Yellow', 'Blue'] :
+          rashiId === 'karka' ? ['Silver', 'Blue'] :
+          rashiId === 'simha' ? ['Gold', 'Orange'] :
+          rashiId === 'kanya' ? ['Brown', 'Green'] :
+          rashiId === 'tula' ? ['Pink', 'Gold'] :
+          rashiId === 'vrishchika' ? ['Black', 'Red'] :
+          rashiId === 'dhanu' ? ['Blue', 'Indigo'] :
+          rashiId === 'makara' ? ['Gray', 'Gold'] :
+          rashiId === 'kumbha' ? ['Blue', 'Silver'] :
+          ['Purple', 'Silver']
       },
       stats: { health: 82 + Math.floor(Math.random() * 8), wealth: 80 + Math.floor(Math.random() * 12), family: 80 + Math.floor(Math.random() * 12), love: 78 + Math.floor(Math.random() * 14), career: 88 + Math.floor(Math.random() * 8) }
     },
@@ -721,17 +723,17 @@ Object.keys(RASHI_NAMES).forEach(rashiId => {
       statements: MONTHLY_STATEMENTS[rashiId],
       colors: {
         en: rashiId === 'mesha' ? ['Orange', 'Gold'] :
-            rashiId === 'vrishabha' ? ['Green', 'Gold'] :
-            rashiId === 'mithuna' ? ['Yellow', 'Orange'] :
-            rashiId === 'karka' ? ['White', 'Blue'] :
-            rashiId === 'simha' ? ['Gold', 'Red'] :
-            rashiId === 'kanya' ? ['Green', 'Gold'] :
-            rashiId === 'tula' ? ['Pink', 'Gold'] :
-            rashiId === 'vrishchika' ? ['Red', 'Gold'] :
-            rashiId === 'dhanu' ? ['Purple', 'Gold'] :
-            rashiId === 'makara' ? ['Brown', 'Gold'] :
-            rashiId === 'kumbha' ? ['Blue', 'Gold'] :
-            ['Purple', 'Gold']
+          rashiId === 'vrishabha' ? ['Green', 'Gold'] :
+          rashiId === 'mithuna' ? ['Yellow', 'Orange'] :
+          rashiId === 'karka' ? ['White', 'Blue'] :
+          rashiId === 'simha' ? ['Gold', 'Red'] :
+          rashiId === 'kanya' ? ['Green', 'Gold'] :
+          rashiId === 'tula' ? ['Pink', 'Gold'] :
+          rashiId === 'vrishchika' ? ['Red', 'Gold'] :
+          rashiId === 'dhanu' ? ['Purple', 'Gold'] :
+          rashiId === 'makara' ? ['Brown', 'Gold'] :
+          rashiId === 'kumbha' ? ['Blue', 'Gold'] :
+          ['Purple', 'Gold']
       },
       stats: { health: 84 + Math.floor(Math.random() * 8), wealth: 85 + Math.floor(Math.random() * 10), family: 82 + Math.floor(Math.random() * 10), love: 84 + Math.floor(Math.random() * 10), career: 90 + Math.floor(Math.random() * 6) }
     },
@@ -758,7 +760,6 @@ export const getRashiText = (rashiId, period, date, language = 'en') => {
   }
 
   let index = 0;
-  
   if (period === 'daily') {
     // Rotate daily based on day of year
     const startOfYear = new Date(date.getFullYear(), 0, 1);
