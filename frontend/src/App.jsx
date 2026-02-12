@@ -845,7 +845,7 @@ function App() {
           </div>
           
           {/* DayDetails Header Row with Outer Container */}
-          <div className="mt-1 px-4 sm:px-6 lg:px-8">
+          <div className="mt-px px-4 sm:px-6 lg:px-8">
             <div
               className="rounded-xl sm:rounded-2xl p-3 backdrop-blur-md"
               style={{
