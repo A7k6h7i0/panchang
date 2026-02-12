@@ -123,74 +123,150 @@ export const getCurrentRashi = (date) => {
 
 // Daily horoscope statements for each rashi (15 statements that rotate)
 const DAILY_STATEMENTS = {
-  mesha: [
-    "Today brings fresh energy and enthusiasm to Aries natives. Your proactive approach will lead to success.",
-    "Your leadership qualities shine bright today. Take initiative in important matters.",
-    "Financial gains are indicated. Small investments may yield good returns.",
-    "Family relationships strengthen. Mutual understanding grows.",
-    "Friends offer valuable support. Their advice will benefit you.",
-    "New opportunities emerge at work. Time to showcase your talents.",
-    "Business expansion is favorable. Implement new ideas confidently.",
-    "Health remains excellent. Physical vitality continues strong.",
-    "Travels prove fruitful. Journeys bring beneficial outcomes.",
-    "Students achieve good results. Focus in studies increases.",
-    "Avoid conflicts. Peaceful behavior reduces problems.",
-    "Self-confidence grows. Trust in your decisions strengthens.",
-    "Old bonds become stronger. Reunion with old friends happens.",
-    "Savings increase. Plans for the future take shape.",
-    "Good news arrives. Day ends on a positive note."
-  ],
-  vrishabha: [
-    "Today Taurus natives experience stability and peace. Your patience pays off well.",
-    "Work progresses smoothly. Steady efforts show results.",
-    "Financial stability improves. Income sources expand gradually.",
-    "Family harmony prevails. Loving atmosphere at home.",
-    "Social connections strengthen. New friendships form.",
-    "Career advancement is possible. Recognition for your work comes.",
-    "Business deals finalize successfully. Profitable ventures ahead.",
-    "Health stays robust. Energy levels remain high.",
-    "Short trips are beneficial. Local travels bring gains.",
-    "Academic achievements are likely. Learning becomes enjoyable.",
-    "Disputes get resolved. Calm approach works best.",
-    "Inner strength increases. Determination becomes unwavering.",
-    "Relationships deepen. Emotional bonds grow stronger.",
-    "Financial planning improves. Security for future assured.",
-    "Pleasant surprises await. Day brings contentment."
-  ],
-  mithuna: [
-    "Today Gemini natives feel mentally sharp and communicative. Ideas flow freely.",
-    "Creative projects flourish. Your versatility impresses others.",
-    "Money matters look promising. Multiple income opportunities arise.",
-    "Home life becomes harmonious. Understanding family members support you.",
-    "Networking brings advantages. Professional contacts prove helpful.",
-    "Job opportunities knock. Your skills get recognized widely.",
-    "Business communications succeed. Negotiations favor you strongly.",
-    "Physical wellness maintained. Mental alertness peaks today.",
-    "Travel plans work out. Connections during journeys benefit you.",
-    "Students excel in exams. Concentration power enhances significantly.",
-    "Avoid arguments gracefully. Diplomacy solves all issues.",
-    "Confidence level rises. Belief in abilities strengthens.",
-    "Friendships revive beautifully. Past connections resurface.",
-    "Saving habits develop. Future security gets prioritized.",
-    "Positive developments occur. Day concludes successfully."
-  ],
-  karka: [
-    "Today Cancer natives feel emotionally balanced and nurturing. Intuition guides you well.",
-    "Home-based activities prosper. Domestic happiness increases.",
-    "Financial security strengthens. Wise investments pay dividends.",
-    "Family bonds tighten. Caring gestures appreciated deeply.",
-    "Close friends provide comfort. Their presence brings joy.",
-    "Career stability assured. Long-term projects move forward.",
-    "Business partnerships thrive. Collaborative efforts succeed.",
-    "Health improves steadily. Emotional well-being enhances physical health.",
-    "Visits to relatives planned. Family trips bring closeness.",
-    "Academic focus sharpens. Memory retention becomes better.",
-    "Conflicts diminish naturally. Compassionate attitude helps.",
-    "Self-assurance builds. Trust in instincts grows.",
-    "Old relationships mend. Forgiveness brings peace.",
-    "Financial cushion grows. Emergency funds accumulate.",
-    "Comforting news arrives. Day ends warmly."
-  ],
+  mesha: {
+    en: [
+      "Today brings fresh energy and enthusiasm to Aries natives. Your proactive approach will lead to success.",
+      "Your leadership qualities shine bright today. Take initiative in important matters.",
+      "Financial gains are indicated. Small investments may yield good returns.",
+      "Family relationships strengthen. Mutual understanding grows.",
+      "Friends offer valuable support. Their advice will benefit you.",
+      "New opportunities emerge at work. Time to showcase your talents.",
+      "Business expansion is favorable. Implement new ideas confidently.",
+      "Health remains excellent. Physical vitality continues strong.",
+      "Travels prove fruitful. Journeys bring beneficial outcomes.",
+      "Students achieve good results. Focus in studies increases.",
+      "Avoid conflicts. Peaceful behavior reduces problems.",
+      "Self-confidence grows. Trust in your decisions strengthens.",
+      "Old bonds become stronger. Reunion with old friends happens.",
+      "Savings increase. Plans for the future take shape.",
+      "Good news arrives. Day ends on a positive note."
+    ],
+    te: [
+      "ఈ రోజు మేష రాశివారికి కొత్త ఉత్సాహం మరియు శక్తి వస్తాయి. మీ ముందడుగు ధోరణి విజయానికి దారి తీస్తుంది.",
+      "ఈ రోజు మీ నాయకత్వ లక్షణాలు ప్రకాశిస్తాయి. ముఖ్యమైన విషయాల్లో ముందడుగు వేయండి.",
+      "ఆర్థిక లాభ సూచనలు ఉన్నాయి. చిన్న పెట్టుబడులు మంచి ఫలితం ఇవ్వొచ్చు.",
+      "కుటుంబ సంబంధాలు బలపడతాయి. పరస్పర అవగాహన పెరుగుతుంది.",
+      "మిత్రులు విలువైన మద్దతు ఇస్తారు. వారి సలహా మీకు లాభం చేస్తుంది.",
+      "పనిలో కొత్త అవకాశాలు వస్తాయి. మీ ప్రతిభ చూపించే సమయం ఇది.",
+      "వ్యాపార విస్తరణకు అనుకూలం. కొత్త ఆలోచనలను ధైర్యంగా అమలు చేయండి.",
+      "ఆరోగ్యం చక్కగా ఉంటుంది. శారీరక శక్తి స్థిరంగా ఉంటుంది.",
+      "ప్రయాణాలు ఫలప్రదం అవుతాయి. ప్రయాణాల వల్ల మంచి ఫలితాలు వస్తాయి.",
+      "విద్యార్థులకు మంచి ఫలితాలు వస్తాయి. చదువుపై ఏకాగ్రత పెరుగుతుంది.",
+      "వివాదాలను నివారించండి. శాంతపూర్వక ప్రవర్తన సమస్యలను తగ్గిస్తుంది.",
+      "ఆత్మవిశ్వాసం పెరుగుతుంది. మీ నిర్ణయాలపై నమ్మకం బలపడుతుంది.",
+      "పాత సంబంధాలు బలపడతాయి. పాత మిత్రులతో మళ్లీ కలుసుకునే అవకాశం ఉంటుంది.",
+      "పొదుపు పెరుగుతుంది. భవిష్యత్తు ప్రణాళికలు రూపుదిద్దుకుంటాయి.",
+      "సుభవార్త వస్తుంది. రోజు సానుకూలంగా ముగుస్తుంది."
+    ]
+  },
+  vrishabha: {
+    en: [
+      "Today Taurus natives experience stability and peace. Your patience pays off well.",
+      "Work progresses smoothly. Steady efforts show results.",
+      "Financial stability improves. Income sources expand gradually.",
+      "Family harmony prevails. Loving atmosphere at home.",
+      "Social connections strengthen. New friendships form.",
+      "Career advancement is possible. Recognition for your work comes.",
+      "Business deals finalize successfully. Profitable ventures ahead.",
+      "Health stays robust. Energy levels remain high.",
+      "Short trips are beneficial. Local travels bring gains.",
+      "Academic achievements are likely. Learning becomes enjoyable.",
+      "Disputes get resolved. Calm approach works best.",
+      "Inner strength increases. Determination becomes unwavering.",
+      "Relationships deepen. Emotional bonds grow stronger.",
+      "Financial planning improves. Security for future assured.",
+      "Pleasant surprises await. Day brings contentment."
+    ],
+    te: [
+      "ఈ రోజు వృషభ రాశివారికి స్థిరత్వం, ప్రశాంతత అనుభవంలోకి వస్తాయి. మీ సహనం మంచి ఫలితం ఇస్తుంది.",
+      "పని సాఫీగా ముందుకు సాగుతుంది. స్థిరమైన ప్రయత్నాలు ఫలితాలను ఇస్తాయి.",
+      "ఆర్థిక స్థిరత్వం మెరుగుపడుతుంది. ఆదాయ మార్గాలు క్రమంగా పెరుగుతాయి.",
+      "కుటుంబంలో సౌహార్దం ఉంటుంది. ఇంట్లో ఆప్యాయ వాతావరణం ఉంటుంది.",
+      "సామాజిక సంబంధాలు బలపడతాయి. కొత్త స్నేహాలు ఏర్పడుతాయి.",
+      "వృత్తిలో పురోగతి సాధ్యమవుతుంది. మీ పనికి గుర్తింపు వస్తుంది.",
+      "వ్యాపార ఒప్పందాలు విజయవంతంగా పూర్తవుతాయి. లాభదాయక అవకాశాలు ముందుంటాయి.",
+      "ఆరోగ్యం బలంగా ఉంటుంది. శక్తి స్థాయి ఎక్కువగా ఉంటుంది.",
+      "చిన్న ప్రయాణాలు లాభదాయకం. స్థానిక ప్రయాణాలు ప్రయోజనం ఇస్తాయి.",
+      "విద్యలో విజయాలు సాధ్యమవుతాయి. నేర్చుకోవడం ఆనందకరంగా ఉంటుంది.",
+      "వివాదాలు పరిష్కారమవుతాయి. ప్రశాంతమైన దృక్పథం ఉత్తమం.",
+      "అంతర్గత బలం పెరుగుతుంది. సంకల్పం దృఢమవుతుంది.",
+      "సంబంధాలు గాఢమవుతాయి. భావోద్వేగ బంధాలు బలపడతాయి.",
+      "ఆర్థిక ప్రణాళిక మెరుగవుతుంది. భవిష్య భద్రత బలపడుతుంది.",
+      "సంతోషకర ఆశ్చర్యాలు ఎదురవుతాయి. రోజు సంతృప్తిని ఇస్తుంది."
+    ]
+  },
+  mithuna: {
+    en: [
+      "Today Gemini natives feel mentally sharp and communicative. Ideas flow freely.",
+      "Creative projects flourish. Your versatility impresses others.",
+      "Money matters look promising. Multiple income opportunities arise.",
+      "Home life becomes harmonious. Understanding family members support you.",
+      "Networking brings advantages. Professional contacts prove helpful.",
+      "Job opportunities knock. Your skills get recognized widely.",
+      "Business communications succeed. Negotiations favor you strongly.",
+      "Physical wellness maintained. Mental alertness peaks today.",
+      "Travel plans work out. Connections during journeys benefit you.",
+      "Students excel in exams. Concentration power enhances significantly.",
+      "Avoid arguments gracefully. Diplomacy solves all issues.",
+      "Confidence level rises. Belief in abilities strengthens.",
+      "Friendships revive beautifully. Past connections resurface.",
+      "Saving habits develop. Future security gets prioritized.",
+      "Positive developments occur. Day concludes successfully."
+    ],
+    te: [
+      "ఈ రోజు మిథున రాశివారికి మానసిక చురుకుదనం, సంభాషణ సామర్థ్యం పెరుగుతుంది. ఆలోచనలు సులభంగా ప్రవహిస్తాయి.",
+      "సృజనాత్మక పనులు వికసిస్తాయి. మీ బహుముఖ ప్రతిభ ఇతరులను ఆకట్టుకుంటుంది.",
+      "ధన విషయాలు అనుకూలంగా ఉంటాయి. అనేక ఆదాయ అవకాశాలు వస్తాయి.",
+      "ఇంటి జీవితం సౌహార్దంగా ఉంటుంది. కుటుంబ సభ్యుల సహకారం లభిస్తుంది.",
+      "నెట్‌వర్కింగ్ లాభాన్ని ఇస్తుంది. వృత్తి సంబంధిత పరిచయాలు ఉపయోగపడతాయి.",
+      "ఉద్యోగ అవకాశాలు వస్తాయి. మీ నైపుణ్యాలకు విస్తృత గుర్తింపు లభిస్తుంది.",
+      "వ్యాపార కమ్యూనికేషన్ విజయవంతమవుతుంది. చర్చలు మీకు అనుకూలంగా ఉంటాయి.",
+      "శారీరక ఆరోగ్యం నిలకడగా ఉంటుంది. మానసిక చురుకుదనం గరిష్టంగా ఉంటుంది.",
+      "ప్రయాణ ప్రణాళికలు సఫలమవుతాయి. ప్రయాణాల్లో ఏర్పడే పరిచయాలు మేలు చేస్తాయి.",
+      "విద్యార్థులు పరీక్షల్లో మెరుగ్గా నిలుస్తారు. ఏకాగ్రత శక్తి గణనీయంగా పెరుగుతుంది.",
+      "వాదనలను సొగసుగా నివారించండి. రాజనీతీగా వ్యవహరించడం సమస్యలను పరిష్కరిస్తుంది.",
+      "ఆత్మవిశ్వాసం పెరుగుతుంది. మీ సామర్థ్యాలపై నమ్మకం బలపడుతుంది.",
+      "స్నేహాలు చక్కగా పునరుజ్జీవిస్తాయి. పాత పరిచయాలు మళ్లీ కలుగుతాయి.",
+      "పొదుపు అలవాట్లు పెరుగుతాయి. భవిష్య భద్రతకు ప్రాధాన్యం ఇస్తారు.",
+      "సానుకూల పరిణామాలు జరుగుతాయి. రోజు విజయవంతంగా ముగుస్తుంది."
+    ]
+  },
+  karka: {
+    en: [
+      "Today Cancer natives feel emotionally balanced and nurturing. Intuition guides you well.",
+      "Home-based activities prosper. Domestic happiness increases.",
+      "Financial security strengthens. Wise investments pay dividends.",
+      "Family bonds tighten. Caring gestures appreciated deeply.",
+      "Close friends provide comfort. Their presence brings joy.",
+      "Career stability assured. Long-term projects move forward.",
+      "Business partnerships thrive. Collaborative efforts succeed.",
+      "Health improves steadily. Emotional well-being enhances physical health.",
+      "Visits to relatives planned. Family trips bring closeness.",
+      "Academic focus sharpens. Memory retention becomes better.",
+      "Conflicts diminish naturally. Compassionate attitude helps.",
+      "Self-assurance builds. Trust in instincts grows.",
+      "Old relationships mend. Forgiveness brings peace.",
+      "Financial cushion grows. Emergency funds accumulate.",
+      "Comforting news arrives. Day ends warmly."
+    ],
+    te: [
+      "ఈ రోజు కర్కాటక రాశివారు భావోద్వేగంగా సమతుల్యంగా ఉంటారు, పరిరక్షణ భావం పెరుగుతుంది. అంతఃప్రజ్ఞ మీకు మార్గనిర్దేశం చేస్తుంది.",
+      "ఇంటి సంబంధిత పనులు బాగా సాగుతాయి. గృహసుఖం పెరుగుతుంది.",
+      "ఆర్థిక భద్రత బలపడుతుంది. వివేకమైన పెట్టుబడులు లాభాలు ఇస్తాయి.",
+      "కుటుంబ బంధాలు గట్టిపడతాయి. మీ శ్రద్ధను కుటుంబం మన్నిస్తుంది.",
+      "అతి సన్నిహిత మిత్రులు సాంత్వన ఇస్తారు. వారి సాన్నిధ్యం ఆనందాన్ని ఇస్తుంది.",
+      "వృత్తి స్థిరత్వం ఉంటుంది. దీర్ఘకాల ప్రాజెక్టులు ముందుకు సాగుతాయి.",
+      "వ్యాపార భాగస్వామ్యాలు వికసిస్తాయి. సహకార ప్రయత్నాలు విజయవంతమవుతాయి.",
+      "ఆరోగ్యం క్రమంగా మెరుగుపడుతుంది. భావోద్వేగ శ్రేయస్సు శారీరక ఆరోగ్యాన్ని మెరుగుపరుస్తుంది.",
+      "బంధువులను కలిసే యోచనలు ఉంటాయి. కుటుంబ ప్రయాణాలు సాన్నిహిత్యాన్ని పెంచుతాయి.",
+      "చదువుపై దృష్టి పెరుగుతుంది. జ్ఞాపకశక్తి మెరుగవుతుంది.",
+      "వివాదాలు సహజంగా తగ్గుతాయి. అనుకంపతో వ్యవహరించడం సహాయపడుతుంది.",
+      "ఆత్మవిశ్వాసం పెరుగుతుంది. అంతఃప్రజ్ఞపై నమ్మకం బలపడుతుంది.",
+      "పాత సంబంధాలు సరిదిద్దబడతాయి. క్షమాభావం శాంతిని ఇస్తుంది.",
+      "ఆర్థిక నిల్వ పెరుగుతుంది. అత్యవసర నిధులు కూడగడతారు.",
+      "ఆత్మస్థైర్యాన్నిచ్చే వార్తలు వస్తాయి. రోజు ఆత్మీయంగా ముగుస్తుంది."
+    ]
+  },
   simha: [
     "Today Leo natives radiate confidence and charisma. Natural leadership emerges strongly.",
     "Creative expressions succeed. Your talents receive applause.",
@@ -755,7 +831,10 @@ export const getRashiText = (rashiId, period, date, language = 'en') => {
 
   // For daily, weekly, monthly - rotate through statements
   const statements = periodData.statements;
-  if (!statements || statements.length === 0) {
+  const localizedStatements = Array.isArray(statements)
+    ? statements
+    : (statements?.[language] || statements?.en || Object.values(statements || {})[0]);
+  if (!localizedStatements || localizedStatements.length === 0) {
     return periodData.text || 'No text available';
   }
 
@@ -764,17 +843,17 @@ export const getRashiText = (rashiId, period, date, language = 'en') => {
     // Rotate daily based on day of year
     const startOfYear = new Date(date.getFullYear(), 0, 1);
     const dayOfYear = Math.floor((date - startOfYear) / (1000 * 60 * 60 * 24));
-    index = dayOfYear % statements.length;
+    index = dayOfYear % localizedStatements.length;
   } else if (period === 'weekly') {
     // Rotate weekly based on week of year
     const startOfYear = new Date(date.getFullYear(), 0, 1);
     const dayOfYear = Math.floor((date - startOfYear) / (1000 * 60 * 60 * 24));
     const weekOfYear = Math.floor(dayOfYear / 7);
-    index = weekOfYear % statements.length;
+    index = weekOfYear % localizedStatements.length;
   } else if (period === 'monthly') {
     // Rotate monthly based on month
-    index = date.getMonth() % statements.length;
+    index = date.getMonth() % localizedStatements.length;
   }
 
-  return statements[index];
+  return localizedStatements[index];
 };
