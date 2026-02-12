@@ -267,6 +267,19 @@ function MuhurthaTimer({ startTime, endTime, isAuspicious, language, translation
   );
 }
 
+// Global styles for select dropdown
+const selectStyles = `
+  select option {
+    background-color: #FF8C32;
+    color: #FFFFFF;
+  }
+  select option:hover {
+    background-color: #FF6347 !important;
+  }
+  select option:checked {
+    background-color: #FF6347 !important;
+  }
+`;
 
 export default function DayDetails({
   day,
@@ -1131,15 +1144,16 @@ export default function DayDetails({
           icon="⏰"
           variant="alarm"
         >
+          <style>{selectStyles}</style>
           <div className="pt-2 grid grid-cols-2 gap-4">
-            <div className="rounded-2xl p-3 overflow-hidden" style={{ border: "1px solid rgba(212, 168, 71, 0.35)" }}>
+            <div className="rounded-2xl p-3 overflow-hidden flex flex-col h-full" style={{ border: "1px solid rgba(212, 168, 71, 0.35)" }}>
               <div
                 className="text-xs uppercase tracking-wide font-semibold"
                 style={{ color: "#FFE4B5" }}
               >
-                {translations.weekdays || "Weekdays"}
+                {translations.weekdaysLabel || translations.weekdays || "Weekdays"}
               </div>
-              <div className="mt-6 grid grid-rows-7 gap-2">
+              <div className="mt-6 grid grid-rows-7 gap-2 flex-1">
                 {[
                   "Sunday",
                   "Monday",
@@ -1163,7 +1177,7 @@ export default function DayDetails({
                             : [...prev.disabledDays, dayValue],
                         }))
                       }
-                      className="w-full rounded-lg px-2 py-1 text-[10px] font-semibold transition"
+                      className="w-full rounded-lg px-2 py-2 text-xs font-semibold transition"
                       style={{
                         background: active
                           ? "linear-gradient(135deg, #2a5a1f 0%, #3a6e2d 30%, #4a8238 60%, #5a9645 100%)"
@@ -1184,14 +1198,14 @@ export default function DayDetails({
               </div>
             </div>
 
-            <div className="rounded-2xl p-3" style={{ border: "1px solid rgba(212, 168, 71, 0.35)" }}>
+            <div className="rounded-2xl p-3 flex flex-col h-full" style={{ border: "1px solid rgba(212, 168, 71, 0.35)" }}>
               <div
                 className="text-xs uppercase tracking-wide font-semibold"
                 style={{ color: "#FFE4B5" }}
               >
                 {translations.notificationPreferences || "Notification Preferences"}
               </div>
-              <div className="mt-2 grid grid-rows-7 gap-2">
+              <div className="mt-2 grid grid-rows-7 gap-2 flex-1">
                 <ToggleRow
                   label={translations.audioAlerts || "Audio Alerts"}
                   checked={alarmSettings.audioEnabled}
@@ -1227,8 +1241,16 @@ export default function DayDetails({
                     {translations.reminderTime || "Reminder Time"}
                   </div>
                   <select
-                    className="min-w-0 max-w-[55%] truncate bg-transparent text-[10px] font-semibold outline-none"
-                    style={{ color: "#ffedb3" }}
+                    className="min-w-0 max-w-[55%] truncate rounded-lg px-2 py-1 text-xs font-bold outline-none cursor-pointer"
+                    style={{
+                      color: "#FFE4B5",
+                      background: "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
+                      border: "2px solid rgba(255, 140, 50, 0.7)",
+                      boxShadow: `
+                        0 0 10px rgba(255, 140, 50, 0.4),
+                        inset 0 0 5px rgba(255, 200, 100, 0.2)
+                      `,
+                    }}
                     value={alarmSettings.reminderTime}
                     onChange={(e) =>
                       setAlarmSettings((prev) => ({
@@ -1238,7 +1260,7 @@ export default function DayDetails({
                     }
                   >
                     {[15, 30, 60, 90, 120].map((value) => (
-                      <option key={value} value={value} className="text-black">
+                      <option key={value} value={value} style={{ background: "#FF8C32", color: "#FFFFFF" }}>
                         {value} {translations.minutesBeforeStart || "minutes before start"}
                       </option>
                     ))}
