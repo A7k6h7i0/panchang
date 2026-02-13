@@ -273,21 +273,23 @@ function App() {
 
   // Navigate to Rashiphalalu view with history support
   const navigateToRashiphalalu = useCallback(() => {
+    if (currentView === "rashiphalalu") return;
     if (typeof window !== "undefined") {
       sessionStorage.setItem(VIEW_STATE_KEY, "rashiphalalu");
       window.history.pushState({ view: "rashiphalalu" }, "", window.location.href);
     }
     setCurrentView("rashiphalalu");
-  }, []);
+  }, [currentView]);
 
   // Navigate back to calendar view with history support
   const navigateToCalendar = useCallback(() => {
+    if (currentView === "calendar") return;
     if (typeof window !== "undefined") {
       sessionStorage.setItem(VIEW_STATE_KEY, "calendar");
       window.history.pushState({ view: "calendar" }, "", window.location.href);
     }
     setCurrentView("calendar");
-  }, []);
+  }, [currentView]);
 
   const clampChatPosition = (x, y) => {
     if (typeof window === "undefined") return { x, y };
@@ -717,9 +719,15 @@ function App() {
           <div className="flex flex-wrap items-center justify-between gap-3 mb-0.5 pb-0.5" style={{ borderBottom: "2px solid rgba(255, 140, 50, 0.4)" }}>
             {/* Left: Swastik + Panchang Calendar Title */}
             <div className="flex items-center gap-3 flex-1 min-w-0">
-              {/* SWASTIK ICON BOX */}
-              <div
-                className="h-10 w-10 sm:h-12 sm:w-12 flex items-center justify-center flex-shrink-0 relative"
+              {/* SWASTIK ICON BOX (acts as back-to-calendar in Rashiphalalu view) */}
+              <button
+                type="button"
+                onClick={navigateToCalendar}
+                aria-label="Back to calendar"
+                title={currentView === "rashiphalalu" ? "Back to calendar" : "Calendar"}
+                className={`h-10 w-10 sm:h-12 sm:w-12 flex items-center justify-center flex-shrink-0 relative ${
+                  currentView === "rashiphalalu" ? "cursor-pointer" : "cursor-default"
+                }`}
                 style={{
                   background: "linear-gradient(135deg, #1a0a05 0%, #2d1208 50%, #401a0c 100%)",
                   border: "3px solid #ff8c32",
@@ -731,6 +739,7 @@ function App() {
                     inset 0 2px 6px rgba(255, 200, 100, 0.4),
                     inset 0 -2px 6px rgba(0, 0, 0, 0.6)
                   `,
+                  padding: 0,
                 }}
               >
                 {/* Inner border layer */}
@@ -755,7 +764,7 @@ function App() {
                 >
                   卐
                 </span>
-              </div>
+              </button>
 
               {/* PANCHANG CALENDAR TITLE */}
               <h1

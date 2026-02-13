@@ -126,9 +126,7 @@ function Rashiphalalu({ language, translations: t, onBack, selectedRashi, setSel
     }
 
     // Get translated text
-    const text = selectedPeriod === 'yearly' 
-      ? (periodData.translations?.[language] || periodData.translations?.en || periodData.text)
-      : getRashiText(selectedRashi.id, selectedPeriod, today, language);
+    const text = getRashiText(selectedRashi.id, selectedPeriod, today, language);
     
     // Get translated colors
     const colors = periodData.colors?.translations?.[language] || periodData.colors?.en || periodData.colors || [];
