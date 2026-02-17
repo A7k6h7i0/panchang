@@ -1,0 +1,172 @@
+import axios from "axios";
+import { getProkeralaAccessToken, getProkeralaCredentialCount } from "./prokeralaAuth.js";
+import { HttpError } from "../utils/httpError.js";
+
+const DEFAULT_BASE_URL = "https://api.prokerala.com/v2";
+const DEFAULT_CACHE_TTL_MS = 60_000;
+
+const client = axios.create({
+  baseURL: process.env.PROKERALA_BASE_URL || DEFAULT_BASE_URL,
+  timeout: Number(process.env.PROKERALA_TIMEOUT_MS) || 15_000,
+});
+
+const cacheTtlMs = Math.max(0, Number(process.env.PROKERALA_CACHE_TTL_MS) || DEFAULT_CACHE_TTL_MS);
+const responseCache = new Map(); // key -> { expiresAt:number, value:any }
+const inflight = new Map(); // key -> Promise<any>
+
+function stableStringify(value) {
+  if (value == null) return "";
+  if (typeof value !== "object") return String(value);
+  if (Array.isArray(value)) return `[${value.map(stableStringify).join(",")}]`;
+  const keys = Object.keys(value).sort();
+  return `{${keys.map((k) => `${k}:${stableStringify(value[k])}`).join(",")}}`;
+}
+
+function makeCacheKey({ method, url, params }) {
+  const m = String(method || "GET").toUpperCase();
+  const u = String(url || "");
+  const p = params ? stableStringify(params) : "";
+  return `${m} ${u}?${p}`;
+}
+
+function toHttpError(err, fallbackMessage) {
+  if (!err?.isAxiosError) return err;
+
+  const status = err.response?.status;
+  const providerPayload = err.response?.data;
+
+  // If Prokerala is unreachable or responds without a status, surface as 502.
+  const safeStatus = Number.isInteger(status) ? status : 502;
+
+  return new HttpError(safeStatus, fallbackMessage, {
+    code: "PROKERALA_API_ERROR",
+    details: {
+      status,
+      providerPayload,
+    },
+    cause: err,
+  });
+}
+
+function isInsufficientCreditError(err) {
+  const status = err?.response?.status;
+  if (status !== 403) return false;
+  const payload = err?.response?.data;
+  const text = JSON.stringify(payload || "").toLowerCase();
+  return text.includes("insufficient credit balance");
+}
+
+function isRetryableForNextCredential(err) {
+  const status = err?.response?.status;
+  // 401: token/account auth problem on this key
+  // 403: quota/credit/scope issue on this key
+  // 429: per-key throttling
+  if (status === 401 || status === 403 || status === 429) return true;
+  return isInsufficientCreditError(err);
+}
+
+/**
+ * Low-level request helper for Prokerala.
+ * Handles auth header injection and one retry on 401 (token expiry / invalidation).
+ */
+export async function prokeralaRequest(config) {
+  const credentialCount = getProkeralaCredentialCount();
+  let lastErr = null;
+
+  const doRequest = async (token) =>
+    client.request({
+      ...config,
+      headers: {
+        ...(config.headers || {}),
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+  for (let credentialIndex = 0; credentialIndex < credentialCount; credentialIndex += 1) {
+    try {
+      const token = await getProkeralaAccessToken({ credentialIndex });
+      return await doRequest(token);
+    } catch (err) {
+      const status = err?.response?.status;
+      lastErr = err;
+
+      // Token may be expired/revoked for this credential: refresh once.
+      if (status === 401) {
+        try {
+          const freshToken = await getProkeralaAccessToken({ forceRefresh: true, credentialIndex });
+          return await doRequest(freshToken);
+        } catch (retryErr) {
+          lastErr = retryErr;
+          const retryStatus = retryErr?.response?.status;
+          if (
+            credentialIndex < credentialCount - 1 &&
+            (retryStatus === 401 || isInsufficientCreditError(retryErr))
+          ) {
+            continue;
+          }
+          throw toHttpError(retryErr, "Prokerala request failed.");
+        }
+      }
+
+      if (credentialIndex < credentialCount - 1 && isRetryableForNextCredential(err)) {
+        continue;
+      }
+
+      throw toHttpError(err, "Prokerala request failed.");
+    }
+  }
+
+  if (lastErr) {
+    throw toHttpError(lastErr, "Prokerala request failed.");
+  }
+
+  throw new HttpError(502, "Prokerala request failed.", {
+    code: "PROKERALA_API_ERROR",
+  });
+}
+
+export async function prokeralaPost(path, data, options = {}) {
+  const response = await prokeralaRequest({
+    method: "POST",
+    url: path,
+    data,
+    ...options,
+  });
+  return response.data;
+}
+
+export async function prokeralaGet(path, params, options = {}) {
+  const useCache = cacheTtlMs > 0 && options?.cache !== false;
+  const key = useCache ? makeCacheKey({ method: "GET", url: path, params }) : null;
+
+  if (useCache) {
+    const cached = responseCache.get(key);
+    if (cached && cached.expiresAt > Date.now()) return cached.value;
+
+    const pending = inflight.get(key);
+    if (pending) return pending;
+  }
+
+  const requestPromise = (async () => {
+    const response = await prokeralaRequest({
+      method: "GET",
+      url: path,
+      params,
+      ...options,
+    });
+
+    const value = response.data;
+    if (useCache) {
+      responseCache.set(key, { expiresAt: Date.now() + cacheTtlMs, value });
+    }
+    return value;
+  })();
+
+  if (useCache) inflight.set(key, requestPromise);
+
+  try {
+    return await requestPromise;
+  } finally {
+    if (useCache) inflight.delete(key);
+  }
+}

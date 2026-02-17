@@ -1,9 +1,12 @@
 import dotenv from "dotenv";
-dotenv.config();
+dotenv.config({ override: true });
 
 import express from "express";
 import axios from "axios";
 import cors from "cors";
+
+import astrologyRoutes from "./routes/astrology.js";
+import { errorHandler } from "./middleware/errorHandler.js";
 
 const app = express();
 app.use(cors());
@@ -15,6 +18,8 @@ const GOOGLE_TTS_API_KEY = process.env.GOOGLE_TTS_API_KEY;
 // Import chatbot route
 import chatbotRoutes from "./routes/chatbot.js";
 app.use("/api", chatbotRoutes);
+app.use("/api/astrology", astrologyRoutes);
+
 
 
 // Language → Google voice mapping
@@ -270,6 +275,9 @@ app.post("/check-durmuhurtham-status", async (req, res) => {
 });
 
 const PORT = process.env.PORT || 5000;
+
+// Centralized JSON errors (used by modular routers like /api/astrology)
+app.use(errorHandler);
 
 app.listen(PORT, () => {
   console.log(`✅ Backend running on port ${PORT}`);
