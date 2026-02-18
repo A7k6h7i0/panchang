@@ -12,6 +12,8 @@ const ENDPOINTS = {
   matchmaking: process.env.PROKERALA_ENDPOINT_MATCHMAKING || "/astrology/kundli-matching",
   muhurat: process.env.PROKERALA_ENDPOINT_MUHURAT || "/astrology/auspicious-period",
   panchang: process.env.PROKERALA_ENDPOINT_PANCHANG || "/astrology/panchang",
+  panchangAdvanced: process.env.PROKERALA_ENDPOINT_PANCHANG_ADVANCED || "/astrology/panchang/advanced",
+  choghadiya: process.env.PROKERALA_ENDPOINT_CHOGHADIYA || "/astrology/choghadiya",
   festivals: process.env.PROKERALA_ENDPOINT_FESTIVALS || "/astrology/festivals",
 };
 
@@ -359,9 +361,36 @@ export async function panchang(req, res) {
     la,
   });
 
-  const data = await prokeralaGet(ENDPOINTS.panchang, params);
+  const [baseResult, advancedResult, choghadiyaResult] = await Promise.allSettled([
+    prokeralaGet(ENDPOINTS.panchang, params),
+    ENDPOINTS.panchangAdvanced !== ENDPOINTS.panchang
+      ? prokeralaGet(ENDPOINTS.panchangAdvanced, params)
+      : Promise.resolve(null),
+    prokeralaGet(ENDPOINTS.choghadiya, params),
+  ]);
 
-  res.json(data);
+  if (baseResult.status !== "fulfilled") throw baseResult.reason;
+
+  const baseData = baseResult.value?.data || baseResult.value || {};
+  const advancedData =
+    advancedResult.status === "fulfilled"
+      ? (advancedResult.value?.data || advancedResult.value || {})
+      : null;
+  const choghadiyaData =
+    choghadiyaResult.status === "fulfilled"
+      ? (choghadiyaResult.value?.data || choghadiyaResult.value || {})
+      : null;
+
+  const merged = {
+    ...(baseResult.value || {}),
+    data: {
+      ...baseData,
+      ...(advancedData ? { advanced: advancedData } : {}),
+      ...(Array.isArray(choghadiyaData?.muhurat) ? { choghadiya: choghadiyaData.muhurat } : {}),
+    },
+  };
+
+  res.json(merged);
 }
 
 export async function festivals(req, res) {
