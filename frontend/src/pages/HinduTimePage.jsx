@@ -106,7 +106,7 @@ export default function HinduTimePage() {
       }
     >
       <div className="grid gap-4">
-        <section className="rounded-3xl border border-white/10 bg-black/20 p-5">
+        <section className="app-surface rounded-3xl p-5">
           <div className="mx-auto grid max-w-4xl gap-6 md:grid-cols-[1fr_1fr] md:items-center">
             <div className="mx-auto w-full max-w-sm">
               <div className="relative mx-auto h-80 w-80">
@@ -138,7 +138,7 @@ export default function HinduTimePage() {
         </section>
 
         {showConverter ? (
-          <section className="rounded-3xl border border-white/10 bg-black/20 p-5">
+          <section className="app-surface rounded-3xl p-5">
             <div className="mx-auto max-w-4xl">
               <div className="text-base font-black text-amber-100">Ghati Pal Converter</div>
               <div className="mt-3 grid gap-3 md:grid-cols-4 md:items-end">
@@ -166,7 +166,7 @@ export default function HinduTimePage() {
                     className="rounded-2xl border border-white/10 bg-black/25 px-4 py-3 text-amber-50 outline-none focus:border-amber-300/35"
                   />
                 </label>
-                <div className="rounded-2xl border border-white/10 bg-black/25 px-4 py-3 text-amber-50">
+                <div className="app-surface-soft rounded-2xl px-4 py-3 text-amber-50">
                   <div className="text-xs font-black tracking-wide text-amber-100/70">CLOCK TIME</div>
                   <div className="mt-1 text-base font-black">{convResult || "—"}</div>
                 </div>

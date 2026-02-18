@@ -237,6 +237,7 @@ export default function HomePage() {
 
     const activeTithi = findActiveByTime(panchang?.tithi, refDate);
     const activeNakshatra = findActiveByTime(panchang?.nakshatra, refDate);
+    const activeYoga = findActiveByTime(panchang?.yoga, refDate);
     const activeChoghadiya = findActiveByTime(panchang?.choghadiya, refDate);
     const activeKarana = findActiveByTime(panchang?.karana, refDate);
     const ghati = computeGhati(now, panchang?.sunrise);
@@ -303,6 +304,8 @@ export default function HomePage() {
       paksha,
       karana: firstText(activeKarana?.name),
       karanaFull: activeKarana,
+      yoga: firstText(activeYoga?.name),
+      yogaFull: activeYoga,
       lunarMonth,
       nakshatra: firstText(activeNakshatra?.name),
       weekday,
@@ -336,7 +339,7 @@ export default function HomePage() {
     >
       <div className="mx-auto w-full max-w-md px-4 pb-36 pt-4 md:max-w-6xl md:px-6 md:pb-40">
         <header 
-          className="mb-3 grid grid-cols-[40px_1fr_84px] items-center gap-2 rounded-xl px-2 py-2 transition-all duration-300"
+          className="mb-1 grid grid-cols-[40px_1fr_84px] items-center gap-2 rounded-xl px-2 py-2 transition-all duration-300"
           style={{
             background: "linear-gradient(135deg, #d84315 0%, #e64a19 15%, #ff6f00 35%, #ff8f00 50%, #ff6f00 65%, #e64a19 85%, #d84315 100%)",
             border: "1.5px solid rgba(255, 183, 77, 0.5)",
@@ -397,16 +400,24 @@ export default function HomePage() {
         </header>
 
 
-        <section 
-          className="rounded-2xl px-4 py-5 text-center transition-all duration-300"
+        <div
+          className="rounded-xl p-2 backdrop-blur-md"
           style={{
-            background: "linear-gradient(135deg, #d84315 0%, #e64a19 10%, #ff6f00 30%, #ff8f00 50%, #ff6f00 70%, #e64a19 90%, #d84315 100%)",
-            border: "2px solid rgba(255, 193, 7, 0.5)",
-            boxShadow: "0 8px 32px rgba(255, 152, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.25), inset 0 -3px 0 rgba(139, 69, 19, 0.25), 0 0 40px rgba(255, 183, 77, 0.2)",
+            background: "linear-gradient(135deg, rgba(80, 20, 10, 0.98) 0%, rgba(100, 25, 12, 0.95) 50%, rgba(120, 30, 15, 0.92) 100%)",
+            border: "3px solid rgba(255, 140, 50, 0.8)",
+            boxShadow: "0 0 35px rgba(255, 140, 50, 0.8), 0 0 70px rgba(255, 100, 30, 0.6), inset 0 0 30px rgba(255, 140, 50, 0.2)",
           }}
         >
-          {/* Date and Day Row */}
-          <div className="flex items-center justify-center gap-4 mb-4">
+          <section 
+            className="rounded-2xl px-4 py-5 text-center transition-all duration-300"
+            style={{
+              background: "linear-gradient(135deg, #d84315 0%, #e64a19 10%, #ff6f00 30%, #ff8f00 50%, #ff6f00 70%, #e64a19 90%, #d84315 100%)",
+              border: "2px solid rgba(255, 193, 7, 0.5)",
+              boxShadow: "0 8px 32px rgba(255, 152, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.25), inset 0 -3px 0 rgba(139, 69, 19, 0.25), 0 0 40px rgba(255, 183, 77, 0.2)",
+            }}
+          >
+          {/* Date and Day Row - Left aligned with Hindu Time */}
+          <div className="flex items-center justify-start gap-4 mb-4">
             {/* Day Number Circle */}
             <div
               className="h-14 w-14 sm:h-16 sm:w-16 rounded-xl flex items-center justify-center flex-shrink-0 backdrop-blur-sm"
@@ -421,30 +432,37 @@ export default function HomePage() {
               </span>
             </div>
 
-            {/* Weekday */}
+            {/* Weekday and Date/Time */}
             <div className="text-left">
-              <div className="text-lg sm:text-xl font-bold" style={{ color: "#FFF5E6", textShadow: "0 2px 6px rgba(0,0,0,0.4)" }}>
-                {summary?.weekday ? cleanDash(summary.weekday) : "-"}
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <div className="text-lg sm:text-xl font-bold" style={{ color: "#FFF5E6", textShadow: "0 2px 6px rgba(0,0,0,0.4)" }}>
+                  {summary?.weekday ? cleanDash(summary.weekday) : "-"}
+                </div>
+                {summary?.headlineTime && (
+                  <div
+                    className="inline-flex shrink-0 items-center whitespace-nowrap rounded-full px-2.5 py-1 text-[11px] sm:text-xs font-bold"
+                    style={{
+                      background: "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
+                      border: "1.5px solid rgba(255, 140, 50, 0.65)",
+                      boxShadow: "0 0 10px rgba(255, 140, 50, 0.35), inset 0 0 8px rgba(255, 200, 100, 0.15)",
+                    }}
+                  >
+                    <span style={{ color: "#FFD700" }}>Hindu Time:</span>
+                    <span className="ml-1" style={{ color: "#FFF5E6" }}>{summary.headlineTime}</span>
+                  </div>
+                )}
               </div>
               <div className="text-xs sm:text-sm font-medium" style={{ color: "#FFE8C5" }}>
-                {formattedTime}, {formattedDate}
+                {formattedDate}, {formattedTime}
               </div>
             </div>
           </div>
 
-          {/* Tithi and Karana Row */}
-          {summary?.tithi && (
-            <div className="text-sm font-semibold mb-2" style={{ color: "#FFE8C5", textShadow: "0 1px 4px rgba(0,0,0,0.3)" }}>
-              <span>● {cleanDash(summary.tithi)}</span>
-              {summary?.karana && <span className="ml-3">● Karana: {cleanDash(summary.karana)}</span>}
-            </div>
-          )}
-
-          {/* Paksha, Nakshatra, Yoga Row */}
-          <div className="flex flex-wrap items-center justify-center gap-2 mb-3">
-            {summary?.paksha && (
+          {/* Primary row: Thithi -> Nakshatra -> Yoga */}
+          <div className="hide-scrollbar mb-2 flex items-center justify-start gap-1.5 overflow-x-auto whitespace-nowrap">
+            {summary?.tithi && (
               <div
-                className="inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-bold"
+                className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] sm:text-xs font-bold"
                 style={{
                   background: "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
                   border: "2px solid rgba(255, 140, 50, 0.7)",
@@ -452,14 +470,13 @@ export default function HomePage() {
                   boxShadow: "0 0 15px rgba(255, 140, 50, 0.5), inset 0 0 10px rgba(255, 200, 100, 0.2)",
                 }}
               >
-                <span style={{ color: "#D4AF37" }}>◐</span>
-                {cleanDash(summary.paksha)}
+                ● {cleanDash(summary.tithi)}
               </div>
             )}
 
             {summary?.nakshatra && (
               <div
-                className="inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-bold"
+                className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] sm:text-xs font-bold"
                 style={{
                   background: "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
                   border: "2px solid rgba(255, 140, 50, 0.7)",
@@ -471,9 +488,9 @@ export default function HomePage() {
               </div>
             )}
 
-            {summary?.lunarMonth && (
+            {summary?.yoga && (
               <div
-                className="inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-bold"
+                className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] sm:text-xs font-bold"
                 style={{
                   background: "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
                   border: "2px solid rgba(255, 140, 50, 0.7)",
@@ -481,33 +498,56 @@ export default function HomePage() {
                   boxShadow: "0 0 15px rgba(255, 140, 50, 0.5), inset 0 0 10px rgba(255, 200, 100, 0.2)",
                 }}
               >
-                ◈ {cleanDash(summary.lunarMonth)}
+                ☼ {cleanDash(summary.yoga)}
+              </div>
+            )}
+
+          </div>
+
+          {/* Secondary row: remaining items */}
+          <div className="hide-scrollbar mb-2 flex items-center justify-start gap-1.5 overflow-x-auto whitespace-nowrap">
+            {summary?.paksha && (
+              <div
+                className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] sm:text-xs font-bold"
+                style={{
+                  background: "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
+                  border: "2px solid rgba(255, 140, 50, 0.7)",
+                  color: "#FFE4B5",
+                  boxShadow: "0 0 15px rgba(255, 140, 50, 0.5), inset 0 0 10px rgba(255, 200, 100, 0.2)",
+                }}
+              >
+                ◐ {cleanDash(summary.paksha)}
+              </div>
+            )}
+
+            {summary?.karana && (
+              <div
+                className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] sm:text-xs font-bold"
+                style={{
+                  background: "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
+                  border: "2px solid rgba(255, 140, 50, 0.7)",
+                  color: "#FFE4B5",
+                  boxShadow: "0 0 15px rgba(255, 140, 50, 0.5), inset 0 0 10px rgba(255, 200, 100, 0.2)",
+                }}
+              >
+                ◑ {cleanDash(summary.karana)}
+              </div>
+            )}
+
+            {summary?.choghadiya && (
+              <div
+                className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] sm:text-xs font-bold"
+                style={{
+                  background: "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
+                  border: "2px solid rgba(255, 140, 50, 0.7)",
+                  color: "#FFE4B5",
+                  boxShadow: "0 0 15px rgba(255, 140, 50, 0.5), inset 0 0 10px rgba(255, 200, 100, 0.2)",
+                }}
+              >
+                ⧗ {cleanDash(summary.choghadiya)}
               </div>
             )}
           </div>
-
-          {/* Hindu Time */}
-          {summary?.headlineTime && (
-            <div className="text-2xl font-semibold mb-2" style={{ color: "#FFD700", textShadow: "0 2px 8px rgba(0,0,0,0.5)" }}>
-              Hindu Time: <span style={{ color: "#FFF5E6" }}>{summary.headlineTime}</span>
-            </div>
-          )}
-
-          {/* Choghadiya and Panchaka */}
-          {summary?.choghadiya || summary?.panchaka ? (
-            <div className="mt-2 flex items-center justify-center gap-4 text-xs">
-              {summary?.choghadiya ? (
-                <div className="font-medium" style={{ color: "#FFE082", textShadow: "0 1px 3px rgba(0, 0, 0, 0.3)" }}>
-                  Choghadiya: <span style={{ color: "#FFF9C4", textShadow: "0 0 8px rgba(255, 249, 196, 0.5)" }}>{cleanDash(summary.choghadiya)}</span>
-                </div>
-              ) : null}
-              {summary?.panchaka ? (
-                <div className="font-medium" style={{ color: "#FFCCBC", textShadow: "0 1px 3px rgba(0, 0, 0, 0.3)" }}>
-                  Panchak: <span style={{ color: "#FFE0B2", textShadow: "0 0 8px rgba(255, 224, 178, 0.5)" }}>{cleanDash(summary.panchaka)}</span>
-                </div>
-              ) : null}
-            </div>
-          ) : null}
 
           {error ? (
             <div 
@@ -520,14 +560,24 @@ export default function HomePage() {
               {error}
             </div>
           ) : null}
-        </section>
+          </section>
+        </div>
 
 
-        <section className="mt-4 grid grid-cols-2 gap-2.5 md:grid-cols-3 lg:grid-cols-4">
-          {TILES.map((tile) => (
-            <Tile key={tile.to} {...tile} />
-          ))}
-        </section>
+        <div
+          className="mt-1 rounded-xl p-2 backdrop-blur-md"
+          style={{
+            background: "linear-gradient(135deg, rgba(80, 20, 10, 0.98) 0%, rgba(100, 25, 12, 0.95) 50%, rgba(120, 30, 15, 0.92) 100%)",
+            border: "3px solid rgba(255, 140, 50, 0.8)",
+            boxShadow: "0 0 35px rgba(255, 140, 50, 0.8), 0 0 70px rgba(255, 100, 30, 0.6), inset 0 0 30px rgba(255, 140, 50, 0.2)",
+          }}
+        >
+          <section className="grid grid-cols-2 gap-2.5 md:grid-cols-3 lg:grid-cols-4">
+            {TILES.map((tile) => (
+              <Tile key={tile.to} {...tile} />
+            ))}
+          </section>
+        </div>
       </div>
 
 

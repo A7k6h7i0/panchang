@@ -4,7 +4,7 @@ export default function InfoPage() {
   return (
     <PageShell title="Info">
       <div className="grid gap-4">
-        <section className="rounded-3xl border border-white/10 bg-black/20 p-5 text-amber-50">
+        <section className="app-surface rounded-3xl p-5 text-amber-50">
           <div className="text-base font-black text-amber-100">Hindu Calendar</div>
           <div className="mt-2 text-sm text-amber-100/80">
             Panchang, festivals, muhurat, kundali and more. Data is fetched from your backend Prokerala integration
@@ -12,7 +12,7 @@ export default function InfoPage() {
           </div>
         </section>
 
-        <section className="rounded-3xl border border-white/10 bg-black/20 p-5 text-amber-50">
+        <section className="app-surface rounded-3xl p-5 text-amber-50">
           <div className="text-sm font-black text-amber-100">Tips</div>
           <ul className="mt-2 list-disc pl-5 text-sm text-amber-100/80">
             <li>Set your location in Settings for accurate sunrise/tithi.</li>
@@ -24,4 +24,3 @@ export default function InfoPage() {
     </PageShell>
   );
 }
-

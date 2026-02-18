@@ -92,7 +92,7 @@ export default function MyTithiPage() {
   return (
     <PageShell title="My Tithi">
       <div className="grid gap-4">
-        <section className="rounded-3xl border border-white/10 bg-black/20 p-5">
+        <section className="app-surface rounded-3xl p-5">
           <div className="grid gap-3 md:grid-cols-[1fr_220px_140px] md:items-end">
             <label className="grid gap-1">
               <span className="text-xs font-black tracking-wide text-amber-100/70">LABEL</span>
@@ -122,13 +122,13 @@ export default function MyTithiPage() {
           </div>
         </section>
 
-        <section className="rounded-3xl border border-white/10 bg-black/20 p-5">
+        <section className="app-surface rounded-3xl p-5">
           {items.length ? (
             <div className="grid gap-3">
               {items.map((it) => {
                 const c = computed[it.id] || null;
                 return (
-                  <div key={it.id} className="rounded-2xl border border-white/10 bg-black/25 p-4">
+                  <div key={it.id} className="app-surface-soft rounded-2xl p-4">
                     <div className="flex flex-wrap items-start justify-between gap-3">
                       <div>
                         <div className="text-base font-black text-amber-100">{it.label}</div>

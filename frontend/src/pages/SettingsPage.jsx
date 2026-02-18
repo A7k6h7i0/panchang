@@ -256,7 +256,7 @@ export default function SettingsPage() {
   return (
     <PageShell title={tr("settingsTitle", "Settings")}>
       <div className="grid gap-4">
-        <section className="rounded-3xl border border-white/10 bg-black/20 p-5">
+        <section className="app-surface rounded-3xl p-5">
           <div className="grid gap-4 md:grid-cols-[1fr_1.2fr] md:items-center">
             <div>
               <div className="text-2xl font-black text-amber-100">{tr("settingsLanguageTitle", "Language")}</div>
@@ -278,7 +278,7 @@ export default function SettingsPage() {
           </div>
         </section>
 
-        <section className="rounded-3xl border border-white/10 bg-black/20 p-5">
+        <section className="app-surface rounded-3xl p-5">
           <div className="grid gap-4 md:grid-cols-[1fr_1.2fr] md:items-center">
             <div>
               <div className="text-2xl font-black text-amber-100">{tr("settingsLocationTitle", "Location")}</div>
@@ -309,7 +309,7 @@ export default function SettingsPage() {
           </div>
 
           {editing ? (
-            <div className="mt-4 grid gap-3 rounded-2xl border border-white/10 bg-black/25 p-4 md:grid-cols-2">
+            <div className="app-surface-soft mt-4 grid gap-3 rounded-2xl p-4 md:grid-cols-2">
               <label className="grid gap-1">
                 <span className="text-xs font-black tracking-wide text-amber-100/70">
                   {tr("settingsLabelName", "NAME")}
@@ -376,7 +376,7 @@ export default function SettingsPage() {
           {status ? <div className="mt-3 text-xs font-semibold text-amber-100/80">{status}</div> : null}
         </section>
 
-        <section className="rounded-3xl border border-white/10 bg-black/20 p-5">
+        <section className="app-surface rounded-3xl p-5">
           <div className="flex items-center justify-between gap-4">
             <div>
               <div className="text-2xl font-black text-amber-100">{tr("settingsSayanaTitle", "Sayana Panchang")}</div>
@@ -404,7 +404,7 @@ export default function SettingsPage() {
           </div>
         </section>
 
-        <section className="rounded-3xl border border-white/10 bg-black/20 p-5">
+        <section className="app-surface rounded-3xl p-5">
           <div className="text-2xl font-black text-amber-100">
             {tr("settingsCalendarMonthType", "Calendar Month Type")}
           </div>
@@ -434,7 +434,7 @@ export default function SettingsPage() {
           </div>
         </section>
 
-        <section className="rounded-3xl border border-white/10 bg-black/20 p-5">
+        <section className="app-surface rounded-3xl p-5">
           <div className="text-2xl font-black text-amber-100">
             {tr("settingsCalendarYearType", "Calendar Year Type")}
           </div>
@@ -461,7 +461,7 @@ export default function SettingsPage() {
           </div>
         </section>
 
-        <section className="rounded-3xl border border-white/10 bg-black/20 p-5">
+        <section className="app-surface rounded-3xl p-5">
           <div className="text-2xl font-black text-amber-100">{tr("settingsAyanamsaTitle", "Ayanamsa")}</div>
           <div className="mt-2 text-sm text-amber-100/70">
             {tr("settingsAyanamsaSubtitle", "Used for Prokerala astrology calculations.")}

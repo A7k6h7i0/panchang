@@ -255,7 +255,7 @@ export default function FestivalsPage() {
   return (
     <PageShell title="Festivals">
       <div className="grid gap-4">
-        <section className="rounded-3xl border border-white/10 bg-black/20 p-5">
+        <section className="app-surface rounded-3xl p-5">
           <div className="flex items-center justify-between gap-3">
             <button
               type="button"
@@ -282,7 +282,7 @@ export default function FestivalsPage() {
           </div>
         </section>
 
-        <section className="rounded-3xl border border-white/10 bg-black/20 p-5">
+        <section className="app-surface rounded-3xl p-5">
           {error ? <div className="text-sm font-semibold text-amber-100/80">{error}</div> : null}
           {items == null ? (
             <div className="text-sm text-amber-100/70">Loading…</div>
@@ -291,7 +291,7 @@ export default function FestivalsPage() {
               {items.map((f, idx) => (
                 <div
                   key={`${f.date || "date"}-${idx}`}
-                  className="flex items-center justify-between gap-4 rounded-2xl border border-white/10 bg-black/25 p-4"
+                  className="app-surface-soft flex items-center justify-between gap-4 rounded-2xl p-4"
                 >
                   <div>
                     <div className="text-base font-black text-amber-100">{String(f.name)}</div>

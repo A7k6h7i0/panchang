@@ -125,7 +125,7 @@ export default function PanchangPage() {
       right={
         <Link
           to="/settings"
-          className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-white/5 text-amber-100 ring-1 ring-white/10 hover:bg-white/10"
+          className="app-btn-secondary inline-flex h-10 w-10 items-center justify-center rounded-xl transition hover:scale-105"
           aria-label="Settings"
           title="Settings"
         >
@@ -142,12 +142,13 @@ export default function PanchangPage() {
             type="submit"
             form="panchang-form"
             disabled={loading}
-            className="rounded-xl bg-amber-400/20 px-4 py-2 text-sm font-black text-amber-100 ring-1 ring-amber-300/30 transition hover:bg-amber-400/25 disabled:cursor-not-allowed disabled:opacity-60"
+            className="app-btn-primary rounded-xl px-4 py-2 text-sm font-black transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-60"
           >
             {loading ? "Loading…" : "Fetch"}
           </button>
         }
       >
+        <div className="app-panel rounded-2xl p-4">
         <form id="panchang-form" onSubmit={onSubmit} className="grid gap-4 md:grid-cols-3">
           <Field label="Date" hint="YYYY-MM-DD">
             <TextInput type="date" value={form.date} onChange={onChange("date")} />
@@ -177,6 +178,7 @@ export default function PanchangPage() {
             <TextInput value={form.la} onChange={onChange("la")} placeholder="en" />
           </Field>
         </form>
+        </div>
       </SectionCard>
 
       {error ? (
@@ -193,14 +195,14 @@ export default function PanchangPage() {
             <button
               type="button"
               onClick={() => setShowRaw((v) => !v)}
-              className="rounded-xl bg-white/5 px-3 py-2 text-sm font-black text-amber-100/80 ring-1 ring-white/10 transition hover:bg-white/10"
+              className="app-btn-secondary rounded-xl px-3 py-2 text-sm font-black transition hover:brightness-110"
             >
               {showRaw ? "Hide Raw JSON" : "Show Raw JSON"}
             </button>
           }
         >
           <div className="grid gap-3 md:grid-cols-2">
-            <div className="rounded-2xl border border-white/10 bg-black/20 p-4 text-sm text-amber-50">
+            <div className="app-panel rounded-2xl p-4 text-sm text-amber-50">
               <div className="grid grid-cols-2 gap-2">
                 <div className="text-amber-100/70">Sunrise</div>
                 <div className="font-semibold">{isoParts(summary.sunrise).time}</div>
@@ -213,7 +215,7 @@ export default function PanchangPage() {
               </div>
             </div>
 
-            <div className="rounded-2xl border border-white/10 bg-black/20 p-4 text-sm text-amber-50">
+            <div className="app-surface-soft rounded-2xl p-4 text-sm text-amber-50">
               <div className="grid gap-3">
                 <div>
                   <div className="text-xs font-black tracking-wide text-amber-100/70">TITHI</div>
@@ -241,14 +243,14 @@ export default function PanchangPage() {
           </div>
 
           <div className="mt-3 grid gap-3 md:grid-cols-2">
-            <div className="rounded-2xl border border-white/10 bg-black/20 p-4 text-sm text-amber-50">
+            <div className="app-surface-soft rounded-2xl p-4 text-sm text-amber-50">
               <div className="text-xs font-black tracking-wide text-amber-100/70">YOGA</div>
               <div className="mt-1 text-base font-black text-amber-100">
                 {summary.yoga.active?.name || "-"}
               </div>
               <div className="text-xs text-amber-100/70">{fmtRange(summary.yoga.active)}</div>
             </div>
-            <div className="rounded-2xl border border-white/10 bg-black/20 p-4 text-sm text-amber-50">
+            <div className="app-surface-soft rounded-2xl p-4 text-sm text-amber-50">
               <div className="text-xs font-black tracking-wide text-amber-100/70">KARANA</div>
               <div className="mt-1 text-base font-black text-amber-100">
                 {summary.karana.active?.name || "-"}
@@ -262,7 +264,7 @@ export default function PanchangPage() {
           summary.yoga.all.length ||
           summary.karana.all.length ? (
             <div className="mt-4 grid gap-3 md:grid-cols-2">
-              <div className="rounded-2xl border border-white/10 bg-black/20 p-4 text-sm text-amber-50">
+              <div className="app-panel rounded-2xl p-4 text-sm text-amber-50">
                 <div className="text-xs font-black tracking-wide text-amber-100/70">ALL TITHI</div>
                 <div className="mt-2 grid gap-2">
                   {summary.tithi.all.map((t, idx) => (
@@ -276,7 +278,7 @@ export default function PanchangPage() {
                 </div>
               </div>
 
-              <div className="rounded-2xl border border-white/10 bg-black/20 p-4 text-sm text-amber-50">
+              <div className="app-panel rounded-2xl p-4 text-sm text-amber-50">
                 <div className="text-xs font-black tracking-wide text-amber-100/70">ALL NAKSHATRA</div>
                 <div className="mt-2 grid gap-2">
                   {summary.nakshatra.all.map((n, idx) => (
@@ -304,3 +306,4 @@ export default function PanchangPage() {
     </PageShell>
   );
 }
+
