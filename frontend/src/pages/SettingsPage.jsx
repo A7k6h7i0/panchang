@@ -255,12 +255,12 @@ export default function SettingsPage() {
 
   return (
     <PageShell title={tr("settingsTitle", "Settings")}>
-      <div className="grid gap-4">
-        <section className="app-surface rounded-3xl p-5">
-          <div className="grid gap-4 md:grid-cols-[1fr_1.2fr] md:items-center">
+      <div className="grid gap-1">
+        <section className="app-surface rounded-2xl p-3">
+          <div className="grid gap-2 md:grid-cols-[1fr_1.2fr] md:items-center">
             <div>
-              <div className="text-2xl font-black text-amber-100">{tr("settingsLanguageTitle", "Language")}</div>
-              <div className="mt-1 text-sm text-amber-100/70">
+              <div className="text-lg font-black text-amber-100">{tr("settingsLanguageTitle", "Language")}</div>
+              <div className="mt-1 text-xs text-amber-100/70">
                 {tr("settingsLanguageSubtitle", "App language for Prokerala requests and UI.")}
               </div>
             </div>
@@ -278,11 +278,11 @@ export default function SettingsPage() {
           </div>
         </section>
 
-        <section className="app-surface rounded-3xl p-5">
-          <div className="grid gap-4 md:grid-cols-[1fr_1.2fr] md:items-center">
+        <section className="app-surface rounded-2xl p-3">
+          <div className="grid gap-2 md:grid-cols-[1fr_1.2fr] md:items-center">
             <div>
-              <div className="text-2xl font-black text-amber-100">{tr("settingsLocationTitle", "Location")}</div>
-              <div className="mt-1 text-sm text-amber-100/70">
+              <div className="text-lg font-black text-amber-100">{tr("settingsLocationTitle", "Location")}</div>
+              <div className="mt-1 text-xs text-amber-100/70">
                 {location.name || "—"}
                 <div className="mt-1 text-xs text-amber-100/70">
                   {location.lat}°, {location.lng}° • {tr("settingsTimezone", "Timezone")} {location.tzOffset}
@@ -290,18 +290,18 @@ export default function SettingsPage() {
               </div>
             </div>
 
-            <div className="grid gap-3 md:grid-cols-2">
+            <div className="grid gap-2 md:grid-cols-2">
               <button
                 type="button"
                 onClick={onAutoLocation}
-                className="rounded-2xl bg-white/5 px-4 py-3 text-sm font-black text-amber-100 ring-1 ring-white/10 hover:bg-white/10"
+                className="rounded-xl bg-white/5 px-3 py-2 text-xs font-black text-amber-100 ring-1 ring-white/10 hover:bg-white/10"
               >
                 ⦿ {tr("settingsAutoLocation", "Auto Location")}
               </button>
               <button
                 type="button"
                 onClick={() => setEditing((s) => !s)}
-                className="rounded-2xl bg-white/5 px-4 py-3 text-sm font-black text-amber-100 ring-1 ring-white/10 hover:bg-white/10"
+                className="rounded-xl bg-white/5 px-3 py-2 text-xs font-black text-amber-100 ring-1 ring-white/10 hover:bg-white/10"
               >
                 📍 {tr("settingsChangeLocation", "Change Location")}
               </button>
@@ -309,7 +309,7 @@ export default function SettingsPage() {
           </div>
 
           {editing ? (
-            <div className="app-surface-soft mt-4 grid gap-3 rounded-2xl p-4 md:grid-cols-2">
+            <div className="app-surface-soft mt-1 grid gap-2 rounded-xl p-3 md:grid-cols-2">
               <label className="grid gap-1">
                 <span className="text-xs font-black tracking-wide text-amber-100/70">
                   {tr("settingsLabelName", "NAME")}
@@ -354,18 +354,18 @@ export default function SettingsPage() {
                   placeholder="75.7885"
                 />
               </label>
-              <div className="md:col-span-2 flex flex-wrap gap-3">
+              <div className="md:col-span-2 flex flex-wrap gap-2">
                 <button
                   type="button"
                   onClick={onSaveLocation}
-                  className="rounded-2xl bg-amber-400/15 px-4 py-3 text-sm font-black text-amber-100 ring-1 ring-amber-300/25 hover:bg-amber-400/20"
+                  className="rounded-xl bg-amber-400/15 px-3 py-2 text-xs font-black text-amber-100 ring-1 ring-amber-300/25 hover:bg-amber-400/20"
                 >
                   {tr("settingsSave", "Save")}
                 </button>
                 <button
                   type="button"
                   onClick={() => setEditing(false)}
-                  className="rounded-2xl bg-white/5 px-4 py-3 text-sm font-black text-amber-100 ring-1 ring-white/10 hover:bg-white/10"
+                  className="rounded-xl bg-white/5 px-3 py-2 text-xs font-black text-amber-100 ring-1 ring-white/10 hover:bg-white/10"
                 >
                   {tr("settingsCancel", "Cancel")}
                 </button>
@@ -373,14 +373,14 @@ export default function SettingsPage() {
             </div>
           ) : null}
 
-          {status ? <div className="mt-3 text-xs font-semibold text-amber-100/80">{status}</div> : null}
+          {status ? <div className="mt-1 text-xs font-semibold text-amber-100/80">{status}</div> : null}
         </section>
 
-        <section className="app-surface rounded-3xl p-5">
-          <div className="flex items-center justify-between gap-4">
+        <section className="app-surface rounded-2xl p-3">
+          <div className="flex items-center justify-between gap-2">
             <div>
-              <div className="text-2xl font-black text-amber-100">{tr("settingsSayanaTitle", "Sayana Panchang")}</div>
-              <div className="mt-1 text-sm text-amber-100/70">
+              <div className="text-lg font-black text-amber-100">{tr("settingsSayanaTitle", "Sayana Panchang")}</div>
+              <div className="mt-1 text-xs text-amber-100/70">
                 {tr(
                   "settingsSayanaWarning",
                   "Warning: This may change ayanamsa and festival dates compared to most expectations."
@@ -390,29 +390,29 @@ export default function SettingsPage() {
             <button
               type="button"
               onClick={onToggleSayana}
-              className={`relative inline-flex h-10 w-16 items-center rounded-full ring-1 transition ${
+              className={`relative inline-flex h-7 w-12 shrink-0 items-center rounded-full ring-1 transition sm:h-8 sm:w-14 ${
                 sayana ? "bg-amber-400/30 ring-amber-300/25" : "bg-white/5 ring-white/10"
               }`}
               aria-label="Toggle Sayana"
             >
               <span
-                className={`inline-block h-8 w-8 transform rounded-full bg-amber-100 transition ${
-                  sayana ? "translate-x-7" : "translate-x-1"
+                className={`inline-block h-5 w-5 transform rounded-full bg-amber-100 transition sm:h-6 sm:w-6 ${
+                  sayana ? "translate-x-6 sm:translate-x-7" : "translate-x-1"
                 }`}
               />
             </button>
           </div>
         </section>
 
-        <section className="app-surface rounded-3xl p-5">
-          <div className="text-2xl font-black text-amber-100">
+        <section className="app-surface rounded-2xl p-3">
+          <div className="text-lg font-black text-amber-100">
             {tr("settingsCalendarMonthType", "Calendar Month Type")}
           </div>
-          <div className="mt-3 grid grid-cols-2 gap-3">
+          <div className="mt-1 grid grid-cols-2 gap-2">
             <button
               type="button"
               onClick={() => onMonthType("amavasyant")}
-              className={`rounded-2xl px-4 py-3 text-sm font-black ring-1 ${
+              className={`rounded-xl px-3 py-2 text-xs font-black ring-1 ${
                 monthType === "amavasyant"
                   ? "bg-amber-400/25 text-amber-100 ring-amber-300/25"
                   : "bg-white/5 text-amber-100 ring-white/10 hover:bg-white/10"
@@ -423,7 +423,7 @@ export default function SettingsPage() {
             <button
               type="button"
               onClick={() => onMonthType("purnimant")}
-              className={`rounded-2xl px-4 py-3 text-sm font-black ring-1 ${
+              className={`rounded-xl px-3 py-2 text-xs font-black ring-1 ${
                 monthType === "purnimant"
                   ? "bg-amber-400/25 text-amber-100 ring-amber-300/25"
                   : "bg-white/5 text-amber-100 ring-white/10 hover:bg-white/10"
@@ -434,11 +434,11 @@ export default function SettingsPage() {
           </div>
         </section>
 
-        <section className="app-surface rounded-3xl p-5">
-          <div className="text-2xl font-black text-amber-100">
+        <section className="app-surface rounded-2xl p-3">
+          <div className="text-lg font-black text-amber-100">
             {tr("settingsCalendarYearType", "Calendar Year Type")}
           </div>
-          <div className="mt-3 grid gap-3 md:grid-cols-2">
+          <div className="mt-1 grid gap-2 md:grid-cols-2">
             {[
               ["vikram", "Vikram Samvat"],
               ["gujarati", "Gujarati Samvat"],
@@ -449,7 +449,7 @@ export default function SettingsPage() {
                 key={key}
                 type="button"
                 onClick={() => onYearType(key)}
-                className={`rounded-2xl px-4 py-3 text-sm font-black ring-1 ${
+                className={`rounded-xl px-3 py-2 text-xs font-black ring-1 ${
                   yearType === key
                     ? "bg-amber-400/25 text-amber-100 ring-amber-300/25"
                     : "bg-white/5 text-amber-100 ring-white/10 hover:bg-white/10"
@@ -461,15 +461,15 @@ export default function SettingsPage() {
           </div>
         </section>
 
-        <section className="app-surface rounded-3xl p-5">
-          <div className="text-2xl font-black text-amber-100">{tr("settingsAyanamsaTitle", "Ayanamsa")}</div>
-          <div className="mt-2 text-sm text-amber-100/70">
+        <section className="app-surface rounded-2xl p-3">
+          <div className="text-lg font-black text-amber-100">{tr("settingsAyanamsaTitle", "Ayanamsa")}</div>
+          <div className="mt-1 text-xs text-amber-100/70">
             {tr("settingsAyanamsaSubtitle", "Used for Prokerala astrology calculations.")}
           </div>
           <select
             value={ayanamsa}
             onChange={(e) => onAyanamsa(e.target.value)}
-            className="mt-3 w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-base font-semibold text-amber-50 outline-none focus:border-amber-300/35"
+            className="mt-1 w-full rounded-xl border border-white/10 bg-black/30 px-3 py-2 text-sm font-semibold text-amber-50 outline-none focus:border-amber-300/35"
           >
             <option value="1">1</option>
             <option value="3">3</option>
