@@ -5,6 +5,7 @@ import {
   postMatchmaking,
   postMuhurat,
 } from "../services/astrologyApi";
+import CalendarDateInput from "./CalendarDateInput";
 
 const DEFAULT_LAT = "17.3850"; // Hyderabad (safe placeholder)
 const DEFAULT_LNG = "78.4867";
@@ -194,17 +195,9 @@ export default function AstrologyPanel({ isOpen, onClose, selectedDay }) {
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                   <label className="text-xs font-bold" style={{ color: "rgba(255,228,181,0.9)" }}>
                     Date (YYYY-MM-DD)
-                    <input
-                      value={date}
-                      onChange={(e) => setDate(e.target.value)}
-                      className="mt-1 w-full rounded-lg px-3 py-2 text-sm"
-                      style={{
-                        background: "rgba(0,0,0,0.25)",
-                        border: "1px solid rgba(255, 140, 50, 0.35)",
-                        color: "#FFF1D6",
-                      }}
-                      placeholder="2026-02-17"
-                    />
+                    <div className="mt-1">
+                      <CalendarDateInput value={date} onChange={setDate} placeholder="2026-02-17" />
+                    </div>
                   </label>
 
                   <label className="text-xs font-bold" style={{ color: "rgba(255,228,181,0.9)" }}>
@@ -369,4 +362,3 @@ export default function AstrologyPanel({ isOpen, onClose, selectedDay }) {
     </div>
   );
 }
-

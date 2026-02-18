@@ -7,6 +7,7 @@ import { Field, JsonBlock, SectionCard, SelectInput, TextInput } from "./compone
 import { buildIsoDatetime, findActiveByTime, pick, safeDateFromIso, ymdToday } from "./components/formatters";
 import DashaView from "./components/DashaView";
 import NorthIndianChart from "./components/NorthIndianChart";
+import CalendarDateInput from "../components/CalendarDateInput";
 
 function safeObj(value) {
   return value && typeof value === "object" ? value : null;
@@ -67,7 +68,7 @@ function YogaDetails({ value }) {
             {(Array.isArray(g?.yoga_list) ? g.yoga_list : []).map((y, yIdx) => (
               <div
                 key={`${y?.name || "yoga"}-${yIdx}`}
-                className="rounded-2xl border border-white/10 bg-black/15 p-4 text-sm text-amber-50"
+                className="rounded-2xl border border-white/10 bg-black/15 p-3 sm:p-4 text-sm text-amber-50"
               >
                 <div className="flex flex-wrap items-baseline justify-between gap-3">
                   <div className="text-base font-black text-amber-100">{String(y?.name || "-")}</div>
@@ -77,7 +78,7 @@ function YogaDetails({ value }) {
                     {y?.has_yoga ? "YES" : "NO"}
                   </div>
                 </div>
-                <div className="mt-2 text-amber-50/90">{String(y?.description || "-")}</div>
+                <div className="mt-2 break-words text-amber-50/90">{String(y?.description || "-")}</div>
               </div>
             ))}
           </div>
@@ -263,7 +264,7 @@ export default function KundaliPage() {
       >
         <form id="kundali-form" onSubmit={onSubmit} className="grid gap-4 md:grid-cols-3">
           <Field label="Date" hint="YYYY-MM-DD">
-            <TextInput type="date" value={form.date} onChange={onChange("date")} />
+            <CalendarDateInput value={form.date} onChange={(next) => setForm((s) => ({ ...s, date: next }))} />
           </Field>
           <Field label="Time" hint="HH:MM">
             <TextInput type="time" value={form.time} onChange={onChange("time")} />
@@ -434,8 +435,8 @@ export default function KundaliPage() {
               title={set.label}
               subtitle="Rendered from Prokerala planet positions."
             >
-              <div className="overflow-auto rounded-2xl border border-white/10">
-                <table className="min-w-[720px] w-full text-left text-sm text-amber-50">
+              <div className="rounded-2xl border border-white/10 overflow-hidden">
+                <table className="hidden w-full text-left text-sm text-amber-50 md:table">
                   <thead className="bg-black/30 text-amber-100/80">
                     <tr>
                       <th className="px-3 py-2">Planet</th>
@@ -460,6 +461,26 @@ export default function KundaliPage() {
                     })}
                   </tbody>
                 </table>
+                <div className="grid gap-2 p-2 md:hidden">
+                  {set.rows.map((p, idx) => {
+                    const row = normalizePlanetRow(p);
+                    return (
+                      <div key={`${row.name}-${idx}`} className="rounded-xl border border-white/10 bg-black/20 p-2 text-xs text-amber-50">
+                        <div className="font-black text-amber-100">{String(row.name)}</div>
+                        <div className="mt-1 grid grid-cols-2 gap-1">
+                          <div className="text-amber-100/70">Rashi</div>
+                          <div>{String(row.rashi)}</div>
+                          <div className="text-amber-100/70">Degree</div>
+                          <div className="break-all">{String(row.degree)}</div>
+                          <div className="text-amber-100/70">Nakshatra</div>
+                          <div className="break-words">{String(row.nakshatra)}</div>
+                          <div className="text-amber-100/70">Pada</div>
+                          <div>{String(row.pada)}</div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
             </SectionCard>
           ))}

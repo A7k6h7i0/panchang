@@ -461,6 +461,7 @@ export default function DayDetails({
   const vTithi = v("Tithi");
   const vNakshatra = v("Nakshatra");
   const vYoga = v("Yoga");
+  const vKarana = v("Karana");
 
 
   // Extract only year name from "Shaka Samvat" field and translate it
@@ -1064,6 +1065,14 @@ export default function DayDetails({
             language={language}
             translations={translations}
           />
+          <InfoRow
+            label={translations.karana || "Karana"}
+            value={vKarana}
+            isToday={isToday}
+            variant="panchang"
+            language={language}
+            translations={translations}
+          />
 
 
           {vAmrit !== "-" && (
@@ -1159,23 +1168,25 @@ export default function DayDetails({
           </SectionCard>
         </div>
 
-        <div className="mt-3">
-          <button
-            type="button"
-            onClick={onRashiphalaluClick}
-            className="w-full py-2 px-3 rounded-xl font-bold text-sm uppercase tracking-wide transition-all hover:scale-[1.01]"
-            style={{
-              background:
-                "linear-gradient(180deg, #ff4d0d 0%, #ff5c1a 10%, #ff6b28 20%, #ff7935 30%, #ff8743 40%, #ff7935 50%, #ff6b28 60%, #ff5c1a 70%, #ff4d0d 80%, #d94100 90%, #c23800 100%)",
-              border: "2.5px solid rgba(212, 168, 71, 0.8)",
-              color: "#ffedb3",
-              boxShadow:
-                "0 0 18px rgba(212, 168, 71, 0.3), inset 0 1px 2px rgba(255, 255, 255, 0.1), inset 0 -1px 2px rgba(0, 0, 0, 0.2)",
-            }}
-          >
-            {translations.rashiphalalu || "Daily Horoscope"}
-          </button>
-        </div>
+        {typeof onRashiphalaluClick === "function" ? (
+          <div className="mt-3">
+            <button
+              type="button"
+              onClick={onRashiphalaluClick}
+              className="w-full py-2 px-3 rounded-xl font-bold text-sm uppercase tracking-wide transition-all hover:scale-[1.01]"
+              style={{
+                background:
+                  "linear-gradient(180deg, #ff4d0d 0%, #ff5c1a 10%, #ff6b28 20%, #ff7935 30%, #ff8743 40%, #ff7935 50%, #ff6b28 60%, #ff5c1a 70%, #ff4d0d 80%, #d94100 90%, #c23800 100%)",
+                border: "2.5px solid rgba(212, 168, 71, 0.8)",
+                color: "#ffedb3",
+                boxShadow:
+                  "0 0 18px rgba(212, 168, 71, 0.3), inset 0 1px 2px rgba(255, 255, 255, 0.1), inset 0 -1px 2px rgba(0, 0, 0, 0.2)",
+              }}
+            >
+              {translations.rashiphalalu || "Daily Horoscope"}
+            </button>
+          </div>
+        ) : null}
 
         <SectionCard
           title={translations.alarmSettings || "Chanting Alarm"}

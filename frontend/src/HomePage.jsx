@@ -3,6 +3,11 @@ import { Link, useNavigate } from "react-router-dom";
 import { getProkeralaPanchang } from "./services/astrologyApi";
 import { getAstroDefaults } from "./utils/appSettings";
 import { buildIsoDatetime, findActiveByTime, safeDateFromIso, ymdToday } from "./astrology/components/formatters";
+import { languages } from "./translations";
+
+const LANGUAGE_KEY = "panchang:selected-language";
+const VOICE_KEY = "panchang:voice-enabled";
+const VIEW_STATE_KEY = "panchang:current-view";
 
 
 const TILES = [
@@ -89,6 +94,14 @@ function toHHMM(value) {
   return s;
 }
 
+function getTimeRangeText(item) {
+  if (!item || typeof item !== "object") return "";
+  const start = toHHMM(item?.start);
+  const end = toHHMM(item?.end);
+  if (start && end) return `${start} - ${end}`;
+  return end || start || "";
+}
+
 
 function computeGhati(now, sunriseIso) {
   const sunrise = safeDateFromIso(sunriseIso);
@@ -108,6 +121,17 @@ function shareApp() {
   return navigator.clipboard?.writeText(url);
 }
 
+function loadInitialLanguage() {
+  if (typeof window === "undefined") return "en";
+  const saved = localStorage.getItem(LANGUAGE_KEY);
+  return languages.some((l) => l.code === saved) ? saved : "en";
+}
+
+function loadInitialVoiceEnabled() {
+  if (typeof window === "undefined") return false;
+  return localStorage.getItem(VOICE_KEY) === "1";
+}
+
 
 function Tile({ to, icon, title, subtitle }) {
   return (
@@ -115,7 +139,7 @@ function Tile({ to, icon, title, subtitle }) {
       to={to}
       className="rounded-2xl p-3 text-center transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_0_25px_rgba(255,178,51,0.5)]"
       style={{
-        background: "linear-gradient(135deg, #ff6b35 0%, #ff8c42 25%, #ffa94d 50%, #ff8c42 75%, #ff6b35 100%)",
+        background: "var(--calendar-orange-gradient)",
         border: "1.5px solid rgba(255, 200, 87, 0.6)",
         boxShadow: "0 4px 15px rgba(255, 107, 53, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.3), inset 0 -1px 0 rgba(139, 69, 19, 0.2)",
       }}
@@ -156,6 +180,9 @@ function Tile({ to, icon, title, subtitle }) {
 export default function HomePage() {
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [languagePopupOpen, setLanguagePopupOpen] = useState(false);
+  const [language, setLanguage] = useState(loadInitialLanguage);
+  const [voiceEnabled, setVoiceEnabled] = useState(loadInitialVoiceEnabled);
   const [now, setNow] = useState(() => new Date());
   const [panchang, setPanchang] = useState(null);
   const [error, setError] = useState("");
@@ -173,6 +200,23 @@ export default function HomePage() {
     const id = setInterval(() => setNow(new Date()), 1000);
     return () => clearInterval(id);
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem(LANGUAGE_KEY, language);
+  }, [language]);
+
+  useEffect(() => {
+    localStorage.setItem(VOICE_KEY, voiceEnabled ? "1" : "0");
+  }, [voiceEnabled]);
+
+  useEffect(() => {
+    if (!languagePopupOpen) return;
+    const onKeyDown = (event) => {
+      if (event.key === "Escape") setLanguagePopupOpen(false);
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [languagePopupOpen]);
 
 
   useEffect(() => {
@@ -308,6 +352,7 @@ export default function HomePage() {
       yogaFull: activeYoga,
       lunarMonth,
       nakshatra: firstText(activeNakshatra?.name),
+      nakshatraFull: activeNakshatra,
       weekday,
       choghadiya: choghadiyaText,
       panchaka: firstText(panchang?.panchaka?.name, panchang?.panchaka),
@@ -328,7 +373,14 @@ export default function HomePage() {
     [now]
   );
 
-
+  const openDailyHoroscope = () => {
+    try {
+      sessionStorage.setItem(VIEW_STATE_KEY, "rashiphalalu");
+    } catch {
+      // ignore sessionStorage failures
+    }
+    navigate("/month-view");
+  };
   return (
     <div
       className="min-h-screen"
@@ -339,63 +391,102 @@ export default function HomePage() {
     >
       <div className="mx-auto w-full max-w-md px-4 pb-36 pt-4 md:max-w-6xl md:px-6 md:pb-40">
         <header 
-          className="mb-1 grid grid-cols-[40px_1fr_84px] items-center gap-2 rounded-xl px-2 py-2 transition-all duration-300"
+          className="mb-1 grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-1 rounded-xl px-1.5 py-2 transition-all duration-300"
           style={{
-            background: "linear-gradient(135deg, #d84315 0%, #e64a19 15%, #ff6f00 35%, #ff8f00 50%, #ff6f00 65%, #e64a19 85%, #d84315 100%)",
+            background: "var(--calendar-orange-gradient)",
             border: "1.5px solid rgba(255, 183, 77, 0.5)",
             boxShadow: "0 4px 20px rgba(255, 111, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2), inset 0 -2px 0 rgba(139, 69, 19, 0.3)",
           }}
         >
-          <button
-            type="button"
-            onClick={() => setMenuOpen(true)}
-            className="h-9 w-9 rounded-lg text-xl transition-all duration-200 hover:scale-105"
-            style={{
-              background: "linear-gradient(135deg, rgba(255, 224, 130, 0.3) 0%, rgba(255, 183, 77, 0.25) 100%)",
-              color: "#FFF5E1",
-              textShadow: "0 1px 3px rgba(0, 0, 0, 0.3)",
-              border: "1px solid rgba(255, 224, 130, 0.3)",
-            }}
-            aria-label="Open menu"
-          >
-            ☰
-          </button>
-          <div 
-            className="text-center text-xl font-bold tracking-[0.01em] md:text-2xl"
-            style={{
-              color: "#FFF9F0",
-              textShadow: "0 2px 8px rgba(255, 183, 77, 0.6), 0 0 20px rgba(255, 152, 0, 0.3)",
-            }}
-          >
-            Hindu Calendar
-          </div>
-          <div className="flex justify-end gap-2">
-            <Link
-              to="/settings"
-              className="inline-flex h-9 w-9 items-center justify-center rounded-lg text-lg transition-all duration-200 hover:scale-105"
+          <div className="flex items-center gap-1.5">
+            <div
+              className="inline-flex h-8 w-8 items-center justify-center rounded-lg text-base font-black flex-shrink-0"
               style={{
-                background: "linear-gradient(135deg, rgba(255, 224, 130, 0.3) 0%, rgba(255, 183, 77, 0.25) 100%)",
-                color: "#FFF5E1",
-                textShadow: "0 1px 3px rgba(0, 0, 0, 0.3)",
-                border: "1px solid rgba(255, 224, 130, 0.3)",
+                background: "linear-gradient(135deg, #1a0a05 0%, #2d1208 50%, #401a0c 100%)",
+                border: "2px solid rgba(255, 140, 50, 0.8)",
+                color: "#FFD54F",
               }}
-              aria-label="Settings"
-            >
-              ⚙
-            </Link>
+              title="Swastik"
+            >{"\u5350"}</div>
             <button
               type="button"
-              className="h-9 w-9 rounded-lg text-lg transition-all duration-200 hover:scale-105"
+              onClick={() => setMenuOpen(true)}
+              className="h-6 w-6 rounded-md text-sm transition-all duration-200 hover:scale-105"
               style={{
                 background: "linear-gradient(135deg, rgba(255, 224, 130, 0.3) 0%, rgba(255, 183, 77, 0.25) 100%)",
                 color: "#FFF5E1",
                 textShadow: "0 1px 3px rgba(0, 0, 0, 0.3)",
                 border: "1px solid rgba(255, 224, 130, 0.3)",
               }}
-              aria-label="More"
+              aria-label="Open menu"
+            >{"\u2630"}</button>
+          </div>
+          <div className="min-w-0 px-0.5">
+            <div
+              className="whitespace-nowrap font-black leading-tight tracking-tight"
+              style={{
+                color: "#FFFFFF",
+                textShadow: "0 1px 2px rgba(0, 0, 0, 0.85), 0 6px 18px rgba(255, 140, 50, 0.45)",
+                lineHeight: "1",
+                letterSpacing: "0.02em",
+                fontSize: "clamp(0.82rem, 4.2vw, 1.35rem)",
+                fontWeight: "900",
+              }}
             >
-              ⋮
+              Talking Calendar
+            </div>
+          </div>
+          <div className="flex items-center justify-end gap-0.5">
+            <button
+              type="button"
+              onClick={() => setVoiceEnabled((v) => !v)}
+              className="inline-flex h-7 w-7 items-center justify-center rounded-lg text-xs font-black transition-all duration-200 hover:scale-105"
+              style={{
+                background: "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
+                color: "#FFE4B5",
+                border: "2px solid rgba(255, 140, 50, 0.7)",
+                boxShadow: "0 0 15px rgba(255, 140, 50, 0.5), inset 0 0 10px rgba(255, 200, 100, 0.2)",
+              }}
+              aria-label={voiceEnabled ? "Mute enabled" : "Mute disabled"}
+              title={voiceEnabled ? "Mute enabled" : "Mute disabled"}
+            >
+              {voiceEnabled ? (
+                <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z" />
+                  <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z" />
+                </svg>
+              ) : (
+                <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M4.27 3L3 4.27l6.01 6.01V11c0 1.66 1.33 3 2.99 3 .22 0 .44-.03.65-.08l1.66 1.66c-.71.33-1.5.52-2.31.52-2.76 0-5.3-2.1-5.3-5.1H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c.91-.13 1.77-.45 2.54-.9L19.73 21 21 19.73z" />
+                  <path d="M15 11.01V5c0-1.66-1.34-3-3-3S9 3.34 9 5v.18z" />
+                </svg>
+              )}
             </button>
+            <button
+              type="button"
+              onClick={() => setLanguagePopupOpen(true)}
+              className="inline-flex h-7 min-w-[54px] items-center justify-center gap-1 rounded-lg px-1.5 text-[10px] font-black outline-none transition-all duration-200 hover:scale-105"
+              style={{
+                background: "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
+                color: "#FFF4D8",
+                border: "2px solid rgba(255, 140, 50, 0.7)",
+                boxShadow: "0 0 12px rgba(255, 140, 50, 0.45), inset 0 0 8px rgba(255, 200, 100, 0.25)",
+              }}
+              aria-label="Open language selector"
+            >
+              <span>{String(language || "").toUpperCase()}</span>
+              <span aria-hidden="true" className="text-[10px]">▼</span>
+            </button>
+            <Link
+              to="/settings"
+              className="inline-flex h-7 w-7 items-center justify-center rounded-lg text-sm transition-all duration-200 hover:scale-105"
+              style={{
+                background: "linear-gradient(135deg, rgba(255, 224, 130, 0.3) 0%, rgba(255, 183, 77, 0.25) 100%)",
+                color: "#FFF5E1",
+                textShadow: "0 1px 3px rgba(0, 0, 0, 0.3)",
+                border: "1px solid rgba(255, 224, 130, 0.3)",
+              }}
+              aria-label="Settings">{"\u2699"}</Link>
           </div>
         </header>
 
@@ -403,7 +494,7 @@ export default function HomePage() {
         <div
           className="rounded-xl p-2 backdrop-blur-md"
           style={{
-            background: "linear-gradient(135deg, rgba(80, 20, 10, 0.98) 0%, rgba(100, 25, 12, 0.95) 50%, rgba(120, 30, 15, 0.92) 100%)",
+            background: "var(--calendar-orange-shell)",
             border: "3px solid rgba(255, 140, 50, 0.8)",
             boxShadow: "0 0 35px rgba(255, 140, 50, 0.8), 0 0 70px rgba(255, 100, 30, 0.6), inset 0 0 30px rgba(255, 140, 50, 0.2)",
           }}
@@ -411,7 +502,7 @@ export default function HomePage() {
           <section 
             className="rounded-2xl px-4 py-5 text-center transition-all duration-300"
             style={{
-              background: "linear-gradient(135deg, #d84315 0%, #e64a19 10%, #ff6f00 30%, #ff8f00 50%, #ff6f00 70%, #e64a19 90%, #d84315 100%)",
+              background: "var(--calendar-orange-gradient)",
               border: "2px solid rgba(255, 193, 7, 0.5)",
               boxShadow: "0 8px 32px rgba(255, 152, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.25), inset 0 -3px 0 rgba(139, 69, 19, 0.25), 0 0 40px rgba(255, 183, 77, 0.2)",
             }}
@@ -470,7 +561,12 @@ export default function HomePage() {
                   boxShadow: "0 0 15px rgba(255, 140, 50, 0.5), inset 0 0 10px rgba(255, 200, 100, 0.2)",
                 }}
               >
-                ● {cleanDash(summary.tithi)}
+                <div className="flex flex-col leading-tight">
+                  <span>● {cleanDash(summary.tithi)}</span>
+                  {getTimeRangeText(summary.tithiFull) ? (
+                    <span className="text-[10px] text-amber-100/80">{getTimeRangeText(summary.tithiFull)}</span>
+                  ) : null}
+                </div>
               </div>
             )}
 
@@ -484,7 +580,12 @@ export default function HomePage() {
                   boxShadow: "0 0 15px rgba(255, 140, 50, 0.5), inset 0 0 10px rgba(255, 200, 100, 0.2)",
                 }}
               >
-                ✦ {cleanDash(summary.nakshatra)}
+                <div className="flex flex-col leading-tight">
+                  <span>✦ {cleanDash(summary.nakshatra)}</span>
+                  {getTimeRangeText(summary.nakshatraFull) ? (
+                    <span className="text-[10px] text-amber-100/80">{getTimeRangeText(summary.nakshatraFull)}</span>
+                  ) : null}
+                </div>
               </div>
             )}
 
@@ -498,7 +599,12 @@ export default function HomePage() {
                   boxShadow: "0 0 15px rgba(255, 140, 50, 0.5), inset 0 0 10px rgba(255, 200, 100, 0.2)",
                 }}
               >
-                ☼ {cleanDash(summary.yoga)}
+                <div className="flex flex-col leading-tight">
+                  <span>☼ {cleanDash(summary.yoga)}</span>
+                  {getTimeRangeText(summary.yogaFull) ? (
+                    <span className="text-[10px] text-amber-100/80">{getTimeRangeText(summary.yogaFull)}</span>
+                  ) : null}
+                </div>
               </div>
             )}
 
@@ -516,7 +622,12 @@ export default function HomePage() {
                   boxShadow: "0 0 15px rgba(255, 140, 50, 0.5), inset 0 0 10px rgba(255, 200, 100, 0.2)",
                 }}
               >
-                ◐ {cleanDash(summary.paksha)}
+                <div className="flex flex-col leading-tight">
+                  <span>◐ {cleanDash(summary.paksha)}</span>
+                  {getTimeRangeText(summary.tithiFull) ? (
+                    <span className="text-[10px] text-amber-100/80">{getTimeRangeText(summary.tithiFull)}</span>
+                  ) : null}
+                </div>
               </div>
             )}
 
@@ -530,7 +641,12 @@ export default function HomePage() {
                   boxShadow: "0 0 15px rgba(255, 140, 50, 0.5), inset 0 0 10px rgba(255, 200, 100, 0.2)",
                 }}
               >
-                ◑ {cleanDash(summary.karana)}
+                <div className="flex flex-col leading-tight">
+                  <span>◑ {cleanDash(summary.karana)}</span>
+                  {getTimeRangeText(summary.karanaFull) ? (
+                    <span className="text-[10px] text-amber-100/80">{getTimeRangeText(summary.karanaFull)}</span>
+                  ) : null}
+                </div>
               </div>
             )}
 
@@ -563,11 +679,35 @@ export default function HomePage() {
           </section>
         </div>
 
+        <div
+          className="mt-1 rounded-xl p-2 backdrop-blur-md"
+          style={{
+            background: "linear-gradient(135deg, rgba(74, 33, 16, 0.98) 0%, rgba(92, 42, 21, 0.95) 50%, rgba(112, 54, 27, 0.92) 100%)",
+            border: "3px solid rgba(255, 140, 50, 0.7)",
+            boxShadow: "0 0 25px rgba(120, 58, 26, 0.55), inset 0 0 18px rgba(170, 94, 43, 0.2)",
+          }}
+        >
+          <button
+            type="button"
+            onClick={openDailyHoroscope}
+            className="w-full rounded-xl px-3 py-2 text-sm font-bold uppercase tracking-wide transition-all hover:scale-[1.01]"
+            style={{
+              background: "var(--calendar-orange-gradient)",
+              border: "2.5px solid rgba(212, 168, 71, 0.8)",
+              color: "#ffedb3",
+              boxShadow:
+                "0 0 18px rgba(212, 168, 71, 0.3), inset 0 1px 2px rgba(255, 255, 255, 0.1), inset 0 -1px 2px rgba(0, 0, 0, 0.2)",
+            }}
+          >
+            Daily Horoscope
+          </button>
+        </div>
+
 
         <div
           className="mt-1 rounded-xl p-2 backdrop-blur-md"
           style={{
-            background: "linear-gradient(135deg, rgba(80, 20, 10, 0.98) 0%, rgba(100, 25, 12, 0.95) 50%, rgba(120, 30, 15, 0.92) 100%)",
+            background: "var(--calendar-orange-shell)",
             border: "3px solid rgba(255, 140, 50, 0.8)",
             boxShadow: "0 0 35px rgba(255, 140, 50, 0.8), 0 0 70px rgba(255, 100, 30, 0.6), inset 0 0 30px rgba(255, 140, 50, 0.2)",
           }}
@@ -586,7 +726,7 @@ export default function HomePage() {
           <section 
             className="grid grid-cols-4 rounded-2xl p-2 text-center transition-all duration-300"
             style={{
-              background: "linear-gradient(135deg, #bf360c 0%, #d84315 20%, #e64a19 40%, #ff6f00 60%, #e64a19 80%, #d84315 90%, #bf360c 100%)",
+              background: "var(--calendar-orange-gradient)",
               border: "1.5px solid rgba(255, 183, 77, 0.4)",
               boxShadow: "0 -4px 20px rgba(255, 111, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.15), inset 0 -2px 0 rgba(139, 69, 19, 0.2)",
             }}
@@ -646,7 +786,7 @@ export default function HomePage() {
             <section 
               className="mt-3 rounded-2xl px-4 py-3 text-center transition-all duration-300"
               style={{
-                background: "linear-gradient(135deg, #bf360c 0%, #d84315 15%, #e64a19 35%, #ff6f00 50%, #e64a19 65%, #d84315 85%, #bf360c 100%)",
+                background: "var(--calendar-orange-gradient)",
                 border: "1.5px solid rgba(255, 183, 77, 0.4)",
                 boxShadow: "0 4px 16px rgba(255, 111, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.15), inset 0 -2px 0 rgba(139, 69, 19, 0.2)",
               }}
@@ -693,16 +833,16 @@ export default function HomePage() {
           <aside 
             className="absolute left-0 top-0 h-full w-[82%] max-w-sm p-4"
             style={{
-              background: "linear-gradient(180deg, #FFF8E1 0%, #FFECB3 50%, #FFE0B2 100%)",
-              boxShadow: "4px 0 30px rgba(255, 111, 0, 0.3)",
+              background: "var(--calendar-orange-gradient)",
+              boxShadow: "4px 0 30px rgba(255, 111, 0, 0.45)",
             }}
           >
             <div className="mb-3 flex items-center justify-between">
               <div 
                 className="text-lg font-semibold"
                 style={{
-                  color: "#6D4C41",
-                  textShadow: "0 1px 2px rgba(255, 193, 7, 0.3)",
+                  color: "#FFF1DA",
+                  textShadow: "0 1px 2px rgba(0, 0, 0, 0.35)",
                 }}
               >
                 Menu
@@ -712,9 +852,10 @@ export default function HomePage() {
                 onClick={() => setMenuOpen(false)}
                 className="rounded-lg px-3 py-1 text-sm transition-all duration-200 hover:scale-105"
                 style={{
-                  background: "linear-gradient(135deg, #FFE082 0%, #FFD54F 100%)",
-                  color: "#6D4C41",
-                  boxShadow: "0 2px 6px rgba(255, 193, 7, 0.3)",
+                  background: "var(--calendar-orange-gradient)",
+                  color: "#FFF1DA",
+                  boxShadow: "0 2px 8px rgba(255, 111, 0, 0.35)",
+                  border: "1px solid rgba(255, 183, 77, 0.45)",
                 }}
               >
                 Close
@@ -728,10 +869,10 @@ export default function HomePage() {
                   onClick={() => setMenuOpen(false)}
                   className="rounded-lg px-3 py-2 text-sm transition-all duration-200 hover:scale-[1.02]"
                   style={{
-                    background: "linear-gradient(135deg, #FFFDE7 0%, #FFF9C4 100%)",
-                    color: "#6D4C41",
-                    boxShadow: "0 2px 8px rgba(255, 152, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.5)",
-                    border: "1px solid rgba(255, 193, 7, 0.2)",
+                    background: "var(--calendar-orange-gradient)",
+                    color: "#FFE8C5",
+                    boxShadow: "0 2px 10px rgba(255, 152, 0, 0.3), inset 0 1px 0 rgba(255, 220, 160, 0.22)",
+                    border: "1px solid rgba(255, 183, 77, 0.35)",
                   }}
                 >
                   {label}
@@ -741,6 +882,54 @@ export default function HomePage() {
           </aside>
         </div>
       ) : null}
+
+      {languagePopupOpen ? (
+        <div
+          className="fixed inset-0 z-[1010] flex items-center justify-center bg-black/70 backdrop-blur-sm p-4"
+          onClick={() => setLanguagePopupOpen(false)}
+        >
+          <div
+            className="w-full max-w-xs rounded-2xl p-4 shadow-2xl"
+            style={{
+              background: "linear-gradient(135deg, #4a0e0e 0%, #d8691e 50%, #4a0e0e 100%)",
+              border: "2px solid rgba(255, 220, 150, 0.85)",
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h3 className="mb-3 text-center text-lg font-bold text-orange-300">Select Language</h3>
+            <div className="max-h-60 overflow-y-auto rounded-lg p-2" style={{ background: "linear-gradient(180deg, rgba(255, 110, 40, 0.35) 0%, rgba(255, 90, 25, 0.25) 100%)" }}>
+              {languages.map((lang) => {
+                const isActive = lang.code === language;
+                return (
+                  <button
+                    key={lang.code}
+                    type="button"
+                    onClick={() => {
+                      setLanguage(lang.code);
+                      setLanguagePopupOpen(false);
+                    }}
+                    className={`mb-1 w-full rounded-lg px-3 py-2.5 text-left text-sm font-medium transition-all duration-200 ${
+                      isActive ? "bg-orange-500 text-white shadow-lg" : "bg-orange-700/95 text-orange-100 hover:bg-orange-600"
+                    }`}
+                  >
+                    {String(lang.code || "").toUpperCase()} {lang.nativeName ? `• ${lang.nativeName}` : ""}
+                  </button>
+                );
+              })}
+            </div>
+            <button
+              type="button"
+              onClick={() => setLanguagePopupOpen(false)}
+              className="mt-3 w-full rounded-lg bg-gray-600 px-4 py-2 text-sm font-semibold text-white transition-all duration-200 hover:bg-gray-500"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }
+
+
+

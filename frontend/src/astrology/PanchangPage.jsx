@@ -4,6 +4,7 @@ import { getProkeralaPanchang } from "../services/astrologyApi";
 import { getAstroDefaults } from "../utils/appSettings";
 import PageShell from "../pages/PageShell";
 import { Field, JsonBlock, SectionCard, SelectInput, TextInput } from "./components/AstroInputs";
+import CalendarDateInput from "../components/CalendarDateInput";
 import {
   buildIsoDatetime,
   findActiveByTime,
@@ -34,6 +35,9 @@ export default function PanchangPage() {
   const [error, setError] = useState(null);
   const [showRaw, setShowRaw] = useState(false);
   const abortRef = useRef(null);
+  const hourOptions = Array.from({ length: 24 }, (_, i) => String(i).padStart(2, "0"));
+  const minuteOptions = Array.from({ length: 60 }, (_, i) => String(i).padStart(2, "0"));
+  const [timeHour = "00", timeMinute = "00"] = String(form.time || "00:00").split(":");
 
   const summary = useMemo(() => {
     const root = result?.data || result;
@@ -71,6 +75,11 @@ export default function PanchangPage() {
   }, [result, form.date, form.time, form.tzOffset]);
 
   const onChange = (key) => (e) => setForm((s) => ({ ...s, [key]: e.target.value }));
+  const setTimePart = (part, value) => {
+    const hh = part === "hour" ? value : timeHour;
+    const mm = part === "minute" ? value : timeMinute;
+    setForm((s) => ({ ...s, time: `${hh}:${mm}` }));
+  };
 
   const runFetch = async ({ signal } = {}) => {
     setLoading(true);
@@ -151,10 +160,21 @@ export default function PanchangPage() {
         <div className="app-panel rounded-2xl p-4">
         <form id="panchang-form" onSubmit={onSubmit} className="grid gap-4 md:grid-cols-3">
           <Field label="Date" hint="YYYY-MM-DD">
-            <TextInput type="date" value={form.date} onChange={onChange("date")} />
+            <CalendarDateInput value={form.date} onChange={(next) => setForm((s) => ({ ...s, date: next }))} />
           </Field>
-          <Field label="Time" hint="HH:MM (optional)">
-            <TextInput type="time" value={form.time} onChange={onChange("time")} />
+          <Field label="Time" hint="HH:MM">
+            <div className="grid grid-cols-2 gap-2">
+              <SelectInput value={timeHour} onChange={(e) => setTimePart("hour", e.target.value)}>
+                {hourOptions.map((h) => (
+                  <option key={h} value={h}>{h}</option>
+                ))}
+              </SelectInput>
+              <SelectInput value={timeMinute} onChange={(e) => setTimePart("minute", e.target.value)}>
+                {minuteOptions.map((m) => (
+                  <option key={m} value={m}>{m}</option>
+                ))}
+              </SelectInput>
+            </div>
           </Field>
           <Field label="Timezone Offset" hint="+05:30">
             <TextInput value={form.tzOffset} onChange={onChange("tzOffset")} placeholder="+05:30" />

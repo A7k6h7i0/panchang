@@ -9,6 +9,9 @@ import { translations, languages } from "./translations";
 import { translateText } from "./translations";
 import { speakCloud } from "./utils/cloudSpeech";
 import { getDateSelectionSpeech } from "./utils/speechTemplates";
+import { getProkeralaPanchang } from "./services/astrologyApi";
+import { getAstroDefaults } from "./utils/appSettings";
+import { buildIsoDatetime, findActiveByTime, safeDateFromIso } from "./astrology/components/formatters";
 
 const YEARS = Array.from({ length: 186 }, (_, i) => 1940 + i);
 const DATE_STATE_KEY = "panchang:selected-date";
@@ -27,6 +30,60 @@ const getTodayInfo = () => {
 
 const formatDateString = (y, m, d) =>
   `${String(d).padStart(2, "0")}/${String(m + 1).padStart(2, "0")}/${y}`;
+
+const toYmdFromSlashDate = (dateStr) => {
+  const [day, month, year] = String(dateStr || "").split("/");
+  if (!day || !month || !year) return "";
+  return `${year}-${month}-${day}`;
+};
+
+const toHHmm = (dateObj) =>
+  `${String(dateObj.getHours()).padStart(2, "0")}:${String(dateObj.getMinutes()).padStart(2, "0")}`;
+
+function textOf(value) {
+  if (value == null) return "";
+  if (typeof value === "string") return value.trim();
+  if (typeof value === "number") return String(value);
+  if (typeof value === "object") {
+    return String(
+      value?.name ??
+      value?.vedic_name ??
+      value?.title ??
+      value?.value ??
+      value?.label ??
+      value?.display_name ??
+      value?.en ??
+      value?.te ??
+      value?.hi ??
+      value?.ta ??
+      value?.kn ??
+      value?.ml ??
+      ""
+    ).trim();
+  }
+  return "";
+}
+
+function firstText(...values) {
+  for (const v of values) {
+    if (Array.isArray(v)) {
+      for (const item of v) {
+        const t = textOf(item);
+        if (t) return t;
+      }
+      continue;
+    }
+    const t = textOf(v);
+    if (t) return t;
+  }
+  return "";
+}
+
+function cleanDash(value) {
+  if (!value) return "";
+  const str = String(value).trim();
+  return str.replace(/^\s*-\s*|\s*-\s*$/g, "").trim();
+}
 
 const loadInitialSelection = (today) => {
   if (typeof window === "undefined") return today;
@@ -123,14 +180,15 @@ function App() {
   const [preferredDay, setPreferredDay] = useState(initialSelection.day);
   const [language, setLanguage] = useState(loadInitialLanguage);
   const [showDatePicker, setShowDatePicker] = useState(false);
-  const [isLanguageMenuOpen, setIsLanguageMenuOpen] = useState(false);
   const [chatButtonPos, setChatButtonPos] = useState({ x: null, y: null });
   const [isChatbotOpen, setIsChatbotOpen] = useState(false);
   const [currentView, setCurrentView] = useState(loadInitialView());
   const [voiceEnabled, setVoiceEnabled] = useState(false);
   const [selectedRashi, setSelectedRashi] = useState(loadSavedRashi());
+  const [prokeralaElementsByDate, setProkeralaElementsByDate] = useState({});
   const chatButtonRef = useRef(null);
   const dragStateRef = useRef({ dragging: false, offsetX: 0, offsetY: 0 });
+  const prokeralaInFlightDatesRef = useRef(new Set());
   
   // Temp state for date picker popup only
   const [tempYear, setTempYear] = useState(initialSelection.year);
@@ -138,7 +196,6 @@ function App() {
   const [tempDay, setTempDay] = useState(initialSelection.day);
 
   const t = translations[language];
-  const selectedLanguage = languages.find((lang) => lang.code === language) || languages[0];
   const shubhamasthuByLang = {
     en: "Shubhamasthu",
     te: "శుభమస్తు",
@@ -229,15 +286,6 @@ function App() {
     if (typeof window === "undefined") return;
     localStorage.setItem(LANGUAGE_KEY, language);
   }, [language]);
-
-  useEffect(() => {
-    if (!isLanguageMenuOpen) return;
-    const handleEscape = (event) => {
-      if (event.key === "Escape") setIsLanguageMenuOpen(false);
-    };
-    document.addEventListener("keydown", handleEscape);
-    return () => document.removeEventListener("keydown", handleEscape);
-  }, [isLanguageMenuOpen]);
 
   // Handle browser back/forward button for Rashiphalalu navigation
   useEffect(() => {
@@ -431,6 +479,77 @@ function App() {
   };
 
   const calendarDays = getCalendarDays(tempYear, tempMonth);
+
+  useEffect(() => {
+    const slashDate = selectedDay?.date;
+    if (!slashDate) return;
+    if (prokeralaElementsByDate[slashDate]) return;
+    if (prokeralaInFlightDatesRef.current.has(slashDate)) return;
+
+    const ymd = toYmdFromSlashDate(slashDate);
+    if (!ymd) return;
+
+    const defaults = getAstroDefaults();
+    const dateParts = slashDate.split("/");
+    const isTodaySelection =
+      Number(dateParts[0]) === today.day &&
+      Number(dateParts[1]) === today.month + 1 &&
+      Number(dateParts[2]) === today.year;
+    const refTime = isTodaySelection ? toHHmm(new Date()) : "12:00";
+    const refDate = safeDateFromIso(
+      buildIsoDatetime({ date: ymd, time: refTime, tzOffset: defaults.tzOffset })
+    );
+
+    let cancelled = false;
+    prokeralaInFlightDatesRef.current.add(slashDate);
+
+    getProkeralaPanchang({
+      date: ymd,
+      time: refTime,
+      lat: defaults.lat,
+      lng: defaults.lng,
+      tzOffset: defaults.tzOffset,
+      ayanamsa: defaults.ayanamsa,
+      la: defaults.la,
+    })
+      .then((payload) => {
+        if (cancelled) return;
+        const root = payload?.data || payload;
+        const activeYoga = findActiveByTime(root?.yoga, refDate) || (Array.isArray(root?.yoga) ? root.yoga[0] : null);
+        const activeKarana =
+          findActiveByTime(root?.karana, refDate) || (Array.isArray(root?.karana) ? root.karana[0] : null);
+        const yogaName = cleanDash(firstText(activeYoga?.name));
+        const karanaName = cleanDash(firstText(activeKarana?.name));
+        setProkeralaElementsByDate((prev) => ({
+          ...prev,
+          [slashDate]: {
+            Yoga: yogaName || prev?.[slashDate]?.Yoga || "-",
+            Karana: karanaName || prev?.[slashDate]?.Karana || "-",
+          },
+        }));
+      })
+      .catch(() => {
+        if (cancelled) return;
+      })
+      .finally(() => {
+        prokeralaInFlightDatesRef.current.delete(slashDate);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [selectedDay?.date, today.day, today.month, today.year, prokeralaElementsByDate]);
+
+  const selectedDayWithProkerala = useMemo(() => {
+    if (!selectedDay?.date) return selectedDay;
+    const p = prokeralaElementsByDate[selectedDay.date];
+    if (!p) return selectedDay;
+    return {
+      ...selectedDay,
+      Yoga: p.Yoga || selectedDay.Yoga || "-",
+      Karana: p.Karana || selectedDay.Karana || "-",
+    };
+  }, [selectedDay, prokeralaElementsByDate]);
 
   // Format the selected date for display
   const getFormattedDate = () => {
@@ -716,66 +835,27 @@ function App() {
         />
 
         <div className="relative mx-auto max-w-7xl px-3 sm:px-6 lg:px-8 py-0.5 sm:py-1">
-          {/* HEADER: Swastik + Title + Language Selector */}
-          <div className="flex flex-wrap items-center justify-between gap-3 mb-0.5 pb-0.5" style={{ borderBottom: "2px solid rgba(255, 140, 50, 0.4)" }}>
-            {/* Left: Swastik + Panchang Calendar Title */}
-            <div className="flex items-center gap-3 flex-1 min-w-0">
-              {/* SWASTIK ICON BOX (acts as back-to-calendar in Rashiphalalu view) */}
-              <button
-                type="button"
-                onClick={navigateToCalendar}
-                aria-label="Back to calendar"
-                title={currentView === "rashiphalalu" ? "Back to calendar" : "Calendar"}
-                className={`h-10 w-10 sm:h-12 sm:w-12 flex items-center justify-center flex-shrink-0 relative ${
-                  currentView === "rashiphalalu" ? "cursor-pointer" : "cursor-default"
-                }`}
+                    {/* HEADER: Title only (controls moved to HomePage) */}
+          <div className="mb-0.5 flex items-center justify-between border-b-[2px] border-[rgba(255,140,50,0.4)] pb-0.5">
+            <div className="flex min-w-0 items-center gap-2">
+              <Link
+                to="/"
+                className="inline-flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg text-base font-black transition-all duration-200 hover:scale-105"
                 style={{
-                  background: "linear-gradient(135deg, #1a0a05 0%, #2d1208 50%, #401a0c 100%)",
-                  border: "3px solid #ff8c32",
-                  borderRadius: "16px",
-                  boxShadow: `
-                    0 0 30px rgba(255, 140, 50, 1),
-                    0 0 60px rgba(255, 100, 30, 0.8),
-                    inset 0 0 20px rgba(255, 140, 50, 0.3),
-                    inset 0 2px 6px rgba(255, 200, 100, 0.4),
-                    inset 0 -2px 6px rgba(0, 0, 0, 0.6)
-                  `,
-                  padding: 0,
+                  background: "linear-gradient(135deg, rgba(255, 224, 130, 0.3) 0%, rgba(255, 183, 77, 0.25) 100%)",
+                  color: "#FFF5E1",
+                  border: "1px solid rgba(255, 224, 130, 0.3)",
                 }}
+                aria-label="Back to home"
+                title="Back to home"
               >
-                {/* Inner border layer */}
-                <div
-                  className="absolute inset-0"
-                  style={{
-                    border: "2px solid rgba(255, 180, 80, 0.6)",
-                    margin: "3px",
-                    borderRadius: "12px",
-                  }}
-                />
-                <span
-                  className="text-xl sm:text-2xl relative z-10"
-                  style={{
-                    background: "linear-gradient(135deg, #ffe9a0 0%, #ffd54f 25%, #ffb300 50%, #ff8f00 75%, #ff6f00 100%)",
-                    WebkitBackgroundClip: "text",
-                    WebkitTextFillColor: "transparent",
-                    backgroundClip: "text",
-                    filter: "drop-shadow(0 0 15px rgba(255, 215, 0, 1)) drop-shadow(0 0 30px rgba(255, 160, 0, 0.8))",
-                    fontWeight: "900",
-                  }}
-                >
-                  卐
-                </span>
-              </button>
-
-              {/* PANCHANG CALENDAR TITLE */}
+                {"\u2190"}
+              </Link>
               <h1
-                className="font-black tracking-tight min-w-0 flex-1"
+                className="font-black tracking-tight"
                 style={{
                   color: "#FFFFFF",
-                  textShadow: `
-                    0 1px 2px rgba(0, 0, 0, 0.85),
-                    0 6px 18px rgba(255, 140, 50, 0.45)
-                  `,
+                  textShadow: "0 1px 2px rgba(0, 0, 0, 0.85), 0 6px 18px rgba(255, 140, 50, 0.45)",
                   lineHeight: "1.05",
                   letterSpacing: "0.02em",
                   fontSize: "clamp(1rem, 2.6vw, 1.7rem)",
@@ -785,152 +865,18 @@ function App() {
                 {t.appTitle}
               </h1>
             </div>
-
-            {/* Right: Voice Toggle + Language Selector */}
-            <div className="flex items-center gap-1">
-              {/* Voice Toggle Button */}
-              <button
-                type="button"
-                onClick={() => setVoiceEnabled(!voiceEnabled)}
-                className="px-2 py-1 text-xs font-bold outline-none transition-all hover:scale-105 rounded-full backdrop-blur-sm"
-                style={{
-                  background: voiceEnabled
-                    ? "linear-gradient(135deg, rgba(76, 175, 80, 0.6) 0%, rgba(56, 142, 60, 0.7) 100%)"
-                    : "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
-                  color: voiceEnabled ? "#C8E6C9" : "#FFE4B5",
-                  border: voiceEnabled
-                    ? "2px solid rgba(76, 175, 80, 0.8)"
-                    : "2px solid rgba(255, 140, 50, 0.7)",
-                  boxShadow: voiceEnabled
-                    ? `
-                      0 0 15px rgba(76, 175, 80, 0.6),
-                      0 0 30px rgba(56, 142, 60, 0.4),
-                      inset 0 0 10px rgba(200, 255, 200, 0.2)
-                    `
-                    : `
-                      0 0 15px rgba(255, 140, 50, 0.6),
-                      0 0 30px rgba(255, 100, 30, 0.4),
-                      inset 0 0 10px rgba(255, 200, 100, 0.2)
-                    `,
-                  minWidth: "36px",
-                }}
-                aria-label={voiceEnabled ? "Voice Enabled" : "Voice Disabled"}
-              >
-                <span className="inline-flex items-center justify-center">
-                  {voiceEnabled ? (
-                    <svg className="w-3 h-3" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
-                      <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
-                    </svg>
-                  ) : (
-                    <svg className="w-3 h-3" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M19 11h-1.7c0 .74-.16 1.43-.43 2.05l1.23 1.23c.56-.98.9-2.09.9-3.28zm-4.02.17c0-.06.02-.11.02-.17V5c0-1.66-1.34-3-3-3S9 3.34 9 5v.18l5.98 5.99zM4.27 3L3 4.27l6.01 6.01V11c0 1.66 1.33 3 2.99 3 .22 0 .44-.03.65-.08l1.66 1.66c-.71.33-1.5.52-2.31.52-2.76 0-5.3-2.1-5.3-5.1H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c.91-.13 1.77-.45 2.54-.9L19.73 21 21 19.73 4.27 3z"/>
-                    </svg>
-                  )}
-                </span>
-              </button>
-
-              {/* Language Selector */}
-              <div className="flex-shrink-0 relative">
-                <button
-                  type="button"
-                  onClick={() => setIsLanguageMenuOpen((open) => !open)}
-                  className="px-2 py-1 text-xs font-bold outline-none transition-all hover:scale-105 rounded-full backdrop-blur-sm text-left"
-                  style={{
-                    background: "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
-                    color: "#FFE4B5",
-                    border: "2px solid rgba(255, 140, 50, 0.7)",
-                    boxShadow: `
-                      0 0 15px rgba(255, 140, 50, 0.6),
-                      0 0 30px rgba(255, 100, 30, 0.4),
-                      inset 0 0 10px rgba(255, 200, 100, 0.2)
-                    `,
-                    minWidth: "60px",
-                    paddingRight: "20px",
-                    position: "relative",
-                  }}
-                  aria-haspopup="listbox"
-                  aria-expanded={isLanguageMenuOpen}
-                  aria-label="Select Language"
-                >
-                  {selectedLanguage.nativeName}
-                  <span
-                    aria-hidden="true"
-                    style={{
-                      position: "absolute",
-                      right: "6px",
-                      top: "50%",
-                      transform: `translateY(-50%) rotate(${isLanguageMenuOpen ? "180deg" : "0deg"})`,
-                      transition: "transform 150ms ease",
-                      fontSize: "8px",
-                      color: "#FFE4B5",
-                      pointerEvents: "none",
-                    }}
-                  >
-                    ▼
-                  </span>
-                </button>
-
-                {isLanguageMenuOpen && (
-                  <div
-                    className="fixed inset-0 z-[1100] flex items-start sm:items-center justify-center bg-black/55 backdrop-blur-sm p-4"
-                    onClick={() => setIsLanguageMenuOpen(false)}
-                  >
-                    <div
-                      role="listbox"
-                      aria-label="Select Language"
-                      className="w-full max-w-xs overflow-hidden mt-12 sm:mt-0"
-                      onClick={(e) => e.stopPropagation()}
-                      style={{
-                        background: "linear-gradient(135deg, #4a0e0e 0%, #d8691e 50%, #4a0e0e 100%)",
-                        border: "2px solid rgba(255, 220, 150, 0.85)",
-                        borderRadius: "20px",
-                        boxShadow: "0 16px 40px rgba(0, 0, 0, 0.5), 0 0 24px rgba(255, 90, 31, 0.45)",
-                      }}
-                    >
-                      <div
-                        className="px-4 py-3 text-sm font-bold"
-                        style={{
-                          color: "#FFE4B5",
-                          borderBottom: "1px solid rgba(255, 255, 255, 0.2)",
-                          background: "rgba(90, 25, 8, 0.35)",
-                        }}
-                      >
-                        Select Language
-                      </div>
-                      {languages.map((lang) => {
-                        const isActive = lang.code === language;
-                        return (
-                          <button
-                            key={lang.code}
-                            type="button"
-                            role="option"
-                            aria-selected={isActive}
-                            onClick={() => {
-                              setLanguage(lang.code);
-                              setIsLanguageMenuOpen(false);
-                            }}
-                            className={`w-full text-left px-5 py-3 text-2xl font-bold transition-all duration-200 ${
-                              isActive
-                                ? "bg-orange-500 text-white shadow-lg"
-                                : "bg-orange-700/95 hover:bg-orange-600 text-orange-100"
-                            }`}
-                            style={{
-                              borderBottom: "1px solid rgba(255, 255, 255, 0.2)",
-                              lineHeight: "1.1",
-                            }}
-                          >
-                            {lang.nativeName}
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </div>
-
-                )}
-                </div>
-              </div>
-            </div>
+            <Link
+              to="/settings"
+              className="inline-flex h-9 w-9 items-center justify-center rounded-lg text-lg transition-all duration-200 hover:scale-105"
+              style={{
+                background: "linear-gradient(135deg, rgba(255, 224, 130, 0.3) 0%, rgba(255, 183, 77, 0.25) 100%)",
+                color: "#FFF5E1",
+                border: "1px solid rgba(255, 224, 130, 0.3)",
+              }}
+              aria-label="Settings"
+            >
+              {"\u2699"}
+            </Link>
           </div>
           
           {/* DayDetails Header Row with Outer Container */}
@@ -938,7 +884,7 @@ function App() {
             <div
               className="rounded-xl sm:rounded-2xl p-3 backdrop-blur-md"
               style={{
-                background: "linear-gradient(135deg, rgba(80, 20, 10, 0.98) 0%, rgba(100, 25, 12, 0.95) 50%, rgba(120, 30, 15, 0.92) 100%)",
+                background: "var(--calendar-orange-shell)",
                 border: "3px solid rgba(255, 140, 50, 0.8)",
                 boxShadow: `
                   0 0 35px rgba(255, 140, 50, 0.8),
@@ -948,7 +894,7 @@ function App() {
               }}
             >
               <DayDetails 
-                day={selectedDay} 
+                day={selectedDayWithProkerala} 
                 language={language} 
                 translations={t} 
                 isHeaderMode={true} 
@@ -956,6 +902,7 @@ function App() {
               />
             </div>
           </div>
+        </div>
         </header>
 
       {/* ============= MAIN CONTENT (Calendar View or Rashiphalalu) ============= */}
@@ -975,7 +922,7 @@ function App() {
             <section 
               className="rounded-xl sm:rounded-2xl p-3 sm:p-4 backdrop-blur-md"
               style={{
-                background: "linear-gradient(135deg, rgba(80, 20, 10, 0.98) 0%, rgba(100, 25, 12, 0.95) 50%, rgba(120, 30, 15, 0.92) 100%)",
+                background: "var(--calendar-orange-shell)",
                 border: "3px solid rgba(255, 140, 50, 0.8)",
                 boxShadow: `
                   0 0 35px rgba(255, 140, 50, 0.8),
@@ -1029,7 +976,7 @@ function App() {
                 >
                   <span style={{ color: "#D4AF37" }}>📅</span>
                   <span>{year}</span>
-                </button>
+                </button> 
               </div>
 
                 {/* YearSelectorPopup - replaces inline date picker */}
@@ -1062,7 +1009,7 @@ function App() {
             <section 
               className="rounded-xl sm:rounded-2xl p-3 backdrop-blur-md"
               style={{
-                background: "linear-gradient(135deg, rgba(80, 20, 10, 0.98) 0%, rgba(100, 25, 12, 0.95) 50%, rgba(120, 30, 15, 0.92) 100%)",
+                background: "var(--calendar-orange-shell)",
                 border: "3px solid rgba(255, 140, 50, 0.8)",
                 boxShadow: `
                   0 0 35px rgba(255, 140, 50, 0.8),
@@ -1073,7 +1020,7 @@ function App() {
               }}
             >
               {/* PANCHANG ELEMENTS AND INAUSPICIOUS TIMINGS */}
-              <DayDetails day={selectedDay} language={language} translations={t} isSidebarMode={true} onRashiphalaluClick={navigateToRashiphalalu} voiceEnabled={voiceEnabled} />
+              <DayDetails day={selectedDayWithProkerala} language={language} translations={t} isSidebarMode={true} voiceEnabled={voiceEnabled} />
             </section>
           </div>
         )}
@@ -1155,7 +1102,7 @@ function App() {
         language={language}
         translations={t}
         currentDateData={days}
-        selectedDay={selectedDay}
+        selectedDay={selectedDayWithProkerala}
         voiceEnabled={voiceEnabled}
       />
 
@@ -1257,3 +1204,5 @@ function App() {
 }
 
 export default App;
+
+

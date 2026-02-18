@@ -29,6 +29,7 @@ export default function HinduTimePage() {
   const abortRef = useRef(null);
   const [showConverter, setShowConverter] = useState(false);
   const [conv, setConv] = useState({ ghati: "0", pal: "0", vipal: "0" });
+  const todayKey = ymdToday();
 
   useEffect(() => {
     const id = setInterval(() => setNow(new Date()), 1000);
@@ -42,10 +43,11 @@ export default function HinduTimePage() {
     setError("");
     (async () => {
       try {
-        const time = `${pad2(now.getHours())}:${pad2(now.getMinutes())}`;
+        // Sunrise changes only by date, so avoid minute-wise refetch/rate-limit churn.
+        const time = "06:00";
         const payload = await getProkeralaPanchang(
           {
-            date: ymdToday(),
+            date: todayKey,
             time,
             lat: defaults.lat,
             lng: defaults.lng,
@@ -56,11 +58,12 @@ export default function HinduTimePage() {
           { signal: controller.signal }
         );
         const root = payload?.data || payload;
-        setSunriseIso(root?.sunrise || null);
+        if (root?.sunrise) {
+          setSunriseIso(root.sunrise);
+        }
         setError("");
       } catch (e) {
         if (e?.name === "AbortError") return;
-        setSunriseIso(null);
         if (e?.status === 429 || e?.status === 403) {
           setError("");
           return;
@@ -70,14 +73,17 @@ export default function HinduTimePage() {
     })();
     return () => controller.abort();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [now.getMinutes()]);
+  }, [todayKey]);
 
   const gh = useMemo(() => computeGhati(now, sunriseIso), [now, sunriseIso]);
-  const angle = useMemo(() => {
+  const hinduAngle = useMemo(() => {
     if (!gh) return 0;
     const total = (gh.ghati + gh.pal / 60 + gh.vipal / 3600) % 60;
     return total * 6;
   }, [gh]);
+  const hourAngle = useMemo(() => ((now.getHours() % 12) + now.getMinutes() / 60) * 30, [now]);
+  const minuteAngle = useMemo(() => (now.getMinutes() + now.getSeconds() / 60) * 6, [now]);
+  const secondAngle = useMemo(() => now.getSeconds() * 6, [now]);
 
   const convResult = useMemo(() => {
     if (!sunriseIso) return null;
@@ -111,11 +117,79 @@ export default function HinduTimePage() {
             <div className="mx-auto w-full max-w-sm">
               <div className="relative mx-auto h-80 w-80">
                 <div className="absolute inset-0 rounded-full border border-amber-300/25 bg-gradient-to-b from-amber-300/10 to-black/30 shadow-[0_30px_70px_rgba(0,0,0,0.55)]" />
-                <div className="absolute inset-4 rounded-full border border-amber-300/15 bg-black/20" />
-                <div className="absolute left-1/2 top-1/2 h-32 w-2 -translate-x-1/2 -translate-y-full rounded-full bg-amber-200 shadow-[0_0_26px_rgba(255,210,130,0.55)]"
-                  style={{ transform: `translate(-50%, -100%) rotate(${angle}deg)`, transformOrigin: "bottom center" }}
-                />
-                <div className="absolute left-1/2 top-1/2 h-6 w-6 -translate-x-1/2 -translate-y-1/2 rounded-full bg-amber-200" />
+                <div className="absolute inset-2 rounded-full border border-amber-300/20 bg-black/20" />
+                <svg viewBox="0 0 320 320" className="absolute inset-0 h-full w-full">
+                  <defs>
+                    <filter id="hGlow">
+                      <feGaussianBlur stdDeviation="1.5" result="coloredBlur" />
+                      <feMerge>
+                        <feMergeNode in="coloredBlur" />
+                        <feMergeNode in="SourceGraphic" />
+                      </feMerge>
+                    </filter>
+                  </defs>
+
+                  <circle cx="160" cy="160" r="128" fill="none" stroke="rgba(255,210,130,0.20)" strokeWidth="1.5" />
+
+                  {Array.from({ length: 60 }).map((_, i) => {
+                    const a = (i * 6 - 90) * (Math.PI / 180);
+                    const major = i % 5 === 0;
+                    const r1 = major ? 111 : 116;
+                    const r2 = 124;
+                    const x1 = 160 + r1 * Math.cos(a);
+                    const y1 = 160 + r1 * Math.sin(a);
+                    const x2 = 160 + r2 * Math.cos(a);
+                    const y2 = 160 + r2 * Math.sin(a);
+                    return (
+                      <line
+                        key={`tick-${i}`}
+                        x1={x1}
+                        y1={y1}
+                        x2={x2}
+                        y2={y2}
+                        stroke={major ? "rgba(255,210,130,0.55)" : "rgba(255,210,130,0.3)"}
+                        strokeWidth={major ? "1.8" : "1"}
+                      />
+                    );
+                  })}
+
+                  {Array.from({ length: 12 }).map((_, i) => {
+                    const label = String(i * 5).padStart(2, "0");
+                    const a = (i * 30 - 90) * (Math.PI / 180);
+                    const x = 160 + 101 * Math.cos(a);
+                    const y = 160 + 101 * Math.sin(a);
+                    return (
+                      <text
+                        key={`label-${i}`}
+                        x={x}
+                        y={y}
+                        textAnchor="middle"
+                        dominantBaseline="middle"
+                        fill="rgba(255,210,130,0.75)"
+                        fontSize="10"
+                        fontWeight="700"
+                      >
+                        {label}
+                      </text>
+                    );
+                  })}
+
+                  <g transform={`rotate(${hourAngle} 160 160)`}>
+                    <line x1="160" y1="160" x2="160" y2="106" stroke="rgba(255,255,255,0.7)" strokeWidth="3.5" strokeLinecap="round" />
+                  </g>
+                  <g transform={`rotate(${minuteAngle} 160 160)`}>
+                    <line x1="160" y1="160" x2="160" y2="92" stroke="rgba(245,245,245,0.78)" strokeWidth="2.4" strokeLinecap="round" />
+                  </g>
+                  <g transform={`rotate(${secondAngle} 160 160)`}>
+                    <line x1="160" y1="165" x2="160" y2="84" stroke="rgba(220,220,220,0.45)" strokeWidth="1.2" strokeLinecap="round" />
+                  </g>
+
+                  <g transform={`rotate(${hinduAngle} 160 160)`} filter="url(#hGlow)">
+                    <line x1="160" y1="160" x2="160" y2="78" stroke="#f5c242" strokeWidth="13" strokeLinecap="round" />
+                  </g>
+
+                  <circle cx="160" cy="160" r="8" fill="#f5d470" />
+                </svg>
               </div>
             </div>
 
@@ -125,7 +199,7 @@ export default function HinduTimePage() {
               </div>
               <div className="mt-2 text-lg font-semibold text-amber-100/80">Ghati : Pal : Vipal</div>
               <div className="mt-6 text-4xl font-black text-amber-50">
-                --:--:--
+                {now.toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit", second: "2-digit" })}
               </div>
               <div className="mt-2 text-sm text-amber-100/70">
                 {location.name} • {new Date(buildIsoDatetime({ date: ymdToday(), time: "00:00", tzOffset: defaults.tzOffset })).toLocaleDateString()}

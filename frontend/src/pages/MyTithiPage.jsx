@@ -3,6 +3,7 @@ import PageShell from "./PageShell";
 import { getProkeralaPanchang } from "../services/astrologyApi";
 import { getAstroDefaults } from "../utils/appSettings";
 import { buildIsoDatetime, findActiveByTime, safeDateFromIso, ymdToday } from "../astrology/components/formatters";
+import CalendarDateInput from "../components/CalendarDateInput";
 
 const STORAGE_KEY = "panchang:my-tithi";
 
@@ -105,12 +106,7 @@ export default function MyTithiPage() {
             </label>
             <label className="grid gap-1">
               <span className="text-xs font-black tracking-wide text-amber-100/70">DATE</span>
-              <input
-                type="date"
-                value={date}
-                onChange={(e) => setDate(e.target.value)}
-                className="rounded-2xl border border-white/10 bg-black/25 px-4 py-3 text-amber-50 outline-none focus:border-amber-300/35"
-              />
+              <CalendarDateInput value={date} onChange={setDate} className="rounded-2xl px-4 py-3" />
             </label>
             <button
               type="button"

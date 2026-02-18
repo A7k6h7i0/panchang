@@ -133,8 +133,9 @@ export default function NorthIndianChart({ lagnaRashi, planets = [] }) {
   const lineColor = "rgba(255, 226, 176, 0.35)";
 
   return (
-    <div className="overflow-auto rounded-2xl border border-white/10 bg-black/20 p-3">
-      <svg viewBox="0 0 400 400" className="mx-auto block min-w-[320px]">
+    <div className="overflow-hidden rounded-2xl border border-white/10 bg-black/20 p-1 sm:p-2">
+      <div className="mx-auto w-full" style={{ maxWidth: "100%" }}>
+        <svg viewBox="0 0 400 400" className="block w-full h-auto">
         {/* Outer square */}
         <rect x="20" y="20" width="360" height="360" fill="none" stroke={lineColor} strokeWidth="2" />
 
@@ -155,7 +156,7 @@ export default function NorthIndianChart({ lagnaRashi, planets = [] }) {
         />
 
         {/* Center label */}
-        <text x="200" y="205" textAnchor="middle" fontSize="18" fill={textColor} fontWeight="700">
+        <text x="200" y="205" textAnchor="middle" fontSize="16" fill={textColor} fontWeight="700">
           Lagna
         </text>
 
@@ -166,15 +167,15 @@ export default function NorthIndianChart({ lagnaRashi, planets = [] }) {
           const body = h.planets.join(" ");
           return (
             <g key={houseNo}>
-              <text x={lp.x} y={lp.y} textAnchor="middle" fontSize="12" fill="rgba(255,226,176,0.7)">
+              <text x={lp.x} y={lp.y} textAnchor="middle" fontSize="10" fill="rgba(255,226,176,0.7)">
                 {houseToSignLabel(houseNo)}
               </text>
               {body ? (
                 <text
                   x={lp.x}
-                  y={lp.y + 18}
+                  y={lp.y + 16}
                   textAnchor="middle"
-                  fontSize="12"
+                  fontSize="9.5"
                   fill={textColor}
                   fontWeight="700"
                 >
@@ -184,7 +185,8 @@ export default function NorthIndianChart({ lagnaRashi, planets = [] }) {
             </g>
           );
         })}
-      </svg>
+        </svg>
+      </div>
     </div>
   );
 }

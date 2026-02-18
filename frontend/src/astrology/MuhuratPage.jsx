@@ -5,6 +5,7 @@ import { getAstroDefaults } from "../utils/appSettings";
 import PageShell from "../pages/PageShell";
 import { Field, JsonBlock, SectionCard, SelectInput, TextInput } from "./components/AstroInputs";
 import { buildIsoDatetime, isoParts, periodEnd, periodStart, safeDateFromIso, ymdToday } from "./components/formatters";
+import CalendarDateInput from "../components/CalendarDateInput";
 
 function findPeriodList(root) {
   const data = root?.data || root;
@@ -242,7 +243,7 @@ export default function MuhuratPage() {
       >
         <form id="muhurat-form" onSubmit={onSubmit} className="grid gap-4 md:grid-cols-3">
           <Field label="Date">
-            <TextInput type="date" value={form.date} onChange={onChange("date")} />
+            <CalendarDateInput value={form.date} onChange={(next) => setForm((s) => ({ ...s, date: next }))} />
           </Field>
           <Field label="Time">
             <TextInput type="time" value={form.time} onChange={onChange("time")} />

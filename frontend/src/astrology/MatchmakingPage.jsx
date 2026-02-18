@@ -6,6 +6,7 @@ import PageShell from "../pages/PageShell";
 import { Field, JsonBlock, SectionCard, SelectInput, TextInput } from "./components/AstroInputs";
 import Accordion from "./components/Accordion";
 import { ymdToday } from "./components/formatters";
+import CalendarDateInput from "../components/CalendarDateInput";
 
 function badgeByType(type) {
   const t = String(type || "").toLowerCase();
@@ -187,7 +188,12 @@ export default function MatchmakingPage() {
             <SectionCard title="Groom" subtitle="Birth details">
               <div className="grid gap-4 md:grid-cols-2">
                 <Field label="Date">
-                  <TextInput type="date" value={form.groom.date} onChange={setPerson("groom", "date")} />
+                  <CalendarDateInput
+                    value={form.groom.date}
+                    onChange={(next) =>
+                      setForm((s) => ({ ...s, groom: { ...s.groom, date: next } }))
+                    }
+                  />
                 </Field>
                 <Field label="Time">
                   <TextInput type="time" value={form.groom.time} onChange={setPerson("groom", "time")} />
@@ -204,7 +210,12 @@ export default function MatchmakingPage() {
             <SectionCard title="Bride" subtitle="Birth details">
               <div className="grid gap-4 md:grid-cols-2">
                 <Field label="Date">
-                  <TextInput type="date" value={form.bride.date} onChange={setPerson("bride", "date")} />
+                  <CalendarDateInput
+                    value={form.bride.date}
+                    onChange={(next) =>
+                      setForm((s) => ({ ...s, bride: { ...s.bride, date: next } }))
+                    }
+                  />
                 </Field>
                 <Field label="Time">
                   <TextInput type="time" value={form.bride.time} onChange={setPerson("bride", "time")} />

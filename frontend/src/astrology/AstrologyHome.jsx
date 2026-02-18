@@ -4,6 +4,7 @@ import { getProkeralaPanchang } from "../services/astrologyApi";
 import { getAstroDefaults } from "../utils/appSettings";
 import PageShell from "../pages/PageShell";
 import { JsonBlock, SectionCard } from "./components/AstroInputs";
+import CalendarDateInput from "../components/CalendarDateInput";
 import {
   buildIsoDatetime,
   findActiveByTime,
@@ -114,12 +115,7 @@ export default function AstrologyHome() {
         <div className="grid gap-4 md:grid-cols-3">
           <label className="block">
             <div className="mb-1 text-sm font-semibold text-amber-100">Date</div>
-            <input
-              type="date"
-              value={form.date}
-              onChange={onChange("date")}
-              className="w-full rounded-xl border border-white/15 bg-black/25 px-3 py-2 text-amber-50 outline-none transition focus:border-amber-300/50 focus:ring-2 focus:ring-amber-300/20"
-            />
+            <CalendarDateInput value={form.date} onChange={(next) => setForm((s) => ({ ...s, date: next }))} />
           </label>
           <label className="block">
             <div className="mb-1 text-sm font-semibold text-amber-100">Time</div>
