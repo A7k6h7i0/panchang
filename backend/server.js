@@ -37,6 +37,94 @@ const voiceMap = {
 
 // Store scheduled notifications
 const scheduledNotifications = new Map();
+const translateCache = new Map();
+
+const normalizeTranslateTarget = (language) => {
+  const lang = String(language || "en").trim().toLowerCase();
+  // Keep compatibility with app language aliases.
+  if (lang === "mrw") return "hi";
+  return lang || "en";
+};
+
+const shouldSkipTranslation = (value) => {
+  const text = String(value || "").trim();
+  if (!text) return true;
+  if (text.length > 500) return true;
+  // Skip pure numbers/symbols (dates, punctuation, icons, etc.).
+  if (!/[A-Za-z\u0900-\u097F\u0C00-\u0C7F\u0B80-\u0BFF\u0C80-\u0CFF\u0D00-\u0D7F]/.test(text)) {
+    return true;
+  }
+  return false;
+};
+
+const translateTextWithGoogle = async (text, target) => {
+  const key = `${target}::${text}`;
+  if (translateCache.has(key)) {
+    return translateCache.get(key);
+  }
+
+  const { data } = await axios.get("https://translate.googleapis.com/translate_a/single", {
+    params: {
+      client: "gtx",
+      sl: "auto",
+      tl: target,
+      dt: "t",
+      q: text,
+    },
+    timeout: 15000,
+  });
+
+  const translated =
+    Array.isArray(data?.[0]) ? data[0].map((part) => (Array.isArray(part) ? part[0] : "")).join("") : text;
+  const output = translated || text;
+  translateCache.set(key, output);
+  return output;
+};
+
+app.post("/api/translate/batch", async (req, res) => {
+  try {
+    const target = normalizeTranslateTarget(req.body?.target);
+    const textsRaw = Array.isArray(req.body?.texts) ? req.body.texts : [];
+    const texts = textsRaw.slice(0, 250).map((v) => String(v ?? ""));
+
+    if (!texts.length) {
+      return res.json({ target, translations: [] });
+    }
+
+    const uniqueNeeded = [];
+    const seen = new Set();
+
+    for (const text of texts) {
+      if (shouldSkipTranslation(text)) continue;
+      const key = `${target}::${text}`;
+      if (!translateCache.has(key) && !seen.has(text)) {
+        seen.add(text);
+        uniqueNeeded.push(text);
+      }
+    }
+
+    for (const src of uniqueNeeded) {
+      try {
+        await translateTextWithGoogle(src, target);
+      } catch (err) {
+        console.error("Translate failed for one text:", err?.message || err);
+        const key = `${target}::${src}`;
+        translateCache.set(key, src);
+      }
+    }
+
+    const translations = texts.map((text) => {
+      if (shouldSkipTranslation(text)) return text;
+      const key = `${target}::${text}`;
+      return translateCache.get(key) || text;
+    });
+
+    return res.json({ target, translations });
+  } catch (err) {
+    console.error("Batch translation failed:", err?.message || err);
+    return res.status(500).json({ error: "Batch translation failed" });
+  }
+});
 
 app.post("/tts", async (req, res) => {
   try {

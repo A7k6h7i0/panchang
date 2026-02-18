@@ -14,28 +14,32 @@ import SankalpMantraPage from "./pages/SankalpMantraPage";
 import AboutPage from "./pages/AboutPage";
 import InfoPage from "./pages/InfoPage";
 import SettingsPage from "./pages/SettingsPage";
+import AutoTranslator from "./components/AutoTranslator";
 
 export default function RouterApp() {
   return (
-    <Routes>
-      <Route path="/" element={<HomePage />} />
-      <Route path="/month-view" element={<App />} />
-      <Route path="/festivals" element={<FestivalsPage />} />
-      <Route path="/my-tithi" element={<MyTithiPage />} />
-      <Route path="/hindu-time" element={<HinduTimePage />} />
-      <Route path="/compass" element={<CompassPage />} />
-      <Route path="/sankalp-mantra" element={<SankalpMantraPage />} />
-      <Route path="/about" element={<AboutPage />} />
-      <Route path="/info" element={<InfoPage />} />
-      <Route path="/settings" element={<SettingsPage />} />
+    <>
+      <AutoTranslator />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/month-view" element={<App />} />
+        <Route path="/festivals" element={<FestivalsPage />} />
+        <Route path="/my-tithi" element={<MyTithiPage />} />
+        <Route path="/hindu-time" element={<HinduTimePage />} />
+        <Route path="/compass" element={<CompassPage />} />
+        <Route path="/sankalp-mantra" element={<SankalpMantraPage />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/info" element={<InfoPage />} />
+        <Route path="/settings" element={<SettingsPage />} />
 
-      <Route path="/astrology" element={<AstrologyHome />} />
-      <Route path="/kundali" element={<KundaliPage />} />
-      <Route path="/matchmaking" element={<MatchmakingPage />} />
-      <Route path="/muhurat" element={<MuhuratPage />} />
-      <Route path="/panchang" element={<PanchangPage />} />
+        <Route path="/astrology" element={<AstrologyHome />} />
+        <Route path="/kundali" element={<KundaliPage />} />
+        <Route path="/matchmaking" element={<MatchmakingPage />} />
+        <Route path="/muhurat" element={<MuhuratPage />} />
+        <Route path="/panchang" element={<PanchangPage />} />
 
-      <Route path="*" element={<Navigate to="/" replace />} />
-    </Routes>
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </>
   );
 }
