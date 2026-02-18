@@ -1,11 +1,149 @@
-import { translateFirstWord, getTithiIndicator } from "../translations";
+import { translateFirstWord } from "../translations";
+
+const TITHI_INDEX = {
+  pratipada: 1,
+  prathama: 1,
+  padyami: 1,
+  padya: 1,
+  dwitiya: 2,
+  dvitiiya: 2,
+  dvitiya: 2,
+  vidiya: 2,
+  tritiya: 3,
+  tadia: 3,
+  chaturthi: 4,
+  chavithi: 4,
+  panchami: 5,
+  shashti: 6,
+  sashti: 6,
+  saptami: 7,
+  ashtami: 8,
+  navami: 9,
+  dashami: 10,
+  ekadashi: 11,
+  dwadashi: 12,
+  dvadashi: 12,
+  trayodashi: 13,
+  chaturdashi: 14,
+  purnima: 15,
+  poornima: 15,
+  pournami: 15,
+  amavasya: 15,
+  amavasi: 15,
+};
+
+function cleanWord(text) {
+  return String(text || "")
+    .split(" ")[0]
+    .toLowerCase()
+    .replace(/[^a-z]/g, "");
+}
+
+function extractTithiIndex(day) {
+  const tithiName = cleanWord(day?.Tithi);
+  const mapped = TITHI_INDEX[tithiName];
+  if (mapped) return mapped;
+
+  const raw = String(day?.Tithi || "");
+  const match = raw.match(/(\d{1,2})(?:\s*\/\s*\d{1,2})?/);
+  if (!match) return null;
+  const n = Number(match[1]);
+  return Number.isFinite(n) && n >= 1 && n <= 15 ? n : null;
+}
+
+function getMoonPhase(day) {
+  const tithiName = cleanWord(day?.Tithi);
+  const pakshaText = String(day?.Paksha || "").toLowerCase();
+  const idx = extractTithiIndex(day);
+  const isShukla = pakshaText.includes("shukla");
+  const isKrishna = pakshaText.includes("krishna");
+
+  if (!idx || (!isShukla && !isKrishna)) {
+    if (tithiName === "purnima" || tithiName === "poornima" || tithiName === "pournami") {
+      return { illumination: 1, waxing: true, size: 18 };
+    }
+    if (tithiName === "amavasya" || tithiName === "amavasi") {
+      return { illumination: 0, waxing: false, size: 11 };
+    }
+    return { illumination: 0.2, waxing: false, size: 12 };
+  }
+
+  // Keep moon size fixed; only phase (illumination) changes.
+  // Shukla: grows 1 -> 15. Krishna: shrinks 16 -> 30.
+  const illumination = isShukla ? idx / 15 : (16 - idx) / 15;
+  const size = Math.round(11 + illumination * 7); // grows toward Purnima
+
+  if (isShukla) {
+    return { illumination, waxing: true, size };
+  }
+
+  return { illumination, waxing: false, size };
+}
+
+function getLunarDayNumber(day) {
+  const tithiName = cleanWord(day?.Tithi);
+  const pakshaText = String(day?.Paksha || "").toLowerCase();
+  const idx = TITHI_INDEX[tithiName];
+  if (!idx) return "";
+
+  const isShukla = pakshaText.includes("shukla");
+  const isKrishna = pakshaText.includes("krishna");
+  if (isShukla) return String(idx);
+  if (isKrishna) return String(idx + 15);
+
+  if (tithiName === "purnima" || tithiName === "poornima" || tithiName === "pournami") return "15";
+  if (tithiName === "amavasya" || tithiName === "amavasi") return "30";
+  return "";
+}
+
+function moonStyles(moon, px) {
+  // Monotonic phase progression for consistent dark/white transition day-to-day.
+  const visible = Math.max(0, Math.min(1, moon.illumination));
+  const offset = visible * px * 0.92;
+  // Requested orientation: dark side should appear on the left.
+  const transform = moon.waxing ? `translateX(${offset}px)` : `translateX(-${offset}px)`;
+  const isNearNewMoon = moon.illumination <= 0.06;
+  const isLowIllumination = moon.illumination <= 0.2;
+  const shellShadow = isNearNewMoon
+    ? "0 1px 3px rgba(0,0,0,0.62), inset 0 0 0 1px rgba(0,0,0,0.35)"
+    : isLowIllumination
+      ? "0 1px 3px rgba(0,0,0,0.56), 0 0 4px rgba(255, 245, 210, 0.08)"
+    : "0 1px 3px rgba(0,0,0,0.52), 0 0 8px rgba(255, 245, 210, 0.15)";
+  return {
+    shell: {
+      width: `${px}px`,
+      height: `${px}px`,
+      // Remove bright white ring whenever moon has any dark phase.
+      border: "1px solid rgba(0, 0, 0, 0)",
+      boxShadow: shellShadow,
+      background: isNearNewMoon
+        ? "radial-gradient(circle at 45% 35%, #2b2b2b 0%, #151515 58%, #050505 100%)"
+        : isLowIllumination
+          ? "radial-gradient(circle at 30% 28%, #d8d8d8 0%, #b3b3b3 48%, #727272 76%, #2f2f2f 100%)"
+        : "radial-gradient(circle at 30% 28%, #f7f7f7 0%, #dcdcdc 50%, #adadad 75%, #7d7d7d 100%)",
+    },
+    craters: {
+      backgroundImage: `
+        radial-gradient(circle at 24% 35%, rgba(90, 90, 90, 0.33) 0 8%, transparent 10%),
+        radial-gradient(circle at 58% 22%, rgba(80, 80, 80, 0.3) 0 7%, transparent 9%),
+        radial-gradient(circle at 52% 58%, rgba(70, 70, 70, 0.26) 0 9%, transparent 11%),
+        radial-gradient(circle at 74% 72%, rgba(60, 60, 60, 0.22) 0 8%, transparent 10%)
+      `,
+      opacity: 0.5,
+    },
+    dark: {
+      transform,
+      background: "radial-gradient(circle at 45% 35%, #2f2f2f 0%, #151515 58%, #060606 100%)",
+      opacity: moon.illumination >= 0.985 ? 0 : 1,
+    },
+  };
+}
 
 export default function CalendarGrid({
   days,
   selectedDate,
   onSelect,
   onSpeak,
-  language,
   translations,
   voiceEnabled = false,
 }) {
@@ -25,7 +163,7 @@ export default function CalendarGrid({
 
   return (
     <div
-      className="relative rounded-2xl p-3 sm:p-4 neon-frame inner-bevel overflow-hidden"
+      className="relative rounded-2xl p-2 sm:p-4 neon-frame inner-bevel overflow-hidden"
       style={{
         background:
           "linear-gradient(180deg, #ff4d0d 0%, #ff5c1a 10%, #ff6b28 20%, #ff7935 30%, #ff8743 40%, #ff7935 50%, #ff6b28 60%, #ff5c1a 70%, #ff4d0d 80%, #d94100 90%, #c23800 100%)",
@@ -189,7 +327,7 @@ export default function CalendarGrid({
 
       <div className="relative">
         {/* Weekdays - UPDATED WITH DULL GREEN COLOR */}
-        <div className="grid grid-cols-7 gap-1.5 sm:gap-2 mb-3">
+        <div className="mb-3 grid grid-cols-7 gap-1 sm:gap-2">
           {translations.weekdaysShort.map((wd, idx) => (
             <div
               key={idx}
@@ -209,7 +347,7 @@ export default function CalendarGrid({
         </div>
 
         {/* Days - All existing code preserved */}
-        <div className="grid grid-cols-7 gap-1.5 sm:gap-2">
+        <div className="grid grid-cols-7 gap-1 sm:gap-2">
           {paddedDays.map((day, idx) => {
             if (!day) {
               return (
@@ -230,15 +368,11 @@ export default function CalendarGrid({
 
             const isToday = day.date === todayStr;
             const isSelected = selectedDate && day.date === selectedDate.date;
-            const hasFestival = day.Festivals && day.Festivals.length > 0;
-
             const translatedTithi = translateFirstWord(day.Tithi, translations);
-            const tithiIndicator = getTithiIndicator(day.Tithi);
-
-            const isPurnima =
-              !!tithiIndicator && tithiIndicator.type === "purnima";
-            const isAmavasya =
-              !!tithiIndicator && tithiIndicator.type === "amavasya";
+            const moon = getMoonPhase(day);
+            const lunarDay = getLunarDayNumber(day);
+            const mobileMoonPx = 16;
+            const desktopMoonPx = 16;
 
             return (
               <button
@@ -247,7 +381,7 @@ export default function CalendarGrid({
                   onSelect(day);
                   if (voiceEnabled && onSpeak) onSpeak(day);
                 }}
-                className="group aspect-square rounded-xl text-left p-1.5 sm:p-2.5 transition-all duration-200 border-[2.5px] relative overflow-hidden flex flex-col"
+                className="group relative flex aspect-square flex-col overflow-hidden rounded-xl border-[2px] p-1 sm:border-[2.5px] sm:p-2.5 text-left transition-all duration-200"
                 style={
                   isSelected
                     ? {
@@ -286,21 +420,7 @@ export default function CalendarGrid({
                 </div>
 
                 {/* Top */}
-                <div className="relative flex items-start justify-between gap-0.5 sm:gap-1 mb-auto">
-                  <div className="flex-shrink-0">
-                    <div
-                      className="text-lg sm:text-xl md:text-2xl font-black leading-none"
-                      style={{
-                        color: isSelected ? "#3a2508" : "#ffedb3",
-                        textShadow: isSelected
-                          ? "0 2px 6px rgba(0,0,0,0.3)"
-                          : "0 2px 6px rgba(0,0,0,0.4)",
-                      }}
-                    >
-                      {dateNum}
-                    </div>
-                  </div>
-
+                <div className="relative flex items-start justify-end gap-0.5 sm:gap-1 mb-auto">
                   <div className="flex flex-col items-end gap-0.5 sm:gap-1 flex-shrink-0">
                     {isToday && (
                       <span
@@ -324,38 +444,58 @@ export default function CalendarGrid({
                       </span>
                     )}
 
-                    {/* Purnima: yellow circle */}
-                    {isPurnima && (
-                      <span
-                        className="h-3 w-3 sm:h-3.5 sm:w-3.5 rounded-full"
-                        style={{
-                          background:
-                            "radial-gradient(circle at 40% 35%, #fff9e6 0%, #ffe680 25%, #ffd633 55%, #cc9900 90%, #996600 100%)",
-                          boxShadow:
-                            "0 0 0 1.5px rgba(255, 214, 51, 0.6), 0 0 14px rgba(255, 214, 51, 0.55), 0 0 22px rgba(255, 170, 0, 0.35), inset 0 1px 2px rgba(255, 255, 255, 0.4)",
-                        }}
-                        title="purnima"
-                      />
-                    )}
+                    <span
+                      className="absolute left-0.5 top-0.5 block overflow-hidden rounded-full sm:hidden"
+                      style={moonStyles(moon, mobileMoonPx).shell}
+                      title="moon-phase"
+                    >
+                      <span className="pointer-events-none absolute inset-0" style={moonStyles(moon, mobileMoonPx).craters} />
+                      <span className="pointer-events-none absolute inset-0 rounded-full" style={moonStyles(moon, mobileMoonPx).dark} />
+                      {lunarDay ? (
+                        <span
+                          className={`pointer-events-none absolute inset-0 flex items-center justify-center leading-none font-black ${
+                            String(lunarDay).length >= 2 ? "text-[8px]" : "text-[9px]"
+                          }`}
+                          style={{
+                            color: "#FFD700",
+                            WebkitTextStroke: "0.45px rgba(0,0,0,0.85)",
+                            textShadow: "0 1px 2px rgba(0,0,0,0.9), 0 0 4px rgba(0,0,0,0.6)",
+                            letterSpacing: String(lunarDay).length >= 2 ? "-0.15px" : "0",
+                          }}
+                        >
+                          {lunarDay}
+                        </span>
+                      ) : null}
+                    </span>
 
-                    {/* Amavasya: black circle */}
-                    {isAmavasya && (
-                      <span
-                        className="h-3 w-3 sm:h-3.5 sm:w-3.5 rounded-full"
-                        style={{
-                          background:
-                            "radial-gradient(circle at 35% 35%, #3b3b3b 0%, #1a1a1a 45%, #000000 100%)",
-                          boxShadow:
-                            "0 0 0 1px rgba(255, 214, 51, 0.3), 0 0 12px rgba(0, 0, 0, 0.7), 0 0 18px rgba(0, 0, 0, 0.6)",
-                        }}
-                        title="amavasya"
-                      />
-                    )}
+                    <span
+                      className="absolute left-0.5 top-0.5 hidden overflow-hidden rounded-full sm:block"
+                      style={moonStyles(moon, desktopMoonPx).shell}
+                      title="moon-phase"
+                    >
+                      <span className="pointer-events-none absolute inset-0" style={moonStyles(moon, desktopMoonPx).craters} />
+                      <span className="pointer-events-none absolute inset-0 rounded-full" style={moonStyles(moon, desktopMoonPx).dark} />
+                      {lunarDay ? (
+                        <span
+                          className={`pointer-events-none absolute inset-0 flex items-center justify-center leading-none font-black ${
+                            String(lunarDay).length >= 2 ? "text-[9px]" : "text-[10px]"
+                          }`}
+                          style={{
+                            color: "#FFD700",
+                            WebkitTextStroke: "0.5px rgba(0,0,0,0.9)",
+                            textShadow: "0 1px 2px rgba(0,0,0,0.95), 0 0 4px rgba(0,0,0,0.65)",
+                            letterSpacing: String(lunarDay).length >= 2 ? "-0.2px" : "0",
+                          }}
+                        >
+                          {lunarDay}
+                        </span>
+                      ) : null}
+                    </span>
                   </div>
                 </div>
 
                 {/* Bottom */}
-                <div className="relative mt-auto">
+                <div className="relative mt-auto flex items-end justify-between gap-1">
                   <div
                     className="text-[8px] sm:text-[10px] md:text-xs font-bold leading-tight truncate"
                     style={{
@@ -364,17 +504,17 @@ export default function CalendarGrid({
                   >
                     {translatedTithi}
                   </div>
-
-                  {hasFestival && (
-                    <div
-                      className="relative mt-0.5 sm:mt-1 text-[8px] sm:text-[9px] md:text-[10px] font-bold line-clamp-1 leading-tight drop-shadow-sm"
-                      style={{
-                        color: isSelected ? "rgba(120, 53, 15, 0.90)" : "#ffc8c8",
-                      }}
-                    >
-                      {day.Festivals.join(", ")}
-                    </div>
-                  )}
+                  <div
+                    className="text-[12px] sm:text-sm md:text-base font-normal leading-none"
+                    style={{
+                      color: isSelected ? "#3a2508" : "#ffedb3",
+                      textShadow: isSelected
+                        ? "0 1px 2px rgba(0,0,0,0.25)"
+                        : "0 1px 2px rgba(0,0,0,0.35)",
+                    }}
+                  >
+                    {dateNum}
+                  </div>
                 </div>
               </button>
             );
