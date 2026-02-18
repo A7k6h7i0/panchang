@@ -14,7 +14,7 @@ const TITHI_INDEX = {
   chaturthi: 4,
   chavithi: 4,
   panchami: 5,
-  shashti: 6,
+  shashthi: 6,
   shasti: 6,
   sashti: 6,
   sasthi: 6,
@@ -107,22 +107,21 @@ function moonStyles(moon, px) {
   const isNearNewMoon = moon.illumination <= 0.06;
   const isLowIllumination = moon.illumination <= 0.2;
   const shellShadow = isNearNewMoon
-    ? "0 1px 3px rgba(0,0,0,0.62), inset 0 0 0 1px rgba(0,0,0,0.35)"
+    ? "0 1px 2px rgba(0,0,0,0.6)"
     : isLowIllumination
-      ? "0 1px 3px rgba(0,0,0,0.56), 0 0 4px rgba(255, 245, 210, 0.08)"
-    : "0 1px 3px rgba(0,0,0,0.52), 0 0 8px rgba(255, 245, 210, 0.15)";
+      ? "0 1px 2px rgba(0,0,0,0.5)"
+      : "0 1px 2px rgba(0,0,0,0.45)";
   return {
     shell: {
       width: `${px}px`,
       height: `${px}px`,
-      // Remove bright white ring whenever moon has any dark phase.
-      border: "1px solid rgba(0, 0, 0, 0)",
+      border: "none",
       boxShadow: shellShadow,
       background: isNearNewMoon
         ? "radial-gradient(circle at 45% 35%, #2b2b2b 0%, #151515 58%, #050505 100%)"
         : isLowIllumination
-          ? "radial-gradient(circle at 30% 28%, #d8d8d8 0%, #b3b3b3 48%, #727272 76%, #2f2f2f 100%)"
-        : "radial-gradient(circle at 30% 28%, #f7f7f7 0%, #dcdcdc 50%, #adadad 75%, #7d7d7d 100%)",
+          ? "radial-gradient(circle at 30% 28%, #cecece 0%, #a5a5a5 48%, #686868 76%, #2c2c2c 100%)"
+          : "radial-gradient(circle at 30% 28%, #efefef 0%, #d3d3d3 50%, #9f9f9f 75%, #6f6f6f 100%)",
     },
     craters: {
       backgroundImage: `
@@ -385,7 +384,7 @@ export default function CalendarGrid({
                 }}
                 className="group relative flex aspect-square flex-col overflow-hidden rounded-xl border-[2px] p-1 sm:border-[2.5px] sm:p-2.5 text-left transition-all duration-200"
                 style={
-                  isSelected
+                  (isSelected || isToday)
                     ? {
                         background:
                           "linear-gradient(135deg, #d4a847 0%, #c89f40 25%, #bc9639 50%, #b08d32 75%, #a4842b 100%)",
@@ -424,28 +423,6 @@ export default function CalendarGrid({
                 {/* Top */}
                 <div className="relative flex items-start justify-end gap-0.5 sm:gap-1 mb-auto">
                   <div className="flex flex-col items-end gap-0.5 sm:gap-1 flex-shrink-0">
-                    {isToday && (
-                      <span
-                        className="inline-flex items-center gap-0.5 sm:gap-1 text-[8px] sm:text-[9px] font-bold px-1 sm:px-1.5 py-0.5 rounded"
-                        style={{
-                          color: "#3a2508",
-                          backgroundColor: "#ffd966",
-                          border: "1.5px solid #ffcc33",
-                          boxShadow:
-                            "0 0 12px rgba(255, 204, 51, 0.4), inset 0 1px 2px rgba(255, 255, 255, 0.3)",
-                        }}
-                      >
-                        <span
-                          className="h-1 w-1 sm:h-1.5 sm:w-1.5 rounded-full animate-pulse"
-                          style={{
-                            backgroundColor: "#ffaa00",
-                            boxShadow: "0 0 10px rgba(255, 170, 0, 0.7)",
-                          }}
-                        />
-                        {translations.today}
-                      </span>
-                    )}
-
                     <span
                       className="absolute left-0.5 top-0.5 block overflow-hidden rounded-full sm:hidden"
                       style={moonStyles(moon, mobileMoonPx).shell}
@@ -458,14 +435,20 @@ export default function CalendarGrid({
                           className={`pointer-events-none absolute inset-0 flex items-center justify-center leading-none font-black ${
                             String(lunarDay).length >= 2 ? "text-[8px]" : "text-[9px]"
                           }`}
-                          style={{
-                            color: "#FFD700",
-                            WebkitTextStroke: "0.45px rgba(0,0,0,0.85)",
-                            textShadow: "0 1px 2px rgba(0,0,0,0.9), 0 0 4px rgba(0,0,0,0.6)",
-                            letterSpacing: String(lunarDay).length >= 2 ? "-0.15px" : "0",
-                          }}
+                          style={{ letterSpacing: String(lunarDay).length >= 2 ? "-0.15px" : "0" }}
                         >
-                          {lunarDay}
+                          <span
+                            style={{
+                              color: "#D8A100",
+                              WebkitTextFillColor: "#D8A100",
+                              WebkitTextStroke: "0.75px rgba(0,0,0,0.95)",
+                              textShadow:
+                                "0 1px 2px rgba(0,0,0,0.9), 0 0 3px rgba(0,0,0,0.7)",
+                              fontWeight: 900,
+                            }}
+                          >
+                            {lunarDay}
+                          </span>
                         </span>
                       ) : null}
                     </span>
@@ -482,14 +465,20 @@ export default function CalendarGrid({
                           className={`pointer-events-none absolute inset-0 flex items-center justify-center leading-none font-black ${
                             String(lunarDay).length >= 2 ? "text-[9px]" : "text-[10px]"
                           }`}
-                          style={{
-                            color: "#FFD700",
-                            WebkitTextStroke: "0.5px rgba(0,0,0,0.9)",
-                            textShadow: "0 1px 2px rgba(0,0,0,0.95), 0 0 4px rgba(0,0,0,0.65)",
-                            letterSpacing: String(lunarDay).length >= 2 ? "-0.2px" : "0",
-                          }}
+                          style={{ letterSpacing: String(lunarDay).length >= 2 ? "-0.2px" : "0" }}
                         >
-                          {lunarDay}
+                          <span
+                            style={{
+                              color: "#D8A100",
+                              WebkitTextFillColor: "#D8A100",
+                              WebkitTextStroke: "0.8px rgba(0,0,0,0.95)",
+                              textShadow:
+                                "0 1px 2px rgba(0,0,0,0.9), 0 0 3px rgba(0,0,0,0.7)",
+                              fontWeight: 900,
+                            }}
+                          >
+                            {lunarDay}
+                          </span>
                         </span>
                       ) : null}
                     </span>
@@ -501,7 +490,7 @@ export default function CalendarGrid({
                   <div
                     className="text-[8px] sm:text-[10px] md:text-xs font-bold leading-tight truncate"
                     style={{
-                      color: isSelected ? "rgba(58, 37, 8, 0.85)" : "#ffedb3",
+                      color: (isSelected || isToday) ? "rgba(58, 37, 8, 0.85)" : "#ffedb3",
                     }}
                   >
                     {translatedTithi}
@@ -509,8 +498,8 @@ export default function CalendarGrid({
                   <div
                     className="text-[12px] sm:text-sm md:text-base font-normal leading-none"
                     style={{
-                      color: isSelected ? "#3a2508" : "#ffedb3",
-                      textShadow: isSelected
+                      color: (isSelected || isToday) ? "#3a2508" : "#ffedb3",
+                      textShadow: (isSelected || isToday)
                         ? "0 1px 2px rgba(0,0,0,0.25)"
                         : "0 1px 2px rgba(0,0,0,0.35)",
                     }}
