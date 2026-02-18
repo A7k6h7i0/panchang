@@ -140,6 +140,22 @@ function moonStyles(moon, px) {
   };
 }
 
+function lunarNumberTextStyle(strokeWidth) {
+  return {
+    color: "#FFD54A",
+    WebkitTextFillColor: "#FFD54A",
+    WebkitTextStroke: `${strokeWidth}px rgba(0,0,0,0.95)`,
+    WebkitTextStrokeColor: "rgba(0,0,0,0.95)",
+    textShadow: "0 1px 2px rgba(0,0,0,0.9), 0 0 3px rgba(0,0,0,0.7)",
+    fontWeight: 900,
+    forcedColorAdjust: "none",
+    mixBlendMode: "normal",
+    isolation: "isolate",
+    position: "relative",
+    zIndex: 3,
+  };
+}
+
 export default function CalendarGrid({
   days,
   selectedDate,
@@ -439,12 +455,7 @@ export default function CalendarGrid({
                         >
                           <span
                             style={{
-                              color: "#D8A100",
-                              WebkitTextFillColor: "#D8A100",
-                              WebkitTextStroke: "0.75px rgba(0,0,0,0.95)",
-                              textShadow:
-                                "0 1px 2px rgba(0,0,0,0.9), 0 0 3px rgba(0,0,0,0.7)",
-                              fontWeight: 900,
+                              ...lunarNumberTextStyle(0.75),
                             }}
                           >
                             {lunarDay}
@@ -469,12 +480,7 @@ export default function CalendarGrid({
                         >
                           <span
                             style={{
-                              color: "#D8A100",
-                              WebkitTextFillColor: "#D8A100",
-                              WebkitTextStroke: "0.8px rgba(0,0,0,0.95)",
-                              textShadow:
-                                "0 1px 2px rgba(0,0,0,0.9), 0 0 3px rgba(0,0,0,0.7)",
-                              fontWeight: 900,
+                              ...lunarNumberTextStyle(0.8),
                             }}
                           >
                             {lunarDay}
