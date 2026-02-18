@@ -25,11 +25,15 @@ function isInsufficientCredit(payload) {
 
 function maybeActivateBackoff(status, payload) {
   const now = Date.now();
+  const code = payload && typeof payload === "object" ? payload.code : "";
 
   if (status === 429) {
     providerBackoff.until = now + 60_000;
     providerBackoff.reason = "rate_limit";
-  } else if (status === 403 && isInsufficientCredit(payload)) {
+  } else if (
+    status === 403 &&
+    (isInsufficientCredit(payload) || code === "PROKERALA_ALL_CREDENTIALS_EXHAUSTED")
+  ) {
     providerBackoff.until = now + 10 * 60_000;
     providerBackoff.reason = "insufficient_credit";
   }

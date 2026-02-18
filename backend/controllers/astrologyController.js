@@ -17,6 +17,9 @@ const ENDPOINTS = {
   festivals: process.env.PROKERALA_ENDPOINT_FESTIVALS || "/astrology/festivals",
 };
 
+const ENABLE_PANCHANG_ADVANCED = String(process.env.PROKERALA_ENABLE_PANCHANG_ADVANCED || "false").toLowerCase() === "true";
+const ENABLE_CHOGHADIYA = String(process.env.PROKERALA_ENABLE_CHOGHADIYA || "false").toLowerCase() === "true";
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const LOCAL_FESTIVALS_DIR = path.resolve(__dirname, "../../frontend/public/data/festivals");
@@ -363,10 +366,10 @@ export async function panchang(req, res) {
 
   const [baseResult, advancedResult, choghadiyaResult] = await Promise.allSettled([
     prokeralaGet(ENDPOINTS.panchang, params),
-    ENDPOINTS.panchangAdvanced !== ENDPOINTS.panchang
+    ENABLE_PANCHANG_ADVANCED && ENDPOINTS.panchangAdvanced !== ENDPOINTS.panchang
       ? prokeralaGet(ENDPOINTS.panchangAdvanced, params)
       : Promise.resolve(null),
-    prokeralaGet(ENDPOINTS.choghadiya, params),
+    ENABLE_CHOGHADIYA ? prokeralaGet(ENDPOINTS.choghadiya, params) : Promise.resolve(null),
   ]);
 
   if (baseResult.status !== "fulfilled") throw baseResult.reason;

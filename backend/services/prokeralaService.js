@@ -4,6 +4,8 @@ import { HttpError } from "../utils/httpError.js";
 
 const DEFAULT_BASE_URL = "https://api.prokerala.com/v2";
 const DEFAULT_CACHE_TTL_MS = 60_000;
+const DEFAULT_RATE_LIMIT_RETRIES = 2;
+const DEFAULT_RATE_LIMIT_BACKOFF_MS = 500;
 
 const client = axios.create({
   baseURL: process.env.PROKERALA_BASE_URL || DEFAULT_BASE_URL,
@@ -11,8 +13,20 @@ const client = axios.create({
 });
 
 const cacheTtlMs = Math.max(0, Number(process.env.PROKERALA_CACHE_TTL_MS) || DEFAULT_CACHE_TTL_MS);
+const rateLimitRetries = Math.max(
+  0,
+  Number(process.env.PROKERALA_RATE_LIMIT_RETRIES) || DEFAULT_RATE_LIMIT_RETRIES
+);
+const rateLimitBackoffMs = Math.max(
+  100,
+  Number(process.env.PROKERALA_RATE_LIMIT_BACKOFF_MS) || DEFAULT_RATE_LIMIT_BACKOFF_MS
+);
 const responseCache = new Map(); // key -> { expiresAt:number, value:any }
 const inflight = new Map(); // key -> Promise<any>
+
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
 
 function stableStringify(value) {
   if (value == null) return "";
@@ -94,9 +108,23 @@ export async function prokeralaRequest(config) {
     });
 
   for (let credentialIndex = 0; credentialIndex < credentialCount; credentialIndex += 1) {
+    let localRateLimitRetry = 0;
     try {
-      const token = await getProkeralaAccessToken({ credentialIndex });
-      return await doRequest(token);
+      while (true) {
+        const token = await getProkeralaAccessToken({ credentialIndex });
+        try {
+          return await doRequest(token);
+        } catch (rateErr) {
+          const rateStatus = rateErr?.response?.status ?? rateErr?.details?.status;
+          if (rateStatus === 429 && localRateLimitRetry < rateLimitRetries) {
+            const waitMs = rateLimitBackoffMs * (localRateLimitRetry + 1);
+            localRateLimitRetry += 1;
+            await sleep(waitMs);
+            continue;
+          }
+          throw rateErr;
+        }
+      }
     } catch (err) {
       const status = err?.response?.status ?? err?.details?.status;
       lastErr = err;
