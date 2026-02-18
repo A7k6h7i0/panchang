@@ -49,15 +49,25 @@ function toHttpError(err, fallbackMessage) {
 }
 
 function isInsufficientCreditError(err) {
-  const status = err?.response?.status;
+  const status = err?.response?.status ?? err?.details?.status;
   if (status !== 403) return false;
-  const payload = err?.response?.data;
+  const payload = err?.response?.data ?? err?.details?.providerPayload;
   const text = JSON.stringify(payload || "").toLowerCase();
   return text.includes("insufficient credit balance");
 }
 
 function isRetryableForNextCredential(err) {
-  const status = err?.response?.status;
+  const status = err?.response?.status ?? err?.details?.status;
+  const code = err?.code;
+
+  if (
+    code === "PROKERALA_TOKEN_FETCH_FAILED" ||
+    code === "PROKERALA_TOKEN_INVALID_RESPONSE" ||
+    code === "PROKERALA_CREDENTIALS_MISSING"
+  ) {
+    return true;
+  }
+
   // 401: token/account auth problem on this key
   // 403: quota/credit/scope issue on this key
   // 429: per-key throttling
@@ -72,6 +82,7 @@ function isRetryableForNextCredential(err) {
 export async function prokeralaRequest(config) {
   const credentialCount = getProkeralaCredentialCount();
   let lastErr = null;
+  const failures = [];
 
   const doRequest = async (token) =>
     client.request({
@@ -87,20 +98,26 @@ export async function prokeralaRequest(config) {
       const token = await getProkeralaAccessToken({ credentialIndex });
       return await doRequest(token);
     } catch (err) {
-      const status = err?.response?.status;
+      const status = err?.response?.status ?? err?.details?.status;
       lastErr = err;
+      failures.push({
+        credentialIndex,
+        code: err?.code || null,
+        status: Number.isInteger(status) ? status : null,
+        insufficientCredit: isInsufficientCreditError(err),
+      });
 
       // Token may be expired/revoked for this credential: refresh once.
-      if (status === 401) {
+      if (status === 401 && err?.response) {
         try {
           const freshToken = await getProkeralaAccessToken({ forceRefresh: true, credentialIndex });
           return await doRequest(freshToken);
         } catch (retryErr) {
           lastErr = retryErr;
-          const retryStatus = retryErr?.response?.status;
+          const retryStatus = retryErr?.response?.status ?? retryErr?.details?.status;
           if (
             credentialIndex < credentialCount - 1 &&
-            (retryStatus === 401 || isInsufficientCreditError(retryErr))
+            (retryStatus === 401 || isRetryableForNextCredential(retryErr))
           ) {
             continue;
           }
@@ -114,6 +131,19 @@ export async function prokeralaRequest(config) {
 
       throw toHttpError(err, "Prokerala request failed.");
     }
+  }
+
+  const allCreditExhausted =
+    failures.length === credentialCount &&
+    failures.every((f) => f.insufficientCredit === true);
+  if (allCreditExhausted) {
+    throw new HttpError(403, "All configured Prokerala credentials are out of credits.", {
+      code: "PROKERALA_ALL_CREDENTIALS_EXHAUSTED",
+      details: {
+        attemptedCredentials: credentialCount,
+        failures,
+      },
+    });
   }
 
   if (lastErr) {

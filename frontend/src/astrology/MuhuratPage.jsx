@@ -72,7 +72,18 @@ function normalizePeriod(p) {
   const start2 = !start && rangeMatch ? rangeMatch[1] : null;
   const end2 = !end && rangeMatch ? rangeMatch[2] : null;
   const description = p?.description || p?.summary || p?.note || null;
-  return { name, start: start || start2, end: end || end2, description, raw: p };
+  return { name, type: p?.type || null, start: start || start2, end: end || end2, description, raw: p };
+}
+
+function classifyPeriodType(period) {
+  const typeText = String(period?.type || "").toLowerCase();
+  if (typeText.includes("ausp")) return "auspicious";
+  if (typeText.includes("inausp") || typeText.includes("malefic")) return "inauspicious";
+
+  const name = String(period?.name || "").toLowerCase();
+  if (/(rahu|yamag|gulik|durmuh|dur\s*muh|varjy|varjya)/i.test(name)) return "inauspicious";
+  if (/(abhijit|amrit|brahma|vijaya|godhuli)/i.test(name)) return "auspicious";
+  return "other";
 }
 
 function pickCurrentAndNext(periods, refDate) {
@@ -127,6 +138,18 @@ export default function MuhuratPage() {
     [form.date, form.time, form.tzOffset]
   );
   const spotlight = useMemo(() => pickCurrentAndNext(periods, refDate), [periods, refDate]);
+  const auspiciousPeriods = useMemo(
+    () => periods.filter((p) => classifyPeriodType(p) === "auspicious"),
+    [periods]
+  );
+  const inauspiciousPeriods = useMemo(
+    () => periods.filter((p) => classifyPeriodType(p) === "inauspicious"),
+    [periods]
+  );
+  const otherPeriods = useMemo(
+    () => periods.filter((p) => classifyPeriodType(p) === "other"),
+    [periods]
+  );
 
   const fmtTime = (value) => {
     const s = String(value ?? "").trim();
@@ -276,10 +299,10 @@ export default function MuhuratPage() {
         </SectionCard>
       ) : null}
 
-      {periods.length ? (
-        <SectionCard title="Periods" subtitle="Rendered when Prokerala returns a periods list.">
+      {auspiciousPeriods.length ? (
+        <SectionCard title="Auspicious" subtitle="Good muhurat periods.">
           <div className="grid gap-3">
-            {periods.map((p, idx) => (
+            {auspiciousPeriods.map((p, idx) => (
               <div
                 key={p?.id || p?.name || idx}
                 className="rounded-2xl border border-white/10 bg-black/20 p-4 text-sm text-amber-50"
@@ -290,6 +313,56 @@ export default function MuhuratPage() {
                   </div>
                   <div className="text-xs text-amber-100/70">
                     {fmtTime(p?.start)} → {fmtTime(p?.end)}
+                  </div>
+                </div>
+                {p?.description ? (
+                  <div className="mt-2 text-amber-50/90">{String(p.description)}</div>
+                ) : null}
+              </div>
+            ))}
+          </div>
+        </SectionCard>
+      ) : null}
+
+      {inauspiciousPeriods.length ? (
+        <SectionCard title="Inauspicious" subtitle="Avoid these kaals for important activities.">
+          <div className="grid gap-3">
+            {inauspiciousPeriods.map((p, idx) => (
+              <div
+                key={p?.id || p?.name || idx}
+                className="rounded-2xl border border-white/10 bg-black/20 p-4 text-sm text-amber-50"
+              >
+                <div className="flex flex-wrap items-baseline justify-between gap-3">
+                  <div className="text-base font-black text-amber-100">
+                    {String(p?.name || `Period ${idx + 1}`)}
+                  </div>
+                  <div className="text-xs text-amber-100/70">
+                    {fmtTime(p?.start)} â†’ {fmtTime(p?.end)}
+                  </div>
+                </div>
+                {p?.description ? (
+                  <div className="mt-2 text-amber-50/90">{String(p.description)}</div>
+                ) : null}
+              </div>
+            ))}
+          </div>
+        </SectionCard>
+      ) : null}
+
+      {otherPeriods.length ? (
+        <SectionCard title="Other Periods" subtitle="Additional periods from provider response.">
+          <div className="grid gap-3">
+            {otherPeriods.map((p, idx) => (
+              <div
+                key={p?.id || p?.name || idx}
+                className="rounded-2xl border border-white/10 bg-black/20 p-4 text-sm text-amber-50"
+              >
+                <div className="flex flex-wrap items-baseline justify-between gap-3">
+                  <div className="text-base font-black text-amber-100">
+                    {String(p?.name || `Period ${idx + 1}`)}
+                  </div>
+                  <div className="text-xs text-amber-100/70">
+                    {fmtTime(p?.start)} â†’ {fmtTime(p?.end)}
                   </div>
                 </div>
                 {p?.description ? (

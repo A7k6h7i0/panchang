@@ -17,7 +17,17 @@ export default function CompassPage() {
 
   const enable = async () => {
     try {
-      setStatus("Starting…");
+      if (!window.isSecureContext) {
+        setStatus("Compass needs HTTPS (or localhost). Open this on a secure URL.");
+        return;
+      }
+
+      if (typeof window.DeviceOrientationEvent === "undefined") {
+        setStatus("Device orientation is not supported on this device/browser.");
+        return;
+      }
+
+      setStatus("Starting...");
 
       // iOS requires permission prompt for DeviceOrientation.
       if (typeof DeviceOrientationEvent !== "undefined" && typeof DeviceOrientationEvent.requestPermission === "function") {
@@ -29,7 +39,7 @@ export default function CompassPage() {
       }
 
       setEnabled(true);
-      setStatus("Move your phone to calibrate.");
+      setStatus("Move your phone in a figure-8 to calibrate.");
     } catch (e) {
       setStatus(e?.message || "Failed to start compass.");
     }
@@ -38,18 +48,34 @@ export default function CompassPage() {
   useEffect(() => {
     if (!enabled) return;
 
+    let gotReading = false;
+
     const handler = (e) => {
       if (typeof e.webkitCompassHeading === "number") {
+        gotReading = true;
         setHeading(e.webkitCompassHeading);
+        setStatus("Compass active.");
         return;
       }
-      if (typeof e.alpha === "number") setHeading(360 - e.alpha);
+
+      if (typeof e.alpha === "number") {
+        gotReading = true;
+        setHeading(360 - e.alpha);
+        setStatus("Compass active.");
+      }
     };
 
     window.addEventListener("deviceorientationabsolute", handler, true);
     window.addEventListener("deviceorientation", handler, true);
 
+    const timeout = window.setTimeout(() => {
+      if (!gotReading) {
+        setStatus("No sensor data. Enable Motion/Orientation permission in browser settings.");
+      }
+    }, 3000);
+
     return () => {
+      window.clearTimeout(timeout);
       window.removeEventListener("deviceorientationabsolute", handler, true);
       window.removeEventListener("deviceorientation", handler, true);
     };
@@ -71,9 +97,7 @@ export default function CompassPage() {
       <div className="grid gap-4">
         <section className="rounded-3xl border border-white/10 bg-black/20 p-5 text-amber-50">
           <div className="text-sm font-black text-amber-100">Heading</div>
-          <div className="mt-1 text-4xl font-black text-amber-50">
-            {angle == null ? "—" : `${Math.round(angle)}°`}
-          </div>
+          <div className="mt-1 text-4xl font-black text-amber-50">{angle == null ? "-" : `${Math.round(angle)} deg`}</div>
           <div className="mt-2 text-sm text-amber-100/70">{status}</div>
         </section>
 
@@ -81,23 +105,17 @@ export default function CompassPage() {
           <div className="relative mx-auto h-72 w-72">
             <div className="absolute inset-0 rounded-full border border-amber-300/25 bg-gradient-to-b from-amber-300/10 to-black/30 shadow-[0_30px_70px_rgba(0,0,0,0.55)]" />
             <div className="absolute inset-4 rounded-full border border-amber-300/15 bg-black/20" />
-            <div className="absolute inset-0 flex items-center justify-center text-xs font-black tracking-[0.3em] text-amber-100/70">
-              N
-            </div>
-            <div className="absolute inset-0 flex items-center justify-start pl-3 text-xs font-black tracking-[0.3em] text-amber-100/70">
-              W
-            </div>
-            <div className="absolute inset-0 flex items-center justify-end pr-3 text-xs font-black tracking-[0.3em] text-amber-100/70">
-              E
-            </div>
-            <div className="absolute inset-0 flex items-end justify-center pb-3 text-xs font-black tracking-[0.3em] text-amber-100/70">
-              S
-            </div>
+            <div className="absolute inset-0 flex items-center justify-center text-xs font-black tracking-[0.3em] text-amber-100/70">N</div>
+            <div className="absolute inset-0 flex items-center justify-start pl-3 text-xs font-black tracking-[0.3em] text-amber-100/70">W</div>
+            <div className="absolute inset-0 flex items-center justify-end pr-3 text-xs font-black tracking-[0.3em] text-amber-100/70">E</div>
+            <div className="absolute inset-0 flex items-end justify-center pb-3 text-xs font-black tracking-[0.3em] text-amber-100/70">S</div>
 
-            <div
-              className="absolute left-1/2 top-1/2 h-28 w-1 -translate-x-1/2 -translate-y-full rounded-full bg-amber-200 shadow-[0_0_20px_rgba(255,210,130,0.45)]"
-              style={{ transform: `translate(-50%, -100%) rotate(${angle ?? 0}deg)`, transformOrigin: "bottom center" }}
-            />
+            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-full">
+              <div
+                className="h-28 w-1 rounded-full bg-amber-200 shadow-[0_0_20px_rgba(255,210,130,0.45)]"
+                style={{ transform: `rotate(${angle ?? 0}deg)`, transformOrigin: "bottom center" }}
+              />
+            </div>
             <div className="absolute left-1/2 top-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-amber-200" />
           </div>
         </section>
