@@ -993,37 +993,14 @@ export default function DayDetails({
                   {weekday}
                 </div>
               </div>
-              <div
-                className="text-xs sm:text-sm font-medium"
-                style={{ color: "#FFE8C5" }}
-              >
-                <span>{formattedDate}, </span>
-                <span className="whitespace-nowrap">{headerTime}</span>
-              </div>
             </div>
-            {headerHinduTime !== "-" && (
-              <div
-                className="ml-auto inline-flex shrink-0 items-center whitespace-nowrap rounded-full px-2.5 py-1 text-[11px] sm:text-xs font-bold"
-                style={{
-                  background: "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
-                  border: "1.5px solid rgba(255, 140, 50, 0.65)",
-                  boxShadow: "0 0 10px rgba(255, 140, 50, 0.35), inset 0 0 8px rgba(255, 200, 100, 0.15)",
-                }}
-              >
-                <span style={{ color: "#FFD700" }}>{translations.hinduTimeLabel || "Hindu Time"}:</span>
-                <span className="ml-1" style={{ color: "#FFF5E6" }}>{headerHinduTime}</span>
-              </div>
-            )}
           </div>
 
           <div className="mt-3 flex flex-wrap items-center gap-1.5">
-            <HeaderChip icon={"\u25CF"} meta={tithiMeta} />
-            <HeaderChip icon={"\u2726"} meta={nakshatraMeta} />
-            <HeaderChip icon={"\u263C"} meta={yogaMeta} />
             <HeaderChip icon={"\u25D0"} meta={pakshaMeta} />
             {vShakaSamvat !== "-" && (
               <div
-                className="inline-flex shrink-0 items-center gap-1 rounded-full px-2.5 py-1 text-[11px] sm:text-xs font-bold"
+                className="ml-auto inline-flex shrink-0 items-center gap-1 rounded-full px-2.5 py-1 text-[11px] sm:text-xs font-bold"
                 style={{
                   background: "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
                   border: "2px solid rgba(255, 140, 50, 0.7)",
@@ -1035,10 +1012,6 @@ export default function DayDetails({
                 <span>{vShakaSamvat}</span>
               </div>
             )}
-            <HeaderChip icon={"\u25D1"} meta={karanaMeta} />
-            {choghadiyaMeta.label !== "-" && choghadiyaMeta.label ? (
-              <HeaderChip icon={"\u29D7"} meta={choghadiyaMeta} />
-            ) : null}
           </div>
 
           {festivals.length > 0 && (
