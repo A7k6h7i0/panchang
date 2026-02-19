@@ -539,13 +539,29 @@ function App() {
         const activeYoga = findActiveByTime(root?.yoga, refDate) || (Array.isArray(root?.yoga) ? root.yoga[0] : null);
         const activeKarana =
           findActiveByTime(root?.karana, refDate) || (Array.isArray(root?.karana) ? root.karana[0] : null);
+        const activeTithi =
+          findActiveByTime(root?.tithi, refDate) || (Array.isArray(root?.tithi) ? root.tithi[0] : null);
+        const activeNakshatra =
+          findActiveByTime(root?.nakshatra, refDate) || (Array.isArray(root?.nakshatra) ? root.nakshatra[0] : null);
         const yogaName = cleanDash(firstText(activeYoga?.name));
         const karanaName = cleanDash(firstText(activeKarana?.name));
+        const tithiName = cleanDash(firstText(activeTithi?.name));
+        const nakshatraName = cleanDash(firstText(activeNakshatra?.name));
+        const tithiStart = activeTithi?.start || null;
+        const tithiEnd = activeTithi?.end || null;
+        const nakshatraStart = activeNakshatra?.start || null;
+        const nakshatraEnd = activeNakshatra?.end || null;
         setProkeralaElementsByDate((prev) => ({
           ...prev,
           [slashDate]: {
             Yoga: yogaName || prev?.[slashDate]?.Yoga || "-",
             Karana: karanaName || prev?.[slashDate]?.Karana || "-",
+            Tithi: tithiName || prev?.[slashDate]?.Tithi || "-",
+            Nakshatra: nakshatraName || prev?.[slashDate]?.Nakshatra || "-",
+            TithiStart: tithiStart || prev?.[slashDate]?.TithiStart || null,
+            TithiEnd: tithiEnd || prev?.[slashDate]?.TithiEnd || null,
+            NakshatraStart: nakshatraStart || prev?.[slashDate]?.NakshatraStart || null,
+            NakshatraEnd: nakshatraEnd || prev?.[slashDate]?.NakshatraEnd || null,
           },
         }));
       })

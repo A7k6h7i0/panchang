@@ -107,7 +107,18 @@ export async function prokeralaRequest(config) {
       },
     });
 
-  for (let credentialIndex = 0; credentialIndex < credentialCount; credentialIndex += 1) {
+  // Start from a random credential to distribute load across multiple keys
+  // Or use PROKERALA_START_INDEX environment variable to start from a specific credential
+  const envStartIndex = Number(process.env.PROKERALA_START_INDEX);
+  const startIndex = Number.isInteger(envStartIndex) && envStartIndex >= 0 && envStartIndex < credentialCount
+    ? envStartIndex
+    : Math.floor(Math.random() * credentialCount);
+
+  console.log(`[Prokerala] Using credential start index: ${startIndex} (total: ${credentialCount})`);
+
+  for (let i = 0; i < credentialCount; i++) {
+    // Cycle through credentials, wrapping around to the beginning
+    const credentialIndex = (startIndex + i) % credentialCount;
     let localRateLimitRetry = 0;
     try {
       while (true) {
@@ -133,6 +144,14 @@ export async function prokeralaRequest(config) {
         code: err?.code || null,
         status: Number.isInteger(status) ? status : null,
         insufficientCredit: isInsufficientCreditError(err),
+      });
+
+      // Log which credential failed for debugging
+      console.error(`[Prokerala] Credential ${credentialIndex + 1} failed:`, {
+        status,
+        code: err?.code,
+        message: err?.message,
+        details: err?.details?.providerPayload?.errors?.[0]?.detail || err?.response?.data?.errors?.[0]?.detail
       });
 
       // Token may be expired/revoked for this credential: refresh once.
@@ -165,6 +184,7 @@ export async function prokeralaRequest(config) {
     failures.length === credentialCount &&
     failures.every((f) => f.insufficientCredit === true);
   if (allCreditExhausted) {
+    console.error("[Prokerala] All credentials exhausted:", failures);
     throw new HttpError(403, "All configured Prokerala credentials are out of credits.", {
       code: "PROKERALA_ALL_CREDENTIALS_EXHAUSTED",
       details: {
@@ -175,6 +195,12 @@ export async function prokeralaRequest(config) {
   }
 
   if (lastErr) {
+    console.error("[Prokerala] Final error after trying all credentials:", {
+      credentialCount,
+      failures,
+      lastError: lastErr?.message,
+      lastStatus: lastErr?.response?.status
+    });
     throw toHttpError(lastErr, "Prokerala request failed.");
   }
 

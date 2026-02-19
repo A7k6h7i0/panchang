@@ -981,38 +981,147 @@ export default function DayDetails({
             </div>
 
 
-            <div className="flex-1 min-w-0">
-              <div className="flex flex-wrap items-center gap-2">
-                <div
-                  className="text-lg sm:text-xl font-bold"
-                  style={{
-                    color: "#ffedb3",
-                    textShadow: "0 2px 6px rgba(0,0,0,0.4)",
-                  }}
-                >
-                  {weekday}
+            <div className="flex-1 min-w-0 text-left">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <div className="flex items-center gap-2">
+                  <div
+                    className="text-lg sm:text-xl font-bold"
+                    style={{
+                      color: "#ffedb3",
+                      textShadow: "0 2px 6px rgba(0,0,0,0.4)",
+                    }}
+                  >
+                    {weekday}
+                  </div>
                 </div>
+                {headerHinduTime && headerHinduTime !== "-" && (
+                  <div
+                    className="inline-flex shrink-0 items-center whitespace-nowrap rounded-full px-2.5 py-0.5 text-[11px] sm:text-xs font-bold"
+                    style={{
+                      background: "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
+                      border: "1.5px solid rgba(255, 140, 50, 0.65)",
+                      boxShadow: "0 0 10px rgba(255, 140, 50, 0.35), inset 0 0 8px rgba(255, 200, 100, 0.15)",
+                    }}
+                  >
+                    <span style={{ color: "#FFD700" }}>Hindu Time:</span>
+                    <span className="ml-1" style={{ color: "#FFF5E6" }}>{headerHinduTime}</span>
+                  </div>
+                )}
+              </div>
+              <div className="text-xs sm:text-sm font-medium" style={{ color: "#FFE8C5" }}>
+                <span>{formattedDate}, </span><span className="whitespace-nowrap">{headerTime}</span>
               </div>
             </div>
           </div>
 
-          <div className="mt-3 flex flex-wrap items-center gap-1.5">
-            <HeaderChip icon={"\u25D0"} meta={pakshaMeta} />
-            {vShakaSamvat !== "-" && (
-              <div
-                className="ml-auto inline-flex shrink-0 items-center gap-1 rounded-full px-2.5 py-1 text-[11px] sm:text-xs font-bold"
-                style={{
-                  background: "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
-                  border: "2px solid rgba(255, 140, 50, 0.7)",
-                  color: "#FFE4B5",
-                  boxShadow: "0 0 15px rgba(255, 140, 50, 0.5), inset 0 0 10px rgba(255, 200, 100, 0.2)",
-                }}
-              >
-                <span style={{ color: "#D4AF37" }}>{getYearLabel()}:</span>
-                <span>{vShakaSamvat}</span>
-              </div>
-            )}
-          </div>
+          {/* Tithi, Nakshatra, Yoga, Paksha, Karana, Choghadiya, Samvatsara from JSON data */}
+          {day?.Tithi && day.Tithi !== "-" && (
+            <div
+              className="mt-1 mb-1 flex min-w-0 items-center justify-between gap-1 rounded-full px-2.5 py-1 text-[11px] sm:text-xs font-bold"
+              style={{
+                background: "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
+                border: "2px solid rgba(255, 140, 50, 0.7)",
+                color: "#FFE4B5",
+                boxShadow: "0 0 15px rgba(255, 140, 50, 0.5), inset 0 0 10px rgba(255, 200, 100, 0.2)",
+              }}
+            >
+              <span>{"\u25CF"} {day.Tithi || day?.Tithi}</span>
+              {(day?.TithiStart || day?.TithiEnd) && (
+                <span className="text-amber-100/80">
+                  {day.TithiStart ? day.TithiStart.slice(11, 16) : ""}{day.TithiStart && day.TithiEnd ? " - " : ""}{day.TithiEnd ? day.TithiEnd.slice(11, 16) : ""}
+                </span>
+              )}
+            </div>
+          )}
+
+          {(day?.Nakshatra || day?.Nakshatra) && day.Nakshatra !== "-" && (
+            <div
+              className="mt-1 mb-1 flex min-w-0 items-center justify-between gap-1 rounded-full px-2.5 py-1 text-[11px] sm:text-xs font-bold"
+              style={{
+                background: "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
+                border: "2px solid rgba(255, 140, 50, 0.7)",
+                color: "#FFE4B5",
+                boxShadow: "0 0 15px rgba(255, 140, 50, 0.5), inset 0 0 10px rgba(255, 200, 100, 0.2)",
+              }}
+            >
+              <span>{"\u2726"} {day.Nakshatra}</span>
+              {(day?.NakshatraStart || day?.NakshatraEnd) && (
+                <span className="text-amber-100/80">
+                  {day.NakshatraStart ? day.NakshatraStart.slice(11, 16) : ""}{day.NakshatraStart && day.NakshatraEnd ? " - " : ""}{day.NakshatraEnd ? day.NakshatraEnd.slice(11, 16) : ""}
+                </span>
+              )}
+            </div>
+          )}
+
+          {(day?.Yoga || day?.Yoga) && day.Yoga !== "-" && (
+            <div
+              className="mt-1 mb-1 flex min-w-0 items-center justify-between gap-1 rounded-full px-2.5 py-1 text-[11px] sm:text-xs font-bold"
+              style={{
+                background: "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
+                border: "2px solid rgba(255, 140, 50, 0.7)",
+                color: "#FFE4B5",
+                boxShadow: "0 0 15px rgba(255, 140, 50, 0.5), inset 0 0 10px rgba(255, 200, 100, 0.2)",
+              }}
+            >
+              <span>{"\u263C"} {day.Yoga}</span>
+            </div>
+          )}
+
+          {day?.Paksha && day.Paksha !== "-" && (
+            <div
+              className="mt-1 mb-1 flex min-w-0 items-center justify-between gap-1 rounded-full px-2.5 py-1 text-[11px] sm:text-xs font-bold"
+              style={{
+                background: "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
+                border: "2px solid rgba(255, 140, 50, 0.7)",
+                color: "#FFE4B5",
+                boxShadow: "0 0 15px rgba(255, 140, 50, 0.5), inset 0 0 10px rgba(255, 200, 100, 0.2)",
+              }}
+            >
+              <span>{"\u25D0"} {day.Paksha}</span>
+            </div>
+          )}
+
+          {day?.Karana && day.Karana !== "-" && (
+            <div
+              className="mt-1 mb-1 flex min-w-0 items-center justify-between gap-1 rounded-full px-2.5 py-1 text-[11px] sm:text-xs font-bold"
+              style={{
+                background: "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
+                border: "2px solid rgba(255, 140, 50, 0.7)",
+                color: "#FFE4B5",
+                boxShadow: "0 0 15px rgba(255, 140, 50, 0.5), inset 0 0 10px rgba(255, 200, 100, 0.2)",
+              }}
+            >
+              <span>{"\u25D1"} {day.Karana}</span>
+            </div>
+          )}
+
+          {day?.Choghadiya && day.Choghadiya !== "-" && (
+            <div
+              className="mt-1 mb-1 flex min-w-0 items-center justify-between gap-1 rounded-full px-2.5 py-1 text-[11px] sm:text-xs font-bold"
+              style={{
+                background: "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
+                border: "2px solid rgba(255, 140, 50, 0.7)",
+                color: "#FFE4B5",
+                boxShadow: "0 0 15px rgba(255, 140, 50, 0.5), inset 0 0 10px rgba(255, 200, 100, 0.2)",
+              }}
+            >
+              <span>{"\u29D7"} {day.Choghadiya}</span>
+            </div>
+          )}
+
+          {day?.["Shaka Samvat"] && day["Shaka Samvat"] !== "-" && (
+            <div
+              className="mt-1 mb-1 flex min-w-0 items-center justify-between gap-1 rounded-full px-2.5 py-1 text-[11px] sm:text-xs font-bold"
+              style={{
+                background: "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
+                border: "2px solid rgba(255, 140, 50, 0.7)",
+                color: "#FFE4B5",
+                boxShadow: "0 0 15px rgba(255, 140, 50, 0.5), inset 0 0 10px rgba(255, 200, 100, 0.2)",
+              }}
+            >
+              <span>{"\u2605"} {day["Shaka Samvat"]}</span>
+            </div>
+          )}
 
           {festivals.length > 0 && (
             <div className="space-y-2 mt-4">

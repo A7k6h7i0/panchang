@@ -131,6 +131,12 @@ async function fetchNewAccessToken(credentialIndex) {
     const status = err.response?.status;
     const providerPayload = err.response?.data;
 
+    // Log token fetch failure for debugging
+    console.error(`[Prokerala Auth] Token fetch failed for credential ${credentialIndex + 1}:`, {
+      status,
+      providerPayload
+    });
+
     throw new HttpError(502, "Failed to authenticate with Prokerala.", {
       code: "PROKERALA_TOKEN_FETCH_FAILED",
       details: {
