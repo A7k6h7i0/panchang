@@ -140,8 +140,8 @@ function moonStyles(moon, px) {
 
 function lunarNumberTextStyle(strokeWidth) {
   return {
-    color: "#FFD54A",
-    WebkitTextFillColor: "#FFD54A",
+    color: "#FFD54A !important",
+    WebkitTextFillColor: "#FFD54A !important",
     WebkitTextStroke: `${strokeWidth}px rgba(0,0,0,0.95)`,
     WebkitTextStrokeColor: "rgba(0,0,0,0.95)",
     textShadow: "0 1px 2px rgba(0,0,0,0.9), 0 0 3px rgba(0,0,0,0.7)",

@@ -396,7 +396,7 @@ export default function HomePage() {
         background: "radial-gradient(ellipse at top, #2a1810 0%, #1a0d08 40%, #0d0504 100%)",
       }}
     >
-      <div className="mx-auto w-full max-w-md px-4 pb-36 pt-4 md:max-w-6xl md:px-6 md:pb-40">
+      <div className="mx-auto w-full max-w-md px-4 pb-36 pt-0 md:max-w-6xl md:px-6 md:pb-40">
         <header 
           className="mb-1 grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-1 px-1 py-1 transition-all duration-300"
         >
