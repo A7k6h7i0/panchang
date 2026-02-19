@@ -445,7 +445,7 @@ export default function CalendarGrid({
                       <span className="pointer-events-none absolute inset-0 rounded-full" style={moonStyles(moon, mobileMoonPx).dark} />
                       {lunarDay ? (
                         <span
-                          className={`pointer-events-none absolute inset-0 flex items-center justify-center leading-none font-black ${
+                          className={`pointer-events-none absolute inset-0 flex items-center justify-center leading-none font-black moon-phase-number ${
                             String(lunarDay).length >= 2 ? "text-[8px]" : "text-[9px]"
                           }`}
                           style={{ letterSpacing: String(lunarDay).length >= 2 ? "-0.15px" : "0" }}
@@ -470,7 +470,7 @@ export default function CalendarGrid({
                       <span className="pointer-events-none absolute inset-0 rounded-full" style={moonStyles(moon, desktopMoonPx).dark} />
                       {lunarDay ? (
                         <span
-                          className={`pointer-events-none absolute inset-0 flex items-center justify-center leading-none font-black ${
+                          className={`pointer-events-none absolute inset-0 flex items-center justify-center leading-none font-black moon-phase-number ${
                             String(lunarDay).length >= 2 ? "text-[9px]" : "text-[10px]"
                           }`}
                           style={{ letterSpacing: String(lunarDay).length >= 2 ? "-0.2px" : "0" }}
