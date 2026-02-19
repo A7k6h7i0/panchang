@@ -1141,16 +1141,18 @@ function App() {
         </span>
       </button>
 
-      {/* CHATBOT */}
-      <Chatbot 
-        isOpen={isChatbotOpen}
-        onClose={() => setIsChatbotOpen(false)}
-        language={language}
-        translations={t}
-        currentDateData={days}
-        selectedDay={selectedDayWithProkerala}
-        voiceEnabled={voiceEnabled}
-      />
+      {/* CHATBOT - Only render when open */}
+      {isChatbotOpen && (
+        <Chatbot 
+          isOpen={isChatbotOpen}
+          onClose={() => setIsChatbotOpen(false)}
+          language={language}
+          translations={t}
+          currentDateData={days}
+          selectedDay={selectedDayWithProkerala}
+          voiceEnabled={voiceEnabled}
+        />
+      )}
 
       {/* FOOTER */}
       <footer 
