@@ -3,6 +3,12 @@ import { prokeralaGet } from "../services/prokeralaService.js";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import {
+  generateCacheKey,
+  getCachedPanchang,
+  setCachedPanchang,
+  getCacheStats,
+} from "../services/panchangCacheService.js";
 
 // Defaults are based on Prokerala's v2 API structure. Override per environment if needed.
 const ENDPOINTS = {
@@ -351,8 +357,7 @@ export async function muhurat(req, res) {
 export async function panchang(req, res) {
   const { date, time, datetime, lat, lng, tzOffset, ayanamsa, la } = req.query;
 
-  // Backward-compatible: allow old style (?date=YYYY-MM-DD&lat=&lng=) and translate to
-  // Prokerala-required params: datetime, coordinates, ayanamsa.
+  // Build the common params as before
   const params = buildCommonParams({
     date,
     time,
@@ -363,6 +368,51 @@ export async function panchang(req, res) {
     ayanamsa,
     la,
   });
+
+  // ============================================================
+  // DATABASE CACHING LOGIC - Enterprise Production Implementation
+  // ============================================================
+  // 1. Generate cache key from request parameters
+  // 2. Check if data exists in database cache
+  // 3. If cached: return immediately without calling API
+  // 4. If not cached: call API, store in DB, then return
+  // ============================================================
+
+  // Generate a unique cache key based on date, location, and settings
+  const cacheKey = generateCacheKey({
+    date: params.datetime?.split("T")[0] || date,
+    coordinates: params.coordinates,
+    latitude: lat,
+    longitude: lng,
+    ayanamsa: params.ayanamsa,
+    language: params.la,
+  });
+
+  // Check cache TTL from environment (default: 30 days)
+  const cacheTtlDays = Number(process.env.PANCHANG_CACHE_TTL_DAYS) || 30;
+  const cacheTtlSeconds = cacheTtlDays * 24 * 60 * 60;
+
+  // STEP 1: Try to get data from database cache
+  const cachedData = getCachedPanchang(cacheKey, cacheTtlSeconds);
+
+  if (cachedData) {
+    // Cache hit! Return cached data immediately
+    console.log(`[Panchang] Cache HIT for key: ${cacheKey} (age: ${cachedData.age}s, accesses: ${cachedData.accessCount})`);
+    
+    // Add cache metadata to response (useful for debugging/monitoring)
+    return res.json({
+      ...cachedData.data,
+      _meta: {
+        cached: true,
+        cacheAge: cachedData.age,
+        accessCount: cachedData.accessCount,
+        cacheKey: cacheKey,
+      },
+    });
+  }
+
+  // Cache miss - need to call the API
+  console.log(`[Panchang] Cache MISS for key: ${cacheKey} - calling Prokerala API`);
 
   const [baseResult, advancedResult, choghadiyaResult] = await Promise.allSettled([
     prokeralaGet(ENDPOINTS.panchang, params),
@@ -393,7 +443,32 @@ export async function panchang(req, res) {
     },
   };
 
-  res.json(merged);
+  // STEP 2: Store the API response in database cache for future requests
+  // This prevents future API calls for the same date/location
+  const cacheStoreResult = setCachedPanchang(cacheKey, {
+    date: params.datetime?.split("T")[0] || date,
+    coordinates: params.coordinates,
+    latitude: lat,
+    longitude: lng,
+    ayanamsa: params.ayanamsa,
+    la: params.la,
+  }, merged);
+
+  if (cacheStoreResult) {
+    console.log(`[Panchang] Successfully cached API response for key: ${cacheKey}`);
+  } else {
+    console.warn(`[Panchang] Failed to cache API response for key: ${cacheKey}`);
+  }
+
+  // Return the fresh data with metadata
+  res.json({
+    ...merged,
+    _meta: {
+      cached: false,
+      cacheKey: cacheKey,
+      cachedAt: new Date().toISOString(),
+    },
+  });
 }
 
 export async function festivals(req, res) {

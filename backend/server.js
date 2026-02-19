@@ -7,6 +7,11 @@ import cors from "cors";
 
 import astrologyRoutes from "./routes/astrology.js";
 import { errorHandler } from "./middleware/errorHandler.js";
+import { initDatabase } from "./services/panchangCacheService.js";
+
+// Initialize the database cache on server startup
+// This creates the database file and tables if they don't exist
+initDatabase();
 
 const app = express();
 app.use(cors());
