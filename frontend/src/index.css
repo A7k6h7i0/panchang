@@ -321,7 +321,11 @@ body {
 }
 
 /* Moon phase lunar day number - ensure yellow color always displays */
-.moon-phase-number {
+.moon-phase-number,
+.moon-phase-number span,
+.moon-phase-number *,
+[style*="moon-phase"] span,
+.calendar-cell .moon-phase-number span {
   color: #FFD54A !important;
   -webkit-text-fill-color: #FFD54A !important;
   text-shadow: 0 1px 2px rgba(0,0,0,0.9), 0 0 3px rgba(0,0,0,0.7) !important;

@@ -142,6 +142,8 @@ function lunarNumberTextStyle(strokeWidth) {
   return {
     color: "#FFD54A !important",
     WebkitTextFillColor: "#FFD54A !important",
+    textFillColor: "#FFD54A !important",
+    fill: "#FFD54A !important",
     WebkitTextStroke: `${strokeWidth}px rgba(0,0,0,0.95)`,
     WebkitTextStrokeColor: "rgba(0,0,0,0.95)",
     textShadow: "0 1px 2px rgba(0,0,0,0.9), 0 0 3px rgba(0,0,0,0.7)",
@@ -451,6 +453,7 @@ export default function CalendarGrid({
                           style={{ letterSpacing: String(lunarDay).length >= 2 ? "-0.15px" : "0" }}
                         >
                           <span
+                            className="moon-phase-number"
                             style={{
                               ...lunarNumberTextStyle(0.75),
                             }}
@@ -476,6 +479,7 @@ export default function CalendarGrid({
                           style={{ letterSpacing: String(lunarDay).length >= 2 ? "-0.2px" : "0" }}
                         >
                           <span
+                            className="moon-phase-number"
                             style={{
                               ...lunarNumberTextStyle(0.8),
                             }}
