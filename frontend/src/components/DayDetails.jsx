@@ -907,46 +907,56 @@ export default function DayDetails({
                   {weekday}
                 </div>
               </div>
-              {/* Tithi remains after weekday */}
-              <div
-                className="text-xs sm:text-sm font-semibold mt-1"
-                style={{
-                  color: "#ffedb3",
-                  textShadow: "0 2px 6px rgba(0,0,0,0.4)",
-                }}
-              >
-                • {vTithi}
-              </div>
             </div>
           </div>
 
 
-          {/* Paksha and Year in a row below date */}
-          <div className="flex items-center gap-2 flex-nowrap mt-3 overflow-x-auto">
-            {vPaksha !== "-" && (
-              <div
-                className="inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs sm:text-sm font-bold transition-all hover:scale-105 backdrop-blur-sm flex-shrink-0"
-                style={{
-                  background:
-                    "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
-                  border: "2.5px solid rgba(255, 140, 50, 0.7)",
-                  color: "#FFE4B5",
-                  boxShadow: `
-                    0 0 20px rgba(255, 140, 50, 0.6),
-                    0 0 40px rgba(255, 100, 30, 0.4),
-                    inset 0 0 15px rgba(255, 200, 100, 0.2)
-                  `,
-                }}
-              >
-                <span style={{ color: "#D4AF37" }}>◐</span>
-                {vPaksha}
-              </div>
-            )}
-
+          {/* Tithi and Paksha stacked on left, year on right */}
+          <div className="mt-3 flex items-start justify-between gap-2">
+            <div className="flex min-w-0 flex-col items-start gap-2 pl-0.5">
+              {vTithi !== "-" && (
+                <div
+                  className="inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs sm:text-sm font-bold transition-all hover:scale-105 backdrop-blur-sm"
+                  style={{
+                    background:
+                      "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
+                    border: "2.5px solid rgba(255, 140, 50, 0.7)",
+                    color: "#FFE4B5",
+                    boxShadow: `
+                      0 0 20px rgba(255, 140, 50, 0.6),
+                      0 0 40px rgba(255, 100, 30, 0.4),
+                      inset 0 0 15px rgba(255, 200, 100, 0.2)
+                    `,
+                  }}
+                >
+                  <span style={{ color: "#D4AF37" }}>{"\u2022"}</span>
+                  {vTithi}
+                </div>
+              )}
+              {vPaksha !== "-" && (
+                <div
+                  className="inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs sm:text-sm font-bold transition-all hover:scale-105 backdrop-blur-sm"
+                  style={{
+                    background:
+                      "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
+                    border: "2.5px solid rgba(255, 140, 50, 0.7)",
+                    color: "#FFE4B5",
+                    boxShadow: `
+                      0 0 20px rgba(255, 140, 50, 0.6),
+                      0 0 40px rgba(255, 100, 30, 0.4),
+                      inset 0 0 15px rgba(255, 200, 100, 0.2)
+                    `,
+                  }}
+                >
+                  <span style={{ color: "#D4AF37" }}>{"\u25D0"}</span>
+                  {vPaksha}
+                </div>
+              )}
+            </div>
 
             {vShakaSamvat !== "-" && (
               <div
-                className="inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs sm:text-sm font-bold transition-all hover:scale-105 backdrop-blur-sm flex-shrink-0 ml-auto"
+                className="inline-flex shrink-0 items-center gap-1 rounded-full px-2.5 py-0.5 text-xs sm:text-sm font-bold transition-all hover:scale-105 backdrop-blur-sm"
                 style={{
                   background:
                     "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
@@ -964,6 +974,7 @@ export default function DayDetails({
               </div>
             )}
           </div>
+
 
 
           {festivals.length > 0 && (
@@ -1402,7 +1413,7 @@ function SectionCard({ title, icon, children, variant }) {
       "0 0 18px rgba(212,168,71,0.4), inset 0 1px 2px rgba(255,255,255,0.15), inset 0 -1px 2px rgba(0,0,0,0.2)";
   } else if (isSunMoon) {
     background =
-      "linear-gradient(135deg, #FF6B35 0%, #FF8C32 40%, #FF9F45 100%)";
+      "linear-gradient(180deg, #ff4d0d 0%, #ff5c1a 10%, #ff6b28 20%, #ff7935 30%, #ff8743 40%, #ff7935 50%, #ff6b28 60%, #ff5c1a 70%, #ff4d0d 80%, #d94100 90%, #c23800 100%)";
     border = "2.5px solid rgba(255, 168, 67, 0.8)";
     boxShadow =
       "0 0 22px rgba(255,140,50,0.5), inset 0 0 15px rgba(255,255,255,0.15)";
@@ -1776,6 +1787,7 @@ function DangerBox({ label, value, isAuspicious = false, isToday = false, langua
     </div>
   );
 }
+
 
 
 

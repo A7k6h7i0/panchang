@@ -1,11 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { getProkeralaPanchang } from "./services/astrologyApi";
-import { getAstroDefaults } from "./utils/appSettings";
+import { getAstroDefaults, LANGUAGE_CHANGE_EVENT, loadLanguage, saveLanguage } from "./utils/appSettings";
 import { buildIsoDatetime, findActiveByTime, safeDateFromIso, ymdToday } from "./astrology/components/formatters";
-import { languages } from "./translations";
+import { languages, translations } from "./translations";
 
-const LANGUAGE_KEY = "panchang:selected-language";
 const VOICE_KEY = "panchang:voice-enabled";
 const VIEW_STATE_KEY = "panchang:current-view";
 
@@ -123,7 +122,7 @@ function shareApp() {
 
 function loadInitialLanguage() {
   if (typeof window === "undefined") return "en";
-  const saved = localStorage.getItem(LANGUAGE_KEY);
+  const saved = loadLanguage();
   return languages.some((l) => l.code === saved) ? saved : "en";
 }
 
@@ -188,6 +187,7 @@ export default function HomePage() {
   const [error, setError] = useState("");
   const [settingsNonce, setSettingsNonce] = useState(0);
   const abortRef = useRef(null);
+  const titleByLanguage = translations[language]?.appTitle || "Talking Calendar";
 
 
   const defaults = useMemo(() => {
@@ -202,7 +202,7 @@ export default function HomePage() {
   }, []);
 
   useEffect(() => {
-    localStorage.setItem(LANGUAGE_KEY, language);
+    if (loadLanguage() !== language) saveLanguage(language);
   }, [language]);
 
   useEffect(() => {
@@ -221,11 +221,18 @@ export default function HomePage() {
 
   useEffect(() => {
     const refresh = () => setSettingsNonce((n) => n + 1);
+    const syncLanguage = () => {
+      const next = loadInitialLanguage();
+      setLanguage((prev) => (prev === next ? prev : next));
+      refresh();
+    };
     window.addEventListener("focus", refresh);
-    window.addEventListener("storage", refresh);
+    window.addEventListener("storage", syncLanguage);
+    window.addEventListener(LANGUAGE_CHANGE_EVENT, syncLanguage);
     return () => {
       window.removeEventListener("focus", refresh);
-      window.removeEventListener("storage", refresh);
+      window.removeEventListener("storage", syncLanguage);
+      window.removeEventListener(LANGUAGE_CHANGE_EVENT, syncLanguage);
     };
   }, []);
 
@@ -247,7 +254,7 @@ export default function HomePage() {
             lng: defaults.lng,
             tzOffset: defaults.tzOffset,
             ayanamsa: defaults.ayanamsa,
-            la: defaults.la,
+            la: language,
           },
           { signal: controller.signal }
         );
@@ -265,7 +272,7 @@ export default function HomePage() {
       clearTimeout(t);
       controller.abort();
     };
-  }, [now.getMinutes(), settingsNonce]);
+  }, [now.getMinutes(), settingsNonce, language]);
 
 
   const summary = useMemo(() => {
@@ -391,12 +398,7 @@ export default function HomePage() {
     >
       <div className="mx-auto w-full max-w-md px-4 pb-36 pt-4 md:max-w-6xl md:px-6 md:pb-40">
         <header 
-          className="mb-1 grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-1 rounded-xl px-1.5 py-2 transition-all duration-300"
-          style={{
-            background: "var(--calendar-orange-gradient)",
-            border: "1.5px solid rgba(255, 183, 77, 0.5)",
-            boxShadow: "0 4px 20px rgba(255, 111, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2), inset 0 -2px 0 rgba(139, 69, 19, 0.3)",
-          }}
+          className="mb-1 grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-1 px-1 py-1 transition-all duration-300"
         >
           <div className="flex items-center gap-1.5">
             <div
@@ -408,18 +410,6 @@ export default function HomePage() {
               }}
               title="Swastik"
             >{"\u5350"}</div>
-            <button
-              type="button"
-              onClick={() => setMenuOpen(true)}
-              className="h-6 w-6 rounded-md text-sm transition-all duration-200 hover:scale-105"
-              style={{
-                background: "linear-gradient(135deg, rgba(255, 224, 130, 0.3) 0%, rgba(255, 183, 77, 0.25) 100%)",
-                color: "#FFF5E1",
-                textShadow: "0 1px 3px rgba(0, 0, 0, 0.3)",
-                border: "1px solid rgba(255, 224, 130, 0.3)",
-              }}
-              aria-label="Open menu"
-            >{"\u2630"}</button>
           </div>
           <div className="min-w-0 px-0.5">
             <div
@@ -433,7 +423,7 @@ export default function HomePage() {
                 fontWeight: "900",
               }}
             >
-              Talking Calendar
+              {titleByLanguage}
             </div>
           </div>
           <div className="flex items-center justify-end gap-0.5">
@@ -487,6 +477,18 @@ export default function HomePage() {
                 border: "1px solid rgba(255, 224, 130, 0.3)",
               }}
               aria-label="Settings">{"\u2699"}</Link>
+            <button
+              type="button"
+              onClick={() => setMenuOpen(true)}
+              className="h-7 w-7 rounded-lg text-sm transition-all duration-200 hover:scale-105"
+              style={{
+                background: "linear-gradient(135deg, rgba(255, 224, 130, 0.3) 0%, rgba(255, 183, 77, 0.25) 100%)",
+                color: "#FFF5E1",
+                textShadow: "0 1px 3px rgba(0, 0, 0, 0.3)",
+                border: "1px solid rgba(255, 224, 130, 0.3)",
+              }}
+              aria-label="Open menu"
+            >{"\u2630"}</button>
           </div>
         </header>
 
@@ -507,8 +509,8 @@ export default function HomePage() {
               boxShadow: "0 8px 32px rgba(255, 152, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.25), inset 0 -3px 0 rgba(139, 69, 19, 0.25), 0 0 40px rgba(255, 183, 77, 0.2)",
             }}
           >
-          {/* Date and Day Row - Left aligned with Hindu Time */}
-          <div className="flex items-center justify-start gap-4 mb-4">
+          {/* Date and Day Row */}
+          <div className="mb-4 flex items-start gap-3">
             {/* Day Number Circle */}
             <div
               className="h-14 w-14 sm:h-16 sm:w-16 rounded-xl flex items-center justify-center flex-shrink-0 backdrop-blur-sm"
@@ -524,29 +526,29 @@ export default function HomePage() {
             </div>
 
             {/* Weekday and Date/Time */}
-            <div className="text-left">
-              <div className="flex flex-wrap items-center justify-between gap-2">
+            <div className="min-w-0 flex-1 text-left">
+              <div className="flex flex-wrap items-center gap-2">
                 <div className="text-lg sm:text-xl font-bold" style={{ color: "#FFF5E6", textShadow: "0 2px 6px rgba(0,0,0,0.4)" }}>
                   {summary?.weekday ? cleanDash(summary.weekday) : "-"}
                 </div>
-                {summary?.headlineTime && (
-                  <div
-                    className="inline-flex shrink-0 items-center whitespace-nowrap rounded-full px-2.5 py-1 text-[11px] sm:text-xs font-bold"
-                    style={{
-                      background: "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
-                      border: "1.5px solid rgba(255, 140, 50, 0.65)",
-                      boxShadow: "0 0 10px rgba(255, 140, 50, 0.35), inset 0 0 8px rgba(255, 200, 100, 0.15)",
-                    }}
-                  >
-                    <span style={{ color: "#FFD700" }}>Hindu Time:</span>
-                    <span className="ml-1" style={{ color: "#FFF5E6" }}>{summary.headlineTime}</span>
-                  </div>
-                )}
               </div>
               <div className="text-xs sm:text-sm font-medium" style={{ color: "#FFE8C5" }}>
                 {formattedDate}, {formattedTime}
               </div>
             </div>
+            {summary?.headlineTime && (
+              <div
+                className="ml-auto inline-flex shrink-0 items-center whitespace-nowrap rounded-full px-2.5 py-1 text-[11px] sm:text-xs font-bold"
+                style={{
+                  background: "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
+                  border: "1.5px solid rgba(255, 140, 50, 0.65)",
+                  boxShadow: "0 0 10px rgba(255, 140, 50, 0.35), inset 0 0 8px rgba(255, 200, 100, 0.15)",
+                }}
+              >
+                <span style={{ color: "#FFD700" }}>Hindu Time:</span>
+                <span className="ml-1" style={{ color: "#FFF5E6" }}>{summary.headlineTime}</span>
+              </div>
+            )}
           </div>
 
           {/* Primary row: Thithi -> Nakshatra -> Yoga */}
@@ -906,6 +908,7 @@ export default function HomePage() {
                     type="button"
                     onClick={() => {
                       setLanguage(lang.code);
+                      saveLanguage(lang.code);
                       setLanguagePopupOpen(false);
                     }}
                     className={`mb-1 w-full rounded-lg px-3 py-2.5 text-left text-sm font-medium transition-all duration-200 ${

@@ -1,8 +1,9 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import PageShell from "./PageShell";
 import { languages, translations } from "../translations";
 import {
   loadAyanamsa,
+  LANGUAGE_CHANGE_EVENT,
   loadLanguage,
   loadLocation,
   saveAyanamsa,
@@ -197,6 +198,23 @@ export default function SettingsPage() {
     saveLanguage(value);
   };
 
+  useEffect(() => {
+    const syncLanguage = (event) => {
+      const next = event?.detail?.language || loadLanguage();
+      if (next) setLanguage((prev) => (prev === next ? prev : next));
+    };
+    const onStorage = (event) => {
+      if (event?.key && event.key !== "panchang:selected-language") return;
+      syncLanguage();
+    };
+    window.addEventListener("storage", onStorage);
+    window.addEventListener(LANGUAGE_CHANGE_EVENT, syncLanguage);
+    return () => {
+      window.removeEventListener("storage", onStorage);
+      window.removeEventListener(LANGUAGE_CHANGE_EVENT, syncLanguage);
+    };
+  }, []);
+
   const onAutoLocation = () => {
     if (!navigator.geolocation) {
       setStatus(tr("settingsStatusGeoNotSupported", "Geolocation not supported in this browser."));
@@ -259,18 +277,23 @@ export default function SettingsPage() {
         <section className="app-surface rounded-2xl p-3">
           <div className="grid gap-2 md:grid-cols-[1fr_1.2fr] md:items-center">
             <div>
-              <div className="text-lg font-black text-amber-100">{tr("settingsLanguageTitle", "Language")}</div>
-              <div className="mt-1 text-xs text-amber-100/70">
+              <div className="text-lg sm:text-xl font-black text-amber-100">{tr("settingsLanguageTitle", "Language")}</div>
+              <div className="mt-1 text-xs sm:text-sm text-amber-100/70">
                 {tr("settingsLanguageSubtitle", "App language for Prokerala requests and UI.")}
               </div>
             </div>
             <select
               value={language}
               onChange={(e) => onSaveLanguage(e.target.value)}
-              className="w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-base font-semibold text-amber-50 outline-none focus:border-amber-300/35"
+              className="w-full appearance-none rounded-2xl border px-4 py-3 text-base font-semibold text-amber-50 outline-none"
+              style={{
+                background: "var(--calendar-orange-gradient)",
+                borderColor: "rgba(255, 183, 77, 0.55)",
+                boxShadow: "0 0 12px rgba(255, 140, 50, 0.35), inset 0 1px 0 rgba(255,255,255,0.18)",
+              }}
             >
               {languageOptions.map((l) => (
-                <option key={l.code} value={l.code}>
+                <option key={l.code} value={l.code} style={{ background: "#a63f12", color: "#FFF4D8" }}>
                   {l.nativeName ? `${l.name} (${l.nativeName})` : l.name}
                 </option>
               ))}
@@ -281,10 +304,10 @@ export default function SettingsPage() {
         <section className="app-surface rounded-2xl p-3">
           <div className="grid gap-2 md:grid-cols-[1fr_1.2fr] md:items-center">
             <div>
-              <div className="text-lg font-black text-amber-100">{tr("settingsLocationTitle", "Location")}</div>
-              <div className="mt-1 text-xs text-amber-100/70">
+              <div className="text-lg sm:text-xl font-black text-amber-100">{tr("settingsLocationTitle", "Location")}</div>
+              <div className="mt-1 text-xs sm:text-sm text-amber-100/70">
                 {location.name || "—"}
-                <div className="mt-1 text-xs text-amber-100/70">
+                <div className="mt-1 text-xs sm:text-sm text-amber-100/70">
                   {location.lat}°, {location.lng}° • {tr("settingsTimezone", "Timezone")} {location.tzOffset}
                 </div>
               </div>
@@ -379,8 +402,8 @@ export default function SettingsPage() {
         <section className="app-surface rounded-2xl p-3">
           <div className="flex items-center justify-between gap-2">
             <div>
-              <div className="text-lg font-black text-amber-100">{tr("settingsSayanaTitle", "Sayana Panchang")}</div>
-              <div className="mt-1 text-xs text-amber-100/70">
+              <div className="text-lg sm:text-xl font-black text-amber-100">{tr("settingsSayanaTitle", "Sayana Panchang")}</div>
+              <div className="mt-1 text-xs sm:text-sm text-amber-100/70">
                 {tr(
                   "settingsSayanaWarning",
                   "Warning: This may change ayanamsa and festival dates compared to most expectations."
@@ -405,7 +428,7 @@ export default function SettingsPage() {
         </section>
 
         <section className="app-surface rounded-2xl p-3">
-          <div className="text-lg font-black text-amber-100">
+          <div className="text-lg sm:text-xl font-black text-amber-100">
             {tr("settingsCalendarMonthType", "Calendar Month Type")}
           </div>
           <div className="mt-1 grid grid-cols-2 gap-2">
@@ -435,7 +458,7 @@ export default function SettingsPage() {
         </section>
 
         <section className="app-surface rounded-2xl p-3">
-          <div className="text-lg font-black text-amber-100">
+          <div className="text-lg sm:text-xl font-black text-amber-100">
             {tr("settingsCalendarYearType", "Calendar Year Type")}
           </div>
           <div className="mt-1 grid gap-2 md:grid-cols-2">
@@ -462,8 +485,8 @@ export default function SettingsPage() {
         </section>
 
         <section className="app-surface rounded-2xl p-3">
-          <div className="text-lg font-black text-amber-100">{tr("settingsAyanamsaTitle", "Ayanamsa")}</div>
-          <div className="mt-1 text-xs text-amber-100/70">
+          <div className="text-lg sm:text-xl font-black text-amber-100">{tr("settingsAyanamsaTitle", "Ayanamsa")}</div>
+          <div className="mt-1 text-xs sm:text-sm text-amber-100/70">
             {tr("settingsAyanamsaSubtitle", "Used for Prokerala astrology calculations.")}
           </div>
           <select

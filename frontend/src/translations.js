@@ -172,7 +172,7 @@ export const translations = {
   },
   
   te: {
-    appTitle: "టాకింగ్ క్యాలెండర్",
+    appTitle: "మాట్లాడే క్యాలెండర్",
     appSubtitle: "తిథి & నక్షత్రంతో హిందూ క్యాలెండర్",
     calendar: "క్యాలెండర్",
     dayDetails: "రోజు వివరాలు",
@@ -320,7 +320,7 @@ export const translations = {
   },
   
   hi: {
-    appTitle: "टॉकिंग कैलेंडर",
+    appTitle: "बोलता कैलेंडर",
     appSubtitle: "तिथि और नक्षत्र के साथ हिंदू कैलेंडर",
     calendar: "कैलेंडर",
     dayDetails: "दिन का विवरण",
@@ -466,7 +466,7 @@ export const translations = {
   },
   
   ml: {
-    appTitle: "ടോക്കിംഗ് കലണ്ടർ",
+    appTitle: "സംസാരിക്കുന്ന കലണ്ടർ",
     appSubtitle: "തിഥിയും നക്ഷത്രവുമുള്ള ഹിന്ദു കലണ്ടർ",
     calendar: "കലണ്ടർ",
     dayDetails: "ദിവസ വിശദാംശങ്ങൾ",
@@ -605,7 +605,7 @@ export const translations = {
   },
   
   kn: {
-    appTitle: "ಟಾಕಿಂಗ್ ಕ್ಯಾಲೆಂಡರ್",
+    appTitle: "ಮಾತನಾಡುವ ಕ್ಯಾಲೆಂಡರ್",
     appSubtitle: "ತಿಥಿ ಮತ್ತು ನಕ್ಷತ್ರದೊಂದಿಗೆ ಹಿಂದೂ ಕ್ಯಾಲೆಂಡರ್",
     calendar: "ಕ್ಯಾಲೆಂಡರ್",
     dayDetails: "ದಿನದ ವಿವರಗಳು",
@@ -756,7 +756,7 @@ export const translations = {
   },
     
   ta: {
-    appTitle: "டாக்கிங் கேலெண்டர்",
+    appTitle: "பேசும் காலண்டர்",
     appSubtitle: "திதி மற்றும் நக்ஷத்திரத்துடன் இந்து நாள்காட்டி",
     calendar: "நாள்காட்டி",
     dayDetails: "நாள் விவரங்கள்",

@@ -1,5 +1,3 @@
-import { translateFirstWord } from "../translations";
-
 const TITHI_INDEX = {
   pratipada: 1,
   prathama: 1,
@@ -364,13 +362,13 @@ export default function CalendarGrid({
         </div>
 
         {/* Days - All existing code preserved */}
-        <div className="grid grid-cols-7 gap-1 sm:gap-2">
+        <div className="grid grid-cols-7 gap-0.5 sm:gap-1.5">
           {paddedDays.map((day, idx) => {
             if (!day) {
               return (
                 <div
                   key={`empty-${idx}`}
-                  className="aspect-square rounded-xl inner-bevel"
+                  className="aspect-square w-full rounded-xl inner-bevel"
                   style={{
                     background:
                       "linear-gradient(135deg, rgba(80, 30, 20, 0.3) 0%, rgba(90, 35, 25, 0.25) 50%, rgba(100, 40, 30, 0.2) 100%)",
@@ -385,11 +383,10 @@ export default function CalendarGrid({
 
             const isToday = day.date === todayStr;
             const isSelected = selectedDate && day.date === selectedDate.date;
-            const translatedTithi = translateFirstWord(day.Tithi, translations);
             const moon = getMoonPhase(day);
             const lunarDay = getLunarDayNumber(day);
-            const mobileMoonPx = 16;
-            const desktopMoonPx = 16;
+            const mobileMoonPx = 20;
+            const desktopMoonPx = 22;
 
             return (
               <button
@@ -398,7 +395,7 @@ export default function CalendarGrid({
                   onSelect(day);
                   if (voiceEnabled && onSpeak) onSpeak(day);
                 }}
-                className="group relative flex aspect-square flex-col overflow-hidden rounded-xl border-[2px] p-1 sm:border-[2.5px] sm:p-2.5 text-left transition-all duration-200"
+                className="group relative flex aspect-square w-full flex-col overflow-hidden rounded-xl border-[2px] p-1 sm:border-[2.5px] sm:p-2.5 text-left transition-all duration-200"
                 style={
                   (isSelected || isToday)
                     ? {
@@ -492,15 +489,7 @@ export default function CalendarGrid({
                 </div>
 
                 {/* Bottom */}
-                <div className="relative mt-auto flex items-end justify-between gap-1">
-                  <div
-                    className="text-[8px] sm:text-[10px] md:text-xs font-bold leading-tight truncate"
-                    style={{
-                      color: (isSelected || isToday) ? "rgba(58, 37, 8, 0.85)" : "#ffedb3",
-                    }}
-                  >
-                    {translatedTithi}
-                  </div>
+                <div className="relative mt-auto flex items-end justify-end gap-1">
                   <div
                     className="text-[12px] sm:text-sm md:text-base font-normal leading-none"
                     style={{

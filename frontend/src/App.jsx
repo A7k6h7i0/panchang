@@ -10,7 +10,7 @@ import { translateText } from "./translations";
 import { speakCloud } from "./utils/cloudSpeech";
 import { getDateSelectionSpeech } from "./utils/speechTemplates";
 import { getProkeralaPanchang } from "./services/astrologyApi";
-import { getAstroDefaults } from "./utils/appSettings";
+import { getAstroDefaults, LANGUAGE_CHANGE_EVENT, loadLanguage, saveLanguage } from "./utils/appSettings";
 import { buildIsoDatetime, findActiveByTime, safeDateFromIso } from "./astrology/components/formatters";
 
 const YEARS = Array.from({ length: 186 }, (_, i) => 1940 + i);
@@ -110,7 +110,7 @@ const loadInitialSelection = (today) => {
 const loadInitialLanguage = () => {
   if (typeof window === "undefined") return "en";
   try {
-    const saved = localStorage.getItem(LANGUAGE_KEY);
+    const saved = loadLanguage();
     if (saved && languages.some((l) => l.code === saved)) {
       return saved;
     }
@@ -284,8 +284,29 @@ function App() {
   // Keep selected language on refresh.
   useEffect(() => {
     if (typeof window === "undefined") return;
-    localStorage.setItem(LANGUAGE_KEY, language);
+    if (loadLanguage() !== language) saveLanguage(language);
   }, [language]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const syncLanguage = (event) => {
+      const fromEvent = event?.detail?.language;
+      const saved = fromEvent || loadLanguage();
+      if (saved && languages.some((l) => l.code === saved)) {
+        setLanguage((prev) => (prev === saved ? prev : saved));
+      }
+    };
+    const onStorage = (event) => {
+      if (event?.key && event.key !== LANGUAGE_KEY) return;
+      syncLanguage();
+    };
+    window.addEventListener("storage", onStorage);
+    window.addEventListener(LANGUAGE_CHANGE_EVENT, syncLanguage);
+    return () => {
+      window.removeEventListener("storage", onStorage);
+      window.removeEventListener(LANGUAGE_CHANGE_EVENT, syncLanguage);
+    };
+  }, []);
 
   // Handle browser back/forward button for Rashiphalalu navigation
   useEffect(() => {
@@ -862,7 +883,16 @@ function App() {
                   fontWeight: "900",
                 }}
               >
-                {t.appTitle}
+                {monthLabel}
+                <span
+                  className="block text-[11px] sm:text-xs font-semibold tracking-[0.08em]"
+                  style={{
+                    color: "#FFE8C5",
+                    textShadow: "0 1px 2px rgba(0, 0, 0, 0.5)",
+                  }}
+                >
+                  Monthly Panchang
+                </span>
               </h1>
             </div>
             <Link
@@ -880,9 +910,9 @@ function App() {
           </div>
           
           {/* DayDetails Header Row with Outer Container */}
-          <div className="mt-px px-4 sm:px-6 lg:px-8">
+          <div className="mt-px px-1">
             <div
-              className="rounded-xl sm:rounded-2xl p-3 backdrop-blur-md"
+              className="rounded-xl sm:rounded-2xl p-2.5 sm:p-3 backdrop-blur-md"
               style={{
                 background: "var(--calendar-orange-shell)",
                 border: "3px solid rgba(255, 140, 50, 0.8)",

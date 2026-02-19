@@ -1,6 +1,7 @@
 const LANGUAGE_KEY = "panchang:selected-language";
 const LOCATION_KEY = "panchang:selected-location";
 const AYANAMSA_KEY = "panchang:selected-ayanamsa";
+export const LANGUAGE_CHANGE_EVENT = "panchang:language-changed";
 
 const DEFAULTS = {
   language: "en",
@@ -29,7 +30,13 @@ export function loadLanguage() {
 
 export function saveLanguage(language) {
   if (typeof window === "undefined") return;
-  localStorage.setItem(LANGUAGE_KEY, String(language || DEFAULTS.language));
+  const nextLanguage = String(language || DEFAULTS.language);
+  localStorage.setItem(LANGUAGE_KEY, nextLanguage);
+  window.dispatchEvent(
+    new CustomEvent(LANGUAGE_CHANGE_EVENT, {
+      detail: { language: nextLanguage },
+    })
+  );
 }
 
 export function loadAyanamsa() {
@@ -81,4 +88,3 @@ export function getAstroDefaults() {
     locationName: location.name,
   };
 }
-
