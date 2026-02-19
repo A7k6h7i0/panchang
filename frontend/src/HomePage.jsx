@@ -533,7 +533,7 @@ export default function HomePage() {
                 </div>
               </div>
               <div className="text-xs sm:text-sm font-medium" style={{ color: "#FFE8C5" }}>
-                {formattedDate}, {formattedTime}
+                <span>{formattedDate}, </span><span className="whitespace-nowrap">{formattedTime}</span>
               </div>
             </div>
             {summary?.headlineTime && (
@@ -551,11 +551,11 @@ export default function HomePage() {
             )}
           </div>
 
-          {/* Primary row: Thithi -> Nakshatra -> Yoga */}
-          <div className="hide-scrollbar mb-2 flex items-center justify-start gap-1.5 overflow-x-auto whitespace-nowrap">
+          {/* Primary row: Thithi -> Nakshatra -> Yoga (always side by side) */}
+          <div className="mb-2 grid grid-cols-3 gap-1.5">
             {summary?.tithi && (
               <div
-                className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] sm:text-xs font-bold"
+                className="inline-flex min-w-0 items-center justify-center gap-1 rounded-full px-2.5 py-1 text-[11px] sm:text-xs font-bold"
                 style={{
                   background: "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
                   border: "2px solid rgba(255, 140, 50, 0.7)",
@@ -563,8 +563,8 @@ export default function HomePage() {
                   boxShadow: "0 0 15px rgba(255, 140, 50, 0.5), inset 0 0 10px rgba(255, 200, 100, 0.2)",
                 }}
               >
-                <div className="flex flex-col leading-tight">
-                  <span>● {cleanDash(summary.tithi)}</span>
+                <div className="flex min-w-0 flex-col leading-tight text-center">
+                  <span>{"\u25CF"} {cleanDash(summary.tithi)}</span>
                   {getTimeRangeText(summary.tithiFull) ? (
                     <span className="text-[10px] text-amber-100/80">{getTimeRangeText(summary.tithiFull)}</span>
                   ) : null}
@@ -574,7 +574,7 @@ export default function HomePage() {
 
             {summary?.nakshatra && (
               <div
-                className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] sm:text-xs font-bold"
+                className="inline-flex min-w-0 items-center justify-center gap-1 rounded-full px-2.5 py-1 text-[11px] sm:text-xs font-bold"
                 style={{
                   background: "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
                   border: "2px solid rgba(255, 140, 50, 0.7)",
@@ -582,8 +582,8 @@ export default function HomePage() {
                   boxShadow: "0 0 15px rgba(255, 140, 50, 0.5), inset 0 0 10px rgba(255, 200, 100, 0.2)",
                 }}
               >
-                <div className="flex flex-col leading-tight">
-                  <span>✦ {cleanDash(summary.nakshatra)}</span>
+                <div className="flex min-w-0 flex-col leading-tight text-center">
+                  <span>{"\u2726"} {cleanDash(summary.nakshatra)}</span>
                   {getTimeRangeText(summary.nakshatraFull) ? (
                     <span className="text-[10px] text-amber-100/80">{getTimeRangeText(summary.nakshatraFull)}</span>
                   ) : null}
@@ -593,7 +593,7 @@ export default function HomePage() {
 
             {summary?.yoga && (
               <div
-                className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] sm:text-xs font-bold"
+                className="inline-flex min-w-0 items-center justify-center gap-1 rounded-full px-2.5 py-1 text-[11px] sm:text-xs font-bold"
                 style={{
                   background: "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
                   border: "2px solid rgba(255, 140, 50, 0.7)",
@@ -601,19 +601,18 @@ export default function HomePage() {
                   boxShadow: "0 0 15px rgba(255, 140, 50, 0.5), inset 0 0 10px rgba(255, 200, 100, 0.2)",
                 }}
               >
-                <div className="flex flex-col leading-tight">
-                  <span>☼ {cleanDash(summary.yoga)}</span>
+                <div className="flex min-w-0 flex-col leading-tight text-center">
+                  <span>{"\u263C"} {cleanDash(summary.yoga)}</span>
                   {getTimeRangeText(summary.yogaFull) ? (
                     <span className="text-[10px] text-amber-100/80">{getTimeRangeText(summary.yogaFull)}</span>
                   ) : null}
                 </div>
               </div>
             )}
-
           </div>
 
-          {/* Secondary row: remaining items */}
-          <div className="hide-scrollbar mb-2 flex items-center justify-start gap-1.5 overflow-x-auto whitespace-nowrap">
+          {/* Secondary row: Paksha + Karana (same row) */}
+          <div className="mb-2 flex items-center gap-1.5">
             {summary?.paksha && (
               <div
                 className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] sm:text-xs font-bold"
@@ -625,7 +624,7 @@ export default function HomePage() {
                 }}
               >
                 <div className="flex flex-col leading-tight">
-                  <span>◐ {cleanDash(summary.paksha)}</span>
+                  <span>{"\u25D0"} {cleanDash(summary.paksha)}</span>
                   {getTimeRangeText(summary.tithiFull) ? (
                     <span className="text-[10px] text-amber-100/80">{getTimeRangeText(summary.tithiFull)}</span>
                   ) : null}
@@ -644,14 +643,17 @@ export default function HomePage() {
                 }}
               >
                 <div className="flex flex-col leading-tight">
-                  <span>◑ {cleanDash(summary.karana)}</span>
+                  <span>{"\u25D1"} {cleanDash(summary.karana)}</span>
                   {getTimeRangeText(summary.karanaFull) ? (
                     <span className="text-[10px] text-amber-100/80">{getTimeRangeText(summary.karanaFull)}</span>
                   ) : null}
                 </div>
               </div>
             )}
+          </div>
 
+          {/* Choghadiya row */}
+          <div className="hide-scrollbar mb-2 flex items-center gap-1.5 overflow-x-auto whitespace-nowrap">
             {summary?.choghadiya && (
               <div
                 className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] sm:text-xs font-bold"
@@ -662,7 +664,7 @@ export default function HomePage() {
                   boxShadow: "0 0 15px rgba(255, 140, 50, 0.5), inset 0 0 10px rgba(255, 200, 100, 0.2)",
                 }}
               >
-                ⧗ {cleanDash(summary.choghadiya)}
+                {"\u29D7"} {cleanDash(summary.choghadiya)}
               </div>
             )}
           </div>

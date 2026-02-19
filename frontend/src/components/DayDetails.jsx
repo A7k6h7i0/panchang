@@ -207,6 +207,30 @@ const calculateProgress = (currentMinutes, startMinutes, endMinutes) => {
   return Math.min(100, Math.max(0, (elapsed / totalDuration) * 100));
 };
 
+const stripOuterDash = (value) => String(value || "").replace(/^\s*-\s*|\s*-\s*$/g, "").trim();
+
+function buildChipMeta(value, language, translations) {
+  const text = stripOuterDash(value);
+  if (!text || text === "-") return { label: "-", time: "" };
+
+  const { startTime, endTime } = extractTimeRange(text, language, { [language]: translations });
+  const hasRange = !!startTime && !!endTime;
+  const hasSingle = !!startTime && !endTime;
+  const time = hasRange ? `${startTime} - ${endTime}` : hasSingle ? startTime : "";
+
+  const label = stripOuterDash(
+    text
+      .replace(/\d{1,2}\s*[:.]\s*\d{2}\s*(?:AM|PM)?/gi, " ")
+      .replace(/\b(?:to|upto|up\s*to)\b/gi, " ")
+      .replace(/\s{2,}/g, " ")
+  );
+
+  return {
+    label: label || text,
+    time,
+  };
+}
+
 
 // MuhurthaTimer Component
 function MuhurthaTimer({ startTime, endTime, isAuspicious, language, translations }) {
@@ -333,12 +357,19 @@ export default function DayDetails({
   const [festivals, setFestivals] = useState([]);
   const [festivalsLoaded, setFestivalsLoaded] = useState(false);
   const [alarmSettings, setAlarmSettings] = useState(defaultAlarmSettings);
+  const [headerNow, setHeaderNow] = useState(() => new Date());
 
 
   // Local refs for this component instance
   const prevLanguageRef = useRef(language);
   const componentIdRef = useRef(Math.random().toString(36).substr(2, 9));
   const isActiveInstanceRef = useRef(false);
+
+  useEffect(() => {
+    if (!isHeaderMode) return;
+    const intervalId = setInterval(() => setHeaderNow(new Date()), 30000);
+    return () => clearInterval(intervalId);
+  }, [isHeaderMode]);
 
 
   // Load festivals data
@@ -462,6 +493,13 @@ export default function DayDetails({
   const vNakshatra = v("Nakshatra");
   const vYoga = v("Yoga");
   const vKarana = v("Karana");
+  const vChoghadiyaRaw =
+    day?.Choghadiya ||
+    day?.["Choghadiya"] ||
+    day?.Chogadiya ||
+    day?.["Chogadiya"] ||
+    "-";
+  const vChoghadiya = vChoghadiyaRaw !== "-" ? translateText(vChoghadiyaRaw, translations) : "-";
 
 
   // Extract only year name from "Shaka Samvat" field and translate it
@@ -494,6 +532,27 @@ export default function DayDetails({
   const vDur = v("Dur Muhurtam");
   const vAmrit = v("Amrit Kalam");
   const vVarjyam = v("Varjyam");
+
+  const formattedDate = `${monthName} ${dayNum}, ${year}`;
+  const headerTime = headerNow.toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+  });
+  const headerHinduTime = (() => {
+    const explicit = day?.["Hindu Time"] || day?.HinduTime || day?.["HinduTime"];
+    if (explicit && explicit !== "-") return String(explicit);
+    if (!isToday) return "-";
+    const sunriseMins = parseTimeToMinutesEnglish(vSunrise);
+    if (sunriseMins == null) return "-";
+    const nowMins = headerNow.getHours() * 60 + headerNow.getMinutes();
+    let delta = nowMins - sunriseMins;
+    if (delta < 0) delta += 24 * 60;
+    const totalSec = delta * 60;
+    const ghati = Math.floor(totalSec / 1440);
+    const pal = Math.floor((totalSec % 1440) / 24);
+    return `${String(ghati).padStart(2, "0")}:${String(pal).padStart(2, "0")}`;
+  })();
 
 
   // Get rashiphalalu label based on language
@@ -852,6 +911,33 @@ export default function DayDetails({
 
   // If in header mode, render compact version
   if (isHeaderMode) {
+    const tithiMeta = buildChipMeta(vTithi, language, translations);
+    const nakshatraMeta = buildChipMeta(vNakshatra, language, translations);
+    const yogaMeta = buildChipMeta(vYoga, language, translations);
+    const pakshaMeta = buildChipMeta(vPaksha, language, translations);
+    const karanaMeta = buildChipMeta(vKarana, language, translations);
+    const choghadiyaMeta = buildChipMeta(vChoghadiya, language, translations);
+
+    const HeaderChip = ({ icon, meta }) => {
+      if (!meta || meta.label === "-" || !meta.label) return null;
+      return (
+        <div
+          className="inline-flex min-w-0 items-center justify-center rounded-full px-2.5 py-1 text-[11px] sm:text-xs font-bold"
+          style={{
+            background: "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
+            border: "2px solid rgba(255, 140, 50, 0.7)",
+            color: "#FFE4B5",
+            boxShadow: "0 0 15px rgba(255, 140, 50, 0.5), inset 0 0 10px rgba(255, 200, 100, 0.2)",
+          }}
+        >
+          <div className="flex min-w-0 flex-col leading-tight text-center">
+            <span className="truncate">{icon} {meta.label}</span>
+            {meta.time ? <span className="text-[10px] text-amber-100/85">{meta.time}</span> : null}
+          </div>
+        </div>
+      );
+    };
+
     return (
       // Outer container for header mode
       <div className="w-full">
@@ -907,119 +993,95 @@ export default function DayDetails({
                   {weekday}
                 </div>
               </div>
+              <div
+                className="text-xs sm:text-sm font-medium"
+                style={{ color: "#FFE8C5" }}
+              >
+                <span>{formattedDate}, </span>
+                <span className="whitespace-nowrap">{headerTime}</span>
+              </div>
             </div>
+            {headerHinduTime !== "-" && (
+              <div
+                className="ml-auto inline-flex shrink-0 items-center whitespace-nowrap rounded-full px-2.5 py-1 text-[11px] sm:text-xs font-bold"
+                style={{
+                  background: "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
+                  border: "1.5px solid rgba(255, 140, 50, 0.65)",
+                  boxShadow: "0 0 10px rgba(255, 140, 50, 0.35), inset 0 0 8px rgba(255, 200, 100, 0.15)",
+                }}
+              >
+                <span style={{ color: "#FFD700" }}>{translations.hinduTimeLabel || "Hindu Time"}:</span>
+                <span className="ml-1" style={{ color: "#FFF5E6" }}>{headerHinduTime}</span>
+              </div>
+            )}
           </div>
 
-
-          {/* Tithi and Paksha stacked on left, year on right */}
-          <div className="mt-3 flex items-start justify-between gap-2">
-            <div className="flex min-w-0 flex-col items-start gap-2 pl-0.5">
-              {vTithi !== "-" && (
-                <div
-                  className="inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs sm:text-sm font-bold transition-all hover:scale-105 backdrop-blur-sm"
-                  style={{
-                    background:
-                      "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
-                    border: "2.5px solid rgba(255, 140, 50, 0.7)",
-                    color: "#FFE4B5",
-                    boxShadow: `
-                      0 0 20px rgba(255, 140, 50, 0.6),
-                      0 0 40px rgba(255, 100, 30, 0.4),
-                      inset 0 0 15px rgba(255, 200, 100, 0.2)
-                    `,
-                  }}
-                >
-                  <span style={{ color: "#D4AF37" }}>{"\u2022"}</span>
-                  {vTithi}
-                </div>
-              )}
-              {vPaksha !== "-" && (
-                <div
-                  className="inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs sm:text-sm font-bold transition-all hover:scale-105 backdrop-blur-sm"
-                  style={{
-                    background:
-                      "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
-                    border: "2.5px solid rgba(255, 140, 50, 0.7)",
-                    color: "#FFE4B5",
-                    boxShadow: `
-                      0 0 20px rgba(255, 140, 50, 0.6),
-                      0 0 40px rgba(255, 100, 30, 0.4),
-                      inset 0 0 15px rgba(255, 200, 100, 0.2)
-                    `,
-                  }}
-                >
-                  <span style={{ color: "#D4AF37" }}>{"\u25D0"}</span>
-                  {vPaksha}
-                </div>
-              )}
-            </div>
-
+          <div className="mt-3 flex flex-wrap items-center gap-1.5">
+            <HeaderChip icon={"\u25CF"} meta={tithiMeta} />
+            <HeaderChip icon={"\u2726"} meta={nakshatraMeta} />
+            <HeaderChip icon={"\u263C"} meta={yogaMeta} />
+            <HeaderChip icon={"\u25D0"} meta={pakshaMeta} />
             {vShakaSamvat !== "-" && (
               <div
-                className="inline-flex shrink-0 items-center gap-1 rounded-full px-2.5 py-0.5 text-xs sm:text-sm font-bold transition-all hover:scale-105 backdrop-blur-sm"
+                className="inline-flex shrink-0 items-center gap-1 rounded-full px-2.5 py-1 text-[11px] sm:text-xs font-bold"
                 style={{
-                  background:
-                    "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
-                  border: "2.5px solid rgba(255, 140, 50, 0.7)",
+                  background: "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
+                  border: "2px solid rgba(255, 140, 50, 0.7)",
                   color: "#FFE4B5",
-                  boxShadow: `
-                    0 0 20px rgba(255, 140, 50, 0.6),
-                    0 0 40px rgba(255, 100, 30, 0.4),
-                    inset 0 0 15px rgba(255, 200, 100, 0.2)
-                  `,
+                  boxShadow: "0 0 15px rgba(255, 140, 50, 0.5), inset 0 0 10px rgba(255, 200, 100, 0.2)",
                 }}
               >
                 <span style={{ color: "#D4AF37" }}>{getYearLabel()}:</span>
                 <span>{vShakaSamvat}</span>
               </div>
             )}
+            <HeaderChip icon={"\u25D1"} meta={karanaMeta} />
+            {choghadiyaMeta.label !== "-" && choghadiyaMeta.label ? (
+              <HeaderChip icon={"\u29D7"} meta={choghadiyaMeta} />
+            ) : null}
           </div>
-
-
 
           {festivals.length > 0 && (
             <div className="space-y-2 mt-4">
-            {festivals.map((festival, idx) => (
-              <div
-                key={idx}
-                className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-bold mr-1.5 mb-1 backdrop-blur-sm"
-                style={{
-                  background: "rgba(255, 100, 50, 0.3)",
-                  border: "1.5px solid rgba(255, 100, 50, 0.6)",
-                  color: "#FFE4B5",
-                  boxShadow:
-                    "0 0 10px rgba(255, 100, 50, 0.5), inset 0 0 6px rgba(255, 140, 50, 0.2)",
-                }}
-              >
-                <span
-                  className="h-2 w-2 rounded-full animate-pulse"
+              {festivals.map((festival, idx) => (
+                <div
+                  key={idx}
+                  className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-bold mr-1.5 mb-1 backdrop-blur-sm"
                   style={{
-                    background: "#FF4444",
-                    boxShadow: "0 0 6px rgba(255, 68, 68, 0.8)",
+                    background: "rgba(255, 100, 50, 0.3)",
+                    border: "1.5px solid rgba(255, 100, 50, 0.6)",
+                    color: "#FFE4B5",
+                    boxShadow:
+                      "0 0 10px rgba(255, 100, 50, 0.5), inset 0 0 6px rgba(255, 140, 50, 0.2)",
                   }}
-                />
-                {festival}
-              </div>
-            ))}
-          </div>
-        )}
+                >
+                  <span
+                    className="h-2 w-2 rounded-full animate-pulse"
+                    style={{
+                      background: "#FF4444",
+                      boxShadow: "0 0 6px rgba(255, 68, 68, 0.8)",
+                    }}
+                  />
+                  {festival}
+                </div>
+              ))}
+            </div>
+          )}
 
-
-        {festivalsLoaded && festivals.length === 0 && (
-          <div
-            className="text-xs mt-2"
-            style={{
-              color: "rgba(212, 175, 55, 0.6)",
-            }}
-          >
-            {translations.noFestivalListed || "No festival listed."}
-          </div>
-        )}
-      </div>
+          {festivalsLoaded && festivals.length === 0 && (
+            <div
+              className="text-xs mt-2"
+              style={{
+                color: "rgba(212, 175, 55, 0.6)",
+              }}
+            >
+              {translations.noFestivalListed || "No festival listed."}
+            </div>
+          )}
+        </div>
       </div>
     );
   }
-
 
   // SIDEBAR MODE
   if (isSidebarMode) {
