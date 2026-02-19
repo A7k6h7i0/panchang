@@ -1009,7 +1009,10 @@ export default function DayDetails({
                 )}
               </div>
               <div className="text-xs sm:text-sm font-medium" style={{ color: "#FFE8C5" }}>
-                <span>{formattedDate}, </span><span className="whitespace-nowrap">{headerTime}</span>
+                <span>{formattedDate}</span>
+              </div>
+              <div className="text-xs sm:text-sm font-medium" style={{ color: "#FFE8C5" }}>
+                <span className="whitespace-nowrap">{headerTime}</span>
               </div>
             </div>
           </div>
@@ -1124,11 +1127,11 @@ export default function DayDetails({
           )}
 
           {festivals.length > 0 && (
-            <div className="space-y-2 mt-4">
+            <div className="flex flex-col gap-1 mt-1">
               {festivals.map((festival, idx) => (
                 <div
                   key={idx}
-                  className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-bold mr-1.5 mb-1 backdrop-blur-sm"
+                  className="flex min-w-0 items-center justify-between gap-1 rounded-full px-2.5 py-1 text-[11px] sm:text-xs font-bold"
                   style={{
                     background: "rgba(255, 100, 50, 0.3)",
                     border: "1.5px solid rgba(255, 100, 50, 0.6)",
@@ -1137,14 +1140,16 @@ export default function DayDetails({
                       "0 0 10px rgba(255, 100, 50, 0.5), inset 0 0 6px rgba(255, 140, 50, 0.2)",
                   }}
                 >
-                  <span
-                    className="h-2 w-2 rounded-full animate-pulse"
-                    style={{
-                      background: "#FF4444",
-                      boxShadow: "0 0 6px rgba(255, 68, 68, 0.8)",
-                    }}
-                  />
-                  {festival}
+                  <span className="flex items-center gap-1">
+                    <span
+                      className="h-2 w-2 rounded-full animate-pulse"
+                      style={{
+                        background: "#FF4444",
+                        boxShadow: "0 0 6px rgba(255, 68, 68, 0.8)",
+                      }}
+                    />
+                    {festival}
+                  </span>
                 </div>
               ))}
             </div>
