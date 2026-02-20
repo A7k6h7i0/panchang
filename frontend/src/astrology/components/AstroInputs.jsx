@@ -1,12 +1,12 @@
 const inputBase =
-  "w-full rounded-xl border px-3 py-2 text-amber-50 placeholder:text-amber-100/75 outline-none transition focus:ring-2 focus:ring-amber-300/20";
+  "w-full min-w-0 max-w-full rounded-xl border px-3 py-2 text-amber-50 placeholder:text-amber-100/75 outline-none transition focus:ring-2 focus:ring-amber-300/20";
 
 export function Field({ label, hint, children }) {
   return (
     <label className="block min-w-0">
-      <div className="mb-1 flex min-w-0 flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
+      <div className="mb-1 flex min-w-0 flex-col gap-0.5 sm:flex-row sm:items-baseline sm:justify-between sm:gap-3">
         <span className="min-w-0 text-sm font-semibold text-amber-100">{label}</span>
-        {hint ? <span className="text-xs text-amber-100/65">{hint}</span> : null}
+        {hint ? <span className="text-xs text-amber-100/65 break-words">{hint}</span> : null}
       </div>
       {children}
     </label>

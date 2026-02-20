@@ -142,7 +142,7 @@ export default function PanchangPage() {
         </Link>
       }
     >
-      <div className="grid min-w-0 gap-6">
+      <div className="grid w-full min-w-0 gap-6 overflow-x-hidden">
       <SectionCard
         title="Panchang"
         subtitle="Today’s details load automatically. Change date/time/location to view any day."
@@ -157,7 +157,7 @@ export default function PanchangPage() {
           </button>
         }
       >
-        <div className="app-panel rounded-2xl p-4">
+        <div className="app-panel w-full min-w-0 overflow-x-hidden rounded-2xl p-4">
         <form id="panchang-form" onSubmit={onSubmit} className="grid gap-4 md:grid-cols-3">
           <Field label="Date" hint="YYYY-MM-DD">
             <CalendarDateInput value={form.date} onChange={(next) => setForm((s) => ({ ...s, date: next }))} />
