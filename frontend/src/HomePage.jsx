@@ -775,7 +775,7 @@ export default function HomePage() {
           <button
             type="button"
             onClick={openChantingAlarm}
-            className="w-full rounded-xl px-3 py-2 text-sm font-bold uppercase tracking-wide transition-all hover:scale-[1.01] flex items-center justify-between"
+            className="relative w-full rounded-xl px-3 py-2 text-sm font-bold uppercase tracking-wide transition-all hover:scale-[1.01]"
             style={{
               background: "var(--calendar-orange-gradient)",
               border: "2.5px solid rgba(212, 168, 71, 0.8)",
@@ -784,10 +784,10 @@ export default function HomePage() {
                 "0 0 18px rgba(212, 168, 71, 0.3), inset 0 1px 2px rgba(255, 255, 255, 0.1), inset 0 -1px 2px rgba(0, 0, 0, 0.2)",
             }}
           >
-            <span>Chanting Alarm</span>
+            <span className="block text-center">Chanting Alarm</span>
             <span
               aria-hidden="true"
-              className="text-xs transition-transform duration-200"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-xs transition-transform duration-200"
               style={{
                 color: "#ffedb3",
                 transform: isAlarmPopupOpen ? "rotate(180deg)" : "rotate(0deg)",
