@@ -1,5 +1,5 @@
 const inputBase =
-  "w-full min-w-0 max-w-full rounded-xl border px-3 py-2 text-amber-50 placeholder:text-amber-100/75 outline-none transition focus:ring-2 focus:ring-amber-300/20";
+  "w-full min-w-0 max-w-full box-border rounded-xl border px-3 py-2 text-amber-50 placeholder:text-amber-100/75 outline-none transition focus:ring-2 focus:ring-amber-300/20";
 
 export function Field({ label, hint, children }) {
   return (
@@ -59,7 +59,7 @@ export function SelectInput(props) {
 export function SectionCard({ title, subtitle, children, right }) {
   return (
     <section
-      className="rounded-2xl p-4 backdrop-blur-md"
+      className="w-full min-w-0 max-w-full overflow-hidden rounded-2xl p-4 backdrop-blur-md"
       style={{
         background:
           "linear-gradient(180deg, #ff4d0d 0%, #ff5c1a 10%, #ff6b28 20%, #ff7935 30%, #ff8743 40%, #ff7935 50%, #ff6b28 60%, #ff5c1a 70%, #ff4d0d 80%, #d94100 90%, #c23800 100%)",

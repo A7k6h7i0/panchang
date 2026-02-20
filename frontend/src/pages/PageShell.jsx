@@ -11,7 +11,7 @@ export default function PageShell({ title, right, children }) {
     >
       <header className="sticky top-0 z-20 px-4 pt-3">
         <div
-          className="mx-auto max-w-6xl rounded-xl p-2 backdrop-blur-md"
+          className="mx-auto w-full max-w-6xl min-w-0 rounded-xl p-2 backdrop-blur-md"
           style={{
             background:
               "linear-gradient(135deg, rgba(80, 20, 10, 0.98) 0%, rgba(100, 25, 12, 0.95) 50%, rgba(120, 30, 15, 0.92) 100%)",
@@ -56,7 +56,7 @@ export default function PageShell({ title, right, children }) {
           </div>
         </div>
       </header>
-      <main className="mx-auto max-w-6xl min-w-0 px-4 py-4">{children}</main>
+      <main className="mx-auto w-full max-w-6xl min-w-0 px-4 py-4">{children}</main>
     </div>
   );
 }

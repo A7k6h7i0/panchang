@@ -31,6 +31,12 @@ body {
     Noto Sans, Apple Color Emoji, Segoe UI Emoji;
 }
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 /* =========================================================
    BACKGROUND — layered particles + warm glow (matches images)
    ========================================================= */

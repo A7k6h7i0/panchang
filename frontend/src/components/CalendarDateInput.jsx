@@ -41,7 +41,7 @@ export default function CalendarDateInput({
       <button
         type="button"
         onClick={() => setIsOpen(true)}
-        className={`w-full min-w-0 max-w-full rounded-xl border px-3 py-2 text-left text-amber-50 outline-none transition hover:brightness-110 ${className}`}
+        className={`w-full min-w-0 max-w-full box-border rounded-xl border px-3 py-2 text-left text-amber-50 outline-none transition hover:brightness-110 ${className}`}
         style={{
           background: "linear-gradient(135deg, #2a5a1f 0%, #3a6e2d 30%, #4a8238 60%, #5a9645 100%)",
           borderColor: "#d4a847",
