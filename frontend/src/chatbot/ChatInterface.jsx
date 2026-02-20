@@ -1,32 +1,32 @@
-﻿import { useState, useRef, useEffect } from 'react';
-import ChatMessage from './ChatMessage';
-import VoiceInput from './VoiceInput';
-import { sendChatMessage } from './chatService';
+import { useState, useRef, useEffect, useCallback } from "react";
+import ChatMessage from "./ChatMessage";
+import VoiceInput from "./VoiceInput";
+import { sendChatMessage } from "./chatService";
 
 const translations = {
   en: {
-    welcomeFriend: "Hey bro! I'm your Panchanga Friend. Ask me anything! 😊",
-    welcomeFormal: "Hello! I'm your Panchanga assistant. How can I help? 🙏",
-    errorMessage: 'Sorry, something went wrong. Please try again!',
-    emptyTitle: 'Welcome to Panchanga Friend!',
-    emptySubtitle: 'Get daily panchanga, auspicious times, Rahukalam and more',
-    inputPlaceholder: 'Type your question...',
+    welcomeFriend: "Hey bro! I'm your Panchanga Friend. Ask me anything!",
+    welcomeFormal: "Hello! I'm your Panchanga assistant. How can I help?",
+    errorMessage: "Sorry, something went wrong. Please try again!",
+    emptyTitle: "Welcome to Panchanga Friend!",
+    emptySubtitle: "Get daily panchanga, auspicious times, Rahukalam and more",
+    inputPlaceholder: "Type your question...",
   },
   te: {
-    welcomeFriend: 'ఏమిటి బ్రో! నేను మీ పంచాంగ ఫ్రెండ్. ఏదైనా అడగండి! 😊',
-    welcomeFormal: 'నమస్కారం! నేను మీ పంచాంగ సహాయకుడిని. ఎలా సహాయం చేయను? 🙏',
-    errorMessage: 'క్షమించండి, ఏదో తప్పు జరిగింది. మళ్లీ ప్రయత్నించండి!',
-    emptyTitle: 'పంచాంగ ఫ్రెండ్ కి స్వాగతం!',
-    emptySubtitle: 'రోజువారీ పంచాంగం, రాహుకాలం మరియు శుభ సమయాలు తెలుసుకోండి',
-    inputPlaceholder: 'మీ ప్రశ్న టైప్ చేయండి...',
+    welcomeFriend: "ఏమిటి బ్రో! నేను మీ పంచాంగ ఫ్రెండ్. ఏదైనా అడగండి!",
+    welcomeFormal: "నమస్కారం! నేను మీ పంచాంగ సహాయకుడిని. ఎలా సహాయం చేయను?",
+    errorMessage: "క్షమించండి, ఏదో తప్పు జరిగింది. మళ్లీ ప్రయత్నించండి!",
+    emptyTitle: "పంచాంగ ఫ్రెండ్ కి స్వాగతం!",
+    emptySubtitle: "రోజువారీ పంచాంగం, రాహుకాలం మరియు శుభ సమయాలు తెలుసుకోండి",
+    inputPlaceholder: "మీ ప్రశ్న టైప్ చేయండి...",
   },
   hi: {
-    welcomeFriend: 'क्या हाल भाई! मैं तुम्हारा पंचांग फ्रेंड हूं। कुछ भी पूछो! 😊',
-    welcomeFormal: 'नमस्ते! मैं आपका पंचांग सहायक हूं। कैसे मदद करूं? 🙏',
-    errorMessage: 'क्षमा करें, कुछ गलत हो गया। फिर से प्रयास करें!',
-    emptyTitle: 'पंचांग फ्रेंड में आपका स्वागत है!',
-    emptySubtitle: 'दैनिक पंचांग, राहुकाल और शुभ समय जानें',
-    inputPlaceholder: 'अपना सवाल टाइप करें...',
+    welcomeFriend: "क्या हाल भाई! मैं तुम्हारा पंचांग फ्रेंड हूं। कुछ भी पूछो!",
+    welcomeFormal: "नमस्ते! मैं आपका पंचांग सहायक हूं। कैसे मदद करूं?",
+    errorMessage: "क्षमा करें, कुछ गलत हो गया। फिर से प्रयास करें!",
+    emptyTitle: "पंचांग फ्रेंड में आपका स्वागत है!",
+    emptySubtitle: "दैनिक पंचांग, राहुकाल और शुभ समय जानें",
+    inputPlaceholder: "अपना सवाल टाइप करें...",
   },
 };
 
@@ -34,15 +34,29 @@ function getT(language) {
   return translations[language] || translations.en;
 }
 
-export default function ChatInterface({ messages, setMessages, settings }) {
+export default function ChatInterface({
+  messages,
+  setMessages,
+  settings,
+  selectedDay,
+  mode = "panchang",
+  isOpen = true,
+  resetSignal = 0,
+}) {
   const t = getT(settings.language);
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef(null);
   const prevLanguageRef = useRef(settings.language);
 
+  const stopSpeech = useCallback(() => {
+    if ("speechSynthesis" in window) {
+      window.speechSynthesis.cancel();
+    }
+  }, []);
+
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
   useEffect(() => {
@@ -50,7 +64,7 @@ export default function ChatInterface({ messages, setMessages, settings }) {
       const welcomeMsg = {
         id: Date.now().toString(),
         text: settings.friendMode ? t.welcomeFriend : t.welcomeFormal,
-        sender: 'bot',
+        sender: "bot",
         timestamp: new Date(),
         language: settings.language,
       };
@@ -62,14 +76,14 @@ export default function ChatInterface({ messages, setMessages, settings }) {
   useEffect(() => {
     if (prevLanguageRef.current !== settings.language) {
       const switchedText = {
-        en: 'Language changed to English.',
-        te: 'భాషను తెలుగుకి మార్చాం.',
-        hi: 'भाषा हिंदी में बदल दी गई है।',
+        en: "Language changed to English.",
+        te: "భాషను తెలుగుకి మార్చాం.",
+        hi: "भाषा हिंदी में बदल दी गई है।",
       };
       const switchedMsg = {
         id: `${Date.now()}-lang`,
         text: switchedText[settings.language] || switchedText.en,
-        sender: 'bot',
+        sender: "bot",
         timestamp: new Date(),
         language: settings.language,
       };
@@ -78,18 +92,41 @@ export default function ChatInterface({ messages, setMessages, settings }) {
     }
   }, [settings.language, setMessages]);
 
+  useEffect(() => {
+    if (!isOpen) {
+      stopSpeech();
+    }
+  }, [isOpen, stopSpeech]);
+
+  useEffect(() => {
+    stopSpeech();
+  }, [resetSignal, stopSpeech]);
+
+  useEffect(() => {
+    return () => {
+      stopSpeech();
+    };
+  }, [stopSpeech]);
+
   const speakText = (text, currentSettings) => {
-    if ('speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
+    if ("speechSynthesis" in window) {
+      stopSpeech();
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.rate = currentSettings.voiceSpeed;
-      utterance.lang = currentSettings.language === 'te' ? 'te-IN' : currentSettings.language === 'hi' ? 'hi-IN' : 'en-IN';
+      utterance.lang =
+        currentSettings.language === "te"
+          ? "te-IN"
+          : currentSettings.language === "hi"
+            ? "hi-IN"
+            : "en-IN";
 
       const voices = window.speechSynthesis.getVoices();
       const preferredVoice = voices.find(
         (voice) =>
           voice.lang.startsWith(utterance.lang) &&
-          (currentSettings.voiceType === 'female' ? voice.name.includes('female') || voice.name.includes('Female') : true),
+          (currentSettings.voiceType === "female"
+            ? voice.name.includes("female") || voice.name.includes("Female")
+            : true)
       );
 
       if (preferredVoice) {
@@ -108,21 +145,24 @@ export default function ChatInterface({ messages, setMessages, settings }) {
     const userMessage = {
       id: Date.now().toString(),
       text: finalText,
-      sender: 'user',
+      sender: "user",
       timestamp: new Date(),
       language: settings.language,
     };
 
     setMessages((prev) => [...prev, userMessage]);
-    setInput('');
+    setInput("");
     setIsLoading(true);
 
     try {
-      const response = await sendChatMessage(finalText, settings);
+      const response = await sendChatMessage(finalText, settings, {
+        selectedDay,
+        mode,
+      });
       const botMessage = {
         id: (Date.now() + 1).toString(),
         text: response,
-        sender: 'bot',
+        sender: "bot",
         timestamp: new Date(),
         language: settings.language,
       };
@@ -136,7 +176,7 @@ export default function ChatInterface({ messages, setMessages, settings }) {
       const errorMsg = {
         id: (Date.now() + 1).toString(),
         text: t.errorMessage,
-        sender: 'bot',
+        sender: "bot",
         timestamp: new Date(),
         language: settings.language,
       };
@@ -152,14 +192,22 @@ export default function ChatInterface({ messages, setMessages, settings }) {
   };
 
   return (
-    <div className="h-full flex flex-col rounded-t-3xl" style={{ background: 'linear-gradient(180deg, #ff4d0d 0%, #ff5c1a 10%, #ff6b28 20%, #ff7935 30%, #ff8743 40%, #ff7935 50%, #ff6b28 60%, #ff5c1a 70%, #ff4d0d 80%, #d94100 90%, #c23800 100%)' }}>
+    <div
+      className="h-full flex flex-col rounded-t-3xl"
+      style={{
+        background:
+          "linear-gradient(180deg, #ff4d0d 0%, #ff5c1a 10%, #ff6b28 20%, #ff7935 30%, #ff8743 40%, #ff7935 50%, #ff6b28 60%, #ff5c1a 70%, #ff4d0d 80%, #d94100 90%, #c23800 100%)",
+      }}
+    >
       <div className="flex-1 overflow-y-auto px-4 py-4 space-y-3">
         {messages.length === 0 && (
           <div className="flex flex-col items-center justify-center h-full text-center px-6">
             <div className="w-24 h-24 bg-gradient-to-br from-orange-400 to-yellow-400 rounded-full flex items-center justify-center mb-4">
               <i className="ri-calendar-check-line text-white text-5xl"></i>
             </div>
-            <h2 className="text-xl font-semibold text-gray-800 mb-2">{t.emptyTitle}</h2>
+            <h2 className="text-xl font-semibold text-gray-800 mb-2">
+              {t.emptyTitle}
+            </h2>
             <p className="text-sm text-gray-500">{t.emptySubtitle}</p>
           </div>
         )}
@@ -190,23 +238,31 @@ export default function ChatInterface({ messages, setMessages, settings }) {
       </div>
 
       <div className="px-4 py-3 bg-white/95 border-t border-orange-100">
-        <div className="flex items-end gap-2">
-          <div className="flex-1 bg-orange-50/60 border border-orange-100 rounded-3xl px-4 py-2 flex items-center gap-2">
+        <div className="flex items-center gap-2">
+          <div className="flex-1 bg-orange-50/60 border border-orange-100 rounded-3xl px-4 flex items-center gap-2 min-h-[44px]">
             <input
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && handleSend()}
+              onKeyDown={(e) => e.key === "Enter" && handleSend()}
               placeholder={t.inputPlaceholder}
-              className="flex-1 bg-transparent border-none outline-none text-sm text-gray-800 placeholder-gray-400"
+              className="flex-1 bg-transparent border-none outline-none text-sm text-gray-800 placeholder-gray-400 py-2.5 relative z-10"
               disabled={isLoading}
+              autoComplete="off"
+              autoCorrect="off"
+              spellCheck="false"
             />
-            <VoiceInput onTranscript={handleVoiceInput} settings={settings} />
+            <VoiceInput
+              onTranscript={handleVoiceInput}
+              settings={settings}
+              isOpen={isOpen}
+              resetSignal={resetSignal}
+            />
           </div>
           <button
             onClick={() => handleSend()}
             disabled={!input.trim() || isLoading}
-            className="w-11 h-11 bg-gradient-to-br from-orange-500 to-yellow-500 rounded-full flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed shadow-md hover:shadow-lg hover:scale-[1.02] transition-all"
+            className="w-11 h-11 flex-shrink-0 bg-gradient-to-br from-orange-500 to-yellow-500 rounded-full flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed shadow-md hover:shadow-lg hover:scale-[1.02] transition-all"
             aria-label="Send message"
             title="Send"
           >

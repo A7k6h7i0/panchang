@@ -19,6 +19,7 @@ const LANGUAGE_KEY = "panchang:selected-language";
 const VIEW_STATE_KEY = "panchang:current-view";
 const RASHI_STATE_KEY = "panchang:rashi-selection";
 const ALARM_POPUP_STATE_KEY = "panchang:open-alarm-popup";
+const VOICE_KEY = "panchang:voice-enabled";
 
 const getTodayInfo = () => {
   const today = new Date();
@@ -121,6 +122,11 @@ const loadInitialLanguage = () => {
   return "en";
 };
 
+const loadInitialVoiceEnabled = () => {
+  if (typeof window === "undefined") return false;
+  return localStorage.getItem(VOICE_KEY) === "1";
+};
+
 const getFestivalDateKeyFromSlashDate = (dateStr) => {
   const [day, month, year] = (dateStr || "").split("/");
   if (!day || !month || !year) return "";
@@ -184,7 +190,7 @@ function App() {
   const [chatButtonPos, setChatButtonPos] = useState({ x: null, y: null });
   const [isChatbotOpen, setIsChatbotOpen] = useState(false);
   const [currentView, setCurrentView] = useState(loadInitialView());
-  const [voiceEnabled, setVoiceEnabled] = useState(false);
+  const [voiceEnabled, setVoiceEnabled] = useState(loadInitialVoiceEnabled);
   const [selectedRashi, setSelectedRashi] = useState(loadSavedRashi());
   const [openAlarmPopupOnLoad] = useState(() => {
     if (typeof window === "undefined") return false;
@@ -1165,6 +1171,7 @@ function App() {
           isOpen={isChatbotOpen}
           onClose={() => setIsChatbotOpen(false)}
           language={language}
+          currentView={currentView}
           translations={t}
           currentDateData={days}
           selectedDay={selectedDayWithProkerala}

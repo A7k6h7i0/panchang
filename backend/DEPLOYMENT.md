@@ -20,6 +20,11 @@ PORT=5000
 PROKERALA_CLIENT_ID=your_client_id_here
 PROKERALA_CLIENT_SECRET=your_client_secret_here
 
+# Important:
+# Do NOT set PROKERALA_ACCESS_TOKEN manually.
+# Backend auto-fetches OAuth token from https://api.prokerala.com/token
+# using the client_credentials flow.
+
 # Optional: Failover credentials (if you have multiple API keys)
 # PROKERALA_CLIENT_ID_2=...
 # PROKERALA_CLIENT_SECRET_2=...
@@ -67,6 +72,14 @@ PANCHANG_CACHE_TTL_DAYS=30
 5. **Deploy**:
    - Click "Create Web Service"
    - Wait for deployment to complete
+
+6. **Verify Prokerala OAuth flow locally (recommended before deploy)**:
+   ```bash
+   cd backend
+   npm run prokerala:verify
+   ```
+   This validates that your `PROKERALA_CLIENT_ID` and `PROKERALA_CLIENT_SECRET`
+   can fetch an access token and make an authenticated API request.
 
 **Note**: Render provides persistent disk storage, so SQLite caching will persist between deployments.
 
