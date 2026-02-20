@@ -352,11 +352,13 @@ export default function DayDetails({
   isSidebarMode = false,
   onRashiphalaluClick,
   voiceEnabled = false,
+  initialAlarmPopupOpen = false,
 }) {
   const [notificationsSent, setNotificationsSent] = useState({});
   const [festivals, setFestivals] = useState([]);
   const [festivalsLoaded, setFestivalsLoaded] = useState(false);
   const [alarmSettings, setAlarmSettings] = useState(defaultAlarmSettings);
+  const [isAlarmPopupOpen, setIsAlarmPopupOpen] = useState(initialAlarmPopupOpen);
   const [headerNow, setHeaderNow] = useState(() => new Date());
 
 
@@ -370,6 +372,12 @@ export default function DayDetails({
     const intervalId = setInterval(() => setHeaderNow(new Date()), 30000);
     return () => clearInterval(intervalId);
   }, [isHeaderMode]);
+
+  useEffect(() => {
+    if (initialAlarmPopupOpen) {
+      setIsAlarmPopupOpen(true);
+    }
+  }, [initialAlarmPopupOpen]);
 
 
   // Load festivals data
@@ -1348,11 +1356,36 @@ export default function DayDetails({
           </div>
         ) : null}
 
-        <SectionCard
-          title={translations.alarmSettings || "Chanting Alarm"}
-          icon="⏰"
-          variant="alarm"
-        >
+        <div className="mt-3">
+          <button
+            type="button"
+            onClick={() => setIsAlarmPopupOpen(true)}
+            className="w-full py-2 px-3 rounded-xl font-bold text-sm uppercase tracking-wide transition-all hover:scale-[1.01]"
+            style={{
+              background:
+                "linear-gradient(180deg, #ff4d0d 0%, #ff5c1a 10%, #ff6b28 20%, #ff7935 30%, #ff8743 40%, #ff7935 50%, #ff6b28 60%, #ff5c1a 70%, #ff4d0d 80%, #d94100 90%, #c23800 100%)",
+              border: "2.5px solid rgba(212, 168, 71, 0.8)",
+              color: "#ffedb3",
+              boxShadow:
+                "0 0 18px rgba(212, 168, 71, 0.3), inset 0 1px 2px rgba(255, 255, 255, 0.1), inset 0 -1px 2px rgba(0, 0, 0, 0.2)",
+            }}
+          >
+            {translations.alarmSettings || "Chanting Alarm"}
+          </button>
+        </div>
+
+        {isAlarmPopupOpen ? (
+          <div
+            className="fixed inset-0 z-[1005] flex items-center justify-center p-4"
+            style={{ background: "rgba(0, 0, 0, 0.65)" }}
+            onClick={() => setIsAlarmPopupOpen(false)}
+          >
+            <div className="w-full max-w-4xl max-h-[90vh] overflow-auto" onClick={(event) => event.stopPropagation()}>
+              <SectionCard
+                title={translations.alarmSettings || "Chanting Alarm"}
+                icon="⏰"
+                variant="alarm"
+              >
           <div className="pt-2 grid grid-cols-2 gap-4">
             <div className="rounded-2xl p-3 overflow-hidden flex flex-col h-full" style={{ border: "1px solid rgba(212, 168, 71, 0.35)" }}>
               <div
@@ -1523,7 +1556,10 @@ export default function DayDetails({
             </div>
           </div>
 
-        </SectionCard>
+              </SectionCard>
+            </div>
+          </div>
+        ) : null}
       </div>
     );
   }

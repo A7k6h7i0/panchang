@@ -9,6 +9,7 @@ const __dirname = path.dirname(__filename);
 // Database file path - stored in backend/data directory for persistence
 const DB_DIR = path.resolve(__dirname, "../data");
 const DB_PATH = path.join(DB_DIR, "panchang_cache.db");
+const SEED_FILE = path.join(DB_DIR, "panchang_cache_seed.json");
 
 // Ensure database directory exists
 if (!fs.existsSync(DB_DIR)) {
@@ -21,8 +22,10 @@ let db = null;
 /**
  * Initialize the database connection and create tables if they don't exist.
  * This is called once at application startup.
+ * 
+ * @param {boolean} skipSeedLoad - If true, skip loading seed data (for maintenance)
  */
-export function initDatabase() {
+export function initDatabase(skipSeedLoad = false) {
   if (db) {
     return db;
   }
@@ -67,10 +70,79 @@ export function initDatabase() {
     console.log(`[Database] Initialized at: ${DB_PATH}`);
     console.log(`[Database] WAL mode enabled for concurrent access`);
     
+    // Load seed data if database is empty and seed file exists
+    if (!skipSeedLoad) {
+      loadSeedDataIfEmpty();
+    }
+    
     return db;
   } catch (error) {
     console.error("[Database] Failed to initialize:", error);
     throw error;
+  }
+}
+
+/**
+ * Load seed data if database is empty and seed file exists.
+ * This is used for pre-populating cache in production.
+ */
+function loadSeedDataIfEmpty() {
+  try {
+    // Check if database has any entries
+    const countStmt = db.prepare("SELECT COUNT(*) as count FROM panchang_cache");
+    const { count } = countStmt.get();
+    
+    if (count > 0) {
+      console.log(`[Database] Cache already has ${count} entries, skipping seed load`);
+      return;
+    }
+    
+    // Check if seed file exists
+    if (!fs.existsSync(SEED_FILE)) {
+      console.log(`[Database] No seed file found at ${SEED_FILE}, skipping seed load`);
+      return;
+    }
+    
+    console.log(`[Database] Loading seed data from ${SEED_FILE}...`);
+    const seedData = JSON.parse(fs.readFileSync(SEED_FILE, "utf8"));
+    
+    if (!Array.isArray(seedData) || seedData.length === 0) {
+      console.log("[Database] Seed file is empty, skipping");
+      return;
+    }
+    
+    // Insert seed data
+    const insertStmt = db.prepare(`
+      INSERT INTO panchang_cache (
+        cache_key, date, latitude, longitude, ayanamsa, language, 
+        response_data, created_at, updated_at, access_count, last_accessed_at
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `);
+    
+    const insertMany = db.transaction((entries) => {
+      for (const entry of entries) {
+        insertStmt.run(
+          entry.cache_key,
+          entry.date,
+          entry.latitude,
+          entry.longitude,
+          entry.ayanamsa,
+          entry.language,
+          entry.response_data,
+          entry.created_at,
+          entry.updated_at,
+          entry.access_count,
+          entry.last_accessed_at
+        );
+      }
+    });
+    
+    insertMany(seedData);
+    console.log(`[Database] Loaded ${seedData.length} seed entries`);
+    
+  } catch (error) {
+    console.error("[Database] Error loading seed data:", error.message);
+    // Don't throw - just continue without seed data
   }
 }
 

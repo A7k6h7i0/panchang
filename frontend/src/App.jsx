@@ -18,6 +18,7 @@ const DATE_STATE_KEY = "panchang:selected-date";
 const LANGUAGE_KEY = "panchang:selected-language";
 const VIEW_STATE_KEY = "panchang:current-view";
 const RASHI_STATE_KEY = "panchang:rashi-selection";
+const ALARM_POPUP_STATE_KEY = "panchang:open-alarm-popup";
 
 const getTodayInfo = () => {
   const today = new Date();
@@ -185,6 +186,16 @@ function App() {
   const [currentView, setCurrentView] = useState(loadInitialView());
   const [voiceEnabled, setVoiceEnabled] = useState(false);
   const [selectedRashi, setSelectedRashi] = useState(loadSavedRashi());
+  const [openAlarmPopupOnLoad] = useState(() => {
+    if (typeof window === "undefined") return false;
+    try {
+      const shouldOpen = sessionStorage.getItem(ALARM_POPUP_STATE_KEY) === "1";
+      if (shouldOpen) sessionStorage.removeItem(ALARM_POPUP_STATE_KEY);
+      return shouldOpen;
+    } catch {
+      return false;
+    }
+  });
   const [prokeralaElementsByDate, setProkeralaElementsByDate] = useState({});
   const chatButtonRef = useRef(null);
   const dragStateRef = useRef({ dragging: false, offsetX: 0, offsetY: 0 });
@@ -1066,7 +1077,14 @@ function App() {
               }}
             >
               {/* PANCHANG ELEMENTS AND INAUSPICIOUS TIMINGS */}
-              <DayDetails day={selectedDayWithProkerala} language={language} translations={t} isSidebarMode={true} voiceEnabled={voiceEnabled} />
+              <DayDetails
+                day={selectedDayWithProkerala}
+                language={language}
+                translations={t}
+                isSidebarMode={true}
+                voiceEnabled={voiceEnabled}
+                initialAlarmPopupOpen={openAlarmPopupOnLoad}
+              />
             </section>
           </div>
         )}

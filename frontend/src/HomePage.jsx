@@ -7,6 +7,22 @@ import { languages, translations } from "./translations";
 
 const VOICE_KEY = "panchang:voice-enabled";
 const VIEW_STATE_KEY = "panchang:current-view";
+const ALARM_STORAGE_KEY = "panchangAlarmSettings";
+const REMINDER_TIME_OPTIONS = [15, 30, 60, 90, 120];
+
+const defaultAlarmSettings = {
+  enabledMuhurtas: {
+    rahu: true,
+    yamaganda: true,
+    gulika: true,
+    durmuhurtham: true,
+    varjyam: true,
+  },
+  audioEnabled: true,
+  reminderTime: 60,
+  silentMode: false,
+  disabledDays: [],
+};
 
 
 const TILES = [
@@ -185,6 +201,8 @@ export default function HomePage() {
   const [now, setNow] = useState(() => new Date());
   const [panchang, setPanchang] = useState(null);
   const [error, setError] = useState("");
+  const [alarmSettings, setAlarmSettings] = useState(defaultAlarmSettings);
+  const [isAlarmPopupOpen, setIsAlarmPopupOpen] = useState(false);
   const [settingsNonce, setSettingsNonce] = useState(0);
   const abortRef = useRef(null);
   const titleByLanguage = translations[language]?.appTitle || "Talking Calendar";
@@ -208,6 +226,27 @@ export default function HomePage() {
   useEffect(() => {
     localStorage.setItem(VOICE_KEY, voiceEnabled ? "1" : "0");
   }, [voiceEnabled]);
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(ALARM_STORAGE_KEY);
+      if (!raw) return;
+      const parsed = JSON.parse(raw);
+      setAlarmSettings((prev) => ({
+        ...prev,
+        ...parsed,
+        enabledMuhurtas: {
+          ...prev.enabledMuhurtas,
+          ...(parsed.enabledMuhurtas || {}),
+        },
+        disabledDays: Array.isArray(parsed.disabledDays)
+          ? parsed.disabledDays
+          : prev.disabledDays,
+      }));
+    } catch {
+      // ignore invalid localStorage
+    }
+  }, []);
 
   useEffect(() => {
     if (!languagePopupOpen) return;
@@ -388,9 +427,30 @@ export default function HomePage() {
     }
     navigate("/month-view");
   };
+
+  const openChantingAlarm = () => {
+    setIsAlarmPopupOpen(true);
+  };
+
+  const saveAlarmSettings = () => {
+    try {
+      localStorage.setItem(ALARM_STORAGE_KEY, JSON.stringify(alarmSettings));
+    } catch {
+      // ignore localStorage failures
+    }
+  };
+
+  const resetAlarmSettings = () => {
+    setAlarmSettings(defaultAlarmSettings);
+    try {
+      localStorage.setItem(ALARM_STORAGE_KEY, JSON.stringify(defaultAlarmSettings));
+    } catch {
+      // ignore localStorage failures
+    }
+  };
   return (
     <div
-      className="min-h-screen"
+      className="min-h-screen overflow-x-hidden"
       style={{
         fontFamily: "'Segoe UI', 'Inter', 'Trebuchet MS', sans-serif",
         background: "radial-gradient(ellipse at top, #2a1810 0%, #1a0d08 40%, #0d0504 100%)",
@@ -510,7 +570,7 @@ export default function HomePage() {
             }}
           >
           {/* Date and Day Row */}
-          <div className="mb-4 flex items-start gap-3">
+          <div className="mb-4 flex flex-wrap items-start gap-2 sm:gap-3">
             {/* Day Number Circle */}
             <div
               className="h-14 w-14 sm:h-16 sm:w-16 rounded-xl flex items-center justify-center flex-shrink-0 backdrop-blur-sm"
@@ -538,7 +598,7 @@ export default function HomePage() {
             </div>
             {summary?.headlineTime && (
               <div
-                className="ml-auto inline-flex shrink-0 items-center whitespace-nowrap rounded-full px-2.5 py-1 text-[11px] sm:text-xs font-bold"
+                className="order-3 w-full sm:order-none sm:w-auto sm:ml-auto inline-flex items-center justify-center sm:justify-start whitespace-nowrap rounded-full px-2.5 py-1 text-[11px] sm:text-xs font-bold"
                 style={{
                   background: "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
                   border: "1.5px solid rgba(255, 140, 50, 0.65)",
@@ -701,6 +761,30 @@ export default function HomePage() {
             }}
           >
             Daily Horoscope
+          </button>
+        </div>
+
+        <div
+          className="mt-1 rounded-xl p-2 backdrop-blur-md"
+          style={{
+            background: "linear-gradient(135deg, rgba(74, 33, 16, 0.98) 0%, rgba(92, 42, 21, 0.95) 50%, rgba(112, 54, 27, 0.92) 100%)",
+            border: "3px solid rgba(255, 140, 50, 0.7)",
+            boxShadow: "0 0 25px rgba(120, 58, 26, 0.55), inset 0 0 18px rgba(170, 94, 43, 0.2)",
+          }}
+        >
+          <button
+            type="button"
+            onClick={openChantingAlarm}
+            className="w-full rounded-xl px-3 py-2 text-sm font-bold uppercase tracking-wide transition-all hover:scale-[1.01]"
+            style={{
+              background: "var(--calendar-orange-gradient)",
+              border: "2.5px solid rgba(212, 168, 71, 0.8)",
+              color: "#ffedb3",
+              boxShadow:
+                "0 0 18px rgba(212, 168, 71, 0.3), inset 0 1px 2px rgba(255, 255, 255, 0.1), inset 0 -1px 2px rgba(0, 0, 0, 0.2)",
+            }}
+          >
+            Chanting Alarm
           </button>
         </div>
 
@@ -929,9 +1013,298 @@ export default function HomePage() {
           </div>
         </div>
       ) : null}
+
+      {isAlarmPopupOpen ? (
+        <div
+          className="fixed inset-0 z-[1015] flex items-center justify-center p-4"
+          style={{ background: "rgba(0, 0, 0, 0.65)" }}
+          onClick={() => setIsAlarmPopupOpen(false)}
+        >
+          <div className="w-full max-w-4xl max-h-[90vh] overflow-auto" onClick={(event) => event.stopPropagation()}>
+            <div
+              className="rounded-2xl p-3 backdrop-blur-sm"
+              style={{
+                background:
+                  "linear-gradient(180deg, #ff4d0d 0%, #ff5c1a 10%, #ff6b28 20%, #ff7935 30%, #ff8743 40%, #ff7935 50%, #ff6b28 60%, #ff5c1a 70%, #ff4d0d 80%, #d94100 90%, #c23800 100%)",
+                border: "2.5px solid rgba(255, 168, 67, 0.8)",
+                boxShadow:
+                  "0 0 18px rgba(212,168,71,0.4), inset 0 1px 2px rgba(255,255,255,0.15), inset 0 -1px 2px rgba(0,0,0,0.2)",
+              }}
+            >
+              <div
+                className="inline-flex items-center gap-2 rounded-full px-3 py-1.5 mb-3"
+                style={{
+                  background: "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
+                  border: "2.5px solid rgba(255, 140, 50, 0.7)",
+                  boxShadow:
+                    "0 0 20px rgba(255, 140, 50, 0.6), 0 0 40px rgba(255, 100, 30, 0.4), inset 0 0 15px rgba(255, 200, 100, 0.2)",
+                }}
+              >
+                <span className="text-base">⏰</span>
+                <h3
+                  className="text-xs sm:text-sm font-bold uppercase tracking-wide"
+                  style={{ color: "#D4AF37" }}
+                >
+                  {translations[language]?.alarmSettings || "Chanting Alarm"}
+                </h3>
+              </div>
+
+              <div className="pt-2 grid grid-cols-2 gap-4">
+                <div className="rounded-2xl p-3 overflow-hidden flex flex-col h-full" style={{ border: "1px solid rgba(212, 168, 71, 0.35)" }}>
+                  <div className="text-xs uppercase tracking-wide font-semibold" style={{ color: "#FFE4B5" }}>
+                    {translations[language]?.weekdaysLabel || translations[language]?.weekdays || "Weekdays"}
+                  </div>
+                  <div className="mt-6 grid grid-rows-7 gap-2 flex-1">
+                    {["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"].map((dayName, index) => {
+                      const dayValue = dayName === "Sunday" ? 7 : index;
+                      const active = alarmSettings.disabledDays.includes(dayValue);
+                      return (
+                        <button
+                          key={dayName}
+                          type="button"
+                          onClick={() =>
+                            setAlarmSettings((prev) => ({
+                              ...prev,
+                              disabledDays: active
+                                ? prev.disabledDays.filter((d) => d !== dayValue)
+                                : [...prev.disabledDays, dayValue],
+                            }))
+                          }
+                          className="w-full rounded-lg px-2 py-2 text-xs font-semibold transition"
+                          style={{
+                            background: active
+                              ? "linear-gradient(135deg, #2a5a1f 0%, #3a6e2d 30%, #4a8238 60%, #5a9645 100%)"
+                              : "linear-gradient(135deg, rgba(42, 90, 31, 0.7) 0%, rgba(58, 110, 45, 0.7) 50%, rgba(90, 150, 69, 0.7) 100%)",
+                            border: active ? "2.5px solid #d4a847" : "2px solid rgba(212, 168, 71, 0.7)",
+                            color: "#ffedb3",
+                            boxShadow: active
+                              ? "0 0 18px rgba(212, 168, 71, 0.3), inset 0 1px 2px rgba(255, 255, 255, 0.1), inset 0 -1px 2px rgba(0, 0, 0, 0.2)"
+                              : "0 0 12px rgba(212, 168, 71, 0.2), inset 0 1px 2px rgba(255, 255, 255, 0.08), inset 0 -1px 2px rgba(0, 0, 0, 0.18)",
+                          }}
+                        >
+                          {translations[language]?.[dayName] || dayName}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                <div className="rounded-2xl p-3 flex flex-col h-full" style={{ border: "1px solid rgba(212, 168, 71, 0.35)" }}>
+                  <div className="text-xs uppercase tracking-wide font-semibold" style={{ color: "#FFE4B5" }}>
+                    {translations[language]?.notificationPreferences || "Notification Preferences"}
+                  </div>
+                  <div className="mt-2 grid grid-rows-7 gap-2 flex-1">
+                    <AlarmToggleRow
+                      label={translations[language]?.audioAlerts || "Audio Alerts"}
+                      checked={alarmSettings.audioEnabled}
+                      onChange={(checked) => setAlarmSettings((prev) => ({ ...prev, audioEnabled: checked }))}
+                    />
+                    <AlarmToggleRow
+                      label={translations[language]?.silentMode || "Silent Mode"}
+                      checked={alarmSettings.silentMode}
+                      onChange={(checked) => setAlarmSettings((prev) => ({ ...prev, silentMode: checked }))}
+                    />
+                    <div
+                      className="flex w-full min-w-0 items-center justify-between gap-2 rounded-lg px-2 py-1"
+                      style={{
+                        background:
+                          "linear-gradient(135deg, #2a5a1f 0%, #3a6e2d 30%, #4a8238 60%, #5a9645 100%)",
+                        border: "2px solid #d4a847",
+                      }}
+                    >
+                      <div className="min-w-0 flex-1 truncate text-[10px] font-semibold" style={{ color: "#ffedb3" }}>
+                        {translations[language]?.reminderTime || "Reminder Time"}
+                      </div>
+                      <HomeReminderTimeDropdown
+                        value={alarmSettings.reminderTime}
+                        options={REMINDER_TIME_OPTIONS}
+                        suffix={translations[language]?.minutesBeforeStart || "minutes before start"}
+                        onChange={(nextValue) =>
+                          setAlarmSettings((prev) => ({ ...prev, reminderTime: nextValue }))
+                        }
+                      />
+                    </div>
+                    <button
+                      type="button"
+                      onClick={saveAlarmSettings}
+                      className="w-full rounded-lg px-2 py-1 text-[10px] font-semibold uppercase tracking-wide"
+                      style={{
+                        background:
+                          "linear-gradient(135deg, #2a5a1f 0%, #3a6e2d 30%, #4a8238 60%, #5a9645 100%)",
+                        border: "2px solid #d4a847",
+                        color: "#ffedb3",
+                        boxShadow:
+                          "0 0 12px rgba(212, 168, 71, 0.25), inset 0 1px 2px rgba(255, 255, 255, 0.08), inset 0 -1px 2px rgba(0, 0, 0, 0.18)",
+                      }}
+                    >
+                      {translations[language]?.saveSettings || "Save Settings"}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={resetAlarmSettings}
+                      className="w-full rounded-lg px-2 py-1 text-[10px] font-semibold uppercase tracking-wide"
+                      style={{
+                        background:
+                          "linear-gradient(135deg, #2a5a1f 0%, #3a6e2d 30%, #4a8238 60%, #5a9645 100%)",
+                        border: "2px solid #d4a847",
+                        color: "#ffedb3",
+                        boxShadow:
+                          "0 0 12px rgba(212, 168, 71, 0.25), inset 0 1px 2px rgba(255, 255, 255, 0.08), inset 0 -1px 2px rgba(0, 0, 0, 0.18)",
+                      }}
+                    >
+                      {translations[language]?.resetDefaults || "Reset Defaults"}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                      className="w-full rounded-lg px-2 py-1 text-[10px] font-semibold uppercase tracking-wide"
+                      style={{
+                        background:
+                          "linear-gradient(135deg, #2a5a1f 0%, #3a6e2d 30%, #4a8238 60%, #5a9645 100%)",
+                        border: "2px solid #d4a847",
+                        color: "#ffedb3",
+                        boxShadow:
+                          "0 0 12px rgba(212, 168, 71, 0.25), inset 0 1px 2px rgba(255, 255, 255, 0.08), inset 0 -1px 2px rgba(0, 0, 0, 0.18)",
+                      }}
+                    >
+                      {translations[language]?.scrollUp || "Scroll Up"}
+                    </button>
+                    <button
+                      type="button"
+                      className="w-full rounded-lg px-2 py-1 text-[10px] font-semibold uppercase tracking-wide"
+                      style={{
+                        background:
+                          "linear-gradient(135deg, #2a5a1f 0%, #3a6e2d 30%, #4a8238 60%, #5a9645 100%)",
+                        border: "2px solid #d4a847",
+                        color: "#ffedb3",
+                        boxShadow:
+                          "0 0 12px rgba(212, 168, 71, 0.25), inset 0 1px 2px rgba(255, 255, 255, 0.08), inset 0 -1px 2px rgba(0, 0, 0, 0.18)",
+                      }}
+                    >
+                      {translations[language]?.addToAlbum || "Add To Album"}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }
 
+function AlarmToggleRow({ label, checked, onChange }) {
+  return (
+    <div
+      className="flex min-w-0 items-center justify-between w-full rounded-lg px-2 py-1"
+      style={{
+        background: "linear-gradient(135deg, #2a5a1f 0%, #3a6e2d 30%, #4a8238 60%, #5a9645 100%)",
+        border: "2px solid #d4a847",
+      }}
+    >
+      <div className="min-w-0 flex-1 pr-3">
+        <div className="text-[10px] font-semibold truncate" style={{ color: "#FFE4B5" }}>
+          {label}
+        </div>
+      </div>
+      <input
+        type="checkbox"
+        className="h-3.5 w-3.5 shrink-0 accent-green-500"
+        checked={!!checked}
+        onChange={(event) => onChange(event.target.checked)}
+      />
+    </div>
+  );
+}
 
+function HomeReminderTimeDropdown({ value, options, suffix, onChange }) {
+  const [open, setOpen] = useState(false);
+  const rootRef = useRef(null);
 
+  useEffect(() => {
+    if (!open) return;
+
+    const handlePointerDown = (event) => {
+      if (!rootRef.current) return;
+      if (!rootRef.current.contains(event.target)) setOpen(false);
+    };
+
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") setOpen(false);
+    };
+
+    document.addEventListener("pointerdown", handlePointerDown);
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("pointerdown", handlePointerDown);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [open]);
+
+  const selectedText = `${value} ${suffix}`;
+
+  return (
+    <div ref={rootRef} className="relative min-w-0 max-w-[60%] sm:max-w-[58%]">
+      <button
+        type="button"
+        onClick={() => setOpen((prev) => !prev)}
+        className="w-full truncate rounded-lg px-2 py-1 text-left text-xs font-bold outline-none"
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        style={{
+          background:
+            "linear-gradient(180deg, rgba(255, 140, 50, 0.35) 0%, rgba(255, 107, 40, 0.35) 100%)",
+          border: "2px solid rgba(212, 168, 71, 0.85)",
+          color: "#ffedb3",
+          boxShadow:
+            "0 0 10px rgba(212, 168, 71, 0.18), inset 0 1px 2px rgba(255, 255, 255, 0.08), inset 0 -1px 2px rgba(0, 0, 0, 0.18)",
+        }}
+      >
+        {selectedText}
+      </button>
+
+      {open && (
+        <div
+          className="absolute right-0 z-50 mt-1 w-56 max-w-[85vw] overflow-hidden rounded-xl"
+          role="listbox"
+          style={{
+            background:
+              "linear-gradient(180deg, rgba(255, 140, 50, 0.98) 0%, rgba(255, 107, 40, 0.98) 55%, rgba(217, 65, 0, 0.98) 100%)",
+            border: "2px solid rgba(212, 168, 71, 0.9)",
+            boxShadow:
+              "0 12px 30px rgba(0, 0, 0, 0.35), 0 0 18px rgba(212, 168, 71, 0.18)",
+          }}
+        >
+          <div className="max-h-64 overflow-auto">
+            {options.map((optionValue) => {
+              const isSelected = optionValue === value;
+              return (
+                <button
+                  key={optionValue}
+                  type="button"
+                  role="option"
+                  aria-selected={isSelected}
+                  onClick={() => {
+                    onChange(optionValue);
+                    setOpen(false);
+                  }}
+                  className="w-full px-3 py-2 text-left text-xs font-bold"
+                  style={{
+                    background: isSelected
+                      ? "linear-gradient(135deg, rgba(42, 90, 31, 0.95) 0%, rgba(58, 110, 45, 0.95) 40%, rgba(90, 150, 69, 0.95) 100%)"
+                      : "transparent",
+                    color: "#ffffff",
+                    borderBottom: "1px solid rgba(255, 255, 255, 0.18)",
+                  }}
+                >
+                  {optionValue} {suffix}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
