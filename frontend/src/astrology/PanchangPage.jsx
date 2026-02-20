@@ -142,7 +142,7 @@ export default function PanchangPage() {
         </Link>
       }
     >
-      <div className="grid gap-6">
+      <div className="grid min-w-0 gap-6">
       <SectionCard
         title="Panchang"
         subtitle="Today’s details load automatically. Change date/time/location to view any day."
@@ -288,11 +288,11 @@ export default function PanchangPage() {
                 <div className="text-xs font-black tracking-wide text-amber-100/70">ALL TITHI</div>
                 <div className="mt-2 grid gap-2">
                   {summary.tithi.all.map((t, idx) => (
-                    <div key={`${t?.id || idx}`} className="flex items-baseline justify-between gap-3">
-                      <div className="font-semibold">
+                    <div key={`${t?.id || idx}`} className="flex min-w-0 items-baseline justify-between gap-3">
+                      <div className="min-w-0 break-words font-semibold">
                         {t?.name || "-"} {t?.paksha ? `(${t.paksha})` : ""}
                       </div>
-                      <div className="text-xs text-amber-100/70">{fmtRange(t)}</div>
+                      <div className="shrink-0 text-xs text-amber-100/70">{fmtRange(t)}</div>
                     </div>
                   ))}
                 </div>
@@ -302,12 +302,12 @@ export default function PanchangPage() {
                 <div className="text-xs font-black tracking-wide text-amber-100/70">ALL NAKSHATRA</div>
                 <div className="mt-2 grid gap-2">
                   {summary.nakshatra.all.map((n, idx) => (
-                    <div key={`${n?.id || idx}`} className="flex items-baseline justify-between gap-3">
-                      <div className="font-semibold">
+                    <div key={`${n?.id || idx}`} className="flex min-w-0 items-baseline justify-between gap-3">
+                      <div className="min-w-0 break-words font-semibold">
                         {n?.name || "-"}
                         {n?.lord?.vedic_name ? ` • ${n.lord.vedic_name}` : ""}
                       </div>
-                      <div className="text-xs text-amber-100/70">{fmtRange(n)}</div>
+                      <div className="shrink-0 text-xs text-amber-100/70">{fmtRange(n)}</div>
                     </div>
                   ))}
                 </div>

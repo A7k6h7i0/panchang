@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 export default function PageShell({ title, right, children }) {
   return (
     <div
-      className="min-h-screen"
+      className="min-h-screen overflow-x-hidden"
       style={{
         background:
           "radial-gradient(circle at 15% 10%, rgba(255, 190, 110, 0.14) 0%, rgba(0, 0, 0, 0) 40%), radial-gradient(circle at 85% 20%, rgba(255, 120, 45, 0.18) 0%, rgba(0, 0, 0, 0) 45%), linear-gradient(180deg, rgba(44, 16, 8, 1) 0%, rgba(16, 6, 3, 1) 100%)",
@@ -56,7 +56,7 @@ export default function PageShell({ title, right, children }) {
           </div>
         </div>
       </header>
-      <main className="mx-auto max-w-6xl px-4 py-4">{children}</main>
+      <main className="mx-auto max-w-6xl min-w-0 px-4 py-4">{children}</main>
     </div>
   );
 }

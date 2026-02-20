@@ -3,9 +3,9 @@ const inputBase =
 
 export function Field({ label, hint, children }) {
   return (
-    <label className="block">
-      <div className="mb-1 flex items-baseline justify-between gap-3">
-        <span className="text-sm font-semibold text-amber-100">{label}</span>
+    <label className="block min-w-0">
+      <div className="mb-1 flex min-w-0 flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
+        <span className="min-w-0 text-sm font-semibold text-amber-100">{label}</span>
         {hint ? <span className="text-xs text-amber-100/65">{hint}</span> : null}
       </div>
       {children}
@@ -68,12 +68,12 @@ export function SectionCard({ title, subtitle, children, right }) {
           "0 0 20px rgba(255, 140, 50, 0.42), inset 0 0 14px rgba(255, 220, 140, 0.1)",
       }}
     >
-      <header className="mb-4 flex flex-wrap items-start justify-between gap-3">
-        <div>
+      <header className="mb-4 flex min-w-0 flex-wrap items-start justify-between gap-3">
+        <div className="min-w-0 flex-1">
           <div className="text-base font-black tracking-wide text-amber-100">{title}</div>
-          {subtitle ? <div className="mt-1 text-xs text-amber-100/70">{subtitle}</div> : null}
+          {subtitle ? <div className="mt-1 break-words text-xs text-amber-100/70">{subtitle}</div> : null}
         </div>
-        {right || null}
+        <div className="shrink-0">{right || null}</div>
       </header>
       {children}
     </section>
