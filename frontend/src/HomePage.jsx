@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { getProkeralaPanchang } from "./services/astrologyApi";
 import { getAstroDefaults, LANGUAGE_CHANGE_EVENT, loadLanguage, saveLanguage } from "./utils/appSettings";
 import { buildIsoDatetime, findActiveByTime, safeDateFromIso, ymdToday } from "./astrology/components/formatters";
-import { languages, translations } from "./translations";
+import { languages, translateText, translations } from "./translations";
 
 const VOICE_KEY = "panchang:voice-enabled";
 const VIEW_STATE_KEY = "panchang:current-view";
@@ -25,33 +25,37 @@ const defaultAlarmSettings = {
 };
 
 
-const TILES = [
-  { to: "/month-view", title: "Month View", subtitle: "Phase and Tithi for month", icon: "▦" },
-  { to: "/panchang", title: "Panchang", subtitle: "Day View, Sun and Moon rise/set times", icon: "⌖" },
-  { to: "/festivals", title: "Festivals", subtitle: "Festival and event dates", icon: "✹" },
-  { to: "/my-tithi", title: "My Tithi", subtitle: "Add and track your own tithis", icon: "◉" },
-  { to: "/kundali", title: "Kundali", subtitle: "Time view, Planet Ephemeris, Lagna", icon: "✳" },
-  { to: "/matchmaking", title: "Match Making", subtitle: "Guna Milan with Ashta Koota", icon: "◔" },
-  { to: "/muhurat", title: "Muhurt", subtitle: "Muhurta, Choghadiya and Hora", icon: "◷" },
-  { to: "/hindu-time", title: "Hindu Time", subtitle: "Watch Ishtkaal i.e Ghati or Nazhika", icon: "◴" },
-  { to: "/settings", title: "Settings", subtitle: "Change location and preferences", icon: "⚙" },
-  { to: "/info", title: "Info", subtitle: "Information about Hindu Calendar", icon: "?" },
-];
+function getTiles(t) {
+  return [
+    { to: "/month-view", title: t.tileMonthView || "Month View", subtitle: t.tileMonthViewSub || "Phase and Tithi for month", icon: "▦" },
+    { to: "/panchang", title: t.tilePanchang || "Panchang", subtitle: t.tilePanchangSub || "Day View, Sun and Moon rise/set times", icon: "⌖" },
+    { to: "/festivals", title: t.tileFestivals || "Festivals", subtitle: t.tileFestivalsSub || "Festival and event dates", icon: "✹" },
+    { to: "/my-tithi", title: t.tileMyTithi || "My Tithi", subtitle: t.tileMyTithiSub || "Add and track your own tithis", icon: "◉" },
+    { to: "/kundali", title: t.tileKundali || "Kundali", subtitle: t.tileKundaliSub || "Time view, Planet Ephemeris, Lagna", icon: "✳" },
+    { to: "/matchmaking", title: t.tileMatchMaking || "Match Making", subtitle: t.tileMatchMakingSub || "Guna Milan with Ashta Koota", icon: "◔" },
+    { to: "/muhurat", title: t.tileMuhurt || "Muhurt", subtitle: t.tileMuhurtSub || "Muhurta, Choghadiya and Hora", icon: "◷" },
+    { to: "/hindu-time", title: t.tileHinduTime || "Hindu Time", subtitle: t.tileHinduTimeSub || "Watch Ishtkaal i.e Ghati or Nazhika", icon: "◴" },
+    { to: "/settings", title: t.tileSettings || "Settings", subtitle: t.tileSettingsSub || "Change location and preferences", icon: "⚙" },
+    { to: "/info", title: t.tileInfo || "Info", subtitle: t.tileInfoSub || "Information about Hindu Calendar", icon: "?" },
+  ];
+}
 
 
-const MENU_LINKS = [
-  ["/month-view", "Month View"],
-  ["/panchang", "Panchang"],
-  ["/festivals", "Festivals"],
-  ["/my-tithi", "My Tithi"],
-  ["/kundali", "Kundali"],
-  ["/matchmaking", "Match Making"],
-  ["/muhurat", "Muhurt"],
-  ["/hindu-time", "Hindu Time"],
-  ["/compass", "Compass"],
-  ["/sankalp-mantra", "Sankalp Mantra"],
-  ["/info", "Info"],
-];
+function getMenuLinks(t) {
+  return [
+    ["/month-view", t.tileMonthView || "Month View"],
+    ["/panchang", t.tilePanchang || "Panchang"],
+    ["/festivals", t.tileFestivals || "Festivals"],
+    ["/my-tithi", t.tileMyTithi || "My Tithi"],
+    ["/kundali", t.tileKundali || "Kundali"],
+    ["/matchmaking", t.tileMatchMaking || "Match Making"],
+    ["/muhurat", t.tileMuhurt || "Muhurt"],
+    ["/hindu-time", t.tileHinduTime || "Hindu Time"],
+    ["/compass", t.tileCompass || "Compass"],
+    ["/sankalp-mantra", t.tileSankalp || "Sankalp Mantra"],
+    ["/info", t.tileInfo || "Info"],
+  ];
+}
 
 
 function textOf(value) {
@@ -62,12 +66,12 @@ function textOf(value) {
     return (
       String(
         value?.name ??
-          value?.vedic_name ??
-          value?.title ??
-          value?.value ??
-          value?.label ??
-          value?.display_name ??
-          ""
+        value?.vedic_name ??
+        value?.title ??
+        value?.value ??
+        value?.label ??
+        value?.display_name ??
+        ""
       ).trim()
     );
   }
@@ -159,7 +163,7 @@ function Tile({ to, icon, title, subtitle }) {
         boxShadow: "0 4px 15px rgba(255, 107, 53, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.3), inset 0 -1px 0 rgba(139, 69, 19, 0.2)",
       }}
     >
-      <div 
+      <div
         className="mx-auto mb-1.5 inline-flex h-9 w-9 items-center justify-center rounded-full text-lg"
         style={{
           background: "linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 50%, #f39c12 100%)",
@@ -169,7 +173,7 @@ function Tile({ to, icon, title, subtitle }) {
       >
         {icon}
       </div>
-      <div 
+      <div
         className="text-[13px] font-bold leading-tight"
         style={{
           color: "#FFF9F0",
@@ -178,7 +182,7 @@ function Tile({ to, icon, title, subtitle }) {
       >
         {title}
       </div>
-      <div 
+      <div
         className="mt-1 text-[10px] leading-3"
         style={{
           color: "#FFE8C5",
@@ -197,6 +201,7 @@ export default function HomePage() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [languagePopupOpen, setLanguagePopupOpen] = useState(false);
   const [language, setLanguage] = useState(loadInitialLanguage);
+  const languageRef = useRef(language);
   const [voiceEnabled, setVoiceEnabled] = useState(loadInitialVoiceEnabled);
   const [now, setNow] = useState(() => new Date());
   const [panchang, setPanchang] = useState(null);
@@ -204,6 +209,7 @@ export default function HomePage() {
   const [alarmSettings, setAlarmSettings] = useState(defaultAlarmSettings);
   const [isAlarmPopupOpen, setIsAlarmPopupOpen] = useState(false);
   const [settingsNonce, setSettingsNonce] = useState(0);
+  const [notificationStatus, setNotificationStatus] = useState("");
   const abortRef = useRef(null);
   const titleByLanguage = translations[language]?.appTitle || "Talking Calendar";
 
@@ -220,7 +226,9 @@ export default function HomePage() {
   }, []);
 
   useEffect(() => {
+    languageRef.current = language;
     if (loadLanguage() !== language) saveLanguage(language);
+    // Do NOT clear panchang here — local translation lookup handles it instantly
   }, [language]);
 
   useEffect(() => {
@@ -276,14 +284,15 @@ export default function HomePage() {
   }, []);
 
 
+  // ── Fetch triggered by language change (fires immediately, no debounce) ──
   useEffect(() => {
     abortRef.current?.abort?.();
     const controller = new AbortController();
     abortRef.current = controller;
     setError("");
 
-
     const run = async () => {
+      const currentLang = languageRef.current;
       try {
         const payload = await getProkeralaPanchang(
           {
@@ -293,11 +302,14 @@ export default function HomePage() {
             lng: defaults.lng,
             tzOffset: defaults.tzOffset,
             ayanamsa: defaults.ayanamsa,
-            la: language,
+            la: currentLang,
           },
           { signal: controller.signal }
         );
-        setPanchang(payload?.data || payload || null);
+        // Only update if this response is still for the current language
+        if (languageRef.current === currentLang) {
+          setPanchang(payload?.data || payload || null);
+        }
       } catch (e) {
         if (e?.name === "AbortError") return;
         setPanchang(null);
@@ -305,14 +317,61 @@ export default function HomePage() {
       }
     };
 
+    // No debounce for language changes — switch instantly
+    run();
+    return () => {
+      controller.abort();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [language]);
+
+  // ── Fetch triggered by minute tick or settings change (320ms debounce) ──
+  useEffect(() => {
+    const controller = new AbortController();
+    setError("");
+
+    const run = async () => {
+      const currentLang = languageRef.current;
+      try {
+        const payload = await getProkeralaPanchang(
+          {
+            date: ymdToday(),
+            time: `${pad2(now.getHours())}:${pad2(now.getMinutes())}`,
+            lat: defaults.lat,
+            lng: defaults.lng,
+            tzOffset: defaults.tzOffset,
+            ayanamsa: defaults.ayanamsa,
+            la: currentLang,
+          },
+          { signal: controller.signal }
+        );
+        if (languageRef.current === currentLang) {
+          setPanchang(payload?.data || payload || null);
+        }
+      } catch (e) {
+        if (e?.name === "AbortError") return;
+        setPanchang(null);
+        setError(e?.message || "Failed to load Panchang");
+      }
+    };
 
     const t = setTimeout(run, 320);
     return () => {
       clearTimeout(t);
       controller.abort();
     };
-  }, [now.getMinutes(), settingsNonce, language]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [now.getMinutes(), settingsNonce]);
 
+
+  // Local translation helper — looks up a term in translations.js, fallback to raw value
+  const t = translations[language] || translations.en;
+  const translateTerm = (raw) => {
+    if (!raw) return raw;
+    const s = String(raw).trim();
+    // Try exact match first, then first-word match (e.g. "Panchami Dwitiya" → "పంచమి")
+    return t[s] || t[s.split(" ")[0]] || translateText(s, t) || s;
+  };
 
   const summary = useMemo(() => {
     if (!panchang) return null;
@@ -333,15 +392,15 @@ export default function HomePage() {
     const ghati = computeGhati(now, panchang?.sunrise);
 
 
-    const paksha = firstText(activeTithi?.paksha, panchang?.paksha, panchang?.advanced?.paksha);
-    const weekday = firstText(
+    const pakshaRaw = firstText(activeTithi?.paksha, panchang?.paksha, panchang?.advanced?.paksha);
+    const weekdayRaw = firstText(
       panchang?.vaara,
       panchang?.weekday,
       panchang?.day,
       panchang?.advanced?.vaara,
       panchang?.advanced?.weekday
     );
-    const lunarMonth = firstText(
+    const lunarMonthRaw = firstText(
       panchang?.lunar_month?.name,
       panchang?.lunar_month,
       panchang?.masa,
@@ -349,13 +408,13 @@ export default function HomePage() {
       panchang?.advanced?.lunar_month,
       panchang?.advanced?.masa
     );
-    const samvatsara = firstText(
+    const samvatsaraRaw = firstText(
       panchang?.samvatsara?.name,
       panchang?.samvatsara,
       panchang?.advanced?.samvatsara?.name,
       panchang?.advanced?.samvatsara
     );
-    const purnimanthaMonth = firstText(
+    const purnimanthaMonthRaw = firstText(
       panchang?.purnimantha_month?.name,
       panchang?.purnimanta_month?.name,
       panchang?.lunar_month?.purnimanta_name,
@@ -363,13 +422,13 @@ export default function HomePage() {
       panchang?.advanced?.purnimanta_month?.name,
       panchang?.advanced?.lunar_month?.purnimanta_name
     );
-    const ayana = firstText(
+    const ayanaRaw = firstText(
       panchang?.ayana?.name,
       panchang?.ayana,
       panchang?.advanced?.ayana?.name,
       panchang?.advanced?.ayana
     );
-    const ritu = firstText(
+    const rituRaw = firstText(
       panchang?.ritu?.name,
       panchang?.ritu,
       panchang?.advanced?.ritu?.name,
@@ -378,36 +437,33 @@ export default function HomePage() {
     );
 
 
-    const choghadiyaText = joinClean(
-      [
-        cleanDash(activeChoghadiya?.name),
-        joinClean([toHHMM(activeChoghadiya?.start), toHHMM(activeChoghadiya?.end)], " - "),
-      ],
-      " "
-    );
+    const choghadiyaRaw = cleanDash(activeChoghadiya?.name);
+    const choghadiyaTimeStr = joinClean([toHHMM(activeChoghadiya?.start), toHHMM(activeChoghadiya?.end)], " - ");
+    const choghadiyaText = joinClean([t[choghadiyaRaw] || choghadiyaRaw, choghadiyaTimeStr], " ");
 
 
     return {
       headlineTime: ghati ? `${pad2(ghati.ghati)}:${pad2(ghati.pal)}` : "",
-      tithi: firstText(activeTithi?.name),
+      tithi: translateTerm(firstText(activeTithi?.name)),
       tithiFull: activeTithi,
-      paksha,
-      karana: firstText(activeKarana?.name),
+      paksha: translateTerm(pakshaRaw),
+      karana: translateTerm(firstText(activeKarana?.name)),
       karanaFull: activeKarana,
-      yoga: firstText(activeYoga?.name),
+      yoga: translateTerm(firstText(activeYoga?.name)),
       yogaFull: activeYoga,
-      lunarMonth,
-      nakshatra: firstText(activeNakshatra?.name),
+      lunarMonth: translateTerm(lunarMonthRaw),
+      nakshatra: translateTerm(firstText(activeNakshatra?.name)),
       nakshatraFull: activeNakshatra,
-      weekday,
+      weekday: translateTerm(weekdayRaw),
       choghadiya: choghadiyaText,
-      panchaka: firstText(panchang?.panchaka?.name, panchang?.panchaka),
-      samvatsara,
-      purnimanthaMonth,
-      ayana,
-      ritu,
+      panchaka: translateTerm(firstText(panchang?.panchaka?.name, panchang?.panchaka)),
+      samvatsara: translateTerm(samvatsaraRaw),
+      purnimanthaMonth: translateTerm(purnimanthaMonthRaw),
+      ayana: translateTerm(ayanaRaw),
+      ritu: translateTerm(rituRaw),
     };
-  }, [panchang, now, defaults.tzOffset]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [panchang, now, defaults.tzOffset, language]);
 
 
   const formattedTime = useMemo(
@@ -435,8 +491,10 @@ export default function HomePage() {
   const saveAlarmSettings = () => {
     try {
       localStorage.setItem(ALARM_STORAGE_KEY, JSON.stringify(alarmSettings));
+      setNotificationStatus("Settings saved!");
+      setTimeout(() => setNotificationStatus(""), 3000);
     } catch {
-      // ignore localStorage failures
+      setNotificationStatus("Failed to save settings.");
     }
   };
 
@@ -444,8 +502,42 @@ export default function HomePage() {
     setAlarmSettings(defaultAlarmSettings);
     try {
       localStorage.setItem(ALARM_STORAGE_KEY, JSON.stringify(defaultAlarmSettings));
+      setNotificationStatus("Reset to defaults.");
+      setTimeout(() => setNotificationStatus(""), 3000);
     } catch {
-      // ignore localStorage failures
+      setNotificationStatus("Failed to reset settings.");
+    }
+  };
+
+  const requestNotificationPermission = async () => {
+    if (typeof Notification === "undefined") {
+      setNotificationStatus("Notifications are not supported in this browser.");
+      return;
+    }
+    if (Notification.permission === "granted") {
+      setNotificationStatus("Notifications already enabled! ✓");
+      setTimeout(() => setNotificationStatus(""), 3000);
+      return;
+    }
+    try {
+      const result = await Notification.requestPermission();
+      if (result === "granted") {
+        setNotificationStatus("Notifications enabled! ✓");
+        // Show a test notification
+        new Notification("Hindu Calendar", {
+          body: "Notifications are now enabled for auspicious time reminders.",
+          icon: "/favicon.ico",
+        });
+      } else if (result === "denied") {
+        setNotificationStatus(
+          "Notifications blocked. Please allow them in your browser settings."
+        );
+      } else {
+        setNotificationStatus("Notification permission was dismissed.");
+      }
+      setTimeout(() => setNotificationStatus(""), 5000);
+    } catch {
+      setNotificationStatus("Could not request notification permission.");
     }
   };
   return (
@@ -457,7 +549,7 @@ export default function HomePage() {
       }}
     >
       <div className="mx-auto w-full max-w-md px-4 pb-36 pt-0 md:max-w-6xl md:px-6 md:pb-40">
-        <header 
+        <header
           className="mb-1 grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-1 px-1 py-1 transition-all duration-300"
         >
           <div className="flex items-center gap-1.5">
@@ -561,7 +653,7 @@ export default function HomePage() {
             boxShadow: "0 0 35px rgba(255, 140, 50, 0.8), 0 0 70px rgba(255, 100, 30, 0.6), inset 0 0 30px rgba(255, 140, 50, 0.2)",
           }}
         >
-          <section 
+          <section
             className="rounded-2xl px-4 py-5 text-center transition-all duration-300"
             style={{
               background: "var(--calendar-orange-gradient)",
@@ -569,174 +661,174 @@ export default function HomePage() {
               boxShadow: "0 8px 32px rgba(255, 152, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.25), inset 0 -3px 0 rgba(139, 69, 19, 0.25), 0 0 40px rgba(255, 183, 77, 0.2)",
             }}
           >
-          {/* Date and Day Row */}
-          <div className="mb-4 flex flex-wrap items-start gap-2 sm:gap-3">
-            {/* Day Number Circle */}
-            <div
-              className="h-14 w-14 sm:h-16 sm:w-16 rounded-xl flex items-center justify-center flex-shrink-0 backdrop-blur-sm"
-              style={{
-                background: "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
-                border: "3px solid rgba(255, 200, 110, 0.95)",
-                boxShadow: "0 0 20px rgba(255, 140, 50, 0.6), 0 0 40px rgba(255, 100, 30, 0.4), inset 0 0 15px rgba(255, 200, 100, 0.2)",
-              }}
-            >
-              <span className="text-2xl sm:text-3xl font-bold" style={{ color: "#D4AF37", textShadow: "0 2px 6px rgba(0, 0, 0, 0.6)" }}>
-                {now.getDate()}
-              </span>
-            </div>
-
-            {/* Weekday and Date/Time */}
-            <div className="min-w-0 flex-1 text-left">
-              <div className="flex flex-wrap items-center gap-2">
-                <div className="text-lg sm:text-xl font-bold" style={{ color: "#FFF5E6", textShadow: "0 2px 6px rgba(0,0,0,0.4)" }}>
-                  {summary?.weekday ? cleanDash(summary.weekday) : "-"}
-                </div>
-              </div>
-              <div className="text-xs sm:text-sm font-medium" style={{ color: "#FFE8C5" }}>
-                <span>{formattedDate}, </span><span className="whitespace-nowrap">{formattedTime}</span>
-              </div>
-            </div>
-            {summary?.headlineTime && (
+            {/* Date and Day Row */}
+            <div className="mb-4 flex flex-wrap items-start gap-2 sm:gap-3">
+              {/* Day Number Circle */}
               <div
-                className="ml-auto inline-flex shrink-0 items-center whitespace-nowrap rounded-full px-2.5 py-1 text-[11px] sm:text-xs font-bold"
+                className="h-14 w-14 sm:h-16 sm:w-16 rounded-xl flex items-center justify-center flex-shrink-0 backdrop-blur-sm"
                 style={{
                   background: "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
-                  border: "1.5px solid rgba(255, 140, 50, 0.65)",
-                  boxShadow: "0 0 10px rgba(255, 140, 50, 0.35), inset 0 0 8px rgba(255, 200, 100, 0.15)",
+                  border: "3px solid rgba(255, 200, 110, 0.95)",
+                  boxShadow: "0 0 20px rgba(255, 140, 50, 0.6), 0 0 40px rgba(255, 100, 30, 0.4), inset 0 0 15px rgba(255, 200, 100, 0.2)",
                 }}
               >
-                <span style={{ color: "#FFD700" }}>Hindu Time:</span>
-                <span className="ml-1" style={{ color: "#FFF5E6" }}>{summary.headlineTime}</span>
+                <span className="text-2xl sm:text-3xl font-bold" style={{ color: "#D4AF37", textShadow: "0 2px 6px rgba(0, 0, 0, 0.6)" }}>
+                  {now.getDate()}
+                </span>
+              </div>
+
+              {/* Weekday and Date/Time */}
+              <div className="min-w-0 flex-1 text-left">
+                <div className="flex flex-wrap items-center gap-2">
+                  <div className="text-lg sm:text-xl font-bold" style={{ color: "#FFF5E6", textShadow: "0 2px 6px rgba(0,0,0,0.4)" }}>
+                    {summary?.weekday ? cleanDash(summary.weekday) : "-"}
+                  </div>
+                </div>
+                <div className="text-xs sm:text-sm font-medium" style={{ color: "#FFE8C5" }}>
+                  <span>{formattedDate}, </span><span className="whitespace-nowrap">{formattedTime}</span>
+                </div>
+              </div>
+              {summary?.headlineTime && (
+                <div
+                  className="ml-auto inline-flex shrink-0 items-center whitespace-nowrap rounded-full px-2.5 py-1 text-[11px] sm:text-xs font-bold"
+                  style={{
+                    background: "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
+                    border: "1.5px solid rgba(255, 140, 50, 0.65)",
+                    boxShadow: "0 0 10px rgba(255, 140, 50, 0.35), inset 0 0 8px rgba(255, 200, 100, 0.15)",
+                  }}
+                >
+                  <span style={{ color: "#FFD700" }}>Hindu Time:</span>
+                  <span className="ml-1" style={{ color: "#FFF5E6" }}>{summary.headlineTime}</span>
+                </div>
+              )}
+            </div>
+
+            {/* Primary row: Thithi -> Nakshatra -> Yoga (always side by side) */}
+            {summary?.tithi && (
+              <div
+                className="mb-1 flex min-w-0 items-center justify-between gap-1 rounded-full px-2.5 py-1 text-[11px] sm:text-xs font-bold"
+                style={{
+                  background: "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
+                  border: "2px solid rgba(255, 140, 50, 0.7)",
+                  color: "#FFE4B5",
+                  boxShadow: "0 0 15px rgba(255, 140, 50, 0.5), inset 0 0 10px rgba(255, 200, 100, 0.2)",
+                }}
+              >
+                <span>{"\u25CF"} {cleanDash(summary.tithi)}</span>
+                {getTimeRangeText(summary.tithiFull) && (
+                  <span className="text-amber-100/80">{getTimeRangeText(summary.tithiFull)}</span>
+                )}
               </div>
             )}
-          </div>
 
-          {/* Primary row: Thithi -> Nakshatra -> Yoga (always side by side) */}
-          {summary?.tithi && (
-            <div
-              className="mb-1 flex min-w-0 items-center justify-between gap-1 rounded-full px-2.5 py-1 text-[11px] sm:text-xs font-bold"
-              style={{
-                background: "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
-                border: "2px solid rgba(255, 140, 50, 0.7)",
-                color: "#FFE4B5",
-                boxShadow: "0 0 15px rgba(255, 140, 50, 0.5), inset 0 0 10px rgba(255, 200, 100, 0.2)",
-              }}
-            >
-              <span>{"\u25CF"} {cleanDash(summary.tithi)}</span>
-              {getTimeRangeText(summary.tithiFull) && (
-                <span className="text-amber-100/80">{getTimeRangeText(summary.tithiFull)}</span>
-              )}
-            </div>
-          )}
+            {summary?.nakshatra && (
+              <div
+                className="mb-1 flex min-w-0 items-center justify-between gap-1 rounded-full px-2.5 py-1 text-[11px] sm:text-xs font-bold"
+                style={{
+                  background: "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
+                  border: "2px solid rgba(255, 140, 50, 0.7)",
+                  color: "#FFE4B5",
+                  boxShadow: "0 0 15px rgba(255, 140, 50, 0.5), inset 0 0 10px rgba(255, 200, 100, 0.2)",
+                }}
+              >
+                <span>{"\u2726"} {cleanDash(summary.nakshatra)}</span>
+                {getTimeRangeText(summary.nakshatraFull) && (
+                  <span className="text-amber-100/80">{getTimeRangeText(summary.nakshatraFull)}</span>
+                )}
+              </div>
+            )}
 
-          {summary?.nakshatra && (
-            <div
-              className="mb-1 flex min-w-0 items-center justify-between gap-1 rounded-full px-2.5 py-1 text-[11px] sm:text-xs font-bold"
-              style={{
-                background: "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
-                border: "2px solid rgba(255, 140, 50, 0.7)",
-                color: "#FFE4B5",
-                boxShadow: "0 0 15px rgba(255, 140, 50, 0.5), inset 0 0 10px rgba(255, 200, 100, 0.2)",
-              }}
-            >
-              <span>{"\u2726"} {cleanDash(summary.nakshatra)}</span>
-              {getTimeRangeText(summary.nakshatraFull) && (
-                <span className="text-amber-100/80">{getTimeRangeText(summary.nakshatraFull)}</span>
-              )}
-            </div>
-          )}
+            {summary?.yoga && (
+              <div
+                className="mb-1 flex min-w-0 items-center justify-between gap-1 rounded-full px-2.5 py-1 text-[11px] sm:text-xs font-bold"
+                style={{
+                  background: "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
+                  border: "2px solid rgba(255, 140, 50, 0.7)",
+                  color: "#FFE4B5",
+                  boxShadow: "0 0 15px rgba(255, 140, 50, 0.5), inset 0 0 10px rgba(255, 200, 100, 0.2)",
+                }}
+              >
+                <span>{"\u263C"} {cleanDash(summary.yoga)}</span>
+                {getTimeRangeText(summary.yogaFull) && (
+                  <span className="text-amber-100/80">{getTimeRangeText(summary.yogaFull)}</span>
+                )}
+              </div>
+            )}
 
-          {summary?.yoga && (
-            <div
-              className="mb-1 flex min-w-0 items-center justify-between gap-1 rounded-full px-2.5 py-1 text-[11px] sm:text-xs font-bold"
-              style={{
-                background: "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
-                border: "2px solid rgba(255, 140, 50, 0.7)",
-                color: "#FFE4B5",
-                boxShadow: "0 0 15px rgba(255, 140, 50, 0.5), inset 0 0 10px rgba(255, 200, 100, 0.2)",
-              }}
-            >
-              <span>{"\u263C"} {cleanDash(summary.yoga)}</span>
-              {getTimeRangeText(summary.yogaFull) && (
-                <span className="text-amber-100/80">{getTimeRangeText(summary.yogaFull)}</span>
-              )}
-            </div>
-          )}
+            {/* Secondary row: Paksha + Karana + Choghadiya (same row) */}
+            {summary?.paksha && (
+              <div
+                className="mb-1 flex min-w-0 items-center justify-between gap-1 rounded-full px-2.5 py-1 text-[11px] sm:text-xs font-bold"
+                style={{
+                  background: "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
+                  border: "2px solid rgba(255, 140, 50, 0.7)",
+                  color: "#FFE4B5",
+                  boxShadow: "0 0 15px rgba(255, 140, 50, 0.5), inset 0 0 10px rgba(255, 200, 100, 0.2)",
+                }}
+              >
+                <span>{"\u25D0"} {cleanDash(summary.paksha)}</span>
+                {getTimeRangeText(summary.tithiFull) && (
+                  <span className="text-amber-100/80">{getTimeRangeText(summary.tithiFull)}</span>
+                )}
+              </div>
+            )}
 
-          {/* Secondary row: Paksha + Karana + Choghadiya (same row) */}
-          {summary?.paksha && (
-            <div
-              className="mb-1 flex min-w-0 items-center justify-between gap-1 rounded-full px-2.5 py-1 text-[11px] sm:text-xs font-bold"
-              style={{
-                background: "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
-                border: "2px solid rgba(255, 140, 50, 0.7)",
-                color: "#FFE4B5",
-                boxShadow: "0 0 15px rgba(255, 140, 50, 0.5), inset 0 0 10px rgba(255, 200, 100, 0.2)",
-              }}
-            >
-              <span>{"\u25D0"} {cleanDash(summary.paksha)}</span>
-              {getTimeRangeText(summary.tithiFull) && (
-                <span className="text-amber-100/80">{getTimeRangeText(summary.tithiFull)}</span>
-              )}
-            </div>
-          )}
+            {summary?.karana && (
+              <div
+                className="mb-1 flex min-w-0 items-center justify-between gap-1 rounded-full px-2.5 py-1 text-[11px] sm:text-xs font-bold"
+                style={{
+                  background: "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
+                  border: "2px solid rgba(255, 140, 50, 0.7)",
+                  color: "#FFE4B5",
+                  boxShadow: "0 0 15px rgba(255, 140, 50, 0.5), inset 0 0 10px rgba(255, 200, 100, 0.2)",
+                }}
+              >
+                <span>{"\u25D1"} {cleanDash(summary.karana)}</span>
+                {getTimeRangeText(summary.karanaFull) && (
+                  <span className="text-amber-100/80">{getTimeRangeText(summary.karanaFull)}</span>
+                )}
+              </div>
+            )}
 
-          {summary?.karana && (
-            <div
-              className="mb-1 flex min-w-0 items-center justify-between gap-1 rounded-full px-2.5 py-1 text-[11px] sm:text-xs font-bold"
-              style={{
-                background: "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
-                border: "2px solid rgba(255, 140, 50, 0.7)",
-                color: "#FFE4B5",
-                boxShadow: "0 0 15px rgba(255, 140, 50, 0.5), inset 0 0 10px rgba(255, 200, 100, 0.2)",
-              }}
-            >
-              <span>{"\u25D1"} {cleanDash(summary.karana)}</span>
-              {getTimeRangeText(summary.karanaFull) && (
-                <span className="text-amber-100/80">{getTimeRangeText(summary.karanaFull)}</span>
-              )}
-            </div>
-          )}
+            {summary?.choghadiya && (
+              <div
+                className="mb-1 flex min-w-0 items-center justify-between gap-1 rounded-full px-2.5 py-1 text-[11px] sm:text-xs font-bold"
+                style={{
+                  background: "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
+                  border: "2px solid rgba(255, 140, 50, 0.7)",
+                  color: "#FFE4B5",
+                  boxShadow: "0 0 15px rgba(255, 140, 50, 0.5), inset 0 0 10px rgba(255, 200, 100, 0.2)",
+                }}
+              >
+                <span>{"\u29D7"} {cleanDash(summary.choghadiya)}</span>
+              </div>
+            )}
 
-          {summary?.choghadiya && (
-            <div
-              className="mb-1 flex min-w-0 items-center justify-between gap-1 rounded-full px-2.5 py-1 text-[11px] sm:text-xs font-bold"
-              style={{
-                background: "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
-                border: "2px solid rgba(255, 140, 50, 0.7)",
-                color: "#FFE4B5",
-                boxShadow: "0 0 15px rgba(255, 140, 50, 0.5), inset 0 0 10px rgba(255, 200, 100, 0.2)",
-              }}
-            >
-              <span>{"\u29D7"} {cleanDash(summary.choghadiya)}</span>
-            </div>
-          )}
+            {summary?.samvatsara && (
+              <div
+                className="mb-1 flex min-w-0 items-center justify-between gap-1 rounded-full px-2.5 py-1 text-[11px] sm:text-xs font-bold"
+                style={{
+                  background: "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
+                  border: "2px solid rgba(255, 140, 50, 0.7)",
+                  color: "#FFE4B5",
+                  boxShadow: "0 0 15px rgba(255, 140, 50, 0.5), inset 0 0 10px rgba(255, 200, 100, 0.2)",
+                }}
+              >
+                <span>{"\u2605"} {cleanDash(summary.samvatsara)}</span>
+              </div>
+            )}
 
-          {summary?.samvatsara && (
-            <div
-              className="mb-1 flex min-w-0 items-center justify-between gap-1 rounded-full px-2.5 py-1 text-[11px] sm:text-xs font-bold"
-              style={{
-                background: "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
-                border: "2px solid rgba(255, 140, 50, 0.7)",
-                color: "#FFE4B5",
-                boxShadow: "0 0 15px rgba(255, 140, 50, 0.5), inset 0 0 10px rgba(255, 200, 100, 0.2)",
-              }}
-            >
-              <span>{"\u2605"} {cleanDash(summary.samvatsara)}</span>
-            </div>
-          )}
-
-          {error ? (
-            <div 
-              className="mt-2 text-xs"
-              style={{
-                color: "#FFCDD2",
-                textShadow: "0 1px 2px rgba(0, 0, 0, 0.3)",
-              }}
-            >
-              {error}
-            </div>
-          ) : null}
+            {error ? (
+              <div
+                className="mt-2 text-xs"
+                style={{
+                  color: "#FFCDD2",
+                  textShadow: "0 1px 2px rgba(0, 0, 0, 0.3)",
+                }}
+              >
+                {error}
+              </div>
+            ) : null}
           </section>
         </div>
 
@@ -760,7 +852,7 @@ export default function HomePage() {
                 "0 0 18px rgba(212, 168, 71, 0.3), inset 0 1px 2px rgba(255, 255, 255, 0.1), inset 0 -1px 2px rgba(0, 0, 0, 0.2)",
             }}
           >
-            Daily Horoscope
+            {t.dailyHoroscope || "Daily Horoscope"}
           </button>
         </div>
 
@@ -784,7 +876,7 @@ export default function HomePage() {
                 "0 0 18px rgba(212, 168, 71, 0.3), inset 0 1px 2px rgba(255, 255, 255, 0.1), inset 0 -1px 2px rgba(0, 0, 0, 0.2)",
             }}
           >
-            <span className="block text-center">Chanting Alarm</span>
+            <span className="block text-center">{t.chantingAlarm || "Chanting Alarm"}</span>
             <span
               aria-hidden="true"
               className="absolute right-3 top-1/2 -translate-y-1/2 text-xs transition-transform duration-200"
@@ -814,6 +906,8 @@ export default function HomePage() {
               setAlarmSettings={setAlarmSettings}
               onSave={saveAlarmSettings}
               onReset={resetAlarmSettings}
+              onRequestNotification={requestNotificationPermission}
+              notificationStatus={notificationStatus}
             />
           </div>
         ) : null}
@@ -828,7 +922,7 @@ export default function HomePage() {
           }}
         >
           <section className="grid grid-cols-2 gap-2.5 md:grid-cols-3 lg:grid-cols-4">
-            {TILES.map((tile) => (
+            {getTiles(t).map((tile) => (
               <Tile key={tile.to} {...tile} />
             ))}
           </section>
@@ -838,7 +932,7 @@ export default function HomePage() {
 
       <div className="fixed bottom-0 left-0 right-0 z-20">
         <div className="mx-auto w-full max-w-md px-4 pb-3 md:max-w-6xl md:px-6">
-          <section 
+          <section
             className="grid grid-cols-4 rounded-2xl p-2 text-center transition-all duration-300"
             style={{
               background: "var(--calendar-orange-gradient)",
@@ -856,7 +950,7 @@ export default function HomePage() {
               }}
             >
               <div className="text-lg">⌖</div>
-              Compass
+              {t.compass || "Compass"}
             </button>
             <button
               type="button"
@@ -868,7 +962,7 @@ export default function HomePage() {
               }}
             >
               <div className="text-lg">ॐ</div>
-              Sankalp
+              {t.sankalp || "Sankalp"}
             </button>
             <button
               type="button"
@@ -880,7 +974,7 @@ export default function HomePage() {
               }}
             >
               <div className="text-lg">i</div>
-              About
+              {t.about || "About"}
             </button>
             <button
               type="button"
@@ -892,13 +986,13 @@ export default function HomePage() {
               }}
             >
               <div className="text-lg">↗</div>
-              Share
+              {t.share || "Share"}
             </button>
           </section>
 
 
           {(summary?.purnimanthaMonth || summary?.samvatsara || summary?.ayana || summary?.ritu) ? (
-            <section 
+            <section
               className="mt-3 rounded-2xl px-4 py-3 text-center transition-all duration-300"
               style={{
                 background: "var(--calendar-orange-gradient)",
@@ -907,7 +1001,7 @@ export default function HomePage() {
               }}
             >
               {joinClean([summary?.purnimanthaMonth, summary?.samvatsara]) ? (
-                <div 
+                <div
                   className="text-[13px] font-semibold"
                   style={{
                     color: "#FFE8C5",
@@ -918,7 +1012,7 @@ export default function HomePage() {
                 </div>
               ) : null}
               {joinClean([summary?.ayana, summary?.ritu]) ? (
-                <div 
+                <div
                   className="text-[12px] mt-1"
                   style={{
                     color: "#FFECB3",
@@ -936,16 +1030,16 @@ export default function HomePage() {
 
       {menuOpen ? (
         <div className="fixed inset-0 z-30">
-          <button 
-            type="button" 
-            onClick={() => setMenuOpen(false)} 
+          <button
+            type="button"
+            onClick={() => setMenuOpen(false)}
             className="absolute inset-0"
             style={{
               background: "rgba(0, 0, 0, 0.6)",
               backdropFilter: "blur(2px)",
             }}
           />
-          <aside 
+          <aside
             className="absolute left-0 top-0 h-full w-[82%] max-w-sm p-4"
             style={{
               background: "var(--calendar-orange-gradient)",
@@ -953,14 +1047,14 @@ export default function HomePage() {
             }}
           >
             <div className="mb-3 flex items-center justify-between">
-              <div 
+              <div
                 className="text-lg font-semibold"
                 style={{
                   color: "#FFF1DA",
                   textShadow: "0 1px 2px rgba(0, 0, 0, 0.35)",
                 }}
               >
-                Menu
+                {t.menuLabel || "Menu"}
               </div>
               <button
                 type="button"
@@ -973,11 +1067,11 @@ export default function HomePage() {
                   border: "1px solid rgba(255, 183, 77, 0.45)",
                 }}
               >
-                Close
+                {t.close || "Close"}
               </button>
             </div>
             <nav className="grid gap-2">
-              {MENU_LINKS.map(([to, label]) => (
+              {getMenuLinks(t).map(([to, label]) => (
                 <Link
                   key={`menu-${to}`}
                   to={to}
@@ -1011,7 +1105,7 @@ export default function HomePage() {
             }}
             onClick={(e) => e.stopPropagation()}
           >
-            <h3 className="mb-3 text-center text-lg font-bold text-orange-300">Select Language</h3>
+            <h3 className="mb-3 text-center text-lg font-bold text-orange-300">{t.selectLanguage || "Select Language"}</h3>
             <div className="max-h-60 overflow-y-auto rounded-lg p-2" style={{ background: "linear-gradient(180deg, rgba(255, 110, 40, 0.35) 0%, rgba(255, 90, 25, 0.25) 100%)" }}>
               {languages.map((lang) => {
                 const isActive = lang.code === language;
@@ -1020,13 +1114,14 @@ export default function HomePage() {
                     key={lang.code}
                     type="button"
                     onClick={() => {
-                      setLanguage(lang.code);
+                      // saveLanguage dispatches LANGUAGE_CHANGE_EVENT so the
+                      // whole app updates immediately without needing a reload.
                       saveLanguage(lang.code);
+                      setLanguage(lang.code);
                       setLanguagePopupOpen(false);
                     }}
-                    className={`mb-1 w-full rounded-lg px-3 py-2.5 text-left text-sm font-medium transition-all duration-200 ${
-                      isActive ? "bg-orange-500 text-white shadow-lg" : "bg-orange-700/95 text-orange-100 hover:bg-orange-600"
-                    }`}
+                    className={`mb-1 w-full rounded-lg px-3 py-2.5 text-left text-sm font-medium transition-all duration-200 ${isActive ? "bg-orange-500 text-white shadow-lg" : "bg-orange-700/95 text-orange-100 hover:bg-orange-600"
+                      }`}
                   >
                     {String(lang.code || "").toUpperCase()} {lang.nativeName ? `• ${lang.nativeName}` : ""}
                   </button>
@@ -1038,7 +1133,7 @@ export default function HomePage() {
               onClick={() => setLanguagePopupOpen(false)}
               className="mt-3 w-full rounded-lg bg-gray-600 px-4 py-2 text-sm font-semibold text-white transition-all duration-200 hover:bg-gray-500"
             >
-              Close
+              {t.close || "Close"}
             </button>
           </div>
         </div>
@@ -1079,6 +1174,8 @@ function HomeAlarmPanel({
   setAlarmSettings,
   onSave,
   onReset,
+  onRequestNotification,
+  notificationStatus,
 }) {
   return (
     <div
@@ -1187,7 +1284,7 @@ function HomeAlarmPanel({
             <button
               type="button"
               onClick={onSave}
-              className="w-full rounded-lg px-2 py-1 text-[10px] font-semibold uppercase tracking-wide"
+              className="w-full rounded-lg px-2 py-1 text-[10px] font-semibold uppercase tracking-wide transition-all duration-200 hover:scale-[1.02]"
               style={{
                 background:
                   "linear-gradient(135deg, #2a5a1f 0%, #3a6e2d 30%, #4a8238 60%, #5a9645 100%)",
@@ -1202,7 +1299,7 @@ function HomeAlarmPanel({
             <button
               type="button"
               onClick={onReset}
-              className="w-full rounded-lg px-2 py-1 text-[10px] font-semibold uppercase tracking-wide"
+              className="w-full rounded-lg px-2 py-1 text-[10px] font-semibold uppercase tracking-wide transition-all duration-200 hover:scale-[1.02]"
               style={{
                 background:
                   "linear-gradient(135deg, #2a5a1f 0%, #3a6e2d 30%, #4a8238 60%, #5a9645 100%)",
@@ -1217,7 +1314,7 @@ function HomeAlarmPanel({
             <button
               type="button"
               onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-              className="w-full rounded-lg px-2 py-1 text-[10px] font-semibold uppercase tracking-wide"
+              className="w-full rounded-lg px-2 py-1 text-[10px] font-semibold uppercase tracking-wide transition-all duration-200 hover:scale-[1.02]"
               style={{
                 background:
                   "linear-gradient(135deg, #2a5a1f 0%, #3a6e2d 30%, #4a8238 60%, #5a9645 100%)",
@@ -1231,7 +1328,8 @@ function HomeAlarmPanel({
             </button>
             <button
               type="button"
-              className="w-full rounded-lg px-2 py-1 text-[10px] font-semibold uppercase tracking-wide"
+              onClick={onRequestNotification}
+              className="w-full rounded-lg px-2 py-1 text-[10px] font-semibold uppercase tracking-wide transition-all duration-200 hover:scale-[1.02]"
               style={{
                 background:
                   "linear-gradient(135deg, #2a5a1f 0%, #3a6e2d 30%, #4a8238 60%, #5a9645 100%)",
@@ -1241,8 +1339,16 @@ function HomeAlarmPanel({
                   "0 0 12px rgba(212, 168, 71, 0.25), inset 0 1px 2px rgba(255, 255, 255, 0.08), inset 0 -1px 2px rgba(0, 0, 0, 0.18)",
               }}
             >
-              {translations[language]?.addToAlbum || "Add To Album"}
+              🔔 {translations[language]?.enableNotifications || "Enable Notifications"}
             </button>
+            {notificationStatus ? (
+              <div
+                className="w-full rounded-lg px-2 py-1 text-[10px] font-semibold text-center"
+                style={{ color: "#ffd700", background: "rgba(0,0,0,0.25)", border: "1px solid #d4a847" }}
+              >
+                {notificationStatus}
+              </div>
+            ) : null}
           </div>
         </div>
       </div>

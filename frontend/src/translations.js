@@ -40,7 +40,7 @@ export const translations = {
     fetchingData: "Fetching Panchang data for",
     builtWith: "Built with React + Tailwind • Hindu Panchang Calendar •",
     today: "Today",
-    
+
     // Chatbot translations
     appTitleChatbot: "Panchanga Friend",
     newChat: "New Chat",
@@ -65,11 +65,11 @@ export const translations = {
     emptyTitle: "Welcome to Panchanga Friend!",
     emptySubtitle: "Get daily panchanga, auspicious times, Rahukalam and more",
     settingsInfo: "Customize your city, language and voice preferences. Panchanga values vary by location.",
-    
+
     panchangElements: "Panchang Elements",
     sunMoonTimings: "Sun & Moon Timings",
     muhurtaTimings: "Muhurta Timings",
-    
+
     weekday: "Weekday",
     paksha: "Paksha",
     tithi: "Tithi",
@@ -102,46 +102,46 @@ export const translations = {
     silentMode: "Silent Mode",
     reminderTime: "Reminder Time",
     minutesBeforeStart: "minutes before start",
-    weekdays : "weekdays",
+    weekdays: "weekdays",
     weekdaysLabel: "Weekdays",
     saveSettings: "Save Settings",
     resetDefaults: "Reset Defaults",
-    
+
     Sunday: "Sunday", Monday: "Monday", Tuesday: "Tuesday", Wednesday: "Wednesday",
     Thursday: "Thursday", Friday: "Friday", Saturday: "Saturday",
-    
+
     "Shukla Paksha": "Shukla Paksha",
     "Krishna Paksha": "Krishna Paksha",
-    
-    Padyami: "Padyami", 
-    Dwitiya: "Dwitiya", 
-    Tritiya: "Tritiya", 
+
+    Padyami: "Padyami",
+    Dwitiya: "Dwitiya",
+    Tritiya: "Tritiya",
     Chaturthi: "Chaturthi",
-    Panchami: "Panchami", 
-    Shashthi: "Shashthi", 
-    Saptami: "Saptami", 
+    Panchami: "Panchami",
+    Shashthi: "Shashthi",
+    Saptami: "Saptami",
     Ashtami: "Ashtami",
-    Navami: "Navami", 
-    Dashami: "Dashami", 
-    Ekadashi: "Ekadashi", 
+    Navami: "Navami",
+    Dashami: "Dashami",
+    Ekadashi: "Ekadashi",
     Dvadashi: "Dvadashi",
-    Trayodashi: "Trayodashi", 
-    Chaturdashi: "Chaturdashi", 
-    Purnima: "Purnima", 
+    Trayodashi: "Trayodashi",
+    Chaturdashi: "Chaturdashi",
+    Purnima: "Purnima",
     Amavasya: "Amavasya",
-    
+
     Ashwini: "Ashwini", Bharani: "Bharani", Krittika: "Krittika", Rohini: "Rohini",
     Mrigashira: "Mrigashira", Ardra: "Ardra", Punarvasu: "Punarvasu", Pushya: "Pushya",
     Ashlesha: "Ashlesha", Magha: "Magha", "Purva Phalguni": "Purva Phalguni", "Uttara Phalguni": "Uttara Phalguni",
     Hasta: "Hasta", Chitra: "Chitra", Swati: "Swati", Vishakha: "Vishakha",
-    Anuradha: "Anuradha", Jyeshtha: "Jyeshtha", 
-    Moola: "Mula", 
+    Anuradha: "Anuradha", Jyeshtha: "Jyeshtha",
+    Moola: "Mula",
     Mula: "Mula",
     "Purva Ashadha": "Purva Ashadha",
     "Uttara Ashadha": "Uttara Ashadha", Shravana: "Shravana", Dhanishta: "Dhanishta", Shatabhisha: "Shatabhisha",
     "Purva Bhadrapada": "Purva Bhadrapada", "Uttara Bhadrapada": "Uttara Bhadrapada", Revati: "Revati",
-    
-    Vishkambha: "Vishkambha", 
+
+    Vishkambha: "Vishkambha",
     Vishkumbha: "Vishkumbha",
     Priti: "Priti", Ayushman: "Ayushman", Saubhagya: "Saubhagya",
     Shobhana: "Shobhana", Atiganda: "Atiganda", Sukarma: "Sukarma", Dhriti: "Dhriti",
@@ -150,7 +150,7 @@ export const translations = {
     Vyatipata: "Vyatipata", Variyana: "Variyana", Parigha: "Parigha", Shiva: "Shiva",
     Siddha: "Siddha", Sadhya: "Sadhya", Shubha: "Shubha", Shukla: "Shukla",
     Brahma: "Brahma", Indra: "Indra", Vaidhriti: "Vaidhriti",
-    
+
     // Hindu Year Names (Shaka Samvat)
     "Vishwavasu": "Vishwavasu",
     "Parabhava": "Parabhava",
@@ -172,11 +172,11 @@ export const translations = {
     "Vishvakarma": "Vishvakarma",
     "Parama": "Parama",
     "Deva": "Deva",
-    
+
     months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
     monthsShort: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
     weekdaysShort: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
-    
+
     // Chatbot translations
     chatbotTitle: "Panchang Assistant",
     chatbotWelcome: "Welcome! Ask me about:",
@@ -184,7 +184,7 @@ export const translations = {
     listening: "Listening...",
     typeQuestion: "Type your question...",
     error: "I'm sorry, I couldn't process your request. Please try again.",
-    
+
     // Rashiphalalu translations
     rashiphalalu: "Daily Horoscope",
     back: "Back",
@@ -194,8 +194,47 @@ export const translations = {
     luckyColor: "Lucky Color",
     luckyNumber: "Lucky Number",
     selectRashi: "Select Your Rashi",
+
+    // HomePage UI
+    dailyHoroscope: "Daily Horoscope",
+    chantingAlarm: "Chanting Alarm",
+    menuLabel: "Menu",
+    close: "Close",
+    selectLanguage: "Select Language",
+    compass: "Compass",
+    sankalp: "Sankalp",
+    about: "About",
+    share: "Share",
+    hinduTime: "Hindu Time",
+    hinduTimeLabel: "Hindu Time:",
+
+    // Tile titles
+    tileMonthView: "Month View",
+    tileMonthViewSub: "Phase and Tithi for month",
+    tilePanchang: "Panchang",
+    tilePanchangSub: "Day View, Sun and Moon rise/set times",
+    tileFestivals: "Festivals",
+    tileFestivalsSub: "Festival and event dates",
+    tileMyTithi: "My Tithi",
+    tileMyTithiSub: "Add and track your own tithis",
+    tileKundali: "Kundali",
+    tileKundaliSub: "Time view, Planet Ephemeris, Lagna",
+    tileMatchMaking: "Match Making",
+    tileMatchMakingSub: "Guna Milan with Ashta Koota",
+    tileMuhurt: "Muhurt",
+    tileMuhurtSub: "Muhurta, Choghadiya and Hora",
+    tileHinduTime: "Hindu Time",
+    tileHinduTimeSub: "Watch Ishtkaal i.e Ghati or Nazhika",
+    tileSettings: "Settings",
+    tileSettingsSub: "Change location and preferences",
+    tileInfo: "Info",
+    tileInfoSub: "Information about Hindu Calendar",
+    tileCompass: "Compass",
+    tileCompassSub: "Direction finder",
+    tileSankalp: "Sankalp Mantra",
+    tileSankalpSub: "Daily Sankalp recitation",
   },
-  
+
   te: {
     appTitle: "మాట్లాడే క్యాలెండర్",
     appSubtitle: "తిథి & నక్షత్రంతో హిందూ క్యాలెండర్",
@@ -210,11 +249,11 @@ export const translations = {
     fetchingData: "పంచాంగ డేటా పొందుతోంది",
     builtWith: "React + Tailwind తో నిర్మించబడింది • హిందూ పంచాంగ క్యాలెండర్ •",
     today: "నేడు",
-    
+
     panchangElements: "పంచాంగ అంశాలు",
     sunMoonTimings: "సూర్య & చంద్ర సమయాలు",
     muhurtaTimings: "ముహూర్త సమయాలు",
-    
+
     weekday: "వారం రోజు",
     paksha: "పక్షం",
     tithi: "తిథి",
@@ -252,44 +291,44 @@ export const translations = {
     Weekdays: "వారాలు",
     saveSettings: "సెట్టింగ్లు సేవ్ చేయండి",
     resetDefaults: "డిఫాల్ట్‌లకు రీసెట్",
-    
+
     Sunday: "ఆదివారం", Monday: "సోమవారం", Tuesday: "మంగళవారం", Wednesday: "బుధవారం",
     Thursday: "గురువారం", Friday: "శుక్రవారం", Saturday: "శనివారం",
-    
+
     "Shukla Paksha": "శుక్ల పక్షం",
     "Krishna Paksha": "కృష్ణ పక్షం",
-    
-    Padyami: "పాడ్యమి", 
+
+    Padyami: "పాడ్యమి",
     Dwitiya: "ద్వితీయ",
     Dwithiya: "ద్వితీయ",
-    Dvitiya :  "ద్వితీయ",
-    Tritiya: "తృతీయ", 
+    Dvitiya: "ద్వితీయ",
+    Tritiya: "తృతీయ",
     Chaturthi: "చతుర్థి",
-    Panchami: "పంచమి", 
-    Shashthi: "షష్ఠి", 
-    Saptami: "సప్తమి", 
+    Panchami: "పంచమి",
+    Shashthi: "షష్ఠి",
+    Saptami: "సప్తమి",
     Ashtami: "అష్టమి",
-    Navami: "నవమి", 
-    Dashami: "దశమి", 
-    Ekadashi: "ఏకాదశి", 
+    Navami: "నవమి",
+    Dashami: "దశమి",
+    Ekadashi: "ఏకాదశి",
     Dvadashi: "ద్వాదశి",
     Dwadashi: "ద్వాదశి",
-    Trayodashi: "త్రయోదశి", 
-    Chaturdashi: "చతుర్దశి", 
-    Purnima: "పూర్ణిమ", 
+    Trayodashi: "త్రయోదశి",
+    Chaturdashi: "చతుర్దశి",
+    Purnima: "పూర్ణిమ",
     Amavasya: "అమావాస్య",
-    
+
     Ashwini: "అశ్విని", Bharani: "భరణి", Krittika: "కృత్తిక", Rohini: "రోహిణి",
     Mrigashira: "మృగశిర", Ardra: "ఆర్ద్ర", Punarvasu: "పునర్వసు", Pushya: "పుష్య",
     Ashlesha: "ఆశ్లేష", Magha: "మఘ", "Purva Phalguni": "పూర్వ ఫల్గుణి", "Uttara Phalguni": "ఉత్తర ఫల్గుణి",
     Hasta: "హస్త", Chitra: "చిత్ర", Swati: "స్వాతి", Vishakha: "విశాఖ",
-    Anuradha: "అనూరాధ", Jyeshtha: "జ్యేష్ఠ", 
+    Anuradha: "అనూరాధ", Jyeshtha: "జ్యేష్ఠ",
     Moola: "మూల",
     Mula: "మూల",
     "Purva Ashadha": "పూర్వాషాఢ",
     "Uttara Ashadha": "ఉత్తరాషాఢ", Shravana: "శ్రవణ", Dhanishta: "ధనిష్ఠ", Shatabhisha: "శతభిష",
     "Purva Bhadrapada": "పూర్వ భాద్రపద", "Uttara Bhadrapada": "ఉత్తర భాద్రపద", Revati: "రేవతి",
-    
+
     Vishkambha: "విష్కంభ",
     Vishkumbha: "విష్కంభ",
     Priti: "ప్రీతి", Ayushman: "ఆయుష్మాన్", Saubhagya: "సౌభాగ్య",
@@ -299,7 +338,7 @@ export const translations = {
     Vyatipata: "వ్యతీపాత", Variyana: "వరియాన", Parigha: "పరిఘ", Shiva: "శివ",
     Siddha: "సిద్ధ", Sadhya: "సాధ్య", Shubha: "శుభ", Shukla: "శుక్ల",
     Brahma: "బ్రహ్మ", Indra: "ఇంద్ర", Vaidhriti: "వైధృతి",
-    
+
     // Hindu Year Names (Telugu)
     "Vishwavasu": "విశ్వాసు",
     "Parabhava": "పరభవ",
@@ -320,11 +359,11 @@ export const translations = {
     "Vishvakarma": "విశ్వకర్మ",
     "Parama": "పరమ",
     "Deva": "దేవ",
-    
+
     months: ["జనవరి", "ఫిబ్రవరి", "మార్చి", "ఏప్రిల్", "మే", "జూన్", "జూలై", "ఆగస్టు", "సెప్టెంబర్", "అక్టోబర్", "నవంబర్", "డిసెంబర్"],
     monthsShort: ["జన", "ఫిబ్ర", "మార్చి", "ఏప్రి", "మే", "జూన్", "జూలై", "ఆగ", "సెప్టె", "అక్టో", "నవం", "డిసె"],
     weekdaysShort: ["ఆది", "సోమ", "మంగళ", "బుధ", "గురు", "శుక్ర", "శని"],
-    
+
     // Chatbot translations
     chatbotTitle: "పంచాంగ సహాయకుడు",
     chatbotWelcome: "స్వాగతం! నాకు ఇది అడగండి:",
@@ -332,7 +371,7 @@ export const translations = {
     listening: "వింటున్నాను...",
     typeQuestion: "మీ ప్రశ్న రాయండి...",
     error: "క్షమించండి, మీ అభ్యర్థనను ప్రాసెస్ చేయలేకపోయాను. దయచేసి మళ్ళీ ప్రయత్నించండి.",
-    
+
     // Rashiphalalu translations
     rashiphalalu: "రాశిఫలాలు",
     back: "వెనుకకు",
@@ -342,8 +381,47 @@ export const translations = {
     selectRashi: "మీ రాశిని ఎంచుకోండి",
     scrollUp: "స్క్రోల్ అప్",
     addToAlbum: "ఆల్బమ్‌కి జోడించు",
+
+    // HomePage UI
+    dailyHoroscope: "రోజువారీ జాతకం",
+    chantingAlarm: "పఠన అలారం",
+    menuLabel: "మెనూ",
+    close: "మూసివేయి",
+    selectLanguage: "భాషను ఎంచుకోండి",
+    compass: "దిక్సూచి",
+    sankalp: "సంకల్పం",
+    about: "గురించి",
+    share: "పంచుకోండి",
+    hinduTime: "హిందూ సమయం",
+    hinduTimeLabel: "హిందూ సమయం:",
+
+    // Tile titles
+    tileMonthView: "మాస దృశ్యం",
+    tileMonthViewSub: "మాసానికి తిథి మరియు పక్షం",
+    tilePanchang: "పంచాంగం",
+    tilePanchangSub: "రోజు వివరాలు, సూర్య-చంద్ర ఉదయ/అస్తమయ సమయాలు",
+    tileFestivals: "పండుగలు",
+    tileFestivalsSub: "పండుగ మరియు ముఖ్య తేదీలు",
+    tileMyTithi: "నా తిథి",
+    tileMyTithiSub: "మీ తిథులను జోడించండి మరియు ట్రాక్ చేయండి",
+    tileKundali: "కుండలి",
+    tileKundaliSub: "సమయ దృశ్యం, గ్రహ స్థానాలు, లగ్నం",
+    tileMatchMaking: "వివాహ పొంతన",
+    tileMatchMakingSub: "గుణ మిళన అష్ట కూట పద్ధతిలో",
+    tileMuhurt: "ముహూర్తం",
+    tileMuhurtSub: "ముహూర్తం, చోఘడియా మరియు హోర",
+    tileHinduTime: "హిందూ సమయం",
+    tileHinduTimeSub: "ఘటి లేదా నాళిక భారతీయ సమయం చూడండి",
+    tileSettings: "సెట్టింగ్‌లు",
+    tileSettingsSub: "స్థానం మరియు ప్రాధాన్యాలు మార్చండి",
+    tileInfo: "సమాచారం",
+    tileInfoSub: "హిందూ క్యాలెండర్ గురించి సమాచారం",
+    tileCompass: "దిక్సూచి",
+    tileCompassSub: "దిశ కనుగొనే సాధనం",
+    tileSankalp: "సంకల్ప మంత్రం",
+    tileSankalpSub: "రోజువారీ సంకల్ప పఠనం",
   },
-  
+
   hi: {
     appTitle: "बोलता कैलेंडर",
     appSubtitle: "तिथि और नक्षत्र के साथ हिंदू कैलेंडर",
@@ -358,11 +436,11 @@ export const translations = {
     fetchingData: "पंचांग डेटा प्राप्त कर रहा है",
     builtWith: "React + Tailwind के साथ बनाया गया • हिंदू पंचांग कैलेंडर •",
     today: "आज",
-    
+
     panchangElements: "पंचांग तत्व",
     sunMoonTimings: "सूर्य और चंद्रमा का समय",
     muhurtaTimings: "मुहूर्त समय",
-    
+
     weekday: "वार",
     paksha: "पक्ष",
     tithi: "तिथि",
@@ -398,44 +476,44 @@ export const translations = {
     weekdaysLabel: "सप्ताह के दिन",
     saveSettings: "सेटिंग्स सेव करें",
     resetDefaults: "डिफॉल्ट पर रीसेट करें",
-    
+
     Sunday: "रविवार", Monday: "सोमवार", Tuesday: "मंगलवार", Wednesday: "बुधवार",
     Thursday: "गुरुवार", Friday: "शुक्रवार", Saturday: "शनिवार",
-    
+
     "Shukla Paksha": "शुक्ल पक्ष",
     "Krishna Paksha": "कृष्ण पक्ष",
-    
-    Padyami: "प्रतिपदा", 
+
+    Padyami: "प्रतिपदा",
     Dwitiya: "द्वितीया",
     Dwithiya: "द्वितीया",
     Dvitiya: "द्वितीया",
-    Tritiya: "तृतीया", 
+    Tritiya: "तृतीया",
     Chaturthi: "चतुर्थी",
-    Panchami: "पंचमी", 
-    Shashthi: "षष्ठी", 
-    Saptami: "सप्तमी", 
+    Panchami: "पंचमी",
+    Shashthi: "षष्ठी",
+    Saptami: "सप्तमी",
     Ashtami: "अष्टमी",
-    Navami: "नवमी", 
-    Dashami: "दशमी", 
-    Ekadashi: "एकादशी", 
+    Navami: "नवमी",
+    Dashami: "दशमी",
+    Ekadashi: "एकादशी",
     Dvadashi: "द्वादशी",
     Dwadashi: "द्वादशी",
-    Trayodashi: "त्रयोदशी", 
-    Chaturdashi: "चतुर्दशी", 
-    Purnima: "पूर्णिमा", 
+    Trayodashi: "त्रयोदशी",
+    Chaturdashi: "चतुर्दशी",
+    Purnima: "पूर्णिमा",
     Amavasya: "अमावस्या",
-    
+
     Ashwini: "अश्विनी", Bharani: "भरणी", Krittika: "कृत्तिका", Rohini: "रोहिणी",
     Mrigashira: "मृगशिरा", Ardra: "आर्द्रा", Punarvasu: "पुनर्वसु", Pushya: "पुष्य",
     Ashlesha: "आश्लेषा", Magha: "मघा", "Purva Phalguni": "पूर्वा फाल्गुनी", "Uttara Phalguni": "उत्तरा फाल्गुनी",
     Hasta: "हस्त", Chitra: "चित्रा", Swati: "स्वाति", Vishakha: "विशाखा",
-    Anuradha: "अनुराधा", Jyeshtha: "ज्येष्ठा", 
+    Anuradha: "अनुराधा", Jyeshtha: "ज्येष्ठा",
     Moola: "मूला",
     Mula: "मूला",
     "Purva Ashadha": "पूर्वाषाढ़ा",
     "Uttara Ashadha": "उत्तराषाढ़ा", Shravana: "श्रवण", Dhanishta: "धनिष्ठा", Shatabhisha: "शतभिषा",
     "Purva Bhadrapada": "पूर्व भाद्रपद", "Uttara Bhadrapada": "उत्तर भाद्रपद", Revati: "रेवती",
-    
+
     Vishkambha: "विष्कम्भ",
     Vishkumbha: "विष्कम्भ",
     Priti: "प्रीति", Ayushman: "आयुष्मान", Saubhagya: "सौभाग्य",
@@ -445,7 +523,7 @@ export const translations = {
     Vyatipata: "व्यतीपात", Variyana: "वरियान", Parigha: "परिघ", Shiva: "शिव",
     Siddha: "सिद्ध", Sadhya: "साध्य", Shubha: "शुभ", Shukla: "शुक्ल",
     Brahma: "ब्रह्म", Indra: "इंद्र", Vaidhriti: "वैधृति",
-    
+
     // Hindu Year Names (Hindi)
     "Vishwavasu": "विश्वासु",
     "Parabhava": "परभव",
@@ -466,11 +544,11 @@ export const translations = {
     "Vishvakarma": "विश्वकर्मा",
     "Parama": "परम",
     "Deva": "देव",
-    
+
     months: ["जनवरी", "फरवरी", "मार्च", "अप्रैल", "मई", "जून", "जुलाई", "अगस्त", "सितंबर", "अक्टूबर", "नवंबर", "दिसंबर"],
     monthsShort: ["जन", "फर", "मार्च", "अप्रै", "मई", "जून", "जुला", "अग", "सित", "अक्टू", "नव", "दिस"],
     weekdaysShort: ["रवि", "सोम", "मंगल", "बुध", "गुरु", "शुक्र", "शनि"],
-    
+
     // Chatbot translations
     chatbotTitle: "पंचांग सहायक",
     chatbotWelcome: "स्वागत है! मुझसे यह पूछें:",
@@ -478,7 +556,7 @@ export const translations = {
     listening: "सुन रहा हूं...",
     typeQuestion: "अपना सवाल लिखें...",
     error: "मुझे खेद है, मैं आपके अनुरोध को संसाधित नहीं कर सका। कृपया फिर से प्रयास करें।",
-    
+
     // Rashiphalalu translations
     rashiphalalu: "दैनिक राशिफल",
     back: "वापस",
@@ -488,8 +566,47 @@ export const translations = {
     selectRashi: "अपनी राशि चुनें",
     scrollUp: "स्क्रॉल ऊपर",
     addToAlbum: "एल्बम में जोड़ें",
+
+    // HomePage UI
+    dailyHoroscope: "दैनिक राशिफल",
+    chantingAlarm: "जप अलार्म",
+    menuLabel: "मेनू",
+    close: "बंद करें",
+    selectLanguage: "भाषा चुनें",
+    compass: "दिशा सूचक",
+    sankalp: "संकल्प",
+    about: "जानकारी",
+    share: "साझा करें",
+    hinduTime: "हिंदू समय",
+    hinduTimeLabel: "हिंदू समय:",
+
+    // Tile titles
+    tileMonthView: "मासिक दृश्य",
+    tileMonthViewSub: "महीने के लिए तिथि और पक्ष",
+    tilePanchang: "पंचांग",
+    tilePanchangSub: "दिन की जानकारी, सूर्य-चंद्र उदय/अस्त समय",
+    tileFestivals: "त्यौहार",
+    tileFestivalsSub: "त्यौहार और महत्वपूर्ण तिथियाँ",
+    tileMyTithi: "मेरी तिथि",
+    tileMyTithiSub: "अपनी तिथियाँ जोड़ें और ट्रैक करें",
+    tileKundali: "कुंडली",
+    tileKundaliSub: "समय दृश्य, ग्रह स्थिति, लग्न",
+    tileMatchMaking: "वैवाहिक मिलान",
+    tileMatchMakingSub: "गुण मिलान अष्ट कूट पद्धति से",
+    tileMuhurt: "मुहूर्त",
+    tileMuhurtSub: "मुहूर्त, चोघड़िया और होरा",
+    tileHinduTime: "हिंदू समय",
+    tileHinduTimeSub: "घटी और पल में भारतीय समय देखें",
+    tileSettings: "सेटिंग्स",
+    tileSettingsSub: "स्थान और प्राथमिकताएं बदलें",
+    tileInfo: "जानकारी",
+    tileInfoSub: "हिंदू कैलेंडर के बारे में जानकारी",
+    tileCompass: "दिशा सूचक",
+    tileCompassSub: "दिशा खोजने का साधन",
+    tileSankalp: "संकल्प मंत्र",
+    tileSankalpSub: "दैनिक संकल्प पाठ",
   },
-  
+
   ml: {
     appTitle: "സംസാരിക്കുന്ന കലണ്ടർ",
     appSubtitle: "തിഥിയും നക്ഷത്രവുമുള്ള ഹിന്ദു കലണ്ടർ",
@@ -505,11 +622,11 @@ export const translations = {
     fetchingData: "പഞ്ചാംഗ ഡാറ്റ ലഭ്യമാക്കുന്നു",
     builtWith: "React + Tailwind ഉപയೋഗിച്ച് നിർമ്മിച്ചത് • ഹിന്ദു പഞ്ചാംഗം കലണ്ടർ •",
     today: "ഇന്ന്",
-    
+
     panchangElements: "പഞ്ചാംഗ ഘടകങ്ങൾ",
     sunMoonTimings: "സൂര്യ & ചന്ദ്ര സമയങ്ങൾ",
     muhurtaTimings: "മുഹూർത്ത സമയങ്ങൾ",
-    
+
     weekday: "ആഴ്ച",
     paksha: "പക്ഷം",
     tithi: "തിഥി",
@@ -531,68 +648,90 @@ export const translations = {
     am: "രാവിലെ",
     pm: "വൈകുന്നേരം",
 
-   // Add to Malayalam (ml):
-   auspiciousTimings: "ശുഭ സമയങ്ങൾ",
-   inauspiciousTimings: "അശുഭ സമയങ്ങൾ",
-   amritKalam: "അമൃത കാലം",
-   varjyam: "വർജ്യം",
-   alarmSettings: "ചാന്റിംഗ് അലാം",
-   enableMuhurtas: "മുഹൂർത്തകള്‍ ഓണാക്കുക/ഓഫാക്കുക",
-   notificationPreferences: "നോട്ടിഫിക്കേഷൻ പ്രാധാന്യതകള്‍",
-   audioAlerts: "ഓഡിയോ അലേര്‍ട്ടുകള്‍",
-   silentMode: "സൈലന്റ് മോഡ്",
-   reminderTime: "റിമൈണ്ടര്‍ സമയം",
-   minutesBeforeStart: "ആരംഭിക്കുന്നതിന് മുമ്പിലെ മിനിറ്റുകള്‍",
-   disabledDays: "പ്രവർത്തനരഹിതമാക്കിയ ദിവസങ്ങള്‍",
-   weekdaysLabel: "ആഴ്ചയിലെ ദിനങ്ങള്‍",
-   saveSettings: "ക്രമീകരണങ്ങള്‍ സംരക്ഷിക്കുക",
-   resetDefaults: "ഡിഫോള്‍ട്ടിലേക്ക് പുനഃസജ്ജമാക്കുക",
-   scrollUp: "സ്ക്രോൾ അപ്പ്",
-   addToAlbum: "ആൽബത്തിലേക്ക് ചേർക്കുക",
+    // Add to Malayalam (ml):
+    auspiciousTimings: "ശുഭ സമയങ്ങൾ",
+    inauspiciousTimings: "അശുഭ സമയങ്ങൾ",
+    amritKalam: "അമൃത കാലം",
+    varjyam: "വർജ്യം",
+    alarmSettings: "ചാന്റിംഗ് അലാം",
+    enableMuhurtas: "മുഹൂർത്തകള്‍ ഓണാക്കുക/ഓഫാക്കുക",
+    notificationPreferences: "നോട്ടിഫിക്കേഷൻ പ്രാധാന്യതകള്‍",
+    audioAlerts: "ഓഡിയോ അലേര്‍ട്ടുകള്‍",
+    silentMode: "സൈലന്റ് മോഡ്",
+    reminderTime: "റിമൈണ്ടര്‍ സമയം",
+    minutesBeforeStart: "ആരംഭിക്കുന്നതിന് മുമ്പിലെ മിനിറ്റുകള്‍",
+    disabledDays: "പ്രവർത്തനരഹിതമാക്കിയ ദിവസങ്ങള്‍",
+    weekdaysLabel: "ആഴ്ചയിലെ ദിനങ്ങള്‍",
+    saveSettings: "ക്രമീകരണങ്ങള്‍ സംരക്ഷിക്കുക",
+    resetDefaults: "ഡിഫോള്‍ട്ടിലേക്ക് പുനഃസജ്ജമാക്കുക",
+    scrollUp: "സ്ക്രോൾ അപ്പ്",
+    addToAlbum: "ആൽബത്തിലേക്ക് ചേർക്കുക",
 
-   
-    Sunday: "ഞായറാഴ്ښ",
-   inauspiciousTimings: "അശുഭ സമയങ്ങൾ",
-   amritKalam: "അമൃത കാലം",
-   varjyam: "വർജ്യം",
-    
-    Sunday: "ഞായറാഴ്ച", Monday: "തിങ്കളാഴ്ച", Tuesday: "ചൊവ്വാഴ്ച", Wednesday: "ബుధനാഴ്ച",
-    Thursday: "വ്യാഴാഴ്ച", Friday: "വെള്ളിയാഴ്ച", Saturday: "ശനിയാഴ്ച",
-    
-    "Shukla Paksha": "ശുക്ല പക്ഷം",
-    "Krishna Paksha": "കృష్ణ പക్షം",
-    
-    Padyami: "പ്രതിപద", 
-    Dwitiya: "ദ്വിതീയ",
-    Dwithiya: "ദ്വിതീയ",
-    Dvitiya:  "ദ്വിതీയ",
-    Tritiya: "തൃതീയ", 
+    // HomePage UI
+    dailyHoroscope: "ദൈനംദിന രാശിഫലം",
+    chantingAlarm: "ജപ അലാറം",
+    menuLabel: "മെനു",
+    close: "അടയ്ക്കുക",
+    selectLanguage: "ഭാഷ തിരഞ്ഞെടുക്കുക",
+    compass: "ദിക്ക് സൂചകം",
+    sankalp: "സങ്കൽപ്പം",
+    about: "വിവരം",
+    share: "പങ്കിടുക",
+    hinduTime: "ഹിന്ദു സമയം",
+    hinduTimeLabel: "ഹിന്ദു സമയം:",
+
+    // Tile titles
+    tileMonthView: "മാസ കലണ്ടർ",
+    tileMonthViewSub: "മാസത്തിലെ തിഥിയും ഘട്ടവും",
+    tilePanchang: "പഞ്ചാംഗം",
+    tilePanchangSub: "ദിവസ വിവരങ്ങൾ, സൂര്യ-ചന്ദ്ര ഉദയ/അസ്തമയ സമയം",
+    tileFestivals: "ആഘോഷങ്ങൾ",
+    tileFestivalsSub: "ആഘോഷ ദിനങ്ങൾ",
+    tileMyTithi: "എൻ്റെ തിഥി",
+    tileMyTithiSub: "സ്വന്തം തിഥികൾ ചേർക്കുക",
+    tileKundali: "കുണ്ഡലി",
+    tileKundaliSub: "ഗ്രഹ സ്ഥാനം, ലഗ്നം",
+    tileMatchMaking: "വിവാഹ പൊരുത്തം",
+    tileMatchMakingSub: "ഗുണ മിലാൻ അഷ്ടകൂട രീതി",
+    tileMuhurt: "മുഹൂർത്തം",
+    tileMuhurtSub: "മുഹൂർത്തം, ചോഘഡിയ, ഹോര",
+    tileHinduTime: "ഹിന്ദു സമയം",
+    tileHinduTimeSub: "ഘടി നാഴിക ഭാരതീയ സമയം",
+    tileSettings: "ക്രമീകരണങ്ങൾ",
+    tileSettingsSub: "സ്ഥലവും ക്രമീകരണങ്ങളും മാറ്റുക",
+    tileInfo: "വിവരം",
+    tileInfoSub: "ഹിന്ദു കലണ്ടർ വിശദാംശങ്ങൾ",
+    tileCompass: "ദിക്ക് സൂചകം",
+    tileCompassSub: "ദിശ കണ്ടെത്തുക",
+    tileSankalp: "സങ്കൽപ്പ മന്ത്രം",
+    tileSankalpSub: "ദൈനംദിന സങ്കൽപ്പ പഠനം",
+    Tritiya: "തൃതീയ",
     Chaturthi: "ചതുർത്ഥി",
-    Panchami: "പഞ്ചമി", 
-    Shashthi: "ഷഷ్ఠി", 
-    Saptami: "സപ്തമി", 
+    Panchami: "പഞ്ചമി",
+    Shashthi: "ഷഷ్ఠി",
+    Saptami: "സപ്തമി",
     Ashtami: "അഷ్టമി",
-    Navami: "നവമി", 
-    Dashami: "ദശമി", 
-    Ekadashi: "ഏകാദശി", 
+    Navami: "നവമി",
+    Dashami: "ദശമി",
+    Ekadashi: "ഏകാദശി",
     Dvadashi: "ദ്വാദശി",
     Dwadashi: "ദ്വാദശി",
-    Trayodashi: "ത്രയోദശി", 
-    Chaturdashi: "ചതുർദശി", 
-    Purnima: "പൂർണിമ", 
+    Trayodashi: "ത്രയోദശി",
+    Chaturdashi: "ചതുർദശി",
+    Purnima: "പൂർണിമ",
     Amavasya: "അമാവാസി",
-    
+
     Ashwini: "അശ്വതി", Bharani: "ഭരണി", Krittika: "കാർത്തിക", Rohini: "രோഹಿಣಿ",
     Mrigashira: "മകയിരം", Ardra: "തಿರುವಾತಿರ", Punarvasu: "പുണർതം", Pushya: "പൂയം",
     Ashlesha: "ആയിಲ್ಯಂ", Magha: "മകം", "Purva Phalguni": "പൂരം", "Uttara Phalguni": "ഉത്രം",
     Hasta: "അത്തം", Chitra: "ചിത್ತಿರ", Swati: "ചോತಿ", Vishakha: "വಿಶಾಖಂ",
-    Anuradha: "അനಿഴം", Jyeshtha: "തೃಕ್ಕೇಟ್ಟ", 
+    Anuradha: "അനಿഴം", Jyeshtha: "തೃಕ್ಕೇಟ್ಟ",
     Moola: "മೂಲം",
     Mula: "മೂಲಂ",
     "Purva Ashadha": "പೂರಾಟം",
     "Uttara Ashadha": "ഉത್രാടം", Shravana: "തಿರುವೋಣಂ", Dhanishta: "അವಿಟ್ಟം", Shatabhisha: "ചತಯಂ",
     "Purva Bhadrapada": "പೂರುರುട്ടാതಿ", "Uttara Bhadrapada": "ഉത್രട್ಟാതಿ", Revati: "രೇವತಿ",
-    
+
     Vishkambha: "വಿಷ್ಕಂಭ",
     Vishkumbha: "വಿಷ್ಕಂಭ",
     Priti: "പ്രೀತಿ", Ayushman: "ആಯುಷ್ಮಾന್", Saubhagya: "സौಭಾಗ್ಯ",
@@ -602,7 +741,7 @@ export const translations = {
     Vyatipata: "വ್ಯತೀಪಾತ", Variyana: "വರಿಯಾന್", Parigha: "പರಿಘ", Shiva: "ശಿವ",
     Siddha: "സಿದ್ಧ", Sadhya: "സಾಧ್ಯ", Shubha: "ശುಭ", Shukla: "ശುಕ್ಲ",
     Brahma: "ബ್ರಹ್ಮ", Indra: "ഇನ್ದ್ರ", Vaidhriti: "വೈಧృತಿ",
-    
+
     // Hindu Year Names (Malayalam)
     "Vishwavasu": "വಿಶ್ವಾಸು",
     "Parabhava": "പരഭവ",
@@ -623,12 +762,12 @@ export const translations = {
     "Vishvakarma": "വಿಶ್ವಕರ್ಮ",
     "Parama": "പರಮ",
     "Deva": "ദೇವ",
-    
+
     months: ["ജനുവരി", "ഫെബ്രുവരി", "മാർച്ച്", "ഏപ്രിൽ", "മെയ്", "ജൂൺ", "ജೂಲೈ", "ഓഗസ്റ്റ്", "സെപ്റ്റംബർ", "ഒക്ടோബർ", "നവംബർ", "ഡിസംബർ"],
     monthsShort: ["ജനು", "ഫെബ್", "മാർ", "ഏപ്രಿ", "മെಯ್", "ജೂൺ", "ജೂಲೈ", "ഓഗ", "സെപ്", "ഒക്ട", "നവം", "ഡಿಸಂ"],
     weekdaysShort: ["ഞായർ", "തಿಙ್ಕളാഴ್ಚ", "ചൊവ്വ", "ബుధൻ", "വ್ಯಾ಴ಂ", "വೆಳ್ಳಿ", "ശನಿ"],
   },
-  
+
   kn: {
     appTitle: "ಮಾತನಾಡುವ ಕ್ಯಾಲೆಂಡರ್",
     appSubtitle: "ತಿಥಿ ಮತ್ತು ನಕ್ಷತ್ರದೊಂದಿಗೆ ಹಿಂದೂ ಕ್ಯಾಲೆಂಡರ್",
@@ -644,11 +783,11 @@ export const translations = {
     fetchingData: "ಪಂಚಾಂಗ ಡೇಟಾವನ್ನು ಪಡೆಯಲಾಗುತ್ತಿದೆ",
     builtWith: "React + Tailwind ನೊಂದಿಗೆ ನಿರ್ಮಿಸಲಾಗಿದೆ • ಹಿಂದೂ ಪಂಚಾಂಗ ಕ್ಯಾಲೆಂಡರ್ •",
     today: "ಇಂದು",
-    
+
     panchangElements: "ಪಂಚಾಂಗ ಅಂಶಗಳು",
     sunMoonTimings: "ಸೂರ್ಯ ಮತ್ತು ಚಂದ್ರ ಸಮಯಗಳು",
     muhurtaTimings: "ಮುಹೂರ್ತ ಸಮಯಗಳು",
-    
+
     weekday: "ವಾರದ ದಿನ",
     paksha: "ಪಕ್ಷ",
     tithi: "ತಿಥಿ",
@@ -668,9 +807,9 @@ export const translations = {
     to: "ರಿಂದ",
     uptoPrefix: false, // upto comes AFTER time in Kannada
     am: "ಬೆಳಗ್ಗೆ",
-    pm: "ಸಂಜೆ", 
+    pm: "ಸಂಜೆ",
 
-    
+
     // Add to Kannada (kn):
     auspiciousTimings: "ಶುಭ ಮುಹೂರ್ತಗಳು",
     inauspiciousTimings: "ಅಶುಭ ಮುಹೂರ್ತಗಳು",
@@ -691,49 +830,49 @@ export const translations = {
     scrollUp: "ಸ್ಕ್ರೋಲ್ ಅಪ್",
     addToAlbum: "ಆಲ್ಬಮ್‌ಗೆ ಸೇರಿಸಿ",
 
-    
+
     Sunday: "ಭಾನುವಾರ",
     inauspiciousTimings: "ಅಶುಭ ಮುಹೂರ್ತಗಳು",
     amritKalam: "ಅಮೃತ ಕಾಲ",
     varjyam: "ವರ್ಜ್ಯಂ",
-    
+
     Sunday: "ಭಾನುವಾರ", Monday: "ಸೋಮವಾರ", Tuesday: "ಮಂಗಳವಾರ", Wednesday: "ಬುಧವಾರ",
     Thursday: "ಗುರುವಾರ", Friday: "ಶುಕ್ರವಾರ", Saturday: "ಶನಿವಾರ",
-    
+
     "Shukla Paksha": "ಶುಕ್ಲ ಪಕ್ಷ",
     "Krishna Paksha": "ಕೃಷ್ಣ ಪಕ್ಷ",
-    
-    Padyami: "ಪಾಡ್ಯಮಿ", 
+
+    Padyami: "ಪಾಡ್ಯಮಿ",
     Dwitiya: "ದ್ವಿತೀಯ",
     Dwithiya: "ದ್ವಿತೀಯ",
-    Dvitiya:  "ದ್ವಿತೀಯ",
-    Tritiya: "ತೃತೀಯ", 
+    Dvitiya: "ದ್ವಿತೀಯ",
+    Tritiya: "ತೃತೀಯ",
     Chaturthi: "ಚತುರ್ಥಿ",
-    Panchami: "ಪಂಚಮಿ", 
-    Shashthi: "ಷಷ್ಠಿ", 
-    Saptami: "ಸಪ್ತಮಿ", 
+    Panchami: "ಪಂಚಮಿ",
+    Shashthi: "ಷಷ್ಠಿ",
+    Saptami: "ಸಪ್ತಮಿ",
     Ashtami: "ಅಷ್ಟಮಿ",
-    Navami: "ನವಮಿ", 
-    Dashami: "ದಶಮಿ", 
-    Ekadashi: "ಏಕಾದಶಿ", 
+    Navami: "ನವಮಿ",
+    Dashami: "ದಶಮಿ",
+    Ekadashi: "ಏಕಾದಶಿ",
     Dvadashi: "ದ್ವಾದಶಿ",
     Dwadashi: "ದ್ವಾದಶಿ",
-    Trayodashi: "ತ್ರಯೋದಶಿ", 
-    Chaturdashi: "ಚತುರ್ದಶಿ", 
-    Purnima: "ಪೂರ್ಣಿಮ", 
+    Trayodashi: "ತ್ರಯೋದಶಿ",
+    Chaturdashi: "ಚತುರ್ದಶಿ",
+    Purnima: "ಪೂರ್ಣಿಮ",
     Amavasya: "ಅಮಾವಾಸ್ಯೆ",
-    
+
     Ashwini: "ಅಶ್ವಿನಿ", Bharani: "ಭರಣಿ", Krittika: "ಕೃತ್ತಿಕ", Rohini: "ರೋಹಿಣಿ",
     Mrigashira: "ಮೃಗಶಿರ", Ardra: "ಆರ್ದ್ರ", Punarvasu: "ಪುನರ್ವಸು", Pushya: "ಪುಷ್ಯ",
     Ashlesha: "ಆಶ್ಲೇಷ", Magha: "ಮಘ", "Purva Phalguni": "ಪೂರ್ವ ಫಲ್ಗುಣಿ", "Uttara Phalguni": "ಉತ್ತರ ಫಲ್ಗುಣಿ",
     Hasta: "ಹಸ್ತ", Chitra: "ಚಿತ್ರ", Swati: "ಸ್ವಾತಿ", Vishakha: "ವಿಶಾಖ",
-    Anuradha: "ಅನೂರಾಧ", Jyeshtha: "ಜ್ಯೇಷ್ಠ", 
+    Anuradha: "ಅನೂರಾಧ", Jyeshtha: "ಜ್ಯೇಷ್ಠ",
     Moola: "ಮೂಲ",
     Mula: "ಮೂಲ",
     "Purva Ashadha": "ಪೂರ್ವಾಷಾಢ",
     "Uttara Ashadha": "ಉತ್ತರಾಷಾಢ", Shravana: "ಶ್ರವಣ", Dhanishta: "ಧನಿಷ್ಠ", Shatabhisha: "ಶತಭಿಷ",
     "Purva Bhadrapada": "ಪೂರ್ವ ಭಾದ್ರಪದ", "Uttara Bhadrapada": "ಉತ್ತರ ಭಾದ್ರಪದ", Revati: "ರೇವತಿ",
-    
+
     Vishkambha: "ವಿಷ್ಕಂಭ",
     Vishkumbha: "ವಿಷ್ಕಂಭ",
     Priti: "ಪ್ರೀತಿ", Ayushman: "ಆಯುಷ್ಮಾನ್", Saubhagya: "ಸೌಭಾಗ್ಯ",
@@ -743,7 +882,7 @@ export const translations = {
     Vyatipata: "ವ್ಯತೀಪಾತ", Variyana: "ವರಿಯಾನ", Parigha: "ಪರಿಘ", Shiva: "ಶಿವ",
     Siddha: "ಸಿದ್ಧ", Sadhya: "ಸಾಧ್ಯ", Shubha: "ಶುಭ", Shukla: "ಶುಕ್ಲ",
     Brahma: "ಬ್ರಹ್ಮ", Indra: "ಇಂದ್ರ", Vaidhriti: "ವೈಧೃತಿ",
-    
+
     // Hindu Year Names (Kannada)
     "Vishwavasu": "ವಿಶ್ವಾಸು",
     "Parabhava": "ಪರಭವ",
@@ -764,7 +903,7 @@ export const translations = {
     "Vishvakarma": "ವಿಶ್ವಕರ್ಮ",
     "Parama": "ಪರಮ",
     "Deva": "ದೇವ",
-    
+
     months: ["ಜನವರಿ", "ಫೆಬ್ರವರಿ", "ಮಾರ್ಚ್", "ಏಪ್ರಿಲ್", "ಮೇ", "ಜೂನ್", "ಜುಲೈ", "ಆಗಸ್ಟ್", "ಸೆಪ್ಟೆಂಬರ್", "ಅಕ್ಟೋಬರ್", "ನವೆಂಬರ್", "ಡಿಸೆಂಬರ್"],
     monthsShort: ["ಜನ", "ಫೆಬ್", "ಮಾರ್ಚ್", "ಏಪ್ರಿ", "ಮೇ", "ಜೂನ್", "ಜುಲೈ", "ಆಗ", "ಸೆಪ್ಟೆ", "ಅಕ್ಟೋ", "ನವೆಂ", "ಡಿಸೆಂ"],
     weekdaysShort: ["ಭಾನು", "ಸೋಮ", "ಮಂಗಳ", "ಬುಧ", "ಗುರು", "ಶುಕ್ರ", "ಶನಿ"],
@@ -778,8 +917,47 @@ export const translations = {
     selectRashi: "ನಿಮ್ಮ ರಾಶಿ ಆಯ್ಕೆ ಮಾಡಿ",
     scrollUp: "ಮೇಲೆ ಸ್ಕ್ರೋಲ್ ಮಾಡಿ",
     addToAlbum: "ಆಲ್ಬಮ್‌ಗೆ ಸೇರಿಸಿ",
+
+    // HomePage UI
+    dailyHoroscope: "ದಿನದ ರಾಶಿಫಲ",
+    chantingAlarm: "ಜಪ ಅಲಾರಂ",
+    menuLabel: "ಮೆನು",
+    close: "ಮುಚ್ಚು",
+    selectLanguage: "ಭಾಷೆ ಆಯ್ಕೆ ಮಾಡಿ",
+    compass: "ದಿಕ್ ಸೂಚಕ",
+    sankalp: "ಸಂಕಲ್ಪ",
+    about: "ಮಾಹಿತಿ",
+    share: "ಹಂಚಿಕೊಳ್ಳಿ",
+    hinduTime: "ಹಿಂದೂ ಕಾಲ",
+    hinduTimeLabel: "ಹಿಂದೂ ಕಾಲ:",
+
+    // Tile titles
+    tileMonthView: "ಮಾಸಿಕ ನೋಟ",
+    tileMonthViewSub: "ತಿಂಗಳ ತಿಥಿ ಮತ್ತು ಪಕ್ಷ",
+    tilePanchang: "ಪಂಚಾಂಗ",
+    tilePanchangSub: "ದಿನ ವಿವರ, ಸೂರ್ಯ-ಚಂದ್ರ ಉದಯ/ಅಸ್ತ ಸಮಯ",
+    tileFestivals: "ಹಬ್ಬಗಳು",
+    tileFestivalsSub: "ಹಬ್ಬ ಮತ್ತು ಮಹತ್ವದ ದಿನಗಳು",
+    tileMyTithi: "ನನ್ನ ತಿಥಿ",
+    tileMyTithiSub: "ತಿಥಿಗಳನ್ನು ಸೇರಿಸಿ ಹಾಗೂ ಟ್ರ್ಯಾಕ್ ಮಾಡಿ",
+    tileKundali: "ಕುಂಡಲಿ",
+    tileKundaliSub: "ಗ್ರಹ ಸ್ಥಾನ, ಲಗ್ನ",
+    tileMatchMaking: "ವಿವಾಹ ಹೊಂದಾಣಿಕೆ",
+    tileMatchMakingSub: "ಗುಣ ಮಿಲಾನ್ ಅಷ್ಟ ಕೂಟ ಪದ್ಧತಿ",
+    tileMuhurt: "ಮುಹೂರ್ತ",
+    tileMuhurtSub: "ಮುಹೂರ್ತ, ಚೋಘಡಿಯ ಹಾಗೂ ಹೋರ",
+    tileHinduTime: "ಹಿಂದೂ ಕಾಲ",
+    tileHinduTimeSub: "ಘಟಿ ಮತ್ತು ಪಲ ಭಾರತೀಯ ಕಾಲ",
+    tileSettings: "ಸೆಟ್ಟಿಂಗ್‌ಗಳು",
+    tileSettingsSub: "ಸ್ಥಳ ಮತ್ತು ಆದ್ಯತೆಗಳನ್ನು ಬದಲಿಸಿ",
+    tileInfo: "ಮಾಹಿತಿ",
+    tileInfoSub: "ಹಿಂದೂ ಕ್ಯಾಲೆಂಡರ್ ಮಾಹಿತಿ",
+    tileCompass: "ದಿಕ್ ಸೂಚಕ",
+    tileCompassSub: "ದಿಕ್ಕು ಕಂಡುಹಿಡಿಯಿರಿ",
+    tileSankalp: "ಸಂಕಲ್ಪ ಮಂತ್ರ",
+    tileSankalpSub: "ದೈನಂದಿನ ಸಂಕಲ್ಪ ಪಠಣ",
   },
-    
+
   ta: {
     appTitle: "பேசும் காலண்டர்",
     appSubtitle: "திதி மற்றும் நக்ஷத்திரத்துடன் இந்து நாள்காட்டி",
@@ -794,11 +972,11 @@ export const translations = {
     fetchingData: "பஞ்சாங்க தரவு பெறப்படுகிறது",
     builtWith: "React + Tailwind உடன் உருவாக்கப்பட்டது • இந்து பஞ்சாங்க நாள்காட்டி •",
     today: "இன்று",
-    
+
     panchangElements: "பஞ்சாங்க கூறுகள்",
     sunMoonTimings: "சூரிய & சந்திர நேரங்கள்",
     muhurtaTimings: "முகூர்த்த நேரங்கள்",
-    
+
     weekday: "வார நாள்",
     paksha: "பக்ஷம்",
     tithi: "திதி",
@@ -838,44 +1016,44 @@ export const translations = {
     scrollUp: "ஸ்க்ரோல் அப்",
     addToAlbum: "ஆல்பத்துக்கு சேர்",
 
-    
+
     Sunday: "ஞாயிறு", Monday: "திங்கள்", Tuesday: "செவ்வாய்", Wednesday: "புதன்",
     Thursday: "வியாழன்", Friday: "வெள்ளி", Saturday: "சனி",
-    
+
     "Shukla Paksha": "சுக்ல பக்ஷம்",
     "Krishna Paksha": "கிருஷ்ண பக்ஷம்",
-    
-    Padyami: "பிரதமை", 
+
+    Padyami: "பிரதமை",
     Dwitiya: "துவிதியை",
     Dwithiya: "துவிதியை",
-    Dvitiya:  "துவிதியை",
-    Tritiya: "திருதியை", 
+    Dvitiya: "துவிதியை",
+    Tritiya: "திருதியை",
     Chaturthi: "சதுர்த்தி",
-    Panchami: "பஞ்சமி", 
-    Shashthi: "சஷ்டி", 
-    Saptami: "சப்தமி", 
+    Panchami: "பஞ்சமி",
+    Shashthi: "சஷ்டி",
+    Saptami: "சப்தமி",
     Ashtami: "அஷ்டமி",
-    Navami: "நவமி", 
-    Dashami: "தசமி", 
-    Ekadashi: "ஏகாதசி", 
+    Navami: "நவமி",
+    Dashami: "தசமி",
+    Ekadashi: "ஏகாதசி",
     Dvadashi: "துவாதசி",
     Dwadashi: "துவாதசி",
-    Trayodashi: "திரயோதசி", 
-    Chaturdashi: "சதுர்த்தசி", 
-    Purnima: "பௌர்ணமி", 
+    Trayodashi: "திரயோதசி",
+    Chaturdashi: "சதுர்த்தசி",
+    Purnima: "பௌர்ணமி",
     Amavasya: "அமாவாசை",
-    
+
     Ashwini: "அஸ்வினி", Bharani: "பரணி", Krittika: "கார்த்திகை", Rohini: "ரோகிணி",
     Mrigashira: "மிருகசீரிடம்", Ardra: "திருவாதிரை", Punarvasu: "புனர்பூசம்", Pushya: "பூசம்",
     Ashlesha: "ஆயில்யம்", Magha: "மகம்", "Purva Phalguni": "பூரம்", "Uttara Phalguni": "உத்திரம்",
     Hasta: "அஸ்தம்", Chitra: "சித்திரை", Swati: "சுவாதி", Vishakha: "விசாகம்",
-    Anuradha: "அனுஷம்", Jyeshtha: "கேட்டை", 
+    Anuradha: "அனுஷம்", Jyeshtha: "கேட்டை",
     Moola: "மூலம்",
     Mula: "மூலம்",
     "Purva Ashadha": "பூராடம்",
     "Uttara Ashadha": "உத்திராடம்", Shravana: "திருவோணம்", Dhanishta: "அவிட்டம்", Shatabhisha: "சதயம்",
     "Purva Bhadrapada": "பூரட்டாதி", "Uttara Bhadrapada": "உத்திரட்டாதி", Revati: "ரேவதி",
-    
+
     Vishkambha: "விஷ்கம்பா",
     Vishkumbha: "விஷ்கம்பா",
     Priti: "பிரீதி", Ayushman: "ஆயுஷ்மான்", Saubhagya: "சௌபாக்யம்",
@@ -885,7 +1063,7 @@ export const translations = {
     Vyatipata: "வ்யதீபாதம்", Variyana: "வரியான்", Parigha: "பரிகம்", Shiva: "சிவம்",
     Siddha: "சித்த", Sadhya: "சாத்யம்", Shubha: "சுபம்", Shukla: "சுக்லம்",
     Brahma: "பிரம்மா", Indra: "இந்திரா", Vaidhriti: "வைதிருதி",
-    
+
     // Hindu Year Names (Tamil)
     "Vishwavasu": "விஸ்வாஸு",
     "Parabhava": "பரபவ",
@@ -906,7 +1084,7 @@ export const translations = {
     "Vishvakarma": "விஸ்வகர்ம",
     "Parama": "பரம",
     "Deva": "தேவ",
-    
+
     months: ["ஜனவரி", "பிப்ரவரி", "மார்ச்", "ஏப்ரல்", "மே", "ஜூன்", "ஜூலை", "ஆகஸ்ட்", "செப்டம்பர்", "அக்டோபர்", "நவம்பர்", "டிசம்பர்"],
     monthsShort: ["ஜன", "பிப்", "மார்", "ஏப்", "மே", "ஜூன்", "ஜூலை", "ஆக", "செப்", "அக்", "நவ", "டிச"],
     weekdaysShort: ["ஞா", "தி", "செ", "பு", "வி", "வெ", "ச"],
@@ -920,6 +1098,45 @@ export const translations = {
     selectRashi: "உங்கள் ராசியைத் தேர்ந்தெடுக்கவும்",
     scrollUp: "மேலே உருட்டவும்",
     addToAlbum: "ஆல்பத்தில் சேர்க்கவும்",
+
+    // HomePage UI
+    dailyHoroscope: "தினசரி ராசிபலன்",
+    chantingAlarm: "ஜப அலாரம்",
+    menuLabel: "மெனு",
+    close: "மூடு",
+    selectLanguage: "மொழி தேர்ந்தெடுக்கவும்",
+    compass: "திசைகாட்டி",
+    sankalp: "சங்கல்பம்",
+    about: "பற்றி",
+    share: "பகிர்",
+    hinduTime: "இந்து நேரம்",
+    hinduTimeLabel: "இந்து நேரம்:",
+
+    // Tile titles
+    tileMonthView: "மாத காட்சி",
+    tileMonthViewSub: "மாதத்தின் திதி மற்றும் பக்ஷம்",
+    tilePanchang: "பஞ்சாங்கம்",
+    tilePanchangSub: "நாள் விவரம், சூரிய-சந்திர உதய/அஸ்தமன நேரம்",
+    tileFestivals: "திருவிழாக்கள்",
+    tileFestivalsSub: "திருவிழா மற்றும் முக்கிய நாட்கள்",
+    tileMyTithi: "என் திதி",
+    tileMyTithiSub: "திதிகளை சேர்த்து கண்காணிக்கவும்",
+    tileKundali: "ஜாதகம்",
+    tileKundaliSub: "கிரக நிலை, லக்னம்",
+    tileMatchMaking: "திருமண பொருத்தம்",
+    tileMatchMakingSub: "குண மிலான் அஷ்ட கூட முறை",
+    tileMuhurt: "முகூர்த்தம்",
+    tileMuhurtSub: "முகூர்த்தம், சோக்கடியா, ஹோரா",
+    tileHinduTime: "இந்து நேரம்",
+    tileHinduTimeSub: "கடி மற்றும் பல இந்திய நேரம்",
+    tileSettings: "அமைப்புகள்",
+    tileSettingsSub: "இடம் மற்றும் விருப்பங்களை மாற்றவும்",
+    tileInfo: "தகவல்",
+    tileInfoSub: "இந்து நாள்காட்டி பற்றிய தகவல்",
+    tileCompass: "திசைகாட்டி",
+    tileCompassSub: "திசை கண்டறிவி",
+    tileSankalp: "சங்கல்ப மந்திரம்",
+    tileSankalpSub: "தினசரி சங்கல்ப பாராயணம்",
   },
 };
 
@@ -935,25 +1152,25 @@ export const languages = [
 // Helper function to translate AM/PM in time strings
 function translateTime(timeStr, t) {
   if (!timeStr || timeStr === "—" || timeStr === "-") return timeStr;
-  
+
   // Replace AM/PM with localized versions
   let translated = timeStr.replace(/\bAM\b/g, t.am).replace(/\bPM\b/g, t.pm);
-  
+
   return translated;
 }
 
 // Helper function to translate text with PROPER WORD ORDER and time ranges
 export function translateText(text, t) {
   if (!text || text === "—") return text;
-  
+
   // Handle time ranges like "11:00 AM to 12:00 PM"
   const timeRangePattern = /(\d{1,2}:\d{2}\s*(?:AM|PM)?)\s+to\s+(\d{1,2}:\d{2}\s*(?:AM|PM)?)/gi;
-  
+
   if (timeRangePattern.test(text)) {
     return text.replace(timeRangePattern, (match, time1, time2) => {
       const translatedTime1 = translateTime(time1.trim(), t);
       const translatedTime2 = translateTime(time2.trim(), t);
-      
+
       // For English: just "time1 to time2" (no "upto")
       // For other languages: "time1 from/nundi time2 to/varaku"
       if (t.uptoPrefix) {
@@ -965,7 +1182,7 @@ export function translateText(text, t) {
       }
     });
   }
-  
+
   // Handle "upto" translations (e.g., "Trayodashi upto 10:22 PM")
   if (text.includes(" upto ")) {
     const parts = text.split(" upto ");
@@ -973,7 +1190,7 @@ export function translateText(text, t) {
     const time = parts[1].trim();
     const translatedName = t[tithiOrNakshatra] || tithiOrNakshatra;
     const translatedTime = translateTime(time, t);
-    
+
     // Check if uptoPrefix is true (English) - "upto" comes BEFORE time
     if (t.uptoPrefix) {
       // English: "Trayodashi upto 10:22 PM"
@@ -983,12 +1200,12 @@ export function translateText(text, t) {
       return `${translatedName} ${translatedTime} ${t.upto}`;
     }
   }
-  
+
   // Translate standalone times with AM/PM
   if (text.match(/\d{1,2}:\d{2}\s*(?:AM|PM)/i)) {
     return translateTime(text, t);
   }
-  
+
   // Direct translation
   return t[text] || text;
 }
@@ -996,7 +1213,7 @@ export function translateText(text, t) {
 // Helper to get first word translation (for calendar grid tithi display)
 export function translateFirstWord(text, t) {
   if (!text || text === "—") return text;
-  
+
   const firstWord = text.split(' ')[0].trim();
   return t[firstWord] || firstWord;
 }
@@ -1004,17 +1221,17 @@ export function translateFirstWord(text, t) {
 // Helper to check if Tithi is Purnima or Amavasya
 export function getTithiIndicator(tithiText) {
   if (!tithiText) return null;
-  
+
   const tithiName = tithiText.split(' ')[0].trim();
-  
+
   if (tithiName === "Purnima") {
     return { type: "purnima", symbol: "⚪", color: "white" };
   }
-  
+
   if (tithiName === "Amavasya") {
     return { type: "amavasya", symbol: "⚫", color: "black" };
   }
-  
+
   return null;
 }
 

@@ -195,6 +195,7 @@ export default function SettingsPage() {
 
   const onSaveLanguage = (value) => {
     setLanguage(value);
+    // saveLanguage dispatches LANGUAGE_CHANGE_EVENT so all mounted pages update immediately
     saveLanguage(value);
   };
 
@@ -215,12 +216,31 @@ export default function SettingsPage() {
     };
   }, []);
 
-  const onAutoLocation = () => {
+  const onAutoLocation = async () => {
     if (!navigator.geolocation) {
       setStatus(tr("settingsStatusGeoNotSupported", "Geolocation not supported in this browser."));
       return;
     }
+
+    // Pre-check permission state so we can give a clear message before the
+    // browser silently fails (some mobile browsers don't trigger the prompt
+    // if the user previously dismissed it).
+    try {
+      if (navigator.permissions) {
+        const perm = await navigator.permissions.query({ name: "geolocation" });
+        if (perm.state === "denied") {
+          setStatus(
+            "Location access is blocked. Please allow it in your browser/device Settings, then try again."
+          );
+          return;
+        }
+      }
+    } catch {
+      // permissions API not supported — proceed anyway
+    }
+
     setStatus(tr("settingsStatusGettingLocation", "Getting location…"));
+
     navigator.geolocation.getCurrentPosition(
       (pos) => {
         const lat = pos?.coords?.latitude;
@@ -231,7 +251,7 @@ export default function SettingsPage() {
         }
         const next = {
           ...location,
-          name: location.name || tr("settingsCurrentLocation", "Current location"),
+          name: tr("settingsCurrentLocation", "Current location"),
           lat: lat.toFixed(4),
           lng: lng.toFixed(4),
         };
@@ -239,8 +259,21 @@ export default function SettingsPage() {
         saveLocation(next);
         setStatus(tr("settingsStatusLocationUpdated", "Location updated."));
       },
-      (err) => setStatus(err?.message || tr("settingsStatusPermissionDenied", "Location permission denied.")),
-      { enableHighAccuracy: true, timeout: 10_000 }
+      (err) => {
+        // GeolocationPositionError codes: 1=PERMISSION_DENIED, 2=UNAVAILABLE, 3=TIMEOUT
+        if (err.code === 1) {
+          setStatus(
+            "Location permission denied. Please allow location access in your browser/device settings and try again."
+          );
+        } else if (err.code === 2) {
+          setStatus("Location unavailable. Check that GPS/Location is enabled on your device.");
+        } else if (err.code === 3) {
+          setStatus("Location request timed out. Please try again.");
+        } else {
+          setStatus(err?.message || tr("settingsStatusPermissionDenied", "Location permission denied."));
+        }
+      },
+      { enableHighAccuracy: false, timeout: 15_000, maximumAge: 60_000 }
     );
   };
 
@@ -413,15 +446,13 @@ export default function SettingsPage() {
             <button
               type="button"
               onClick={onToggleSayana}
-              className={`relative inline-flex h-7 w-12 shrink-0 items-center rounded-full ring-1 transition sm:h-8 sm:w-14 ${
-                sayana ? "bg-amber-400/30 ring-amber-300/25" : "bg-white/5 ring-white/10"
-              }`}
+              className={`relative inline-flex h-7 w-12 shrink-0 items-center rounded-full ring-1 transition sm:h-8 sm:w-14 ${sayana ? "bg-amber-400/30 ring-amber-300/25" : "bg-white/5 ring-white/10"
+                }`}
               aria-label="Toggle Sayana"
             >
               <span
-                className={`inline-block h-5 w-5 transform rounded-full bg-amber-100 transition sm:h-6 sm:w-6 ${
-                  sayana ? "translate-x-6 sm:translate-x-7" : "translate-x-1"
-                }`}
+                className={`inline-block h-5 w-5 transform rounded-full bg-amber-100 transition sm:h-6 sm:w-6 ${sayana ? "translate-x-6 sm:translate-x-7" : "translate-x-1"
+                  }`}
               />
             </button>
           </div>
@@ -435,22 +466,20 @@ export default function SettingsPage() {
             <button
               type="button"
               onClick={() => onMonthType("amavasyant")}
-              className={`rounded-xl px-3 py-2 text-xs font-black ring-1 ${
-                monthType === "amavasyant"
+              className={`rounded-xl px-3 py-2 text-xs font-black ring-1 ${monthType === "amavasyant"
                   ? "bg-amber-400/25 text-amber-100 ring-amber-300/25"
                   : "bg-white/5 text-amber-100 ring-white/10 hover:bg-white/10"
-              }`}
+                }`}
             >
               Amavasyant
             </button>
             <button
               type="button"
               onClick={() => onMonthType("purnimant")}
-              className={`rounded-xl px-3 py-2 text-xs font-black ring-1 ${
-                monthType === "purnimant"
+              className={`rounded-xl px-3 py-2 text-xs font-black ring-1 ${monthType === "purnimant"
                   ? "bg-amber-400/25 text-amber-100 ring-amber-300/25"
                   : "bg-white/5 text-amber-100 ring-white/10 hover:bg-white/10"
-              }`}
+                }`}
             >
               Purnimant
             </button>
@@ -472,11 +501,10 @@ export default function SettingsPage() {
                 key={key}
                 type="button"
                 onClick={() => onYearType(key)}
-                className={`rounded-xl px-3 py-2 text-xs font-black ring-1 ${
-                  yearType === key
+                className={`rounded-xl px-3 py-2 text-xs font-black ring-1 ${yearType === key
                     ? "bg-amber-400/25 text-amber-100 ring-amber-300/25"
                     : "bg-white/5 text-amber-100 ring-white/10 hover:bg-white/10"
-                }`}
+                  }`}
               >
                 {label}
               </button>

@@ -1,15 +1,10 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import PageShell from "./PageShell";
 
 function normalizeDeg(value) {
   const n = Number(value);
   if (!Number.isFinite(n)) return null;
-  const x = ((n % 360) + 360) % 360;
-  return x;
-}
-
-function shortestDelta(from, to) {
-  return ((to - from + 540) % 360) - 180;
+  return ((n % 360) + 360) % 360;
 }
 
 const DIR8 = [
@@ -30,16 +25,28 @@ function directionFrom(angle) {
   return `${d.short} • ${d.local}`;
 }
 
+/**
+ * Returns the compass heading (0 = North, 90 = East, 180 = South, 270 = West)
+ * from a DeviceOrientationEvent.
+ *
+ * webkit:  webkitCompassHeading directly gives true compass heading.
+ * Android: When absolute=true, alpha is the angle from North (clockwise when
+ *          viewed from above), so heading = 360 - alpha (because alpha increases
+ *          counter-clockwise).
+ *          When absolute=false (arbitrary reference frame), we cannot compute
+ *          true North — return null so the user knows sensor is unavailable.
+ */
 function headingFromEvent(e) {
-  if (typeof e.webkitCompassHeading === "number") {
+  // iOS Safari gives a direct compass heading (degrees from North, clockwise)
+  if (typeof e.webkitCompassHeading === "number" && e.webkitCompassHeading >= 0) {
     return normalizeDeg(e.webkitCompassHeading);
   }
-  if (typeof e.alpha === "number") {
-    // For absolute-capable sensors alpha tends to map to compass heading;
-    // fallback inverts alpha for browsers exposing relative alpha.
-    const h = e.absolute ? e.alpha : 360 - e.alpha;
-    return normalizeDeg(h);
+  // Android / Chrome with deviceorientationabsolute
+  if (typeof e.alpha === "number" && e.absolute === true) {
+    // alpha increases counter-clockwise when viewed from above, so compass heading is:
+    return normalizeDeg(360 - e.alpha);
   }
+  // Relative orientation only (no absolute heading available)
   return null;
 }
 
@@ -48,8 +55,10 @@ export default function CompassPage() {
   const [status, setStatus] = useState("Tap Enable to start.");
   const [enabled, setEnabled] = useState(false);
 
-  const angle = useMemo(() => normalizeDeg(heading), [heading]);
-  const directionText = useMemo(() => directionFrom(angle), [angle]);
+  // We use a ref-based low-pass filter to smooth jitter without React re-renders.
+  const smoothRef = useRef(null);
+
+  const directionText = useMemo(() => directionFrom(heading), [heading]);
 
   const enable = async () => {
     try {
@@ -57,23 +66,25 @@ export default function CompassPage() {
         setStatus("Compass needs HTTPS (or localhost). Open this on a secure URL.");
         return;
       }
-
       if (typeof window.DeviceOrientationEvent === "undefined") {
         setStatus("Device orientation is not supported on this device/browser.");
         return;
       }
+      setStatus("Starting…");
 
-      setStatus("Starting...");
-
-      // iOS requires permission prompt for DeviceOrientation.
-      if (typeof DeviceOrientationEvent !== "undefined" && typeof DeviceOrientationEvent.requestPermission === "function") {
+      // iOS 13+ requires explicit permission request for DeviceOrientation.
+      if (
+        typeof DeviceOrientationEvent !== "undefined" &&
+        typeof DeviceOrientationEvent.requestPermission === "function"
+      ) {
         const p = await DeviceOrientationEvent.requestPermission();
         if (p !== "granted") {
-          setStatus("Permission denied.");
+          setStatus("Permission denied. Please allow motion access in Settings.");
           return;
         }
       }
 
+      smoothRef.current = null;
       setEnabled(true);
       setStatus("Move your phone in a figure-8 to calibrate.");
     } catch (e) {
@@ -85,34 +96,58 @@ export default function CompassPage() {
     if (!enabled) return;
 
     let gotReading = false;
+    let frameId = null;
 
     const handler = (e) => {
       const next = headingFromEvent(e);
       if (next == null) return;
       gotReading = true;
-      setHeading((prev) => {
-        if (prev == null) return next;
-        const delta = shortestDelta(prev, next);
-        return normalizeDeg(prev + delta * 0.2);
+
+      // Low-pass filter: blend towards new reading using shortest angular path.
+      if (smoothRef.current == null) {
+        smoothRef.current = next;
+      } else {
+        // Shortest-path delta to avoid wrap-around jumps.
+        let delta = next - smoothRef.current;
+        if (delta > 180) delta -= 360;
+        if (delta < -180) delta += 360;
+        smoothRef.current = ((smoothRef.current + delta * 0.3) % 360 + 360) % 360;
+      }
+
+      // Batch state updates to animation frames to avoid rapid re-renders.
+      if (frameId) return;
+      frameId = requestAnimationFrame(() => {
+        frameId = null;
+        setHeading(Math.round(smoothRef.current));
+        setStatus("Compass active.");
       });
-      setStatus("Compass active.");
     };
 
+    // Prefer absolute orientation (gives true North on Android Chrome)
     window.addEventListener("deviceorientationabsolute", handler, true);
     window.addEventListener("deviceorientation", handler, true);
 
     const timeout = window.setTimeout(() => {
       if (!gotReading) {
-        setStatus("No sensor data. Enable Motion/Orientation permission in browser settings.");
+        setStatus(
+          "No sensor data received. Please enable Motion & Orientation access in your browser or device settings."
+        );
       }
     }, 3000);
 
     return () => {
       window.clearTimeout(timeout);
+      if (frameId) cancelAnimationFrame(frameId);
       window.removeEventListener("deviceorientationabsolute", handler, true);
       window.removeEventListener("deviceorientation", handler, true);
     };
   }, [enabled]);
+
+  // The compass rose (dial) rotates so that N always points to actual North.
+  // The fixed red pointer at the top of the circle always indicates the
+  // direction the phone is facing. So: when heading=90 (facing East), the
+  // rose rotates -90° so that E is at the top under the pointer.
+  const dialRotation = heading != null ? -heading : 0;
 
   return (
     <PageShell
@@ -123,26 +158,35 @@ export default function CompassPage() {
           onClick={enable}
           className="rounded-xl bg-amber-400/15 px-3 py-2 text-xs font-black text-amber-100 ring-1 ring-amber-300/25 hover:bg-amber-400/20"
         >
-          Enable
+          {enabled ? "Recalibrate" : "Enable"}
         </button>
       }
     >
       <div className="grid gap-4">
         <section className="app-surface rounded-3xl p-5 text-amber-50">
           <div className="text-sm font-black text-amber-100">Heading</div>
-          <div className="mt-1 text-4xl font-black text-amber-50">{angle == null ? "-" : `${Math.round(angle)} deg`}</div>
+          <div className="mt-1 text-4xl font-black text-amber-50">
+            {heading == null ? "-" : `${heading}°`}
+          </div>
           <div className="mt-1 text-base font-black text-amber-100">{directionText}</div>
           <div className="mt-2 text-sm text-amber-100/70">{status}</div>
         </section>
 
         <section className="app-surface mx-auto w-full max-w-sm rounded-3xl p-5">
           <div className="relative mx-auto h-72 w-72">
+            {/* Outer ring */}
             <div className="absolute inset-0 rounded-full border border-amber-300/25 bg-gradient-to-b from-amber-300/10 to-black/30 shadow-[0_30px_70px_rgba(0,0,0,0.55)]" />
             <div className="absolute inset-4 rounded-full border border-amber-300/15 bg-black/20" />
+
+            {/* Rotating compass rose — N label rotates with it, stays at true North */}
             <div
-              className="absolute inset-0 transition-transform duration-150"
-              style={{ transform: `rotate(${-(angle ?? 0)}deg)` }}
+              className="absolute inset-0"
+              style={{
+                transform: `rotate(${dialRotation}deg)`,
+                transition: "transform 0.15s linear",
+              }}
             >
+              {/* Tick marks */}
               {Array.from({ length: 36 }).map((_, i) => {
                 const major = i % 3 === 0;
                 return (
@@ -151,22 +195,37 @@ export default function CompassPage() {
                     className={`absolute left-1/2 top-3 origin-bottom ${major ? "h-4 w-[2px]" : "h-2.5 w-[1px]"}`}
                     style={{
                       transform: `translateX(-50%) rotate(${i * 10}deg)`,
-                      background: major ? "rgba(255, 210, 130, 0.6)" : "rgba(255, 210, 130, 0.35)",
+                      background: major
+                        ? "rgba(255, 210, 130, 0.6)"
+                        : "rgba(255, 210, 130, 0.35)",
                     }}
                   />
                 );
               })}
-              <div className="absolute left-1/2 top-1.5 -translate-x-1/2 text-xs font-black tracking-[0.2em] text-amber-100/80">N</div>
-              <div className="absolute right-2 top-1/2 -translate-y-1/2 text-xs font-black tracking-[0.2em] text-amber-100/80">E</div>
-              <div className="absolute left-1/2 bottom-1.5 -translate-x-1/2 text-xs font-black tracking-[0.2em] text-amber-100/80">S</div>
-              <div className="absolute left-2 top-1/2 -translate-y-1/2 text-xs font-black tracking-[0.2em] text-amber-100/80">W</div>
+
+              {/* Cardinal labels — these rotate WITH the dial, so N is always at true North */}
+              <div className="absolute left-1/2 top-1.5 -translate-x-1/2 text-xs font-black tracking-[0.2em] text-red-400">
+                N
+              </div>
+              <div className="absolute right-2 top-1/2 -translate-y-1/2 text-xs font-black tracking-[0.2em] text-amber-100/80">
+                E
+              </div>
+              <div className="absolute left-1/2 bottom-1.5 -translate-x-1/2 text-xs font-black tracking-[0.2em] text-amber-100/80">
+                S
+              </div>
+              <div className="absolute left-2 top-1/2 -translate-y-1/2 text-xs font-black tracking-[0.2em] text-amber-100/80">
+                W
+              </div>
             </div>
 
-            <div className="absolute left-1/2 top-[18px] -translate-x-1/2 text-amber-200">▲</div>
-            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-full">
+            {/* Fixed pointer — always points UP (= direction phone faces) */}
+            <div className="absolute left-1/2 top-[18px] -translate-x-1/2 text-red-400 z-10">▲</div>
+
+            {/* Needle pointing North (toward top of screen when facing North) */}
+            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-full z-10">
               <div className="h-28 w-[6px] rounded-full bg-amber-200 shadow-[0_0_20px_rgba(255,210,130,0.45)]" />
             </div>
-            <div className="absolute left-1/2 top-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full border border-amber-200/70 bg-amber-200" />
+            <div className="absolute left-1/2 top-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full border border-amber-200/70 bg-amber-200 z-10" />
           </div>
         </section>
       </div>
