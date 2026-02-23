@@ -165,16 +165,26 @@ function buildContext(selectedDay, todayDay) {
  * @param {boolean}     params.friendMode   Casual (true) or formal (false) tone
  * @returns {Promise<string>} Bot response text
  */
-export async function askGemini({ message, selectedDay = null, todayDay = null, language = "en", friendMode = false }) {
+export async function askGemini({
+    message,
+    selectedDay = null,
+    todayDay = null,
+    language = "en",
+    friendMode = false,
+    horoscopeContext = "",
+}) {
     // Always use real server time for today's date string
     const todayStr = formatDate(new Date());
 
     const systemPrompt = buildSystemPrompt(language, friendMode, todayStr);
     const context = buildContext(selectedDay, todayDay);
 
-    const userContent = context
-        ? `${message}\n\n${context}`
-        : message;
+    const blocks = [String(message || "").trim()];
+    if (context) blocks.push(context);
+    if (horoscopeContext) {
+        blocks.push(`\n## Horoscope Context Data\n${horoscopeContext}\n`);
+    }
+    const userContent = blocks.filter(Boolean).join("\n\n");
 
     const response = await getAI().models.generateContent({
         model: "gemini-2.5-flash",

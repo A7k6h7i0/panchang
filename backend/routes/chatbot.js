@@ -10,6 +10,11 @@
 import express from "express";
 import { processMessage, detectIntent } from "../services/panchangBotEngine.js";
 import { askGemini } from "../services/geminiChatService.js";
+import {
+  answerHoroscopeQuery,
+  buildHoroscopeContext,
+  isHoroscopeQuery,
+} from "../services/rashiphalService.js";
 
 const router = express.Router();
 
@@ -19,6 +24,7 @@ const PANCHANG_DOMAIN_PATTERNS = [
   /\b(festival|vrat|puja|jayanti|ekadashi|amavasya|purnima|sankranti|ugadi|diwali|deepavali|holi|navratri|shivaratri|janmashtami|rama\s*navami|ganesh|hanuman)\b/i,
   /\b(hindu\s*calendar|vedic\s*calendar|lunar\s*month|chandramana|masa|maas|samvat|shaka)\b/i,
   /\b(today|tomorrow|yesterday|date)\b.*\b(tithi|nakshatra|rahu|yoga|karana|paksha|festival|panchang)\b/i,
+  /\b(horoscope|rashifal|rashiphal|rashiphalalu|zodiac|rashi|rasi|aries|taurus|gemini|cancer|leo|virgo|libra|scorpio|sagittarius|capricorn|aquarius|pisces)\b/i,
 ];
 
 const OUT_OF_SCOPE_PATTERNS = [
@@ -93,10 +99,21 @@ const handleChatbot = async (req, res) => {
 
     const intent = detectIntent(msg);
     const domainSignal = hasDomainSignal(msg);
+    const horoscopeSignal = isHoroscopeQuery(msg);
     const outOfScopeSignal = hasOutOfScopeSignal(msg);
     const standaloneGreeting = isStandaloneGreeting(msg);
+    const horoscopeContext = horoscopeSignal
+      ? buildHoroscopeContext({ message: msg, language })
+      : "";
 
-    if (!domainSignal && !standaloneGreeting && (outOfScopeSignal || intent === "unknown" || intent === "greeting")) {
+    if (horoscopeSignal) {
+      const horoscopeResponse = answerHoroscopeQuery({ message: msg, language });
+      if (horoscopeResponse) {
+        return res.json({ response: horoscopeResponse });
+      }
+    }
+
+    if (!domainSignal && !horoscopeSignal && !standaloneGreeting && (outOfScopeSignal || intent === "unknown" || intent === "greeting")) {
       return res.json({ response: getOutOfScopeResponse(language) });
     }
 
@@ -107,6 +124,7 @@ const handleChatbot = async (req, res) => {
         todayDay: resolvedTodayDay,
         language,
         friendMode,
+        horoscopeContext,
       });
       return res.json({ response: geminiResponse });
     }
@@ -125,7 +143,14 @@ const handleChatbot = async (req, res) => {
     console.error("Chatbot error:", error.message || error);
     try {
       const { message, selectedDay, todayDay, language = "en", friendMode = false } = req.body;
-      const fallback = await askGemini({ message: String(message).trim(), selectedDay, todayDay, language, friendMode });
+      const fallback = await askGemini({
+        message: String(message).trim(),
+        selectedDay,
+        todayDay,
+        language,
+        friendMode,
+        horoscopeContext: buildHoroscopeContext({ message: String(message).trim(), language }),
+      });
       return res.json({ response: fallback });
     } catch {
       return res.status(500).json({

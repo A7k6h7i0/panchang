@@ -15,6 +15,7 @@ import AboutPage from "./pages/AboutPage";
 import InfoPage from "./pages/InfoPage";
 import SettingsPage from "./pages/SettingsPage";
 import AutoTranslator from "./components/AutoTranslator";
+import GlobalChatbotLauncher from "./components/GlobalChatbotLauncher";
 
 export default function RouterApp() {
   return (
@@ -40,6 +41,7 @@ export default function RouterApp() {
 
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
+      <GlobalChatbotLauncher />
     </>
   );
 }
