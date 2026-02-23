@@ -101,7 +101,7 @@ function buildDayBlock(label, day) {
         ["Tithi", day.Tithi],
         ["Nakshatra", day.Nakshatra],
         ["Yoga", day.Yoga],
-        ["Karanam", day.Karanam],
+        ["Karanam", day.Karanam || day.Karana],
         ["Sunrise", day.Sunrise],
         ["Sunset", day.Sunset],
         ["Rahu Kalam", day["Rahu Kalam"]],
@@ -195,3 +195,4 @@ export async function askGemini({ message, selectedDay = null, todayDay = null, 
     if (!text) throw new Error("Empty response from Gemini");
     return text;
 }
+

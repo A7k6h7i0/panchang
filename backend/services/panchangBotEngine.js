@@ -667,7 +667,7 @@ function buildDayLine(record, lang) {
         tithi: clean(record.Tithi),
         nakshatra: clean(record.Nakshatra),
         yoga: clean(record.Yoga),
-        karanam: clean(record.Karanam),
+        karanam: clean(record.Karanam || record.Karana),
         paksha: record.Paksha || "—",
         sunrise: record.Sunrise || "—",
         sunset: record.Sunset || "—",
@@ -879,10 +879,17 @@ export async function processMessage({ message, selectedDay, language = "en", fr
     const dd2 = String(targetDate.getDate()).padStart(2, "0");
     const mm2 = String(targetDate.getMonth() + 1).padStart(2, "0");
     const festKey = `${year}-${mm2}-${dd2}`;
-    const record = getDayRecord(yearData, targetDate);
+    let record = getDayRecord(yearData, targetDate);
 
     if (!record) {
         return { response: TRANSLATIONS.no_data[lang] };
+    }
+
+    // If frontend provided selectedDay for this exact date (often enriched from Prokerala),
+    // prefer those live values for chat responses.
+    const targetKey = `${dd2}/${mm2}/${year}`;
+    if (selectedDay?.date === targetKey) {
+        record = { ...record, ...selectedDay };
     }
 
     // Merge in festivals data from festivals JSON if available
