@@ -155,24 +155,96 @@ const NAKSHATRA_NAMES = [
     "purva bhadrapada", "uttara bhadrapada",
 ];
 
+const TITHI_ALIASES = {
+    thithi: "tithi",
+    ekadahi: "ekadashi",
+    ekadsi: "ekadashi",
+    ekadasi: "ekadashi",
+    amavas: "amavasya",
+    purnami: "purnima",
+    pournami: "purnima",
+    dwadashi: "dwadashi",
+    dvadashi: "dwadashi",
+};
+
+const NAKSHATRA_ALIASES = {
+    rohni: "rohini",
+    roihini: "rohini",
+    aswini: "ashwini",
+    kritika: "krittika",
+};
+
+const FESTIVAL_HINT_WORDS = new Set([
+    "festival", "vrat", "puja", "jayanti", "jayanthi", "utsav", "celebration",
+    "janmashtami", "sankranti", "shivaratri", "shivratri", "diwali", "deepavali",
+    "holi", "ugadi", "ramnavami", "rama", "ganesh", "hanuman", "amalaki", "papamochani",
+    "kamada", "nirjala", "devshayani", "prabodhini", "mokshada", "vaikuntha",
+]);
+
+const TITHI_STOP_WORDS = new Set(["when", "is", "next", "upcoming", "date", "of", "the", "tithi", "on", "in"]);
+
+function normalizedWords(msg) {
+    return String(msg || "")
+        .toLowerCase()
+        .replace(/[^\w\s]/g, " ")
+        .split(/\s+/)
+        .map((w) => w.trim())
+        .filter(Boolean);
+}
+
+function closestFromList(word, list) {
+    let best = null;
+    let bestDist = Infinity;
+    for (const candidate of list) {
+        const dist = levenshtein(word, candidate);
+        const threshold = Math.max(1, Math.floor(candidate.length / 4));
+        if (dist <= threshold && dist < bestDist) {
+            best = candidate;
+            bestDist = dist;
+        }
+    }
+    return best;
+}
+
+function resolveTithiWord(word) {
+    const w = TITHI_ALIASES[word] || word;
+    if (TITHI_NAMES.includes(w)) return w;
+    return closestFromList(w, TITHI_NAMES);
+}
+
+function resolveNakshatraWord(word) {
+    const w = NAKSHATRA_ALIASES[word] || word;
+    if (NAKSHATRA_NAMES.includes(w)) return w;
+    return closestFromList(w, NAKSHATRA_NAMES);
+}
+
 // Check if message is asking WHEN a specific tithi/nakshatra occurs
 function extractTithiSearch(msg) {
-    const m = msg.toLowerCase();
+    const m = String(msg || "").toLowerCase();
     // "when is ekadashi", "next purnima", "when is amavasya", "when is ekadashi tithi"
     if (!/when|next|upcoming|date of/i.test(m)) return null;
     for (const t of TITHI_NAMES) {
-        if (m.includes(t) || levenshtein(t, m.replace(/when|is|next|tithi|the/gi, "").trim()) <= 2) {
-            if (m.includes(t)) return { type: "tithi", name: t };
-        }
+        if (m.includes(t)) return { type: "tithi", name: t };
+    }
+    const words = normalizedWords(m);
+    for (const word of words) {
+        if (TITHI_STOP_WORDS.has(word)) continue;
+        const resolved = resolveTithiWord(word);
+        if (resolved) return { type: "tithi", name: resolved };
     }
     return null;
 }
 
 function extractNakshatraSearch(msg) {
-    const m = msg.toLowerCase();
+    const m = String(msg || "").toLowerCase();
     if (!/when|next|upcoming|date of/i.test(m)) return null;
     for (const n of NAKSHATRA_NAMES) {
         if (m.includes(n)) return { type: "nakshatra", name: n };
+    }
+    const words = normalizedWords(m);
+    for (const word of words) {
+        const resolved = resolveNakshatraWord(word);
+        if (resolved) return { type: "nakshatra", name: resolved };
     }
     return null;
 }
@@ -217,14 +289,28 @@ const GK_TO_DATA = {
 function detectIntent(msg) {
     // 1. Typo-correct the message by correcting each significant word
     const corrected = msg.split(/\s+/).map(w => w.length > 3 ? correctTypo(w) : w).join(" ");
+    const combined = `${msg} ${corrected}`;
+    const words = normalizedWords(combined);
+    const dateLookupHint = /\b(when|next|upcoming|date|coming)\b/i.test(combined);
 
     // 2. HIGHEST PRIORITY: "when is [tithi_name]" → calendar search
-    if (/\b(when|next|upcoming)/i.test(msg)) {
-        if (extractTithiSearch(msg)) return "find_next_tithi";
-        if (extractNakshatraSearch(msg)) return "find_next_nakshatra";
+    if (dateLookupHint) {
+        const tithiSearch = extractTithiSearch(combined);
+        const nakshatraSearch = extractNakshatraSearch(combined);
+        const hasFestivalHint = words.some((w) => FESTIVAL_HINT_WORDS.has(w));
+        const hasMultiwordFestivalQuery = hasFestivalHint || words.filter((w) => !TITHI_STOP_WORDS.has(w)).length >= 3;
+        if (tithiSearch && !hasMultiwordFestivalQuery) return "find_next_tithi";
+        if (nakshatraSearch) return "find_next_nakshatra";
+        if (!tithiSearch) {
+            const fuzzyTithiMention = words.some((w) => resolveTithiWord(w));
+            if (fuzzyTithiMention && !hasMultiwordFestivalQuery) return "find_next_tithi";
+            const fuzzyNakshatraMention = words.some((w) => resolveNakshatraWord(w));
+            if (fuzzyNakshatraMention) return "find_next_nakshatra";
+        }
         // "when is diwali" etc → festival
-        if (/\b(festival|vrat|puja|holiday|jayanti|celebration)\b/i.test(msg) ||
-            !TITHI_NAMES.some(t => msg.toLowerCase().includes(t))) {
+        if (hasMultiwordFestivalQuery) return "festival";
+        if (/\b(festival|vrat|puja|holiday|jayanti|celebration)\b/i.test(combined) ||
+            !tithiSearch) {
             return "festival";
         }
     }
@@ -381,21 +467,36 @@ function extractQueryTime(msg) {
 
 async function searchFestival(query, year) {
     const festivals = await loadFestivals(year);
-    const q = query.toLowerCase().replace(/[^a-z\s]/g, "").trim();
-    const results = [];
+    const q = query.toLowerCase().replace(/[^a-z\s]/g, " ").replace(/\s+/g, " ").trim();
+    const queryWords = q.split(" ").filter(Boolean);
+    const minWordMatches = queryWords.length <= 1 ? 1 : Math.max(2, Math.ceil(queryWords.length * 0.6));
+    const scoredResults = [];
     for (const [dateKey, fests] of Object.entries(festivals)) {
         for (const f of fests) {
-            const fNorm = f.toLowerCase().replace(/[^a-z\s]/g, "").trim();
-            if (fNorm.includes(q) || q.includes(fNorm.split(" ")[0]) || levenshtein(q.split(" ")[0], fNorm.split(" ")[0]) <= 2) {
+            const fNorm = f.toLowerCase().replace(/[^a-z\s]/g, " ").replace(/\s+/g, " ").trim();
+            const festivalWords = fNorm.split(" ").filter(Boolean);
+            const hasDirectMatch = fNorm.includes(q) || q.includes(fNorm);
+            const matchedWords = queryWords.filter((qw) =>
+                festivalWords.some((fw) => levenshtein(qw, fw) <= Math.max(1, Math.floor(fw.length / 4)))
+            );
+            const wordMatchCount = matchedWords.length;
+            if (hasDirectMatch || wordMatchCount >= minWordMatches) {
                 const [y, m, d] = dateKey.split("-").map(Number);
                 const dateObj = new Date(y, m - 1, d);
                 const opts = { weekday: "long", year: "numeric", month: "long", day: "numeric" };
-                results.push({ date: dateKey, display: dateObj.toLocaleDateString("en-IN", opts), festivals: fests });
+                const score = (hasDirectMatch ? 10 : 0) + wordMatchCount;
+                scoredResults.push({
+                    score,
+                    date: dateKey,
+                    display: dateObj.toLocaleDateString("en-IN", opts),
+                    festivals: fests,
+                });
                 break;
             }
         }
     }
-    return results.slice(0, 5);
+    scoredResults.sort((a, b) => b.score - a.score || a.date.localeCompare(b.date));
+    return scoredResults.slice(0, 5).map(({ score, ...rest }) => rest);
 }
 
 // Search next occurrence of a Tithi in year's data from today onwards
@@ -743,8 +844,12 @@ export async function processMessage({ message, selectedDay, language = "en", fr
 
     // --- Festival search ---
     if (intent === "festival") {
-        const stopWords = new Set(["when", "is", "are", "the", "festival", "date", "of", "in", "on", "what", "day", "2026", "2025", "2027", "which", "next", "upcoming"]);
-        const queryWords = msg.split(/\s+/).filter(w => !stopWords.has(w.toLowerCase()) && w.length > 2);
+        const stopWords = new Set(["when", "is", "are", "the", "festival", "date", "of", "in", "on", "what", "day", "which", "next", "upcoming"]);
+        const queryWords = msg
+            .toLowerCase()
+            .replace(/[^\w\s]/g, " ")
+            .split(/\s+/)
+            .filter(w => !stopWords.has(w) && !/^\d{4}$/.test(w) && w.length > 2);
         const query = queryWords.join(" ");
         if (query.length > 0) {
             const targetDate = extractTargetDate(msg, selectedDay);
@@ -880,3 +985,6 @@ export async function processMessage({ message, selectedDay, language = "en", fr
     // --- Fallback: show full panchang ---
     return { response: buildFullPanchang(record, targetDate, lang) };
 }
+
+// Export detectIntent so the chatbot router can route before calling processMessage
+export { detectIntent };

@@ -150,10 +150,19 @@ const withFestivalsFromMap = (dayData, festivalMap) => {
   return { ...dayData, Festivals: festivals };
 };
 
+const shubhamasthuByLang = {
+  en: "Shubhamasthu",
+  te: "శుభమస్తు",
+  hi: "शुभमस्तु",
+  ml: "ശുഭമസ്തു",
+  kn: "ಶುಭಮಸ್ತು",
+  ta: "சுபமஸ்து",
+};
+
 function App() {
   const today = getTodayInfo();
   const initialSelection = loadInitialSelection(today);
-  
+
   // Load initial view from sessionStorage
   const loadInitialView = () => {
     if (typeof window === "undefined") return "calendar";
@@ -178,19 +187,21 @@ function App() {
     }
     return null;
   };
-  
+
   // Unified state - selectedDay is the single source of truth for date selection
   const [year, setYear] = useState(initialSelection.year);
   const [month, setMonth] = useState(initialSelection.month);
   const [days, setDays] = useState([]);
   const [selectedDay, setSelectedDay] = useState(null);
   const [preferredDay, setPreferredDay] = useState(initialSelection.day);
+  // todayDay: today's panchang record (always today, regardless of calendar selection)
+  const [todayDay, setTodayDay] = useState(null);
   const [language, setLanguage] = useState(loadInitialLanguage);
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [chatButtonPos, setChatButtonPos] = useState({ x: null, y: null });
   const [isChatbotOpen, setIsChatbotOpen] = useState(false);
   const [currentView, setCurrentView] = useState(loadInitialView());
-  const [voiceEnabled, setVoiceEnabled] = useState(loadInitialVoiceEnabled);
+  const [voiceEnabled, _setVoiceEnabled] = useState(loadInitialVoiceEnabled);
   const [selectedRashi, setSelectedRashi] = useState(loadSavedRashi());
   const [openAlarmPopupOnLoad] = useState(() => {
     if (typeof window === "undefined") return false;
@@ -203,82 +214,14 @@ function App() {
     }
   });
   const [prokeralaElementsByDate, setProkeralaElementsByDate] = useState({});
-  const chatButtonRef = useRef(null);
-  const dragStateRef = useRef({ dragging: false, offsetX: 0, offsetY: 0 });
-  const prokeralaInFlightDatesRef = useRef(new Set());
-  
-  // Temp state for date picker popup only
   const [tempYear, setTempYear] = useState(initialSelection.year);
   const [tempMonth, setTempMonth] = useState(initialSelection.month);
   const [tempDay, setTempDay] = useState(initialSelection.day);
+  const chatButtonRef = useRef(null);
+  const dragStateRef = useRef({ dragging: false, offsetX: 0, offsetY: 0 });
+  const prokeralaInFlightDatesRef = useRef(new Set());
+  const t = translations[language] || translations.en;
 
-  const t = translations[language];
-  const shubhamasthuByLang = {
-    en: "Shubhamasthu",
-    te: "శుభమస్తు",
-    hi: "शुभमस्तु",
-    ml: "ശുഭമസ്തു",
-    kn: "ಶುಭಮಸ್ತು",
-    ta: "சுபமஸ்து",
-  };
-
-  // Helper to get day number from selectedDay
-  const getSelectedDayNum = () => {
-    if (selectedDay && selectedDay.date) {
-      return parseInt(selectedDay.date.split("/")[0], 10);
-    }
-    return tempDay;
-  };
-
-  useEffect(() => {
-    console.log("useEffect triggered: year=", year, "month=", month);
-    Promise.all([
-      fetch(`/data/${year}.json`).then((res) => res.json()),
-      fetchFestivalMap(year),
-    ])
-      .then(([data, festivalMap]) => {
-        console.log("Data fetched for year", year);
-        const monthDays = data
-          .filter((d) => {
-          const [, m] = d.date.split("/");
-          const dateMonth = parseInt(m, 10) - 1;
-          return dateMonth === month;
-          })
-          .map((d) => withFestivalsFromMap(d, festivalMap));
-
-        console.log("Days found for month", month, ":", monthDays.length);
-        setDays(monthDays);
-
-        if (monthDays.length === 0) return;
-
-        // Try to keep the selected/persisted day first.
-        const preferredDateStr = formatDateString(year, month, preferredDay);
-        const preferredData = monthDays.find((d) => d.date === preferredDateStr);
-        if (preferredData) {
-          setSelectedDay(preferredData);
-          return;
-        }
-
-        // If we're viewing current month/year, default to today.
-        if (year === today.year && month === today.month) {
-          const todayStr = formatDateString(today.year, today.month, today.day);
-          const todayData = monthDays.find((d) => d.date === todayStr);
-
-          if (todayData) {
-            setSelectedDay(todayData);
-            setPreferredDay(today.day);
-            return;
-          }
-        }
-
-        const firstDay = monthDays[0];
-        setSelectedDay(firstDay);
-        setPreferredDay(parseInt(firstDay.date.split("/")[0], 10));
-      })
-      .catch((err) => {
-        console.error("Error fetching data:", err);
-      });
-  }, [year, month, preferredDay, today.day, today.month, today.year]);
 
   // Keep selected date on refresh for this session only.
   useEffect(() => {
@@ -325,6 +268,55 @@ function App() {
     };
   }, []);
 
+  // Load calendar data for selected month/year and keep selected day in sync.
+  useEffect(() => {
+    let cancelled = false;
+
+    Promise.all([
+      fetch(`/data/${year}.json`).then((res) => res.json()),
+      fetchFestivalMap(year),
+    ])
+      .then(([yearData, festivalMap]) => {
+        if (cancelled) return;
+
+        const allDays = Array.isArray(yearData) ? yearData : [];
+        const monthDays = allDays
+          .filter((item) => {
+            const [d, m, y] = String(item?.date || "").split("/");
+            if (!d || !m || !y) return false;
+            return Number(y) === year && Number(m) === month + 1;
+          })
+          .map((item) => withFestivalsFromMap(item, festivalMap));
+
+        setDays(monthDays);
+
+        const todayDate = formatDateString(today.year, today.month, today.day);
+        const todayData = allDays.find((item) => item?.date === todayDate);
+        setTodayDay(todayData ? withFestivalsFromMap(todayData, festivalMap) : null);
+
+        if (!monthDays.length) {
+          setSelectedDay(null);
+          return;
+        }
+
+        const selectedDateStr = formatDateString(year, month, preferredDay);
+        const selectedFromMonth =
+          monthDays.find((item) => item?.date === selectedDateStr) || monthDays[0];
+        setSelectedDay(selectedFromMonth || null);
+      })
+      .catch((error) => {
+        if (cancelled) return;
+        console.error("Failed to load calendar data:", error);
+        setDays([]);
+        setSelectedDay(null);
+        setTodayDay(null);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [year, month, preferredDay, today.day, today.month, today.year]);
+
   // Handle browser back/forward button for Rashiphalalu navigation
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -349,7 +341,7 @@ function App() {
   // Push initial history state on mount if view is rashiphalalu
   useEffect(() => {
     if (typeof window === "undefined") return;
-    
+
     // Only push state if we're on rashiphalalu and there's no state yet
     if (currentView === "rashiphalalu" && !window.history.state?.view) {
       window.history.replaceState({ view: "rashiphalalu" }, "", window.location.href);
@@ -359,7 +351,7 @@ function App() {
   }, [currentView]);
 
   // Navigate to Rashiphalalu view with history support
-  const navigateToRashiphalalu = useCallback(() => {
+  const _navigateToRashiphalalu = useCallback(() => {
     if (currentView === "rashiphalalu") return;
     if (typeof window !== "undefined") {
       sessionStorage.setItem(VIEW_STATE_KEY, "rashiphalalu");
@@ -449,10 +441,10 @@ function App() {
   const goPrevMonth = () => {
     const newMonth = month === 0 ? 11 : month - 1;
     const newYear = month === 0 ? year - 1 : year;
-    
+
     setMonth(newMonth);
     setYear(newYear);
-    
+
     // Update selectedDay to first day of new month if valid
     const dateStr = formatDateString(newYear, newMonth, 1);
     Promise.all([
@@ -471,10 +463,10 @@ function App() {
   const goNextMonth = () => {
     const newMonth = month === 11 ? 0 : month + 1;
     const newYear = month === 11 ? year + 1 : year;
-    
+
     setMonth(newMonth);
     setYear(newYear);
-    
+
     // Update selectedDay to first day of new month if valid
     const dateStr = formatDateString(newYear, newMonth, 1);
     Promise.all([
@@ -492,31 +484,8 @@ function App() {
 
   const monthLabel = useMemo(
     () => `${t.months[month]}`,
-    [month, language]
+    [month, t]
   );
-
-  // Get days in selected month
-  const getDaysInMonth = (year, month) => {
-    return new Date(year, month + 1, 0).getDate();
-  };
-
-  // Get calendar grid days with empty slots for alignment
-  const getCalendarDays = (year, month) => {
-    const firstDay = new Date(year, month, 1).getDay(); // 0 = Sunday
-    const daysInMonth = getDaysInMonth(year, month);
-    const days = [];
-    // Add empty slots for days before the first day of month
-    for (let i = 0; i < firstDay; i++) {
-      days.push(null);
-    }
-    // Add actual days
-    for (let i = 1; i <= daysInMonth; i++) {
-      days.push(i);
-    }
-    return days;
-  };
-
-  const calendarDays = getCalendarDays(tempYear, tempMonth);
 
   useEffect(() => {
     const slashDate = selectedDay?.date;
@@ -605,29 +574,21 @@ function App() {
     };
   }, [selectedDay, prokeralaElementsByDate]);
 
-  // Format the selected date for display
-  const getFormattedDate = () => {
-    const date = new Date(tempYear, tempMonth, tempDay);
-    const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    return `${days[date.getDay()]}, ${months[tempMonth]} ${tempDay}`;
-  };
-
   const handleDatePickerOk = (data) => {
     const { year: newYear, month: newMonth, day: newDay, dayData } = data || {};
-    
+
     const y = newYear ?? tempYear;
     const m = newMonth ?? tempMonth;
     const d = newDay ?? tempDay;
-    
+
     // Always set year and month first
     setYear(y);
     setMonth(m);
-    
+
     // Find or create dayData for the selected date
     const dateStr = formatDateString(y, m, d);
     setPreferredDay(d);
-    
+
     Promise.all([
       fetchFestivalMap(y),
       dayData
@@ -683,15 +644,15 @@ function App() {
   // Speech handler for date click
   const handleDateClickSpeech = async (day) => {
     if (!day || !day.date) return;
-    
+
     // Parse date from day object
     const dateParts = day.date.split("/");
     if (dateParts.length < 3) return;
-    
+
     const dayNum = dateParts[0];
     const monthNum = parseInt(dateParts[1], 10) - 1;
     const monthName = t?.months?.[monthNum] || "";
-    
+
     const tithi = translateText(day.Tithi, t);
     const paksha = translateText(day.Paksha, t);
     const yearName = day["Shaka Samvat"] || "";
@@ -715,13 +676,13 @@ function App() {
         console.error("Error loading date-click festivals:", error);
       }
     }
-    
-    const speechText = getDateSelectionSpeech({ 
-      language, 
-      day: dayNum, 
-      month: monthName, 
-      tithi, 
-      paksha, 
+
+    const speechText = getDateSelectionSpeech({
+      language,
+      day: dayNum,
+      month: monthName,
+      tithi,
+      paksha,
       yearName,
       festivals,
     });
@@ -743,7 +704,7 @@ function App() {
 
   if (!days.length)
     return (
-      <div 
+      <div
         className="min-h-screen grid place-items-center px-4 sm:px-6"
         style={{
           background: "linear-gradient(180deg, #FF8C32 0%, #FF6347 20%, #FF4560 40%, #E63946 60%, #D32F2F 80%, #B71C1C 100%)",
@@ -771,7 +732,7 @@ function App() {
           }}
         />
 
-        <div 
+        <div
           className="relative w-full max-w-md rounded-3xl p-8 text-center backdrop-blur-md"
           style={{
             background: "linear-gradient(135deg, rgba(80, 20, 10, 0.9) 0%, rgba(120, 30, 15, 0.85) 100%)",
@@ -783,7 +744,7 @@ function App() {
             `,
           }}
         >
-          <div 
+          <div
             className="mx-auto h-16 w-16 rounded-2xl flex items-center justify-center relative"
             style={{
               background: "linear-gradient(135deg, #1a0a05 0%, #2d1208 50%, #401a0c 100%)",
@@ -822,7 +783,7 @@ function App() {
               卐
             </span>
           </div>
-          <p 
+          <p
             className="mt-6 font-black text-xl"
             style={{
               color: "#FFFFFF",
@@ -831,7 +792,7 @@ function App() {
           >
             {t.loading}
           </p>
-          <p 
+          <p
             className="mt-2 text-base"
             style={{
               color: "rgba(255, 255, 255, 0.7)",
@@ -844,7 +805,7 @@ function App() {
     );
 
   return (
-    <div 
+    <div
       className="min-h-screen"
       style={{
         background: "linear-gradient(180deg, #FF8C32 0%, #FF6347 20%, #FF4560 40%, #E63946 60%, #D32F2F 80%, #B71C1C 100%)",
@@ -889,7 +850,7 @@ function App() {
         />
 
         <div className="relative mx-auto max-w-7xl px-3 sm:px-6 lg:px-8 py-0.5 sm:py-1">
-                    {/* HEADER: Title only (controls moved to HomePage) */}
+          {/* HEADER: Title only (controls moved to HomePage) */}
           <div className="mb-0.5 flex items-center justify-between border-b-[2px] border-[rgba(255,140,50,0.4)] pb-0.5">
             <div className="flex min-w-0 items-center gap-2">
               <Link
@@ -941,7 +902,7 @@ function App() {
               {"\u2699"}
             </Link>
           </div>
-          
+
           {/* DayDetails Header Row with Outer Container */}
           <div className="mt-px px-1">
             <div
@@ -956,25 +917,25 @@ function App() {
                 `,
               }}
             >
-              <DayDetails 
-                day={selectedDayWithProkerala} 
-                language={language} 
-                translations={t} 
-                isHeaderMode={true} 
+              <DayDetails
+                day={selectedDayWithProkerala}
+                language={language}
+                translations={t}
+                isHeaderMode={true}
                 voiceEnabled={voiceEnabled}
               />
             </div>
           </div>
         </div>
-        </header>
+      </header>
 
       {/* ============= MAIN CONTENT (Calendar View or Rashiphalalu) ============= */}
       <main className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-0.5 sm:py-1">
         {currentView === "rashiphalalu" ? (
-          <Rashiphalalu 
-            language={language} 
-            translations={t} 
-            onBack={navigateToCalendar} 
+          <Rashiphalalu
+            language={language}
+            translations={t}
+            onBack={navigateToCalendar}
             selectedRashi={selectedRashi}
             setSelectedRashi={setSelectedRashi}
             rashiStateKey={RASHI_STATE_KEY}
@@ -982,7 +943,7 @@ function App() {
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-[1.5fr_1fr] gap-1 sm:gap-1">
             {/* CALENDAR SECTION */}
-            <section 
+            <section
               className="rounded-xl sm:rounded-2xl p-3 sm:p-4 backdrop-blur-md"
               style={{
                 background: "var(--calendar-orange-shell)",
@@ -995,9 +956,9 @@ function App() {
               }}
             >
               {/* Calendar Header: Month with Arrows + Year Button */}
-              <div 
+              <div
                 className="flex items-center justify-between gap-2 mb-2 pb-2 px-3 py-1.5"
-                style={{ 
+                style={{
                   borderBottom: "2px solid rgba(255, 140, 50, 0.4)",
                   background: "linear-gradient(180deg, rgba(80, 20, 10, 0.8) 0%, rgba(60, 15, 8, 0.7) 100%)",
                   borderRadius: "12px"
@@ -1039,23 +1000,23 @@ function App() {
                 >
                   <span style={{ color: "#D4AF37" }}>📅</span>
                   <span>{year}</span>
-                </button> 
+                </button>
               </div>
 
-                {/* YearSelectorPopup - replaces inline date picker */}
-                {showDatePicker && (
-                  <YearSelectorPopup
-                    isOpen={showDatePicker}
-                    onClose={handleDatePickerCancel}
-                    onConfirm={handleDatePickerOk}
-                    initialYear={tempYear}
-                    initialMonth={tempMonth}
-                    initialDay={tempDay}
-                    language={language}
-                    translations={t}
-                    onSpeak={handleDateClickSpeech}
-                  />
-                )}
+              {/* YearSelectorPopup - replaces inline date picker */}
+              {showDatePicker && (
+                <YearSelectorPopup
+                  isOpen={showDatePicker}
+                  onClose={handleDatePickerCancel}
+                  onConfirm={handleDatePickerOk}
+                  initialYear={tempYear}
+                  initialMonth={tempMonth}
+                  initialDay={tempDay}
+                  language={language}
+                  translations={t}
+                  onSpeak={handleDateClickSpeech}
+                />
+              )}
 
               <CalendarGrid
                 days={days}
@@ -1069,7 +1030,7 @@ function App() {
             </section>
 
             {/* RIGHT SIDEBAR - DayDetails only */}
-            <section 
+            <section
               className="rounded-xl sm:rounded-2xl p-3 backdrop-blur-md"
               style={{
                 background: "var(--calendar-orange-shell)",
@@ -1167,7 +1128,7 @@ function App() {
 
       {/* CHATBOT - Only render when open */}
       {isChatbotOpen && (
-        <Chatbot 
+        <Chatbot
           isOpen={isChatbotOpen}
           onClose={() => setIsChatbotOpen(false)}
           language={language}
@@ -1175,12 +1136,13 @@ function App() {
           translations={t}
           currentDateData={days}
           selectedDay={selectedDayWithProkerala}
+          todayDay={todayDay}
           voiceEnabled={voiceEnabled}
         />
       )}
 
       {/* FOOTER */}
-      <footer 
+      <footer
         className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-3 sm:pb-5 text-center"
         style={{
           textShadow: "0 2px 6px rgba(0, 0, 0, 0.6)",
