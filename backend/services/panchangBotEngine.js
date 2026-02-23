@@ -584,7 +584,7 @@ const TRANSLATIONS = {
     lunar_month: { en: "Lunar Month", te: "చాంద్రమాన మాసం", hi: "चंद्र मास" },
     festivals: { en: "Festivals", te: "పండుగలు", hi: "त्योहार" },
     greet: {
-        en: { friend: "Hey bro! 🙏 How can I help you today?", formal: "🙏 Namaste! How may I assist you today?" },
+        en: { friend: "Hello! 🙏 How can I help you today?", formal: "🙏 Namaste! How may I assist you today?" },
         te: { friend: "ఏమిటి బ్రో! 🙏 ఈ రోజు ఏం సహాయం కావాలి?", formal: "🙏 నమస్కారం! మీకు ఎలా సహాయపడగలను?" },
         hi: { friend: "क्या हाल दोस्त! 🙏 आज कैसे मदद करूं?", formal: "🙏 नमस्ते! आज कैसे सहायता करूं?" },
     },

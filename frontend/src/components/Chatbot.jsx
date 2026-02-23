@@ -6,7 +6,7 @@ const defaultSettings = {
   voiceSpeed: 1,
   voiceType: "female",
   autoPlay: true,
-  friendMode: true,
+  friendMode: false,
   city: "Hyderabad",
 };
 
@@ -47,7 +47,7 @@ function loadInitialMessages() {
 function loadInitialSettings() {
   try {
     const saved = localStorage.getItem("panchang_chatbot_settings");
-    return saved ? { ...defaultSettings, ...JSON.parse(saved) } : defaultSettings;
+    return saved ? { ...defaultSettings, ...JSON.parse(saved), friendMode: false } : defaultSettings;
   } catch {
     return defaultSettings;
   }
@@ -156,3 +156,5 @@ export default function Chatbot({ isOpen, onClose, selectedDay, currentView = "c
     </div>
   );
 }
+
+

@@ -5,7 +5,7 @@ import { sendChatMessage } from "./chatService";
 
 const translations = {
   en: {
-    welcomeFriend: "Hey bro! I'm your Panchanga Friend. Ask me anything!",
+    welcomeFriend: "Hello. I'm your Panchanga assistant. Please ask your Panchang-related question.",
     welcomeFormal: "Hello! I'm your Panchanga assistant. How can I help?",
     errorMessage: "Sorry, something went wrong. Please try again!",
     emptyTitle: "Welcome to Panchanga Friend!",
@@ -275,3 +275,4 @@ export default function ChatInterface({
     </div>
   );
 }
+

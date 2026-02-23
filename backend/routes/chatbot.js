@@ -1,21 +1,45 @@
 /**
- * chatbot.js — Hybrid Chatbot Router
+ * chatbot.js � Hybrid Chatbot Router
  *
- * Routing strategy (intent-first):
+ * Routing strategy:
  *  1. Detect intent from the user message using panchangBotEngine's detectIntent.
- *  2. If intent is "unknown" → skip the engine entirely, go straight to Gemini.
- *     Gemini handles: general knowledge, significance/explanation, vrat stories,
- *     rashifal concepts, graha info, Hindu culture/spirituality.
- *  3. Otherwise → panchangBotEngine handles the query using REAL local JSON data.
- *     No hallucination possible for data queries.
- *
- * This prevents Gemini from ever inventing specific tithi/nakshatra/festival dates.
+ *  2. Hard-block clearly unrelated questions with a professional scope message.
+ *  3. For unknown-but-related queries, use Gemini for conceptual guidance.
+ *  4. For known Panchang intents, use the rule-based engine with local JSON data.
  */
 import express from "express";
 import { processMessage, detectIntent } from "../services/panchangBotEngine.js";
 import { askGemini } from "../services/geminiChatService.js";
 
 const router = express.Router();
+
+const PANCHANG_DOMAIN_PATTERNS = [
+  /\b(panchang|panchanga|tithi|thithi|nakshatra|nakshatram|yoga|karanam|karana|paksha)\b/i,
+  /\b(rahu\s*kalam|rahukalam|yamaganda|gulikai|gulika|abhijit|amrit\s*kalam|dur\s*muhurtam|durmuhurtam|varjyam|muhurta|muhurtam|auspicious)\b/i,
+  /\b(festival|vrat|puja|jayanti|ekadashi|amavasya|purnima|sankranti|ugadi|diwali|deepavali|holi|navratri|shivaratri|janmashtami|rama\s*navami|ganesh|hanuman)\b/i,
+  /\b(hindu\s*calendar|vedic\s*calendar|lunar\s*month|chandramana|masa|maas|samvat|shaka)\b/i,
+  /\b(today|tomorrow|yesterday|date)\b.*\b(tithi|nakshatra|rahu|yoga|karana|paksha|festival|panchang)\b/i,
+];
+
+const OUT_OF_SCOPE_PATTERNS = [
+  /\b(trump|biden|modi|putin|zelensky|pm|prime\s*minister|president|politics|election|parliament|government)\b/i,
+  /\b(world\s*war|ww1|ww2|history of|roman empire|cold war)\b/i,
+  /\b(stock|bitcoin|crypto|price|market|sensex|nifty)\b/i,
+  /\b(football|cricket|nba|nfl|ipl|score|match result)\b/i,
+  /\b(who is|tell me about|latest news|news about)\b/i,
+];
+
+function getOutOfScopeResponse() {
+  return "I specialize in Panchang and Hindu calendar guidance, including tithi, nakshatra, muhurta, Rahu Kalam, and festivals. I do not have verified data for unrelated general, political, or historical topics.";
+}
+
+function hasDomainSignal(message) {
+  return PANCHANG_DOMAIN_PATTERNS.some((pattern) => pattern.test(message));
+}
+
+function hasOutOfScopeSignal(message) {
+  return OUT_OF_SCOPE_PATTERNS.some((pattern) => pattern.test(message));
+}
 
 /** Get today's date string in DD/MM/YYYY (matches panchang record format) */
 function getTodayKey() {
@@ -31,8 +55,7 @@ const handleChatbot = async (req, res) => {
     const {
       message,
       selectedDay,
-      todayDay,          // frontend sends today's panchang data separately
-      mode,
+      todayDay,
       language = "en",
       friendMode = false,
     } = req.body;
@@ -44,21 +67,20 @@ const handleChatbot = async (req, res) => {
     const msg = String(message).trim();
     const todayKey = getTodayKey();
 
-    // Resolve todayDay: use explicit, or check if selectedDay IS today
     let resolvedTodayDay = todayDay || null;
     if (!resolvedTodayDay && selectedDay?.date === todayKey) {
       resolvedTodayDay = selectedDay;
     }
 
-    // ── STEP 1: Detect intent (fast, synchronous) ─────────────────────────────
     const intent = detectIntent(msg);
+    const domainSignal = hasDomainSignal(msg);
+    const outOfScopeSignal = hasOutOfScopeSignal(msg);
 
-    // ── STEP 2: Route based on intent ─────────────────────────────────────────
+    if (!domainSignal && (outOfScopeSignal || intent === "unknown")) {
+      return res.json({ response: getOutOfScopeResponse(language) });
+    }
+
     if (intent === "unknown") {
-      // "unknown" means the engine can't classify the query — it's likely a
-      // general knowledge / explanation / cultural question.
-      // Let Gemini handle this (it won't return a date since these questions
-      // don't ask for specific date lookups, and the system prompt forbids it).
       const geminiResponse = await askGemini({
         message: msg,
         selectedDay: selectedDay || null,
@@ -69,9 +91,6 @@ const handleChatbot = async (req, res) => {
       return res.json({ response: geminiResponse });
     }
 
-    // ── STEP 3: Rule-based engine — uses REAL local JSON data ─────────────────
-    // For "today" queries, always pass today's actual record (not the selected date)
-    // so "nakshatra today" returns today's data even if user selected another date.
     const engineSelectedDay = resolvedTodayDay || selectedDay;
 
     const engineResult = await processMessage({
@@ -82,24 +101,22 @@ const handleChatbot = async (req, res) => {
     });
 
     return res.json({ response: engineResult.response });
-
   } catch (error) {
     console.error("Chatbot error:", error.message || error);
-    // Final safety net: try Gemini
     try {
       const { message, selectedDay, todayDay, language = "en", friendMode = false } = req.body;
       const fallback = await askGemini({ message: String(message).trim(), selectedDay, todayDay, language, friendMode });
       return res.json({ response: fallback });
     } catch {
       return res.status(500).json({
-        response: "I'm having trouble right now. Please try again in a moment! 🙏",
+        response: "I'm having trouble right now. Please try again in a moment.",
       });
     }
   }
 };
 
-// ─── ROUTES ──────────────────────────────────────────────────────────────────
 router.post("/chatbot", handleChatbot);
 router.post("/", handleChatbot);
 
 export default router;
+
