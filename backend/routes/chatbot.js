@@ -1,5 +1,5 @@
 /**
- * chatbot.js — Hybrid Chatbot Router
+ * chatbot.js - Hybrid Chatbot Router
  *
  * Routing strategy:
  *  1. Detect intent from the user message using panchangBotEngine's detectIntent.
@@ -27,6 +27,7 @@ const OUT_OF_SCOPE_PATTERNS = [
   /\b(stock|bitcoin|crypto|price|market|sensex|nifty)\b/i,
   /\b(football|cricket|nba|nfl|ipl|score|match result)\b/i,
   /\b(who is|tell me about|latest news|news about)\b/i,
+  /\b(birthday|bday|my bdy|my birthday|age|wife|husband|boyfriend|girlfriend|i love you|relationship)\b/i,
 ];
 
 function getOutOfScopeResponse() {
@@ -39,6 +40,24 @@ function hasDomainSignal(message) {
 
 function hasOutOfScopeSignal(message) {
   return OUT_OF_SCOPE_PATTERNS.some((pattern) => pattern.test(message));
+}
+
+function isStandaloneGreeting(message) {
+  const normalized = String(message || "")
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+
+  if (!normalized) return false;
+
+  const words = normalized.split(" ");
+  const greetingWords = new Set([
+    "hi", "hello", "hey", "namaste", "namaskar", "greetings",
+    "good", "morning", "afternoon", "evening", "day",
+  ]);
+
+  return words.every((w) => greetingWords.has(w));
 }
 
 /** Get today's date string in DD/MM/YYYY (matches panchang record format) */
@@ -75,8 +94,9 @@ const handleChatbot = async (req, res) => {
     const intent = detectIntent(msg);
     const domainSignal = hasDomainSignal(msg);
     const outOfScopeSignal = hasOutOfScopeSignal(msg);
+    const standaloneGreeting = isStandaloneGreeting(msg);
 
-    if (!domainSignal && (outOfScopeSignal || intent === "unknown")) {
+    if (!domainSignal && !standaloneGreeting && (outOfScopeSignal || intent === "unknown" || intent === "greeting")) {
       return res.json({ response: getOutOfScopeResponse(language) });
     }
 

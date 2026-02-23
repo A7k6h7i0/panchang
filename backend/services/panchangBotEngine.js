@@ -250,7 +250,7 @@ function extractNakshatraSearch(msg) {
 }
 
 const INTENT_PATTERNS = [
-    { intent: "greeting", patterns: [/^(hi|hello|hey|namaste|good\s*(morning|evening|afternoon|day)|greetings|namaskar|నమస్కారం|नमस्ते)/i] },
+    { intent: "greeting", patterns: [/^\s*(hi|hello|hey|namaste|good\s*(morning|evening|afternoon|day)|greetings|namaskar)(\s+(hi|hello|hey|namaste|namaskar|greetings|good\s*(morning|evening|afternoon|day)))?\s*[!.?]*\s*$/i] },
     { intent: "farewell", patterns: [/\b(bye|goodbye|see you|thanks|thank you|dhanyavaad|ధన్యవాదాలు)\b/i] },
     { intent: "what_is_tithi", patterns: [/what\s+(is\s+)?a?\s*tithi|tithi\s+(mean|definition|explain)/i] },
     { intent: "what_is_nakshatra", patterns: [/what\s+(is\s+)?a?\s*nakshatra|nakshatra\s+(mean|definition|explain)/i] },
@@ -988,3 +988,4 @@ export async function processMessage({ message, selectedDay, language = "en", fr
 
 // Export detectIntent so the chatbot router can route before calling processMessage
 export { detectIntent };
+
