@@ -10,6 +10,7 @@ import {
   saveLanguage,
   saveLocation,
 } from "../utils/appSettings";
+import { postFlutterMessage } from "../utils/flutterBridge";
 
 const CAL_MONTH_TYPE_KEY = "panchang:calendar-month-type";
 const CAL_YEAR_TYPE_KEY = "panchang:calendar-year-type";
@@ -27,6 +28,27 @@ function loadBool(key, fallback = false) {
 
 function saveBool(key, value) {
   localStorage.setItem(key, value ? "1" : "0");
+}
+
+async function reverseGeocodeLocationName(lat, lng) {
+  const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${encodeURIComponent(lat)}&lon=${encodeURIComponent(lng)}&zoom=12&addressdetails=1`;
+  const response = await fetch(url, {
+    headers: { Accept: "application/json" },
+  });
+  if (!response.ok) throw new Error(`Reverse geocode failed: ${response.status}`);
+  const payload = await response.json();
+  const addr = payload?.address || {};
+  const city =
+    addr.city ||
+    addr.town ||
+    addr.village ||
+    addr.municipality ||
+    addr.county ||
+    addr.suburb ||
+    "";
+  const state = addr.state || addr.region || "";
+  const country = addr.country || "";
+  return [city, state, country].filter(Boolean).join(", ").trim();
 }
 
 export default function SettingsPage() {
@@ -217,6 +239,8 @@ export default function SettingsPage() {
   }, []);
 
   const onAutoLocation = async () => {
+    postFlutterMessage({ action: "request_location_permission" });
+
     if (!navigator.geolocation) {
       setStatus(tr("settingsStatusGeoNotSupported", "Geolocation not supported in this browser."));
       return;
@@ -242,16 +266,22 @@ export default function SettingsPage() {
     setStatus(tr("settingsStatusGettingLocation", "Getting location…"));
 
     navigator.geolocation.getCurrentPosition(
-      (pos) => {
+      async (pos) => {
         const lat = pos?.coords?.latitude;
         const lng = pos?.coords?.longitude;
         if (!Number.isFinite(lat) || !Number.isFinite(lng)) {
           setStatus(tr("settingsStatusCoordsFailed", "Could not read coordinates."));
           return;
         }
+        let resolvedName = "";
+        try {
+          resolvedName = await reverseGeocodeLocationName(lat, lng);
+        } catch {
+          // ignore reverse geocode errors; keep fallback label
+        }
         const next = {
           ...location,
-          name: tr("settingsCurrentLocation", "Current location"),
+          name: resolvedName || tr("settingsCurrentLocation", "Current location"),
           lat: lat.toFixed(4),
           lng: lng.toFixed(4),
         };
@@ -305,7 +335,7 @@ export default function SettingsPage() {
   };
 
   return (
-    <PageShell title={tr("settingsTitle", "Settings")}>
+    <PageShell title={tr("settingsTitle", "Settings")} backBehavior="history" backTo="/">
       <div className="grid gap-1">
         <section className="app-surface rounded-2xl p-3">
           <div className="grid gap-2 md:grid-cols-[1fr_1.2fr] md:items-center">

@@ -1,12 +1,35 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-export default function PageShell({ title, right, children }) {
+export default function PageShell({
+  title,
+  right,
+  children,
+  backBehavior = "home",
+  backTo = "/",
+  theme = "default",
+}) {
+  const navigate = useNavigate();
+  const isOrangeTheme = theme === "orange";
+
+  const onBack = () => {
+    if (backBehavior === "history") {
+      if (typeof window !== "undefined" && window.history.length > 1) {
+        navigate(-1);
+      } else {
+        navigate(backTo, { replace: true });
+      }
+      return;
+    }
+    navigate(backTo);
+  };
+
   return (
     <div
       className="min-h-screen overflow-x-hidden"
       style={{
-        background:
-          "radial-gradient(circle at 15% 10%, rgba(255, 190, 110, 0.14) 0%, rgba(0, 0, 0, 0) 40%), radial-gradient(circle at 85% 20%, rgba(255, 120, 45, 0.18) 0%, rgba(0, 0, 0, 0) 45%), linear-gradient(180deg, rgba(44, 16, 8, 1) 0%, rgba(16, 6, 3, 1) 100%)",
+        background: isOrangeTheme
+          ? "var(--calendar-orange-shell)"
+          : "radial-gradient(circle at 15% 10%, rgba(255, 190, 110, 0.14) 0%, rgba(0, 0, 0, 0) 40%), radial-gradient(circle at 85% 20%, rgba(255, 120, 45, 0.18) 0%, rgba(0, 0, 0, 0) 45%), linear-gradient(180deg, rgba(44, 16, 8, 1) 0%, rgba(16, 6, 3, 1) 100%)",
       }}
     >
       <header className="sticky top-0 z-20 px-4 pt-3">
@@ -30,8 +53,9 @@ export default function PageShell({ title, right, children }) {
                 "0 4px 20px rgba(255, 111, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.2), inset 0 -2px 0 rgba(139, 69, 19, 0.3)",
             }}
           >
-            <Link
-              to="/"
+            <button
+              type="button"
+              onClick={onBack}
               className="inline-flex h-10 w-10 items-center justify-center rounded-xl text-amber-100 transition hover:scale-105"
               style={{
                 background:
@@ -42,7 +66,7 @@ export default function PageShell({ title, right, children }) {
               title="Back"
             >
               {"<"}
-            </Link>
+            </button>
             <div
               className="text-center text-lg font-black tracking-wide"
               style={{

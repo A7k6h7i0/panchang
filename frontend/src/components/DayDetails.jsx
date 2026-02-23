@@ -8,6 +8,7 @@ import {
   isAuspiciousMuhurta,
 } from "../utils/speechTemplates";
 import { speakCloud, stopSpeech } from "../utils/cloudSpeech";
+import { postFlutterMessage } from "../utils/flutterBridge";
 
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
@@ -360,6 +361,7 @@ export default function DayDetails({
   const [alarmSettings, setAlarmSettings] = useState(defaultAlarmSettings);
   const [isAlarmPopupOpen, setIsAlarmPopupOpen] = useState(initialAlarmPopupOpen);
   const [headerNow, setHeaderNow] = useState(() => new Date());
+  const [notificationStatus, setNotificationStatus] = useState("");
 
 
   // Local refs for this component instance
@@ -428,8 +430,20 @@ export default function DayDetails({
   const saveAlarmSettings = () => {
     try {
       localStorage.setItem(ALARM_STORAGE_KEY, JSON.stringify(alarmSettings));
+      postFlutterMessage({
+        action: "update_alarms",
+        data: {
+          audioEnabled: alarmSettings.audioEnabled,
+          silentMode: alarmSettings.silentMode,
+          reminderTime: alarmSettings.reminderTime,
+          disabledDays: alarmSettings.disabledDays,
+        },
+      });
+      setNotificationStatus("Settings saved!");
+      setTimeout(() => setNotificationStatus(""), 3000);
     } catch (err) {
       console.error("Failed to save alarm settings:", err);
+      setNotificationStatus("Failed to save settings.");
     }
   };
 
@@ -439,6 +453,40 @@ export default function DayDetails({
       localStorage.setItem(ALARM_STORAGE_KEY, JSON.stringify(defaultAlarmSettings));
     } catch (err) {
       console.error("Failed to reset alarm settings:", err);
+    }
+  };
+
+  const requestNotificationPermission = async () => {
+    if (postFlutterMessage({
+        action: "request_native_permissions",
+      })) {
+      setNotificationStatus("Requested App Permissions");
+      setTimeout(() => setNotificationStatus(""), 3000);
+      return;
+    }
+
+    if (typeof Notification === "undefined") {
+      setNotificationStatus("Notifications are not supported in this browser.");
+      return;
+    }
+    if (Notification.permission === "granted") {
+      setNotificationStatus("Notifications already enabled! ✓");
+      setTimeout(() => setNotificationStatus(""), 3000);
+      return;
+    }
+    try {
+      const result = await Notification.requestPermission();
+      if (result === "granted") {
+        setNotificationStatus("Notifications enabled! ✓");
+      } else if (result === "denied") {
+        setNotificationStatus("Notifications blocked. Please allow them in your browser settings.");
+      } else {
+        setNotificationStatus("Notification permission was dismissed.");
+      }
+      setTimeout(() => setNotificationStatus(""), 5000);
+    } catch (err) {
+      console.error("Could not request notification permission:", err);
+      setNotificationStatus("Could not request notification permission.");
     }
   };
 
@@ -1540,6 +1588,7 @@ export default function DayDetails({
                 </button>
                 <button
                   type="button"
+                  onClick={requestNotificationPermission}
                   className="w-full rounded-lg px-2 py-1 text-[10px] font-semibold uppercase tracking-wide"
                   style={{
                     background:
@@ -1550,8 +1599,16 @@ export default function DayDetails({
                       "0 0 12px rgba(212, 168, 71, 0.25), inset 0 1px 2px rgba(255, 255, 255, 0.08), inset 0 -1px 2px rgba(0, 0, 0, 0.18)",
                   }}
                 >
-                  {translations.addToAlbum || "Add To Album"}
+                  🔔 {translations.enableNotifications || "Enable Notifications"}
                 </button>
+                {notificationStatus ? (
+                  <div
+                    className="w-full rounded-lg px-2 py-1 text-[10px] font-semibold text-center"
+                    style={{ color: "#ffd700", background: "rgba(0,0,0,0.25)", border: "1px solid #d4a847" }}
+                  >
+                    {notificationStatus}
+                  </div>
+                ) : null}
               </div>
             </div>
           </div>

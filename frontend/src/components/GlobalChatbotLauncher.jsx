@@ -20,7 +20,7 @@ export default function GlobalChatbotLauncher() {
   const chatButtonRef = useRef(null);
   const dragStateRef = useRef({ dragging: false, offsetX: 0, offsetY: 0 });
 
-  const isMonthView = location.pathname === "/month-view";
+  const hideLauncher = location.pathname === "/month-view" || location.pathname === "/";
 
   const clampChatPosition = (x, y) => {
     if (typeof window === "undefined") return { x, y };
@@ -104,7 +104,7 @@ export default function GlobalChatbotLauncher() {
     document.addEventListener("pointerup", onPointerUp);
   };
 
-  if (isMonthView) return null;
+  if (hideLauncher) return null;
 
   return (
     <>

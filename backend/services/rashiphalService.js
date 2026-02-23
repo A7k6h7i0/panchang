@@ -1,6 +1,7 @@
 import {
   RASHIS,
   RASHI_NAMES,
+  RASHIPHALALU_DATA,
   getCurrentRashi,
   getRashiText,
 } from "../../frontend/src/data/rashiphalalu.js";
@@ -55,6 +56,14 @@ const HOROSCOPE_TERMS = [
   "moon sign",
   "sun sign",
   ...Object.keys(RASHI_ALIASES),
+  "lucky color",
+  "lucky colors",
+  "lucky colour",
+  "lucky colours",
+  "auspicious color",
+  "auspicious colors",
+  "colour",
+  "color",
 ];
 
 function normalize(text) {
@@ -87,6 +96,12 @@ function detectRashiId(message) {
   return null;
 }
 
+function isLuckyColorQuery(message) {
+  const text = normalize(message);
+  return /\b(lucky|auspicious)\s*(color|colors|colour|colours)\b/i.test(text)
+    || /\b(color|colors|colour|colours)\b/i.test(text);
+}
+
 function periodLabel(period, language) {
   const labels = {
     en: { daily: "Daily", weekly: "Weekly", monthly: "Monthly", yearly: "Yearly" },
@@ -105,6 +120,13 @@ function rashiName(rashiId, language) {
   return names[language] || names.en || rashiId;
 }
 
+function getRashiColors(rashiId, period = "daily", language = "en") {
+  const periodData = RASHIPHALALU_DATA?.[rashiId]?.[period];
+  if (!periodData?.colors) return [];
+  const localized = periodData.colors[language] || periodData.colors.en || [];
+  return Array.isArray(localized) ? localized.filter(Boolean) : [];
+}
+
 export function isHoroscopeQuery(message) {
   const text = normalize(message);
   return HOROSCOPE_TERMS.some((term) => text.includes(term));
@@ -116,8 +138,16 @@ export function answerHoroscopeQuery({ message, language = "en" }) {
   const period = detectPeriod(message);
   const now = new Date();
   const rashiId = detectRashiId(message) || getCurrentRashi(now);
+  const wantsLuckyColors = isLuckyColorQuery(message);
 
   if (!rashiId || !RASHIPresent(rashiId)) return null;
+
+  if (wantsLuckyColors) {
+    const colors = getRashiColors(rashiId, period, language);
+    if (colors.length) {
+      return `🌈 Lucky colors for ${rashiName(rashiId, language)}: ${colors.join(", ")}`;
+    }
+  }
 
   const text = getRashiText(rashiId, period, now, language);
   if (!text || /no data available/i.test(String(text))) return null;
