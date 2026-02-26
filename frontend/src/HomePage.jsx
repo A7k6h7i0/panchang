@@ -1,11 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Chatbot from "./components/Chatbot";
-import { getProkeralaPanchang } from "./services/astrologyApi";
 import { getAstroDefaults, LANGUAGE_CHANGE_EVENT, loadLanguage, saveLanguage } from "./utils/appSettings";
-import { buildIsoDatetime, findActiveByTime, safeDateFromIso, ymdToday } from "./astrology/components/formatters";
+import { safeDateFromIso, ymdToday } from "./astrology/components/formatters";
 import { languages, translateText, translations } from "./translations";
 import { postFlutterMessage } from "./utils/flutterBridge";
+import { findLocalDayByYmd, normalizeDayRecord } from "./utils/localPanchang";
 
 const VOICE_KEY = "panchang:voice-enabled";
 const VIEW_STATE_KEY = "panchang:current-view";
@@ -203,7 +203,6 @@ export default function HomePage() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [languagePopupOpen, setLanguagePopupOpen] = useState(false);
   const [language, setLanguage] = useState(loadInitialLanguage);
-  const languageRef = useRef(language);
   const [voiceEnabled, setVoiceEnabled] = useState(loadInitialVoiceEnabled);
   const [now, setNow] = useState(() => new Date());
   const [panchang, setPanchang] = useState(null);
@@ -214,7 +213,6 @@ export default function HomePage() {
   const [notificationStatus, setNotificationStatus] = useState("");
   const [isChatbotOpen, setIsChatbotOpen] = useState(false);
   const [chatButtonPos, setChatButtonPos] = useState({ x: null, y: null });
-  const abortRef = useRef(null);
   const chatButtonRef = useRef(null);
   const dragStateRef = useRef({ dragging: false, offsetX: 0, offsetY: 0 });
   const titleByLanguage = translations[language]?.appTitle || "Talking Calendar";
@@ -232,7 +230,6 @@ export default function HomePage() {
   }, []);
 
   useEffect(() => {
-    languageRef.current = language;
     if (loadLanguage() !== language) saveLanguage(language);
     // Do NOT clear panchang here — local translation lookup handles it instantly
   }, [language]);
@@ -290,84 +287,28 @@ export default function HomePage() {
   }, []);
 
 
-  // ── Fetch triggered by language change (fires immediately, no debounce) ──
-  useEffect(() => {
-    abortRef.current?.abort?.();
-    const controller = new AbortController();
-    abortRef.current = controller;
-    setError("");
-
-    const run = async () => {
-      const currentLang = languageRef.current;
-      try {
-        const payload = await getProkeralaPanchang(
-          {
-            date: ymdToday(),
-            time: `${pad2(now.getHours())}:${pad2(now.getMinutes())}`,
-            lat: defaults.lat,
-            lng: defaults.lng,
-            tzOffset: defaults.tzOffset,
-            ayanamsa: defaults.ayanamsa,
-            la: currentLang,
-          },
-          { signal: controller.signal }
-        );
-        // Only update if this response is still for the current language
-        if (languageRef.current === currentLang) {
-          setPanchang(payload?.data || payload || null);
-        }
-      } catch (e) {
-        if (e?.name === "AbortError") return;
-        setPanchang(null);
-        setError(e?.message || "Failed to load Panchang");
-      }
-    };
-
-    // No debounce for language changes — switch instantly
-    run();
-    return () => {
-      controller.abort();
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [language]);
-
-  // ── Fetch triggered by minute tick or settings change (320ms debounce) ──
   useEffect(() => {
     const controller = new AbortController();
     setError("");
 
     const run = async () => {
-      const currentLang = languageRef.current;
       try {
-        const payload = await getProkeralaPanchang(
-          {
-            date: ymdToday(),
-            time: `${pad2(now.getHours())}:${pad2(now.getMinutes())}`,
-            lat: defaults.lat,
-            lng: defaults.lng,
-            tzOffset: defaults.tzOffset,
-            ayanamsa: defaults.ayanamsa,
-            la: currentLang,
-          },
-          { signal: controller.signal }
-        );
-        if (languageRef.current === currentLang) {
-          setPanchang(payload?.data || payload || null);
-        }
+        const localDay = await findLocalDayByYmd(ymdToday(), { signal: controller.signal });
+        setPanchang(localDay ? normalizeDayRecord(localDay, { tzOffset: defaults.tzOffset }) : null);
       } catch (e) {
         if (e?.name === "AbortError") return;
         setPanchang(null);
-        setError(e?.message || "Failed to load Panchang");
+        setError(e?.message || "Failed to load local Panchang data");
       }
     };
 
-    const t = setTimeout(run, 320);
+    const timer = setTimeout(run, 120);
     return () => {
-      clearTimeout(t);
+      clearTimeout(timer);
       controller.abort();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [now.getMinutes(), settingsNonce]);
+  }, [language, now.getMinutes(), settingsNonce, defaults.tzOffset]);
 
 
   // Local translation helper — looks up a term in translations.js, fallback to raw value
@@ -381,95 +322,32 @@ export default function HomePage() {
 
   const summary = useMemo(() => {
     if (!panchang) return null;
-    const refDate = safeDateFromIso(
-      buildIsoDatetime({
-        date: ymdToday(),
-        time: `${pad2(now.getHours())}:${pad2(now.getMinutes())}`,
-        tzOffset: defaults.tzOffset,
-      })
-    );
-
-
-    const activeTithi = findActiveByTime(panchang?.tithi, refDate);
-    const activeNakshatra = findActiveByTime(panchang?.nakshatra, refDate);
-    const activeYoga = findActiveByTime(panchang?.yoga, refDate);
-    const activeChoghadiya = findActiveByTime(panchang?.choghadiya, refDate);
-    const activeKarana = findActiveByTime(panchang?.karana, refDate);
-    const ghati = computeGhati(now, panchang?.sunrise);
-
-
-    const pakshaRaw = firstText(activeTithi?.paksha, panchang?.paksha, panchang?.advanced?.paksha);
-    const weekdayRaw = firstText(
-      panchang?.vaara,
-      panchang?.weekday,
-      panchang?.day,
-      panchang?.advanced?.vaara,
-      panchang?.advanced?.weekday
-    );
-    const lunarMonthRaw = firstText(
-      panchang?.lunar_month?.name,
-      panchang?.lunar_month,
-      panchang?.masa,
-      panchang?.advanced?.lunar_month?.name,
-      panchang?.advanced?.lunar_month,
-      panchang?.advanced?.masa
-    );
-    const samvatsaraRaw = firstText(
-      panchang?.samvatsara?.name,
-      panchang?.samvatsara,
-      panchang?.advanced?.samvatsara?.name,
-      panchang?.advanced?.samvatsara
-    );
-    const purnimanthaMonthRaw = firstText(
-      panchang?.purnimantha_month?.name,
-      panchang?.purnimanta_month?.name,
-      panchang?.lunar_month?.purnimanta_name,
-      panchang?.advanced?.purnimantha_month?.name,
-      panchang?.advanced?.purnimanta_month?.name,
-      panchang?.advanced?.lunar_month?.purnimanta_name
-    );
-    const ayanaRaw = firstText(
-      panchang?.ayana?.name,
-      panchang?.ayana,
-      panchang?.advanced?.ayana?.name,
-      panchang?.advanced?.ayana
-    );
-    const rituRaw = firstText(
-      panchang?.ritu?.name,
-      panchang?.ritu,
-      panchang?.advanced?.ritu?.name,
-      panchang?.advanced?.ritu,
-      panchang?.season
-    );
-
-
-    const choghadiyaRaw = cleanDash(activeChoghadiya?.name);
-    const choghadiyaTimeStr = joinClean([toHHMM(activeChoghadiya?.start), toHHMM(activeChoghadiya?.end)], " - ");
-    const choghadiyaText = joinClean([t[choghadiyaRaw] || choghadiyaRaw, choghadiyaTimeStr], " ");
+    const ghati = computeGhati(now, panchang?.SunriseIso || panchang?.Sunrise);
+    const lunarMonthRaw = firstText(panchang?.["Lunar Month"], panchang?.lunar_month);
+    const samvatsaraRaw = firstText(panchang?.["Shaka Samvat"], panchang?.samvatsara);
 
 
     return {
       headlineTime: ghati ? `${pad2(ghati.ghati)}:${pad2(ghati.pal)}` : "",
-      tithi: translateTerm(firstText(activeTithi?.name)),
-      tithiFull: activeTithi,
-      paksha: translateTerm(pakshaRaw),
-      karana: translateTerm(firstText(activeKarana?.name)),
-      karanaFull: activeKarana,
-      yoga: translateTerm(firstText(activeYoga?.name)),
-      yogaFull: activeYoga,
+      tithi: translateTerm(firstText(panchang?.Tithi)),
+      tithiFull: { start: panchang?.TithiStart, end: panchang?.TithiEnd },
+      paksha: translateTerm(firstText(panchang?.Paksha)),
+      karana: translateTerm(firstText(panchang?.Karana, panchang?.Karanam)),
+      karanaFull: { start: panchang?.KaranaStart, end: panchang?.KaranaEnd },
+      yoga: translateTerm(firstText(panchang?.Yoga)),
+      yogaFull: { start: panchang?.YogaStart, end: panchang?.YogaEnd },
       lunarMonth: translateTerm(lunarMonthRaw),
-      nakshatra: translateTerm(firstText(activeNakshatra?.name)),
-      nakshatraFull: activeNakshatra,
-      weekday: translateTerm(weekdayRaw),
-      choghadiya: choghadiyaText,
-      panchaka: translateTerm(firstText(panchang?.panchaka?.name, panchang?.panchaka)),
+      nakshatra: translateTerm(firstText(panchang?.Nakshatra)),
+      nakshatraFull: { start: panchang?.NakshatraStart, end: panchang?.NakshatraEnd },
+      weekday: translateTerm(firstText(panchang?.Weekday)),
+      choghadiya: "",
+      panchaka: "",
       samvatsara: translateTerm(samvatsaraRaw),
-      purnimanthaMonth: translateTerm(purnimanthaMonthRaw),
-      ayana: translateTerm(ayanaRaw),
-      ritu: translateTerm(rituRaw),
+      purnimanthaMonth: "",
+      ayana: "",
+      ritu: "",
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [panchang, now, defaults.tzOffset, language]);
+  }, [panchang, now, language]);
 
 
   const formattedTime = useMemo(

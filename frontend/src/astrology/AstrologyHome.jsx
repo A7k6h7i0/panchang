@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { getProkeralaPanchang } from "../services/astrologyApi";
+import { getLocalPanchang } from "../services/astrologyApi";
 import { getAstroDefaults } from "../utils/appSettings";
 import PageShell from "../pages/PageShell";
 import { JsonBlock, SectionCard } from "./components/AstroInputs";
@@ -55,7 +55,7 @@ export default function AstrologyHome() {
 
     const t = setTimeout(async () => {
       try {
-        const payload = await getProkeralaPanchang({
+        const payload = await getLocalPanchang({
           date: form.date,
           time: form.time,
           lat: form.lat,

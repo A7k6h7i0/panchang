@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import PageShell from "./PageShell";
-import { getProkeralaPanchang } from "../services/astrologyApi";
+import { getLocalPanchang } from "../services/astrologyApi";
 import { getAstroDefaults, loadLocation } from "../utils/appSettings";
 import { buildIsoDatetime, safeDateFromIso, ymdToday } from "../astrology/components/formatters";
 
@@ -45,7 +45,7 @@ export default function HinduTimePage() {
       try {
         // Sunrise changes only by date, so avoid minute-wise refetch/rate-limit churn.
         const time = "06:00";
-        const payload = await getProkeralaPanchang(
+        const payload = await getLocalPanchang(
           {
             date: todayKey,
             time,

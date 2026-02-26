@@ -9,9 +9,8 @@ import { translations, languages } from "./translations";
 import { translateText } from "./translations";
 import { speakCloud } from "./utils/cloudSpeech";
 import { getDateSelectionSpeech } from "./utils/speechTemplates";
-import { getProkeralaPanchang } from "./services/astrologyApi";
-import { getAstroDefaults, LANGUAGE_CHANGE_EVENT, loadLanguage, saveLanguage } from "./utils/appSettings";
-import { buildIsoDatetime, findActiveByTime, safeDateFromIso } from "./astrology/components/formatters";
+import { LANGUAGE_CHANGE_EVENT, loadLanguage, saveLanguage } from "./utils/appSettings";
+import { normalizeDayRecord } from "./utils/localPanchang";
 
 const YEARS = Array.from({ length: 186 }, (_, i) => 1940 + i);
 const DATE_STATE_KEY = "panchang:selected-date";
@@ -32,60 +31,6 @@ const getTodayInfo = () => {
 
 const formatDateString = (y, m, d) =>
   `${String(d).padStart(2, "0")}/${String(m + 1).padStart(2, "0")}/${y}`;
-
-const toYmdFromSlashDate = (dateStr) => {
-  const [day, month, year] = String(dateStr || "").split("/");
-  if (!day || !month || !year) return "";
-  return `${year}-${month}-${day}`;
-};
-
-const toHHmm = (dateObj) =>
-  `${String(dateObj.getHours()).padStart(2, "0")}:${String(dateObj.getMinutes()).padStart(2, "0")}`;
-
-function textOf(value) {
-  if (value == null) return "";
-  if (typeof value === "string") return value.trim();
-  if (typeof value === "number") return String(value);
-  if (typeof value === "object") {
-    return String(
-      value?.name ??
-      value?.vedic_name ??
-      value?.title ??
-      value?.value ??
-      value?.label ??
-      value?.display_name ??
-      value?.en ??
-      value?.te ??
-      value?.hi ??
-      value?.ta ??
-      value?.kn ??
-      value?.ml ??
-      ""
-    ).trim();
-  }
-  return "";
-}
-
-function firstText(...values) {
-  for (const v of values) {
-    if (Array.isArray(v)) {
-      for (const item of v) {
-        const t = textOf(item);
-        if (t) return t;
-      }
-      continue;
-    }
-    const t = textOf(v);
-    if (t) return t;
-  }
-  return "";
-}
-
-function cleanDash(value) {
-  if (!value) return "";
-  const str = String(value).trim();
-  return str.replace(/^\s*-\s*|\s*-\s*$/g, "").trim();
-}
 
 const loadInitialSelection = (today) => {
   if (typeof window === "undefined") return today;
@@ -213,13 +158,11 @@ function App() {
       return false;
     }
   });
-  const [prokeralaElementsByDate, setProkeralaElementsByDate] = useState({});
   const [tempYear, setTempYear] = useState(initialSelection.year);
   const [tempMonth, setTempMonth] = useState(initialSelection.month);
   const [tempDay, setTempDay] = useState(initialSelection.day);
   const chatButtonRef = useRef(null);
   const dragStateRef = useRef({ dragging: false, offsetX: 0, offsetY: 0 });
-  const prokeralaInFlightDatesRef = useRef(new Set());
   const t = translations[language] || translations.en;
 
 
@@ -286,13 +229,13 @@ function App() {
             if (!d || !m || !y) return false;
             return Number(y) === year && Number(m) === month + 1;
           })
-          .map((item) => withFestivalsFromMap(item, festivalMap));
+          .map((item) => normalizeDayRecord(withFestivalsFromMap(item, festivalMap)));
 
         setDays(monthDays);
 
         const todayDate = formatDateString(today.year, today.month, today.day);
         const todayData = allDays.find((item) => item?.date === todayDate);
-        setTodayDay(todayData ? withFestivalsFromMap(todayData, festivalMap) : null);
+        setTodayDay(todayData ? normalizeDayRecord(withFestivalsFromMap(todayData, festivalMap)) : null);
 
         if (!monthDays.length) {
           setSelectedDay(null);
@@ -454,7 +397,7 @@ function App() {
       .then(([data, festivalMap]) => {
         const dayData = data.find((d) => d.date === dateStr);
         if (dayData) {
-          setSelectedDay(withFestivalsFromMap(dayData, festivalMap));
+          setSelectedDay(normalizeDayRecord(withFestivalsFromMap(dayData, festivalMap)));
           setPreferredDay(1);
         }
       });
@@ -476,7 +419,7 @@ function App() {
       .then(([data, festivalMap]) => {
         const dayData = data.find((d) => d.date === dateStr);
         if (dayData) {
-          setSelectedDay(withFestivalsFromMap(dayData, festivalMap));
+          setSelectedDay(normalizeDayRecord(withFestivalsFromMap(dayData, festivalMap)));
           setPreferredDay(1);
         }
       });
@@ -487,92 +430,10 @@ function App() {
     [month, t]
   );
 
-  useEffect(() => {
-    const slashDate = selectedDay?.date;
-    if (!slashDate) return;
-    if (prokeralaElementsByDate[slashDate]) return;
-    if (prokeralaInFlightDatesRef.current.has(slashDate)) return;
-
-    const ymd = toYmdFromSlashDate(slashDate);
-    if (!ymd) return;
-
-    const defaults = getAstroDefaults();
-    const dateParts = slashDate.split("/");
-    const isTodaySelection =
-      Number(dateParts[0]) === today.day &&
-      Number(dateParts[1]) === today.month + 1 &&
-      Number(dateParts[2]) === today.year;
-    const refTime = isTodaySelection ? toHHmm(new Date()) : "12:00";
-    const refDate = safeDateFromIso(
-      buildIsoDatetime({ date: ymd, time: refTime, tzOffset: defaults.tzOffset })
-    );
-
-    let cancelled = false;
-    prokeralaInFlightDatesRef.current.add(slashDate);
-
-    getProkeralaPanchang({
-      date: ymd,
-      time: refTime,
-      lat: defaults.lat,
-      lng: defaults.lng,
-      tzOffset: defaults.tzOffset,
-      ayanamsa: defaults.ayanamsa,
-      la: defaults.la,
-    })
-      .then((payload) => {
-        if (cancelled) return;
-        const root = payload?.data || payload;
-        const activeYoga = findActiveByTime(root?.yoga, refDate) || (Array.isArray(root?.yoga) ? root.yoga[0] : null);
-        const activeKarana =
-          findActiveByTime(root?.karana, refDate) || (Array.isArray(root?.karana) ? root.karana[0] : null);
-        const activeTithi =
-          findActiveByTime(root?.tithi, refDate) || (Array.isArray(root?.tithi) ? root.tithi[0] : null);
-        const activeNakshatra =
-          findActiveByTime(root?.nakshatra, refDate) || (Array.isArray(root?.nakshatra) ? root.nakshatra[0] : null);
-        const yogaName = cleanDash(firstText(activeYoga?.name));
-        const karanaName = cleanDash(firstText(activeKarana?.name));
-        const tithiName = cleanDash(firstText(activeTithi?.name));
-        const nakshatraName = cleanDash(firstText(activeNakshatra?.name));
-        const tithiStart = activeTithi?.start || null;
-        const tithiEnd = activeTithi?.end || null;
-        const nakshatraStart = activeNakshatra?.start || null;
-        const nakshatraEnd = activeNakshatra?.end || null;
-        setProkeralaElementsByDate((prev) => ({
-          ...prev,
-          [slashDate]: {
-            Yoga: yogaName || prev?.[slashDate]?.Yoga || "-",
-            Karana: karanaName || prev?.[slashDate]?.Karana || "-",
-            Tithi: tithiName || prev?.[slashDate]?.Tithi || "-",
-            Nakshatra: nakshatraName || prev?.[slashDate]?.Nakshatra || "-",
-            TithiStart: tithiStart || prev?.[slashDate]?.TithiStart || null,
-            TithiEnd: tithiEnd || prev?.[slashDate]?.TithiEnd || null,
-            NakshatraStart: nakshatraStart || prev?.[slashDate]?.NakshatraStart || null,
-            NakshatraEnd: nakshatraEnd || prev?.[slashDate]?.NakshatraEnd || null,
-          },
-        }));
-      })
-      .catch(() => {
-        if (cancelled) return;
-      })
-      .finally(() => {
-        prokeralaInFlightDatesRef.current.delete(slashDate);
-      });
-
-    return () => {
-      cancelled = true;
-    };
-  }, [selectedDay?.date, today.day, today.month, today.year, prokeralaElementsByDate]);
-
-  const selectedDayWithProkerala = useMemo(() => {
-    if (!selectedDay?.date) return selectedDay;
-    const p = prokeralaElementsByDate[selectedDay.date];
-    if (!p) return selectedDay;
-    return {
-      ...selectedDay,
-      Yoga: p.Yoga || selectedDay.Yoga || "-",
-      Karana: p.Karana || selectedDay.Karana || "-",
-    };
-  }, [selectedDay, prokeralaElementsByDate]);
+  const selectedDayWithLocalData = useMemo(
+    () => normalizeDayRecord(selectedDay),
+    [selectedDay]
+  );
 
   const handleDatePickerOk = (data) => {
     const { year: newYear, month: newMonth, day: newDay, dayData } = data || {};
@@ -597,7 +458,7 @@ function App() {
     ])
       .then(([festivalMap, yearData]) => {
         if (dayData) {
-          setSelectedDay(withFestivalsFromMap(dayData, festivalMap));
+          setSelectedDay(normalizeDayRecord(withFestivalsFromMap(dayData, festivalMap)));
           return;
         }
 
@@ -610,14 +471,15 @@ function App() {
             date: dateStr,
             Tithi: "Prathama",
             Nakshatra: "Ashwini",
-            Paksha: "Shukla",
+            Paksha: "Shukla Paksha",
             Yoga: "Vishkumbha",
-            Rahu: "-",
-            Sunrise: "06:00",
-            Sunset: "18:00",
+            Karana: "Bava",
+            "Rahu Kalam": "-",
+            Sunrise: "06:00 AM",
+            Sunset: "06:00 PM",
             Festivals: festivalMap?.[getFestivalDateKeyFromSlashDate(dateStr)] || [],
           };
-          setSelectedDay(minimalDayData);
+          setSelectedDay(normalizeDayRecord(minimalDayData));
         }
       })
       .catch((err) => {
@@ -918,7 +780,7 @@ function App() {
               }}
             >
               <DayDetails
-                day={selectedDayWithProkerala}
+                day={selectedDayWithLocalData}
                 language={language}
                 translations={t}
                 isHeaderMode={true}
@@ -1045,7 +907,7 @@ function App() {
             >
               {/* PANCHANG ELEMENTS AND INAUSPICIOUS TIMINGS */}
               <DayDetails
-                day={selectedDayWithProkerala}
+                day={selectedDayWithLocalData}
                 language={language}
                 translations={t}
                 isSidebarMode={true}
@@ -1135,7 +997,7 @@ function App() {
           currentView={currentView}
           translations={t}
           currentDateData={days}
-          selectedDay={selectedDayWithProkerala}
+          selectedDay={selectedDayWithLocalData}
           todayDay={todayDay}
           voiceEnabled={voiceEnabled}
         />

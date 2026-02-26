@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { getProkeralaPanchang } from "../services/astrologyApi";
+import { getLocalPanchang } from "../services/astrologyApi";
 import { getAstroDefaults } from "../utils/appSettings";
 import PageShell from "../pages/PageShell";
 import { Field, JsonBlock, SectionCard, SelectInput, TextInput } from "./components/AstroInputs";
@@ -85,7 +85,7 @@ export default function PanchangPage() {
     setLoading(true);
     setError(null);
     try {
-      const payload = await getProkeralaPanchang({
+      const payload = await getLocalPanchang({
         date: form.date,
         time: form.time,
         lat: form.lat,
@@ -202,7 +202,7 @@ export default function PanchangPage() {
       </SectionCard>
 
       {error ? (
-        <SectionCard title="Error" subtitle="Backend or Prokerala rejected the request.">
+        <SectionCard title="Error" subtitle="Failed to load local Panchang data.">
           <JsonBlock value={error} />
         </SectionCard>
       ) : null}

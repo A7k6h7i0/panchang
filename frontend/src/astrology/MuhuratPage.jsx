@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { postMuhurat } from "../services/astrologyApi";
+import { getLocalMuhurat } from "../services/astrologyApi";
 import { getAstroDefaults } from "../utils/appSettings";
 import PageShell from "../pages/PageShell";
 import { Field, JsonBlock, SectionCard, SelectInput, TextInput } from "./components/AstroInputs";
@@ -165,7 +165,7 @@ export default function MuhuratPage() {
     setLoading(true);
     setError(null);
     try {
-      const payload = await postMuhurat({
+      const payload = await getLocalMuhurat({
         date: form.date,
         time: form.time,
         lat: form.lat,
@@ -271,7 +271,7 @@ export default function MuhuratPage() {
       </SectionCard>
 
       {error ? (
-        <SectionCard title="Error" subtitle="Backend or Prokerala rejected the request.">
+        <SectionCard title="Error" subtitle="Failed to load local Muhurat data.">
           <JsonBlock value={error} />
         </SectionCard>
       ) : null}

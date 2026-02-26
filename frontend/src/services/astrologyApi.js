@@ -1,3 +1,9 @@
+import {
+  buildLocalMuhuratPayload,
+  buildLocalPanchangPayload,
+  findLocalDayByYmd,
+} from "../utils/localPanchang";
+
 function getApiRoot() {
   // Prefer an explicit API URL, fallback to the backend base URL used elsewhere in this app.
   const rawBase = import.meta.env.VITE_API_URL || import.meta.env.VITE_API_BASE_URL || "";
@@ -92,16 +98,21 @@ async function requestJson(path, options = {}) {
   return payload;
 }
 
-export function getProkeralaPanchang(
+export function getLocalPanchang(
   { date, time, datetime, lat, lng, tzOffset, ayanamsa, la } = {},
   { signal } = {}
 ) {
-  return requestJson("/astrology/panchang", {
-    method: "GET",
-    query: { date, time, datetime, lat, lng, tzOffset, ayanamsa, la },
-    signal,
-  });
+  void time;
+  void datetime;
+  void lat;
+  void lng;
+  void ayanamsa;
+  void la;
+  return findLocalDayByYmd(date, { signal }).then((day) =>
+    buildLocalPanchangPayload(day, { date, tzOffset })
+  );
 }
+export const getProkeralaPanchang = getLocalPanchang;
 
 export function getProkeralaFestivals(
   { year, month, date, time, datetime, lat, lng, tzOffset, ayanamsa, la } = {},
@@ -122,6 +133,10 @@ export function postMatchmaking(body, { signal } = {}) {
   return requestJson("/astrology/matchmaking", { method: "POST", body, signal });
 }
 
-export function postMuhurat(body, { signal } = {}) {
-  return requestJson("/astrology/muhurat", { method: "POST", body, signal });
+export function getLocalMuhurat(body, { signal } = {}) {
+  const { date, tzOffset } = body || {};
+  return findLocalDayByYmd(date, { signal }).then((day) =>
+    buildLocalMuhuratPayload(day, { date, tzOffset })
+  );
 }
+export const postMuhurat = getLocalMuhurat;

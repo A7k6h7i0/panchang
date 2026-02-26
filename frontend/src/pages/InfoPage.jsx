@@ -7,8 +7,7 @@ export default function InfoPage() {
         <section className="app-surface rounded-3xl p-5 text-amber-50">
           <div className="text-base font-black text-amber-100">Hindu Calendar</div>
           <div className="mt-2 text-sm text-amber-100/80">
-            Panchang, festivals, muhurat, kundali and more. Data is fetched from your backend Prokerala integration
-            where available.
+            Panchang, festivals and muhurat are served from bundled local data files (1940-2125).
           </div>
         </section>
 

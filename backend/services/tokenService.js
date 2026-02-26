@@ -1,23 +1,3 @@
-/**
- * services/tokenService.js
- * ────────────────────────────────────────────────────────────────
- * Smart Token Manager for Prokerala API (FREE vs PAID keys).
- *
- * Rules:
- *   - Year 2026 → uses FREE_CLIENT_ID + FREE_CLIENT_SECRET
- *   - All other years → uses PAID_CLIENT_ID + PAID_CLIENT_SECRET
- *
- * Token Caching:
- *   - Tokens are stored in memory after first fetch
- *   - Each token expires in ~1 hour (Prokerala standard)
- *   - A 30-second safety buffer is used before actual expiry
- *   - When token expires, it is automatically refreshed
- *   - This avoids calling the auth endpoint on every API call
- *
- * TOKEN ENDPOINT: POST https://api.prokerala.com/token
- * GRANT TYPE: client_credentials
- */
-
 import axios from "axios";
 import logger from "../config/logger.js";
 
@@ -41,15 +21,11 @@ const tokenCache = {
 };
 
 /**
- * Determine which API key set to use based on the year.
- * Year 2026 → FREE key (limited credits)
- * Other years → PAID key (full access)
- *
- * @param {number} year
- * @returns {"free" | "paid"}
+ * Force PAID key for all years.
+ * User does not want FREE key checks.
  */
-function getKeyType(year) {
-    return year === 2026 ? "free" : "paid";
+function getKeyType() {
+    return "paid";
 }
 
 /**
@@ -58,7 +34,6 @@ function getKeyType(year) {
  * @returns {Promise<string>} access token
  */
 async function fetchNewToken(keyType) {
-    // Choose credentials based on key type
     const clientId =
         keyType === "free"
             ? process.env.FREE_CLIENT_ID
@@ -79,7 +54,6 @@ async function fetchNewToken(keyType) {
     logger.info(`[TokenService] Fetching new ${keyType.toUpperCase()} token from Prokerala...`);
 
     try {
-        // Use URLSearchParams to send as x-www-form-urlencoded (required by Prokerala)
         const response = await axios.post(
             TOKEN_URL,
             new URLSearchParams({
@@ -99,20 +73,18 @@ async function fetchNewToken(keyType) {
             throw new Error("Invalid token response from Prokerala auth server.");
         }
 
-        // Store in cache: set expiry as current time + expires_in seconds
         const expiresAtMs = Date.now() + Number(expires_in) * 1000;
         tokenCache[keyType].token = access_token;
         tokenCache[keyType].expiresAtMs = expiresAtMs;
 
         logger.info(
-            `[TokenService] ✅ Got ${keyType.toUpperCase()} token. ` +
+            `[TokenService] Got ${keyType.toUpperCase()} token. ` +
             `Expires at: ${new Date(expiresAtMs).toISOString()}`
         );
 
         return access_token;
-
     } catch (err) {
-        logger.error(`[TokenService] ❌ Failed to get ${keyType.toUpperCase()} token:`, err.message);
+        logger.error(`[TokenService] Failed to get ${keyType.toUpperCase()} token:`, err.message);
         throw err;
     }
 }
@@ -130,24 +102,20 @@ export async function getToken(year, forceRefresh = false) {
     const cache = tokenCache[keyType];
     const now = Date.now();
 
-    // Check if cached token is still valid (has not expired with safety buffer)
     const isValid = cache.token && (cache.expiresAtMs - SAFETY_BUFFER_MS) > now;
 
     if (!forceRefresh && isValid) {
-        // Reuse the cached token — no API call needed
         logger.debug(`[TokenService] Reusing cached ${keyType.toUpperCase()} token.`);
         return cache.token;
     }
 
-    // If a fetch is already in progress (prevents duplicate requests), wait for it
     if (cache.inFlight) {
         logger.debug(`[TokenService] Waiting for in-flight ${keyType.toUpperCase()} token fetch...`);
         return cache.inFlight;
     }
 
-    // Start a new token fetch and store the promise (single-flight pattern)
     cache.inFlight = fetchNewToken(keyType).finally(() => {
-        cache.inFlight = null; // Clear in-flight once done
+        cache.inFlight = null;
     });
 
     return cache.inFlight;

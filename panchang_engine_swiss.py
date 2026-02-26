@@ -46,6 +46,13 @@ YOGA_NAMES = [
     "Indra","Vaidhriti"
 ]
 
+KARANA_REPEAT = [
+    "Bava", "Balava", "Kaulava", "Taitila",
+    "Garaja", "Vanija", "Vishti"
+]
+
+KARANA_FIXED = ["Shakuni", "Chatushpada", "Naga", "Kimstughna"]
+
 LUNAR_MONTHS = [
     "Chaitra", "Vaishakha", "Jyeshtha", "Ashadha",
     "Shravana", "Bhadrapada", "Ashwin", "Kartika",
@@ -180,6 +187,17 @@ def yoga_index(jd):
     s,m = sun_moon_lon(jd)
     return int(((s + m) % 360) // (360 / 27))
 
+def karana_index(jd):
+    s,m = sun_moon_lon(jd)
+    return int(((m - s) % 360) // 6)
+
+def karana_name(index):
+    if index == 0:
+        return "Kimstughna"
+    if index >= 57:
+        return KARANA_FIXED[index - 57]
+    return KARANA_REPEAT[(index - 1) % 7]
+
 def solve_transition(jd0, fn, idx):
     a,b = jd0, jd0 + 1
     for _ in range(50):
@@ -189,6 +207,16 @@ def solve_transition(jd0, fn, idx):
         else:
             b = mid
     return (a + b) / 2 
+
+def solve_previous_transition(jd0, fn, idx):
+    a,b = jd0 - 1, jd0
+    for _ in range(50):
+        mid = (a + b) / 2
+        if fn(mid) == idx:
+            b = mid
+        else:
+            a = mid
+    return (a + b) / 2
 
 def sunrise_jd(date):
     jd = swe.julday(date.year, date.month, date.day, 0)
@@ -327,13 +355,18 @@ def generate_day(date):
     ti = tithi_index(jd0)
     ni = nakshatra_index(jd0)
     yi = yoga_index(jd0)
+    ki = karana_index(jd0)
 
+    t_start = ist_from_jd(solve_previous_transition(jd0, tithi_index, ti))
     t_end = ist_from_jd(solve_transition(jd0, tithi_index, ti))
+    n_start = ist_from_jd(solve_previous_transition(jd0, nakshatra_index, ni))
     n_end = ist_from_jd(solve_transition(jd0, nakshatra_index, ni))
+    y_start = ist_from_jd(solve_previous_transition(jd0, yoga_index, yi))
     y_end = ist_from_jd(solve_transition(jd0, yoga_index, yi))
+    k_start = ist_from_jd(solve_previous_transition(jd0, karana_index, ki))
+    k_end = ist_from_jd(solve_transition(jd0, karana_index, ki))
 
-    nak_start = sr  # approximation: nakshatra active at sunrise
-    av = add_amrit_varjyam(nak_start, n_end) 
+    av = add_amrit_varjyam(n_start, n_end) 
     lunar_month = get_lunar_month(jd0)
     ugadi_date = get_ugadi_for_year(date.year)
     shaka_year, samvatsara = get_shaka_samvatsara(date, ugadi_date)
@@ -357,9 +390,26 @@ def generate_day(date):
         "Moonrise": fmt(mr),
         "Moonset": fmt(ms),
         "Paksha": "Krishna Paksha" if ti >= 15 else "Shukla Paksha",
-        "Tithi": f"{TITHI_NAMES[ti]} upto {fmt(t_end)}",
-        "Nakshatra": f"{NAKSHATRA_NAMES[ni]} upto {fmt(n_end)}",
-        "Yoga": f"{YOGA_NAMES[yi]} upto {fmt(y_end)}",
+        "Tithi": {
+            "name": TITHI_NAMES[ti],
+            "start": fmt(t_start),
+            "end": fmt(t_end)
+        },
+        "Nakshatra": {
+            "name": NAKSHATRA_NAMES[ni],
+            "start": fmt(n_start),
+            "end": fmt(n_end)
+        },
+        "Yoga": {
+            "name": YOGA_NAMES[yi],
+            "start": fmt(y_start),
+            "end": fmt(y_end)
+        },
+        "Karana": {
+            "name": karana_name(ki),
+            "start": fmt(k_start),
+            "end": fmt(k_end)
+        },
         "Rahu Kalam": " to ".join(kaalam(sr, ss, RAHU_INDEX[wd])),
         "Gulikai Kalam": " to ".join(kaalam(sr, ss, GULIKAI_INDEX[wd])),
         "Yamaganda": " to ".join(kaalam(sr, ss, YAMA_INDEX[wd])),

@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import PageShell from "./PageShell";
-import { getProkeralaPanchang } from "../services/astrologyApi";
+import { getLocalPanchang } from "../services/astrologyApi";
 import { getAstroDefaults } from "../utils/appSettings";
 import { buildIsoDatetime, findActiveByTime, safeDateFromIso, ymdToday } from "../astrology/components/formatters";
 import CalendarDateInput from "../components/CalendarDateInput";
@@ -57,7 +57,7 @@ export default function MyTithiPage() {
     abortRef.current = controller;
     setLoadingId(item.id);
     try {
-      const payload = await getProkeralaPanchang(
+      const payload = await getLocalPanchang(
         {
           date: item.date,
           time: "06:00",

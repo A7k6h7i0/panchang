@@ -53,6 +53,13 @@ const DEFAULT_LAT = 23.1765;
 const DEFAULT_LNG = 75.7885;
 const DEFAULT_TZ_OFFSET = "+05:30";
 
+// Configurable endpoints (defaults verified from Prokerala astrology.v2 spec)
+const ENDPOINT_PANCHANG = process.env.PROKERALA_ENDPOINT_PANCHANG || "/astrology/panchang";
+const ENDPOINT_AUSPICIOUS = process.env.PROKERALA_ENDPOINT_MUHURAT || "/astrology/auspicious-period";
+const ENDPOINT_KUNDALI = process.env.PROKERALA_ENDPOINT_KUNDALI || "/astrology/kundli/advanced";
+const ENDPOINT_HINDU_TIME = process.env.PROKERALA_ENDPOINT_HINDU_TIME || "/calendar";
+const ENDPOINT_COMPASS = process.env.PROKERALA_ENDPOINT_COMPASS || "/astrology/inauspicious-period";
+
 /**
  * sleep(ms)
  * Pauses execution for the given milliseconds.
@@ -242,7 +249,7 @@ export async function fetchAndStoreDate(date, year) {
     // ─────────────────────────────────────────────────────────────
     try {
         logger.debug(`[FetchService] Fetching PANCHANG for ${date}...`);
-        const data = await callProkeralaAPIWithRetry("/astrology/panchang", commonParams, year);
+        const data = await callProkeralaAPIWithRetry(ENDPOINT_PANCHANG, commonParams, year);
         await saveWithDuplicateProtection(Panchang, "Panchang", date, year, data);
         logger.debug(`[FetchService] ✅ Panchang saved for ${date}`);
     } catch (err) {
@@ -257,7 +264,7 @@ export async function fetchAndStoreDate(date, year) {
     // ─────────────────────────────────────────────────────────────
     try {
         logger.debug(`[FetchService] Fetching MUHURAT for ${date}...`);
-        const data = await callProkeralaAPIWithRetry("/astrology/auspicious-period", commonParams, year);
+        const data = await callProkeralaAPIWithRetry(ENDPOINT_AUSPICIOUS, commonParams, year);
         await saveWithDuplicateProtection(Muhurat, "Muhurat", date, year, data);
         logger.debug(`[FetchService] ✅ Muhurat saved for ${date}`);
     } catch (err) {
@@ -272,7 +279,7 @@ export async function fetchAndStoreDate(date, year) {
     // ─────────────────────────────────────────────────────────────
     try {
         logger.debug(`[FetchService] Fetching KUNDALI for ${date}...`);
-        const data = await callProkeralaAPIWithRetry("/astrology/kundli/advanced", commonParams, year);
+        const data = await callProkeralaAPIWithRetry(ENDPOINT_KUNDALI, commonParams, year);
         await saveWithDuplicateProtection(Kundali, "Kundali", date, year, data);
         logger.debug(`[FetchService] ✅ Kundali saved for ${date}`);
     } catch (err) {
@@ -287,7 +294,8 @@ export async function fetchAndStoreDate(date, year) {
     // ─────────────────────────────────────────────────────────────
     try {
         logger.debug(`[FetchService] Fetching HINDU TIME for ${date}...`);
-        const data = await callProkeralaAPIWithRetry("/astrology/hindu-calendar", commonParams, year);
+        const calendarParams = { date, calendar: "shaka-samvat", la: "en" };
+        const data = await callProkeralaAPIWithRetry(ENDPOINT_HINDU_TIME, calendarParams, year);
         await saveWithDuplicateProtection(HinduTime, "HinduTime", date, year, data);
         logger.debug(`[FetchService] ✅ HinduTime saved for ${date}`);
     } catch (err) {
@@ -302,7 +310,7 @@ export async function fetchAndStoreDate(date, year) {
     // ─────────────────────────────────────────────────────────────
     try {
         logger.debug(`[FetchService] Fetching COMPASS for ${date}...`);
-        const data = await callProkeralaAPIWithRetry("/astrology/vastu-compass", commonParams, year);
+        const data = await callProkeralaAPIWithRetry(ENDPOINT_COMPASS, commonParams, year);
         await saveWithDuplicateProtection(Compass, "Compass", date, year, data);
         logger.debug(`[FetchService] ✅ Compass saved for ${date}`);
     } catch (err) {
@@ -441,3 +449,4 @@ export async function getYearStatus(year) {
         completionPercent: Math.round((Math.min(p, m, k, h, c) / expected) * 100),
     };
 }
+
