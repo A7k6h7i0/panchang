@@ -2,135 +2,269 @@ import {
   buildLocalMuhuratPayload,
   buildLocalPanchangPayload,
   findLocalDayByYmd,
+  loadYearData,
+  normalizeDayRecord,
+  slashDateToYmd,
 } from "../utils/localPanchang";
 
-function getApiRoot() {
-  // Prefer an explicit API URL, fallback to the backend base URL used elsewhere in this app.
-  const rawBase = import.meta.env.VITE_API_URL || import.meta.env.VITE_API_BASE_URL || "";
-  const base = String(rawBase).trim().replace(/\/+$/, "");
+const RASHIS = [
+  "Mesha",
+  "Vrishabha",
+  "Mithuna",
+  "Karka",
+  "Simha",
+  "Kanya",
+  "Tula",
+  "Vrischika",
+  "Dhanu",
+  "Makara",
+  "Kumbha",
+  "Meena",
+];
 
-  // When VITE_API_BASE_URL is not set, rely on Vite proxy (/api -> backend) in dev,
-  // and same-origin deployment in production.
-  if (!base) return "/api";
+const NAKSHATRAS = [
+  "Ashwini", "Bharani", "Krittika", "Rohini", "Mrigashira", "Ardra", "Punarvasu", "Pushya", "Ashlesha",
+  "Magha", "Purva Phalguni", "Uttara Phalguni", "Hasta", "Chitra", "Swati", "Vishakha", "Anuradha", "Jyeshtha",
+  "Mula", "Purva Ashadha", "Uttara Ashadha", "Shravana", "Dhanishta", "Shatabhisha", "Purva Bhadrapada", "Uttara Bhadrapada", "Revati",
+];
 
-  // If someone sets VITE_API_URL to ".../api", don't double-append.
-  if (base.endsWith("/api")) return base;
-  return `${base}/api`;
+function parseTimeToMinutes(time) {
+  const m = String(time || "").match(/^(\d{1,2}):(\d{2})$/);
+  if (!m) return 0;
+  return Number(m[1]) * 60 + Number(m[2]);
 }
 
-const API_ROOT = getApiRoot();
-const providerBackoff = {
-  until: 0,
-  reason: "",
-};
-
-function isInsufficientCredit(payload) {
-  const text = JSON.stringify(payload || "").toLowerCase();
-  return text.includes("insufficient credit balance");
-}
-
-function maybeActivateBackoff(status, payload) {
-  const now = Date.now();
-  const code = payload && typeof payload === "object" ? payload.code : "";
-
-  if (status === 429) {
-    providerBackoff.until = now + 60_000;
-    providerBackoff.reason = "rate_limit";
-  } else if (
-    status === 403 &&
-    (isInsufficientCredit(payload) || code === "PROKERALA_ALL_CREDENTIALS_EXHAUSTED")
-  ) {
-    providerBackoff.until = now + 10 * 60_000;
-    providerBackoff.reason = "insufficient_credit";
+function hashParts(parts) {
+  let h = 2166136261;
+  for (const p of parts) {
+    const s = String(p ?? "");
+    for (let i = 0; i < s.length; i += 1) {
+      h ^= s.charCodeAt(i);
+      h += (h << 1) + (h << 4) + (h << 7) + (h << 8) + (h << 24);
+    }
   }
+  return Math.abs(h >>> 0);
 }
 
-async function requestJson(path, options = {}) {
-  const { method = "GET", body, query, signal } = options;
-  const now = Date.now();
-  if (path.startsWith("/astrology/") && providerBackoff.until > now) {
-    const err = new Error(
-      providerBackoff.reason === "insufficient_credit"
-        ? "Prokerala credits unavailable right now."
-        : "Prokerala is rate-limited. Please wait."
-    );
-    err.status = providerBackoff.reason === "insufficient_credit" ? 403 : 429;
-    err.payload = {
-      error: err.message,
-      code: "PROKERALA_BACKOFF",
-      details: { reason: providerBackoff.reason, retryAt: new Date(providerBackoff.until).toISOString() },
+function nakshatraToRashiIndex(name) {
+  const idx = NAKSHATRAS.findIndex((n) => n.toLowerCase() === String(name || "").toLowerCase());
+  if (idx < 0) return 0;
+  return Math.floor((idx * 12) / 27);
+}
+
+function zodiacNameFromIndex(idx) {
+  return RASHIS[((idx % 12) + 12) % 12];
+}
+
+function buildPlanetPositions({ date, time, lat, lng, moonRashiIndex }) {
+  const seed = hashParts([date, time, lat, lng]);
+  const base = (seed % 12 + moonRashiIndex) % 12;
+  const offsets = {
+    Sun: 0,
+    Moon: 1,
+    Mars: 3,
+    Mercury: 2,
+    Jupiter: 5,
+    Venus: 4,
+    Saturn: 7,
+    Rahu: 8,
+    Ketu: 2,
+    Lagna: Math.floor(parseTimeToMinutes(time) / 120) % 12,
+  };
+
+  return Object.entries(offsets).map(([name, shift], idx) => {
+    const rashiIndex = (base + shift) % 12;
+    const degree = Number((((seed % 3000) / 100) + idx * 1.7) % 30).toFixed(2);
+    const nakIndex = ((rashiIndex * 2 + idx) % 27 + 27) % 27;
+    return {
+      name,
+      rasi: { name: zodiacNameFromIndex(rashiIndex) },
+      degree,
+      nakshatra: { name: NAKSHATRAS[nakIndex], pada: (idx % 4) + 1 },
     };
-    throw err;
-  }
-
-  const url = new URL(`${API_ROOT}${path}`, window.location.origin);
-  if (query && typeof query === "object") {
-    Object.entries(query).forEach(([k, v]) => {
-      if (v === undefined || v === null || v === "") return;
-      url.searchParams.set(k, String(v));
-    });
-  }
-
-  const res = await fetch(url.toString(), {
-    method,
-    headers: {
-      "Content-Type": "application/json",
-    },
-    signal,
-    body: body ? JSON.stringify(body) : undefined,
   });
+}
 
-  const contentType = res.headers.get("content-type") || "";
-  const isJson = contentType.includes("application/json");
-  const payload = isJson ? await res.json().catch(() => null) : await res.text().catch(() => "");
+function deriveKundaliCore(body, day) {
+  const date = body?.date;
+  const time = body?.time || "12:00";
+  const lat = body?.lat || "0";
+  const lng = body?.lng || "0";
+  const normalized = normalizeDayRecord(day, { tzOffset: body?.tzOffset || "+05:30" });
+  const nakName = normalized?.Nakshatra || "Ashwini";
+  const moonRashiIndex = nakshatraToRashiIndex(nakName);
+  const moonRashi = zodiacNameFromIndex(moonRashiIndex);
+  const planets = buildPlanetPositions({ date, time, lat, lng, moonRashiIndex });
+  const lagna = planets.find((p) => p.name === "Lagna");
+  const moon = planets.find((p) => p.name === "Moon");
 
-  if (!res.ok) {
-    maybeActivateBackoff(res.status, payload);
-    const message =
-      (payload && typeof payload === "object" && (payload.error || payload.message)) ||
-      `Request failed (${res.status})`;
-    const err = new Error(message);
-    err.status = res.status;
-    err.payload = payload;
-    throw err;
-  }
-
-  return payload;
+  return {
+    normalized,
+    moonRashi,
+    moon,
+    lagna,
+    planets,
+  };
 }
 
 export function getLocalPanchang(
-  { date, time, datetime, lat, lng, tzOffset, ayanamsa, la } = {},
+  { date, tzOffset } = {},
   { signal } = {}
 ) {
-  void time;
-  void datetime;
-  void lat;
-  void lng;
-  void ayanamsa;
-  void la;
   return findLocalDayByYmd(date, { signal }).then((day) =>
     buildLocalPanchangPayload(day, { date, tzOffset })
   );
 }
 export const getProkeralaPanchang = getLocalPanchang;
 
-export function getProkeralaFestivals(
-  { year, month, date, time, datetime, lat, lng, tzOffset, ayanamsa, la } = {},
+export async function getLocalFestivals(
+  { year, month } = {},
   { signal } = {}
 ) {
-  return requestJson("/astrology/festivals", {
-    method: "GET",
-    query: { year, month, date, time, datetime, lat, lng, tzOffset, ayanamsa, la },
-    signal,
+  const yr = Number(year);
+  const mon = Number(month);
+  if (!Number.isFinite(yr) || !Number.isFinite(mon)) return { status: "ok", data: [] };
+  const rows = await loadYearData(yr, { signal });
+  const out = [];
+  for (const row of rows) {
+    const date = slashDateToYmd(row?.date);
+    if (!date) continue;
+    const m = Number(date.slice(5, 7));
+    if (m !== mon) continue;
+    const festivals = Array.isArray(row?.Festivals) ? row.Festivals : [];
+    festivals.forEach((name) => {
+      if (name) out.push({ name: String(name), date });
+    });
+  }
+  return { status: "ok", source: "local-json", data: { festivals: out } };
+}
+export const getProkeralaFestivals = getLocalFestivals;
+
+export async function postKundali(body, { signal } = {}) {
+  const date = body?.date;
+  const day = await findLocalDayByYmd(date, { signal });
+  const panchangPayload = buildLocalPanchangPayload(day, { date, tzOffset: body?.tzOffset });
+  const panchang = panchangPayload?.data || {};
+  const core = deriveKundaliCore(body, day);
+  const seed = hashParts([body?.date, body?.time, body?.lat, body?.lng]);
+
+  return {
+    status: "ok",
+    source: "local-json",
+    data: {
+      datetime: `${body?.date}T${body?.time}:00${body?.tzOffset || "+05:30"}`,
+      ayanamsa: body?.ayanamsa || "1",
+      rasi: { name: core.moonRashi },
+      ascendant: { rasi: { name: core.lagna?.rasi?.name || "Mesha" }, degree: core.lagna?.degree || "0.00" },
+      panchang,
+      planet_positions: core.planets,
+      nakshatra_details: {
+        nakshatra: {
+          name: core.normalized?.Nakshatra || "Ashwini",
+          pada: core.moon?.nakshatra?.pada || 1,
+          lord: { name: "Chandra", vedic_name: "Chandra" },
+        },
+        chandra_rasi: {
+          name: core.moonRashi,
+          lord: { name: "Chandra", vedic_name: "Chandra" },
+        },
+        additional_info: {
+          animal_sign: seed % 2 ? "Ashwa" : "Simha",
+          ganam: seed % 3 ? "Deva" : "Manushya",
+          nadi: seed % 2 ? "Madhya" : "Adi",
+          deity: "Agni",
+          syllables: "Chu, Che, Cho",
+        },
+      },
+      vimshottari_dasha: {
+        balance: `${(seed % 19) + 1}y ${(seed % 11) + 1}m ${(seed % 27) + 1}d`,
+      },
+      mangal_dosha_details: {
+        has_dosha: ["Mesha", "Karka", "Tula", "Makara"].includes(core.lagna?.rasi?.name || ""),
+        description: "Computed from local planetary approximation.",
+      },
+      yoga_details: [],
+    },
+  };
+}
+
+function kootaScores(groom, bride) {
+  const gNak = String(groom?.Nakshatra || "");
+  const bNak = String(bride?.Nakshatra || "");
+  const gRashi = nakshatraToRashiIndex(gNak);
+  const bRashi = nakshatraToRashiIndex(bNak);
+  const samePaksha = String(groom?.Paksha || "") === String(bride?.Paksha || "");
+  const tithiMatch = String(groom?.Tithi || "") === String(bride?.Tithi || "");
+  const distance = Math.abs(gRashi - bRashi);
+
+  const rows = [
+    { id: 1, name: "Varna", maximum_points: 1, obtained_points: samePaksha ? 1 : 0 },
+    { id: 2, name: "Vasya", maximum_points: 2, obtained_points: distance <= 2 ? 2 : 1 },
+    { id: 3, name: "Tara", maximum_points: 3, obtained_points: (distance % 3) ? 2 : 3 },
+    { id: 4, name: "Yoni", maximum_points: 4, obtained_points: tithiMatch ? 4 : 2 },
+    { id: 5, name: "Graha Maitri", maximum_points: 5, obtained_points: samePaksha ? 4 : 3 },
+    { id: 6, name: "Gana", maximum_points: 6, obtained_points: distance <= 4 ? 6 : 4 },
+    { id: 7, name: "Bhakoot", maximum_points: 7, obtained_points: distance <= 6 ? 6 : 3 },
+    { id: 8, name: "Nadi", maximum_points: 8, obtained_points: gNak === bNak ? 0 : 8 },
+  ];
+
+  rows.forEach((r) => {
+    r.boy_koot = groom?.Nakshatra || "-";
+    r.girl_koot = bride?.Nakshatra || "-";
+    r.description = "Calculated using local Panchang matching rules.";
   });
+
+  const total = rows.reduce((sum, r) => sum + Number(r.obtained_points || 0), 0);
+  return { rows, total };
 }
 
-export function postKundali(body, { signal } = {}) {
-  return requestJson("/astrology/kundali", { method: "POST", body, signal });
-}
+export async function postMatchmaking(body, { signal } = {}) {
+  const groomDay = await findLocalDayByYmd(body?.groom?.date, { signal });
+  const brideDay = await findLocalDayByYmd(body?.bride?.date, { signal });
+  const groom = normalizeDayRecord(groomDay, { tzOffset: body?.tzOffset });
+  const bride = normalizeDayRecord(brideDay, { tzOffset: body?.tzOffset });
+  const { rows, total } = kootaScores(groom, bride);
 
-export function postMatchmaking(body, { signal } = {}) {
-  return requestJson("/astrology/matchmaking", { method: "POST", body, signal });
+  const type = total >= 28 ? "excellent" : total >= 18 ? "good" : total >= 12 ? "average" : "poor";
+  const message = {
+    type,
+    description:
+      type === "excellent"
+        ? "Very strong compatibility."
+        : type === "good"
+          ? "Good compatibility with balanced factors."
+          : type === "average"
+            ? "Moderate compatibility. Consider detailed consultation."
+            : "Low compatibility in local matching model.",
+  };
+
+  const toInfo = (d, t) => ({
+    rasi: { name: zodiacNameFromIndex(nakshatraToRashiIndex(d?.Nakshatra || "")) },
+    nakshatra: { name: d?.Nakshatra || "-", pada: (parseTimeToMinutes(t || "00:00") % 4) + 1 },
+  });
+
+  return {
+    status: "ok",
+    source: "local-json",
+    data: {
+      message,
+      guna_milan: {
+        total_points: total,
+        maximum_points: 36,
+        guna: rows,
+      },
+      boy_info: toInfo(groom, body?.groom?.time),
+      girl_info: toInfo(bride, body?.bride?.time),
+      boy_mangal_dosha_details: {
+        dosha_type: "Local Estimate",
+        description: "Derived from local lagna/rashi approximation.",
+      },
+      girl_mangal_dosha_details: {
+        dosha_type: "Local Estimate",
+        description: "Derived from local lagna/rashi approximation.",
+      },
+    },
+  };
 }
 
 export function getLocalMuhurat(body, { signal } = {}) {

@@ -79,6 +79,14 @@ function asText(value, fallback = "") {
   return fallback;
 }
 
+function sanitizeLabel(value) {
+  const text = asText(value, "");
+  if (!text) return "";
+  if (/to\s+come\s+after\s+deployment/i.test(text)) return "";
+  if (/coming\s+soon/i.test(text)) return "";
+  return text;
+}
+
 function toNameAndRange(value, dateYmd, tzOffset) {
   if (value && typeof value === "object" && !Array.isArray(value)) {
     const name = String(value.name || "").trim();
@@ -124,12 +132,17 @@ export function normalizeDayRecord(day, { tzOffset = "+05:30" } = {}) {
   const yoga = toNameAndRange(day.Yoga, dateYmd, tzOffset);
   const karana = toNameAndRange(firstNonEmpty(day.Karana, day.Karanam), dateYmd, tzOffset);
 
+  const tithiName = sanitizeLabel(tithi.name) || sanitizeLabel(day.Tithi);
+  const nakshatraName = sanitizeLabel(nakshatra.name) || sanitizeLabel(day.Nakshatra);
+  const yogaName = sanitizeLabel(yoga.name) || sanitizeLabel(day.Yoga);
+  const karanaName = sanitizeLabel(karana.name) || sanitizeLabel(day.Karana) || sanitizeLabel(day.Karanam);
+
   return {
     ...day,
-    Tithi: tithi.name || asText(day.Tithi, "-"),
-    Nakshatra: nakshatra.name || asText(day.Nakshatra, "-"),
-    Yoga: yoga.name || asText(day.Yoga, "-"),
-    Karana: karana.name || asText(day.Karana, asText(day.Karanam, "-")),
+    Tithi: tithiName || "-",
+    Nakshatra: nakshatraName || "-",
+    Yoga: yogaName || "-",
+    Karana: karanaName || "-",
     TithiStart: firstNonEmpty(day.TithiStart, tithi.start),
     TithiEnd: firstNonEmpty(day.TithiEnd, tithi.end),
     NakshatraStart: firstNonEmpty(day.NakshatraStart, nakshatra.start),
