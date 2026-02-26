@@ -23,6 +23,17 @@ function fmtRange(item) {
   return `${a.time} → ${b.time}`;
 }
 
+function fmtTithiUpto(item) {
+  if (!item) return "-";
+  const endIso = periodEnd(item);
+  if (!endIso) return "-";
+  const end = new Date(endIso);
+  if (Number.isNaN(end.getTime())) return "-";
+  const time = end.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: true });
+  const date = end.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+  return `upto ${time}, ${date}`;
+}
+
 export default function PanchangPage() {
   const [form, setForm] = useState(() => ({
     date: ymdToday(),
@@ -244,7 +255,7 @@ export default function PanchangPage() {
                     {summary.tithi.active?.name || "-"}
                     {summary.tithi.active?.paksha ? ` • ${summary.tithi.active.paksha}` : ""}
                   </div>
-                  <div className="text-xs text-amber-100/70">{fmtRange(summary.tithi.active)}</div>
+                  <div className="text-xs text-amber-100/70">{fmtTithiUpto(summary.tithi.active)}</div>
                 </div>
 
                 <div>
@@ -322,4 +333,5 @@ export default function PanchangPage() {
     </PageShell>
   );
 }
+
 

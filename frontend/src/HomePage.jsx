@@ -123,6 +123,15 @@ function getTimeRangeText(item) {
   return end || start || "";
 }
 
+function getUptoEndText(item) {
+  if (!item || typeof item !== "object" || !item?.end) return "";
+  const end = new Date(item.end);
+  if (Number.isNaN(end.getTime())) return "";
+  const time = end.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: true });
+  const date = end.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+  return `upto ${time}, ${date}`;
+}
+
 
 function computeGhati(now, sunriseIso) {
   const sunrise = safeDateFromIso(sunriseIso);
@@ -684,8 +693,8 @@ export default function HomePage() {
                 }}
               >
                 <span>{"\u25CF"} {cleanDash(summary.tithi)}</span>
-                {getTimeRangeText(summary.tithiFull) && (
-                  <span className="text-amber-100/80">{getTimeRangeText(summary.tithiFull)}</span>
+                {getUptoEndText(summary.tithiFull) && (
+                  <span className="text-amber-100/80">{getUptoEndText(summary.tithiFull)}</span>
                 )}
               </div>
             )}
@@ -736,8 +745,8 @@ export default function HomePage() {
                 }}
               >
                 <span>{"\u25D0"} {cleanDash(summary.paksha)}</span>
-                {getTimeRangeText(summary.tithiFull) && (
-                  <span className="text-amber-100/80">{getTimeRangeText(summary.tithiFull)}</span>
+                {getUptoEndText(summary.tithiFull) && (
+                  <span className="text-amber-100/80">{getUptoEndText(summary.tithiFull)}</span>
                 )}
               </div>
             )}

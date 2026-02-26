@@ -518,6 +518,15 @@ export default function DayDetails({
     return new Date(y, m - 1, d);
   };
 
+  const formatUptoEnd = (endIso) => {
+    if (!endIso) return "";
+    const end = new Date(endIso);
+    if (Number.isNaN(end.getTime())) return "";
+    const time = end.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: true });
+    const date = end.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+    return `upto ${time}, ${date}`;
+  };
+
 
   const dateObj = parseDate(day.date);
   const today = new Date();
@@ -1087,7 +1096,7 @@ export default function DayDetails({
               <span>{"\u25CF"} {day.Tithi || day?.Tithi}</span>
               {(day?.TithiStart || day?.TithiEnd) && (
                 <span className="text-amber-100/80">
-                  {day.TithiStart ? day.TithiStart.slice(11, 16) : ""}{day.TithiStart && day.TithiEnd ? " - " : ""}{day.TithiEnd ? day.TithiEnd.slice(11, 16) : ""}
+                  {formatUptoEnd(day?.TithiEnd) || `${day.TithiStart ? day.TithiStart.slice(11, 16) : ""}${day.TithiStart && day.TithiEnd ? " - " : ""}${day.TithiEnd ? day.TithiEnd.slice(11, 16) : ""}`}
                 </span>
               )}
             </div>
