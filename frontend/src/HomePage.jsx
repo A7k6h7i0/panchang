@@ -101,6 +101,90 @@ function joinClean(parts, sep = ", ") {
   return parts.map(v => cleanDash(textOf(v))).filter(Boolean).join(sep);
 }
 
+function extractSamvatsaraName(value) {
+  const raw = textOf(value);
+  if (!raw) return "";
+  const yearName = raw.replace(/^\s*\d+\s+/, "").trim();
+  if (yearName === "Vishvavasu") return "Vishwavasu";
+  return yearName;
+}
+
+const KARANA_TRANSLATIONS = {
+  te: {
+    Bava: "బవ",
+    Balava: "బాలవ",
+    Kaulava: "కౌలవ",
+    Taitila: "తైతిల",
+    Garaja: "గరజ",
+    Vanija: "వణిజ",
+    Vishti: "విష్టి",
+    Shakuni: "శకుని",
+    Chatushpada: "చతుష్పద",
+    Naga: "నాగ",
+    Kimstughna: "కింస్తుఘ్న",
+  },
+  hi: {
+    Bava: "बव",
+    Balava: "बालव",
+    Kaulava: "कौलव",
+    Taitila: "तैतिल",
+    Garaja: "गरज",
+    Vanija: "वणिज",
+    Vishti: "विष्टि",
+    Shakuni: "शकुनि",
+    Chatushpada: "चतुष्पद",
+    Naga: "नाग",
+    Kimstughna: "किंस्तुघ्न",
+  },
+  ml: {
+    Bava: "ബവ",
+    Balava: "ബാലവ",
+    Kaulava: "കൗലവ",
+    Taitila: "തൈതില",
+    Garaja: "ഗരജ",
+    Vanija: "വണിജ",
+    Vishti: "വിഷ്ടി",
+    Shakuni: "ശകുനി",
+    Chatushpada: "ചതുഷ്പദ",
+    Naga: "നാഗ",
+    Kimstughna: "കിംസ്തുഘ്ന",
+  },
+  kn: {
+    Bava: "ಬವ",
+    Balava: "ಬಾಲವ",
+    Kaulava: "ಕೌಲವ",
+    Taitila: "ತೈತಿಲ",
+    Garaja: "ಗರಜ",
+    Vanija: "ವಣಿಜ",
+    Vishti: "ವಿಷ್ಟಿ",
+    Shakuni: "ಶಕುನಿ",
+    Chatushpada: "ಚತುಷ್ಪದ",
+    Naga: "ನಾಗ",
+    Kimstughna: "ಕಿಂಸ್ತುಘ್ನ",
+  },
+  ta: {
+    Bava: "பவ",
+    Balava: "பாலவ",
+    Kaulava: "கௌலவ",
+    Taitila: "தைதில",
+    Garaja: "கரஜ",
+    Vanija: "வணிஜ",
+    Vishti: "விஷ்டி",
+    Shakuni: "சகுனி",
+    Chatushpada: "சதுஷ்பத",
+    Naga: "நாக",
+    Kimstughna: "கிம்ஸ்துக்ன",
+  },
+};
+
+function translateKaranaName(raw, lang, t) {
+  const value = textOf(raw);
+  if (!value) return "";
+  const direct = t[value];
+  if (direct) return direct;
+  return KARANA_TRANSLATIONS?.[lang]?.[value] || value;
+}
+
 
 function pad2(n) {
   return String(n).padStart(2, "0");
@@ -333,7 +417,9 @@ export default function HomePage() {
     if (!panchang) return null;
     const ghati = computeGhati(now, panchang?.SunriseIso || panchang?.Sunrise);
     const lunarMonthRaw = firstText(panchang?.["Lunar Month"], panchang?.lunar_month);
-    const samvatsaraRaw = firstText(panchang?.["Shaka Samvat"], panchang?.samvatsara);
+    const samvatsaraRaw = extractSamvatsaraName(
+      firstText(panchang?.["Shaka Samvat"], panchang?.samvatsara)
+    );
 
 
     return {
@@ -341,7 +427,7 @@ export default function HomePage() {
       tithi: translateTerm(firstText(panchang?.Tithi)),
       tithiFull: { start: panchang?.TithiStart, end: panchang?.TithiEnd },
       paksha: translateTerm(firstText(panchang?.Paksha)),
-      karana: translateTerm(firstText(panchang?.Karana, panchang?.Karanam)),
+      karana: translateKaranaName(firstText(panchang?.Karana, panchang?.Karanam), language, t),
       karanaFull: { start: panchang?.KaranaStart, end: panchang?.KaranaEnd },
       yoga: translateTerm(firstText(panchang?.Yoga)),
       yogaFull: { start: panchang?.YogaStart, end: panchang?.YogaEnd },

@@ -345,6 +345,74 @@ function MuhurthaTimer({ startTime, endTime, isAuspicious, language, translation
 
 const REMINDER_TIME_OPTIONS = [15, 30, 60, 90, 120];
 
+const KARANA_TRANSLATIONS = {
+  te: {
+    Bava: "బవ",
+    Balava: "బాలవ",
+    Kaulava: "కౌలవ",
+    Taitila: "తైతిల",
+    Garaja: "గరజ",
+    Vanija: "వణిజ",
+    Vishti: "విష్టి",
+    Shakuni: "శకుని",
+    Chatushpada: "చతుష్పద",
+    Naga: "నాగ",
+    Kimstughna: "కింస్తుఘ్న",
+  },
+  hi: {
+    Bava: "बव",
+    Balava: "बालव",
+    Kaulava: "कौलव",
+    Taitila: "तैतिल",
+    Garaja: "गरज",
+    Vanija: "वणिज",
+    Vishti: "विष्टि",
+    Shakuni: "शकुनि",
+    Chatushpada: "चतुष्पद",
+    Naga: "नाग",
+    Kimstughna: "किंस्तुघ्न",
+  },
+  ml: {
+    Bava: "ബവ",
+    Balava: "ബാലവ",
+    Kaulava: "കൗലവ",
+    Taitila: "തൈതില",
+    Garaja: "ഗരജ",
+    Vanija: "വണിജ",
+    Vishti: "വിഷ്ടി",
+    Shakuni: "ശകുനി",
+    Chatushpada: "ചതുഷ്പദ",
+    Naga: "നാഗ",
+    Kimstughna: "കിംസ്തുഘ്ന",
+  },
+  kn: {
+    Bava: "ಬವ",
+    Balava: "ಬಾಲವ",
+    Kaulava: "ಕೌಲವ",
+    Taitila: "ತೈತಿಲ",
+    Garaja: "ಗರಜ",
+    Vanija: "ವಣಿಜ",
+    Vishti: "ವಿಷ್ಟಿ",
+    Shakuni: "ಶಕುನಿ",
+    Chatushpada: "ಚತುಷ್ಪದ",
+    Naga: "ನಾಗ",
+    Kimstughna: "ಕಿಂಸ್ತುಘ್ನ",
+  },
+  ta: {
+    Bava: "பவ",
+    Balava: "பாலவ",
+    Kaulava: "கௌலவ",
+    Taitila: "தைதில",
+    Garaja: "கரஜ",
+    Vanija: "வணிஜ",
+    Vishti: "விஷ்டி",
+    Shakuni: "சகுனி",
+    Chatushpada: "சதுஷ்பத",
+    Naga: "நாக",
+    Kimstughna: "கிம்ஸ்துக்ன",
+  },
+};
+
 export default function DayDetails({
   day,
   language,
@@ -557,7 +625,14 @@ export default function DayDetails({
   const vTithi = v("Tithi");
   const vNakshatra = v("Nakshatra");
   const vYoga = v("Yoga");
-  const vKarana = v("Karana");
+  const getKaranaName = () => {
+    const raw = day?.Karana || day?.Karanam || "-";
+    if (raw === "-") return "-";
+    const translated = translateText(raw, translations);
+    if (translated && translated !== raw) return translated;
+    return KARANA_TRANSLATIONS?.[language]?.[raw] || raw;
+  };
+  const vKarana = getKaranaName();
   const vChoghadiyaRaw =
     day?.Choghadiya ||
     day?.["Choghadiya"] ||
@@ -1083,7 +1158,7 @@ export default function DayDetails({
           </div>
 
           {/* Tithi, Nakshatra, Yoga, Paksha, Karana, Choghadiya, Samvatsara from JSON data */}
-          {day?.Tithi && day.Tithi !== "-" && (
+          {vTithi && vTithi !== "-" && (
             <div
               className="mt-1 mb-1 flex min-w-0 items-center justify-between gap-1 rounded-full px-2.5 py-1 text-[11px] sm:text-xs font-bold"
               style={{
@@ -1093,7 +1168,7 @@ export default function DayDetails({
                 boxShadow: "0 0 15px rgba(255, 140, 50, 0.5), inset 0 0 10px rgba(255, 200, 100, 0.2)",
               }}
             >
-              <span>{"\u25CF"} {day.Tithi || day?.Tithi}</span>
+              <span>{"\u25CF"} {vTithi}</span>
               {(day?.TithiStart || day?.TithiEnd) && (
                 <span className="text-amber-100/80">
                   {formatUptoEnd(day?.TithiEnd) || `${day.TithiStart ? day.TithiStart.slice(11, 16) : ""}${day.TithiStart && day.TithiEnd ? " - " : ""}${day.TithiEnd ? day.TithiEnd.slice(11, 16) : ""}`}
@@ -1102,7 +1177,7 @@ export default function DayDetails({
             </div>
           )}
 
-          {(day?.Nakshatra || day?.Nakshatra) && day.Nakshatra !== "-" && (
+          {vNakshatra && vNakshatra !== "-" && (
             <div
               className="mt-1 mb-1 flex min-w-0 items-center justify-between gap-1 rounded-full px-2.5 py-1 text-[11px] sm:text-xs font-bold"
               style={{
@@ -1112,7 +1187,7 @@ export default function DayDetails({
                 boxShadow: "0 0 15px rgba(255, 140, 50, 0.5), inset 0 0 10px rgba(255, 200, 100, 0.2)",
               }}
             >
-              <span>{"\u2726"} {day.Nakshatra}</span>
+              <span>{"\u2726"} {vNakshatra}</span>
               {(day?.NakshatraStart || day?.NakshatraEnd) && (
                 <span className="text-amber-100/80">
                   {day.NakshatraStart ? day.NakshatraStart.slice(11, 16) : ""}{day.NakshatraStart && day.NakshatraEnd ? " - " : ""}{day.NakshatraEnd ? day.NakshatraEnd.slice(11, 16) : ""}
@@ -1121,7 +1196,7 @@ export default function DayDetails({
             </div>
           )}
 
-          {(day?.Yoga || day?.Yoga) && day.Yoga !== "-" && (
+          {vYoga && vYoga !== "-" && (
             <div
               className="mt-1 mb-1 flex min-w-0 items-center justify-between gap-1 rounded-full px-2.5 py-1 text-[11px] sm:text-xs font-bold"
               style={{
@@ -1131,11 +1206,11 @@ export default function DayDetails({
                 boxShadow: "0 0 15px rgba(255, 140, 50, 0.5), inset 0 0 10px rgba(255, 200, 100, 0.2)",
               }}
             >
-              <span>{"\u263C"} {day.Yoga}</span>
+              <span>{"\u263C"} {vYoga}</span>
             </div>
           )}
 
-          {day?.Paksha && day.Paksha !== "-" && (
+          {vPaksha && vPaksha !== "-" && (
             <div
               className="mt-1 mb-1 flex min-w-0 items-center justify-between gap-1 rounded-full px-2.5 py-1 text-[11px] sm:text-xs font-bold"
               style={{
@@ -1145,7 +1220,7 @@ export default function DayDetails({
                 boxShadow: "0 0 15px rgba(255, 140, 50, 0.5), inset 0 0 10px rgba(255, 200, 100, 0.2)",
               }}
             >
-              <span>{"\u25D0"} {day.Paksha}</span>
+              <span>{"\u25D0"} {vPaksha}</span>
             </div>
           )}
 
@@ -1159,7 +1234,7 @@ export default function DayDetails({
                 boxShadow: "0 0 15px rgba(255, 140, 50, 0.5), inset 0 0 10px rgba(255, 200, 100, 0.2)",
               }}
             >
-              <span>{"\u25D1"} {day.Karana}</span>
+              <span>{"\u25D1"} {vKarana}</span>
             </div>
           )}
 
@@ -1177,7 +1252,7 @@ export default function DayDetails({
             </div>
           )}
 
-          {day?.["Shaka Samvat"] && day["Shaka Samvat"] !== "-" && (
+          {vShakaSamvat && vShakaSamvat !== "-" && (
             <div
               className="mt-1 mb-1 flex min-w-0 items-center justify-between gap-1 rounded-full px-2.5 py-1 text-[11px] sm:text-xs font-bold"
               style={{
@@ -1187,7 +1262,7 @@ export default function DayDetails({
                 boxShadow: "0 0 15px rgba(255, 140, 50, 0.5), inset 0 0 10px rgba(255, 200, 100, 0.2)",
               }}
             >
-              <span>{"\u2605"} {day["Shaka Samvat"]}</span>
+              <span>{"\u2605"} {vShakaSamvat}</span>
             </div>
           )}
 
@@ -1382,7 +1457,7 @@ export default function DayDetails({
             )}
             {vVarjyam !== "-" && (
               <DangerBox
-                label={translations.varjyam || "Varjyam"}
+                label={language === "en" ? "Varjyam" : (translations.varjyam || "Varjyam")}
                 value={vVarjyam}
                 isAuspicious={false}
                 isToday={isToday}
