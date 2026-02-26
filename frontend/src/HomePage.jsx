@@ -207,13 +207,16 @@ function getTimeRangeText(item) {
   return end || start || "";
 }
 
-function getUptoEndText(item) {
-  if (!item || typeof item !== "object" || !item?.end) return "";
+function getStartEndDateText(item) {
+  if (!item || typeof item !== "object" || !item?.start || !item?.end) return "";
+  const start = new Date(item.start);
   const end = new Date(item.end);
-  if (Number.isNaN(end.getTime())) return "";
-  const time = end.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: true });
-  const date = end.toLocaleDateString("en-US", { month: "short", day: "numeric" });
-  return `upto ${time}, ${date}`;
+  if (Number.isNaN(start.getTime()) || Number.isNaN(end.getTime())) return "";
+  const startTime = start.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: true });
+  const startDate = start.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+  const endTime = end.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: true });
+  const endDate = end.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+  return `${startTime}, ${startDate} - ${endTime}, ${endDate}`;
 }
 
 
@@ -779,8 +782,8 @@ export default function HomePage() {
                 }}
               >
                 <span>{"\u25CF"} {cleanDash(summary.tithi)}</span>
-                {getUptoEndText(summary.tithiFull) && (
-                  <span className="text-amber-100/80">{getUptoEndText(summary.tithiFull)}</span>
+                {getStartEndDateText(summary.tithiFull) && (
+                  <span className="text-amber-100/80">{getStartEndDateText(summary.tithiFull)}</span>
                 )}
               </div>
             )}
@@ -831,8 +834,8 @@ export default function HomePage() {
                 }}
               >
                 <span>{"\u25D0"} {cleanDash(summary.paksha)}</span>
-                {getUptoEndText(summary.tithiFull) && (
-                  <span className="text-amber-100/80">{getUptoEndText(summary.tithiFull)}</span>
+                {getStartEndDateText(summary.tithiFull) && (
+                  <span className="text-amber-100/80">{getStartEndDateText(summary.tithiFull)}</span>
                 )}
               </div>
             )}

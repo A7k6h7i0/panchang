@@ -23,15 +23,19 @@ function fmtRange(item) {
   return `${a.time} → ${b.time}`;
 }
 
-function fmtTithiUpto(item) {
+function fmtTithiStartEnd(item) {
   if (!item) return "-";
+  const startIso = periodStart(item);
   const endIso = periodEnd(item);
-  if (!endIso) return "-";
+  if (!startIso || !endIso) return "-";
+  const start = new Date(startIso);
   const end = new Date(endIso);
-  if (Number.isNaN(end.getTime())) return "-";
-  const time = end.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: true });
-  const date = end.toLocaleDateString("en-US", { month: "short", day: "numeric" });
-  return `upto ${time}, ${date}`;
+  if (Number.isNaN(start.getTime()) || Number.isNaN(end.getTime())) return "-";
+  const startTime = start.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: true });
+  const startDate = start.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+  const endTime = end.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: true });
+  const endDate = end.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+  return `${startTime}, ${startDate} - ${endTime}, ${endDate}`;
 }
 
 export default function PanchangPage() {
@@ -255,7 +259,7 @@ export default function PanchangPage() {
                     {summary.tithi.active?.name || "-"}
                     {summary.tithi.active?.paksha ? ` • ${summary.tithi.active.paksha}` : ""}
                   </div>
-                  <div className="text-xs text-amber-100/70">{fmtTithiUpto(summary.tithi.active)}</div>
+                  <div className="text-xs text-amber-100/70">{fmtTithiStartEnd(summary.tithi.active)}</div>
                 </div>
 
                 <div>

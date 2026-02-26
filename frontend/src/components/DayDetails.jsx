@@ -586,13 +586,16 @@ export default function DayDetails({
     return new Date(y, m - 1, d);
   };
 
-  const formatUptoEnd = (endIso) => {
-    if (!endIso) return "";
+  const formatStartEndDate = (startIso, endIso) => {
+    if (!startIso || !endIso) return "";
+    const start = new Date(startIso);
     const end = new Date(endIso);
-    if (Number.isNaN(end.getTime())) return "";
-    const time = end.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: true });
-    const date = end.toLocaleDateString("en-US", { month: "short", day: "numeric" });
-    return `upto ${time}, ${date}`;
+    if (Number.isNaN(start.getTime()) || Number.isNaN(end.getTime())) return "";
+    const startTime = start.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: true });
+    const startDate = start.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+    const endTime = end.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: true });
+    const endDate = end.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+    return `${startTime}, ${startDate} - ${endTime}, ${endDate}`;
   };
 
 
@@ -1171,7 +1174,7 @@ export default function DayDetails({
               <span>{"\u25CF"} {vTithi}</span>
               {(day?.TithiStart || day?.TithiEnd) && (
                 <span className="text-amber-100/80">
-                  {formatUptoEnd(day?.TithiEnd) || `${day.TithiStart ? day.TithiStart.slice(11, 16) : ""}${day.TithiStart && day.TithiEnd ? " - " : ""}${day.TithiEnd ? day.TithiEnd.slice(11, 16) : ""}`}
+                  {formatStartEndDate(day?.TithiStart, day?.TithiEnd) || `${day.TithiStart ? day.TithiStart.slice(11, 16) : ""}${day.TithiStart && day.TithiEnd ? " - " : ""}${day.TithiEnd ? day.TithiEnd.slice(11, 16) : ""}`}
                 </span>
               )}
             </div>
