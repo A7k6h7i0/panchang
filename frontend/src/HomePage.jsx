@@ -96,6 +96,29 @@ function cleanDash(value) {
   return str.replace(/^\s*-\s*|\s*-\s*$/g, "").trim();
 }
 
+function isPlaceholderValue(value) {
+  const text = String(value ?? "").trim();
+  if (!text) return true;
+  if (text === "-") return true;
+  if (/^\s*to\s+come\b/i.test(text)) return true;
+  if (/to\s+come\s+after\s+deployment/i.test(text)) return true;
+  if (/coming\s+soon/i.test(text)) return true;
+  return false;
+}
+
+function keepPreviousIfPlaceholder(previous, next, key, relatedKeys = []) {
+  if (!previous || !next) return next;
+  if (!isPlaceholderValue(next?.[key])) return next;
+  if (isPlaceholderValue(previous?.[key])) return next;
+  const merged = { ...next, [key]: previous[key] };
+  for (const relatedKey of relatedKeys) {
+    if (next?.[relatedKey] == null || next?.[relatedKey] === "") {
+      merged[relatedKey] = previous?.[relatedKey] ?? next?.[relatedKey];
+    }
+  }
+  return merged;
+}
+
 
 function joinClean(parts, sep = ", ") {
   return parts.map(v => cleanDash(textOf(v))).filter(Boolean).join(sep);
@@ -390,7 +413,17 @@ export default function HomePage() {
     const run = async () => {
       try {
         const localDay = await findLocalDayByYmd(ymdToday(), { signal: controller.signal });
-        setPanchang(localDay ? normalizeDayRecord(localDay, { tzOffset: defaults.tzOffset }) : null);
+        const normalized = localDay ? normalizeDayRecord(localDay, { tzOffset: defaults.tzOffset }) : null;
+        setPanchang((prev) => {
+          if (!normalized) return null;
+          let merged = normalized;
+          merged = keepPreviousIfPlaceholder(prev, merged, "Yoga", ["YogaStart", "YogaEnd"]);
+          merged = keepPreviousIfPlaceholder(prev, merged, "Tithi", ["TithiStart", "TithiEnd"]);
+          merged = keepPreviousIfPlaceholder(prev, merged, "Nakshatra", ["NakshatraStart", "NakshatraEnd"]);
+          merged = keepPreviousIfPlaceholder(prev, merged, "Karana", ["KaranaStart", "KaranaEnd"]);
+          merged = keepPreviousIfPlaceholder(prev, merged, "Paksha");
+          return merged;
+        });
       } catch (e) {
         if (e?.name === "AbortError") return;
         setPanchang(null);
