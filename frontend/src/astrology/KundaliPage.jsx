@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { postKundali } from "../services/astrologyApi";
 import { getAstroDefaults } from "../utils/appSettings";
 import PageShell from "../pages/PageShell";
-import { Field, JsonBlock, SectionCard, SelectInput, TextInput } from "./components/AstroInputs";
+import { Field, SectionCard, SelectInput, TextInput } from "./components/AstroInputs";
 import { buildIsoDatetime, findActiveByTime, pick, safeDateFromIso, ymdToday } from "./components/formatters";
 import DashaView from "./components/DashaView";
 import NorthIndianChart from "./components/NorthIndianChart";
@@ -90,7 +90,6 @@ function YogaDetails({ value }) {
 
 export default function KundaliPage() {
   const [tab, setTab] = useState("info");
-  const [showRaw, setShowRaw] = useState(false);
   const [showYogas, setShowYogas] = useState(false);
   const abortRef = useRef(null);
   const [form, setForm] = useState(() => ({
@@ -241,16 +240,8 @@ export default function KundaliPage() {
       <div className="grid gap-6">
       <SectionCard
         title="Kundali"
-        subtitle="Birth chart (advanced) from Prokerala. Use date/time and birthplace coordinates."
         right={
           <div className="flex flex-wrap items-center gap-2">
-            <button
-              type="button"
-              onClick={() => setShowRaw((v) => !v)}
-              className="rounded-xl bg-white/5 px-3 py-2 text-sm font-black text-amber-100/80 ring-1 ring-white/10 transition hover:bg-white/10"
-            >
-              {showRaw ? "Hide Raw JSON" : "Show Raw JSON"}
-            </button>
             <button
               type="submit"
               form="kundali-form"
@@ -324,7 +315,7 @@ export default function KundaliPage() {
       ) : null}
 
       {tab === "info" && info ? (
-        <SectionCard title="Info" subtitle="Key values rendered (raw JSON optional).">
+        <SectionCard title="Info" subtitle="Key values rendered.">
           <div className="mb-4 rounded-2xl border border-white/10 bg-black/20 p-4 text-sm text-amber-50">
             <div className="text-amber-100/80">
               Location:{" "}
@@ -425,7 +416,7 @@ export default function KundaliPage() {
           ) : (
             <SectionCard title="Kundali Chart" subtitle="Chart needs Lagna rashi from the response.">
               <div className="rounded-2xl border border-white/10 bg-black/20 p-4 text-sm text-amber-50">
-                Lagna not found yet. Click “Generate” and (if needed) enable “Show Raw JSON” to confirm the response.
+                Lagna not found yet. Click Generate and retry.
               </div>
             </SectionCard>
           )}
@@ -522,11 +513,6 @@ export default function KundaliPage() {
         </SectionCard>
       ) : null}
 
-      {result && showRaw ? (
-        <SectionCard title="Raw JSON (Debug)">
-          <JsonBlock value={result} />
-        </SectionCard>
-      ) : null}
       </div>
     </PageShell>
   );

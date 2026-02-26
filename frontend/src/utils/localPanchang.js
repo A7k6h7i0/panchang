@@ -82,6 +82,7 @@ function asText(value, fallback = "") {
 function sanitizeLabel(value) {
   const text = asText(value, "");
   if (!text) return "";
+  if (/^\s*to\s+come\b/i.test(text)) return "";
   if (/to\s+come\s+after\s+deployment/i.test(text)) return "";
   if (/coming\s+soon/i.test(text)) return "";
   return text;
@@ -162,6 +163,45 @@ function splitRanges(value) {
   const raw = String(value || "").trim();
   if (!raw) return [];
   return raw.split(",").map((v) => v.trim()).filter(Boolean);
+}
+
+function normalizeMinutes(minuteValue) {
+  const total = Number(minuteValue);
+  if (!Number.isFinite(total)) return { dayShift: 0, minutes: 0 };
+  const dayShift = Math.floor(total / 1440);
+  const minutes = ((total % 1440) + 1440) % 1440;
+  return { dayShift, minutes };
+}
+
+function minutesToClockText(minuteValue) {
+  const normalized = ((Math.floor(minuteValue) % 1440) + 1440) % 1440;
+  let hh = Math.floor(normalized / 60);
+  const mm = normalized % 60;
+  const marker = hh >= 12 ? "PM" : "AM";
+  hh = hh % 12;
+  if (hh === 0) hh = 12;
+  return `${hh}:${pad2(mm)} ${marker}`;
+}
+
+function buildBrahmaMuhurtaEntry(dateYmd, sunrise, tzOffset) {
+  const sunriseMinutes = parseClockTimeToMinutes(sunrise);
+  if (sunriseMinutes == null) return null;
+
+  const brahmaStart = sunriseMinutes - 84;
+  const startNorm = normalizeMinutes(brahmaStart);
+  const endNorm = normalizeMinutes(sunriseMinutes);
+
+  const start = localIsoFromMinutes(dateYmd, startNorm.minutes, tzOffset, startNorm.dayShift);
+  const end = localIsoFromMinutes(dateYmd, endNorm.minutes, tzOffset, endNorm.dayShift);
+  if (!start || !end) return null;
+
+  return {
+    name: "Brahma Muhurta",
+    type: "auspicious",
+    start,
+    end,
+    time: `${minutesToClockText(brahmaStart)} to ${minutesToClockText(sunriseMinutes)}`,
+  };
 }
 
 function toRangeEntry(dateYmd, label, rangeText, tzOffset, type) {
@@ -247,6 +287,9 @@ export function buildLocalMuhuratPayload(dayInput, { date, tzOffset = "+05:30" }
       if (entry) periods.push(entry);
     }
   }
+
+  const brahmaMuhurta = buildBrahmaMuhurtaEntry(dateYmd, day.Sunrise, tzOffset);
+  if (brahmaMuhurta) periods.push(brahmaMuhurta);
 
   return {
     status: "ok",

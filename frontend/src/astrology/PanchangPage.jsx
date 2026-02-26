@@ -33,7 +33,6 @@ export default function PanchangPage() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
   const [error, setError] = useState(null);
-  const [showRaw, setShowRaw] = useState(false);
   const abortRef = useRef(null);
   const hourOptions = Array.from({ length: 24 }, (_, i) => String(i).padStart(2, "0"));
   const minuteOptions = Array.from({ length: 60 }, (_, i) => String(i).padStart(2, "0"));
@@ -47,7 +46,18 @@ export default function PanchangPage() {
     );
     const tithiActive = findActiveByTime(root?.tithi, refDate);
     const nakshatraActive = findActiveByTime(root?.nakshatra, refDate);
-    const yogaActive = findActiveByTime(root?.yoga, refDate);
+    const yogaAll = Array.isArray(root?.yoga) ? root.yoga : [];
+    const yogaActiveRaw = findActiveByTime(yogaAll, refDate);
+    const cleanYogaName = (name) => {
+      const text = String(name || "").trim();
+      if (!text) return "";
+      if (/^\s*to\s+come\b/i.test(text)) return "";
+      if (/coming\s+soon/i.test(text)) return "";
+      return text;
+    };
+    const yogaActive = cleanYogaName(yogaActiveRaw?.name)
+      ? yogaActiveRaw
+      : yogaAll.find((y) => cleanYogaName(y?.name)) || yogaActiveRaw;
     const karanaActive = findActiveByTime(root?.karana, refDate);
     return {
       sunrise: pick(root, ["sunrise", "sunrise_time"]),
@@ -65,7 +75,7 @@ export default function PanchangPage() {
       },
       yoga: {
         active: yogaActive,
-        all: Array.isArray(root?.yoga) ? root.yoga : [],
+        all: yogaAll,
       },
       karana: {
         active: karanaActive,
@@ -211,15 +221,6 @@ export default function PanchangPage() {
         <SectionCard
           title="Today (Selected Date/Time)"
           subtitle={`${form.date} ${form.time} ${form.tzOffset} • ${summary.vaara || ""}`}
-          right={
-            <button
-              type="button"
-              onClick={() => setShowRaw((v) => !v)}
-              className="app-btn-secondary rounded-xl px-3 py-2 text-sm font-black transition hover:brightness-110"
-            >
-              {showRaw ? "Hide Raw JSON" : "Show Raw JSON"}
-            </button>
-          }
         >
           <div className="grid gap-3 md:grid-cols-2">
             <div className="app-panel rounded-2xl p-4 text-sm text-amber-50">
@@ -317,11 +318,6 @@ export default function PanchangPage() {
         </SectionCard>
       ) : null}
 
-      {result && showRaw ? (
-        <SectionCard title="Raw JSON (Debug)">
-          <JsonBlock value={result} />
-        </SectionCard>
-      ) : null}
       </div>
     </PageShell>
   );

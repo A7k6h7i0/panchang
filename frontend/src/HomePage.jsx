@@ -960,7 +960,7 @@ export default function HomePage() {
           </section>
 
 
-          {(summary?.purnimanthaMonth || summary?.samvatsara || summary?.ayana || summary?.ritu) ? (
+          {(summary?.purnimanthaMonth || summary?.ayana || summary?.ritu) ? (
             <section
               className="mt-3 rounded-2xl px-4 py-3 text-center transition-all duration-300"
               style={{
@@ -969,7 +969,7 @@ export default function HomePage() {
                 boxShadow: "0 4px 16px rgba(255, 111, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.15), inset 0 -2px 0 rgba(139, 69, 19, 0.2)",
               }}
             >
-              {joinClean([summary?.purnimanthaMonth, summary?.samvatsara]) ? (
+              {joinClean([summary?.purnimanthaMonth]) ? (
                 <div
                   className="text-[13px] font-semibold"
                   style={{
@@ -977,7 +977,7 @@ export default function HomePage() {
                     textShadow: "0 1px 3px rgba(0, 0, 0, 0.3)",
                   }}
                 >
-                  {joinClean([summary?.purnimanthaMonth, summary?.samvatsara])}
+                  {joinClean([summary?.purnimanthaMonth])}
                 </div>
               ) : null}
               {joinClean([summary?.ayana, summary?.ritu]) ? (

@@ -18,7 +18,6 @@ function badgeByType(type) {
 
 export default function MatchmakingPage() {
   const abortRef = useRef(null);
-  const [showRaw, setShowRaw] = useState(false);
   const [rateLimitedUntil, setRateLimitedUntil] = useState(null);
   const [form, setForm] = useState(() => {
     const defaults = getAstroDefaults();
@@ -142,13 +141,6 @@ export default function MatchmakingPage() {
         right={
           <div className="flex flex-wrap items-center gap-2">
             <button
-              type="button"
-              onClick={() => setShowRaw((v) => !v)}
-              className="rounded-xl bg-white/5 px-3 py-2 text-sm font-black text-amber-100/80 ring-1 ring-white/10 transition hover:bg-white/10"
-            >
-              {showRaw ? "Hide Raw JSON" : "Show Raw JSON"}
-            </button>
-            <button
               type="submit"
               form="matchmaking-form"
               disabled={loading || (rateLimitedUntil && Date.now() < rateLimitedUntil)}
@@ -239,7 +231,7 @@ export default function MatchmakingPage() {
       ) : null}
 
       {summary ? (
-        <SectionCard title="Result" subtitle="Rendered from Prokerala matching data (raw JSON optional).">
+        <SectionCard title="Result" subtitle="Rendered from Prokerala matching data.">
           <div className="grid gap-3 md:grid-cols-2">
             <div className="rounded-2xl border border-white/10 bg-black/20 p-4 text-sm text-amber-50">
               <div className="flex flex-wrap items-center justify-between gap-3">
@@ -358,11 +350,6 @@ export default function MatchmakingPage() {
         </SectionCard>
       ) : null}
 
-      {result && showRaw ? (
-        <SectionCard title="Raw JSON (Debug)">
-          <JsonBlock value={result} />
-        </SectionCard>
-      ) : null}
       </div>
     </PageShell>
   );

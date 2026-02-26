@@ -107,6 +107,43 @@ function deriveKundaliCore(body, day) {
   };
 }
 
+function buildMockVimshottariMahadasha(seed, birthIso) {
+  const lords = [
+    { name: "Ketu", years: 7 },
+    { name: "Venus", years: 20 },
+    { name: "Sun", years: 6 },
+    { name: "Moon", years: 10 },
+    { name: "Mars", years: 7 },
+    { name: "Rahu", years: 18 },
+    { name: "Jupiter", years: 16 },
+    { name: "Saturn", years: 19 },
+    { name: "Mercury", years: 17 },
+  ];
+  const base = safeDateFromIsoLike(birthIso) || new Date();
+  const startIndex = seed % lords.length;
+  const ordered = [...lords.slice(startIndex), ...lords.slice(0, startIndex)];
+  const periods = [];
+  let cursor = new Date(base.getTime());
+
+  for (const lord of ordered) {
+    const start = new Date(cursor.getTime());
+    const end = new Date(cursor.getTime());
+    end.setUTCFullYear(end.getUTCFullYear() + lord.years);
+    periods.push({
+      name: lord.name,
+      start: start.toISOString(),
+      end: end.toISOString(),
+    });
+    cursor = end;
+  }
+  return periods;
+}
+
+function safeDateFromIsoLike(value) {
+  const date = new Date(String(value || ""));
+  return Number.isFinite(date.getTime()) ? date : null;
+}
+
 export function getLocalPanchang(
   { date, tzOffset } = {},
   { signal } = {}
@@ -147,12 +184,14 @@ export async function postKundali(body, { signal } = {}) {
   const panchang = panchangPayload?.data || {};
   const core = deriveKundaliCore(body, day);
   const seed = hashParts([body?.date, body?.time, body?.lat, body?.lng]);
+  const birthIso = `${body?.date}T${body?.time}:00${body?.tzOffset || "+05:30"}`;
+  const dashaPeriods = buildMockVimshottariMahadasha(seed, birthIso);
 
   return {
     status: "ok",
     source: "local-json",
     data: {
-      datetime: `${body?.date}T${body?.time}:00${body?.tzOffset || "+05:30"}`,
+      datetime: birthIso,
       ayanamsa: body?.ayanamsa || "1",
       rasi: { name: core.moonRashi },
       ascendant: { rasi: { name: core.lagna?.rasi?.name || "Mesha" }, degree: core.lagna?.degree || "0.00" },
@@ -178,6 +217,7 @@ export async function postKundali(body, { signal } = {}) {
       },
       vimshottari_dasha: {
         balance: `${(seed % 19) + 1}y ${(seed % 11) + 1}m ${(seed % 27) + 1}d`,
+        maha_dasha: dashaPeriods,
       },
       mangal_dosha_details: {
         has_dosha: ["Mesha", "Karka", "Tula", "Makara"].includes(core.lagna?.rasi?.name || ""),
