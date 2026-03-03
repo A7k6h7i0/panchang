@@ -1271,6 +1271,17 @@ export default function DayDetails({
 
           {festivals.length > 0 && (
             <div className="flex flex-col gap-1 mt-1">
+              <div
+                className="flex min-w-0 items-center justify-between gap-1 rounded-full px-2.5 py-1 text-[11px] sm:text-xs font-bold"
+                style={{
+                  background: "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
+                  border: "2px solid rgba(255, 140, 50, 0.7)",
+                  color: "#FFE4B5",
+                  boxShadow: "0 0 15px rgba(255, 140, 50, 0.5), inset 0 0 10px rgba(255, 200, 100, 0.2)",
+                }}
+              >
+                <span>{"\u273D"} {translations.festivals || "Festivals"}</span>
+              </div>
               {festivals.map((festival, idx) => (
                 <div
                   key={idx}
@@ -1490,24 +1501,6 @@ export default function DayDetails({
             </button>
           </div>
         ) : null}
-
-        <div className="mt-3">
-          <button
-            type="button"
-            onClick={() => setIsAlarmPopupOpen(true)}
-            className="w-full py-2 px-3 rounded-xl font-bold text-sm uppercase tracking-wide transition-all hover:scale-[1.01]"
-            style={{
-              background:
-                "linear-gradient(180deg, #ff4d0d 0%, #ff5c1a 10%, #ff6b28 20%, #ff7935 30%, #ff8743 40%, #ff7935 50%, #ff6b28 60%, #ff5c1a 70%, #ff4d0d 80%, #d94100 90%, #c23800 100%)",
-              border: "2.5px solid rgba(212, 168, 71, 0.8)",
-              color: "#ffedb3",
-              boxShadow:
-                "0 0 18px rgba(212, 168, 71, 0.3), inset 0 1px 2px rgba(255, 255, 255, 0.1), inset 0 -1px 2px rgba(0, 0, 0, 0.2)",
-            }}
-          >
-            {translations.alarmSettings || "Chanting Alarm"}
-          </button>
-        </div>
 
         {isAlarmPopupOpen ? (
           <div
