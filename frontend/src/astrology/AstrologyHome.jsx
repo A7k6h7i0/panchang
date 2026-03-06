@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { getLocalPanchang } from "../services/astrologyApi";
+import { getProkeralaPanchang } from "../services/astrologyApi";
 import { getAstroDefaults } from "../utils/appSettings";
 import PageShell from "../pages/PageShell";
 import { JsonBlock, SectionCard } from "./components/AstroInputs";
@@ -17,17 +17,12 @@ function Tile({ to, title, subtitle }) {
   return (
     <Link
       to={to}
-      className="group rounded-2xl p-4 transition-all duration-300 hover:scale-[1.01]"
-      style={{
-        background: "var(--calendar-orange-shell)",
-        border: "1.5px solid rgba(255, 140, 50, 0.7)",
-        boxShadow: "0 10px 30px rgba(0,0,0,0.35), inset 0 0 18px rgba(255, 140, 50, 0.2)",
-      }}
+      className="group rounded-2xl border border-white/10 bg-white/5 p-4 shadow-[0_20px_40px_rgba(0,0,0,0.35)] transition hover:bg-white/10"
     >
       <div className="text-base font-black tracking-wide text-amber-100 group-hover:text-amber-50">
         {title}
       </div>
-      <div className="mt-1 text-xs text-amber-100/80">{subtitle}</div>
+      <div className="mt-1 text-xs text-amber-100/60">{subtitle}</div>
     </Link>
   );
 }
@@ -55,7 +50,7 @@ export default function AstrologyHome() {
 
     const t = setTimeout(async () => {
       try {
-        const payload = await getLocalPanchang({
+        const payload = await getProkeralaPanchang({
           date: form.date,
           time: form.time,
           lat: form.lat,
@@ -101,7 +96,6 @@ export default function AstrologyHome() {
   return (
     <PageShell
       title="Astrology"
-      theme="orange"
       right={
         <Link
           to="/settings"

@@ -1,7 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import PageShell from "./PageShell";
-import { getProkeralaFestivals } from "../services/astrologyApi";
-import { getAstroDefaults } from "../utils/appSettings";
 
 const MONTHS = [
   "January",
@@ -31,64 +29,6 @@ function todayYmd() {
   return `${yyyy}-${mm}-${dd}`;
 }
 
-function normalizeFestivalItems(payload) {
-  const root = payload?.data || payload;
-  if (!root || typeof root !== "object") return [];
-
-  const candidates = [
-    root?.festivals,
-    root?.festival,
-    root?.events,
-    root?.holidays,
-    root?.items,
-    root?.data,
-  ];
-
-  for (const c of candidates) {
-    if (Array.isArray(c) && c.length) {
-      return c
-        .map((it) => {
-          if (!it || typeof it !== "object") return null;
-          const name =
-            it?.name ||
-            it?.title ||
-            it?.event ||
-            it?.festival ||
-            it?.holiday ||
-            it?.description ||
-            null;
-          const date =
-            it?.date ||
-            it?.start ||
-            it?.start_date ||
-            it?.start_time ||
-            it?.datetime ||
-            it?.date_time ||
-            it?.iso_date ||
-            null;
-          return name ? { name: String(name), date: date ? String(date) : "" } : null;
-        })
-        .filter(Boolean);
-    }
-  }
-
-  // Some responses are a map keyed by date -> [names]
-  if (root && typeof root === "object" && !Array.isArray(root)) {
-    const out = [];
-    for (const [key, value] of Object.entries(root)) {
-      if (Array.isArray(value)) {
-        value.forEach((name) => out.push({ name: String(name), date: key }));
-      } else if (value && typeof value === "object") {
-        const name = value?.name || value?.title || value?.event || value?.festival;
-        if (name) out.push({ name: String(name), date: value?.date ? String(value.date) : key });
-      }
-    }
-    return out;
-  }
-
-  return [];
-}
-
 async function loadLocalFestivalItems(year, month) {
   const res = await fetch(`/data/festivals/${year}.json`);
   if (!res.ok) return [];
@@ -111,76 +51,8 @@ async function loadLocalFestivalItems(year, month) {
   return out;
 }
 
-function extractTithiName(tithiText) {
-  return String(tithiText || "").split(" upto ")[0].trim();
-}
-
-function extractPakshaName(pakshaText) {
-  return String(pakshaText || "").replace(" Paksha", "").trim();
-}
-
-function getPradoshPrefix(weekday) {
-  const map = {
-    Monday: "Soma",
-    Tuesday: "Bhauma",
-    Wednesday: "Budha",
-    Thursday: "Guru",
-    Friday: "Shukra",
-    Saturday: "Shani",
-    Sunday: "Ravi",
-  };
-  return map[String(weekday || "").trim()] || "";
-}
-
-function inferFestivalsFromDay(day) {
-  const out = [];
-  const tithi = extractTithiName(day?.Tithi);
-  const paksha = extractPakshaName(day?.Paksha);
-  const weekday = String(day?.Weekday || "").trim();
-
-  if (tithi === "Ekadashi") out.push("Ekadashi");
-  if (tithi === "Trayodashi") {
-    const pref = getPradoshPrefix(weekday);
-    out.push(pref ? `${pref} Pradosh Vrat` : "Pradosh Vrat");
-  }
-  if (tithi === "Chaturthi" && paksha === "Krishna") out.push("Sankashti Chaturthi");
-  if (tithi === "Purnima") out.push("Purnima");
-  if (tithi === "Amavasya") out.push("Amavasya");
-  if ((tithi === "Padyami" || tithi === "Pratipada") && paksha === "Shukla") {
-    out.push("Chandra Darshana");
-  }
-
-  return out;
-}
-
-async function loadDerivedFestivalItems(year, month) {
-  const res = await fetch(`/data/${year}.json`);
-  if (!res.ok) return [];
-
-  const data = await res.json().catch(() => null);
-  if (!Array.isArray(data) || !data.length) return [];
-
-  const out = [];
-  const targetMonth = Number(month);
-
-  data.forEach((day) => {
-    const slashDate = String(day?.date || "");
-    const [dd, mm, yyyy] = slashDate.split("/");
-    if (!dd || !mm || !yyyy) return;
-    if (Number(mm) !== targetMonth) return;
-
-    const dateKey = `${yyyy}-${mm}-${dd}`;
-    const names = inferFestivalsFromDay(day);
-    names.forEach((name) => out.push({ name, date: dateKey }));
-  });
-
-  out.sort((a, b) => String(a.date).localeCompare(String(b.date)));
-  return out;
-}
-
 export default function FestivalsPage() {
   const today = useMemo(() => ymdToParts(todayYmd()), []);
-  const defaults = useMemo(() => getAstroDefaults(), []);
   const [year, setYear] = useState(today.y);
   const [month, setMonth] = useState(today.m - 1); // 0-based
   const [items, setItems] = useState(null);
@@ -196,49 +68,21 @@ export default function FestivalsPage() {
 
     const y = Number(year);
     const m = Number(month) + 1;
-    const date = `${String(y).padStart(4, "0")}-${String(m).padStart(2, "0")}-01`;
 
     (async () => {
       try {
         const localItems = await loadLocalFestivalItems(y, m);
-        if (localItems.length) {
-          setError("");
-          setItems(localItems);
-          return;
-        }
-
-        const derivedItems = await loadDerivedFestivalItems(y, m);
-        if (derivedItems.length) {
-          setError("Showing derived Panchang festivals.");
-          setItems(derivedItems);
-          return;
-        }
-
-        const payload = await getProkeralaFestivals(
-          {
-            year: y,
-            month: m,
-            date,
-            time: "00:00",
-            lat: defaults.lat,
-            lng: defaults.lng,
-            tzOffset: defaults.tzOffset,
-            ayanamsa: defaults.ayanamsa,
-            la: defaults.la,
-          },
-          { signal: controller.signal }
-        );
-        setItems(normalizeFestivalItems(payload));
+        setError("");
+        setItems(localItems);
       } catch (e) {
         if (e?.name === "AbortError") return;
-
-        setError(e?.message || "Failed to load festivals from Prokerala.");
+        setError(e?.message || "Failed to load local festivals.");
         setItems([]);
       }
     })();
 
     return () => controller.abort();
-  }, [year, month, defaults]);
+  }, [year, month]);
 
   const goPrev = () => {
     const next = new Date(year, month - 1, 1);

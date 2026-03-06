@@ -206,7 +206,7 @@ function buildBrahmaMuhurtaEntry(dateYmd, sunrise, tzOffset) {
 
 function toRangeEntry(dateYmd, label, rangeText, tzOffset, type) {
   const match = String(rangeText || "").match(
-    /(\d{1,2}[:.]\d{2}\s*(?:AM|PM)?)\s*(?:to|-|->|→)\s*(\d{1,2}[:.]\d{2}\s*(?:AM|PM)?)/i
+    /(\d{1,2}[:.]\d{2}\s*(?:AM|PM)?)\s*(?:to|-|->)\s*(\d{1,2}[:.]\d{2}\s*(?:AM|PM)?)/i
   );
   if (!match) return null;
   const range = isoRangeFromTimes(dateYmd, match[1], match[2], tzOffset);

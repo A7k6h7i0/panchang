@@ -1,11 +1,11 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { Component, useEffect, useMemo, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { buildIsoDatetime, findActiveByTime, safeDateFromIso, ymdToday } from "./astrology/components/formatters";
 import Chatbot from "./components/Chatbot";
-import { getAstroDefaults, LANGUAGE_CHANGE_EVENT, loadLanguage, saveLanguage } from "./utils/appSettings";
-import { safeDateFromIso, ymdToday } from "./astrology/components/formatters";
+import Rashiphalalu from "./components/Rashiphalalu";
+import { getProkeralaPanchang } from "./services/astrologyApi";
 import { languages, translateText, translations } from "./translations";
-import { postFlutterMessage } from "./utils/flutterBridge";
-import { findLocalDayByYmd, normalizeDayRecord } from "./utils/localPanchang";
+import { getAstroDefaults, LANGUAGE_CHANGE_EVENT, loadLanguage, saveLanguage } from "./utils/appSettings";
 
 const VOICE_KEY = "panchang:voice-enabled";
 const VIEW_STATE_KEY = "panchang:current-view";
@@ -37,8 +37,8 @@ function getTiles(t) {
     { to: "/matchmaking", title: t.tileMatchMaking || "Match Making", subtitle: t.tileMatchMakingSub || "Guna Milan with Ashta Koota", icon: "◔" },
     { to: "/muhurat", title: t.tileMuhurt || "Muhurt", subtitle: t.tileMuhurtSub || "Muhurta, Choghadiya and Hora", icon: "◷" },
     { to: "/hindu-time", title: t.tileHinduTime || "Hindu Time", subtitle: t.tileHinduTimeSub || "Watch Ishtkaal i.e Ghati or Nazhika", icon: "◴" },
-    { to: "/settings", title: t.tileSettings || "Settings", subtitle: t.tileSettingsSub || "Change location and preferences", icon: "⚙" },
-    { to: "/info", title: t.tileInfo || "Info", subtitle: t.tileInfoSub || "Information about Hindu Calendar", icon: "?" },
+    { to: "/about", title: t.about || "About", subtitle: "Terms, Disclaimers and App Info", icon: "i" },
+    { to: "/settings", title: t.tileSettings || "Settings", subtitle: t.tileSettingsSub || "Change location and preferences", icon: "⚙" }
   ];
 }
 
@@ -55,7 +55,6 @@ function getMenuLinks(t) {
     ["/hindu-time", t.tileHinduTime || "Hindu Time"],
     ["/compass", t.tileCompass || "Compass"],
     ["/sankalp-mantra", t.tileSankalp || "Sankalp Mantra"],
-    ["/info", t.tileInfo || "Info"],
   ];
 }
 
@@ -96,116 +95,9 @@ function cleanDash(value) {
   return str.replace(/^\s*-\s*|\s*-\s*$/g, "").trim();
 }
 
-function isPlaceholderValue(value) {
-  const text = String(value ?? "").trim();
-  if (!text) return true;
-  if (text === "-") return true;
-  if (/^\s*to\s+come\b/i.test(text)) return true;
-  if (/to\s+come\s+after\s+deployment/i.test(text)) return true;
-  if (/coming\s+soon/i.test(text)) return true;
-  return false;
-}
-
-function keepPreviousIfPlaceholder(previous, next, key, relatedKeys = []) {
-  if (!previous || !next) return next;
-  if (!isPlaceholderValue(next?.[key])) return next;
-  if (isPlaceholderValue(previous?.[key])) return next;
-  const merged = { ...next, [key]: previous[key] };
-  for (const relatedKey of relatedKeys) {
-    if (next?.[relatedKey] == null || next?.[relatedKey] === "") {
-      merged[relatedKey] = previous?.[relatedKey] ?? next?.[relatedKey];
-    }
-  }
-  return merged;
-}
-
 
 function joinClean(parts, sep = ", ") {
   return parts.map(v => cleanDash(textOf(v))).filter(Boolean).join(sep);
-}
-
-function extractSamvatsaraName(value) {
-  const raw = textOf(value);
-  if (!raw) return "";
-  const yearName = raw.replace(/^\s*\d+\s+/, "").trim();
-  if (yearName === "Vishvavasu") return "Vishwavasu";
-  return yearName;
-}
-
-const KARANA_TRANSLATIONS = {
-  te: {
-    Bava: "బవ",
-    Balava: "బాలవ",
-    Kaulava: "కౌలవ",
-    Taitila: "తైతిల",
-    Garaja: "గరజ",
-    Vanija: "వణిజ",
-    Vishti: "విష్టి",
-    Shakuni: "శకుని",
-    Chatushpada: "చతుష్పద",
-    Naga: "నాగ",
-    Kimstughna: "కింస్తుఘ్న",
-  },
-  hi: {
-    Bava: "बव",
-    Balava: "बालव",
-    Kaulava: "कौलव",
-    Taitila: "तैतिल",
-    Garaja: "गरज",
-    Vanija: "वणिज",
-    Vishti: "विष्टि",
-    Shakuni: "शकुनि",
-    Chatushpada: "चतुष्पद",
-    Naga: "नाग",
-    Kimstughna: "किंस्तुघ्न",
-  },
-  ml: {
-    Bava: "ബവ",
-    Balava: "ബാലവ",
-    Kaulava: "കൗലവ",
-    Taitila: "തൈതില",
-    Garaja: "ഗരജ",
-    Vanija: "വണിജ",
-    Vishti: "വിഷ്ടി",
-    Shakuni: "ശകുനി",
-    Chatushpada: "ചതുഷ്പദ",
-    Naga: "നാഗ",
-    Kimstughna: "കിംസ്തുഘ്ന",
-  },
-  kn: {
-    Bava: "ಬವ",
-    Balava: "ಬಾಲವ",
-    Kaulava: "ಕೌಲವ",
-    Taitila: "ತೈತಿಲ",
-    Garaja: "ಗರಜ",
-    Vanija: "ವಣಿಜ",
-    Vishti: "ವಿಷ್ಟಿ",
-    Shakuni: "ಶಕುನಿ",
-    Chatushpada: "ಚತುಷ್ಪದ",
-    Naga: "ನಾಗ",
-    Kimstughna: "ಕಿಂಸ್ತುಘ್ನ",
-  },
-  ta: {
-    Bava: "பவ",
-    Balava: "பாலவ",
-    Kaulava: "கௌலவ",
-    Taitila: "தைதில",
-    Garaja: "கரஜ",
-    Vanija: "வணிஜ",
-    Vishti: "விஷ்டி",
-    Shakuni: "சகுனி",
-    Chatushpada: "சதுஷ்பத",
-    Naga: "நாக",
-    Kimstughna: "கிம்ஸ்துக்ன",
-  },
-};
-
-function translateKaranaName(raw, lang, t) {
-  const value = textOf(raw);
-  if (!value) return "";
-  const direct = t[value];
-  if (direct) return direct;
-  return KARANA_TRANSLATIONS?.[lang]?.[value] || value;
 }
 
 
@@ -228,18 +120,6 @@ function getTimeRangeText(item) {
   const end = toHHMM(item?.end);
   if (start && end) return `${start} - ${end}`;
   return end || start || "";
-}
-
-function getStartEndDateText(item) {
-  if (!item || typeof item !== "object" || !item?.start || !item?.end) return "";
-  const start = new Date(item.start);
-  const end = new Date(item.end);
-  if (Number.isNaN(start.getTime()) || Number.isNaN(end.getTime())) return "";
-  const startTime = start.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: true });
-  const startDate = start.toLocaleDateString("en-US", { month: "short", day: "numeric" });
-  const endTime = end.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: true });
-  const endDate = end.toLocaleDateString("en-US", { month: "short", day: "numeric" });
-  return `${startTime}, ${startDate} - ${endTime}, ${endDate}`;
 }
 
 
@@ -317,23 +197,68 @@ function Tile({ to, icon, title, subtitle }) {
 }
 
 
+class ChatbotErrorBoundary extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false, error: null, info: null };
+  }
+
+  static getDerivedStateFromError(error) {
+    return { hasError: true, error };
+  }
+
+  componentDidCatch(error, info) {
+    console.error("Chatbot crashed:", error, info);
+    this.setState({ info });
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="fixed inset-0 z-[9999] flex flex-col items-center justify-center p-8 bg-red-900 text-white overflow-y-auto">
+          <h2 className="text-2xl font-bold mb-4">Chatbot Crash!</h2>
+          <p className="mb-2">Please tell the AI assistant this exact error:</p>
+          <pre className="bg-black/50 p-4 rounded text-sm w-full whitespace-pre-wrap mb-4">
+            {this.state.error?.toString()}
+          </pre>
+          <pre className="bg-black/50 p-4 rounded text-xs w-full whitespace-pre-wrap">
+            {this.state.info?.componentStack}
+          </pre>
+          <button
+            className="mt-6 bg-white text-red-900 px-4 py-2 rounded font-bold"
+            onClick={() => this.setState({ hasError: false })}
+          >
+            Close Error
+          </button>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
 export default function HomePage() {
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
   const [languagePopupOpen, setLanguagePopupOpen] = useState(false);
   const [language, setLanguage] = useState(loadInitialLanguage);
+  const languageRef = useRef(language);
   const [voiceEnabled, setVoiceEnabled] = useState(loadInitialVoiceEnabled);
   const [now, setNow] = useState(() => new Date());
   const [panchang, setPanchang] = useState(null);
   const [error, setError] = useState("");
   const [alarmSettings, setAlarmSettings] = useState(defaultAlarmSettings);
   const [isAlarmPopupOpen, setIsAlarmPopupOpen] = useState(false);
+  const [isHoroscopeOpen, setIsHoroscopeOpen] = useState(false);
+  const [isPanchangOpen, setIsPanchangOpen] = useState(false);
+  const [selectedRashi, setSelectedRashi] = useState(null);
   const [settingsNonce, setSettingsNonce] = useState(0);
   const [notificationStatus, setNotificationStatus] = useState("");
   const [isChatbotOpen, setIsChatbotOpen] = useState(false);
   const [chatButtonPos, setChatButtonPos] = useState({ x: null, y: null });
   const chatButtonRef = useRef(null);
   const dragStateRef = useRef({ dragging: false, offsetX: 0, offsetY: 0 });
+  const abortRef = useRef(null);
   const titleByLanguage = translations[language]?.appTitle || "Talking Calendar";
 
 
@@ -349,6 +274,7 @@ export default function HomePage() {
   }, []);
 
   useEffect(() => {
+    languageRef.current = language;
     if (loadLanguage() !== language) saveLanguage(language);
     // Do NOT clear panchang here — local translation lookup handles it instantly
   }, [language]);
@@ -406,38 +332,84 @@ export default function HomePage() {
   }, []);
 
 
+  // ── Fetch triggered by language change (fires immediately, no debounce) ──
+  useEffect(() => {
+    abortRef.current?.abort?.();
+    const controller = new AbortController();
+    abortRef.current = controller;
+    setError("");
+
+    const run = async () => {
+      const currentLang = languageRef.current;
+      try {
+        const payload = await getProkeralaPanchang(
+          {
+            date: ymdToday(),
+            time: `${pad2(now.getHours())}:${pad2(now.getMinutes())}`,
+            lat: defaults.lat,
+            lng: defaults.lng,
+            tzOffset: defaults.tzOffset,
+            ayanamsa: defaults.ayanamsa,
+            la: currentLang,
+          },
+          { signal: controller.signal }
+        );
+        // Only update if this response is still for the current language
+        if (languageRef.current === currentLang) {
+          setPanchang(payload?.data || payload || null);
+        }
+      } catch (e) {
+        if (e?.name === "AbortError") return;
+        setPanchang(null);
+        setError(e?.message || "Failed to load Panchang");
+      }
+    };
+
+    // No debounce for language changes — switch instantly
+    run();
+    return () => {
+      controller.abort();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [language]);
+
+  // ── Fetch triggered by minute tick or settings change (320ms debounce) ──
   useEffect(() => {
     const controller = new AbortController();
     setError("");
 
     const run = async () => {
+      const currentLang = languageRef.current;
       try {
-        const localDay = await findLocalDayByYmd(ymdToday(), { signal: controller.signal });
-        const normalized = localDay ? normalizeDayRecord(localDay, { tzOffset: defaults.tzOffset }) : null;
-        setPanchang((prev) => {
-          if (!normalized) return null;
-          let merged = normalized;
-          merged = keepPreviousIfPlaceholder(prev, merged, "Yoga", ["YogaStart", "YogaEnd"]);
-          merged = keepPreviousIfPlaceholder(prev, merged, "Tithi", ["TithiStart", "TithiEnd"]);
-          merged = keepPreviousIfPlaceholder(prev, merged, "Nakshatra", ["NakshatraStart", "NakshatraEnd"]);
-          merged = keepPreviousIfPlaceholder(prev, merged, "Karana", ["KaranaStart", "KaranaEnd"]);
-          merged = keepPreviousIfPlaceholder(prev, merged, "Paksha");
-          return merged;
-        });
+        const payload = await getProkeralaPanchang(
+          {
+            date: ymdToday(),
+            time: `${pad2(now.getHours())}:${pad2(now.getMinutes())}`,
+            lat: defaults.lat,
+            lng: defaults.lng,
+            tzOffset: defaults.tzOffset,
+            ayanamsa: defaults.ayanamsa,
+            la: currentLang,
+          },
+          { signal: controller.signal }
+        );
+        if (languageRef.current === currentLang) {
+          setPanchang(payload?.data || payload || null);
+        }
       } catch (e) {
         if (e?.name === "AbortError") return;
         setPanchang(null);
-        setError(e?.message || "Failed to load local Panchang data");
+        setError(e?.message || "Failed to load Panchang");
       }
     };
 
-    const timer = setTimeout(run, 120);
+    const t = setTimeout(run, 320);
     return () => {
-      clearTimeout(timer);
+      clearTimeout(t);
       controller.abort();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [language, now.getMinutes(), settingsNonce, defaults.tzOffset]);
+  }, [now.getMinutes(), settingsNonce]);
 
 
   // Local translation helper — looks up a term in translations.js, fallback to raw value
@@ -451,34 +423,95 @@ export default function HomePage() {
 
   const summary = useMemo(() => {
     if (!panchang) return null;
-    const ghati = computeGhati(now, panchang?.SunriseIso || panchang?.Sunrise);
-    const lunarMonthRaw = firstText(panchang?.["Lunar Month"], panchang?.lunar_month);
-    const samvatsaraRaw = extractSamvatsaraName(
-      firstText(panchang?.["Shaka Samvat"], panchang?.samvatsara)
+    const refDate = safeDateFromIso(
+      buildIsoDatetime({
+        date: ymdToday(),
+        time: `${pad2(now.getHours())}:${pad2(now.getMinutes())}`,
+        tzOffset: defaults.tzOffset,
+      })
     );
+
+
+    const activeTithi = findActiveByTime(panchang?.tithi, refDate);
+    const activeNakshatra = findActiveByTime(panchang?.nakshatra, refDate);
+    const activeYoga = findActiveByTime(panchang?.yoga, refDate);
+    const activeChoghadiya = findActiveByTime(panchang?.choghadiya, refDate);
+    const activeKarana = findActiveByTime(panchang?.karana, refDate);
+    const ghati = computeGhati(now, panchang?.sunrise);
+
+
+    const pakshaRaw = firstText(activeTithi?.paksha, panchang?.paksha, panchang?.advanced?.paksha);
+    const weekdayRaw = firstText(
+      panchang?.vaara,
+      panchang?.weekday,
+      panchang?.day,
+      panchang?.advanced?.vaara,
+      panchang?.advanced?.weekday
+    );
+    const lunarMonthRaw = firstText(
+      panchang?.lunar_month?.name,
+      panchang?.lunar_month,
+      panchang?.masa,
+      panchang?.advanced?.lunar_month?.name,
+      panchang?.advanced?.lunar_month,
+      panchang?.advanced?.masa
+    );
+    const samvatsaraRaw = firstText(
+      panchang?.samvatsara?.name,
+      panchang?.samvatsara,
+      panchang?.advanced?.samvatsara?.name,
+      panchang?.advanced?.samvatsara
+    );
+    const purnimanthaMonthRaw = firstText(
+      panchang?.purnimantha_month?.name,
+      panchang?.purnimanta_month?.name,
+      panchang?.lunar_month?.purnimanta_name,
+      panchang?.advanced?.purnimantha_month?.name,
+      panchang?.advanced?.purnimanta_month?.name,
+      panchang?.advanced?.lunar_month?.purnimanta_name
+    );
+    const ayanaRaw = firstText(
+      panchang?.ayana?.name,
+      panchang?.ayana,
+      panchang?.advanced?.ayana?.name,
+      panchang?.advanced?.ayana
+    );
+    const rituRaw = firstText(
+      panchang?.ritu?.name,
+      panchang?.ritu,
+      panchang?.advanced?.ritu?.name,
+      panchang?.advanced?.ritu,
+      panchang?.season
+    );
+
+
+    const choghadiyaRaw = cleanDash(activeChoghadiya?.name);
+    const choghadiyaTimeStr = joinClean([toHHMM(activeChoghadiya?.start), toHHMM(activeChoghadiya?.end)], " - ");
+    const choghadiyaText = joinClean([t[choghadiyaRaw] || choghadiyaRaw, choghadiyaTimeStr], " ");
 
 
     return {
       headlineTime: ghati ? `${pad2(ghati.ghati)}:${pad2(ghati.pal)}` : "",
-      tithi: translateTerm(firstText(panchang?.Tithi)),
-      tithiFull: { start: panchang?.TithiStart, end: panchang?.TithiEnd },
-      paksha: translateTerm(firstText(panchang?.Paksha)),
-      karana: translateKaranaName(firstText(panchang?.Karana, panchang?.Karanam), language, t),
-      karanaFull: { start: panchang?.KaranaStart, end: panchang?.KaranaEnd },
-      yoga: translateTerm(firstText(panchang?.Yoga)),
-      yogaFull: { start: panchang?.YogaStart, end: panchang?.YogaEnd },
+      tithi: translateTerm(firstText(activeTithi?.name)),
+      tithiFull: activeTithi,
+      paksha: translateTerm(pakshaRaw),
+      karana: translateTerm(firstText(activeKarana?.name)),
+      karanaFull: activeKarana,
+      yoga: translateTerm(firstText(activeYoga?.name)),
+      yogaFull: activeYoga,
       lunarMonth: translateTerm(lunarMonthRaw),
-      nakshatra: translateTerm(firstText(panchang?.Nakshatra)),
-      nakshatraFull: { start: panchang?.NakshatraStart, end: panchang?.NakshatraEnd },
-      weekday: translateTerm(firstText(panchang?.Weekday)),
-      choghadiya: "",
-      panchaka: "",
-      samvatsara: translateTerm(samvatsaraRaw),
-      purnimanthaMonth: "",
-      ayana: "",
-      ritu: "",
+      nakshatra: translateTerm(firstText(activeNakshatra?.name)),
+      nakshatraFull: activeNakshatra,
+      weekday: translateTerm(weekdayRaw),
+      choghadiya: choghadiyaText,
+      panchaka: translateTerm(firstText(panchang?.panchaka?.name, panchang?.panchaka)),
+      samvatsara: translateTerm(samvatsaraRaw?.replace(/^\d+\s*/, "")),
+      purnimanthaMonth: translateTerm(purnimanthaMonthRaw),
+      ayana: translateTerm(ayanaRaw),
+      ritu: translateTerm(rituRaw),
     };
-  }, [panchang, now, language]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [panchang, now, defaults.tzOffset, language]);
 
 
   const formattedTime = useMemo(
@@ -491,23 +524,74 @@ export default function HomePage() {
   );
 
   const openDailyHoroscope = () => {
-    try {
-      sessionStorage.setItem(VIEW_STATE_KEY, "rashiphalalu");
-    } catch {
-      // ignore sessionStorage failures
-    }
-    navigate("/month-view");
+    setIsHoroscopeOpen((prev) => !prev);
   };
 
   const openChantingAlarm = () => {
     setIsAlarmPopupOpen((prev) => !prev);
   };
 
+  const togglePanchangMenu = () => {
+    setIsPanchangOpen((prev) => !prev);
+  };
+
+  const saveAlarmSettings = () => {
+    try {
+      localStorage.setItem(ALARM_STORAGE_KEY, JSON.stringify(alarmSettings));
+      setNotificationStatus("Settings saved!");
+      setTimeout(() => setNotificationStatus(""), 3000);
+    } catch {
+      setNotificationStatus("Failed to save settings.");
+    }
+  };
+
+  const resetAlarmSettings = () => {
+    setAlarmSettings(defaultAlarmSettings);
+    try {
+      localStorage.setItem(ALARM_STORAGE_KEY, JSON.stringify(defaultAlarmSettings));
+      setNotificationStatus("Reset to defaults.");
+      setTimeout(() => setNotificationStatus(""), 3000);
+    } catch {
+      setNotificationStatus("Failed to reset settings.");
+    }
+  };
+
+  const requestNotificationPermission = async () => {
+    if (typeof Notification === "undefined") {
+      setNotificationStatus("Notifications are not supported in this browser.");
+      return;
+    }
+    if (Notification.permission === "granted") {
+      setNotificationStatus("Notifications already enabled! ✓");
+      setTimeout(() => setNotificationStatus(""), 3000);
+      return;
+    }
+    try {
+      const result = await Notification.requestPermission();
+      if (result === "granted") {
+        setNotificationStatus("Notifications enabled! ✓");
+        // Show a test notification
+        new Notification("Hindu Calendar", {
+          body: "Notifications are now enabled for auspicious time reminders.",
+          icon: "/favicon.ico",
+        });
+      } else if (result === "denied") {
+        setNotificationStatus(
+          "Notifications blocked. Please allow them in your browser settings."
+        );
+      } else {
+        setNotificationStatus("Notification permission was dismissed.");
+      }
+      setTimeout(() => setNotificationStatus(""), 5000);
+    } catch {
+      setNotificationStatus("Could not request notification permission.");
+    }
+  };
   const clampChatPosition = (x, y) => {
     if (typeof window === "undefined") return { x, y };
     const rect = chatButtonRef.current?.getBoundingClientRect();
     const width = rect?.width || (window.innerWidth >= 640 ? 56 : 48);
-    const height = rect?.height || (window.innerHeight >= 640 ? 56 : 48);
+    const height = rect?.height || (window.innerWidth >= 640 ? 56 : 48);
     const edgePad = 8;
     const maxX = Math.max(edgePad, window.innerWidth - width - edgePad);
     const maxY = Math.max(edgePad, window.innerHeight - height - edgePad);
@@ -524,7 +608,7 @@ export default function HomePage() {
       setChatButtonPos((prev) => {
         if (prev.x !== null && prev.y !== null) return prev;
         const size = window.innerWidth >= 640 ? 56 : 48;
-        const margin = window.innerWidth >= 640 ? 24 : 16;
+        const margin = window.innerWidth >= 640 ? 24 : 96; // 96px = 6rem, securely above nav
         return {
           x: window.innerWidth - size - margin,
           y: window.innerHeight - size - margin,
@@ -571,86 +655,17 @@ export default function HomePage() {
     document.addEventListener("pointerup", onPointerUp);
   };
 
-  const saveAlarmSettings = () => {
-    try {
-      localStorage.setItem(ALARM_STORAGE_KEY, JSON.stringify(alarmSettings));
-      postFlutterMessage({
-        action: "update_alarms",
-        data: {
-          audioEnabled: alarmSettings.audioEnabled,
-          silentMode: alarmSettings.silentMode,
-          reminderTime: alarmSettings.reminderTime,
-          disabledDays: alarmSettings.disabledDays,
-        },
-      });
-      setNotificationStatus("Settings saved!");
-      setTimeout(() => setNotificationStatus(""), 3000);
-    } catch {
-      setNotificationStatus("Failed to save settings.");
-    }
-  };
-
-  const resetAlarmSettings = () => {
-    setAlarmSettings(defaultAlarmSettings);
-    try {
-      localStorage.setItem(ALARM_STORAGE_KEY, JSON.stringify(defaultAlarmSettings));
-      setNotificationStatus("Reset to defaults.");
-      setTimeout(() => setNotificationStatus(""), 3000);
-    } catch {
-      setNotificationStatus("Failed to reset settings.");
-    }
-  };
-
-  const requestNotificationPermission = async () => {
-    if (postFlutterMessage({
-        action: "request_native_permissions",
-      })) {
-      setNotificationStatus("Requested App Permissions");
-      setTimeout(() => setNotificationStatus(""), 3000);
-      return;
-    }
-
-    if (typeof Notification === "undefined") {
-      setNotificationStatus("Notifications are not supported in this browser.");
-      return;
-    }
-    if (Notification.permission === "granted") {
-      setNotificationStatus("Notifications already enabled! ✓");
-      setTimeout(() => setNotificationStatus(""), 3000);
-      return;
-    }
-    try {
-      const result = await Notification.requestPermission();
-      if (result === "granted") {
-        setNotificationStatus("Notifications enabled! ✓");
-        // Show a test notification
-        new Notification("Hindu Calendar", {
-          body: "Notifications are now enabled for auspicious time reminders.",
-          icon: "/favicon.ico",
-        });
-      } else if (result === "denied") {
-        setNotificationStatus(
-          "Notifications blocked. Please allow them in your browser settings."
-        );
-      } else {
-        setNotificationStatus("Notification permission was dismissed.");
-      }
-      setTimeout(() => setNotificationStatus(""), 5000);
-    } catch {
-      setNotificationStatus("Could not request notification permission.");
-    }
-  };
   return (
     <div
-      className="min-h-screen overflow-x-hidden"
+      className="min-h-screen overflow-x-hidden pt-4 sm:pt-6"
       style={{
         fontFamily: "'Segoe UI', 'Inter', 'Trebuchet MS', sans-serif",
         background: "radial-gradient(ellipse at top, #2a1810 0%, #1a0d08 40%, #0d0504 100%)",
       }}
     >
-      <div className="mx-auto w-full max-w-md px-4 pb-36 pt-0 md:max-w-6xl md:px-6 md:pb-40">
+      <div className="mx-auto w-full max-w-md px-4 pb-36 md:max-w-6xl md:px-6 md:pb-40">
         <header
-          className="mb-1 grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-1 px-1 py-1 transition-all duration-300"
+          className="mb-2 grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-1 px-1 py-1 transition-all duration-300"
         >
           <div className="flex items-center gap-1.5">
             <div
@@ -815,8 +830,8 @@ export default function HomePage() {
                 }}
               >
                 <span>{"\u25CF"} {cleanDash(summary.tithi)}</span>
-                {getStartEndDateText(summary.tithiFull) && (
-                  <span className="text-amber-100/80">{getStartEndDateText(summary.tithiFull)}</span>
+                {getTimeRangeText(summary.tithiFull) && (
+                  <span className="text-amber-100/80">{getTimeRangeText(summary.tithiFull)}</span>
                 )}
               </div>
             )}
@@ -867,8 +882,8 @@ export default function HomePage() {
                 }}
               >
                 <span>{"\u25D0"} {cleanDash(summary.paksha)}</span>
-                {getStartEndDateText(summary.tithiFull) && (
-                  <span className="text-amber-100/80">{getStartEndDateText(summary.tithiFull)}</span>
+                {getTimeRangeText(summary.tithiFull) && (
+                  <span className="text-amber-100/80">{getTimeRangeText(summary.tithiFull)}</span>
                 )}
               </div>
             )}
@@ -943,7 +958,7 @@ export default function HomePage() {
           <button
             type="button"
             onClick={openDailyHoroscope}
-            className="w-full rounded-xl px-3 py-2 text-sm font-bold uppercase tracking-wide transition-all hover:scale-[1.01]"
+            className="relative w-full rounded-xl px-3 py-2 text-sm font-bold uppercase tracking-wide transition-all hover:scale-[1.01]"
             style={{
               background: "var(--calendar-orange-gradient)",
               border: "2.5px solid rgba(212, 168, 71, 0.8)",
@@ -952,9 +967,40 @@ export default function HomePage() {
                 "0 0 18px rgba(212, 168, 71, 0.3), inset 0 1px 2px rgba(255, 255, 255, 0.1), inset 0 -1px 2px rgba(0, 0, 0, 0.2)",
             }}
           >
-            {t.dailyHoroscope || "Daily Horoscope"}
+            <span className="block text-center">{t.dailyHoroscope || "Daily Horoscope"}</span>
+            <span
+              aria-hidden="true"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-xs transition-transform duration-200"
+              style={{
+                color: "#ffedb3",
+                transform: isHoroscopeOpen ? "rotate(180deg)" : "rotate(0deg)",
+                textShadow: "0 1px 2px rgba(0, 0, 0, 0.2)",
+              }}
+            >
+              ▼
+            </span>
           </button>
         </div>
+
+        {isHoroscopeOpen && (
+          <div className="mt-1 rounded-xl p-0 backdrop-blur-md overflow-hidden"
+            style={{
+              background: "linear-gradient(135deg, rgba(74, 33, 16, 0.98) 0%, rgba(92, 42, 21, 0.95) 50%, rgba(112, 54, 27, 0.92) 100%)",
+              border: "3px solid rgba(255, 140, 50, 0.7)",
+              boxShadow: "0 0 25px rgba(120, 58, 26, 0.55), inset 0 0 18px rgba(170, 94, 43, 0.2)",
+            }}
+          >
+            <div className="w-full">
+              <Rashiphalalu
+                language={language}
+                translations={t}
+                selectedRashi={selectedRashi}
+                setSelectedRashi={setSelectedRashi}
+                isInline={true}
+              />
+            </div>
+          </div>
+        )}
 
         <div
           className="mt-1 rounded-xl p-2 backdrop-blur-md"
@@ -976,7 +1022,7 @@ export default function HomePage() {
                 "0 0 18px rgba(212, 168, 71, 0.3), inset 0 1px 2px rgba(255, 255, 255, 0.1), inset 0 -1px 2px rgba(0, 0, 0, 0.2)",
             }}
           >
-            <span className="block text-center">{t.chantingAlarm || "Chanting Alarm"}</span>
+            <span className="block text-center">{t.chantingAlarm || "Chanting Tunes"}</span>
             <span
               aria-hidden="true"
               className="absolute right-3 top-1/2 -translate-y-1/2 text-xs transition-transform duration-200"
@@ -1016,17 +1062,54 @@ export default function HomePage() {
         <div
           className="mt-1 rounded-xl p-2 backdrop-blur-md"
           style={{
-            background: "var(--calendar-orange-shell)",
-            border: "3px solid rgba(255, 140, 50, 0.8)",
-            boxShadow: "0 0 35px rgba(255, 140, 50, 0.8), 0 0 70px rgba(255, 100, 30, 0.6), inset 0 0 30px rgba(255, 140, 50, 0.2)",
+            background: "linear-gradient(135deg, rgba(74, 33, 16, 0.98) 0%, rgba(92, 42, 21, 0.95) 50%, rgba(112, 54, 27, 0.92) 100%)",
+            border: "3px solid rgba(255, 140, 50, 0.7)",
+            boxShadow: "0 0 25px rgba(120, 58, 26, 0.55), inset 0 0 18px rgba(170, 94, 43, 0.2)",
           }}
         >
-          <section className="grid grid-cols-2 gap-2.5 md:grid-cols-3 lg:grid-cols-4">
-            {getTiles(t).map((tile) => (
-              <Tile key={tile.to} {...tile} />
-            ))}
-          </section>
+          <button
+            type="button"
+            onClick={togglePanchangMenu}
+            className="relative w-full rounded-xl px-3 py-2 text-sm font-bold uppercase tracking-wide transition-all hover:scale-[1.01]"
+            style={{
+              background: "var(--calendar-orange-gradient)",
+              border: "2.5px solid rgba(212, 168, 71, 0.8)",
+              color: "#ffedb3",
+              boxShadow:
+                "0 0 18px rgba(212, 168, 71, 0.3), inset 0 1px 2px rgba(255, 255, 255, 0.1), inset 0 -1px 2px rgba(0, 0, 0, 0.2)",
+            }}
+          >
+            <span className="block text-center">{t.panchang || t.tilePanchang || "Panchang"}</span>
+            <span
+              aria-hidden="true"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-xs transition-transform duration-200"
+              style={{
+                color: "#ffedb3",
+                transform: isPanchangOpen ? "rotate(180deg)" : "rotate(0deg)",
+                textShadow: "0 1px 2px rgba(0, 0, 0, 0.2)",
+              }}
+            >
+              ▼
+            </span>
+          </button>
         </div>
+
+        {isPanchangOpen && (
+          <div
+            className="mt-1 rounded-xl p-2 backdrop-blur-md"
+            style={{
+              background: "var(--calendar-orange-shell)",
+              border: "3px solid rgba(255, 140, 50, 0.8)",
+              boxShadow: "0 0 35px rgba(255, 140, 50, 0.8), 0 0 70px rgba(255, 100, 30, 0.6), inset 0 0 30px rgba(255, 140, 50, 0.2)",
+            }}
+          >
+            <section className="grid grid-cols-2 gap-2.5 md:grid-cols-3 lg:grid-cols-4">
+              {getTiles(t).map((tile) => (
+                <Tile key={tile.to} {...tile} />
+              ))}
+            </section>
+          </div>
+        )}
       </div>
 
 
@@ -1100,7 +1183,7 @@ export default function HomePage() {
                 boxShadow: "0 4px 16px rgba(255, 111, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.15), inset 0 -2px 0 rgba(139, 69, 19, 0.2)",
               }}
             >
-              {joinClean([summary?.purnimanthaMonth]) ? (
+              {summary?.purnimanthaMonth ? (
                 <div
                   className="text-[13px] font-semibold"
                   style={{
@@ -1108,7 +1191,7 @@ export default function HomePage() {
                     textShadow: "0 1px 3px rgba(0, 0, 0, 0.3)",
                   }}
                 >
-                  {joinClean([summary?.purnimanthaMonth])}
+                  {summary?.purnimanthaMonth}
                 </div>
               ) : null}
               {joinClean([summary?.ayana, summary?.ritu]) ? (
@@ -1126,52 +1209,6 @@ export default function HomePage() {
           ) : null}
         </div>
       </div>
-
-      <button
-        ref={chatButtonRef}
-        type="button"
-        aria-label="Open chatbot"
-        title="Chatbot (Coming soon)"
-        onClick={() => setIsChatbotOpen(true)}
-        onPointerDown={handleChatButtonPointerDown}
-        className="fixed z-40 inline-flex items-center justify-center rounded-full h-12 w-12 sm:h-14 sm:w-14 backdrop-blur-md cursor-grab active:cursor-grabbing"
-        style={{
-          background:
-            "linear-gradient(145deg, rgba(255, 210, 155, 0.22) 0%, rgba(255, 150, 80, 0.16) 55%, rgba(255, 120, 45, 0.2) 100%)",
-          border: "2px solid rgba(255, 226, 176, 0.75)",
-          boxShadow:
-            "0 12px 28px rgba(0, 0, 0, 0.4), 0 0 26px rgba(255, 145, 65, 0.4), inset 0 1px 8px rgba(255, 250, 240, 0.22)",
-          touchAction: "none",
-          ...(chatButtonPos.x === null || chatButtonPos.y === null
-            ? { right: "1rem", bottom: "1rem" }
-            : { left: `${chatButtonPos.x}px`, top: `${chatButtonPos.y}px` }),
-        }}
-      >
-        <span
-          className="inline-flex items-center justify-center rounded-full h-8 w-8 sm:h-9 sm:w-9"
-          style={{
-            background:
-              "linear-gradient(145deg, rgba(255, 176, 102, 0.38) 0%, rgba(255, 122, 55, 0.32) 100%)",
-            border: "1px solid rgba(255, 224, 170, 0.65)",
-            boxShadow: "inset 0 0 10px rgba(255, 239, 210, 0.2)",
-            color: "#FFF1D6",
-            fontSize: "17px",
-            lineHeight: "1",
-          }}
-        >
-          {"\uD83D\uDCAC"}
-        </span>
-      </button>
-
-      {isChatbotOpen && (
-        <Chatbot
-          isOpen={isChatbotOpen}
-          onClose={() => setIsChatbotOpen(false)}
-          language={language}
-          currentView="calendar"
-          selectedDay={null}
-        />
-      )}
 
 
       {menuOpen ? (
@@ -1238,6 +1275,84 @@ export default function HomePage() {
         </div>
       ) : null}
 
+      {/* ASTROLOGY NAV BUTTON */}
+      <Link
+        to="/astrology"
+        aria-label="Open astrology pages"
+        title="Astrology (Panchang / Kundali / Matchmaking / Muhurat)"
+        className="fixed z-40 inline-flex items-center justify-center rounded-full h-12 w-12 sm:h-14 sm:w-14 backdrop-blur-md"
+        style={{
+          right: "1rem",
+          bottom: "100px",  // Roughly 6.25rem to sit gracefully above the nav
+          background: "linear-gradient(145deg, rgba(255, 210, 155, 0.18) 0%, rgba(255, 150, 80, 0.12) 55%, rgba(255, 120, 45, 0.16) 100%)",
+          border: "2px solid rgba(255, 226, 176, 0.65)",
+          boxShadow: "0 12px 28px rgba(0, 0, 0, 0.35), 0 0 26px rgba(255, 145, 65, 0.3), inset 0 1px 8px rgba(255, 250, 240, 0.18)",
+        }}
+      >
+        <span
+          className="inline-flex items-center justify-center rounded-full h-8 w-8 sm:h-9 sm:w-9"
+          style={{
+            background: "linear-gradient(145deg, rgba(255, 176, 102, 0.32) 0%, rgba(255, 122, 55, 0.26) 100%)",
+            border: "1px solid rgba(255, 224, 170, 0.55)",
+            boxShadow: "inset 0 0 10px rgba(255, 239, 210, 0.16)",
+            color: "#FFF1D6",
+            fontSize: "17px",
+            lineHeight: "1",
+          }}
+        >
+          🪐
+        </span>
+      </Link>
+
+      {/* CHATBOT PLACEHOLDER BUTTON */}
+      <button
+        ref={chatButtonRef}
+        type="button"
+        aria-label="Open chatbot"
+        title="Chatbot"
+        onClick={() => setIsChatbotOpen(!isChatbotOpen)}
+        onPointerDown={handleChatButtonPointerDown}
+        className="fixed z-40 inline-flex items-center justify-center rounded-full h-12 w-12 sm:h-14 sm:w-14 backdrop-blur-md cursor-grab active:cursor-grabbing"
+        style={{
+          background: "linear-gradient(145deg, rgba(255, 210, 155, 0.22) 0%, rgba(255, 150, 80, 0.16) 55%, rgba(255, 120, 45, 0.2) 100%)",
+          border: "2px solid rgba(255, 226, 176, 0.75)",
+          boxShadow: "0 12px 28px rgba(0, 0, 0, 0.4), 0 0 26px rgba(255, 145, 65, 0.4), inset 0 1px 8px rgba(255, 250, 240, 0.22)",
+          touchAction: "none",
+          ...(chatButtonPos.x === null || chatButtonPos.y === null
+            ? { right: "1rem", bottom: "100px" } // Provide same safe fallback padding
+            : { left: `${chatButtonPos.x}px`, top: `${chatButtonPos.y}px` }),
+        }}
+      >
+        <span
+          className="inline-flex items-center justify-center rounded-full h-8 w-8 sm:h-9 sm:w-9"
+          style={{
+            background: "linear-gradient(145deg, rgba(255, 176, 102, 0.38) 0%, rgba(255, 122, 55, 0.32) 100%)",
+            border: "1px solid rgba(255, 224, 170, 0.65)",
+            boxShadow: "inset 0 0 10px rgba(255, 239, 210, 0.2)",
+            color: "#FFF1D6",
+            fontSize: "17px",
+            lineHeight: "1",
+          }}
+        >
+          💬
+        </span>
+      </button>
+
+      {/* CHATBOT */}
+      {isChatbotOpen && (
+        <ChatbotErrorBoundary>
+          <Chatbot
+            isOpen={isChatbotOpen}
+            onClose={() => setIsChatbotOpen(false)}
+            language={language}
+            currentView={"calendar"}
+            translations={t}
+            selectedDay={null}
+            voiceEnabled={voiceEnabled}
+          />
+        </ChatbotErrorBoundary>
+      )}
+
       {languagePopupOpen ? (
         <div
           className="fixed inset-0 z-[1010] flex items-center justify-center bg-black/70 backdrop-blur-sm p-4"
@@ -1277,7 +1392,12 @@ export default function HomePage() {
             <button
               type="button"
               onClick={() => setLanguagePopupOpen(false)}
-              className="mt-3 w-full rounded-lg bg-gray-600 px-4 py-2 text-sm font-semibold text-white transition-all duration-200 hover:bg-gray-500"
+              className="mt-3 w-full rounded-lg px-4 py-2 text-sm font-semibold text-white transition-all duration-200"
+              style={{
+                background: "linear-gradient(135deg, rgba(230, 81, 0, 0.9) 0%, rgba(255, 112, 67, 0.9) 100%)",
+                border: "2px solid rgba(255, 183, 77, 0.8)",
+                boxShadow: "0 2px 8px rgba(230, 81, 0, 0.4)",
+              }}
             >
               {t.close || "Close"}
             </button>
@@ -1348,7 +1468,7 @@ function HomeAlarmPanel({
           className="text-xs sm:text-sm font-bold uppercase tracking-wide"
           style={{ color: "#D4AF37" }}
         >
-          {translations[language]?.alarmSettings || "Chanting Alarm"}
+          {translations[language]?.alarmSettings || "Chanting Tunes"}
         </h3>
       </div>
 
@@ -1472,29 +1592,38 @@ function HomeAlarmPanel({
             >
               {translations[language]?.scrollUp || "Scroll Up"}
             </button>
-            <button
-              type="button"
-              onClick={onRequestNotification}
-              className="w-full rounded-lg px-2 py-1 text-[10px] font-semibold uppercase tracking-wide transition-all duration-200 hover:scale-[1.02]"
-              style={{
-                background:
-                  "linear-gradient(135deg, #2a5a1f 0%, #3a6e2d 30%, #4a8238 60%, #5a9645 100%)",
-                border: "2px solid #d4a847",
-                color: "#ffedb3",
-                boxShadow:
-                  "0 0 12px rgba(212, 168, 71, 0.25), inset 0 1px 2px rgba(255, 255, 255, 0.08), inset 0 -1px 2px rgba(0, 0, 0, 0.18)",
-              }}
-            >
-              🔔 {translations[language]?.enableNotifications || "Enable Notifications"}
-            </button>
             {notificationStatus ? (
               <div
-                className="w-full rounded-lg px-2 py-1 text-[10px] font-semibold text-center"
-                style={{ color: "#ffd700", background: "rgba(0,0,0,0.25)", border: "1px solid #d4a847" }}
+                className="w-full rounded-lg px-2 py-2 text-xs font-bold text-center animate-pulse"
+                style={{
+                  color: "#FFFFFF",
+                  background: "linear-gradient(135deg, rgba(42, 90, 31, 0.9) 0%, rgba(90, 150, 69, 0.9) 100%)",
+                  border: "2px solid #FFED70",
+                  boxShadow: "0 0 15px rgba(255, 237, 112, 0.3)"
+                }}
               >
                 {notificationStatus}
               </div>
             ) : null}
+            {!window.NativeApp && (
+              <>
+                <button
+                  type="button"
+                  onClick={onRequestNotification}
+                  className="w-full rounded-lg px-2 py-1 text-[10px] font-semibold uppercase tracking-wide transition-all duration-200 hover:scale-[1.02]"
+                  style={{
+                    background:
+                      "linear-gradient(135deg, #2a5a1f 0%, #3a6e2d 30%, #4a8238 60%, #5a9645 100%)",
+                    border: "2px solid #d4a847",
+                    color: "#ffedb3",
+                    boxShadow:
+                      "0 0 12px rgba(212, 168, 71, 0.25), inset 0 1px 2px rgba(255, 255, 255, 0.08), inset 0 -1px 2px rgba(0, 0, 0, 0.18)",
+                  }}
+                >
+                  🔔 {translations[language]?.enableNotifications || "Enable Notifications"}
+                </button>
+              </>
+            )}
           </div>
         </div>
       </div>

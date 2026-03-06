@@ -1,16 +1,15 @@
 import { useEffect, useMemo, useState } from "react";
-import PageShell from "./PageShell";
 import { languages, translations } from "../translations";
 import {
-  loadAyanamsa,
   LANGUAGE_CHANGE_EVENT,
+  loadAyanamsa,
   loadLanguage,
   loadLocation,
   saveAyanamsa,
   saveLanguage,
   saveLocation,
 } from "../utils/appSettings";
-import { postFlutterMessage } from "../utils/flutterBridge";
+import PageShell from "./PageShell";
 
 const CAL_MONTH_TYPE_KEY = "panchang:calendar-month-type";
 const CAL_YEAR_TYPE_KEY = "panchang:calendar-year-type";
@@ -28,27 +27,6 @@ function loadBool(key, fallback = false) {
 
 function saveBool(key, value) {
   localStorage.setItem(key, value ? "1" : "0");
-}
-
-async function reverseGeocodeLocationName(lat, lng) {
-  const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${encodeURIComponent(lat)}&lon=${encodeURIComponent(lng)}&zoom=12&addressdetails=1`;
-  const response = await fetch(url, {
-    headers: { Accept: "application/json" },
-  });
-  if (!response.ok) throw new Error(`Reverse geocode failed: ${response.status}`);
-  const payload = await response.json();
-  const addr = payload?.address || {};
-  const city =
-    addr.city ||
-    addr.town ||
-    addr.village ||
-    addr.municipality ||
-    addr.county ||
-    addr.suburb ||
-    "";
-  const state = addr.state || addr.region || "";
-  const country = addr.country || "";
-  return [city, state, country].filter(Boolean).join(", ").trim();
 }
 
 export default function SettingsPage() {
@@ -239,8 +217,50 @@ export default function SettingsPage() {
   }, []);
 
   const onAutoLocation = async () => {
-    postFlutterMessage({ action: "request_location_permission" });
+    // 1. Check if running inside the Flutter App
+    if (window.NativeApp && window.NativeApp.postMessage) {
+      setStatus(tr("settingsStatusGettingLocation", "Getting location…"));
 
+      // Define the success callback that Flutter will trigger
+      window.receiveNativeLocation = (lat, lng) => {
+        if (!Number.isFinite(lat) || !Number.isFinite(lng)) {
+          setStatus(tr("settingsStatusCoordsFailed", "Could not read coordinates."));
+          return;
+        }
+        const next = {
+          ...location,
+          name: tr("settingsCurrentLocation", "Current location"),
+          lat: lat.toFixed(4),
+          lng: lng.toFixed(4),
+        };
+        setLocation(next);
+        saveLocation(next);
+        setStatus(tr("settingsStatusLocationUpdated", "Location updated."));
+
+        // Cleanup
+        delete window.receiveNativeLocation;
+        delete window.onNativeLocationError;
+      };
+
+      // Define the error callback that Flutter will trigger
+      window.onNativeLocationError = (errorMsg) => {
+        setStatus(errorMsg);
+
+        // Cleanup
+        delete window.receiveNativeLocation;
+        delete window.onNativeLocationError;
+      };
+
+      // Tell Flutter to grab the location and call our functions
+      try {
+        window.NativeApp.postMessage(JSON.stringify({ action: "requestLocation" }));
+      } catch (e) {
+        setStatus("Failed to communicate with the App native bridge.");
+      }
+      return;
+    }
+
+    // 2. Standard Web Browser Fallback
     if (!navigator.geolocation) {
       setStatus(tr("settingsStatusGeoNotSupported", "Geolocation not supported in this browser."));
       return;
@@ -266,22 +286,16 @@ export default function SettingsPage() {
     setStatus(tr("settingsStatusGettingLocation", "Getting location…"));
 
     navigator.geolocation.getCurrentPosition(
-      async (pos) => {
+      (pos) => {
         const lat = pos?.coords?.latitude;
         const lng = pos?.coords?.longitude;
         if (!Number.isFinite(lat) || !Number.isFinite(lng)) {
           setStatus(tr("settingsStatusCoordsFailed", "Could not read coordinates."));
           return;
         }
-        let resolvedName = "";
-        try {
-          resolvedName = await reverseGeocodeLocationName(lat, lng);
-        } catch {
-          // ignore reverse geocode errors; keep fallback label
-        }
         const next = {
           ...location,
-          name: resolvedName || tr("settingsCurrentLocation", "Current location"),
+          name: tr("settingsCurrentLocation", "Current location"),
           lat: lat.toFixed(4),
           lng: lng.toFixed(4),
         };
@@ -335,7 +349,7 @@ export default function SettingsPage() {
   };
 
   return (
-    <PageShell title={tr("settingsTitle", "Settings")} backBehavior="history" backTo="/">
+    <PageShell title={tr("settingsTitle", "Settings")}>
       <div className="grid gap-1">
         <section className="app-surface rounded-2xl p-3">
           <div className="grid gap-2 md:grid-cols-[1fr_1.2fr] md:items-center">
@@ -348,7 +362,7 @@ export default function SettingsPage() {
             <select
               value={language}
               onChange={(e) => onSaveLanguage(e.target.value)}
-              className="w-full appearance-none rounded-2xl border px-4 py-3 text-base font-semibold text-amber-50 outline-none"
+              className="w-full appearance-none rounded-2xl border px-4 py-3 text-base font-semibold text-amber-50 outline-none astro-select"
               style={{
                 background: "var(--calendar-orange-gradient)",
                 borderColor: "rgba(255, 183, 77, 0.55)",
@@ -356,7 +370,7 @@ export default function SettingsPage() {
               }}
             >
               {languageOptions.map((l) => (
-                <option key={l.code} value={l.code} style={{ background: "#a63f12", color: "#FFF4D8" }}>
+                <option key={l.code} value={l.code} style={{ background: "#c23800", color: "#FFF4D8" }}>
                   {l.nativeName ? `${l.name} (${l.nativeName})` : l.name}
                 </option>
               ))}
@@ -403,7 +417,7 @@ export default function SettingsPage() {
                 <input
                   value={location.name}
                   onChange={(e) => setLocation((s) => ({ ...s, name: e.target.value }))}
-                  className="rounded-xl border border-white/10 bg-black/25 px-3 py-2 text-amber-50 outline-none focus:border-amber-300/35"
+                  className="rounded-xl border border-white/10 bg-[#8a2608]/40 px-3 py-2 text-amber-50 outline-none focus:border-amber-300/35"
                   placeholder="Ujjain, India"
                 />
               </label>
@@ -414,7 +428,7 @@ export default function SettingsPage() {
                 <input
                   value={location.tzOffset}
                   onChange={(e) => setLocation((s) => ({ ...s, tzOffset: e.target.value }))}
-                  className="rounded-xl border border-white/10 bg-black/25 px-3 py-2 text-amber-50 outline-none focus:border-amber-300/35"
+                  className="rounded-xl border border-white/10 bg-[#8a2608]/40 px-3 py-2 text-amber-50 outline-none focus:border-amber-300/35"
                   placeholder="+05:30"
                 />
               </label>
@@ -425,7 +439,7 @@ export default function SettingsPage() {
                 <input
                   value={location.lat}
                   onChange={(e) => setLocation((s) => ({ ...s, lat: e.target.value }))}
-                  className="rounded-xl border border-white/10 bg-black/25 px-3 py-2 text-amber-50 outline-none focus:border-amber-300/35"
+                  className="rounded-xl border border-white/10 bg-[#8a2608]/40 px-3 py-2 text-amber-50 outline-none focus:border-amber-300/35"
                   placeholder="23.1765"
                 />
               </label>
@@ -436,7 +450,7 @@ export default function SettingsPage() {
                 <input
                   value={location.lng}
                   onChange={(e) => setLocation((s) => ({ ...s, lng: e.target.value }))}
-                  className="rounded-xl border border-white/10 bg-black/25 px-3 py-2 text-amber-50 outline-none focus:border-amber-300/35"
+                  className="rounded-xl border border-white/10 bg-[#8a2608]/40 px-3 py-2 text-amber-50 outline-none focus:border-amber-300/35"
                   placeholder="75.7885"
                 />
               </label>
@@ -497,8 +511,8 @@ export default function SettingsPage() {
               type="button"
               onClick={() => onMonthType("amavasyant")}
               className={`rounded-xl px-3 py-2 text-xs font-black ring-1 ${monthType === "amavasyant"
-                  ? "bg-amber-400/25 text-amber-100 ring-amber-300/25"
-                  : "bg-white/5 text-amber-100 ring-white/10 hover:bg-white/10"
+                ? "bg-amber-400/25 text-amber-100 ring-amber-300/25"
+                : "bg-white/5 text-amber-100 ring-white/10 hover:bg-white/10"
                 }`}
             >
               Amavasyant
@@ -507,8 +521,8 @@ export default function SettingsPage() {
               type="button"
               onClick={() => onMonthType("purnimant")}
               className={`rounded-xl px-3 py-2 text-xs font-black ring-1 ${monthType === "purnimant"
-                  ? "bg-amber-400/25 text-amber-100 ring-amber-300/25"
-                  : "bg-white/5 text-amber-100 ring-white/10 hover:bg-white/10"
+                ? "bg-amber-400/25 text-amber-100 ring-amber-300/25"
+                : "bg-white/5 text-amber-100 ring-white/10 hover:bg-white/10"
                 }`}
             >
               Purnimant
@@ -532,8 +546,8 @@ export default function SettingsPage() {
                 type="button"
                 onClick={() => onYearType(key)}
                 className={`rounded-xl px-3 py-2 text-xs font-black ring-1 ${yearType === key
-                    ? "bg-amber-400/25 text-amber-100 ring-amber-300/25"
-                    : "bg-white/5 text-amber-100 ring-white/10 hover:bg-white/10"
+                  ? "bg-amber-400/25 text-amber-100 ring-amber-300/25"
+                  : "bg-white/5 text-amber-100 ring-white/10 hover:bg-white/10"
                   }`}
               >
                 {label}
@@ -550,11 +564,11 @@ export default function SettingsPage() {
           <select
             value={ayanamsa}
             onChange={(e) => onAyanamsa(e.target.value)}
-            className="mt-1 w-full rounded-xl border border-white/10 bg-black/30 px-3 py-2 text-sm font-semibold text-amber-50 outline-none focus:border-amber-300/35"
+            className="mt-1 w-full rounded-xl border border-white/10 bg-[#8a2608]/50 px-3 py-2 text-sm font-semibold text-amber-50 outline-none focus:border-amber-300/35 astro-select"
           >
-            <option value="1">1</option>
-            <option value="3">3</option>
-            <option value="5">5</option>
+            <option value="1" style={{ background: "#c23800", color: "#FFF4D8" }}>Lahiri</option>
+            <option value="3" style={{ background: "#c23800", color: "#FFF4D8" }}>Raman</option>
+            <option value="5" style={{ background: "#c23800", color: "#FFF4D8" }}>KP</option>
           </select>
         </section>
       </div>

@@ -1,16 +1,24 @@
-export function hasFlutterChannel() {
-  if (typeof window === "undefined") return false;
-  return Boolean(window.FlutterChannel && typeof window.FlutterChannel.postMessage === "function");
-}
-
 export function postFlutterMessage(payload) {
-  if (!hasFlutterChannel()) return false;
-  try {
-    window.FlutterChannel.postMessage(JSON.stringify(payload));
-    return true;
-  } catch (error) {
-    console.error("Flutter bridge postMessage failed:", error);
-    return false;
-  }
-}
+  if (typeof window === "undefined" || !payload) return false;
 
+  const serialized = typeof payload === "string" ? payload : JSON.stringify(payload);
+
+  try {
+    if (window.NativeApp && typeof window.NativeApp.postMessage === "function") {
+      window.NativeApp.postMessage(serialized);
+      return true;
+    }
+
+    if (
+      window.flutter_inappwebview &&
+      typeof window.flutter_inappwebview.callHandler === "function"
+    ) {
+      window.flutter_inappwebview.callHandler("postMessage", payload);
+      return true;
+    }
+  } catch (error) {
+    console.error("Failed to post message to Flutter bridge:", error);
+  }
+
+  return false;
+}

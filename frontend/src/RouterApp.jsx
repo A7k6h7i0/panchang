@@ -6,16 +6,14 @@ import KundaliPage from "./astrology/KundaliPage";
 import MatchmakingPage from "./astrology/MatchmakingPage";
 import MuhuratPage from "./astrology/MuhuratPage";
 import PanchangPage from "./astrology/PanchangPage";
-import FestivalsPage from "./pages/FestivalsPage";
-import MyTithiPage from "./pages/MyTithiPage";
-import HinduTimePage from "./pages/HinduTimePage";
-import CompassPage from "./pages/CompassPage";
-import SankalpMantraPage from "./pages/SankalpMantraPage";
-import AboutPage from "./pages/AboutPage";
-import InfoPage from "./pages/InfoPage";
-import SettingsPage from "./pages/SettingsPage";
 import AutoTranslator from "./components/AutoTranslator";
-import GlobalChatbotLauncher from "./components/GlobalChatbotLauncher";
+import AboutPage from "./pages/AboutPage";
+import CompassPage from "./pages/CompassPage";
+import FestivalsPage from "./pages/FestivalsPage";
+import HinduTimePage from "./pages/HinduTimePage";
+import MyTithiPage from "./pages/MyTithiPage";
+import SankalpMantraPage from "./pages/SankalpMantraPage";
+import SettingsPage from "./pages/SettingsPage";
 
 export default function RouterApp() {
   return (
@@ -30,7 +28,6 @@ export default function RouterApp() {
         <Route path="/compass" element={<CompassPage />} />
         <Route path="/sankalp-mantra" element={<SankalpMantraPage />} />
         <Route path="/about" element={<AboutPage />} />
-        <Route path="/info" element={<InfoPage />} />
         <Route path="/settings" element={<SettingsPage />} />
 
         <Route path="/astrology" element={<AstrologyHome />} />
@@ -41,7 +38,6 @@ export default function RouterApp() {
 
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
-      <GlobalChatbotLauncher />
     </>
   );
 }

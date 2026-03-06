@@ -1,14 +1,6 @@
-import { useState, useEffect, useRef, useMemo } from "react";
-import { createPortal } from "react-dom";
-import CalendarGrid from "./CalendarGrid";
+import { useEffect, useRef, useState } from "react";
 
 const YEARS = Array.from({ length: 186 }, (_, i) => 1940 + i);
-const MONTHS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
-const getFestivalDateKey = (dateStr) => {
-  const [day, month, year] = (dateStr || "").split("/");
-  if (!day || !month || !year) return "";
-  return `${year}-${month}-${day}`;
-};
 
 export default function YearSelectorPopup({
   isOpen,
@@ -19,435 +11,213 @@ export default function YearSelectorPopup({
   initialDay,
   language,
   translations,
-  onSpeak,
 }) {
   const [tempYear, setTempYear] = useState(initialYear);
   const [tempMonth, setTempMonth] = useState(initialMonth);
-  const [tempDay, setTempDay] = useState(initialDay);
-  const [popupDays, setPopupDays] = useState([]);
-  const [showYearPicker, setShowYearPicker] = useState(false);
-  const [showMonthPicker, setShowMonthPicker] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const popupViewportMaxHeight = "calc(100dvh - 1rem)";
-  const calendarViewportMaxHeight = "calc(100dvh - 12rem)";
 
-  const yearPickerRef = useRef(null);
-  const popupRef = useRef(null);
+  const monthScrollerRef = useRef(null);
+  const yearScrollerRef = useRef(null);
 
-  const selectedPopupDay = useMemo(() => {
-    const dateStr = `${String(tempDay).padStart(2, "0")}/${String(
-      tempMonth + 1
-    ).padStart(2, "0")}/${tempYear}`;
-    return popupDays.find((d) => d.date === dateStr) || null;
-  }, [popupDays, tempDay, tempMonth, tempYear]);
+  const ITEM_HEIGHT = 44; // px match with line-height
+  const VISIBLE_ITEMS = 5;
+  const HALF_VISIBLE = Math.floor(VISIBLE_ITEMS / 2);
 
-  // Update temp state when initial values change
+  // When opened, sync state to initial values
   useEffect(() => {
     if (isOpen) {
       setTempYear(initialYear);
       setTempMonth(initialMonth);
-      setTempDay(initialDay);
+
+      // Auto-scroll to correct positions when opening
+      if (monthScrollerRef.current) {
+        monthScrollerRef.current.scrollTop = initialMonth * ITEM_HEIGHT;
+      }
+      if (yearScrollerRef.current) {
+        const yearIndex = YEARS.indexOf(initialYear);
+        if (yearIndex !== -1) {
+          yearScrollerRef.current.scrollTop = yearIndex * ITEM_HEIGHT;
+        }
+      }
     }
-  }, [isOpen, initialYear, initialMonth, initialDay]);
+  }, [isOpen, initialYear, initialMonth]);
 
-  // Fetch days for tempYear/tempMonth when they change
-  useEffect(() => {
-    if (isOpen) {
-      setIsLoading(true);
-      setPopupDays([]);
-      Promise.all([
-        fetch(`/data/${tempYear}.json`).then((res) => res.json()),
-        fetch(`/data/festivals/${tempYear}.json`)
-          .then((res) => (res.ok ? res.json() : {}))
-          .catch(() => ({})),
-      ])
-        .then(([data, festivalMap]) => {
-          const monthDays = data
-            .filter((d) => {
-            const [, m] = d.date.split("/");
-            const dateMonth = parseInt(m, 10) - 1;
-            return dateMonth === tempMonth;
-            })
-            .map((d) => ({
-              ...d,
-              Festivals: festivalMap?.[getFestivalDateKey(d.date)] || [],
-            }));
-          setPopupDays(monthDays);
-          setIsLoading(false);
-        })
-        .catch((err) => {
-          console.error("Error fetching popup data:", err);
-          setPopupDays([]);
-          setIsLoading(false);
-        });
-    }
-  }, [isOpen, tempYear, tempMonth]);
-
-  // Keep tempDay valid for the currently loaded month data
-  useEffect(() => {
-    if (!isOpen || popupDays.length === 0) return;
-    if (!selectedPopupDay) {
-      const firstValidDay = parseInt(popupDays[0].date.split("/")[0], 10);
-      setTempDay(firstValidDay);
-    }
-  }, [isOpen, popupDays, selectedPopupDay]);
-
-  // Scroll to selected year when year picker opens
-  useEffect(() => {
-    if (showYearPicker && yearPickerRef.current) {
-      setTimeout(() => {
-        const yearIndex = YEARS.indexOf(tempYear);
-        const itemHeight = 40;
-        const containerHeight = 224;
-        const scrollPosition =
-          yearIndex * itemHeight - containerHeight / 2 + itemHeight / 2;
-
-        yearPickerRef.current.scrollTo({
-          top: Math.max(0, scrollPosition),
-          behavior: "smooth",
-        });
-      }, 100);
-    }
-  }, [showYearPicker, tempYear]);
-
-  // Handle click outside to close popup
-  const handleBackdropClick = (e) => {
-    if (popupRef.current && !popupRef.current.contains(e.target)) {
-      handleCancel();
+  // Handle snapping logic after scroll ends for Month
+  const handleMonthScroll = () => {
+    if (!monthScrollerRef.current) return;
+    const scrollTop = monthScrollerRef.current.scrollTop;
+    const index = Math.round(scrollTop / ITEM_HEIGHT);
+    const clampedIndex = Math.max(0, Math.min(11, index));
+    if (tempMonth !== clampedIndex) {
+      setTempMonth(clampedIndex);
     }
   };
 
-  const goPrevMonth = () => {
-    let newYear = tempYear;
-    let newMonth = tempMonth - 1;
-    
-    if (newMonth < 0) {
-      newMonth = 11;
-      newYear = tempYear - 1;
+  // Handle snapping logic after scroll ends for Year
+  const handleYearScroll = () => {
+    if (!yearScrollerRef.current) return;
+    const scrollTop = yearScrollerRef.current.scrollTop;
+    const index = Math.round(scrollTop / ITEM_HEIGHT);
+    const clampedIndex = Math.max(0, Math.min(YEARS.length - 1, index));
+    const selectedYear = YEARS[clampedIndex];
+    if (tempYear !== selectedYear) {
+      setTempYear(selectedYear);
     }
-    
-    if (newYear >= 1940) {
-      setTempYear(newYear);
-      setTempMonth(newMonth);
-      
-      Promise.all([
-        fetch(`/data/${newYear}.json`).then((res) => res.json()),
-        fetch(`/data/festivals/${newYear}.json`)
-          .then((res) => (res.ok ? res.json() : {}))
-          .catch(() => ({})),
-      ])
-        .then(([data, festivalMap]) => {
-          const monthDays = data
-            .filter((d) => {
-            const [, m] = d.date.split("/");
-            const dateMonth = parseInt(m, 10) - 1;
-            return dateMonth === newMonth;
-            })
-            .map((d) => ({
-              ...d,
-              Festivals: festivalMap?.[getFestivalDateKey(d.date)] || [],
-            }));
-          setPopupDays(monthDays);
-        })
-        .catch((err) => {
-          console.error("Error fetching prev month data:", err);
-        });
-    }
-  };
-
-  const goNextMonth = () => {
-    let newYear = tempYear;
-    let newMonth = tempMonth + 1;
-    
-    if (newMonth > 11) {
-      newMonth = 0;
-      newYear = tempYear + 1;
-    }
-    
-    if (newYear <= 2125) {
-      setTempYear(newYear);
-      setTempMonth(newMonth);
-      
-      Promise.all([
-        fetch(`/data/${newYear}.json`).then((res) => res.json()),
-        fetch(`/data/festivals/${newYear}.json`)
-          .then((res) => (res.ok ? res.json() : {}))
-          .catch(() => ({})),
-      ])
-        .then(([data, festivalMap]) => {
-          const monthDays = data
-            .filter((d) => {
-            const [, m] = d.date.split("/");
-            const dateMonth = parseInt(m, 10) - 1;
-            return dateMonth === newMonth;
-            })
-            .map((d) => ({
-              ...d,
-              Festivals: festivalMap?.[getFestivalDateKey(d.date)] || [],
-            }));
-          setPopupDays(monthDays);
-        })
-        .catch((err) => {
-          console.error("Error fetching next month data:", err);
-        });
-    }
-  };
-
-  const handleYearSelect = (year) => {
-    setTempYear(year);
-    setShowYearPicker(false);
-  };
-
-  const handleMonthSelect = (month) => {
-    setTempMonth(month);
-    setShowMonthPicker(false);
-  };
-
-  const handleDateSelect = (day) => {
-    if (!day || !day.date) return;
-    setTempDay(parseInt(day.date.split("/")[0], 10));
   };
 
   const handleConfirm = () => {
-    const dateStr = `${String(tempDay).padStart(2, "0")}/${String(tempMonth + 1).padStart(2, "0")}/${tempYear}`;
-    const dayData = popupDays.find((d) => d.date === dateStr);
-    
     onConfirm({
       year: tempYear,
       month: tempMonth,
-      day: dayData ? parseInt(dayData.date.split("/")[0], 10) : tempDay,
-      dayData: dayData
+      day: null // Reset to default/first or try to retain (App.jsx handles this logic gracefully now)
     });
-  };
-
-  const handleCancel = () => {
-    setTempYear(initialYear);
-    setTempMonth(initialMonth);
-    setTempDay(initialDay);
-    setShowYearPicker(false);
-    setShowMonthPicker(false);
-    onClose();
   };
 
   if (!isOpen) return null;
 
-  const popupContent = (
-    <div 
-      className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-1 sm:p-4 z-[1000]"
-      onClick={handleBackdropClick}
+  return (
+    <div
+      className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4 z-[1000]"
+      onClick={onClose}
     >
-        <div 
-          ref={popupRef}
-          className="rounded-2xl shadow-2xl w-full max-w-sm overflow-hidden flex flex-col"
-          style={{
-            background: "linear-gradient(135deg, #4a0e0e 0%, #d8691e 50%, #4a0e0e 100%)",
-            maxHeight: popupViewportMaxHeight,
-            zIndex: 1001
-          }}
+      <div
+        className="w-full sm:max-w-md rounded-t-3xl sm:rounded-2xl shadow-2xl flex flex-col overflow-hidden animate-slide-up sm:animate-none"
+        style={{
+          background: "linear-gradient(135deg, #3a0b0b 0%, #aa4b13 50%, #3a0b0b 100%)",
+          border: "2px solid rgba(255, 140, 50, 0.4)",
+          borderBottom: "none",
+        }}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Header Section */}
-        <div className="p-2 sm:p-3 pb-1 sm:pb-2 flex-shrink-0">
-          {/* Month Navigation Row */}
-          <div className="flex items-center justify-between mb-1 sm:mb-2">
-            {/* Month and Year Selectors */}
-            <div className="flex gap-1 sm:gap-2 w-full justify-center">
-              <button
-                onClick={() => setShowMonthPicker(true)}
-                className="px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg font-bold text-sm transition-all hover:scale-105 cursor-pointer inline-flex items-center gap-2"
-                style={{
-                  background: "linear-gradient(135deg, rgba(255, 140, 50, 0.4) 0%, rgba(255, 100, 30, 0.5) 100%)",
-                  border: "2px solid rgba(255, 140, 50, 0.6)",
-                  color: "#FFE4B5",
-                  boxShadow: "0 0 10px rgba(255, 140, 50, 0.3)",
-                }}
-              >
-                <span
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    goPrevMonth();
-                  }}
-                >
-                  ‹
-                </span>
-                <span>{translations.months[tempMonth]}</span>
-                <span
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    goNextMonth();
-                  }}
-                >
-                  ›
-                </span>
-              </button>
-              <button
-                onClick={() => setShowYearPicker(true)}
-                className="px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg font-bold text-sm transition-all hover:scale-105 cursor-pointer"
-                style={{
-                  background: "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
-                  border: "2px solid rgba(255, 140, 50, 0.7)",
-                  color: "#FFE4B5",
-                  boxShadow: "0 0 10px rgba(255, 140, 50, 0.4)",
-                }}
-              >
-                {tempYear}
-              </button>
-            </div>
+        {/* Header */}
+        <div
+          className="flex items-center justify-between p-4 border-b border-[rgba(255,140,50,0.3)] shadow-md relative z-10"
+          style={{ background: "rgba(0,0,0,0.2)" }}
+        >
+          <button
+            onClick={onClose}
+            className="text-[rgba(255,228,181,0.7)] font-semibold text-lg hover:text-[rgba(255,228,181,1)] transition-colors px-2"
+          >
+            {translations?.cancel || "Cancel"}
+          </button>
+          <div className="font-bold text-lg" style={{ color: "#FFE4B5", textShadow: "0 2px 4px rgba(0,0,0,0.5)" }}>
+            Select
           </div>
+          <button
+            onClick={handleConfirm}
+            className="text-orange-400 font-bold text-lg hover:text-orange-300 transition-colors px-2"
+          >
+            {translations?.ok || "Done"}
+          </button>
         </div>
 
-        {/* Calendar Section */}
-        <div
-          className="px-2 sm:px-3"
-          style={{
-            flex: 1,
-            minHeight: 0,
-            overflowY: "auto",
-            maxHeight: calendarViewportMaxHeight,
-            paddingBottom: "0.25rem",
-          }}
-        >
-          {isLoading ? (
-            <div className="flex items-center justify-center h-48 text-orange-200">
-              Loading...
-            </div>
-          ) : popupDays.length > 0 ? (
-            <CalendarGrid
-              days={popupDays}
-              selectedDate={selectedPopupDay}
-              onSelect={handleDateSelect}
-              language={language}
-              translations={translations}
-            />
-          ) : (
-            <div className="flex items-center justify-center h-48 text-orange-200">
-              No data available
-            </div>
-          )}
+        {/* Picker Area */}
+        <div className="relative flex justify-center items-center h-[264px] bg-[rgba(20,5,3,0.3)]" style={{ height: `${ITEM_HEIGHT * VISIBLE_ITEMS}px` }}>
+
+          {/* Highlight selection bar */}
+          <div
+            className="absolute left-4 right-4 h-[44px] rounded-xl pointer-events-none"
+            style={{
+              top: '50%',
+              transform: 'translateY(-50%)',
+              background: "linear-gradient(90deg, rgba(255, 140, 50, 0.1) 0%, rgba(255, 180, 50, 0.25) 50%, rgba(255, 140, 50, 0.1) 100%)",
+              borderTop: "1px solid rgba(255, 180, 50, 0.3)",
+              borderBottom: "1px solid rgba(255, 180, 50, 0.3)",
+              boxShadow: "0 0 15px rgba(255, 140, 50, 0.2)",
+              zIndex: 0
+            }}
+          />
+
+          {/* Month Column */}
+          <div
+            ref={monthScrollerRef}
+            onScroll={handleMonthScroll}
+            className="flex-1 h-full overflow-y-auto overflow-x-hidden relative z-10 picker-scroller"
+            style={{
+              scrollSnapType: 'y mandatory',
+              WebkitOverflowScrolling: 'touch',
+              scrollbarWidth: 'none',
+              msOverflowStyle: 'none'
+            }}
+          >
+            <div style={{ height: `${HALF_VISIBLE * ITEM_HEIGHT}px` }} /> {/* Top padding */}
+            {translations.months.map((monthName, i) => {
+              const isSelected = i === tempMonth;
+              const distance = Math.abs(i - tempMonth);
+              return (
+                <div
+                  key={i}
+                  className="flex items-center justify-end pr-6 font-bold cursor-pointer transition-all duration-200"
+                  style={{
+                    height: `${ITEM_HEIGHT}px`,
+                    scrollSnapAlign: 'center',
+                    fontSize: isSelected ? '22px' : '18px',
+                    color: isSelected ? '#FFE4B5' : `rgba(255, 228, 181, ${Math.max(0.2, 0.6 - distance * 0.2)})`,
+                    textShadow: isSelected ? '0 0 12px rgba(255, 180, 50, 0.6)' : 'none',
+                    transform: isSelected ? 'scale(1.05)' : `scale(${Math.max(0.8, 1 - distance * 0.05)})`,
+                    transformOrigin: 'right center'
+                  }}
+                  onClick={() => {
+                    if (monthScrollerRef.current) {
+                      monthScrollerRef.current.scrollTo({ top: i * ITEM_HEIGHT, behavior: 'smooth' });
+                    }
+                  }}
+                >
+                  {monthName}
+                </div>
+              );
+            })}
+            <div style={{ height: `${HALF_VISIBLE * ITEM_HEIGHT}px` }} /> {/* Bottom padding */}
+          </div>
+
+          {/* Year Column */}
+          <div
+            ref={yearScrollerRef}
+            onScroll={handleYearScroll}
+            className="flex-1 h-full overflow-y-auto overflow-x-hidden relative z-10 picker-scroller"
+            style={{
+              scrollSnapType: 'y mandatory',
+              WebkitOverflowScrolling: 'touch',
+              scrollbarWidth: 'none',
+              msOverflowStyle: 'none'
+            }}
+          >
+            <div style={{ height: `${HALF_VISIBLE * ITEM_HEIGHT}px` }} /> {/* Top padding */}
+            {YEARS.map((y, i) => {
+              const isSelected = y === tempYear;
+              const distance = Math.abs(i - YEARS.indexOf(tempYear));
+              return (
+                <div
+                  key={y}
+                  className="flex items-center justify-start pl-6 font-bold cursor-pointer transition-all duration-200"
+                  style={{
+                    height: `${ITEM_HEIGHT}px`,
+                    scrollSnapAlign: 'center',
+                    fontSize: isSelected ? '22px' : '18px',
+                    color: isSelected ? '#FFE4B5' : `rgba(255, 228, 181, ${Math.max(0.2, 0.6 - distance * 0.2)})`,
+                    textShadow: isSelected ? '0 0 12px rgba(255, 180, 50, 0.6)' : 'none',
+                    transform: isSelected ? 'scale(1.05)' : `scale(${Math.max(0.8, 1 - distance * 0.05)})`,
+                    transformOrigin: 'left center'
+                  }}
+                  onClick={() => {
+                    if (yearScrollerRef.current) {
+                      yearScrollerRef.current.scrollTo({ top: i * ITEM_HEIGHT, behavior: 'smooth' });
+                    }
+                  }}
+                >
+                  {y}
+                </div>
+              );
+            })}
+            <div style={{ height: `${HALF_VISIBLE * ITEM_HEIGHT}px` }} /> {/* Bottom padding */}
+          </div>
+
         </div>
 
-        {/* Footer Section */}
-        <div
-          className="p-2 sm:p-3 pt-1 sm:pt-2 flex-shrink-0"
-          style={{ paddingBottom: "calc(0.25rem + env(safe-area-inset-bottom))" }}
-        >
-          {/* Action Buttons */}
-          <div className="flex justify-center gap-2 sm:gap-3">
-            <button
-              onClick={handleCancel}
-              className="px-4 sm:px-5 py-1.5 sm:py-2 rounded-lg bg-gray-600 hover:bg-gray-500 text-white font-semibold transition-all duration-200 shadow-md hover:shadow-lg text-sm cursor-pointer"
-            >
-              {translations.cancel || "Cancel"}
-            </button>
-            <button
-              onClick={handleConfirm}
-              className="px-4 sm:px-5 py-1.5 sm:py-2 rounded-lg bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-semibold transition-all duration-200 shadow-lg hover:shadow-xl text-sm cursor-pointer"
-            >
-              {translations.ok || "OK"}
-            </button>
-          </div>
-        </div>
+        {/* Soft gradient fade overlays for top and bottom of picker to create cylinder effect */}
+        <div className="absolute inset-x-0 top-[69px] h-[80px] pointer-events-none" style={{ background: "linear-gradient(180deg, rgba(58,11,11,0.95) 0%, rgba(58,11,11,0) 100%)", zIndex: 15 }} />
+        <div className="absolute inset-x-0 bottom-0 h-[80px] pointer-events-none" style={{ background: "linear-gradient(0deg, rgba(58,11,11,0.95) 0%, rgba(58,11,11,0) 100%)", zIndex: 15 }} />
+
       </div>
-
-      {/* Year Picker Modal */}
-      {showYearPicker && (
-        <div 
-          className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-[1010]"
-          onClick={(e) => {
-            e.stopPropagation();
-            setShowYearPicker(false);
-          }}
-        >
-          <div 
-            className="rounded-2xl shadow-2xl p-4 max-w-xs w-full mx-4 flex flex-col"
-            style={{
-              background: "linear-gradient(135deg, #4a0e0e 0%, #d8691e 50%, #4a0e0e 100%)",
-              maxHeight: "calc(100dvh - 1rem)",
-            }}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <h3 className="text-lg font-bold text-orange-300 mb-3 text-center">
-              {translations.selectYear || "Select Year"}
-            </h3>
-            <div
-              ref={yearPickerRef}
-              className="h-56 overflow-y-auto rounded-lg shadow-inner p-2"
-              style={{
-                flex: 1,
-                minHeight: 0,
-                background: "linear-gradient(180deg, rgba(255, 110, 40, 0.35) 0%, rgba(255, 90, 25, 0.25) 100%)",
-              }}
-            >
-              {YEARS.map((year) => (
-                <button
-                  key={year}
-                  onClick={() => handleYearSelect(year)}
-                  className={`w-full text-left px-3 py-2.5 rounded-lg mb-1 transition-all duration-200 font-medium text-sm ${
-                    year === tempYear
-                      ? "bg-orange-500 text-white shadow-lg"
-                      : "bg-orange-700/95 hover:bg-orange-600 text-orange-100"
-                  }`}
-                >
-                  {year}
-                </button>
-              ))}
-            </div>
-            <button
-              onClick={() => setShowYearPicker(false)}
-              className="w-full mt-3 px-4 py-2 rounded-lg bg-gray-600 hover:bg-gray-500 text-white font-semibold transition-all duration-200 text-sm cursor-pointer"
-            >
-              {translations.cancel || "Cancel"}
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* Month Picker Modal */}
-      {showMonthPicker && (
-        <div 
-          className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-[1010]"
-          onClick={(e) => {
-            e.stopPropagation();
-            setShowMonthPicker(false);
-          }}
-        >
-          <div 
-            className="rounded-2xl shadow-2xl p-4 max-w-xs w-full mx-4 flex flex-col"
-            style={{
-              background: "linear-gradient(135deg, #4a0e0e 0%, #d8691e 50%, #4a0e0e 100%)",
-              maxHeight: "calc(100dvh - 1rem)",
-            }}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <h3 className="text-lg font-bold text-orange-300 mb-3 text-center">
-              {translations.selectMonth || "Select Month"}
-            </h3>
-            <div className="grid grid-cols-2 gap-2 overflow-y-auto" style={{ flex: 1, minHeight: 0 }}>
-              {MONTHS.map((month) => (
-                <button
-                  key={month}
-                  onClick={() => handleMonthSelect(month)}
-                  className={`px-3 py-2.5 rounded-lg font-medium transition-all duration-200 text-sm ${
-                    month === tempMonth
-                      ? "bg-gradient-to-r from-orange-500 to-red-500 text-white shadow-lg"
-                      : "bg-orange-500/20 hover:bg-orange-500/40 text-orange-200"
-                  }`}
-                >
-                  {translations.months[month]}
-                </button>
-              ))}
-            </div>
-            <button
-              onClick={() => setShowMonthPicker(false)}
-              className="w-full mt-3 px-4 py-2 rounded-lg bg-gray-600 hover:bg-gray-500 text-white font-semibold transition-all duration-200 text-sm cursor-pointer"
-            >
-              {translations.cancel || "Cancel"}
-            </button>
-          </div>
-        </div>
-      )}
     </div>
   );
-
-  return createPortal(popupContent, document.body);
 }

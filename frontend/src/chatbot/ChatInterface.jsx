@@ -1,11 +1,11 @@
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import ChatMessage from "./ChatMessage";
 import VoiceInput from "./VoiceInput";
 import { sendChatMessage } from "./chatService";
 
 const translations = {
   en: {
-    welcomeFriend: "Hello. I'm your Panchanga assistant. Please ask your Panchang-related question.",
+    welcomeFriend: "I'm your Panchanga Friend. Ask me anything!",
     welcomeFormal: "Hello! I'm your Panchanga assistant. How can I help?",
     errorMessage: "Sorry, something went wrong. Please try again!",
     emptyTitle: "Welcome to Panchanga Friend!",
@@ -13,7 +13,7 @@ const translations = {
     inputPlaceholder: "Type your question...",
   },
   te: {
-    welcomeFriend: "ఏమిటి బ్రో! నేను మీ పంచాంగ ఫ్రెండ్. ఏదైనా అడగండి!",
+    welcomeFriend: "నేను మీ పంచాంగ ఫ్రెండ్. ఏదైనా అడగండి!",
     welcomeFormal: "నమస్కారం! నేను మీ పంచాంగ సహాయకుడిని. ఎలా సహాయం చేయను?",
     errorMessage: "క్షమించండి, ఏదో తప్పు జరిగింది. మళ్లీ ప్రయత్నించండి!",
     emptyTitle: "పంచాంగ ఫ్రెండ్ కి స్వాగతం!",
@@ -21,12 +21,36 @@ const translations = {
     inputPlaceholder: "మీ ప్రశ్న టైప్ చేయండి...",
   },
   hi: {
-    welcomeFriend: "क्या हाल भाई! मैं तुम्हारा पंचांग फ्रेंड हूं। कुछ भी पूछो!",
+    welcomeFriend: "मैं तुम्हारा पंचांग फ्रेंड हूं। कुछ भी पूछो!",
     welcomeFormal: "नमस्ते! मैं आपका पंचांग सहायक हूं। कैसे मदद करूं?",
     errorMessage: "क्षमा करें, कुछ गलत हो गया। फिर से प्रयास करें!",
     emptyTitle: "पंचांग फ्रेंड में आपका स्वागत है!",
     emptySubtitle: "दैनिक पंचांग, राहुकाल और शुभ समय जानें",
     inputPlaceholder: "अपना सवाल टाइप करें...",
+  },
+  ml: {
+    welcomeFriend: "ഞാൻ നിങ്ങളുടെ പഞ്ചാംഗ സുഹൃത്താണ്. എന്തും ചോദിക്കുക!",
+    welcomeFormal: "നമസ്കാരം! ഞാൻ നിങ്ങളുടെ പഞ്ചാംഗ സഹായിയാണ്. ഞാൻ എങ്ങനെ സഹായിക്കേണ്ടു?",
+    errorMessage: "ക്ഷമിക്കുക, ചില പിഴവുകളുണ്ടായി. ദയവായി വീണ്ടും ശ്രമിക്കുക!",
+    emptyTitle: "പഞ്ചാംഗ സുഹൃത്തിലേക്ക് സ്വാഗതം!",
+    emptySubtitle: "പഞ്ചാംഗം, രാഹുകാലം, ശുഭ സമയങ്ങൾ എന്നിവ അറിയുക",
+    inputPlaceholder: "നിങ്ങളുടെ ചോദ്യം ടൈപ്പ് ചെയ്യുക...",
+  },
+  kn: {
+    welcomeFriend: "ನಾನು ನಿಮ್ಮ ಪಂಚಾಂಗ ಮಿತ್ರ. ಏನಾದರೂ ಕೇಳಿ!",
+    welcomeFormal: "ನಮಸ್ಕಾರ! ನಾನು ನಿಮ್ಮ ಪಂಚಾಂಗ ಸಹಾಯಕಿ. ನಾನು ಹೇಗೆ ನೆರವಾಗಬಹುದು?",
+    errorMessage: "ಕ್ಷಮಿಸಿ, ಏನೋ ತಪ್ಪಾಗಿದೆ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ!",
+    emptyTitle: "ಪಂಚಾಂಗ ಮಿತ್ರನಿಗೆ ಸ್ವಾಗತ!",
+    emptySubtitle: "ದೈನಂದಿನ ಪಂಚಾಂಗ, ರಾಹುಕಾಲ ಮತ್ತು ಶುಭ ಸಮಯಗಳನ್ನು ತಿಳಿಯಿರಿ",
+    inputPlaceholder: "ನಿಮ್ಮ ಪ್ರಶ್ನೆಯನ್ನು ಟೈಪ್ ಮಾಡಿ...",
+  },
+  ta: {
+    welcomeFriend: "நான் உங்கள் பஞ்சாங்க நண்பன். எதையும் கேளுங்கள்!",
+    welcomeFormal: "வணக்கம்! நான் உங்கள் பஞ்சாங்க உதவியாளர். நான் எப்படி உதவலாம்?",
+    errorMessage: "மன்னிக்கவும், ஏதோ தவறு நடந்துவிட்டது. மீண்டும் முயற்சிக்கவும்!",
+    emptyTitle: "பஞ்சாங்க நண்பனுக்கு நல்வரவு!",
+    emptySubtitle: "தினசரி பஞ்சாங்கம், ராகுகாலம் மற்றும் நல்ல நேரங்களை அறியவும்",
+    inputPlaceholder: "உங்கள் கேள்வியை தட்டச்சு செய்யவும்...",
   },
 };
 
@@ -79,6 +103,9 @@ export default function ChatInterface({
         en: "Language changed to English.",
         te: "భాషను తెలుగుకి మార్చాం.",
         hi: "भाषा हिंदी में बदल दी गई है।",
+        ml: "ഭാഷ മലയാളത്തിലേക്ക് മാറ്റി.",
+        kn: "ಭಾಷೆಯನ್ನು ಕನ್ನಡಕ್ಕೆ ಬದಲಾಯಿಸಲಾಗಿದೆ.",
+        ta: "மொழி தமிழுக்கு மாற்றப்பட்டது.",
       };
       const switchedMsg = {
         id: `${Date.now()}-lang`,
@@ -114,11 +141,12 @@ export default function ChatInterface({
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.rate = currentSettings.voiceSpeed;
       utterance.lang =
-        currentSettings.language === "te"
-          ? "te-IN"
-          : currentSettings.language === "hi"
-            ? "hi-IN"
-            : "en-IN";
+        currentSettings.language === "te" ? "te-IN" :
+          currentSettings.language === "hi" ? "hi-IN" :
+            currentSettings.language === "ml" ? "ml-IN" :
+              currentSettings.language === "kn" ? "kn-IN" :
+                currentSettings.language === "ta" ? "ta-IN" :
+                  "en-IN";
 
       const voices = window.speechSynthesis.getVoices();
       const preferredVoice = voices.find(
@@ -275,4 +303,3 @@ export default function ChatInterface({
     </div>
   );
 }
-

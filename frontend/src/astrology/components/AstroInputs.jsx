@@ -18,16 +18,16 @@ export function TextInput(props) {
   const isTimeInput = props.type === "time";
   const themedStyle = (isDateInput || isTimeInput)
     ? {
-        background:
-          "linear-gradient(135deg, #ff6b28 0%, #ff7935 35%, #ff8743 65%, #ff5c1a 100%)",
-        borderColor: "#5a9645",
-        color: "#1f4f19",
-        colorScheme: "light",
-      }
+      background:
+        "linear-gradient(135deg, #ff6b28 0%, #ff7935 35%, #ff8743 65%, #ff5c1a 100%)",
+      borderColor: "#5a9645",
+      color: "#1f4f19",
+      colorScheme: "light",
+    }
     : {
-        background: "linear-gradient(135deg, #2a5a1f 0%, #3a6e2d 30%, #4a8238 60%, #5a9645 100%)",
-        borderColor: "#d4a847",
-      };
+      background: "linear-gradient(135deg, #2a5a1f 0%, #3a6e2d 30%, #4a8238 60%, #5a9645 100%)",
+      borderColor: "#d4a847",
+    };
 
   return (
     <input
@@ -45,7 +45,7 @@ export function SelectInput(props) {
   return (
     <select
       {...props}
-      className={`${inputBase} ${props.className || ""}`}
+      className={`${inputBase} astro-select ${props.className || ""}`}
       style={{
         background: "linear-gradient(135deg, #2a5a1f 0%, #3a6e2d 30%, #4a8238 60%, #5a9645 100%)",
         borderColor: "#d4a847",

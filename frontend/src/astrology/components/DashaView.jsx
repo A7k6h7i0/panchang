@@ -84,17 +84,6 @@ function findVimshottari(root) {
   return null;
 }
 
-function findDashaBalance(root) {
-  const data = root?.data || root;
-  return (
-    data?.vimshottari_dasha?.balance ||
-    data?.vimshottari?.balance ||
-    data?.dasha_balance ||
-    data?.balance_of_dasha ||
-    null
-  );
-}
-
 function planetDisplay(name) {
   const key = normKey(name);
   const map = new Map([
@@ -155,12 +144,11 @@ function DashaAccordion({ items, depth, parentShort }) {
 export default function DashaView({ value }) {
   const list = findVimshottari(value);
   const items = Array.isArray(list) ? list.map(normalizePeriod).filter(Boolean) : [];
-  const balance = findDashaBalance(value);
 
   if (!items.length) {
     return (
       <div className="rounded-2xl border border-white/10 bg-black/20 p-4 text-sm text-amber-50">
-        {balance ? `Vimshottari balance: ${String(balance)}` : "Dasha data is not available for this input."}
+        Dasha data not found in this response. Turn on "Show Raw JSON" to see what Prokerala returned.
       </div>
     );
   }

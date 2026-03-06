@@ -1,45 +1,39 @@
-import { useState, useEffect } from "react";
-import { RASHIS } from "../data/rashiphalalu";
-import { 
-  RASHIPHALALU_DATA, 
-  getRashiText, 
-  getCurrentRashi, 
-  RASHI_NAMES 
-} from "../data/rashiphalalu";
+import { useEffect, useState } from "react";
+import { getCurrentRashi, getRashiText, RASHI_NAMES, RASHIPHALALU_DATA, RASHIS } from "../data/rashiphalalu";
 
 // Period labels in all languages - shorter terms for one-line display
 const PERIOD_LABELS = {
-  daily: { 
-    en: "Today", 
-    te: "ఈరోజు", 
-    hi: "आज", 
-    ml: "ഇന്ന്", 
-    kn: "ಇಂದು", 
-    ta: "இன்று" 
+  daily: {
+    en: "Today",
+    te: "ఈరోజు",
+    hi: "आज",
+    ml: "ഇന്ന്",
+    kn: "ಇಂದು",
+    ta: "இன்று"
   },
-  weekly: { 
-    en: "Week", 
-    te: "వారం", 
-    hi: "सप्ताह", 
-    ml: "ആഴ്ച", 
-    kn: "ವಾರ", 
-    ta: "வாரம்" 
+  weekly: {
+    en: "Week",
+    te: "వారం",
+    hi: "सप्ताह",
+    ml: "ആഴ്ച",
+    kn: "ವಾರ",
+    ta: "வாரம்"
   },
-  monthly: { 
-    en: "Month", 
-    te: "నెల", 
-    hi: "महीना", 
-    ml: "മാസം", 
-    kn: "ತಿಂಗಳು", 
-    ta: "மாதம்" 
+  monthly: {
+    en: "Month",
+    te: "నెల",
+    hi: "महीना",
+    ml: "മാസം",
+    kn: "ತಿಂಗಳು",
+    ta: "மாதம்"
   },
-  yearly: { 
-    en: "Year", 
-    te: "సంవత్సరం", 
-    hi: "साल", 
-    ml: "വർഷം", 
-    kn: "ವರ್ಷ", 
-    ta: "ஆண்டு" 
+  yearly: {
+    en: "Year",
+    te: "సంవత్సరం",
+    hi: "साल",
+    ml: "വർഷം",
+    kn: "ವರ್ಷ",
+    ta: "ஆண்டு"
   }
 };
 
@@ -79,7 +73,7 @@ const PERIOD_TYPES = {
   yearly: { key: 'yearly' },
 };
 
-function Rashiphalalu({ language, translations: t, onBack, selectedRashi, setSelectedRashi, rashiStateKey }) {
+function Rashiphalalu({ language, translations: t, onBack, selectedRashi, setSelectedRashi, rashiStateKey, isInline }) {
   const [selectedPeriod, setSelectedPeriod] = useState('daily');
   const [currentRashi, setCurrentRashi] = useState(null);
   const [rashiphalaluData, setRashiphalaluData] = useState(null);
@@ -113,7 +107,7 @@ function Rashiphalalu({ language, translations: t, onBack, selectedRashi, setSel
 
     const today = new Date();
     const data = RASHIPHALALU_DATA[selectedRashi.id];
-    
+
     if (!data) {
       setRashiphalaluData(null);
       return;
@@ -127,10 +121,10 @@ function Rashiphalalu({ language, translations: t, onBack, selectedRashi, setSel
 
     // Get translated text
     const text = getRashiText(selectedRashi.id, selectedPeriod, today, language);
-    
+
     // Get translated colors
     const colors = periodData.colors?.translations?.[language] || periodData.colors?.en || periodData.colors || [];
-    
+
     setRashiphalaluData({
       text,
       colors,
@@ -156,8 +150,8 @@ function Rashiphalalu({ language, translations: t, onBack, selectedRashi, setSel
 
   if (!selectedRashi || !rashiphalaluData) {
     return (
-      <div 
-        className="min-h-screen flex items-center justify-center"
+      <div
+        className={isInline ? "flex items-center justify-center p-8" : "min-h-screen flex items-center justify-center"}
         style={{
           background: "linear-gradient(180deg, #FF8C32 0%, #FF6347 20%, #FF4560 40%, #E63946 60%, #D32F2F 80%, #B71C1C 100%)"
         }}
@@ -168,8 +162,8 @@ function Rashiphalalu({ language, translations: t, onBack, selectedRashi, setSel
   }
 
   return (
-    <div 
-      className="min-h-screen overflow-x-hidden"
+    <div
+      className={isInline ? "overflow-x-hidden pb-4" : "min-h-screen overflow-x-hidden"}
       style={{
         background: "linear-gradient(180deg, #FF8C32 0%, #FF6347 20%, #FF4560 40%, #E63946 60%, #D32F2F 80%, #B71C1C 100%)",
         position: "relative",
@@ -180,31 +174,30 @@ function Rashiphalalu({ language, translations: t, onBack, selectedRashi, setSel
         <div className="mx-auto max-w-7xl">
           <div className="flex items-center justify-between gap-3">
             {/* Back Button */}
-            <button
-              onClick={onBack}
-              className="inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-sm font-bold transition-all hover:scale-105 cursor-pointer whitespace-nowrap"
-              style={{
-                background: "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
-                border: "2px solid rgba(255, 140, 50, 0.7)",
-                color: "#FFE4B5",
-                boxShadow: `
-                  0 0 10px rgba(255, 140, 50, 0.6),
-                  inset 0 0 6px rgba(255, 200, 100, 0.2)
-                `,
-              }}
-            >
-              ← {t?.back || "Back"}
-            </button>
+            {!isInline && (
+              <button
+                onClick={onBack}
+                className="inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-sm font-bold transition-all hover:scale-105 cursor-pointer whitespace-nowrap"
+                style={{
+                  background: "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
+                  border: "2px solid rgba(255, 140, 50, 0.7)",
+                  color: "#FFE4B5",
+                  boxShadow: `
+                    0 0 10px rgba(255, 140, 50, 0.6),
+                    inset 0 0 6px rgba(255, 200, 100, 0.2)
+                  `,
+                }}
+              >
+                ← {t?.back || "Back"}
+              </button>
+            )}
 
             {/* Title */}
             <h1
               className="font-black tracking-tight text-center flex-1"
               style={{
                 color: "#FFFFFF",
-                textShadow: `
-                  0 1px 2px rgba(0, 0, 0, 0.85),
-                  0 2px 6px rgba(255, 140, 50, 0.45)
-                `,
+                textShadow: "0 2px 4px rgba(0, 0, 0, 0.6)",
                 fontSize: "clamp(1rem, 3vw, 1.4rem)",
                 fontWeight: "900",
               }}
@@ -240,7 +233,8 @@ function Rashiphalalu({ language, translations: t, onBack, selectedRashi, setSel
               0 0 50px rgba(255, 100, 30, 0.6),
               inset 0 0 20px rgba(255, 140, 50, 0.2)
             `,
-          }}
+          }
+          }
         >
           <h3
             className="font-bold text-lg mb-3 text-center"
@@ -251,15 +245,14 @@ function Rashiphalalu({ language, translations: t, onBack, selectedRashi, setSel
           >
             {t?.selectRashi || "Select Your Rashi"}
           </h3>
-          
+
           <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3">
             {RASHIS.map((rashi) => (
               <button
                 key={rashi.id}
                 onClick={() => setSelectedRashi(rashi)}
-                className={`rounded-xl p-3 transition-all hover:scale-105 ${
-                  selectedRashi.id === rashi.id ? "ring-2 ring-offset-2 ring-offset-transparent" : ""
-                }`}
+                className={`rounded-xl p-3 transition-all hover:scale-105 ${selectedRashi.id === rashi.id ? "ring-2 ring-offset-2 ring-offset-transparent" : ""
+                  }`}
                 style={{
                   background: selectedRashi.id === rashi.id
                     ? "linear-gradient(135deg, rgba(255, 140, 50, 0.7) 0%, rgba(255, 100, 30, 0.8) 100%)"
@@ -284,10 +277,10 @@ function Rashiphalalu({ language, translations: t, onBack, selectedRashi, setSel
               </button>
             ))}
           </div>
-        </div>
+        </div >
 
         {/* Period Selector */}
-        <div
+        < div
           className="rounded-xl sm:rounded-2xl p-3 backdrop-blur-md"
           style={{
             background: "linear-gradient(135deg, rgba(80, 20, 10, 0.95) 0%, rgba(100, 25, 12, 0.9) 100%)",
@@ -299,9 +292,8 @@ function Rashiphalalu({ language, translations: t, onBack, selectedRashi, setSel
               <button
                 key={period.key}
                 onClick={() => setSelectedPeriod(period.key)}
-                className={`flex-1 min-w-0 inline-flex items-center justify-center gap-1.5 rounded-lg px-2 sm:px-4 py-2 sm:py-3 text-[clamp(0.72rem,2.2vw,1rem)] font-bold transition-all ${
-                  selectedPeriod === period.key ? "scale-[1.02]" : "hover:scale-[1.01]"
-                }`}
+                className={`flex-1 min-w-0 inline-flex items-center justify-center gap-1.5 rounded-lg px-2 sm:px-4 py-2 sm:py-3 text-[clamp(0.72rem,2.2vw,1rem)] font-bold transition-all ${selectedPeriod === period.key ? "scale-[1.02]" : "hover:scale-[1.01]"
+                  }`}
                 style={{
                   background: selectedPeriod === period.key
                     ? "linear-gradient(135deg, rgba(255, 140, 50, 0.85) 0%, rgba(255, 100, 30, 0.95) 100%)"
@@ -319,10 +311,10 @@ function Rashiphalalu({ language, translations: t, onBack, selectedRashi, setSel
               </button>
             ))}
           </div>
-        </div>
+        </div >
 
         {/* Selected Rashi Display - Now below selector */}
-        <div
+        < div
           className="rounded-2xl sm:rounded-3xl p-6 backdrop-blur-md -mt-3"
           style={{
             background: "linear-gradient(135deg, rgba(80, 20, 10, 0.98) 0%, rgba(100, 25, 12, 0.95) 50%, rgba(120, 30, 15, 0.92) 100%)",
@@ -350,7 +342,7 @@ function Rashiphalalu({ language, translations: t, onBack, selectedRashi, setSel
             >
               <span className="text-4xl">{selectedRashi.icon}</span>
             </div>
-            
+
             {/* Selected Rashi Name */}
             <h2
               className="font-black text-2xl"
@@ -406,8 +398,8 @@ function Rashiphalalu({ language, translations: t, onBack, selectedRashi, setSel
                       color: "#FFE4B5",
                     }}
                   >
-                    <span 
-                      className="w-3 h-3 rounded-full" 
+                    <span
+                      className="w-3 h-3 rounded-full"
                       style={{
                         background: color.toLowerCase().replace(' ', ''),
                         display: 'inline-block',
@@ -456,11 +448,11 @@ function Rashiphalalu({ language, translations: t, onBack, selectedRashi, setSel
               ))}
             </div>
           </div>
-        </div>
-      </main>
+        </div >
+      </main >
 
       {/* Global Styles */}
-      <style>{`
+      < style > {`
         @keyframes sparkle {
           0%, 100% { opacity: 0.7; }
           50% { opacity: 1; }
@@ -469,8 +461,8 @@ function Rashiphalalu({ language, translations: t, onBack, selectedRashi, setSel
         * {
           -webkit-tap-highlight-color: transparent;
         }
-      `}</style>
-    </div>
+      `}</style >
+    </div >
   );
 }
 

@@ -1,4 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { useLanguage } from "../hooks/useLanguage";
+import { tr } from "../translations";
 import PageShell from "./PageShell";
 
 function normalizeDeg(value) {
@@ -51,26 +53,80 @@ function headingFromEvent(e) {
 }
 
 export default function CompassPage() {
+  const { language } = useLanguage();
+
   const [heading, setHeading] = useState(null);
-  const [status, setStatus] = useState("Tap Enable to start.");
+  const [status, setStatus] = useState(tr("compassEnableTitle", "Tap Enable to start.", language));
   const [enabled, setEnabled] = useState(false);
 
   // We use a ref-based low-pass filter to smooth jitter without React re-renders.
   const smoothRef = useRef(null);
+  const isNativeRef = useRef(false);
+  const frameIdRef = useRef(null);
+
+  useEffect(() => {
+    // Tell native app to start sending compass data if the bridge exists
+    if (window.CompassControl && window.CompassControl.postMessage) {
+      try {
+        window.CompassControl.postMessage('start');
+      } catch (e) {
+        console.error("Failed to start native compass", e);
+      }
+    }
+
+    window.updateNativeCompass = (nativeHeading) => {
+      if (!isNativeRef.current) {
+        isNativeRef.current = true;
+        setStatus(tr("compassActiveNative", "Compass active (Native Sensor).", language));
+        setEnabled(true);
+      }
+
+      const next = normalizeDeg(nativeHeading);
+      if (next == null) return;
+
+      if (smoothRef.current == null) {
+        smoothRef.current = next;
+      } else {
+        let delta = next - smoothRef.current;
+        if (delta > 180) delta -= 360;
+        if (delta < -180) delta += 360;
+        smoothRef.current = ((smoothRef.current + delta * 0.3) % 360 + 360) % 360;
+      }
+
+      if (frameIdRef.current) return;
+      frameIdRef.current = requestAnimationFrame(() => {
+        frameIdRef.current = null;
+        setHeading(Math.round(smoothRef.current));
+      });
+    };
+
+    return () => {
+      delete window.updateNativeCompass;
+      if (frameIdRef.current) cancelAnimationFrame(frameIdRef.current);
+      // Tell native app to stop sending compass data
+      if (window.CompassControl && window.CompassControl.postMessage) {
+        try {
+          window.CompassControl.postMessage('stop');
+        } catch (e) {
+          console.error("Failed to stop native compass", e);
+        }
+      }
+    };
+  }, []);
 
   const directionText = useMemo(() => directionFrom(heading), [heading]);
 
   const enable = async () => {
     try {
       if (!window.isSecureContext) {
-        setStatus("Compass needs HTTPS (or localhost). Open this on a secure URL.");
+        setStatus(tr("compassErrorHttps", "Compass needs HTTPS (or localhost). Open this on a secure URL.", language));
         return;
       }
       if (typeof window.DeviceOrientationEvent === "undefined") {
-        setStatus("Device orientation is not supported on this device/browser.");
+        setStatus(tr("compassErrorDevice", "Device orientation is not supported on this device/browser.", language));
         return;
       }
-      setStatus("Starting…");
+      setStatus(tr("compassStarting", "Starting…", language));
 
       // iOS 13+ requires explicit permission request for DeviceOrientation.
       if (
@@ -79,14 +135,14 @@ export default function CompassPage() {
       ) {
         const p = await DeviceOrientationEvent.requestPermission();
         if (p !== "granted") {
-          setStatus("Permission denied. Please allow motion access in Settings.");
+          setStatus(tr("compassErrorPermission", "Permission denied. Please allow motion access in Settings.", language));
           return;
         }
       }
 
       smoothRef.current = null;
       setEnabled(true);
-      setStatus("Move your phone in a figure-8 to calibrate.");
+      setStatus(tr("compassCalibrateMsg", "Move your phone in a figure-8 to calibrate.", language));
     } catch (e) {
       setStatus(e?.message || "Failed to start compass.");
     }
@@ -99,6 +155,7 @@ export default function CompassPage() {
     let frameId = null;
 
     const handler = (e) => {
+      if (isNativeRef.current) return; // Native sensor override
       const next = headingFromEvent(e);
       if (next == null) return;
       gotReading = true;
@@ -119,7 +176,7 @@ export default function CompassPage() {
       frameId = requestAnimationFrame(() => {
         frameId = null;
         setHeading(Math.round(smoothRef.current));
-        setStatus("Compass active.");
+        setStatus(tr("compassActive", "Compass active.", language));
       });
     };
 
@@ -128,9 +185,9 @@ export default function CompassPage() {
     window.addEventListener("deviceorientation", handler, true);
 
     const timeout = window.setTimeout(() => {
-      if (!gotReading) {
+      if (!gotReading && !isNativeRef.current) {
         setStatus(
-          "No sensor data received. Please enable Motion & Orientation access in your browser or device settings."
+          tr("compassErrorTimeout", "No sensor data received. Please enable Motion & Orientation access in your browser or device settings.", language)
         );
       }
     }, 3000);
@@ -151,20 +208,20 @@ export default function CompassPage() {
 
   return (
     <PageShell
-      title="Compass"
+      title={tr("compassTitle", "Compass", language)}
       right={
         <button
           type="button"
           onClick={enable}
           className="rounded-xl bg-amber-400/15 px-3 py-2 text-xs font-black text-amber-100 ring-1 ring-amber-300/25 hover:bg-amber-400/20"
         >
-          {enabled ? "Recalibrate" : "Enable"}
+          {enabled ? tr("compassRecalibrateBtn", "Recalibrate", language) : tr("compassEnableBtn", "Enable", language)}
         </button>
       }
     >
       <div className="grid gap-4">
         <section className="app-surface rounded-3xl p-5 text-amber-50">
-          <div className="text-sm font-black text-amber-100">Heading</div>
+          <div className="text-sm font-black text-amber-100">{tr("compassHeading", "Heading", language)}</div>
           <div className="mt-1 text-4xl font-black text-amber-50">
             {heading == null ? "-" : `${heading}°`}
           </div>

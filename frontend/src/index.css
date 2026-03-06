@@ -3,20 +3,18 @@
 /* Base */
 :root {
   color-scheme: dark;
-  --calendar-orange-gradient: linear-gradient(
-    180deg,
-    #ff4d0d 0%,
-    #ff5c1a 10%,
-    #ff6b28 20%,
-    #ff7935 30%,
-    #ff8743 40%,
-    #ff7935 50%,
-    #ff6b28 60%,
-    #ff5c1a 70%,
-    #ff4d0d 80%,
-    #d94100 90%,
-    #c23800 100%
-  );
+  --calendar-orange-gradient: linear-gradient(180deg,
+      #ff4d0d 0%,
+      #ff5c1a 10%,
+      #ff6b28 20%,
+      #ff7935 30%,
+      #ff8743 40%,
+      #ff7935 50%,
+      #ff6b28 60%,
+      #ff5c1a 70%,
+      #ff4d0d 80%,
+      #d94100 90%,
+      #c23800 100%);
   --calendar-orange-shell: linear-gradient(135deg, rgba(80, 20, 10, 0.98) 0%, rgba(100, 25, 12, 0.95) 50%, rgba(120, 30, 15, 0.92) 100%);
 }
 
@@ -103,7 +101,7 @@ body {
 }
 
 /* Ensure app content sits above background layers */
-.app-bg > * {
+.app-bg>* {
   position: relative;
   z-index: 1;
 }
@@ -127,12 +125,10 @@ body {
   inset: -2px;
   border-radius: inherit;
   pointer-events: none;
-  background: linear-gradient(
-    180deg,
-    rgba(255, 210, 110, 0.65),
-    rgba(255, 140, 40, 0.35) 45%,
-    rgba(220, 38, 38, 0.25)
-  );
+  background: linear-gradient(180deg,
+      rgba(255, 210, 110, 0.65),
+      rgba(255, 140, 40, 0.35) 45%,
+      rgba(220, 38, 38, 0.25));
   filter: blur(8px);
   opacity: 0.65;
   z-index: -1;
@@ -301,14 +297,19 @@ body {
   color-scheme: light;
 }
 
-.lang-orange-select option {
-  background: #2f6f2b;
-  color: #ffe8c5;
+.lang-orange-select option,
+.astro-select option {
+  background: #c23800;
+  color: #FFF4D8;
 }
 
-.lang-orange-select option:checked {
-  background: #ff8c32;
-  color: #fff7e6;
+.lang-orange-select option:checked,
+.astro-select option:checked,
+.lang-orange-select option:hover,
+.astro-select option:hover {
+  background: #ff8c32 !important;
+  color: #fff7e6 !important;
+  box-shadow: 0 0 10px 100px #ff8c32 inset !important;
 }
 
 @media (max-width: 640px) {

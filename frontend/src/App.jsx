@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState, useCallback } from "react";
+﻿import { useEffect, useMemo, useRef, useState, useCallback } from "react";
 import CalendarGrid from "./components/CalendarGrid";
 import DayDetails from "./components/DayDetails";
 import YearSelectorPopup from "./components/YearSelectorPopup";
@@ -711,7 +711,7 @@ function App() {
           }}
         />
 
-        <div className="relative mx-auto max-w-7xl px-3 sm:px-6 lg:px-8 py-0.5 sm:py-1">
+        <div className="relative mx-auto max-w-7xl px-3 sm:px-6 lg:px-8 pt-2 sm:pt-3 pb-0.5 sm:pb-1">
           {/* HEADER: Title only (controls moved to HomePage) */}
           <div className="mb-0.5 flex items-center justify-between border-b-[2px] border-[rgba(255,140,50,0.4)] pb-0.5">
             <div className="flex min-w-0 items-center gap-2">
@@ -1101,5 +1101,4 @@ function App() {
 }
 
 export default App;
-
 

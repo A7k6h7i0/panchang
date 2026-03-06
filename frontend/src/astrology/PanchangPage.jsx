@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { getLocalPanchang } from "../services/astrologyApi";
+import { getProkeralaPanchang } from "../services/astrologyApi";
 import { getAstroDefaults } from "../utils/appSettings";
 import PageShell from "../pages/PageShell";
 import { Field, JsonBlock, SectionCard, SelectInput, TextInput } from "./components/AstroInputs";
@@ -23,21 +23,6 @@ function fmtRange(item) {
   return `${a.time} → ${b.time}`;
 }
 
-function fmtTithiStartEnd(item) {
-  if (!item) return "-";
-  const startIso = periodStart(item);
-  const endIso = periodEnd(item);
-  if (!startIso || !endIso) return "-";
-  const start = new Date(startIso);
-  const end = new Date(endIso);
-  if (Number.isNaN(start.getTime()) || Number.isNaN(end.getTime())) return "-";
-  const startTime = start.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: true });
-  const startDate = start.toLocaleDateString("en-US", { month: "short", day: "numeric" });
-  const endTime = end.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: true });
-  const endDate = end.toLocaleDateString("en-US", { month: "short", day: "numeric" });
-  return `${startTime}, ${startDate} - ${endTime}, ${endDate}`;
-}
-
 export default function PanchangPage() {
   const [form, setForm] = useState(() => ({
     date: ymdToday(),
@@ -48,6 +33,7 @@ export default function PanchangPage() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
   const [error, setError] = useState(null);
+  const [showRaw, setShowRaw] = useState(false);
   const abortRef = useRef(null);
   const hourOptions = Array.from({ length: 24 }, (_, i) => String(i).padStart(2, "0"));
   const minuteOptions = Array.from({ length: 60 }, (_, i) => String(i).padStart(2, "0"));
@@ -61,18 +47,7 @@ export default function PanchangPage() {
     );
     const tithiActive = findActiveByTime(root?.tithi, refDate);
     const nakshatraActive = findActiveByTime(root?.nakshatra, refDate);
-    const yogaAll = Array.isArray(root?.yoga) ? root.yoga : [];
-    const yogaActiveRaw = findActiveByTime(yogaAll, refDate);
-    const cleanYogaName = (name) => {
-      const text = String(name || "").trim();
-      if (!text) return "";
-      if (/^\s*to\s+come\b/i.test(text)) return "";
-      if (/coming\s+soon/i.test(text)) return "";
-      return text;
-    };
-    const yogaActive = cleanYogaName(yogaActiveRaw?.name)
-      ? yogaActiveRaw
-      : yogaAll.find((y) => cleanYogaName(y?.name)) || yogaActiveRaw;
+    const yogaActive = findActiveByTime(root?.yoga, refDate);
     const karanaActive = findActiveByTime(root?.karana, refDate);
     return {
       sunrise: pick(root, ["sunrise", "sunrise_time"]),
@@ -90,7 +65,7 @@ export default function PanchangPage() {
       },
       yoga: {
         active: yogaActive,
-        all: yogaAll,
+        all: Array.isArray(root?.yoga) ? root.yoga : [],
       },
       karana: {
         active: karanaActive,
@@ -110,7 +85,7 @@ export default function PanchangPage() {
     setLoading(true);
     setError(null);
     try {
-      const payload = await getLocalPanchang({
+      const payload = await getProkeralaPanchang({
         date: form.date,
         time: form.time,
         lat: form.lat,
@@ -227,7 +202,7 @@ export default function PanchangPage() {
       </SectionCard>
 
       {error ? (
-        <SectionCard title="Error" subtitle="Failed to load local Panchang data.">
+        <SectionCard title="Error" subtitle="Backend or Prokerala rejected the request.">
           <JsonBlock value={error} />
         </SectionCard>
       ) : null}
@@ -236,6 +211,15 @@ export default function PanchangPage() {
         <SectionCard
           title="Today (Selected Date/Time)"
           subtitle={`${form.date} ${form.time} ${form.tzOffset} • ${summary.vaara || ""}`}
+          right={
+            <button
+              type="button"
+              onClick={() => setShowRaw((v) => !v)}
+              className="app-btn-secondary rounded-xl px-3 py-2 text-sm font-black transition hover:brightness-110"
+            >
+              {showRaw ? "Hide Raw JSON" : "Show Raw JSON"}
+            </button>
+          }
         >
           <div className="grid gap-3 md:grid-cols-2">
             <div className="app-panel rounded-2xl p-4 text-sm text-amber-50">
@@ -259,7 +243,7 @@ export default function PanchangPage() {
                     {summary.tithi.active?.name || "-"}
                     {summary.tithi.active?.paksha ? ` • ${summary.tithi.active.paksha}` : ""}
                   </div>
-                  <div className="text-xs text-amber-100/70">{fmtTithiStartEnd(summary.tithi.active)}</div>
+                  <div className="text-xs text-amber-100/70">{fmtRange(summary.tithi.active)}</div>
                 </div>
 
                 <div>
@@ -333,9 +317,13 @@ export default function PanchangPage() {
         </SectionCard>
       ) : null}
 
+      {result && showRaw ? (
+        <SectionCard title="Raw JSON (Debug)">
+          <JsonBlock value={result} />
+        </SectionCard>
+      ) : null}
       </div>
     </PageShell>
   );
 }
-
 

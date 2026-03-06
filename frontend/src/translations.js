@@ -60,7 +60,7 @@ export const translations = {
     voiceNotSupported: "Your browser does not support voice input",
     confirmNewChat: "Start a new chat? Current chat will be deleted.",
     errorMessage: "Sorry, something went wrong. Please try again!",
-    welcomeFriend: "Hey bro! I'm your Panchanga Friend. Ask me anything! 😊",
+    welcomeFriend: "I'm your Panchanga Friend. Ask me anything! 😊",
     welcomeFormal: "Hello! I'm your Panchanga assistant. How can I help? 🙏",
     emptyTitle: "Welcome to Panchanga Friend!",
     emptySubtitle: "Get daily panchanga, auspicious times, Rahukalam and more",
@@ -95,9 +95,37 @@ export const translations = {
     inauspiciousTimings: "Inauspicious Timings",
     amritKalam: "Amrit Kalam",
     varjyam: "Varjyam",
-    alarmSettings: "Chanting Alarm",
+    alarmSettings: "Chanting Tunes",
     enableMuhurtas: "Enable/Disable Muhurtas",
     notificationPreferences: "Notification Preferences",
+
+    // Compass translations
+    compassTitle: "Compass",
+    compassEnableTitle: "Tap Enable to start.",
+    compassEnableBtn: "Enable",
+    compassRecalibrateBtn: "Recalibrate",
+    compassActive: "Compass active.",
+    compassActiveNative: "Compass active (Native Sensor).",
+    compassCalibrateMsg: "Move your phone in a figure-8 to calibrate.",
+    compassErrorHttps: "Compass needs HTTPS (or localhost). Open this on a secure URL.",
+    compassErrorDevice: "Device orientation is not supported on this device/browser.",
+    compassErrorPermission: "Permission denied. Please allow motion access in Settings.",
+    compassErrorTimeout: "No sensor data received. Please enable Motion & Orientation access in your browser or device settings.",
+    compassStarting: "Starting…",
+    compassHeading: "Heading",
+
+    // Hindu Time translations
+    hinduTimeTitle: "Hindu Time",
+    hinduTimeConverter: "Converter",
+    hinduTimeFailedSunrise: "Failed to load sunrise.",
+    hinduTimeGhatiPalVipal: "Ghati : Pal : Vipal",
+    hinduTimeSunrise: "Sunrise",
+    hinduTimeConverterTitle: "Ghati Pal Converter",
+    hinduTimeGhati: "GHATI",
+    hinduTimePal: "PAL",
+    hinduTimeVipal: "VIPAL",
+    hinduTimeClockTime: "CLOCK TIME",
+
     audioAlerts: "Audio Alerts",
     silentMode: "Silent Mode",
     reminderTime: "Reminder Time",
@@ -197,7 +225,7 @@ export const translations = {
 
     // HomePage UI
     dailyHoroscope: "Daily Horoscope",
-    chantingAlarm: "Chanting Alarm",
+    chantingAlarm: "Chanting Tunes",
     menuLabel: "Menu",
     close: "Close",
     selectLanguage: "Select Language",
@@ -280,7 +308,7 @@ export const translations = {
     inauspiciousTimings: "అశుభ ముహూర్తాలు",
     amritKalam: "అమృత కాలం",
     varjyam: "వర్జ్యం",
-    alarmSettings: "చాంటింగ్ అలారం",
+    alarmSettings: "చాంటింగ్ ట్యూన్స్",
     weekdaysLabel: "వారాల రోజులు",
     enableMuhurtas: "ముహూర్తాలను ఆన్/ఆఫ్ చేయండి",
     notificationPreferences: "నోటిఫికేషన్ ప్రాధాన్యాలు",
@@ -384,7 +412,7 @@ export const translations = {
 
     // HomePage UI
     dailyHoroscope: "రోజువారీ జాతకం",
-    chantingAlarm: "పఠన అలారం",
+    chantingAlarm: "పఠన ట్యూన్స్",
     menuLabel: "మెనూ",
     close: "మూసివేయి",
     selectLanguage: "భాషను ఎంచుకోండి",
@@ -465,7 +493,7 @@ export const translations = {
     inauspiciousTimings: "अशुभ मुहूर्त",
     amritKalam: "अमृत काल",
     varjyam: "वर्ज्यम्",
-    alarmSettings: "चैंटिंग अलार्म",
+    alarmSettings: "चैंटिंग ट्यून्स",
     enableMuhurtas: "मुहूर्त चालू/बंद करें",
     notificationPreferences: "नोटिफिकेशन प्राथमिकताएं",
     audioAlerts: "ऑडियो अलर्ट",
@@ -569,7 +597,7 @@ export const translations = {
 
     // HomePage UI
     dailyHoroscope: "दैनिक राशिफल",
-    chantingAlarm: "जप अलार्म",
+    chantingAlarm: "जप ट्यून्स",
     menuLabel: "मेनू",
     close: "बंद करें",
     selectLanguage: "भाषा चुनें",
@@ -653,7 +681,7 @@ export const translations = {
     inauspiciousTimings: "അശുഭ സമയങ്ങൾ",
     amritKalam: "അമൃത കാലം",
     varjyam: "വർജ്യം",
-    alarmSettings: "ചാന്റിംഗ് അലാം",
+    alarmSettings: "ചാന്റിംഗ് ട്യൂൺസ്",
     enableMuhurtas: "മുഹൂർത്തകള്‍ ഓണാക്കുക/ഓഫാക്കുക",
     notificationPreferences: "നോട്ടിഫിക്കേഷൻ പ്രാധാന്യതകള്‍",
     audioAlerts: "ഓഡിയോ അലേര്‍ട്ടുകള്‍",
@@ -669,7 +697,7 @@ export const translations = {
 
     // HomePage UI
     dailyHoroscope: "ദൈനംദിന രാശിഫലം",
-    chantingAlarm: "ജപ അലാറം",
+    chantingAlarm: "ജപ ട്യൂൺസ്",
     menuLabel: "മെനു",
     close: "അടയ്ക്കുക",
     selectLanguage: "ഭാഷ തിരഞ്ഞെടുക്കുക",
@@ -815,7 +843,7 @@ export const translations = {
     inauspiciousTimings: "ಅಶುಭ ಮುಹೂರ್ತಗಳು",
     amritKalam: "ಅಮೃತ ಕಾಲ",
     varjyam: "ವರ್ಜ್ಯಂ",
-    alarmSettings: "ಚಾಂಟಿಂಗ್ ಅಲಾರಂ",
+    alarmSettings: "ಚಾಂಟಿಂಗ್ ಟ್ಯೂನ್ಸ್",
     enableMuhurtas: "ಮುಹೂರ್ತಗಳನ್ನು ಸಕ್ಷಮ/ನಿಷ್ಕ್ರಿಯ ಮಾಡಿ",
     notificationPreferences: "ಅಧಿಸೂಚನೆ ಆದ್ಯತೆಗಳು",
     audioAlerts: "ಆಡಿಯೋ ಅಲರ್ಟ್‌ಗಳು",
@@ -1002,7 +1030,7 @@ export const translations = {
     inauspiciousTimings: "கெட்ட நேரங்கள்",
     amritKalam: "அம்ருத காலம்",
     varjyam: "வர்ஜ்யம்",
-    alarmSettings: "சாந்திங் அலாரம்",
+    alarmSettings: "சாந்திங் டியூன்ஸ்",
     enableMuhurtas: "முகூர்த்தங்களை இயக்க/முடக்கு",
     notificationPreferences: "அறிவிப்பு விருப்பங்கள்",
     audioAlerts: "ஆடியோ அலர்ட்கள்",
@@ -1101,7 +1129,7 @@ export const translations = {
 
     // HomePage UI
     dailyHoroscope: "தினசரி ராசிபலன்",
-    chantingAlarm: "ஜப அலாரம்",
+    chantingAlarm: "ஜப டியூன்ஸ்",
     menuLabel: "மெனு",
     close: "மூடு",
     selectLanguage: "மொழி தேர்ந்தெடுக்கவும்",
@@ -1161,7 +1189,9 @@ function translateTime(timeStr, t) {
 
 // Helper function to translate text with PROPER WORD ORDER and time ranges
 export function translateText(text, t) {
+  // Handle non-string inputs gracefully
   if (!text || text === "—") return text;
+  if (typeof text !== 'string') return String(text);
 
   // Handle time ranges like "11:00 AM to 12:00 PM"
   const timeRangePattern = /(\d{1,2}:\d{2}\s*(?:AM|PM)?)\s+to\s+(\d{1,2}:\d{2}\s*(?:AM|PM)?)/gi;
@@ -1210,9 +1240,16 @@ export function translateText(text, t) {
   return t[text] || text;
 }
 
+// Global hook for extracting a specific translation key
+export function tr(key, fallback, languageCode) {
+  const primaryDict = translations[languageCode] || {};
+  return primaryDict[key] || translations.en[key] || fallback || key;
+}
+
 // Helper to get first word translation (for calendar grid tithi display)
 export function translateFirstWord(text, t) {
   if (!text || text === "—") return text;
+  if (typeof text !== 'string') return String(text);
 
   const firstWord = text.split(' ')[0].trim();
   return t[firstWord] || firstWord;
@@ -1221,6 +1258,7 @@ export function translateFirstWord(text, t) {
 // Helper to check if Tithi is Purnima or Amavasya
 export function getTithiIndicator(tithiText) {
   if (!tithiText) return null;
+  if (typeof tithiText !== 'string') return null;
 
   const tithiName = tithiText.split(' ')[0].trim();
 

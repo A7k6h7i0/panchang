@@ -66,18 +66,24 @@ function collectTextNodes(root, targetLang) {
 }
 
 async function translateBatch(target, texts) {
-  const res = await fetch(`${getApiRoot()}/translate/batch`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ target, texts }),
-  });
+  try {
+    const res = await fetch(`${getApiRoot()}/translate/batch`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ target, texts }),
+      signal: AbortSignal.timeout(10000) // 10 second timeout
+    });
 
-  if (!res.ok) {
-    throw new Error(`Translate API failed (${res.status})`);
+    if (!res.ok) {
+      throw new Error(`Translate API failed (${res.status})`);
+    }
+
+    const payload = await res.json();
+    return Array.isArray(payload?.translations) ? payload.translations : texts;
+  } catch (error) {
+    console.warn('Translation batch failed, using original texts:', error.message);
+    return texts;
   }
-
-  const payload = await res.json();
-  return Array.isArray(payload?.translations) ? payload.translations : texts;
 }
 
 export default function AutoTranslator() {

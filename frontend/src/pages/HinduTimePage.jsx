@@ -1,8 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import PageShell from "./PageShell";
-import { getLocalPanchang } from "../services/astrologyApi";
-import { getAstroDefaults, loadLocation } from "../utils/appSettings";
 import { buildIsoDatetime, safeDateFromIso, ymdToday } from "../astrology/components/formatters";
+import { useLanguage } from "../hooks/useLanguage";
+import { getProkeralaPanchang } from "../services/astrologyApi";
+import { tr } from "../translations";
+import { getAstroDefaults, loadLocation } from "../utils/appSettings";
+import PageShell from "./PageShell";
 
 function pad2(n) {
   return String(n).padStart(2, "0");
@@ -21,6 +23,7 @@ function computeGhati(now, sunriseIso) {
 }
 
 export default function HinduTimePage() {
+  const { language } = useLanguage();
   const defaults = useMemo(() => getAstroDefaults(), []);
   const location = useMemo(() => loadLocation(), []);
   const [now, setNow] = useState(() => new Date());
@@ -45,7 +48,7 @@ export default function HinduTimePage() {
       try {
         // Sunrise changes only by date, so avoid minute-wise refetch/rate-limit churn.
         const time = "06:00";
-        const payload = await getLocalPanchang(
+        const payload = await getProkeralaPanchang(
           {
             date: todayKey,
             time,
@@ -68,7 +71,7 @@ export default function HinduTimePage() {
           setError("");
           return;
         }
-        setError(e?.message || "Failed to load sunrise.");
+        setError(e?.message || tr("hinduTimeFailedSunrise", "Failed to load sunrise.", language));
       }
     })();
     return () => controller.abort();
@@ -100,14 +103,14 @@ export default function HinduTimePage() {
 
   return (
     <PageShell
-      title="Hindu Time"
+      title={tr("hinduTimeTitle", "Hindu Time", language)}
       right={
         <button
           type="button"
           onClick={() => setShowConverter((s) => !s)}
           className="rounded-xl bg-white/5 px-3 py-2 text-xs font-black text-amber-100 ring-1 ring-white/10 hover:bg-white/10"
         >
-          Converter
+          {tr("hinduTimeConverter", "Converter", language)}
         </button>
       }
     >
@@ -154,7 +157,9 @@ export default function HinduTimePage() {
                   })}
 
                   {Array.from({ length: 12 }).map((_, i) => {
-                    const label = String(i * 5).padStart(2, "0");
+                    // Clock numbers 1 to 12
+                    const hour = i === 0 ? 12 : i;
+                    const label = String(hour);
                     const a = (i * 30 - 90) * (Math.PI / 180);
                     const x = 160 + 101 * Math.cos(a);
                     const y = 160 + 101 * Math.sin(a);
@@ -197,7 +202,7 @@ export default function HinduTimePage() {
               <div className="text-5xl font-black text-amber-100">
                 {gh ? `${pad2(gh.ghati)}:${pad2(gh.pal)}:${pad2(gh.vipal)}` : "--:--:--"}
               </div>
-              <div className="mt-2 text-lg font-semibold text-amber-100/80">Ghati : Pal : Vipal</div>
+              <div className="mt-2 text-lg font-semibold text-amber-100/80">{tr("hinduTimeGhatiPalVipal", "Ghati : Pal : Vipal", language)}</div>
               <div className="mt-6 text-4xl font-black text-amber-50">
                 {now.toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit", second: "2-digit" })}
               </div>
@@ -205,7 +210,7 @@ export default function HinduTimePage() {
                 {location.name} • {new Date(buildIsoDatetime({ date: ymdToday(), time: "00:00", tzOffset: defaults.tzOffset })).toLocaleDateString()}
               </div>
               <div className="mt-2 text-sm text-amber-100/70">
-                Sunrise {sunriseIso ? String(sunriseIso).slice(11, 16) : "--:--"} {error ? `• ${error}` : ""}
+                {tr("hinduTimeSunrise", "Sunrise", language)} {sunriseIso ? String(sunriseIso).slice(11, 16) : "--:--"} {error ? `• ${error}` : ""}
               </div>
             </div>
           </div>
@@ -214,10 +219,10 @@ export default function HinduTimePage() {
         {showConverter ? (
           <section className="app-surface rounded-3xl p-5">
             <div className="mx-auto max-w-4xl">
-              <div className="text-base font-black text-amber-100">Ghati Pal Converter</div>
+              <div className="text-base font-black text-amber-100">{tr("hinduTimeConverterTitle", "Ghati Pal Converter", language)}</div>
               <div className="mt-3 grid gap-3 md:grid-cols-4 md:items-end">
                 <label className="grid gap-1">
-                  <span className="text-xs font-black tracking-wide text-amber-100/70">GHATI</span>
+                  <span className="text-xs font-black tracking-wide text-amber-100/70">{tr("hinduTimeGhati", "GHATI", language)}</span>
                   <input
                     value={conv.ghati}
                     onChange={(e) => setConv((s) => ({ ...s, ghati: e.target.value }))}
@@ -225,7 +230,7 @@ export default function HinduTimePage() {
                   />
                 </label>
                 <label className="grid gap-1">
-                  <span className="text-xs font-black tracking-wide text-amber-100/70">PAL</span>
+                  <span className="text-xs font-black tracking-wide text-amber-100/70">{tr("hinduTimePal", "PAL", language)}</span>
                   <input
                     value={conv.pal}
                     onChange={(e) => setConv((s) => ({ ...s, pal: e.target.value }))}
@@ -233,7 +238,7 @@ export default function HinduTimePage() {
                   />
                 </label>
                 <label className="grid gap-1">
-                  <span className="text-xs font-black tracking-wide text-amber-100/70">VIPAL</span>
+                  <span className="text-xs font-black tracking-wide text-amber-100/70">{tr("hinduTimeVipal", "VIPAL", language)}</span>
                   <input
                     value={conv.vipal}
                     onChange={(e) => setConv((s) => ({ ...s, vipal: e.target.value }))}
@@ -241,7 +246,7 @@ export default function HinduTimePage() {
                   />
                 </label>
                 <div className="app-surface-soft rounded-2xl px-4 py-3 text-amber-50">
-                  <div className="text-xs font-black tracking-wide text-amber-100/70">CLOCK TIME</div>
+                  <div className="text-xs font-black tracking-wide text-amber-100/70">{tr("hinduTimeClockTime", "CLOCK TIME", language)}</div>
                   <div className="mt-1 text-base font-black">{convResult || "—"}</div>
                 </div>
               </div>
