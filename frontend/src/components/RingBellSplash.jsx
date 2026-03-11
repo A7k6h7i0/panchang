@@ -5,8 +5,7 @@ const SESSION_KEY = "ringBellSplashSeen";
 
 const DEFAULT_TIMINGS = {
   fadeInMs: 700,
-  ringMs: 1400,
-  holdMs: 600,
+  audioPlayMs: 3000, // Play audio for 3 seconds
   fadeOutMs: 900,
 };
 
@@ -31,7 +30,7 @@ export default function RingBellSplash({
 
   const timings = useMemo(() => {
     if (!prefersReducedMotion) return DEFAULT_TIMINGS;
-    return { fadeInMs: 0, ringMs: 400, holdMs: 200, fadeOutMs: 200 };
+    return { fadeInMs: 0, audioPlayMs: 1000, fadeOutMs: 200 };
   }, [prefersReducedMotion]);
 
   const clearTimers = () => {
@@ -45,6 +44,11 @@ export default function RingBellSplash({
   };
 
   const markSeenAndExit = () => {
+    // Stop audio when exiting
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+    }
     sessionStorage.setItem(SESSION_KEY, "1");
     setIsExiting(true);
     schedule(() => setIsVisible(false), timings.fadeOutMs);
@@ -52,12 +56,17 @@ export default function RingBellSplash({
 
   const startSequence = () => {
     setIsRinging(true);
-    schedule(() => setIsRinging(false), timings.ringMs);
-    schedule(() => markSeenAndExit(), timings.ringMs + timings.holdMs);
+    // Stop ringing after audio play duration
+    schedule(() => setIsRinging(false), timings.audioPlayMs);
+    // Exit after audio play duration
+    schedule(() => markSeenAndExit(), timings.audioPlayMs);
   };
 
   const attemptPlay = () => {
     if (!audioRef.current || !bellSoundUrl) return;
+
+    // Clear any existing timers before scheduling new ones
+    clearTimers();
 
     audioRef.current.currentTime = 0;
     audioRef.current.volume = 0.6;
@@ -70,6 +79,8 @@ export default function RingBellSplash({
       })
       .catch(() => {
         setAutoplayBlocked(true);
+        // Even if autoplay is blocked, auto-exit after audio play duration
+        schedule(() => markSeenAndExit(), timings.audioPlayMs);
       });
   };
 
@@ -97,6 +108,7 @@ export default function RingBellSplash({
       if (bellSoundUrl) {
         attemptPlay();
       } else {
+        // Even without audio, start sequence and auto-exit
         startSequence();
       }
     }, timings.fadeInMs);
@@ -124,34 +136,6 @@ export default function RingBellSplash({
     >
       <div className="ring-bell-splash__overlay" />
       <div className="ring-bell-splash__content">
-        <div
-          className={`ring-bell-splash__bell ${isRinging ? "is-ringing" : ""} ${
-            prefersReducedMotion ? "reduce-motion" : ""
-          }`}
-          aria-hidden="true"
-        >
-          <svg
-            viewBox="0 0 128 160"
-            className="ring-bell-splash__bell-icon"
-            focusable="false"
-            aria-hidden="true"
-          >
-            <path
-              d="M64 10c-22 0-40 18-40 40v34c0 6-2 11-6 16l-7 8c-2 3 0 7 4 7h98c4 0 6-4 4-7l-7-8c-4-5-6-10-6-16V50c0-22-18-40-40-40z"
-              fill="currentColor"
-            />
-            <circle cx="64" cy="126" r="10" fill="currentColor" />
-            <path
-              d="M44 140c6 8 13 12 20 12s14-4 20-12"
-              stroke="currentColor"
-              strokeWidth="6"
-              strokeLinecap="round"
-              fill="none"
-            />
-          </svg>
-          <span className="ring-bell-splash__glow" />
-        </div>
-
         <div className="ring-bell-splash__text">Panchang</div>
         <div className="ring-bell-splash__subtext">
           A moment of peace before the day begins

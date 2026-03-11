@@ -98,26 +98,41 @@ Your expertise covers:
 function buildDayBlock(label, day) {
     if (!day) return "";
 
+    const formatValue = (value) => {
+        if (value == null) return "";
+        if (Array.isArray(value)) return value.filter(Boolean).join(", ");
+        if (typeof value === "string" || typeof value === "number") return String(value).trim();
+        if (typeof value === "object") {
+            const name = value?.name || value?.title || value?.label || value?.value || value?.display_name || "";
+            const start = value?.start || value?.begin || value?.from || "";
+            const end = value?.end || value?.to || "";
+            const timeRange = start && end ? `${start} to ${end}` : start || end;
+            if (name && timeRange) return `${name} (${timeRange})`;
+            if (name) return String(name).trim();
+        }
+        return String(value || "").trim();
+    };
+
     const fields = [
-        ["Date", day.date],
-        ["Day of Week", day.day],
-        ["Paksha", day.Paksha],
-        ["Tithi", day.Tithi],
-        ["Nakshatra", day.Nakshatra],
-        ["Yoga", day.Yoga],
-        ["Karanam", day.Karanam || day.Karana],
-        ["Sunrise", day.Sunrise],
-        ["Sunset", day.Sunset],
-        ["Rahu Kalam", day["Rahu Kalam"]],
-        ["Yamaganda", day.Yamaganda],
-        ["Gulikai Kalam", day["Gulikai Kalam"]],
-        ["Abhijit Muhurtham", day.Abhijit],
-        ["Amrit Kalam", day["Amrit Kalam"] || day["Amritha Kalam"]],
-        ["Dur Muhurtam", day["Dur Muhurtam"]],
-        ["Varjyam", day.Varjyam],
-        ["Lunar Month", day["Lunar Month"]],
-        ["Shaka Samvat", day["Shaka Samvat"]],
-        ["Festivals", Array.isArray(day.Festivals) ? day.Festivals.join(", ") : day.Festivals],
+        ["Date", formatValue(day.date)],
+        ["Day of Week", formatValue(day.day)],
+        ["Paksha", formatValue(day.Paksha)],
+        ["Tithi", formatValue(day.Tithi)],
+        ["Nakshatra", formatValue(day.Nakshatra)],
+        ["Yoga", formatValue(day.Yoga)],
+        ["Karanam", formatValue(day.Karanam || day.Karana)],
+        ["Sunrise", formatValue(day.Sunrise)],
+        ["Sunset", formatValue(day.Sunset)],
+        ["Rahu Kalam", formatValue(day["Rahu Kalam"])],
+        ["Yamaganda", formatValue(day.Yamaganda)],
+        ["Gulikai Kalam", formatValue(day["Gulikai Kalam"])],
+        ["Abhijit Muhurtham", formatValue(day.Abhijit)],
+        ["Amrit Kalam", formatValue(day["Amrit Kalam"] || day["Amritha Kalam"])],
+        ["Dur Muhurtam", formatValue(day["Dur Muhurtam"])],
+        ["Varjyam", formatValue(day.Varjyam)],
+        ["Lunar Month", formatValue(day["Lunar Month"])],
+        ["Shaka Samvat", formatValue(day["Shaka Samvat"])],
+        ["Festivals", formatValue(day.Festivals)],
     ];
 
     const lines = fields
@@ -208,5 +223,172 @@ export async function askGemini({
     const text = response.text?.trim();
     if (!text) throw new Error("Empty response from Gemini");
     return text;
+}
+
+/**
+ * Use Gemini to classify a user message into a Panchang intent.
+ * The model MUST return ONLY the intent name (plain text).
+ */
+export async function detectPanchangIntent({ message, language = "en" }) {
+    const systemPrompt = `
+You are a strict intent classifier for a Panchang chatbot.
+
+Return ONLY the intent name (no JSON, no markdown, no extra text).
+Valid intents:
+  ["tithi","nakshatra","yoga","karana","rahukalam","sunrise","sunset","panchang_today","festival_today","festival_month","muhurat","unknown"]
+
+Rules:
+- Handle spelling mistakes and broken English.
+- If uncertain, use "unknown".
+- If the user asks for festivals in a month (e.g., "this month festivals"), use "festival_month".
+- If the user asks for a date-specific tithi (e.g., "tithi on 20th March" or "next Ekadashi"), use "tithi".
+
+User language: ${language}
+`;
+
+    const userContent = String(message || "").trim();
+    const response = await getAI().models.generateContent({
+        model: "gemini-2.5-flash",
+        contents: [{ role: "user", parts: [{ text: userContent }] }],
+        config: {
+            systemInstruction: systemPrompt,
+            temperature: 0.1,
+            maxOutputTokens: 100,
+        },
+    });
+
+    const raw = response.text?.trim() || "";
+    if (!raw) throw new Error("Empty response from Gemini intent classifier");
+
+    const firstLine = raw.split("\n")[0]?.trim() || raw.trim();
+    const cleaned = firstLine
+        .split("")
+        .filter((ch) => {
+            const code = ch.charCodeAt(0);
+            const isUpper = code >= 65 && code <= 90;
+            const isLower = code >= 97 && code <= 122;
+            return isUpper || isLower || ch === "_";
+        })
+        .join("")
+        .toLowerCase();
+
+    const aliases = new Map([
+        ["rahu_kalam", "rahukalam"],
+        ["rahukalam", "rahukalam"],
+        ["rahukalamtime", "rahukalam"],
+        ["panchang", "panchang_today"],
+        ["panchangtoday", "panchang_today"],
+        ["todaypanchang", "panchang_today"],
+        ["festival", "festival_today"],
+        ["festivals", "festival_today"],
+        ["todayfestival", "festival_today"],
+        ["todayfestivals", "festival_today"],
+        ["festivalmonth", "festival_month"],
+        ["monthfestival", "festival_month"],
+        ["monthfestivals", "festival_month"],
+        ["thismonthfestival", "festival_month"],
+        ["thismonthfestivals", "festival_month"],
+        ["abhijitmuhurat", "muhurat"],
+        ["muhurat", "muhurat"],
+        ["muhurta", "muhurat"],
+    ]);
+
+    const normalized = aliases.get(cleaned) || cleaned;
+    const allowed = new Set([
+        "tithi",
+        "nakshatra",
+        "yoga",
+        "karana",
+        "rahukalam",
+        "sunrise",
+        "sunset",
+        "panchang_today",
+        "festival_today",
+        "muhurat",
+        "festival_month",
+        "unknown",
+    ]);
+
+    if (allowed.has(normalized)) return { intent: normalized };
+
+    const rawLower = raw.toLowerCase();
+    for (const [alias, intent] of aliases.entries()) {
+        if (rawLower.includes(alias)) return { intent };
+    }
+    for (const intent of allowed) {
+        if (rawLower.includes(intent)) return { intent };
+    }
+
+    return { intent: "unknown" };
+}
+
+/**
+ * Parse a Panchang user query into structured parameters using Gemini.
+ * The model MUST return ONLY JSON.
+ */
+export async function parsePanchangQuery({ message, language = "en" }) {
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, "0");
+    const dd = String(today.getDate()).padStart(2, "0");
+    const todayIso = `${yyyy}-${mm}-${dd}`;
+
+    const systemPrompt = `
+You are a strict query parser for a Panchang chatbot.
+
+Return ONLY a JSON object with these fields (no markdown, no extra text):
+{
+  "intent": "tithi|nakshatra|yoga|karana|rahukalam|sunrise|sunset|panchang_today|festival_today|festival_month|muhurat|unknown",
+  "date": "YYYY-MM-DD or null",
+  "relative": "today|tomorrow|yesterday|null",
+  "week_day": "sunday|monday|tuesday|wednesday|thursday|friday|saturday|null",
+  "week_scope": "this|next|null",
+  "wants_next_tithi": true|false,
+  "tithi_name": "Ekadashi|Dwadashi|Purnima|Amavasya|etc or null"
+}
+
+Rules:
+- Today is ${todayIso}.
+- If user asks for a specific date like "20th March" or "Sept 1st", set date in YYYY-MM-DD.
+- If user says "today/tomorrow/yesterday", set relative.
+- If user says "this week Friday" or "next Friday", set week_day and week_scope.
+- If user asks "when is next Ekadashi", set wants_next_tithi=true and tithi_name="Ekadashi".
+- If user asks for month festivals like "this month festivals", set intent="festival_month".
+- If unsure, use nulls and intent="unknown".
+
+User language: ${language}
+`;
+
+    const userContent = String(message || "").trim();
+    const response = await getAI().models.generateContent({
+        model: "gemini-2.5-flash",
+        contents: [{ role: "user", parts: [{ text: userContent }] }],
+        config: {
+            systemInstruction: systemPrompt,
+            temperature: 0.1,
+            maxOutputTokens: 120,
+        },
+    });
+
+    const text = response.text?.trim() || "";
+    if (!text) throw new Error("Empty response from Gemini query parser");
+
+    let parsed = null;
+    try {
+        parsed = JSON.parse(text);
+    } catch {
+        parsed = null;
+    }
+
+    const safe = parsed && typeof parsed === "object" ? parsed : {};
+    return {
+        intent: String(safe.intent || "unknown"),
+        date: safe.date || null,
+        relative: safe.relative || null,
+        week_day: safe.week_day || null,
+        week_scope: safe.week_scope || null,
+        wants_next_tithi: Boolean(safe.wants_next_tithi),
+        tithi_name: safe.tithi_name || null,
+    };
 }
 

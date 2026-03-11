@@ -14,6 +14,16 @@ const ALARM_STORAGE_KEY = "panchangAlarmSettings";
 const PANCHANG_RETURN_KEY = "panchang:return-to-panel";
 const REMINDER_TIME_OPTIONS = [15, 30, 60, 90, 120];
 
+const WEEKDAY_AUDIO_FILES = {
+  Sunday: "/audio/Sunday.mp3",
+  Monday: "/audio/Monday.mp3",
+  Tuesday: "/audio/Tuesday.mp3",
+  Wednesday: "/audio/Wednesday.mp3",
+  Thursday: "/audio/Thrusday.mp3",
+  Friday: "/audio/Friday.mp3",
+  Saturday: "/audio/Saturday.mp3",
+};
+
 const defaultAlarmSettings = {
   enabledMuhurtas: {
     rahu: true,
@@ -225,6 +235,12 @@ export default function HomePage() {
   const [error, setError] = useState("");
   const [alarmSettings, setAlarmSettings] = useState(defaultAlarmSettings);
   const [isAlarmPopupOpen, setIsAlarmPopupOpen] = useState(false);
+  const [playingDay, setPlayingDay] = useState(null);
+  const weekdayAudioRef = useRef({});
+  const [isRingContinuously, setIsRingContinuously] = useState(false);
+  const ringBellRef = useRef(null);
+  const ringOnceTimeoutRef = useRef(null);
+  const [isRingBellOpen, setIsRingBellOpen] = useState(false);
   const [isHoroscopeOpen, setIsHoroscopeOpen] = useState(false);
   const [isPanchangOpen, setIsPanchangOpen] = useState(false);
   const [isChatbotOpen, setIsChatbotOpen] = useState(false);
@@ -403,9 +419,45 @@ export default function HomePage() {
 
   // Local translation helper — looks up a term in translations.js, fallback to raw value
   const t = translations[language] || translations.en;
+  const extractLocalizedText = (raw) => {
+    if (raw == null) return "";
+    if (typeof raw === "string" || typeof raw === "number") return String(raw).trim();
+    if (typeof raw !== "object") return "";
+
+    const tryValue = (value) => {
+      if (value == null) return "";
+      if (typeof value === "string" || typeof value === "number") return String(value).trim();
+      if (typeof value === "object") {
+        const nested =
+          value?.[language] ??
+          value?.en ??
+          value?.name ??
+          value?.vedic_name ??
+          value?.title ??
+          value?.value ??
+          value?.label ??
+          value?.display_name;
+        return tryValue(nested);
+      }
+      return "";
+    };
+
+    return tryValue(
+      raw?.[language] ??
+      raw?.en ??
+      raw?.name ??
+      raw?.vedic_name ??
+      raw?.title ??
+      raw?.value ??
+      raw?.label ??
+      raw?.display_name
+    );
+  };
+
   const translateTerm = (raw) => {
-    if (!raw) return raw;
-    const s = String(raw).trim();
+    const normalized = extractLocalizedText(raw);
+    if (!normalized) return normalized;
+    const s = String(normalized).trim();
     // Try exact match first, then first-word match (e.g. "Panchami Dwitiya" → "పంచమి")
     return t[s] || t[s.split(" ")[0]] || translateText(s, t) || s;
   };
@@ -557,7 +609,89 @@ export default function HomePage() {
   };
 
   const closeChantingAlarm = () => {
+    // Stop any playing audio when closing the popup
+    if (playingDay) {
+      const audio = weekdayAudioRef.current[playingDay];
+      if (audio) {
+        audio.pause();
+        audio.currentTime = 0;
+      }
+      setPlayingDay(null);
+    }
     setIsAlarmPopupOpen(false);
+  };
+
+  // Ring Bell functions
+  const getRingBellAudio = () => {
+    if (!ringBellRef.current) {
+      ringBellRef.current = new Audio("/audio/Low to high bell.mp3");
+      ringBellRef.current.preload = "auto";
+    }
+    return ringBellRef.current;
+  };
+
+  const handleRingOnce = () => {
+    // Stop any continuous ringing first
+    if (isRingContinuously) {
+      stopRingContinuously();
+    }
+    
+    const audio = getRingBellAudio();
+    audio.currentTime = 0;
+    audio.volume = 0.6;
+    
+    audio.play().catch(err => console.error("Error playing ring bell:", err));
+    
+    // Stop after 3 seconds
+    if (ringOnceTimeoutRef.current) {
+      clearTimeout(ringOnceTimeoutRef.current);
+    }
+    ringOnceTimeoutRef.current = setTimeout(() => {
+      audio.pause();
+      audio.currentTime = 0;
+    }, 3000);
+  };
+
+  const handleRingContinuously = () => {
+    if (isRingContinuously) {
+      stopRingContinuously();
+    } else {
+      startRingContinuously();
+    }
+  };
+
+  const startRingContinuously = () => {
+    const audio = getRingBellAudio();
+    audio.currentTime = 0;
+    audio.volume = 0.6;
+    audio.loop = true;
+    audio.play().catch(err => console.error("Error playing ring bell:", err));
+    setIsRingContinuously(true);
+  };
+
+  const stopRingContinuously = () => {
+    const audio = ringBellRef.current;
+    if (audio) {
+      audio.pause();
+      audio.currentTime = 0;
+      audio.loop = false;
+    }
+    setIsRingContinuously(false);
+  };
+
+  const closeRingBell = () => {
+    // Stop any playing audio
+    if (isRingContinuously) {
+      stopRingContinuously();
+    }
+    if (ringBellRef.current) {
+      ringBellRef.current.pause();
+      ringBellRef.current.currentTime = 0;
+    }
+    if (ringOnceTimeoutRef.current) {
+      clearTimeout(ringOnceTimeoutRef.current);
+    }
+    setIsRingBellOpen(false);
   };
 
   const openPanchangMenu = () => {
@@ -964,7 +1098,14 @@ export default function HomePage() {
             pointerEvents: isHoroscopeOpen ? "auto" : "none",
           }}
         >
-          <div className="h-full w-full overflow-y-auto">
+          <div 
+            className="h-full w-full overflow-y-auto"
+            style={{
+              background: "linear-gradient(180deg, rgba(10, 6, 4, 0.28) 0%, rgba(20, 10, 6, 0.42) 100%), url('/backgroundImage.png'), linear-gradient(135deg, rgba(74, 33, 16, 0.98) 0%, rgba(92, 42, 21, 0.95) 50%, rgba(112, 54, 27, 0.92) 100%)",
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }}
+          >
             <Rashiphalalu
               language={language}
               translations={t}
@@ -1068,6 +1209,10 @@ export default function HomePage() {
                 onReset={resetAlarmSettings}
                 onRequestNotification={requestNotificationPermission}
                 notificationStatus={notificationStatus}
+                playingDay={playingDay}
+                setPlayingDay={setPlayingDay}
+                weekdayAudioRef={weekdayAudioRef}
+                weekdayAudioFiles={WEEKDAY_AUDIO_FILES}
               />
             </div>
           </div>
@@ -1120,7 +1265,11 @@ export default function HomePage() {
         >
           <div
             className="h-full w-full overflow-y-auto"
-            style={{ background: "var(--calendar-orange-shell)" }}
+            style={{
+              background: "linear-gradient(180deg, rgba(10, 6, 4, 0.28) 0%, rgba(20, 10, 6, 0.42) 100%), url('/backgroundImage.png'), linear-gradient(135deg, rgba(74, 33, 16, 0.98) 0%, rgba(92, 42, 21, 0.95) 50%, rgba(112, 54, 27, 0.92) 100%)",
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }}
           >
             <header
               className="sticky top-0 z-10 px-4 py-3 backdrop-blur-md"
@@ -1167,7 +1316,7 @@ export default function HomePage() {
       <div className="fixed bottom-0 left-0 right-0 z-20">
         <div className="mx-auto w-full max-w-md px-4 pb-3 md:max-w-6xl md:px-6">
           <section
-            className="grid grid-cols-4 rounded-2xl p-2 text-center transition-all duration-300"
+            className="grid grid-cols-5 rounded-2xl p-2 text-center transition-all duration-300"
             style={{
               background: "var(--calendar-orange-gradient)",
               border: "1.5px solid rgba(255, 183, 77, 0.4)",
@@ -1197,6 +1346,18 @@ export default function HomePage() {
             >
               <div className="text-lg">ॐ</div>
               {t.sankalp || "Sankalp"}
+            </button>
+            <button
+              type="button"
+              onClick={() => navigate("/ring-bell")}
+              className="rounded-xl py-2 text-[10px] font-bold transition-all duration-200 hover:bg-[rgba(255,224,130,0.15)]"
+              style={{
+                color: "#FFE8C5",
+                textShadow: "0 1px 2px rgba(0, 0, 0, 0.3)",
+              }}
+            >
+              <div className="text-lg">🔔</div>
+              Ring Bell
             </button>
             <button
               type="button"
@@ -1363,8 +1524,8 @@ export default function HomePage() {
         title="Chatbot"
         className="fixed z-40 inline-flex items-center justify-center rounded-full h-12 w-12 sm:h-14 sm:w-14 backdrop-blur-md"
         style={{
-          left: "1rem",
-          bottom: "100px",
+          right: "1rem",
+          bottom: "160px",
           background: "linear-gradient(145deg, rgba(255, 210, 155, 0.2) 0%, rgba(255, 150, 80, 0.12) 55%, rgba(255, 120, 45, 0.18) 100%)",
           border: "2px solid rgba(255, 226, 176, 0.7)",
           boxShadow: "0 12px 28px rgba(0, 0, 0, 0.35), 0 0 26px rgba(255, 145, 65, 0.3), inset 0 1px 8px rgba(255, 250, 240, 0.2)",
@@ -1483,7 +1644,60 @@ function HomeAlarmPanel({
   onReset,
   onRequestNotification,
   notificationStatus,
+  playingDay,
+  setPlayingDay,
+  weekdayAudioRef,
+  weekdayAudioFiles,
 }) {
+  const handlePlayPause = (dayName) => {
+    const audioUrl = weekdayAudioFiles[dayName];
+    if (!audioUrl) return;
+
+    // If this day is already playing, pause it
+    if (playingDay === dayName) {
+      const audio = weekdayAudioRef.current[dayName];
+      if (audio) {
+        audio.pause();
+        audio.currentTime = 0;
+      }
+      setPlayingDay(null);
+      return;
+    }
+
+    // Stop any currently playing audio
+    if (playingDay) {
+      const currentAudio = weekdayAudioRef.current[playingDay];
+      if (currentAudio) {
+        currentAudio.pause();
+        currentAudio.currentTime = 0;
+      }
+    }
+
+    // Get or create audio for this day
+    let audio = weekdayAudioRef.current[dayName];
+    if (!audio) {
+      audio = new Audio(audioUrl);
+      audio.preload = "auto";
+      weekdayAudioRef.current[dayName] = audio;
+    }
+
+    // Play the audio
+    audio.volume = 0.6;
+    audio
+      .play()
+      .then(() => {
+        setPlayingDay(dayName);
+      })
+      .catch((err) => {
+        console.error(`Error playing ${dayName} audio:`, err);
+        setPlayingDay(null);
+      });
+
+    // When audio ends, reset playing state
+    audio.onended = () => {
+      setPlayingDay(null);
+    };
+  };
   return (
     <div
       className="rounded-2xl p-3 backdrop-blur-sm"
@@ -1522,19 +1736,24 @@ function HomeAlarmPanel({
             {["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"].map((dayName, index) => {
               const dayValue = dayName === "Sunday" ? 7 : index;
               const active = alarmSettings.disabledDays.includes(dayValue);
+              const isPlaying = playingDay === dayName;
+              const hasAudio = weekdayAudioFiles[dayName];
               return (
                 <button
                   key={dayName}
                   type="button"
-                  onClick={() =>
+                  onClick={() => {
+                    if (hasAudio) {
+                      handlePlayPause(dayName);
+                    }
                     setAlarmSettings((prev) => ({
                       ...prev,
                       disabledDays: active
                         ? prev.disabledDays.filter((d) => d !== dayValue)
                         : [...prev.disabledDays, dayValue],
-                    }))
-                  }
-                  className="w-full rounded-lg px-2 py-2 text-xs font-semibold transition"
+                    }));
+                  }}
+                  className="w-full rounded-lg px-2 py-2 text-xs font-semibold transition flex items-center justify-between"
                   style={{
                     background: active
                       ? "linear-gradient(135deg, #2a5a1f 0%, #3a6e2d 30%, #4a8238 60%, #5a9645 100%)"
@@ -1546,7 +1765,18 @@ function HomeAlarmPanel({
                       : "0 0 12px rgba(212, 168, 71, 0.2), inset 0 1px 2px rgba(255, 255, 255, 0.08), inset 0 -1px 2px rgba(0, 0, 0, 0.18)",
                   }}
                 >
-                  {translations[language]?.[dayName] || dayName}
+                  <span className="flex-1 text-left">{translations[language]?.[dayName] || dayName}</span>
+                  {hasAudio && (
+                    <span 
+                      className={`ml-2 text-sm ${isPlaying ? 'text-green-300' : 'text-yellow-300'}`}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handlePlayPause(dayName);
+                      }}
+                    >
+                      {isPlaying ? '⏸' : '▶'}
+                    </span>
+                  )}
                 </button>
               );
             })}

@@ -657,29 +657,48 @@ const KNOWLEDGE = {
 // ─── RESPONSE BUILDERS ────────────────────────────────────────────────────────
 
 function buildDayLine(record, lang) {
+    const extractName = (value) => {
+        if (value == null) return "";
+        if (typeof value === "string" || typeof value === "number") return String(value).trim();
+        if (Array.isArray(value)) return extractName(value[0]);
+        if (typeof value === "object") {
+            return extractName(
+                value?.name ??
+                value?.value ??
+                value?.title ??
+                value?.label ??
+                value?.display_name ??
+                value?.vedic_name ??
+                value
+            );
+        }
+        return "";
+    };
     // Extract first meaningful part up to "upto"
     const clean = (s) => {
-        if (!s) return "—";
-        const m = String(s).match(/^(.+?)(?:\s+upto\s+.+)?$/i);
-        return m ? m[1].trim() : String(s);
+        const raw = extractName(s);
+        if (!raw) return "—";
+        const m = String(raw).match(/^(.+?)(?:\s+upto\s+.+)?$/i);
+        return m ? m[1].trim() : String(raw);
     };
+    const pick = (v) => extractName(v) || "—";
     return {
         tithi: clean(record.Tithi),
         nakshatra: clean(record.Nakshatra),
         yoga: clean(record.Yoga),
         karanam: clean(record.Karanam || record.Karana),
-        paksha: record.Paksha || "—",
-        sunrise: record.Sunrise || "—",
-        sunset: record.Sunset || "—",
-        rahu: record["Rahu Kalam"] || "—",
-        yamaganda: record.Yamaganda || "—",
-        gulikai: record["Gulikai Kalam"] || "—",
-        abhijit: record.Abhijit || "—",
-        amrit: record["Amrit Kalam"] || record["Amritha Kalam"] || "—",
-        dur: record["Dur Muhurtam"] || "—",
-        varjyam: record.Varjyam || "—",
-        lunar: record["Lunar Month"] || "—",
-        samvat: record["Shaka Samvat"] || "—",
+        paksha: pick(record.Paksha),
+        sunrise: pick(record.Sunrise),
+        sunset: pick(record.Sunset),
+        rahu: pick(record["Rahu Kalam"]),
+        yamaganda: pick(record.Yamaganda),
+        gulikai: pick(record["Gulikai Kalam"]),
+        abhijit: pick(record.Abhijit),
+        amrit: pick(record["Amrit Kalam"] || record["Amritha Kalam"]),
+        dur: pick(record["Dur Muhurtam"]),
+        varjyam: pick(record.Varjyam),
+        lunar: pick(record["Lunar Month"]),
+        samvat: pick(record["Shaka Samvat"]),
         festivals: Array.isArray(record.Festivals) ? record.Festivals : [],
     };
 }

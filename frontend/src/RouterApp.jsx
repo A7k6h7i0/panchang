@@ -19,6 +19,7 @@ import MyTithiPage from "./pages/MyTithiPage";
 import PanchangPosterPage from "./pages/PanchangPosterPage";
 import ParchmentPreviewPage from "./pages/ParchmentPreviewPage";
 import SankalpMantraPage from "./pages/SankalpMantraPage";
+import RingBellPage from "./pages/RingBellPage";
 import SettingsPage from "./pages/SettingsPage";
 
 export default function RouterApp() {
@@ -27,6 +28,7 @@ export default function RouterApp() {
       <AutoTranslator />
       <RingBellSplash
         backgroundUrl="https://i.ibb.co/pBKzKBWj/Chat-GPT-Image-Mar-11-2026-11-41-42-AM.png"
+        bellSoundUrl="/audio/Low to high bell.mp3"
       />
       <Routes>
         <Route path="/" element={<HomePage />} />
@@ -40,6 +42,7 @@ export default function RouterApp() {
         <Route path="/mantras-poster" element={<MantrasPosterPage />} />
         <Route path="/devotional-music" element={<DevotionalMusicPage />} />
         <Route path="/sankalp-mantra" element={<SankalpMantraPage />} />
+        <Route path="/ring-bell" element={<RingBellPage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/settings" element={<SettingsPage />} />
 

@@ -153,7 +153,11 @@ function Rashiphalalu({ language, translations: t, onBack, selectedRashi, setSel
       <div
         className={isInline ? "flex items-center justify-center p-8" : "min-h-screen flex items-center justify-center"}
         style={{
-          background: "linear-gradient(180deg, #FF8C32 0%, #FF6347 20%, #FF4560 40%, #E63946 60%, #D32F2F 80%, #B71C1C 100%)"
+          background:
+            "linear-gradient(180deg, rgba(10, 6, 4, 0.28) 0%, rgba(20, 10, 6, 0.42) 100%), url('/backgroundImage.png'), linear-gradient(135deg, rgba(74, 33, 16, 0.98) 0%, rgba(92, 42, 21, 0.95) 50%, rgba(112, 54, 27, 0.92) 100%)",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
         }}
       >
         <div className="text-white">Loading...</div>
@@ -165,7 +169,11 @@ function Rashiphalalu({ language, translations: t, onBack, selectedRashi, setSel
     <div
       className={isInline ? "overflow-x-hidden pb-4" : "min-h-screen overflow-x-hidden"}
       style={{
-        background: "linear-gradient(180deg, #FF8C32 0%, #FF6347 20%, #FF4560 40%, #E63946 60%, #D32F2F 80%, #B71C1C 100%)",
+        background:
+          "linear-gradient(180deg, rgba(10, 6, 4, 0.28) 0%, rgba(20, 10, 6, 0.42) 100%), url('/backgroundImage.png'), linear-gradient(135deg, rgba(74, 33, 16, 0.98) 0%, rgba(92, 42, 21, 0.95) 50%, rgba(112, 54, 27, 0.92) 100%)",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
         position: "relative",
       }}
     >
