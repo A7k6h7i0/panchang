@@ -6,7 +6,7 @@ export default function PageShell({ title, right, children }) {
       className="min-h-screen overflow-x-hidden"
       style={{
         background:
-          "linear-gradient(180deg, rgba(10, 6, 4, 0.55) 0%, rgba(20, 10, 6, 0.7) 100%), radial-gradient(circle at 15% 10%, rgba(255, 190, 110, 0.14) 0%, rgba(0, 0, 0, 0) 40%), radial-gradient(circle at 85% 20%, rgba(255, 120, 45, 0.18) 0%, rgba(0, 0, 0, 0) 45%), url(\"/backgroundImage.png\"), linear-gradient(180deg, rgba(44, 16, 8, 1) 0%, rgba(16, 6, 3, 1) 100%)",
+          "linear-gradient(180deg, rgba(10, 6, 4, 0.36) 0%, rgba(20, 10, 6, 0.48) 100%), radial-gradient(circle at 15% 10%, rgba(255, 190, 110, 0.18) 0%, rgba(0, 0, 0, 0) 40%), radial-gradient(circle at 85% 20%, rgba(255, 120, 45, 0.22) 0%, rgba(0, 0, 0, 0) 45%), url(\"/backgroundImage.png\"), linear-gradient(180deg, rgba(44, 16, 8, 1) 0%, rgba(16, 6, 3, 1) 100%)",
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",

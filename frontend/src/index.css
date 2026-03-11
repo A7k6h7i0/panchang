@@ -107,6 +107,12 @@ body {
 }
 
 .home-bg {
+  background-size: auto, contain, auto;
+  background-position: center, top center, center;
+  background-repeat: no-repeat;
+}
+
+.home-panel-bg {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -324,6 +330,10 @@ body {
   }
 
   .home-bg {
+    background-position: top center;
+  }
+
+  .home-panel-bg {
     background-position: center top;
   }
 }

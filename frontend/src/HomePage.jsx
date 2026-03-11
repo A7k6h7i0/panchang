@@ -548,7 +548,7 @@ export default function HomePage() {
       style={{
         fontFamily: "'Segoe UI', 'Inter', 'Trebuchet MS', sans-serif",
         background:
-          "linear-gradient(180deg, rgba(10, 6, 4, 0.5) 0%, rgba(20, 10, 6, 0.68) 100%), url(\"/backgroundImage.png\"), radial-gradient(ellipse at top, #2a1810 0%, #1a0d08 40%, #0d0504 100%)",
+          "linear-gradient(180deg, rgba(10, 6, 4, 0.32) 0%, rgba(20, 10, 6, 0.45) 100%), url(\"/backgroundImage.png\"), radial-gradient(ellipse at top, #2a1810 0%, #1a0d08 40%, #0d0504 100%)",
       }}
     >
       <div className="mx-auto w-full max-w-md px-4 pb-36 md:max-w-6xl md:px-6 md:pb-40">
@@ -659,7 +659,7 @@ export default function HomePage() {
           <section
             className="rounded-2xl px-4 py-5 text-center transition-all duration-300"
             style={{
-              background: "var(--calendar-orange-gradient)",
+              background: "#A83808",
               border: "2px solid rgba(255, 193, 7, 0.5)",
               boxShadow: "0 8px 32px rgba(255, 152, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.25), inset 0 -3px 0 rgba(139, 69, 19, 0.25), 0 0 40px rgba(255, 183, 77, 0.2)",
             }}
@@ -836,9 +836,10 @@ export default function HomePage() {
         </div>
 
         <div
-          className="mt-1 rounded-xl p-2 backdrop-blur-md"
+          className="mt-1 rounded-xl p-2 backdrop-blur-md home-panel-bg"
           style={{
-            background: "linear-gradient(135deg, rgba(74, 33, 16, 0.98) 0%, rgba(92, 42, 21, 0.95) 50%, rgba(112, 54, 27, 0.92) 100%)",
+            background:
+              "linear-gradient(180deg, rgba(10, 6, 4, 0.28) 0%, rgba(20, 10, 6, 0.42) 100%), url(\"/backgroundImage.png\"), linear-gradient(135deg, rgba(74, 33, 16, 0.98) 0%, rgba(92, 42, 21, 0.95) 50%, rgba(112, 54, 27, 0.92) 100%)",
             border: "3px solid rgba(255, 140, 50, 0.7)",
             boxShadow: "0 0 25px rgba(120, 58, 26, 0.55), inset 0 0 18px rgba(170, 94, 43, 0.2)",
           }}
@@ -871,9 +872,10 @@ export default function HomePage() {
         </div>
 
         {isHoroscopeOpen && (
-          <div className="mt-1 rounded-xl p-0 backdrop-blur-md overflow-hidden"
+          <div className="mt-1 rounded-xl p-0 backdrop-blur-md overflow-hidden home-panel-bg"
             style={{
-              background: "linear-gradient(135deg, rgba(74, 33, 16, 0.98) 0%, rgba(92, 42, 21, 0.95) 50%, rgba(112, 54, 27, 0.92) 100%)",
+              background:
+                "linear-gradient(180deg, rgba(10, 6, 4, 0.28) 0%, rgba(20, 10, 6, 0.42) 100%), url(\"/backgroundImage.png\"), linear-gradient(135deg, rgba(74, 33, 16, 0.98) 0%, rgba(92, 42, 21, 0.95) 50%, rgba(112, 54, 27, 0.92) 100%)",
               border: "3px solid rgba(255, 140, 50, 0.7)",
               boxShadow: "0 0 25px rgba(120, 58, 26, 0.55), inset 0 0 18px rgba(170, 94, 43, 0.2)",
             }}
@@ -891,9 +893,10 @@ export default function HomePage() {
         )}
 
         <div
-          className="mt-1 rounded-xl p-2 backdrop-blur-md"
+          className="mt-1 rounded-xl p-2 backdrop-blur-md home-panel-bg"
           style={{
-            background: "linear-gradient(135deg, rgba(74, 33, 16, 0.98) 0%, rgba(92, 42, 21, 0.95) 50%, rgba(112, 54, 27, 0.92) 100%)",
+            background:
+              "linear-gradient(180deg, rgba(10, 6, 4, 0.28) 0%, rgba(20, 10, 6, 0.42) 100%), url(\"/backgroundImage.png\"), linear-gradient(135deg, rgba(74, 33, 16, 0.98) 0%, rgba(92, 42, 21, 0.95) 50%, rgba(112, 54, 27, 0.92) 100%)",
             border: "3px solid rgba(255, 140, 50, 0.7)",
             boxShadow: "0 0 25px rgba(120, 58, 26, 0.55), inset 0 0 18px rgba(170, 94, 43, 0.2)",
           }}
@@ -926,9 +929,10 @@ export default function HomePage() {
         </div>
 
         {isAlarmPopupOpen ? (
-          <div className="mt-1 rounded-xl p-2 backdrop-blur-md"
+          <div className="mt-1 rounded-xl p-2 backdrop-blur-md home-panel-bg"
             style={{
-              background: "linear-gradient(135deg, rgba(74, 33, 16, 0.98) 0%, rgba(92, 42, 21, 0.95) 50%, rgba(112, 54, 27, 0.92) 100%)",
+              background:
+                "linear-gradient(180deg, rgba(10, 6, 4, 0.28) 0%, rgba(20, 10, 6, 0.42) 100%), url(\"/backgroundImage.png\"), linear-gradient(135deg, rgba(74, 33, 16, 0.98) 0%, rgba(92, 42, 21, 0.95) 50%, rgba(112, 54, 27, 0.92) 100%)",
               border: "3px solid rgba(255, 140, 50, 0.7)",
               boxShadow: "0 0 25px rgba(120, 58, 26, 0.55), inset 0 0 18px rgba(170, 94, 43, 0.2)",
             }}

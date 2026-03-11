@@ -497,7 +497,7 @@ function App() {
         className="min-h-screen grid place-items-center px-4 sm:px-6"
         style={{
           background:
-            "linear-gradient(180deg, rgba(10, 6, 4, 0.55) 0%, rgba(20, 10, 6, 0.7) 100%), url(\"/backgroundImage.png\"), linear-gradient(180deg, #FF8C32 0%, #FF6347 20%, #FF4560 40%, #E63946 60%, #D32F2F 80%, #B71C1C 100%)",
+            "linear-gradient(180deg, rgba(10, 6, 4, 0.36) 0%, rgba(20, 10, 6, 0.5) 100%), url(\"/backgroundImage.png\"), linear-gradient(180deg, #FF8C32 0%, #FF6347 20%, #FF4560 40%, #E63946 60%, #D32F2F 80%, #B71C1C 100%)",
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
@@ -602,7 +602,7 @@ function App() {
       className="min-h-screen"
       style={{
         background:
-          "linear-gradient(180deg, rgba(10, 6, 4, 0.55) 0%, rgba(20, 10, 6, 0.7) 100%), url(\"/backgroundImage.png\"), linear-gradient(180deg, #FF8C32 0%, #FF6347 20%, #FF4560 40%, #E63946 60%, #D32F2F 80%, #B71C1C 100%)",
+          "linear-gradient(180deg, rgba(10, 6, 4, 0.36) 0%, rgba(20, 10, 6, 0.5) 100%), url(\"/backgroundImage.png\"), linear-gradient(180deg, #FF8C32 0%, #FF6347 20%, #FF4560 40%, #E63946 60%, #D32F2F 80%, #B71C1C 100%)",
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
