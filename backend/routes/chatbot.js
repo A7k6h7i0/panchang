@@ -1,162 +1,247 @@
 /**
- * chatbot.js - Hybrid Chatbot Router
+ * chatbot.js - Panchang-only Chatbot Router
  *
- * Routing strategy:
- *  1. Detect intent from the user message using panchangBotEngine's detectIntent.
- *  2. Hard-block clearly unrelated questions with a professional scope message.
- *  3. For unknown-but-related queries, use Gemini for conceptual guidance.
- *  4. For known Panchang intents, use the rule-based engine with local JSON data.
+ * Requirements:
+ *  - ALWAYS use provided Panchang JSON data
+ *  - NEVER generate Panchang values
+ *  - Answer only Panchang-related questions
  */
 import express from "express";
-import { processMessage, detectIntent } from "../services/panchangBotEngine.js";
-import { askGemini } from "../services/geminiChatService.js";
-import {
-  answerHoroscopeQuery,
-  buildHoroscopeContext,
-  isHoroscopeQuery,
-} from "../services/rashiphalService.js";
 
 const router = express.Router();
 
-const PANCHANG_DOMAIN_PATTERNS = [
-  /\b(panchang|panchanga|tithi|thithi|nakshatra|nakshatram|yoga|karanam|karana|paksha)\b/i,
-  /\b(rahu\s*kalam|rahukalam|yamaganda|gulikai|gulika|abhijit|amrit\s*kalam|dur\s*muhurtam|durmuhurtam|varjyam|muhurta|muhurtam|auspicious)\b/i,
-  /\b(festival|vrat|puja|jayanti|ekadashi|amavasya|purnima|sankranti|ugadi|diwali|deepavali|holi|navratri|shivaratri|janmashtami|rama\s*navami|ganesh|hanuman)\b/i,
-  /\b(hindu\s*calendar|vedic\s*calendar|lunar\s*month|chandramana|masa|maas|samvat|shaka)\b/i,
-  /\b(today|tomorrow|yesterday|date)\b.*\b(tithi|nakshatra|rahu|yoga|karana|paksha|festival|panchang)\b/i,
-  /\b(horoscope|rashifal|rashiphal|rashiphalalu|zodiac|rashi|rasi|aries|taurus|gemini|cancer|leo|virgo|libra|scorpio|sagittarius|capricorn|aquarius|pisces)\b/i,
+const OUT_OF_SCOPE_MESSAGE =
+  "I'm sorry, I currently provide information only about today's Panchang such as Tithi, Nakshatra, Karana, Sunrise, Sunset, and Muhurat timings.";
+
+const GREETING_WORDS = new Set([
+  "hi",
+  "hello",
+  "hey",
+  "namaste",
+  "namaskar",
+  "greetings",
+  "good",
+  "morning",
+  "afternoon",
+  "evening",
+  "day",
+]);
+
+const PANCHANG_KEYWORDS = [
+  "tithi",
+  "nakshatra",
+  "karana",
+  "karanam",
+  "yoga",
+  "sunrise",
+  "sunset",
+  "moonrise",
+  "moonset",
+  "rahu",
+  "rahukalam",
+  "rahu kalam",
+  "muhurat",
+  "muhurt",
+  "abhijit",
+  "samvat",
+  "shaka",
+  "panchang",
 ];
 
-const OUT_OF_SCOPE_PATTERNS = [
-  /\b(trump|biden|modi|putin|zelensky|pm|prime\s*minister|president|politics|election|parliament|government)\b/i,
-  /\b(world\s*war|ww1|ww2|history of|roman empire|cold war)\b/i,
-  /\b(stock|bitcoin|crypto|price|market|sensex|nifty)\b/i,
-  /\b(football|cricket|nba|nfl|ipl|score|match result)\b/i,
-  /\b(who is|tell me about|latest news|news about)\b/i,
-  /\b(birthday|bday|my bdy|my birthday|age|wife|husband|boyfriend|girlfriend|i love you|relationship)\b/i,
-];
-
-function getOutOfScopeResponse() {
-  return "I specialize in Panchang and Hindu calendar guidance, including tithi, nakshatra, muhurta, Rahu Kalam, and festivals. I do not have verified data for unrelated general, political, or historical topics.";
-}
-
-function hasDomainSignal(message) {
-  return PANCHANG_DOMAIN_PATTERNS.some((pattern) => pattern.test(message));
-}
-
-function hasOutOfScopeSignal(message) {
-  return OUT_OF_SCOPE_PATTERNS.some((pattern) => pattern.test(message));
-}
-
-function isStandaloneGreeting(message) {
-  const normalized = String(message || "")
+function normalizeMessage(message) {
+  return String(message || "")
     .toLowerCase()
     .replace(/[^a-z0-9\s]/g, " ")
     .replace(/\s+/g, " ")
     .trim();
+}
 
+function isStandaloneGreeting(message) {
+  const normalized = normalizeMessage(message);
   if (!normalized) return false;
-
   const words = normalized.split(" ");
-  const greetingWords = new Set([
-    "hi", "hello", "hey", "namaste", "namaskar", "greetings",
-    "good", "morning", "afternoon", "evening", "day",
-  ]);
-
-  return words.every((w) => greetingWords.has(w));
+  return words.every((w) => GREETING_WORDS.has(w));
 }
 
-/** Get today's date string in DD/MM/YYYY (matches panchang record format) */
-function getTodayKey() {
-  const now = new Date();
-  const dd = String(now.getDate()).padStart(2, "0");
-  const mm = String(now.getMonth() + 1).padStart(2, "0");
-  const yyyy = now.getFullYear();
-  return `${dd}/${mm}/${yyyy}`;
+function hasPanchangKeyword(message) {
+  const normalized = normalizeMessage(message);
+  return PANCHANG_KEYWORDS.some((k) => normalized.includes(k));
 }
 
-const handleChatbot = async (req, res) => {
-  try {
-    const {
-      message,
-      selectedDay,
-      todayDay,
-      language = "en",
-      friendMode = false,
-    } = req.body;
+function textOf(value) {
+  if (value == null) return "";
+  if (typeof value === "string") return value.trim();
+  if (typeof value === "number") return String(value);
+  if (typeof value === "object") {
+    return (
+      String(
+        value?.name ??
+          value?.vedic_name ??
+          value?.title ??
+          value?.value ??
+          value?.label ??
+          value?.display_name ??
+          ""
+      ).trim()
+    );
+  }
+  return "";
+}
 
-    if (!message || !String(message).trim()) {
-      return res.json({ response: "Please ask a question." });
+function firstText(...values) {
+  for (const v of values) {
+    const t = textOf(v);
+    if (t) return t;
+  }
+  return "";
+}
+
+function getValue(obj, keys) {
+  if (!obj || typeof obj !== "object") return "";
+  for (const key of keys) {
+    if (key in obj) {
+      const val = obj[key];
+      const text = textOf(val);
+      if (text) return text;
     }
+  }
+  return "";
+}
 
-    const msg = String(message).trim();
-    const todayKey = getTodayKey();
+function normalizePanchangData(raw) {
+  const data = raw && typeof raw === "object" ? raw : {};
+  return {
+    tithi: getValue(data, ["tithi", "Tithi"]),
+    nakshatra: getValue(data, ["nakshatra", "Nakshatra"]),
+    karana: getValue(data, ["karana", "karanam", "Karana", "Karanam"]),
+    yoga: getValue(data, ["yoga", "Yoga"]),
+    shakaSamvat: getValue(data, ["shakaSamvat", "Shaka Samvat", "samvat", "samvatsara"]),
+    sunrise: getValue(data, ["sunrise", "Sunrise", "SunriseIso"]),
+    sunset: getValue(data, ["sunset", "Sunset", "SunsetIso"]),
+    moonrise: getValue(data, ["moonrise", "Moonrise", "MoonriseIso"]),
+    moonset: getValue(data, ["moonset", "Moonset", "MoonsetIso"]),
+    rahuKalam: getValue(data, ["rahuKalam", "Rahu Kalam", "RahuKalam", "rahu_kalam"]),
+    abhijitMuhurat: getValue(data, [
+      "abhijitMuhurat",
+      "abhijitMuhurtam",
+      "abhijit",
+      "Abhijit",
+      "Abhijit Muhurta",
+      "Abhijit Muhurtam",
+    ]),
+  };
+}
 
-    let resolvedTodayDay = todayDay || null;
-    if (!resolvedTodayDay && selectedDay?.date === todayKey) {
-      resolvedTodayDay = selectedDay;
-    }
+function buildFullPanchangReply(p) {
+  const lines = [];
+  if (p.tithi) lines.push(`🌙 **Tithi:** ${p.tithi}`);
+  if (p.nakshatra) lines.push(`⭐ **Nakshatra:** ${p.nakshatra}`);
+  if (p.karana) lines.push(`🔷 **Karana:** ${p.karana}`);
+  if (p.yoga) lines.push(`🕉️ **Yoga:** ${p.yoga}`);
+  if (p.sunrise) lines.push(`🌅 **Sunrise:** ${p.sunrise}`);
+  if (p.sunset) lines.push(`🌇 **Sunset:** ${p.sunset}`);
+  if (p.moonrise) lines.push(`🌙 **Moonrise:** ${p.moonrise}`);
+  if (p.moonset) lines.push(`🌘 **Moonset:** ${p.moonset}`);
+  if (p.rahuKalam) lines.push(`⚠️ **Rahu Kalam:** ${p.rahuKalam}`);
+  if (p.abhijitMuhurat) lines.push(`✅ **Abhijit Muhurat:** ${p.abhijitMuhurat}`);
+  if (p.shakaSamvat) lines.push(`📜 **Shaka Samvat:** ${p.shakaSamvat}`);
+  if (!lines.length) return "I couldn't find Panchang data for today.";
+  return lines.join("\n");
+}
 
-    const intent = detectIntent(msg);
-    const domainSignal = hasDomainSignal(msg);
-    const horoscopeSignal = isHoroscopeQuery(msg);
-    const outOfScopeSignal = hasOutOfScopeSignal(msg);
-    const standaloneGreeting = isStandaloneGreeting(msg);
-    const horoscopeContext = horoscopeSignal
-      ? buildHoroscopeContext({ message: msg, language })
-      : "";
+function buildSingleFieldReply(icon, label, value) {
+  if (!value) return "I don't have that value in today's Panchang data.";
+  return `${icon} Today's ${label} is **${value}**`;
+}
 
-    if (horoscopeSignal) {
-      const horoscopeResponse = answerHoroscopeQuery({ message: msg, language });
-      if (horoscopeResponse) {
-        return res.json({ response: horoscopeResponse });
-      }
-    }
+function detectIntent(msg) {
+  const m = normalizeMessage(msg);
+  if (isStandaloneGreeting(m)) return "greeting";
+  if (/\b(tithi|thithi)\b/.test(m)) return "tithi";
+  if (/\b(nakshatra|nakshatram)\b/.test(m)) return "nakshatra";
+  if (/\b(karana|karanam)\b/.test(m)) return "karana";
+  if (/\b(yoga)\b/.test(m)) return "yoga";
+  if (/\b(sunrise|sun rise)\b/.test(m)) return "sunrise";
+  if (/\b(sunset|sun set)\b/.test(m)) return "sunset";
+  if (/\b(moonrise|moon rise)\b/.test(m)) return "moonrise";
+  if (/\b(moonset|moon set)\b/.test(m)) return "moonset";
+  if (/\b(rahu|rahukalam|rahu kalam)\b/.test(m)) return "rahu";
+  if (/\b(abhijit|muhurat|muhurt)\b/.test(m)) return "abhijit";
+  if (/\b(shaka|samvat)\b/.test(m)) return "shaka";
+  if (/\b(good time|auspicious)\b/.test(m)) return "good_time";
+  if (/\b(inauspicious|bad time|avoid)\b/.test(m)) return "bad_time";
+  if (/\b(panchang|panchanga|today)\b/.test(m)) return "full";
+  return "unknown";
+}
 
-    if (!domainSignal && !horoscopeSignal && !standaloneGreeting && (outOfScopeSignal || intent === "unknown" || intent === "greeting")) {
-      return res.json({ response: getOutOfScopeResponse(language) });
-    }
+const handleChatbot = (req, res) => {
+  const { message, panchangData, selectedDay, todayDay } = req.body || {};
 
-    if (intent === "unknown") {
-      const geminiResponse = await askGemini({
-        message: msg,
-        selectedDay: selectedDay || null,
-        todayDay: resolvedTodayDay,
-        language,
-        friendMode,
-        horoscopeContext,
-      });
-      return res.json({ response: geminiResponse });
-    }
+  if (!message || !String(message).trim()) {
+    return res.json({ response: "Please ask a question." });
+  }
 
-    const engineSelectedDay = resolvedTodayDay || selectedDay;
+  const msg = String(message).trim();
+  const panchang = normalizePanchangData(panchangData || todayDay || selectedDay);
+  const hasData = Object.values(panchang).some((v) => Boolean(v));
 
-    const engineResult = await processMessage({
-      message: msg,
-      selectedDay: engineSelectedDay,
-      language,
-      friendMode,
+  if (!hasData) {
+    return res.json({
+      response: "Panchang data is not available right now. Please refresh and try again.",
     });
+  }
 
-    return res.json({ response: engineResult.response });
-  } catch (error) {
-    console.error("Chatbot error:", error.message || error);
-    try {
-      const { message, selectedDay, todayDay, language = "en", friendMode = false } = req.body;
-      const fallback = await askGemini({
-        message: String(message).trim(),
-        selectedDay,
-        todayDay,
-        language,
-        friendMode,
-        horoscopeContext: buildHoroscopeContext({ message: String(message).trim(), language }),
+  const intent = detectIntent(msg);
+
+  if (intent === "greeting") {
+    return res.json({ response: "🙏 Hello! Ask me about today's Panchang." });
+  }
+
+  if (!hasPanchangKeyword(msg) && intent === "unknown") {
+    return res.json({ response: OUT_OF_SCOPE_MESSAGE });
+  }
+
+  switch (intent) {
+    case "tithi":
+      return res.json({ response: buildSingleFieldReply("🌙", "Tithi", panchang.tithi) });
+    case "nakshatra":
+      return res.json({ response: buildSingleFieldReply("⭐", "Nakshatra", panchang.nakshatra) });
+    case "karana":
+      return res.json({ response: buildSingleFieldReply("🔷", "Karana", panchang.karana) });
+    case "yoga":
+      return res.json({ response: buildSingleFieldReply("🕉️", "Yoga", panchang.yoga) });
+    case "sunrise":
+      return res.json({ response: buildSingleFieldReply("🌅", "Sunrise", panchang.sunrise) });
+    case "sunset":
+      return res.json({ response: buildSingleFieldReply("🌇", "Sunset", panchang.sunset) });
+    case "moonrise":
+      return res.json({ response: buildSingleFieldReply("🌙", "Moonrise", panchang.moonrise) });
+    case "moonset":
+      return res.json({ response: buildSingleFieldReply("🌘", "Moonset", panchang.moonset) });
+    case "rahu":
+      return res.json({
+        response: buildSingleFieldReply("⚠️", "Rahu Kalam", panchang.rahuKalam),
       });
-      return res.json({ response: fallback });
-    } catch {
-      return res.status(500).json({
-        response: "I'm having trouble right now. Please try again in a moment.",
+    case "abhijit":
+      return res.json({
+        response: buildSingleFieldReply("✅", "Abhijit Muhurat", panchang.abhijitMuhurat),
       });
-    }
+    case "shaka":
+      return res.json({
+        response: buildSingleFieldReply("📜", "Shaka Samvat", panchang.shakaSamvat),
+      });
+    case "good_time":
+      return res.json({
+        response: buildSingleFieldReply("✅", "Good time", panchang.abhijitMuhurat),
+      });
+    case "bad_time":
+      return res.json({
+        response: buildSingleFieldReply("⚠️", "Inauspicious time", panchang.rahuKalam),
+      });
+    case "full":
+      return res.json({ response: buildFullPanchangReply(panchang) });
+    default:
+      return res.json({ response: OUT_OF_SCOPE_MESSAGE });
   }
 };
 

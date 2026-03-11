@@ -2,13 +2,16 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { buildIsoDatetime, findActiveByTime, safeDateFromIso, ymdToday } from "./astrology/components/formatters";
 import Rashiphalalu from "./components/Rashiphalalu";
+import Chatbot from "./components/Chatbot";
 import { getProkeralaPanchang } from "./services/astrologyApi";
 import { languages, translateText, translations } from "./translations";
 import { getAstroDefaults, LANGUAGE_CHANGE_EVENT, loadLanguage, saveLanguage } from "./utils/appSettings";
+import { findLocalDayByYmd } from "./utils/localPanchang";
 
 const VOICE_KEY = "panchang:voice-enabled";
 const VIEW_STATE_KEY = "panchang:current-view";
 const ALARM_STORAGE_KEY = "panchangAlarmSettings";
+const PANCHANG_RETURN_KEY = "panchang:return-to-panel";
 const REMINDER_TIME_OPTIONS = [15, 30, 60, 90, 120];
 
 const defaultAlarmSettings = {
@@ -113,6 +116,18 @@ function toHHMM(value) {
   return s;
 }
 
+function formatTimeValue(value) {
+  const raw = String(value || "").trim();
+  if (!raw) return "";
+  if (raw.includes("T")) {
+    const d = safeDateFromIso(raw);
+    if (d) {
+      return d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+    }
+  }
+  return raw;
+}
+
 function getTimeRangeText(item) {
   if (!item || typeof item !== "object") return "";
   const start = toHHMM(item?.start);
@@ -152,10 +167,11 @@ function loadInitialVoiceEnabled() {
 }
 
 
-function Tile({ to, icon, title, subtitle }) {
+function Tile({ to, icon, title, subtitle, onClick }) {
   return (
     <Link
       to={to}
+      onClick={onClick}
       className="rounded-2xl p-3 text-center transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_0_25px_rgba(255,178,51,0.5)]"
       style={{
         background: "var(--calendar-orange-gradient)",
@@ -205,11 +221,13 @@ export default function HomePage() {
   const [voiceEnabled, setVoiceEnabled] = useState(loadInitialVoiceEnabled);
   const [now, setNow] = useState(() => new Date());
   const [panchang, setPanchang] = useState(null);
+  const [dayRecord, setDayRecord] = useState(null);
   const [error, setError] = useState("");
   const [alarmSettings, setAlarmSettings] = useState(defaultAlarmSettings);
   const [isAlarmPopupOpen, setIsAlarmPopupOpen] = useState(false);
   const [isHoroscopeOpen, setIsHoroscopeOpen] = useState(false);
   const [isPanchangOpen, setIsPanchangOpen] = useState(false);
+  const [isChatbotOpen, setIsChatbotOpen] = useState(false);
   const [selectedRashi, setSelectedRashi] = useState(null);
   const [settingsNonce, setSettingsNonce] = useState(0);
   const [notificationStatus, setNotificationStatus] = useState("");
@@ -226,6 +244,22 @@ export default function HomePage() {
   useEffect(() => {
     const id = setInterval(() => setNow(new Date()), 1000);
     return () => clearInterval(id);
+  }, []);
+
+  useEffect(() => {
+    let active = true;
+    const run = async () => {
+      try {
+        const day = await findLocalDayByYmd(ymdToday());
+        if (active) setDayRecord(day || null);
+      } catch {
+        if (active) setDayRecord(null);
+      }
+    };
+    run();
+    return () => {
+      active = false;
+    };
   }, []);
 
   useEffect(() => {
@@ -468,6 +502,29 @@ export default function HomePage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [panchang, now, defaults.tzOffset, language]);
 
+  const chatPanchang = useMemo(() => {
+    if (!summary && !panchang && !dayRecord) return null;
+
+    return {
+      tithi: firstText(summary?.tithi, dayRecord?.Tithi, panchang?.tithi?.[0]?.name),
+      nakshatra: firstText(summary?.nakshatra, dayRecord?.Nakshatra, panchang?.nakshatra?.[0]?.name),
+      karana: firstText(summary?.karana, dayRecord?.Karana, dayRecord?.Karanam, panchang?.karana?.[0]?.name),
+      yoga: firstText(summary?.yoga, dayRecord?.Yoga, panchang?.yoga?.[0]?.name),
+      shakaSamvat: firstText(dayRecord?.["Shaka Samvat"], summary?.samvatsara, panchang?.samvatsara?.name),
+      sunrise: formatTimeValue(firstText(panchang?.sunrise, dayRecord?.Sunrise, dayRecord?.SunriseIso)),
+      sunset: formatTimeValue(firstText(panchang?.sunset, dayRecord?.Sunset, dayRecord?.SunsetIso)),
+      moonrise: formatTimeValue(firstText(panchang?.moonrise, dayRecord?.Moonrise, dayRecord?.MoonriseIso)),
+      moonset: formatTimeValue(firstText(panchang?.moonset, dayRecord?.Moonset, dayRecord?.MoonsetIso)),
+      rahuKalam: firstText(dayRecord?.["Rahu Kalam"], dayRecord?.RahuKalam, dayRecord?.["RahuKalam"]),
+      abhijitMuhurat: firstText(
+        dayRecord?.Abhijit,
+        dayRecord?.["Abhijit"],
+        dayRecord?.["Abhijit Muhurat"],
+        dayRecord?.["Abhijit Muhurtam"]
+      ),
+    };
+  }, [summary, panchang, dayRecord]);
+
 
   const formattedTime = useMemo(
     () => now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
@@ -478,16 +535,43 @@ export default function HomePage() {
     [now]
   );
 
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const shouldReturn = sessionStorage.getItem(PANCHANG_RETURN_KEY) === "1";
+    if (shouldReturn) {
+      setIsPanchangOpen(true);
+      sessionStorage.removeItem(PANCHANG_RETURN_KEY);
+    }
+  }, []);
+
   const openDailyHoroscope = () => {
-    setIsHoroscopeOpen((prev) => !prev);
+    setIsHoroscopeOpen(true);
+  };
+
+  const closeDailyHoroscope = () => {
+    setIsHoroscopeOpen(false);
   };
 
   const openChantingAlarm = () => {
-    setIsAlarmPopupOpen((prev) => !prev);
+    setIsAlarmPopupOpen(true);
   };
 
-  const togglePanchangMenu = () => {
-    setIsPanchangOpen((prev) => !prev);
+  const closeChantingAlarm = () => {
+    setIsAlarmPopupOpen(false);
+  };
+
+  const openPanchangMenu = () => {
+    setIsPanchangOpen(true);
+  };
+
+  const closePanchangMenu = () => {
+    setIsPanchangOpen(false);
+  };
+
+  const markReturnToPanchang = () => {
+    try {
+      sessionStorage.setItem(PANCHANG_RETURN_KEY, "1");
+    } catch {}
   };
 
   const saveAlarmSettings = () => {
@@ -871,26 +955,26 @@ export default function HomePage() {
           </button>
         </div>
 
-        {isHoroscopeOpen && (
-          <div className="mt-1 rounded-xl p-0 backdrop-blur-md overflow-hidden home-panel-bg"
-            style={{
-              background:
-                "linear-gradient(180deg, rgba(10, 6, 4, 0.28) 0%, rgba(20, 10, 6, 0.42) 100%), url(\"/backgroundImage.png\"), linear-gradient(135deg, rgba(74, 33, 16, 0.98) 0%, rgba(92, 42, 21, 0.95) 50%, rgba(112, 54, 27, 0.92) 100%)",
-              border: "3px solid rgba(255, 140, 50, 0.7)",
-              boxShadow: "0 0 25px rgba(120, 58, 26, 0.55), inset 0 0 18px rgba(170, 94, 43, 0.2)",
-            }}
-          >
-            <div className="w-full">
-              <Rashiphalalu
-                language={language}
-                translations={t}
-                selectedRashi={selectedRashi}
-                setSelectedRashi={setSelectedRashi}
-                isInline={true}
-              />
-            </div>
+        <div
+          aria-hidden={!isHoroscopeOpen}
+          className="fixed left-0 top-0 w-full h-[100vh] z-[9999] transition-all duration-300 ease-out"
+          style={{
+            transform: isHoroscopeOpen ? "translateY(0%)" : "translateY(100%)",
+            opacity: isHoroscopeOpen ? 1 : 0,
+            pointerEvents: isHoroscopeOpen ? "auto" : "none",
+          }}
+        >
+          <div className="h-full w-full overflow-y-auto">
+            <Rashiphalalu
+              language={language}
+              translations={t}
+              selectedRashi={selectedRashi}
+              setSelectedRashi={setSelectedRashi}
+              onBack={closeDailyHoroscope}
+              isInline={false}
+            />
           </div>
-        )}
+        </div>
 
         <div
           className="mt-1 rounded-xl p-2 backdrop-blur-md home-panel-bg"
@@ -928,27 +1012,66 @@ export default function HomePage() {
           </button>
         </div>
 
-        {isAlarmPopupOpen ? (
-          <div className="mt-1 rounded-xl p-2 backdrop-blur-md home-panel-bg"
+        <div
+          aria-hidden={!isAlarmPopupOpen}
+          className="fixed left-0 top-0 w-full h-[100vh] z-[9998] transition-all duration-300 ease-out"
+          style={{
+            transform: isAlarmPopupOpen ? "translateY(0%)" : "translateY(100%)",
+            opacity: isAlarmPopupOpen ? 1 : 0,
+            pointerEvents: isAlarmPopupOpen ? "auto" : "none",
+          }}
+        >
+          <div
+            className="h-full w-full overflow-y-auto"
             style={{
               background:
                 "linear-gradient(180deg, rgba(10, 6, 4, 0.28) 0%, rgba(20, 10, 6, 0.42) 100%), url(\"/backgroundImage.png\"), linear-gradient(135deg, rgba(74, 33, 16, 0.98) 0%, rgba(92, 42, 21, 0.95) 50%, rgba(112, 54, 27, 0.92) 100%)",
-              border: "3px solid rgba(255, 140, 50, 0.7)",
-              boxShadow: "0 0 25px rgba(120, 58, 26, 0.55), inset 0 0 18px rgba(170, 94, 43, 0.2)",
             }}
           >
-            <HomeAlarmPanel
-              language={language}
-              translations={translations}
-              alarmSettings={alarmSettings}
-              setAlarmSettings={setAlarmSettings}
-              onSave={saveAlarmSettings}
-              onReset={resetAlarmSettings}
-              onRequestNotification={requestNotificationPermission}
-              notificationStatus={notificationStatus}
-            />
+            <header
+              className="sticky top-0 z-10 px-4 py-3 backdrop-blur-md"
+              style={{
+                background: "rgba(20, 10, 6, 0.75)",
+                borderBottom: "2px solid rgba(255, 140, 50, 0.45)",
+              }}
+            >
+              <div className="mx-auto flex w-full max-w-6xl items-center gap-3">
+                <button
+                  type="button"
+                  onClick={closeChantingAlarm}
+                  className="inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-sm font-bold transition-all hover:scale-105"
+                  style={{
+                    background: "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
+                    border: "2px solid rgba(255, 140, 50, 0.7)",
+                    color: "#FFE4B5",
+                    boxShadow: "0 0 10px rgba(255, 140, 50, 0.6), inset 0 0 6px rgba(255, 200, 100, 0.2)",
+                  }}
+                >
+                  {"\u2190"} {t?.back || "Back"}
+                </button>
+                <div
+                  className="text-base font-black uppercase tracking-wide"
+                  style={{ color: "#FFF5E6", textShadow: "0 2px 6px rgba(0,0,0,0.5)" }}
+                >
+                  {t.chantingAlarm || "Chanting Tunes"}
+                </div>
+              </div>
+            </header>
+
+            <div className="mx-auto w-full max-w-6xl px-4 py-4">
+              <HomeAlarmPanel
+                language={language}
+                translations={translations}
+                alarmSettings={alarmSettings}
+                setAlarmSettings={setAlarmSettings}
+                onSave={saveAlarmSettings}
+                onReset={resetAlarmSettings}
+                onRequestNotification={requestNotificationPermission}
+                notificationStatus={notificationStatus}
+              />
+            </div>
           </div>
-        ) : null}
+        </div>
 
 
         <div
@@ -961,7 +1084,7 @@ export default function HomePage() {
         >
           <button
             type="button"
-            onClick={togglePanchangMenu}
+            onClick={openPanchangMenu}
             className="relative w-full rounded-xl px-3 py-2 text-sm font-bold uppercase tracking-wide transition-all hover:scale-[1.01]"
             style={{
               background: "var(--calendar-orange-gradient)",
@@ -986,22 +1109,58 @@ export default function HomePage() {
           </button>
         </div>
 
-        {isPanchangOpen && (
+        <div
+          aria-hidden={!isPanchangOpen}
+          className="fixed left-0 top-0 w-full h-[100vh] z-[9997] transition-all duration-300 ease-out"
+          style={{
+            transform: isPanchangOpen ? "translateY(0%)" : "translateY(100%)",
+            opacity: isPanchangOpen ? 1 : 0,
+            pointerEvents: isPanchangOpen ? "auto" : "none",
+          }}
+        >
           <div
-            className="mt-1 rounded-xl p-2 backdrop-blur-md"
-            style={{
-              background: "var(--calendar-orange-shell)",
-              border: "3px solid rgba(255, 140, 50, 0.8)",
-              boxShadow: "0 0 35px rgba(255, 140, 50, 0.8), 0 0 70px rgba(255, 100, 30, 0.6), inset 0 0 30px rgba(255, 140, 50, 0.2)",
-            }}
+            className="h-full w-full overflow-y-auto"
+            style={{ background: "var(--calendar-orange-shell)" }}
           >
-            <section className="grid grid-cols-2 gap-2.5 md:grid-cols-3 lg:grid-cols-4">
-              {getTiles(t).map((tile) => (
-                <Tile key={tile.to} {...tile} />
-              ))}
-            </section>
+            <header
+              className="sticky top-0 z-10 px-4 py-3 backdrop-blur-md"
+              style={{
+                background: "rgba(20, 10, 6, 0.75)",
+                borderBottom: "2px solid rgba(255, 140, 50, 0.45)",
+              }}
+            >
+              <div className="mx-auto flex w-full max-w-6xl items-center gap-3">
+                <button
+                  type="button"
+                  onClick={closePanchangMenu}
+                  className="inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-sm font-bold transition-all hover:scale-105"
+                  style={{
+                    background: "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
+                    border: "2px solid rgba(255, 140, 50, 0.7)",
+                    color: "#FFE4B5",
+                    boxShadow: "0 0 10px rgba(255, 140, 50, 0.6), inset 0 0 6px rgba(255, 200, 100, 0.2)",
+                  }}
+                >
+                  {"\u2190"} {t?.back || "Back"}
+                </button>
+                <div
+                  className="text-base font-black uppercase tracking-wide"
+                  style={{ color: "#FFF5E6", textShadow: "0 2px 6px rgba(0,0,0,0.5)" }}
+                >
+                  {t.panchang || t.tilePanchang || "Panchang"}
+                </div>
+              </div>
+            </header>
+
+            <div className="mx-auto w-full max-w-6xl px-4 py-4">
+              <section className="grid grid-cols-2 gap-2.5 md:grid-cols-3 lg:grid-cols-4">
+                {getTiles(t).map((tile) => (
+                  <Tile key={tile.to} {...tile} onClick={markReturnToPanchang} />
+                ))}
+              </section>
+            </div>
           </div>
-        )}
+        </div>
       </div>
 
 
@@ -1195,6 +1354,45 @@ export default function HomePage() {
           🪐
         </span>
       </Link>
+
+      {/* CHATBOT BUTTON */}
+      <button
+        type="button"
+        onClick={() => setIsChatbotOpen(true)}
+        aria-label="Open chatbot"
+        title="Chatbot"
+        className="fixed z-40 inline-flex items-center justify-center rounded-full h-12 w-12 sm:h-14 sm:w-14 backdrop-blur-md"
+        style={{
+          left: "1rem",
+          bottom: "100px",
+          background: "linear-gradient(145deg, rgba(255, 210, 155, 0.2) 0%, rgba(255, 150, 80, 0.12) 55%, rgba(255, 120, 45, 0.18) 100%)",
+          border: "2px solid rgba(255, 226, 176, 0.7)",
+          boxShadow: "0 12px 28px rgba(0, 0, 0, 0.35), 0 0 26px rgba(255, 145, 65, 0.3), inset 0 1px 8px rgba(255, 250, 240, 0.2)",
+        }}
+      >
+        <span
+          className="inline-flex items-center justify-center rounded-full h-8 w-8 sm:h-9 sm:w-9"
+          style={{
+            background: "linear-gradient(145deg, rgba(255, 176, 102, 0.35) 0%, rgba(255, 122, 55, 0.28) 100%)",
+            border: "1px solid rgba(255, 224, 170, 0.6)",
+            boxShadow: "inset 0 0 10px rgba(255, 239, 210, 0.18)",
+            color: "#FFF1D6",
+            fontSize: "17px",
+            lineHeight: "1",
+          }}
+        >
+          💬
+        </span>
+      </button>
+
+      <Chatbot
+        isOpen={isChatbotOpen}
+        onClose={() => setIsChatbotOpen(false)}
+        selectedDay={null}
+        panchangData={chatPanchang}
+        currentView="calendar"
+        language={language}
+      />
 
       {languagePopupOpen ? (
         <div

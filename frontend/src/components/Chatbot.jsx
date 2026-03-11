@@ -53,7 +53,7 @@ function loadInitialSettings() {
   }
 }
 
-export default function Chatbot({ isOpen, onClose, selectedDay, currentView = "calendar", language }) {
+export default function Chatbot({ isOpen, onClose, selectedDay, panchangData, currentView = "calendar", language }) {
   const [messages, setMessages] = useState(loadInitialMessages);
   const [settings] = useState(loadInitialSettings);
   const [resetSignal, setResetSignal] = useState(0);
@@ -147,6 +147,7 @@ export default function Chatbot({ isOpen, onClose, selectedDay, currentView = "c
             setMessages={setMessages}
             settings={effectiveSettings}
             selectedDay={selectedDay}
+            panchangData={panchangData}
             mode={mode}
             isOpen={isOpen}
             resetSignal={resetSignal}

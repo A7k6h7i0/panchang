@@ -1,5 +1,6 @@
 export async function sendChatMessage(message, settings, options = {}) {
   const selectedDay = options.selectedDay || null;
+  const panchangData = options.panchangData || null;
   const mode = options.mode || "panchang";
 
   const response = await fetch("/api/chatbot", {
@@ -8,6 +9,7 @@ export async function sendChatMessage(message, settings, options = {}) {
     body: JSON.stringify({
       message,
       selectedDay,
+      panchangData,
       mode,
       language: settings?.language || "en",
       friendMode: settings?.friendMode || false,

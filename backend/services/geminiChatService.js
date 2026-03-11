@@ -9,7 +9,11 @@
  *   festival dates it doesn't have. It should say it doesn't know.
  */
 
-import { GoogleGenAI } from "@google/genai";
+import { createRequire } from "node:module";
+
+// @google/genai ships a CJS entry we can load via createRequire in ESM.
+const require = createRequire(import.meta.url);
+const { GoogleGenAI } = require("@google/genai");
 
 // Lazy singleton — created on first use so dotenv has already run by then
 let _ai = null;

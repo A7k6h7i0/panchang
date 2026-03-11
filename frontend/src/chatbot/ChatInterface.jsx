@@ -63,6 +63,7 @@ export default function ChatInterface({
   setMessages,
   settings,
   selectedDay,
+  panchangData,
   mode = "panchang",
   isOpen = true,
   resetSignal = 0,
@@ -185,6 +186,7 @@ export default function ChatInterface({
     try {
       const response = await sendChatMessage(finalText, settings, {
         selectedDay,
+        panchangData,
         mode,
       });
       const botMessage = {

@@ -324,7 +324,7 @@ export default function MuhuratPage() {
                   {normalizePeriodLabel((spotlight.current || spotlight.next)?.name || "-")}
                 </div>
                 <div className="text-xs text-amber-100/70">
-                  {fmtTime((spotlight.current || spotlight.next)?.start)} ->{" "}
+                  {fmtTime((spotlight.current || spotlight.next)?.start)} →{" "}
                   {fmtTime((spotlight.current || spotlight.next)?.end)}
                 </div>
               </div>
@@ -350,7 +350,7 @@ export default function MuhuratPage() {
                     {normalizePeriodLabel(p?.name || `Period ${idx + 1}`)}
                   </div>
                   <div className="text-xs text-amber-100/70">
-                    {fmtTime(p?.start)} -> {fmtTime(p?.end)}
+                    {fmtTime(p?.start)} → {fmtTime(p?.end)}
                   </div>
                 </div>
                 {p?.description ? (
@@ -375,7 +375,7 @@ export default function MuhuratPage() {
                     {normalizePeriodLabel(p?.name || `Period ${idx + 1}`)}
                   </div>
                   <div className="text-xs text-amber-100/70">
-                    {fmtTime(p?.start)} -> {fmtTime(p?.end)}
+                    {fmtTime(p?.start)} → {fmtTime(p?.end)}
                   </div>
                 </div>
                 {p?.description ? (
