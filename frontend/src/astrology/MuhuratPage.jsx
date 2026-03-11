@@ -68,7 +68,7 @@ function normalizePeriod(p) {
   const rangeMatch =
     range &&
     range.match(
-      /(\d{1,2}:\d{2}(?::\d{2})?\s*(?:AM|PM)?)\s*(?:to|-|→)\s*(\d{1,2}:\d{2}(?::\d{2})?\s*(?:AM|PM)?)/i
+      /(\d{1,2}:\d{2}(?::\d{2})?\s*(?:AM|PM)?)\s*(?:to|-|->)\s*(\d{1,2}:\d{2}(?::\d{2})?\s*(?:AM|PM)?)/i
     );
   const start2 = !start && rangeMatch ? rangeMatch[1] : null;
   const end2 = !end && rangeMatch ? rangeMatch[2] : null;
@@ -83,8 +83,21 @@ function classifyPeriodType(period) {
 
   const name = String(period?.name || "").toLowerCase();
   if (/(rahu|yamag|gulik|durmuh|dur\s*muh|varjy|varjya)/i.test(name)) return "inauspicious";
-  if (/(abhijit|amrit|brahma|vijaya|godhuli)/i.test(name)) return "auspicious";
+  if (/(abhijit|amrit|amrith|brahma)/i.test(name)) return "auspicious";
   return "other";
+}
+
+function normalizePeriodLabel(name) {
+  const text = String(name || "").toLowerCase();
+  if (/(amrit|amrith)/i.test(text)) return "Amrith Kalam";
+  if (/(brahma)/i.test(text)) return "Brahma Muhurth";
+  if (/(abhijit)/i.test(text)) return "Abhijeet";
+  if (/(rahu)/i.test(text)) return "Rahu Kalam";
+  if (/(yamag)/i.test(text)) return "Yamaganda";
+  if (/(gulik)/i.test(text)) return "Gulikai Kalam";
+  if (/(durmuh|dur\s*muh)/i.test(text)) return "Dur Muhurtam";
+  if (/(varjy|varjya)/i.test(text)) return "Varjyam";
+  return String(name || "-");
 }
 
 function pickCurrentAndNext(periods, refDate) {
@@ -139,16 +152,40 @@ export default function MuhuratPage() {
     [form.date, form.time, form.tzOffset]
   );
   const spotlight = useMemo(() => pickCurrentAndNext(periods, refDate), [periods, refDate]);
+  const auspiciousOrder = ["Amrith Kalam", "Brahma Muhurth", "Abhijeet"];
+  const inauspiciousOrder = ["Rahu Kalam", "Yamaganda", "Gulikai Kalam", "Dur Muhurtam", "Varjyam"];
   const auspiciousPeriods = useMemo(
-    () => periods.filter((p) => classifyPeriodType(p) === "auspicious"),
+    () =>
+      periods
+        .filter((p) => {
+          const label = normalizePeriodLabel(p?.name || "");
+          return label === "Amrith Kalam" || label === "Brahma Muhurth" || label === "Abhijeet";
+        })
+        .sort(
+          (a, b) =>
+            auspiciousOrder.indexOf(normalizePeriodLabel(a?.name || "")) -
+            auspiciousOrder.indexOf(normalizePeriodLabel(b?.name || ""))
+        ),
     [periods]
   );
   const inauspiciousPeriods = useMemo(
-    () => periods.filter((p) => classifyPeriodType(p) === "inauspicious"),
-    [periods]
-  );
-  const otherPeriods = useMemo(
-    () => periods.filter((p) => classifyPeriodType(p) === "other"),
+    () =>
+      periods
+        .filter((p) => {
+          const label = normalizePeriodLabel(p?.name || "");
+          return (
+            label === "Rahu Kalam" ||
+            label === "Yamaganda" ||
+            label === "Gulikai Kalam" ||
+            label === "Dur Muhurtam" ||
+            label === "Varjyam"
+          );
+        })
+        .sort(
+          (a, b) =>
+            inauspiciousOrder.indexOf(normalizePeriodLabel(a?.name || "")) -
+            inauspiciousOrder.indexOf(normalizePeriodLabel(b?.name || ""))
+        ),
     [periods]
   );
 
@@ -284,10 +321,10 @@ export default function MuhuratPage() {
           <div className="rounded-2xl border border-white/10 bg-black/20 p-4 text-sm text-amber-50">
               <div className="flex flex-wrap items-baseline justify-between gap-3">
                 <div className="text-base font-black text-amber-100">
-                  {String((spotlight.current || spotlight.next)?.name || "-")}
+                  {normalizePeriodLabel((spotlight.current || spotlight.next)?.name || "-")}
                 </div>
                 <div className="text-xs text-amber-100/70">
-                  {fmtTime((spotlight.current || spotlight.next)?.start)} →{" "}
+                  {fmtTime((spotlight.current || spotlight.next)?.start)} ->{" "}
                   {fmtTime((spotlight.current || spotlight.next)?.end)}
                 </div>
               </div>
@@ -310,10 +347,10 @@ export default function MuhuratPage() {
               >
                 <div className="flex flex-wrap items-baseline justify-between gap-3">
                   <div className="text-base font-black text-amber-100">
-                    {String(p?.name || `Period ${idx + 1}`)}
+                    {normalizePeriodLabel(p?.name || `Period ${idx + 1}`)}
                   </div>
                   <div className="text-xs text-amber-100/70">
-                    {fmtTime(p?.start)} → {fmtTime(p?.end)}
+                    {fmtTime(p?.start)} -> {fmtTime(p?.end)}
                   </div>
                 </div>
                 {p?.description ? (
@@ -335,35 +372,10 @@ export default function MuhuratPage() {
               >
                 <div className="flex flex-wrap items-baseline justify-between gap-3">
                   <div className="text-base font-black text-amber-100">
-                    {String(p?.name || `Period ${idx + 1}`)}
+                    {normalizePeriodLabel(p?.name || `Period ${idx + 1}`)}
                   </div>
                   <div className="text-xs text-amber-100/70">
-                    {fmtTime(p?.start)} â†’ {fmtTime(p?.end)}
-                  </div>
-                </div>
-                {p?.description ? (
-                  <div className="mt-2 text-amber-50/90">{String(p.description)}</div>
-                ) : null}
-              </div>
-            ))}
-          </div>
-        </SectionCard>
-      ) : null}
-
-      {otherPeriods.length ? (
-        <SectionCard title="Other Periods" subtitle="Additional periods from provider response.">
-          <div className="grid gap-3">
-            {otherPeriods.map((p, idx) => (
-              <div
-                key={p?.id || p?.name || idx}
-                className="rounded-2xl border border-white/10 bg-black/20 p-4 text-sm text-amber-50"
-              >
-                <div className="flex flex-wrap items-baseline justify-between gap-3">
-                  <div className="text-base font-black text-amber-100">
-                    {String(p?.name || `Period ${idx + 1}`)}
-                  </div>
-                  <div className="text-xs text-amber-100/70">
-                    {fmtTime(p?.start)} â†’ {fmtTime(p?.end)}
+                    {fmtTime(p?.start)} -> {fmtTime(p?.end)}
                   </div>
                 </div>
                 {p?.description ? (
@@ -384,3 +396,5 @@ export default function MuhuratPage() {
     </PageShell>
   );
 }
+
+

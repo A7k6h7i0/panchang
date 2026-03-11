@@ -1,7 +1,6 @@
-import { Component, useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { buildIsoDatetime, findActiveByTime, safeDateFromIso, ymdToday } from "./astrology/components/formatters";
-import Chatbot from "./components/Chatbot";
 import Rashiphalalu from "./components/Rashiphalalu";
 import { getProkeralaPanchang } from "./services/astrologyApi";
 import { languages, translateText, translations } from "./translations";
@@ -197,46 +196,6 @@ function Tile({ to, icon, title, subtitle }) {
 }
 
 
-class ChatbotErrorBoundary extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { hasError: false, error: null, info: null };
-  }
-
-  static getDerivedStateFromError(error) {
-    return { hasError: true, error };
-  }
-
-  componentDidCatch(error, info) {
-    console.error("Chatbot crashed:", error, info);
-    this.setState({ info });
-  }
-
-  render() {
-    if (this.state.hasError) {
-      return (
-        <div className="fixed inset-0 z-[9999] flex flex-col items-center justify-center p-8 bg-red-900 text-white overflow-y-auto">
-          <h2 className="text-2xl font-bold mb-4">Chatbot Crash!</h2>
-          <p className="mb-2">Please tell the AI assistant this exact error:</p>
-          <pre className="bg-black/50 p-4 rounded text-sm w-full whitespace-pre-wrap mb-4">
-            {this.state.error?.toString()}
-          </pre>
-          <pre className="bg-black/50 p-4 rounded text-xs w-full whitespace-pre-wrap">
-            {this.state.info?.componentStack}
-          </pre>
-          <button
-            className="mt-6 bg-white text-red-900 px-4 py-2 rounded font-bold"
-            onClick={() => this.setState({ hasError: false })}
-          >
-            Close Error
-          </button>
-        </div>
-      );
-    }
-    return this.props.children;
-  }
-}
-
 export default function HomePage() {
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -254,10 +213,6 @@ export default function HomePage() {
   const [selectedRashi, setSelectedRashi] = useState(null);
   const [settingsNonce, setSettingsNonce] = useState(0);
   const [notificationStatus, setNotificationStatus] = useState("");
-  const [isChatbotOpen, setIsChatbotOpen] = useState(false);
-  const [chatButtonPos, setChatButtonPos] = useState({ x: null, y: null });
-  const chatButtonRef = useRef(null);
-  const dragStateRef = useRef({ dragging: false, offsetX: 0, offsetY: 0 });
   const abortRef = useRef(null);
   const titleByLanguage = translations[language]?.appTitle || "Talking Calendar";
 
@@ -587,80 +542,13 @@ export default function HomePage() {
       setNotificationStatus("Could not request notification permission.");
     }
   };
-  const clampChatPosition = (x, y) => {
-    if (typeof window === "undefined") return { x, y };
-    const rect = chatButtonRef.current?.getBoundingClientRect();
-    const width = rect?.width || (window.innerWidth >= 640 ? 56 : 48);
-    const height = rect?.height || (window.innerWidth >= 640 ? 56 : 48);
-    const edgePad = 8;
-    const maxX = Math.max(edgePad, window.innerWidth - width - edgePad);
-    const maxY = Math.max(edgePad, window.innerHeight - height - edgePad);
-    return {
-      x: Math.min(Math.max(edgePad, x), maxX),
-      y: Math.min(Math.max(edgePad, y), maxY),
-    };
-  };
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-
-    const setDefaultPosition = () => {
-      setChatButtonPos((prev) => {
-        if (prev.x !== null && prev.y !== null) return prev;
-        const size = window.innerWidth >= 640 ? 56 : 48;
-        const margin = window.innerWidth >= 640 ? 24 : 96; // 96px = 6rem, securely above nav
-        return {
-          x: window.innerWidth - size - margin,
-          y: window.innerHeight - size - margin,
-        };
-      });
-    };
-
-    const handleResize = () => {
-      setChatButtonPos((prev) => {
-        if (prev.x === null || prev.y === null) return prev;
-        return clampChatPosition(prev.x, prev.y);
-      });
-    };
-
-    setDefaultPosition();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  const handleChatButtonPointerDown = (event) => {
-    if (!chatButtonRef.current) return;
-    event.preventDefault();
-    const rect = chatButtonRef.current.getBoundingClientRect();
-    dragStateRef.current = {
-      dragging: true,
-      offsetX: event.clientX - rect.left,
-      offsetY: event.clientY - rect.top,
-    };
-
-    const onPointerMove = (moveEvent) => {
-      if (!dragStateRef.current.dragging) return;
-      const nextX = moveEvent.clientX - dragStateRef.current.offsetX;
-      const nextY = moveEvent.clientY - dragStateRef.current.offsetY;
-      setChatButtonPos(clampChatPosition(nextX, nextY));
-    };
-
-    const onPointerUp = () => {
-      dragStateRef.current.dragging = false;
-      document.removeEventListener("pointermove", onPointerMove);
-      document.removeEventListener("pointerup", onPointerUp);
-    };
-
-    document.addEventListener("pointermove", onPointerMove);
-    document.addEventListener("pointerup", onPointerUp);
-  };
-
   return (
     <div
-      className="min-h-screen overflow-x-hidden pt-4 sm:pt-6"
+      className="min-h-screen overflow-x-hidden pt-4 sm:pt-6 home-bg"
       style={{
         fontFamily: "'Segoe UI', 'Inter', 'Trebuchet MS', sans-serif",
-        background: "radial-gradient(ellipse at top, #2a1810 0%, #1a0d08 40%, #0d0504 100%)",
+        background:
+          "linear-gradient(180deg, rgba(10, 6, 4, 0.5) 0%, rgba(20, 10, 6, 0.68) 100%), url(\"/backgroundImage.png\"), radial-gradient(ellipse at top, #2a1810 0%, #1a0d08 40%, #0d0504 100%)",
       }}
     >
       <div className="mx-auto w-full max-w-md px-4 pb-36 md:max-w-6xl md:px-6 md:pb-40">
@@ -1303,55 +1191,6 @@ export default function HomePage() {
           🪐
         </span>
       </Link>
-
-      {/* CHATBOT PLACEHOLDER BUTTON */}
-      <button
-        ref={chatButtonRef}
-        type="button"
-        aria-label="Open chatbot"
-        title="Chatbot"
-        onClick={() => setIsChatbotOpen(!isChatbotOpen)}
-        onPointerDown={handleChatButtonPointerDown}
-        className="fixed z-40 inline-flex items-center justify-center rounded-full h-12 w-12 sm:h-14 sm:w-14 backdrop-blur-md cursor-grab active:cursor-grabbing"
-        style={{
-          background: "linear-gradient(145deg, rgba(255, 210, 155, 0.22) 0%, rgba(255, 150, 80, 0.16) 55%, rgba(255, 120, 45, 0.2) 100%)",
-          border: "2px solid rgba(255, 226, 176, 0.75)",
-          boxShadow: "0 12px 28px rgba(0, 0, 0, 0.4), 0 0 26px rgba(255, 145, 65, 0.4), inset 0 1px 8px rgba(255, 250, 240, 0.22)",
-          touchAction: "none",
-          ...(chatButtonPos.x === null || chatButtonPos.y === null
-            ? { right: "1rem", bottom: "100px" } // Provide same safe fallback padding
-            : { left: `${chatButtonPos.x}px`, top: `${chatButtonPos.y}px` }),
-        }}
-      >
-        <span
-          className="inline-flex items-center justify-center rounded-full h-8 w-8 sm:h-9 sm:w-9"
-          style={{
-            background: "linear-gradient(145deg, rgba(255, 176, 102, 0.38) 0%, rgba(255, 122, 55, 0.32) 100%)",
-            border: "1px solid rgba(255, 224, 170, 0.65)",
-            boxShadow: "inset 0 0 10px rgba(255, 239, 210, 0.2)",
-            color: "#FFF1D6",
-            fontSize: "17px",
-            lineHeight: "1",
-          }}
-        >
-          💬
-        </span>
-      </button>
-
-      {/* CHATBOT */}
-      {isChatbotOpen && (
-        <ChatbotErrorBoundary>
-          <Chatbot
-            isOpen={isChatbotOpen}
-            onClose={() => setIsChatbotOpen(false)}
-            language={language}
-            currentView={"calendar"}
-            translations={t}
-            selectedDay={null}
-            voiceEnabled={voiceEnabled}
-          />
-        </ChatbotErrorBoundary>
-      )}
 
       {languagePopupOpen ? (
         <div
