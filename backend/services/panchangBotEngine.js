@@ -259,6 +259,7 @@ const INTENT_PATTERNS = [
     { intent: "count_tithi", patterns: [/how\s+many\s+tithi|total\s+tithi/i] },
     { intent: "count_yoga", patterns: [/how\s+many\s+yoga|total\s+yoga/i] },
     { intent: "good_time_summary", patterns: [/\b(what|which|tell).{0,20}(good|best|auspicious).{0,20}time|best time today|shubh muhurta today|good muhurta/i] },
+    { intent: "bad_time_summary", patterns: [/\b(what|which|tell).{0,20}(bad|inauspicious|avoid).{0,20}time|bad time today|inauspicious time|times to avoid|avoid time/i] },
     { intent: "rahu_kalam", patterns: [/\b(rahu|raahu|rahukaal|rahu\s*kalam|rahukata|rahukalam)\b/i] },
     { intent: "yamaganda", patterns: [/\b(yamaganda|yamagnda|yama\s*ganda|yama)\b/i] },
     { intent: "gulikai", patterns: [/\b(gulikai|gulika|guligai|gulika\s*kalam)\b/i] },
@@ -703,8 +704,118 @@ function buildDayLine(record, lang) {
     };
 }
 
+const SUMMARY_LABELS = {
+    en: {
+        heading: "Today's Panchang",
+        ausp: "Auspicious Times (Shubha Muhurtam)",
+        avoid: "Times to Avoid",
+        best: "Best Time to Start",
+        noAusp: "No special auspicious windows listed.",
+        noAvoid: "No inauspicious windows listed.",
+        yesBusiness: "Yes, you can start your business today.",
+        yesStart: "Yes, you can start today.",
+        summaryLead: "Here are today’s Panchang details and timings.",
+    },
+    te: {
+        heading: "నేటి పంచాంగం",
+        ausp: "శుభ ముహూర్తాలు",
+        avoid: "నివారించవలసిన సమయాలు",
+        best: "ప్రారంభించడానికి ఉత్తమ సమయాలు",
+        noAusp: "ఈ రోజుకు ప్రత్యేక శుభ ముహూర్తాలు లేవు.",
+        noAvoid: "ఈ రోజుకు ప్రత్యేక అశుభ సమయాలు లేవు.",
+        yesBusiness: "అవును, మీరు ఈ రోజు మీ వ్యాపారం ప్రారంభించవచ్చు.",
+        yesStart: "అవును, మీరు ఈ రోజు ప్రారంభించవచ్చు.",
+        summaryLead: "ఇవే ఇవాళ పంచాంగ వివరాలు మరియు శుభ/అశుభ సమయాలు.",
+    },
+    hi: {
+        heading: "आज का पंचांग",
+        ausp: "शुभ मुहूर्त",
+        avoid: "बचने योग्य समय",
+        best: "शुरू करने का सर्वोत्तम समय",
+        noAusp: "आज के लिए कोई विशेष शुभ मुहूर्त नहीं है।",
+        noAvoid: "आज के लिए कोई विशेष अशुभ समय नहीं है।",
+        yesBusiness: "हाँ, आप आज अपना व्यवसाय शुरू कर सकते हैं।",
+        yesStart: "हाँ, आप आज शुरू कर सकते हैं।",
+        summaryLead: "यहाँ आज के पंचांग विवरण और शुभ/अशुभ समय हैं।",
+    },
+};
+
+function buildTimingSummary(d, date, lang, opts = {}) {
+    const L = SUMMARY_LABELS[lang] || SUMMARY_LABELS.en;
+    const isMissing = (value) => !value || value === "—";
+    const listLines = (entries) =>
+        entries
+            .filter((item) => !isMissing(item.value))
+            .map((item) => `- **${item.label}:** ${item.value}`);
+
+    const lines = [];
+    const leadLine = opts.leadLine || (opts.useDefaultLead ? L.summaryLead : "");
+    if (leadLine) lines.push(leadLine);
+    lines.push(`📅 **${L.heading} (${fmtDate(date, lang)})**`, "");
+
+    const core = listLines([
+        { label: t("tithi", lang), value: d.tithi },
+        { label: t("paksha", lang), value: d.paksha },
+        { label: t("nakshatra", lang), value: d.nakshatra },
+        { label: t("yoga", lang), value: d.yoga },
+        { label: t("karanam", lang), value: d.karanam },
+        { label: t("lunar_month", lang), value: d.lunar },
+        { label: "Shaka Samvat", value: d.samvat },
+    ]);
+    if (core.length) lines.push(...core, "");
+
+    const goodTimes = listLines([
+        { label: t("abhijit", lang), value: d.abhijit },
+        { label: t("amrit", lang), value: d.amrit },
+    ]);
+    lines.push(`**${L.ausp}**`);
+    if (goodTimes.length) lines.push(...goodTimes);
+    else lines.push(`- ${L.noAusp}`);
+    lines.push("");
+
+    const badTimes = listLines([
+        { label: t("rahu", lang), value: d.rahu },
+        { label: t("yamaganda", lang), value: d.yamaganda },
+        { label: t("gulikai", lang), value: d.gulikai },
+        { label: t("dur", lang), value: d.dur },
+        { label: t("varjyam", lang), value: d.varjyam },
+    ]);
+    lines.push(`**${L.avoid}**`);
+    if (badTimes.length) lines.push(...badTimes);
+    else lines.push(`- ${L.noAvoid}`);
+
+    if (opts.includeBest) {
+        lines.push("", `**${L.best}**`);
+        if (goodTimes.length) lines.push(...goodTimes);
+        else lines.push(`- ${L.noAusp}`);
+    }
+
+    return lines.join("\n").trim();
+}
+
+function pickTimingLeadLine(msg, lang) {
+    const L = SUMMARY_LABELS[lang] || SUMMARY_LABELS.en;
+    const text = String(msg || "").toLowerCase();
+    const hasStart = /\b(start|begin|launch|open)\b/.test(text);
+    const hasBusiness = /\b(business|shop|store|company|venture|office|enterprise)\b/.test(text);
+    const directAsk = /\b(can i|should i|may i|is it ok to|is it okay to|is it good to)\s+(start|begin|launch|open)\b/.test(text);
+
+    if (hasStart && hasBusiness) return L.yesBusiness;
+    if (directAsk || hasStart) return L.yesStart;
+    return L.summaryLead;
+}
+
 function buildFullPanchang(record, date, lang) {
     const d = buildDayLine(record, lang);
+        const refersNow = /\b(now|right now|currently|at present)\b/i.test(msg);
+        const wantsSummary = queryMin === null && !refersNow &&
+            /\b(today|good time|bad time|auspicious|muhurat|muhurta|muhurtam|shubh|start|begin|launch|open|business|shop|work)\b/i.test(msg);
+
+        if (wantsSummary) {
+            const leadLine = pickTimingLeadLine(msg, lang);
+            const response = buildTimingSummary(d, targetDate, lang, { leadLine, includeBest: true });
+            return { response };
+        }
     const T = (k) => TRANSLATIONS[k]?.[lang] || TRANSLATIONS[k]?.en;
     const header = {
         en: `📅 **Panchang for ${fmtDate(date, "en")}**`,
@@ -759,6 +870,15 @@ function buildFullPanchang(record, date, lang) {
 
 function buildSingleField(record, date, intent, lang) {
     const d = buildDayLine(record, lang);
+        const refersNow = /\b(now|right now|currently|at present)\b/i.test(msg);
+        const wantsSummary = queryMin === null && !refersNow &&
+            /\b(today|good time|bad time|auspicious|muhurat|muhurta|muhurtam|shubh|start|begin|launch|open|business|shop|work)\b/i.test(msg);
+
+        if (wantsSummary) {
+            const leadLine = pickTimingLeadLine(msg, lang);
+            const response = buildTimingSummary(d, targetDate, lang, { leadLine, includeBest: true });
+            return { response };
+        }
     const dateStr = fmtDate(date, lang);
     const T = (k) => TRANSLATIONS[k]?.[lang] || TRANSLATIONS[k]?.en;
 
@@ -920,30 +1040,27 @@ export async function processMessage({ message, selectedDay, language = "en", fr
     if (intent === "full_panchang" || intent === "shaka_samvat") {
         return { response: buildFullPanchang(record, targetDate, lang) };
     }
-
-    // --- Good time summary ---
-    if (intent === "good_time_summary") {
+    // --- Good/Bad time summary ---
+    if (intent === "good_time_summary" || intent === "bad_time_summary") {
         const d = buildDayLine(record, lang);
-        const dateStr = fmtDate(targetDate, lang);
-        const header = { en: `✨ **Auspicious & Inauspicious Times for ${dateStr}**`, te: `✨ **${dateStr} కి శుభాశుభ సమయాలు**`, hi: `✨ **${dateStr} के शुभ-अशुभ काल**` }[lang];
-        const goodLabel = { en: "✅ Good / Auspicious Times", te: "✅ శుభ సమయాలు", hi: "✅ शुभ काल" }[lang];
-        const badLabel = { en: "⚠️ Times to Avoid", te: "⚠️ నివారించాల్సిన సమయాలు", hi: "⚠️ बचने योग्य काल" }[lang];
-        let r = `${header}\n\n**${goodLabel}**\n`;
-        r += `- **${TRANSLATIONS.abhijit[lang]}:** ${d.abhijit}\n`;
-        r += `- **${TRANSLATIONS.amrit[lang]}:** ${d.amrit}\n`;
-        r += `\n**${badLabel}**\n`;
-        r += `- **${TRANSLATIONS.rahu[lang]}:** ${d.rahu}\n`;
-        r += `- **${TRANSLATIONS.yamaganda[lang]}:** ${d.yamaganda}\n`;
-        r += `- **${TRANSLATIONS.gulikai[lang]}:** ${d.gulikai}\n`;
-        r += `- **${TRANSLATIONS.dur[lang]}:** ${d.dur}\n`;
-        if (d.varjyam !== "—") r += `- **${TRANSLATIONS.varjyam[lang]}:** ${d.varjyam}\n`;
-        return { response: r.trim() };
+        const leadLine = pickTimingLeadLine(msg, lang);
+        const response = buildTimingSummary(d, targetDate, lang, { leadLine, includeBest: true });
+        return { response };
     }
 
     // --- Time check ---
     if (intent === "time_check") {
         const queryMin = extractQueryTime(msg);
         const d = buildDayLine(record, lang);
+        const refersNow = /\b(now|right now|currently|at present)\b/i.test(msg);
+        const wantsSummary = queryMin === null && !refersNow &&
+            /\b(today|good time|bad time|auspicious|muhurat|muhurta|muhurtam|shubh|start|begin|launch|open|business|shop|work)\b/i.test(msg);
+
+        if (wantsSummary) {
+            const leadLine = pickTimingLeadLine(msg, lang);
+            const response = buildTimingSummary(d, targetDate, lang, { leadLine, includeBest: true });
+            return { response };
+        }
 
         // Current time if not specified
         const checkMin = queryMin !== null ? queryMin : (new Date().getHours() * 60 + new Date().getMinutes());
@@ -1003,6 +1120,15 @@ export async function processMessage({ message, selectedDay, language = "en", fr
 
     // --- Festival on a specific date ---
     const d = buildDayLine(record, lang);
+        const refersNow = /\b(now|right now|currently|at present)\b/i.test(msg);
+        const wantsSummary = queryMin === null && !refersNow &&
+            /\b(today|good time|bad time|auspicious|muhurat|muhurta|muhurtam|shubh|start|begin|launch|open|business|shop|work)\b/i.test(msg);
+
+        if (wantsSummary) {
+            const leadLine = pickTimingLeadLine(msg, lang);
+            const response = buildTimingSummary(d, targetDate, lang, { leadLine, includeBest: true });
+            return { response };
+        }
     if (d.festivals.length) {
         const header = { en: `🎉 Festivals on **${fmtDate(targetDate, "en")}**`, te: `🎉 **${fmtDate(targetDate, "te")}** పండుగలు`, hi: `🎉 **${fmtDate(targetDate, "hi")}** को त्योहार` }[lang];
         return { response: `${header}\n\n${d.festivals.join(" | ")}` };
@@ -1014,4 +1140,12 @@ export async function processMessage({ message, selectedDay, language = "en", fr
 
 // Export detectIntent so the chatbot router can route before calling processMessage
 export { detectIntent };
+
+
+
+
+
+
+
+
 

@@ -142,7 +142,8 @@ export const translations = {
     "Krishna Paksha": "Krishna Paksha",
 
     Padyami: "Padyami",
-    Dwitiya: "Dwitiya",
+    Dvitiya: "Dvitiya",
+    Pratipada: "Pratipada",
     Tritiya: "Tritiya",
     Chaturthi: "Chaturthi",
     Panchami: "Panchami",

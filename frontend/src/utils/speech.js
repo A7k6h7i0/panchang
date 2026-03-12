@@ -25,7 +25,7 @@ function getVoiceForLanguage(lang) {
 }
 
 export async function speakText(text, language = "en") {
-  if (!window.speechSynthesis || !text) return;
+  if (!window.speechSynthesis || !text) return { interrupted: true };
 
   await loadVoices();
 
@@ -53,5 +53,9 @@ export async function speakText(text, language = "en") {
   utterance.rate = 0.9;
   utterance.pitch = 1;
 
-  window.speechSynthesis.speak(utterance);
+  return new Promise((resolve) => {
+    utterance.onend = () => resolve({ interrupted: false });
+    utterance.onerror = () => resolve({ interrupted: true });
+    window.speechSynthesis.speak(utterance);
+  });
 }

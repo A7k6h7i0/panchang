@@ -147,7 +147,7 @@ export default function RingBellSplash({
             type="button"
             onClick={attemptPlay}
           >
-            Enter Temple
+            Welcome to the Temple of Panchang
           </button>
         )}
       </div>

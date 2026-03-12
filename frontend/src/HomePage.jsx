@@ -221,6 +221,35 @@ function Tile({ to, icon, title, subtitle, onClick }) {
   );
 }
 
+function HomeNavButton({ label, onClick }) {
+  return (
+    <div
+      className="rounded-xl p-2 backdrop-blur-md home-panel-bg"
+      style={{
+        background:
+          "linear-gradient(180deg, rgba(10, 6, 4, 0.28) 0%, rgba(20, 10, 6, 0.42) 100%), url(\"/backgroundImage.png\"), linear-gradient(135deg, rgba(74, 33, 16, 0.98) 0%, rgba(92, 42, 21, 0.95) 50%, rgba(112, 54, 27, 0.92) 100%)",
+        border: "3px solid rgba(255, 140, 50, 0.7)",
+        boxShadow: "0 0 25px rgba(120, 58, 26, 0.55), inset 0 0 18px rgba(170, 94, 43, 0.2)",
+      }}
+    >
+      <button
+        type="button"
+        onClick={onClick}
+        className="relative w-full rounded-xl px-3 py-2 text-sm font-bold uppercase tracking-wide transition-all hover:scale-[1.01]"
+        style={{
+          background: "var(--calendar-orange-gradient)",
+          border: "2.5px solid rgba(212, 168, 71, 0.8)",
+          color: "#ffedb3",
+          boxShadow:
+            "0 0 18px rgba(212, 168, 71, 0.3), inset 0 1px 2px rgba(255, 255, 255, 0.1), inset 0 -1px 2px rgba(0, 0, 0, 0.2)",
+        }}
+      >
+        <span className="block text-center">{label}</span>
+      </button>
+    </div>
+  );
+}
+
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -558,8 +587,8 @@ export default function HomePage() {
     if (!summary && !panchang && !dayRecord) return null;
 
     return {
-      tithi: firstText(summary?.tithi, dayRecord?.Tithi, panchang?.tithi?.[0]?.name),
-      nakshatra: firstText(summary?.nakshatra, dayRecord?.Nakshatra, panchang?.nakshatra?.[0]?.name),
+      tithi: firstText(summary?.tithi !== "New Moon" && summary?.tithi !== "Full Moon" ? summary?.tithi : null, dayRecord?.Tithi, panchang?.tithi?.[0]?.name),
+      nakshatra: firstText(summary?.nakshatra !== "From" ? summary?.nakshatra : null, dayRecord?.Nakshatra, panchang?.nakshatra?.[0]?.name),
       karana: firstText(summary?.karana, dayRecord?.Karana, dayRecord?.Karanam, panchang?.karana?.[0]?.name),
       yoga: firstText(summary?.yoga, dayRecord?.Yoga, panchang?.yoga?.[0]?.name),
       shakaSamvat: firstText(dayRecord?.["Shaka Samvat"], summary?.samvatsara, panchang?.samvatsara?.name),
@@ -700,6 +729,24 @@ export default function HomePage() {
 
   const closePanchangMenu = () => {
     setIsPanchangOpen(false);
+  };
+
+  const openPanchangFromNav = () => {
+    closeDailyHoroscope();
+    closeChantingAlarm();
+    openPanchangMenu();
+  };
+
+  const openHoroscopeFromNav = () => {
+    closeChantingAlarm();
+    closePanchangMenu();
+    openDailyHoroscope();
+  };
+
+  const openChantingFromNav = () => {
+    closeDailyHoroscope();
+    closePanchangMenu();
+    openChantingAlarm();
   };
 
   const markReturnToPanchang = () => {
@@ -1054,6 +1101,109 @@ export default function HomePage() {
         </div>
 
         <div
+          className="mt-1 rounded-xl p-2 backdrop-blur-md"
+          style={{
+            background: "linear-gradient(135deg, rgba(74, 33, 16, 0.98) 0%, rgba(92, 42, 21, 0.95) 50%, rgba(112, 54, 27, 0.92) 100%)",
+            border: "3px solid rgba(255, 140, 50, 0.7)",
+            boxShadow: "0 0 25px rgba(120, 58, 26, 0.55), inset 0 0 18px rgba(170, 94, 43, 0.2)",
+          }}
+        >
+          <button
+            type="button"
+            onClick={openPanchangMenu}
+            className="relative w-full rounded-xl px-3 py-2 text-sm font-bold uppercase tracking-wide transition-all hover:scale-[1.01]"
+            style={{
+              background: "var(--calendar-orange-gradient)",
+              border: "2.5px solid rgba(212, 168, 71, 0.8)",
+              color: "#ffedb3",
+              boxShadow:
+                "0 0 18px rgba(212, 168, 71, 0.3), inset 0 1px 2px rgba(255, 255, 255, 0.1), inset 0 -1px 2px rgba(0, 0, 0, 0.2)",
+            }}
+          >
+            <span className="block text-center">{t.panchang || t.tilePanchang || "Panchang"}</span>
+            <span
+              aria-hidden="true"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-xs transition-transform duration-200"
+              style={{
+                color: "#ffedb3",
+                transform: isPanchangOpen ? "rotate(180deg)" : "rotate(0deg)",
+                textShadow: "0 1px 2px rgba(0, 0, 0, 0.2)",
+              }}
+            >
+              ▼
+            </span>
+          </button>
+        </div>
+
+        <div
+          aria-hidden={!isPanchangOpen}
+          className="fixed left-0 top-0 w-full h-[100vh] z-[9997] transition-all duration-300 ease-out"
+          style={{
+            transform: isPanchangOpen ? "translateY(0%)" : "translateY(100%)",
+            opacity: isPanchangOpen ? 1 : 0,
+            pointerEvents: isPanchangOpen ? "auto" : "none",
+          }}
+        >
+          <div
+            className="h-full w-full overflow-y-auto"
+            style={{
+              background: "linear-gradient(180deg, rgba(10, 6, 4, 0.28) 0%, rgba(20, 10, 6, 0.42) 100%), url('/backgroundImage.png'), linear-gradient(135deg, rgba(74, 33, 16, 0.98) 0%, rgba(92, 42, 21, 0.95) 50%, rgba(112, 54, 27, 0.92) 100%)",
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }}
+          >
+            <header
+              className="sticky top-0 z-10 px-4 py-3 backdrop-blur-md"
+              style={{
+                background: "rgba(20, 10, 6, 0.75)",
+                borderBottom: "2px solid rgba(255, 140, 50, 0.45)",
+              }}
+            >
+              <div className="mx-auto flex w-full max-w-6xl items-center gap-3">
+                <button
+                  type="button"
+                  onClick={closePanchangMenu}
+                  className="inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-sm font-bold transition-all hover:scale-105"
+                  style={{
+                    background: "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
+                    border: "2px solid rgba(255, 140, 50, 0.7)",
+                    color: "#FFE4B5",
+                    boxShadow: "0 0 10px rgba(255, 140, 50, 0.6), inset 0 0 6px rgba(255, 200, 100, 0.2)",
+                  }}
+                >
+                  {"\u2190"} {t?.back || "Back"}
+                </button>
+                <div
+                  className="text-base font-black uppercase tracking-wide"
+                  style={{ color: "#FFF5E6", textShadow: "0 2px 6px rgba(0,0,0,0.5)" }}
+                >
+                  {t.panchang || t.tilePanchang || "Panchang"}
+                </div>
+              </div>
+            </header>
+
+            <div className="mx-auto w-full max-w-6xl px-4 py-4">
+              <section className="grid grid-cols-2 gap-2.5 md:grid-cols-3 lg:grid-cols-4">
+                {getTiles(t).map((tile) => (
+                  <Tile key={tile.to} {...tile} onClick={markReturnToPanchang} />
+                ))}
+              </section>
+
+              <div className="mt-4 grid gap-2 sm:grid-cols-2">
+                <HomeNavButton
+                  label={t.dailyHoroscope || "Daily Horoscope"}
+                  onClick={openHoroscopeFromNav}
+                />
+                <HomeNavButton
+                  label={t.chantingAlarm || "Chanting Tunes"}
+                  onClick={openChantingFromNav}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div
           className="mt-1 rounded-xl p-2 backdrop-blur-md home-panel-bg"
           style={{
             background:
@@ -1114,6 +1264,19 @@ export default function HomePage() {
               onBack={closeDailyHoroscope}
               isInline={false}
             />
+
+            <div className="mx-auto w-full max-w-6xl px-4 pb-6">
+              <div className="mt-4 grid gap-2 sm:grid-cols-2">
+                <HomeNavButton
+                  label={t.panchang || t.tilePanchang || "Panchang"}
+                  onClick={openPanchangFromNav}
+                />
+                <HomeNavButton
+                  label={t.chantingAlarm || "Chanting Tunes"}
+                  onClick={openChantingFromNav}
+                />
+              </div>
+            </div>
           </div>
         </div>
 
@@ -1214,102 +1377,22 @@ export default function HomePage() {
                 weekdayAudioRef={weekdayAudioRef}
                 weekdayAudioFiles={WEEKDAY_AUDIO_FILES}
               />
-            </div>
-          </div>
-        </div>
 
-
-        <div
-          className="mt-1 rounded-xl p-2 backdrop-blur-md"
-          style={{
-            background: "linear-gradient(135deg, rgba(74, 33, 16, 0.98) 0%, rgba(92, 42, 21, 0.95) 50%, rgba(112, 54, 27, 0.92) 100%)",
-            border: "3px solid rgba(255, 140, 50, 0.7)",
-            boxShadow: "0 0 25px rgba(120, 58, 26, 0.55), inset 0 0 18px rgba(170, 94, 43, 0.2)",
-          }}
-        >
-          <button
-            type="button"
-            onClick={openPanchangMenu}
-            className="relative w-full rounded-xl px-3 py-2 text-sm font-bold uppercase tracking-wide transition-all hover:scale-[1.01]"
-            style={{
-              background: "var(--calendar-orange-gradient)",
-              border: "2.5px solid rgba(212, 168, 71, 0.8)",
-              color: "#ffedb3",
-              boxShadow:
-                "0 0 18px rgba(212, 168, 71, 0.3), inset 0 1px 2px rgba(255, 255, 255, 0.1), inset 0 -1px 2px rgba(0, 0, 0, 0.2)",
-            }}
-          >
-            <span className="block text-center">{t.panchang || t.tilePanchang || "Panchang"}</span>
-            <span
-              aria-hidden="true"
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-xs transition-transform duration-200"
-              style={{
-                color: "#ffedb3",
-                transform: isPanchangOpen ? "rotate(180deg)" : "rotate(0deg)",
-                textShadow: "0 1px 2px rgba(0, 0, 0, 0.2)",
-              }}
-            >
-              ▼
-            </span>
-          </button>
-        </div>
-
-        <div
-          aria-hidden={!isPanchangOpen}
-          className="fixed left-0 top-0 w-full h-[100vh] z-[9997] transition-all duration-300 ease-out"
-          style={{
-            transform: isPanchangOpen ? "translateY(0%)" : "translateY(100%)",
-            opacity: isPanchangOpen ? 1 : 0,
-            pointerEvents: isPanchangOpen ? "auto" : "none",
-          }}
-        >
-          <div
-            className="h-full w-full overflow-y-auto"
-            style={{
-              background: "linear-gradient(180deg, rgba(10, 6, 4, 0.28) 0%, rgba(20, 10, 6, 0.42) 100%), url('/backgroundImage.png'), linear-gradient(135deg, rgba(74, 33, 16, 0.98) 0%, rgba(92, 42, 21, 0.95) 50%, rgba(112, 54, 27, 0.92) 100%)",
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-            }}
-          >
-            <header
-              className="sticky top-0 z-10 px-4 py-3 backdrop-blur-md"
-              style={{
-                background: "rgba(20, 10, 6, 0.75)",
-                borderBottom: "2px solid rgba(255, 140, 50, 0.45)",
-              }}
-            >
-              <div className="mx-auto flex w-full max-w-6xl items-center gap-3">
-                <button
-                  type="button"
-                  onClick={closePanchangMenu}
-                  className="inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-sm font-bold transition-all hover:scale-105"
-                  style={{
-                    background: "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
-                    border: "2px solid rgba(255, 140, 50, 0.7)",
-                    color: "#FFE4B5",
-                    boxShadow: "0 0 10px rgba(255, 140, 50, 0.6), inset 0 0 6px rgba(255, 200, 100, 0.2)",
-                  }}
-                >
-                  {"\u2190"} {t?.back || "Back"}
-                </button>
-                <div
-                  className="text-base font-black uppercase tracking-wide"
-                  style={{ color: "#FFF5E6", textShadow: "0 2px 6px rgba(0,0,0,0.5)" }}
-                >
-                  {t.panchang || t.tilePanchang || "Panchang"}
-                </div>
+              <div className="mt-4 grid gap-2 sm:grid-cols-2">
+                <HomeNavButton
+                  label={t.panchang || t.tilePanchang || "Panchang"}
+                  onClick={openPanchangFromNav}
+                />
+                <HomeNavButton
+                  label={t.dailyHoroscope || "Daily Horoscope"}
+                  onClick={openHoroscopeFromNav}
+                />
               </div>
-            </header>
-
-            <div className="mx-auto w-full max-w-6xl px-4 py-4">
-              <section className="grid grid-cols-2 gap-2.5 md:grid-cols-3 lg:grid-cols-4">
-                {getTiles(t).map((tile) => (
-                  <Tile key={tile.to} {...tile} onClick={markReturnToPanchang} />
-                ))}
-              </section>
             </div>
           </div>
         </div>
+
+
       </div>
 
 

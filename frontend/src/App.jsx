@@ -160,6 +160,8 @@ function App() {
   const [tempYear, setTempYear] = useState(initialSelection.year);
   const [tempMonth, setTempMonth] = useState(initialSelection.month);
   const [tempDay, setTempDay] = useState(initialSelection.day);
+  const calendarGridRef = useRef(null);
+  const hasAutoScrolledRef = useRef(false);
   const t = translations[language] || translations.en;
 
 
@@ -289,6 +291,23 @@ function App() {
       window.history.replaceState({ view: "calendar" }, "", window.location.href);
     }
   }, [currentView]);
+
+  useEffect(() => {
+    if (currentView !== "calendar") return;
+    if (!days.length) return;
+    if (hasAutoScrolledRef.current) return;
+    const target = calendarGridRef.current;
+    if (!target) return;
+    hasAutoScrolledRef.current = true;
+    const timeout = window.setTimeout(() => {
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          target.scrollIntoView({ behavior: "smooth", block: "start" });
+        });
+      });
+    }, 60);
+    return () => window.clearTimeout(timeout);
+  }, [currentView, days.length]);
 
   // Navigate to Rashiphalalu view with history support
   const _navigateToRashiphalalu = useCallback(() => {
@@ -744,6 +763,8 @@ function App() {
             {/* CALENDAR SECTION */}
             <section
               className="rounded-xl sm:rounded-2xl p-3 sm:p-4 backdrop-blur-md"
+              id="calendarGrid"
+              ref={calendarGridRef}
               style={{
                 background: "var(--calendar-orange-shell)",
                 border: "3px solid rgba(255, 140, 50, 0.8)",
@@ -754,6 +775,21 @@ function App() {
                 `,
               }}
             >
+              <div className="mb-2 flex justify-start">
+                <button
+                  type="button"
+                  onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                  className="inline-flex items-center gap-1 rounded-full px-3 py-1 text-[11px] font-bold transition-all hover:scale-105"
+                  style={{
+                    background: "linear-gradient(135deg, rgba(180, 130, 50, 0.5) 0%, rgba(140, 100, 40, 0.6) 100%)",
+                    border: "2px solid rgba(255, 140, 50, 0.7)",
+                    color: "#FFE4B5",
+                    boxShadow: "0 0 10px rgba(255, 140, 50, 0.4), inset 0 0 6px rgba(255, 200, 100, 0.2)",
+                  }}
+                >
+                  {"\u2190"} Back
+                </button>
+              </div>
               {/* Calendar Header: Month with Arrows + Year Button */}
               <div
                 className="flex items-center justify-between gap-2 mb-2 pb-2 px-3 py-1.5"

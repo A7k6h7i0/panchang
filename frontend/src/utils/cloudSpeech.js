@@ -1,3 +1,5 @@
+import { speakText as speakLocalText } from "./speech";
+
 let currentAudio = null;
 let audioContext = null;
 let currentResolve = null;
@@ -32,19 +34,24 @@ export async function speakCloud(text, language) {
   const requestId = ++activeRequestId;
 
   try {
+    if (!API_BASE) {
+      return await speakLocalText(text, language);
+    }
+
     const res = await fetch(`${API_BASE}/tts`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ text, language }),
+      signal: AbortSignal.timeout(10000),
     });
 
     if (!res.ok) {
       console.error("TTS HTTP error", res.status);
-      return { interrupted: true };
+      return await speakLocalText(text, language);
     }
 
     const data = await res.json();
-    if (!data.audio) return { interrupted: true };
+    if (!data.audio) return await speakLocalText(text, language);
     if (requestId !== activeRequestId) return { interrupted: true };
 
     currentAudio = new Audio("data:audio/mp3;base64," + data.audio);
@@ -82,7 +89,7 @@ export async function speakCloud(text, language) {
       currentResolve = null;
     }
     currentAudio = null;
-    return { interrupted: true };
+    return await speakLocalText(text, language);
   }
 }
 
@@ -98,5 +105,9 @@ export function stopSpeech() {
   if (currentResolve) {
     currentResolve({ interrupted: true });
     currentResolve = null;
+  }
+
+  if (typeof window !== "undefined" && window.speechSynthesis) {
+    window.speechSynthesis.cancel();
   }
 }

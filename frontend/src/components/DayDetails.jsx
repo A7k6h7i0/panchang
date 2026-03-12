@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef, useCallback } from "react";
 import { translateText } from "../translations";
+import { loadYearData } from "../utils/localPanchang";
 import {
   getTithiSpeech,
   getMuhurtaAlert,
@@ -430,6 +431,7 @@ export default function DayDetails({
   const [isAlarmPopupOpen, setIsAlarmPopupOpen] = useState(initialAlarmPopupOpen);
   const [headerNow, setHeaderNow] = useState(() => new Date());
   const [notificationStatus, setNotificationStatus] = useState("");
+  const [localNakshatraName, setLocalNakshatraName] = useState("");
 
 
   // Local refs for this component instance
@@ -473,6 +475,47 @@ export default function DayDetails({
         setFestivalsLoaded(true);
       });
   }, [day]);
+
+  useEffect(() => {
+    let active = true;
+    const dateStr = day?.date;
+    if (!dateStr) {
+      setLocalNakshatraName("");
+      return;
+    }
+    const rawNak = day?.Nakshatra;
+    const rawText = typeof rawNak === "string" ? rawNak : "";
+    const needsLocal = /^from\b/i.test(rawText) || rawText === "From";
+    if (!needsLocal) {
+      setLocalNakshatraName("");
+      return;
+    }
+
+    const [dd, mm, yyyy] = String(dateStr).split("/");
+    const yearNum = Number(yyyy);
+    if (!Number.isFinite(yearNum)) return;
+
+    loadYearData(yearNum)
+      .then((list) => {
+        if (!active) return;
+        const rec = list.find((item) => item?.date === dateStr);
+        const nak = rec?.Nakshatra;
+        let name = "";
+        if (nak && typeof nak === "object") {
+          name = nak?.name || nak?.vedic_name || nak?.title || nak?.label || "";
+        } else if (typeof nak === "string") {
+          name = nak;
+        }
+        setLocalNakshatraName(String(name || "").trim());
+      })
+      .catch(() => {
+        if (active) setLocalNakshatraName("");
+      });
+
+    return () => {
+      active = false;
+    };
+  }, [day?.date, day?.Nakshatra]);
 
   useEffect(() => {
     try {
@@ -626,7 +669,15 @@ export default function DayDetails({
 
   const vPaksha = v("Paksha");
   const vTithi = v("Tithi");
-  const vNakshatra = v("Nakshatra");
+  const vNakshatra = (() => {
+    const raw = day?.Nakshatra;
+    if (raw && typeof raw === "object") {
+      const name = raw?.name || raw?.vedic_name || raw?.title || raw?.label;
+      if (name) return translateText(name, translations);
+    }
+    if (localNakshatraName) return translateText(localNakshatraName, translations);
+    return v("Nakshatra").replace(/^from\s+/i, "");
+  })();
   const vYoga = v("Yoga");
   const getKaranaName = () => {
     const raw = day?.Karana || day?.Karanam || "-";
@@ -676,7 +727,7 @@ export default function DayDetails({
   const vAmrit = v("Amrit Kalam");
   const vVarjyam = v("Varjyam");
 
-  const formattedDate = `${monthName} ${dayNum}, ${year}`;
+  const formattedDate = `${monthName}, ${year}`;
   const headerTime = headerNow.toLocaleTimeString("en-US", {
     hour: "numeric",
     minute: "2-digit",
@@ -1152,9 +1203,7 @@ export default function DayDetails({
                 )}
               </div>
               <div className="text-xs sm:text-sm font-medium" style={{ color: "#FFE8C5" }}>
-                <span>{formattedDate}</span>
-              </div>
-              <div className="text-xs sm:text-sm font-medium" style={{ color: "#FFE8C5" }}>
+                <span>{formattedDate} </span>
                 <span className="whitespace-nowrap">{headerTime}</span>
               </div>
             </div>
