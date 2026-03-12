@@ -160,7 +160,14 @@ export default function ChatInterface({
   const speakText = (text, currentSettings) => {
     if ("speechSynthesis" in window) {
       stopSpeech();
-      const utterance = new SpeechSynthesisUtterance(text);
+      
+      // Strip markdown symbols for clean text-to-speech
+      const cleanText = String(text || "")
+        .replace(/[*_#`~]+/g, "")
+        .replace(/\[(.*?)\]\(.*?\)/g, "$1") // Extract text from links
+        .trim();
+
+      const utterance = new SpeechSynthesisUtterance(cleanText);
       utterance.rate = currentSettings.voiceSpeed;
       utterance.lang =
         currentSettings.language === "te" ? "te-IN" :
