@@ -71,6 +71,14 @@ export default function ChatInterface({
   const t = getT(settings.language);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [loadingTextIndex, setLoadingTextIndex] = useState(0);
+
+  const loadingTexts = [
+    t.loadingProcessing || "Processing request...",
+    t.loadingGathering || "Gathering local data...",
+    t.loadingGenerating || "Generating response..."
+  ];
+
   const messagesEndRef = useRef(null);
   const prevLanguageRef = useRef(settings.language);
 
@@ -82,7 +90,20 @@ export default function ChatInterface({
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+  }, [messages, loadingTextIndex]);
+
+  useEffect(() => {
+    let interval;
+    if (isLoading) {
+      setLoadingTextIndex(0);
+      interval = setInterval(() => {
+        setLoadingTextIndex((prev) => (prev + 1) % loadingTexts.length);
+      }, 1500);
+    } else {
+      setLoadingTextIndex(0);
+    }
+    return () => clearInterval(interval);
+  }, [isLoading]);
 
   useEffect(() => {
     if (messages.length === 0) {
@@ -253,12 +274,16 @@ export default function ChatInterface({
                 <path d="M10 2h4v2h-4zM7 6h10a4 4 0 0 1 4 4v5a5 5 0 0 1-5 5h-2v2h-4v-2H8a5 5 0 0 1-5-5v-5a4 4 0 0 1 4-4Zm1 4a1.5 1.5 0 1 0 0 3a1.5 1.5 0 0 0 0-3Zm8 1.5a1.5 1.5 0 1 0-3 0a1.5 1.5 0 0 0 3 0Z" />
               </svg>
             </div>
-            <div className="bg-white rounded-2xl rounded-tl-sm px-4 py-3 shadow-sm">
+            <div className="bg-white rounded-2xl rounded-tl-sm px-4 py-3 shadow-sm min-w-[200px]">
               <div className="flex items-center gap-2 text-orange-500">
-                <svg viewBox="0 0 24 24" className="w-4 h-4 animate-spin text-orange-500" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                <svg viewBox="0 0 24 24" className="w-4 h-4 animate-spin text-orange-500 flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
                   <path d="M21 12a9 9 0 1 1-2.64-6.36" />
                 </svg>
-                <span className="text-xs font-medium">Typing...</span>
+                <div className="text-xs font-medium relative h-[16px] overflow-hidden flex-1">
+                  <div key={loadingTextIndex} className="absolute inset-0 animate-[slideUp_0.3s_ease-out_forwards]">
+                    {loadingTexts[loadingTextIndex]}
+                  </div>
+                </div>
               </div>
             </div>
           </div>

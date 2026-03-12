@@ -1,4 +1,6 @@
-﻿const labels = {
+import ReactMarkdown from "react-markdown";
+
+const labels = {
   en: { speak: 'Speak', copy: 'Copy' },
   te: { speak: 'వాయిస్', copy: 'కాపీ' },
   hi: { speak: 'बोलें', copy: 'कॉपी' },
@@ -45,7 +47,9 @@ export default function ChatMessage({ message, settings, onSpeak }) {
               : 'bg-gradient-to-b from-orange-50 to-orange-100/70 border border-orange-200 text-gray-800 rounded-tl-sm'
           }`}
         >
-          <p className="text-sm whitespace-pre-wrap break-words leading-relaxed">{message.text}</p>
+          <div className="text-sm whitespace-pre-wrap break-words leading-relaxed [&>p]:mb-2 [&>p:last-child]:mb-0 [&>ul]:list-disc [&>ul]:ml-4 [&>ol]:list-decimal [&>ol]:ml-4 [&>h1]:font-bold [&>h2]:font-bold [&>h3]:font-bold">
+            <ReactMarkdown>{message.text}</ReactMarkdown>
+          </div>
         </div>
 
         <div className={`flex items-center gap-2 mt-1 px-1`}>

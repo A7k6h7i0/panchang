@@ -10,7 +10,7 @@ import express from "express";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { askGemini, detectPanchangIntent, parsePanchangQuery } from "../services/geminiChatService.js";
+import { askGemini } from "../services/geminiChatService.js";
 
 const router = express.Router();
 
@@ -305,27 +305,42 @@ async function getRecordForDate(dateObj) {
   return yearData.find((r) => r?.date === key) || null;
 }
 
-function dateFromParser(parsed) {
-  if (parsed?.date) {
-    const d = new Date(`${parsed.date}T00:00:00`);
-    if (!Number.isNaN(d.getTime())) return d;
+const geminiTools = [
+  {
+    name: "getPanchangByDate",
+    description: "Fetch detailed panchang data (tithi, nakshatra, yoga, karana, timings, etc.) for a specific date.",
+    parameters: {
+      type: "OBJECT",
+      properties: {
+        dateString: { type: "STRING", description: "Date in YYYY-MM-DD format" }
+      },
+      required: ["dateString"]
+    }
+  },
+  {
+    name: "findNextTithi",
+    description: "Find the next upcoming date for a specific tithi (e.g., Ekadashi, Purnima, Amavasya).",
+    parameters: {
+      type: "OBJECT",
+      properties: {
+        tithiName: { type: "STRING", description: "Name of the tithi (e.g. Ekadashi, Pradosham)" }
+      },
+      required: ["tithiName"]
+    }
+  },
+  {
+    name: "getFestivalsForMonth",
+    description: "Get all festivals in a specific month and year.",
+    parameters: {
+      type: "OBJECT",
+      properties: {
+        year: { type: "INTEGER", description: "Year (e.g. 2026)" },
+        month: { type: "INTEGER", description: "Month number (1-12)" }
+      },
+      required: ["year", "month"]
+    }
   }
-
-  if (parsed?.relative) {
-    const now = new Date();
-    const t = new Date(now);
-    if (parsed.relative === "tomorrow") t.setDate(now.getDate() + 1);
-    if (parsed.relative === "yesterday") t.setDate(now.getDate() - 1);
-    return t;
-  }
-
-  if (parsed?.week_day) {
-    const idx = WEEKDAYS[String(parsed.week_day || "").toLowerCase()];
-    if (Number.isInteger(idx)) return getThisWeekWeekdayDate(idx, parsed.week_scope);
-  }
-
-  return null;
-}
+];
 
 const handleChatbot = async (req, res) => {
   const { message, panchangData, selectedDay, todayDay } = req.body || {};
@@ -337,189 +352,74 @@ const handleChatbot = async (req, res) => {
   }
 
   const msg = String(message).trim();
-  const panchang = normalizePanchangData(panchangData || todayDay || selectedDay);
-  const hasData = Object.values(panchang).some((v) => Boolean(v));
 
-  if (!hasData) {
-    return res.json({
-      response: "Panchang data is not available right now. Please refresh and try again.",
-    });
-  }
+  // Helper inside handleChatbot to execute tools requested by Gemini
+  const toolExecuter = async (name, args) => {
+    if (name === "getPanchangByDate") {
+      const d = new Date(args.dateString + "T00:00:00");
+      if (Number.isNaN(d.getTime())) return { error: "Invalid date format" };
+      const record = await getRecordForDate(d);
+      if (!record) return { error: "No data found for this date" };
+      return normalizePanchangData(record);
+    }
+    if (name === "findNextTithi") {
+      const nextDate = await findNextTithiDate(args.tithiName);
+      if (!nextDate) return { error: "Could not find next date for this tithi" };
+      const yyyy = nextDate.getFullYear();
+      const mm = String(nextDate.getMonth() + 1).padStart(2, "0");
+      const dd = String(nextDate.getDate()).padStart(2, "0");
+      return { tithi: args.tithiName, nextDate: `${yyyy}-${mm}-${dd}` };
+    }
+    if (name === "getFestivalsForMonth") {
+      const items = await getMonthFestivals({ year: args.year, month: args.month });
+      return { year: args.year, month: args.month, festivals: items };
+    }
+    return { error: "Unknown tool" };
+  };
 
   const hasGeminiKey = Boolean(process.env.GEMINI_API_KEY);
   if (!hasGeminiKey) {
     return res.json({
-      response: "Chatbot intent detection is unavailable. Please set GEMINI_API_KEY.",
+      response: "Chatbot is unavailable. Please set GEMINI_API_KEY.",
     });
   }
 
-  let intent = "unknown";
-  let parsed = { intent: "unknown" };
   try {
-    const classified = await detectPanchangIntent({ message: msg, language });
-    intent = classified.intent || "unknown";
-    parsed = await parsePanchangQuery({ message: msg, language });
-  } catch (err) {
-    const errMsg = err && err.message ? err.message : String(err || "unknown error");
-    console.error(`[Chatbot] Gemini intent error: ${errMsg}`);
-    return res.json({
-      response:
-        "I'm having trouble contacting the Gemini intent service. Please try again later.",
-    });
-  }
+    const { buildHoroscopeContext } = await import("../services/rashiphalService.js");
+    const horoscopeContext = buildHoroscopeContext({ message: msg, language });
 
-  if (parsed?.intent && parsed.intent !== "unknown") intent = parsed.intent;
-
-  const contextDate = getContextDate(selectedDay, todayDay);
-  const dateFromMessage = dateFromParser(parsed);
-  if (intent === "unknown" && dateFromMessage) intent = "panchang_today";
-
-  const handlers = {
-    panchang_today: async () => {
-      if (dateFromMessage) {
-        const record = await getRecordForDate(dateFromMessage);
-        if (!record) return { response: "I don't have Panchang data for that date." };
-        const normalized = normalizePanchangData(record);
-        return { response: buildFullPanchangReply(normalized) };
-      }
-      return { response: buildFullPanchangReply(panchang) };
-    },
-    tithi: async () => {
-      if (parsed?.wants_next_tithi && parsed?.tithi_name) {
-        const nextDate = await findNextTithiDate(parsed.tithi_name);
-        if (!nextDate) return { response: `I couldn't find the next ${parsed.tithi_name} in the available data.` };
-        const yyyy = nextDate.getFullYear();
-        const mm = String(nextDate.getMonth() + 1).padStart(2, "0");
-        const dd = String(nextDate.getDate()).padStart(2, "0");
-        return { response: `Next ${parsed.tithi_name} is on **${yyyy}-${mm}-${dd}**` };
-      }
-      if (dateFromMessage) {
-        const record = await getRecordForDate(dateFromMessage);
-        const value = normalizeTithiName(record?.Tithi);
-        const reply = buildSingleFieldReplyForDate("Tithi", value, dateFromMessage);
-        if (reply) return { response: reply };
-        return { response: "I don't have Panchang data for that date." };
-      }
-      return { response: buildSingleFieldReply("Tithi", panchang.tithi) };
-    },
-    nakshatra: async () => {
-      if (dateFromMessage) {
-        const record = await getRecordForDate(dateFromMessage);
-        const value = textOf(record?.Nakshatra);
-        const reply = buildSingleFieldReplyForDate("Nakshatra", value, dateFromMessage);
-        if (reply) return { response: reply };
-        return { response: "I don't have Panchang data for that date." };
-      }
-      return { response: buildSingleFieldReply("Nakshatra", panchang.nakshatra) };
-    },
-    karana: async () => {
-      if (dateFromMessage) {
-        const record = await getRecordForDate(dateFromMessage);
-        const value = textOf(record?.Karanam || record?.Karana);
-        const reply = buildSingleFieldReplyForDate("Karana", value, dateFromMessage);
-        if (reply) return { response: reply };
-        return { response: "I don't have Panchang data for that date." };
-      }
-      return { response: buildSingleFieldReply("Karana", panchang.karana) };
-    },
-    yoga: async () => {
-      if (dateFromMessage) {
-        const record = await getRecordForDate(dateFromMessage);
-        const value = textOf(record?.Yoga);
-        const reply = buildSingleFieldReplyForDate("Yoga", value, dateFromMessage);
-        if (reply) return { response: reply };
-        return { response: "I don't have Panchang data for that date." };
-      }
-      return { response: buildSingleFieldReply("Yoga", panchang.yoga) };
-    },
-    sunrise: async () => {
-      if (dateFromMessage) {
-        const record = await getRecordForDate(dateFromMessage);
-        const value = textOf(record?.Sunrise || record?.SunriseIso);
-        const reply = buildSingleFieldReplyForDate("Sunrise", value, dateFromMessage);
-        if (reply) return { response: reply };
-        return { response: "I don't have Panchang data for that date." };
-      }
-      return { response: buildSingleFieldReply("Sunrise", panchang.sunrise) };
-    },
-    sunset: async () => {
-      if (dateFromMessage) {
-        const record = await getRecordForDate(dateFromMessage);
-        const value = textOf(record?.Sunset || record?.SunsetIso);
-        const reply = buildSingleFieldReplyForDate("Sunset", value, dateFromMessage);
-        if (reply) return { response: reply };
-        return { response: "I don't have Panchang data for that date." };
-      }
-      return { response: buildSingleFieldReply("Sunset", panchang.sunset) };
-    },
-    rahukalam: async () => {
-      if (dateFromMessage) {
-        const record = await getRecordForDate(dateFromMessage);
-        const value = textOf(record?.["Rahu Kalam"] || record?.RahuKalam || record?.rahuKalam);
-        const reply = buildSingleFieldReplyForDate("Rahu Kalam", value, dateFromMessage);
-        if (reply) return { response: reply };
-        return { response: "I don't have Panchang data for that date." };
-      }
-      return { response: buildSingleFieldReply("Rahu Kalam", panchang.rahuKalam) };
-    },
-    muhurat: async () => {
-      if (dateFromMessage) {
-        const record = await getRecordForDate(dateFromMessage);
-        const value = textOf(record?.Abhijit || record?.abhijit || record?.["Abhijit Muhurta"]);
-        const reply = buildSingleFieldReplyForDate("Muhurat", value, dateFromMessage);
-        if (reply) return { response: reply };
-        return { response: "I don't have Panchang data for that date." };
-      }
-      return { response: buildSingleFieldReply("Muhurat", panchang.abhijitMuhurat) };
-    },
-    festival_today: async () => {
-      const dateForFest = dateFromMessage
-        ? { day: dateFromMessage.getDate(), month: dateFromMessage.getMonth() + 1, year: dateFromMessage.getFullYear() }
-        : contextDate;
-
-      let festivals = panchang.festivals;
-      if (!festivals?.length) {
-        festivals = await getFestivalForDate(dateForFest);
-      }
-      if (!festivals?.length) {
-        return { response: "No festivals listed for today." };
-      }
-      if (dateFromMessage) {
-        const yyyy = dateFromMessage.getFullYear();
-        const mm = String(dateFromMessage.getMonth() + 1).padStart(2, "0");
-        const dd = String(dateFromMessage.getDate()).padStart(2, "0");
-        return { response: `Festivals on **${yyyy}-${mm}-${dd}** are **${festivals.join(", ")}**` };
-      }
-      return { response: `Today's festivals are **${festivals.join(", ")}**` };
-    },
-    festival_month: async () => {
-      const source = dateFromMessage
-        ? { year: dateFromMessage.getFullYear(), month: dateFromMessage.getMonth() + 1 }
-        : contextDate;
-      const items = await getMonthFestivals(source);
-      return { response: buildMonthFestivalReply(items, source.year, source.month) };
-    },
-  };
-
-  const handler = handlers[intent];
-  if (handler) {
-    const out = await handler();
-    if (out?.response) return res.json(out);
-  }
-
-  try {
+    // Send to Gemini as primary brain
     const response = await askGemini({
       message: msg,
-      selectedDay: selectedDay || null,
+      selectedDay: selectedDay || panchangData || null,
       todayDay: todayDay || null,
       language,
       friendMode,
+      horoscopeContext,
+      tools: geminiTools,
+      toolExecuter,
     });
     return res.json({ response });
   } catch (err) {
     const errMsg = err && err.message ? err.message : String(err || "unknown error");
-    console.error(`[Chatbot] Gemini response error: ${errMsg}`);
-    return res.json({ response: OUT_OF_SCOPE_MESSAGE });
+    console.error(`[Chatbot] Gemini API error: ${errMsg}`);
+    
+    // Offline / Local engine fallback
+    try {
+      const { processMessage: fallbackProcessMessage } = await import("../services/panchangBotEngine.js");
+      const fallbackResult = await fallbackProcessMessage({
+         message: msg,
+         selectedDay: selectedDay || todayDay || panchangData,
+         language,
+         friendMode
+      });
+      return res.json({ 
+         response: `*(Offline Warning: Connecting to AI failed. Providing basic local result)*\n\n${fallbackResult.response}`
+      });
+    } catch (fallbackErr) {
+       console.error(`[Chatbot] Fallback error:`, fallbackErr);
+       return res.json({ response: OUT_OF_SCOPE_MESSAGE });
+    }
   }
 };
 
