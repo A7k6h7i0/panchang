@@ -107,6 +107,15 @@ function cleanDash(value) {
   return str.replace(/^\s*-\s*|\s*-\s*$/g, "").trim();
 }
 
+function stripFromLabel(value) {
+  const text = textOf(value);
+  if (!text) return "";
+  const trimmed = text.trim();
+  if (!trimmed) return "";
+  if (/^from\b/i.test(trimmed)) return "";
+  return trimmed;
+}
+
 
 function joinClean(parts, sep = ", ") {
   return parts.map(v => cleanDash(textOf(v))).filter(Boolean).join(sep);
@@ -175,7 +184,6 @@ function loadInitialVoiceEnabled() {
   if (typeof window === "undefined") return false;
   return localStorage.getItem(VOICE_KEY) === "1";
 }
-
 
 function Tile({ to, icon, title, subtitle, onClick }) {
   return (
@@ -562,7 +570,7 @@ export default function HomePage() {
 
     return {
       headlineTime: ghati ? `${pad2(ghati.ghati)}:${pad2(ghati.pal)}` : "",
-      tithi: translateTerm(firstText(activeTithi?.name)),
+      tithi: translateTerm(firstText(activeTithi?.name !== "New Moon" && activeTithi?.name !== "Full Moon" ? activeTithi?.name : null, dayRecord?.Tithi, panchang?.tithi?.[0]?.name)),
       tithiFull: activeTithi,
       paksha: translateTerm(pakshaRaw),
       karana: translateTerm(firstText(activeKarana?.name)),
@@ -570,7 +578,13 @@ export default function HomePage() {
       yoga: translateTerm(firstText(activeYoga?.name)),
       yogaFull: activeYoga,
       lunarMonth: translateTerm(lunarMonthRaw),
-      nakshatra: translateTerm(firstText(activeNakshatra?.name)),
+      nakshatra: translateTerm(
+        firstText(
+          activeNakshatra?.name,
+          dayRecord?.Nakshatra,
+          panchang?.nakshatra?.[0]?.name
+        )
+      ),
       nakshatraFull: activeNakshatra,
       weekday: translateTerm(weekdayRaw),
       choghadiya: choghadiyaText,
@@ -581,14 +595,18 @@ export default function HomePage() {
       ritu: translateTerm(rituRaw),
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [panchang, now, defaults.tzOffset, language]);
+  }, [panchang, now, defaults.tzOffset, language, dayRecord]);
 
   const chatPanchang = useMemo(() => {
     if (!summary && !panchang && !dayRecord) return null;
 
     return {
       tithi: firstText(summary?.tithi !== "New Moon" && summary?.tithi !== "Full Moon" ? summary?.tithi : null, dayRecord?.Tithi, panchang?.tithi?.[0]?.name),
-      nakshatra: firstText(summary?.nakshatra !== "From" ? summary?.nakshatra : null, dayRecord?.Nakshatra, panchang?.nakshatra?.[0]?.name),
+      nakshatra: firstText(
+        summary?.nakshatra,
+        dayRecord?.Nakshatra,
+        panchang?.nakshatra?.[0]?.name
+      ),
       karana: firstText(summary?.karana, dayRecord?.Karana, dayRecord?.Karanam, panchang?.karana?.[0]?.name),
       yoga: firstText(summary?.yoga, dayRecord?.Yoga, panchang?.yoga?.[0]?.name),
       shakaSamvat: firstText(dayRecord?.["Shaka Samvat"], summary?.samvatsara, panchang?.samvatsara?.name),
@@ -807,6 +825,7 @@ export default function HomePage() {
       setNotificationStatus("Could not request notification permission.");
     }
   };
+
   return (
     <div
       className="min-h-screen overflow-x-hidden pt-4 sm:pt-6 home-bg"
@@ -1189,7 +1208,7 @@ export default function HomePage() {
                 ))}
               </section>
 
-              <div className="mt-4 grid gap-2 sm:grid-cols-2">
+              <div className="mt-4 grid gap-2">
                 <HomeNavButton
                   label={t.dailyHoroscope || "Daily Horoscope"}
                   onClick={openHoroscopeFromNav}
@@ -1237,6 +1256,21 @@ export default function HomePage() {
               ▼
             </span>
           </button>
+        </div>
+
+        <div className="mt-4 grid gap-2 sm:grid-cols-3">
+          <HomeNavButton
+            label={t.purohith || "Purohith"}
+            onClick={() => window.open("/purohith", "_blank")}
+          />
+          <HomeNavButton
+            label={t.temples || "Temples"}
+            onClick={() => window.open("/temples", "_blank")}
+          />
+          <HomeNavButton
+            label={t.guideOnPhone || "Guide on Phone"}
+            onClick={() => window.open('/guide-on-phone', '_blank')}
+          />
         </div>
 
         <div
@@ -1467,6 +1501,20 @@ export default function HomePage() {
               {t.share || "Share"}
             </button>
           </section>
+
+          <footer className="mt-2 px-3 py-2 text-[10px] sm:text-xs bg-[rgba(74,33,16,0.92)] sm:bg-transparent">
+            <div className="flex flex-nowrap items-center gap-3 font-semibold uppercase tracking-wider whitespace-nowrap">
+              <Link to="/privacy-policy" className="hover:underline" style={{ color: "#FFD9A6" }}>
+                Privacy Policy
+              </Link>
+              <Link to="/terms-conditions" className="hover:underline" style={{ color: "#FFD9A6" }}>
+                Terms &amp; Conditions
+              </Link>
+              <Link to="/disclaimer" className="hover:underline" style={{ color: "#FFD9A6" }}>
+                Disclaimer
+              </Link>
+            </div>
+          </footer>
 
 
           {(summary?.purnimanthaMonth || summary?.ayana || summary?.ritu) ? (

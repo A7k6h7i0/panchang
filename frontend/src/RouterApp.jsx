@@ -12,15 +12,21 @@ import RingBellSplash from "./components/RingBellSplash";
 import AboutPage from "./pages/AboutPage";
 import CompassPage from "./pages/CompassPage";
 import DevotionalMusicPage from "./pages/DevotionalMusicPage";
+import DisclaimerPage from "./pages/DisclaimerPage";
 import FestivalsPage from "./pages/FestivalsPage";
+import GuideOnPhonePage from "./pages/GuideOnPhonePage";
 import HinduTimePage from "./pages/HinduTimePage";
 import MantrasPosterPage from "./pages/MantrasPosterPage";
 import MyTithiPage from "./pages/MyTithiPage";
 import PanchangPosterPage from "./pages/PanchangPosterPage";
 import ParchmentPreviewPage from "./pages/ParchmentPreviewPage";
+import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
+import PurohithPage from "./pages/PurohithPage";
 import SankalpMantraPage from "./pages/SankalpMantraPage";
+import TemplesPage from "./pages/TemplesPage";
 import RingBellPage from "./pages/RingBellPage";
 import SettingsPage from "./pages/SettingsPage";
+import TermsConditionsPage from "./pages/TermsConditionsPage";
 
 export default function RouterApp() {
   return (
@@ -45,6 +51,12 @@ export default function RouterApp() {
         <Route path="/ring-bell" element={<RingBellPage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/settings" element={<SettingsPage />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+        <Route path="/terms-conditions" element={<TermsConditionsPage />} />
+        <Route path="/disclaimer" element={<DisclaimerPage />} />
+        <Route path="/purohith" element={<PurohithPage />} />
+        <Route path="/temples" element={<TemplesPage />} />
+        <Route path="/guide-on-phone" element={<GuideOnPhonePage />} />
 
         <Route path="/astrology" element={<AstrologyHome />} />
         <Route path="/kundali" element={<KundaliPage />} />

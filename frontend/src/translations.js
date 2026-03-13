@@ -227,6 +227,10 @@ export const translations = {
     // HomePage UI
     dailyHoroscope: "Daily Horoscope",
     chantingAlarm: "Chanting Tunes",
+    purohith: "Purohith",
+    temples: "Temples",
+    guideOnPhone: "Guide on Phone",
+    serviceComingSoon: "The service is coming soon",
     menuLabel: "Menu",
     close: "Close",
     selectLanguage: "Select Language",
