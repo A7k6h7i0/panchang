@@ -1,0 +1,1047 @@
+{
+  "chapter": 2,
+  "meta": {
+    "chapter_number": 2,
+    "verses_count": 72,
+    "name": "सांख्ययोग",
+    "translation": "Sankhya Yoga",
+    "transliteration": "Sānkhya Yog",
+    "meaning": {
+      "en": "Transcendental Knowledge",
+      "hi": "गीता का सार"
+    },
+    "summary": {
+      "en": "The second chapter of the Bhagavad Gita is Sankhya Yoga. This is the most important chapter of the Bhagavad Gita as Lord Krishna condenses the teachings of the entire Gita in this chapter. This chapter is the essence of the entire Gita. \nSankhya Yoga can be categorized into 4 main topics - \n1. Arjuna completely surrenders himself to Lord Krishna and accepts his position as a disciple and Krishna as his Guru. He requests Krishna to guide him on how to dismiss his sorrow.\n2. Explanation of the main cause of all grief, which is ignorance of the true nature of Self.\n3. Karma Yoga - the discipline of selfless action without being attached to its fruits.\n4. Description of a Perfect Man - One whose mind is steady and one-pointed.",
+      "hi": "भगवद गीता का दूसरा अध्याय सांख्य योग है। यह अध्याय भगवद गीता का सबसे महत्वपूर्ण अध्याय है क्योंकि इसमें भगवान श्रीकृष्ण संपूर्ण गीता की शिक्षाओं को संघनित करते हैं। यह अध्याय पूरी गीता का सार है।\nसांख्य योग को 4 मुख्य विषयों में वर्गीकृत किया जा सकता है - \n१. अर्जुन ने पूरी तरह से भगवान कृष्ण को आत्मसमर्पण किया और उन्हें अपने गुरु के रूप में स्वीकार किया।\n२. सभी दु:खों के मुख्य कारणों की व्याख्या, जो स्व की वास्तविक प्रकृति की अज्ञानता है।\n३. कर्मयोग - अपने कर्मों के फलों से जुड़े बिना नि:स्वार्थ क्रिया का अनुशासन।\n४. एक परिपूर्ण मनुष्य का विवरण - जिसका मस्तिष्क स्थिर और एक-इशारा है।"
+    },
+    "themes": [
+      "karma",
+      "mind",
+      "success"
+    ]
+  },
+  "verses": [
+    {
+      "id": "BG2.1",
+      "chapter": 2,
+      "verse": 1,
+      "speaker": "सञ्जय",
+      "slok": "सञ्जय उवाच | तं तथा कृपयाविष्टमश्रुपूर्णाकुलेक्षणम् | विषीदन्तमिदं वाक्यमुवाच मधुसूदनः ||२-१||",
+      "transliteration": "sañjaya uvāca . taṃ tathā kṛpayāviṣṭamaśrupūrṇākulekṣaṇam . viṣīdantamidaṃ vākyamuvāca madhusūdanaḥ ||2-1||",
+      "meaning": "।।2.1।। संजय ने कहा -- इस प्रकार करुणा और विषाद से अभिभूत, अश्रुपूरित नेत्रों वाले आकुल अर्जुन से मधुसूदन ने यह वाक्य कहा।।",
+      "tags": [
+        "karma",
+        "mind",
+        "success"
+      ]
+    },
+    {
+      "id": "BG2.2",
+      "chapter": 2,
+      "verse": 2,
+      "speaker": "श्रीभगवान्",
+      "slok": "श्रीभगवानुवाच | कुतस्त्वा कश्मलमिदं विषमे समुपस्थितम् | अनार्यजुष्टमस्वर्ग्यमकीर्तिकरमर्जुन ||२-२||",
+      "transliteration": "śrībhagavānuvāca . kutastvā kaśmalamidaṃ viṣame samupasthitam . anāryajuṣṭamasvargyamakīrtikaramarjuna ||2-2||",
+      "meaning": "।।2.2।। श्री भगवान् ने कहा -- हे अर्जुन ! तुमको इस विषम स्थल में यह मोह कहाँ से उत्पन्न हुआ? यह आर्य आचरण के विपरीत न तो स्वर्ग प्राप्ति का साधन ही है और न कीर्ति कराने वाला ही है।।",
+      "tags": [
+        "karma",
+        "mind",
+        "success"
+      ]
+    },
+    {
+      "id": "BG2.3",
+      "chapter": 2,
+      "verse": 3,
+      "speaker": "श्रीभगवान्",
+      "slok": "क्लैब्यं मा स्म गमः पार्थ नैतत्त्वय्युपपद्यते | क्षुद्रं हृदयदौर्बल्यं त्यक्त्वोत्तिष्ठ परन्तप ||२-३||",
+      "transliteration": "klaibyaṃ mā sma gamaḥ pārtha naitattvayyupapadyate . kṣudraṃ hṛdayadaurbalyaṃ tyaktvottiṣṭha parantapa ||2-3||",
+      "meaning": "।।2.3।। हे पार्थ क्लीव (कायर) मत बनो। यह तुम्हारे लिये अशोभनीय है, हे ! परंतप हृदय की क्षुद्र दुर्बलता को त्यागकर खड़े हो जाओ।।",
+      "tags": [
+        "karma",
+        "mind",
+        "success"
+      ]
+    },
+    {
+      "id": "BG2.4",
+      "chapter": 2,
+      "verse": 4,
+      "speaker": "अर्जुन",
+      "slok": "अर्जुन उवाच | कथं भीष्ममहं सङ्ख्ये द्रोणं च मधुसूदन | इषुभिः प्रतियोत्स्यामि पूजार्हावरिसूदन ||२-४||",
+      "transliteration": "arjuna uvāca . kathaṃ bhīṣmamahaṃ saṅkhye droṇaṃ ca madhusūdana . iṣubhiḥ pratiyotsyāmi pūjārhāvarisūdana ||2-4||",
+      "meaning": "।।2.4।। अर्जुन ने कहा -- हे मधुसूदन ! मैं रणभूमि में किस प्रकार भीष्म और द्रोण के साथ बाणों से युद्ध करूँगा। हे अरिसूदन, वे दोनों ही पूजनीय हैं।।",
+      "tags": [
+        "karma",
+        "mind",
+        "success"
+      ]
+    },
+    {
+      "id": "BG2.5",
+      "chapter": 2,
+      "verse": 5,
+      "speaker": "अर्जुन",
+      "slok": "गुरूनहत्वा हि महानुभावान् श्रेयो भोक्तुं भैक्ष्यमपीह लोके | हत्वार्थकामांस्तु गुरूनिहैव भुञ्जीय भोगान् रुधिरप्रदिग्धान् ||२-५||",
+      "transliteration": "gurūnahatvā hi mahānubhāvān śreyo bhoktuṃ bhaikṣyamapīha loke . hatvārthakāmāṃstu gurūnihaiva bhuñjīya bhogān rudhirapradigdhān ||2-5||",
+      "meaning": "।।2.5।। इन महानुभाव गुरुजनों को मारने से इस लोक में भिक्षा का अन्न भी ग्रहण करना अधिक कल्याण कारक है, क्योंकि गुरुजनों को मारकर मैं इस लोक में रक्तरंजित अर्थ और काम रूप भोगों को ही भोगूँगा।।",
+      "tags": [
+        "karma",
+        "mind",
+        "success"
+      ]
+    },
+    {
+      "id": "BG2.6",
+      "chapter": 2,
+      "verse": 6,
+      "speaker": "अर्जुन",
+      "slok": "न चैतद्विद्मः कतरन्नो गरीयो यद्वा जयेम यदि वा नो जयेयुः | यानेव हत्वा न जिजीविषामस्- तेऽवस्थिताः प्रमुखे धार्तराष्ट्राः ||२-६||",
+      "transliteration": "na caitadvidmaḥ kataranno garīyo yadvā jayema yadi vā no jayeyuḥ . yāneva hatvā na jijīviṣāmaḥ te.avasthitāḥ pramukhe dhārtarāṣṭrāḥ ||2-6||",
+      "meaning": "।।2.6।। हम नहीं जानते कि हमें क्या करना उचित है। हम यह भी नहीं जानते कि हम जीतेंगे, या वे हमको जीतेंगे, जिनको मारकर हम जीवित नहीं रहना चाहते वे ही धृतराष्ट्र के पुत्र हमारे सामने युद्ध के लिए खड़े हैं।।",
+      "tags": [
+        "karma",
+        "mind",
+        "success"
+      ]
+    },
+    {
+      "id": "BG2.7",
+      "chapter": 2,
+      "verse": 7,
+      "speaker": "अर्जुन",
+      "slok": "कार्पण्यदोषोपहतस्वभावः पृच्छामि त्वां धर्मसम्मूढचेताः | यच्छ्रेयः स्यान्निश्चितं ब्रूहि तन्मे शिष्यस्तेऽहं शाधि मां त्वां प्रपन्नम् ||२-७||",
+      "transliteration": "kārpaṇyadoṣopahatasvabhāvaḥ pṛcchāmi tvāṃ dharmasammūḍhacetāḥ . yacchreyaḥ syānniścitaṃ brūhi tanme śiṣyaste.ahaṃ śādhi māṃ tvāṃ prapannam ||2-7||",
+      "meaning": "।।2.7।। करुणा के कलुष से अभिभूत और कर्तव्यपथ पर संभ्रमित हुआ मैं आपसे पूछता हूँ, कि मेरे लिये जो श्रेयष्कर हो, उसे आप निश्चय करके कहिये, क्योंकि मैं आपका शिष्य हूँ; शरण में आये मुझको आप उपदेश दीजिये।।",
+      "tags": [
+        "karma",
+        "mind",
+        "success"
+      ]
+    },
+    {
+      "id": "BG2.8",
+      "chapter": 2,
+      "verse": 8,
+      "speaker": "अर्जुन",
+      "slok": "न हि प्रपश्यामि ममापनुद्याद् यच्छोकमुच्छोषणमिन्द्रियाणाम् | अवाप्य भूमावसपत्नमृद्धं राज्यं सुराणामपि चाधिपत्यम् ||२-८||",
+      "transliteration": "na hi prapaśyāmi mamāpanudyād yacchokamucchoṣaṇamindriyāṇām . avāpya bhūmāvasapatnamṛddhaṃ rājyaṃ surāṇāmapi cādhipatyam ||2-8||",
+      "meaning": "।।2.8।। पृथ्वी पर निष्कण्टक समृद्ध राज्य को और देवताओं के स्वामित्व को प्राप्त होकर भी मैं उस उपाय को नहीं देखता हूँ, जो मेरी इन्द्रियों को सुखाने वाले इस शोक को दूर कर सके।।",
+      "tags": [
+        "karma",
+        "mind",
+        "success"
+      ]
+    },
+    {
+      "id": "BG2.9",
+      "chapter": 2,
+      "verse": 9,
+      "speaker": "सञ्जय",
+      "slok": "सञ्जय उवाच | एवमुक्त्वा हृषीकेशं गुडाकेशः परन्तप | न योत्स्य इति गोविन्दमुक्त्वा तूष्णीं बभूव ह ||२-९||",
+      "transliteration": "sañjaya uvāca . evamuktvā hṛṣīkeśaṃ guḍākeśaḥ parantapaḥ . na yotsya iti govindamuktvā tūṣṇīṃ babhūva ha ||2-9||",
+      "meaning": "।।2.9।। संजय ने कहा -- इस प्रकार गुडाकेश परंतप अर्जुन भगवान् हृषीकेश से यह कहकर कि हे गोविन्द \"मैं युद्ध नहीं करूँगा\" चुप हो गया।।",
+      "tags": [
+        "karma",
+        "mind",
+        "success"
+      ]
+    },
+    {
+      "id": "BG2.10",
+      "chapter": 2,
+      "verse": 10,
+      "speaker": "सञ्जय",
+      "slok": "तमुवाच हृषीकेशः प्रहसन्निव भारत | सेनयोरुभयोर्मध्ये विषीदन्तमिदं वचः ||२-१०||",
+      "transliteration": "tamuvāca hṛṣīkeśaḥ prahasanniva bhārata . senayorubhayormadhye viṣīdantamidaṃ vacaḥ ||2-10||",
+      "meaning": "।।2.10।। हे भारत (धृतराष्ट्र) ! दोनों सेनाओं के बीच में उस शोकमग्न अर्जुन को भगवान् हृषीकेश ने हँसते हुए से यह वचन कहे।।",
+      "tags": [
+        "karma",
+        "mind",
+        "success"
+      ]
+    },
+    {
+      "id": "BG2.11",
+      "chapter": 2,
+      "verse": 11,
+      "speaker": "श्रीभगवान्",
+      "slok": "श्रीभगवानुवाच | अशोच्यानन्वशोचस्त्वं प्रज्ञावादांश्च भाषसे | गतासूनगतासूंश्च नानुशोचन्ति पण्डिताः ||२-११||",
+      "transliteration": "śrībhagavānuvāca . aśocyānanvaśocastvaṃ prajñāvādāṃśca bhāṣase . gatāsūnagatāsūṃśca nānuśocanti paṇḍitāḥ ||2-11||",
+      "meaning": "।।2.11।। श्री भगवान् ने कहा -- (अशोच्यान्) जिनके लिये शोक करना उचित नहीं है, उनके लिये तुम शोक करते हो और ज्ञानियों के से वचनों को कहते हो, परन्तु ज्ञानी पुरुष मृत (गतासून्) और जीवित (अगतासून्) दोनों के लिये शोक नहीं करते हैं।।",
+      "tags": [
+        "karma",
+        "mind",
+        "success"
+      ]
+    },
+    {
+      "id": "BG2.12",
+      "chapter": 2,
+      "verse": 12,
+      "speaker": "श्रीभगवान्",
+      "slok": "न त्वेवाहं जातु नासं न त्वं नेमे जनाधिपाः | न चैव न भविष्यामः सर्वे वयमतः परम् ||२-१२||",
+      "transliteration": "na tvevāhaṃ jātu nāsaṃ na tvaṃ neme janādhipāḥ . na caiva na bhaviṣyāmaḥ sarve vayamataḥ param ||2-12||",
+      "meaning": "।।2.12।। वास्तव में न तो ऐसा ही है कि मैं किसी काल में नहीं था अथवा तुम नहीं थे अथवा ये राजालोग नहीं थे और न ऐसा ही है कि इससे आगे हम सब नहीं रहेंगे।।",
+      "tags": [
+        "karma",
+        "mind",
+        "success"
+      ]
+    },
+    {
+      "id": "BG2.13",
+      "chapter": 2,
+      "verse": 13,
+      "speaker": "श्रीभगवान्",
+      "slok": "देहिनोऽस्मिन्यथा देहे कौमारं यौवनं जरा | तथा देहान्तरप्राप्तिर्धीरस्तत्र न मुह्यति ||२-१३||",
+      "transliteration": "dehino.asminyathā dehe kaumāraṃ yauvanaṃ jarā . tathā dehāntaraprāptirdhīrastatra na muhyati ||2-13||",
+      "meaning": "।।2.13।। जैसे इस देह में देही जीवात्मा की कुमार, युवा और वृद्धावस्था होती है, वैसे ही उसको अन्य शरीर की प्राप्ति होती है; धीर पुरुष इसमें मोहित नहीं होता है।।",
+      "tags": [
+        "karma",
+        "mind",
+        "success"
+      ]
+    },
+    {
+      "id": "BG2.14",
+      "chapter": 2,
+      "verse": 14,
+      "speaker": "श्रीभगवान्",
+      "slok": "मात्रास्पर्शास्तु कौन्तेय शीतोष्णसुखदुःखदाः | आगमापायिनोऽनित्यास्तांस्तितिक्षस्व भारत ||२-१४||",
+      "transliteration": "mātrāsparśāstu kaunteya śītoṣṇasukhaduḥkhadāḥ . āgamāpāyino.anityāstāṃstitikṣasva bhārata ||2-14||",
+      "meaning": "।।2.14।। हे कुन्तीपुत्र ! शीत और उष्ण और सुख दुख को देने वाले इन्द्रिय और विषयों के संयोग का प्रारम्भ और अन्त होता है; वे अनित्य हैं, इसलिए, हे भारत ! उनको तुम सहन करो।।",
+      "tags": [
+        "karma",
+        "mind",
+        "success"
+      ]
+    },
+    {
+      "id": "BG2.15",
+      "chapter": 2,
+      "verse": 15,
+      "speaker": "श्रीभगवान्",
+      "slok": "यं हि न व्यथयन्त्येते पुरुषं पुरुषर्षभ | समदुःखसुखं धीरं सोऽमृतत्वाय कल्पते ||२-१५||",
+      "transliteration": "yaṃ hi na vyathayantyete puruṣaṃ puruṣarṣabha . samaduḥkhasukhaṃ dhīraṃ so.amṛtatvāya kalpate ||2-15||",
+      "meaning": "।।2.15।। हे पुरुषश्रेष्ठ ! दुख और सुख में समान भाव से रहने वाले जिस धीर पुरुष को ये व्यथित नहीं कर सकते हैं वह अमृतत्व (मोक्ष) का अधिकारी होता है।।",
+      "tags": [
+        "karma",
+        "mind",
+        "success"
+      ]
+    },
+    {
+      "id": "BG2.16",
+      "chapter": 2,
+      "verse": 16,
+      "speaker": "श्रीभगवान्",
+      "slok": "नासतो विद्यते भावो नाभावो विद्यते सतः | उभयोरपि दृष्टोऽन्तस्त्वनयोस्तत्त्वदर्शिभिः ||२-१६||",
+      "transliteration": "nāsato vidyate bhāvo nābhāvo vidyate sataḥ . ubhayorapi dṛṣṭo.antastvanayostattvadarśibhiḥ ||2-16||",
+      "meaning": "।।2.16।। असत् वस्तु का तो अस्तित्व नहीं है और सत् का कभी अभाव नहीं है। इस प्रकार इन दोनों का ही तत्त्व, तत्त्वदर्शी ज्ञानी पुरुषों के द्वारा देखा गया है।।",
+      "tags": [
+        "karma",
+        "mind",
+        "success"
+      ]
+    },
+    {
+      "id": "BG2.17",
+      "chapter": 2,
+      "verse": 17,
+      "speaker": "श्रीभगवान्",
+      "slok": "अविनाशि तु तद्विद्धि येन सर्वमिदं ततम् | विनाशमव्ययस्यास्य न कश्चित्कर्तुमर्हति ||२-१७||",
+      "transliteration": "avināśi tu tadviddhi yena sarvamidaṃ tatam . vināśamavyayasyāsya na kaścitkartumarhati ||2-17||",
+      "meaning": "।।2.17।। उस वस्तु को तुम अविनाशी जानों, जिससे यह सम्पूर्ण जगत् व्याप्त है। इस अव्यय का नाश करने में कोई भी समर्थ नहीं है।।",
+      "tags": [
+        "karma",
+        "mind",
+        "success"
+      ]
+    },
+    {
+      "id": "BG2.18",
+      "chapter": 2,
+      "verse": 18,
+      "speaker": "श्रीभगवान्",
+      "slok": "अन्तवन्त इमे देहा नित्यस्योक्ताः शरीरिणः | अनाशिनोऽप्रमेयस्य तस्माद्युध्यस्व भारत ||२-१८||",
+      "transliteration": "antavanta ime dehā nityasyoktāḥ śarīriṇaḥ . anāśino.aprameyasya tasmādyudhyasva bhārata ||2-18||",
+      "meaning": "।।2.18।। इस नाशरहित अप्रमेय नित्य देही आत्मा के ये सब शरीर नाशवान् कहे गये हैं। इसलिये हे भारत ! तुम युद्ध करो।।",
+      "tags": [
+        "karma",
+        "mind",
+        "success"
+      ]
+    },
+    {
+      "id": "BG2.19",
+      "chapter": 2,
+      "verse": 19,
+      "speaker": "श्रीभगवान्",
+      "slok": "य एनं वेत्ति हन्तारं यश्चैनं मन्यते हतम् | उभौ तौ न विजानीतो नायं हन्ति न हन्यते ||२-१९||",
+      "transliteration": "ya enaṃ vetti hantāraṃ yaścainaṃ manyate hatam ubhau tau na vijānīto nāyaṃ hanti na hanyate ||2-19||",
+      "meaning": "।।2.19।। जो इस आत्मा को मारने वाला समझता है और जो इसको मरा समझता है वे दोनों ही नहीं जानते हैं, क्योंकि यह आत्मा न मरता है और न मारा जाता है।।",
+      "tags": [
+        "karma",
+        "mind",
+        "success"
+      ]
+    },
+    {
+      "id": "BG2.20",
+      "chapter": 2,
+      "verse": 20,
+      "speaker": "श्रीभगवान्",
+      "slok": "न जायते म्रियते वा कदाचिन् नायं भूत्वा भविता वा न भूयः | अजो नित्यः शाश्वतोऽयं पुराणो न हन्यते हन्यमाने शरीरे ||२-२०||",
+      "transliteration": "na jāyate mriyate vā kadācin nāyaṃ bhūtvā bhavitā vā na bhūyaḥ . ajo nityaḥ śāśvato.ayaṃ purāṇo na hanyate hanyamāne śarīre ||2-20||",
+      "meaning": "।।2.20।। यह आत्मा किसी काल में भी न जन्मता है और न मरता है और न यह एक बार होकर फिर अभावरूप होने वाला है। यह आत्मा अजन्मा, नित्य, शाश्वत और पुरातन है, शरीर के नाश होने पर भी इसका नाश नहीं होता।।",
+      "tags": [
+        "karma",
+        "mind",
+        "success"
+      ]
+    },
+    {
+      "id": "BG2.21",
+      "chapter": 2,
+      "verse": 21,
+      "speaker": "श्रीभगवान्",
+      "slok": "वेदाविनाशिनं नित्यं य एनमजमव्ययम् | कथं स पुरुषः पार्थ कं घातयति हन्ति कम् ||२-२१||",
+      "transliteration": "vedāvināśinaṃ nityaṃ ya enamajamavyayam . kathaṃ sa puruṣaḥ pārtha kaṃ ghātayati hanti kam ||2-21||",
+      "meaning": "।।2.21।। हे पार्थ ! जो पुरुष इस आत्मा को अविनाशी, नित्य और अव्ययस्वरूप जानता है, वह कैसे किसको मरवायेगा और कैसे किसको मारेगा?",
+      "tags": [
+        "karma",
+        "mind",
+        "success"
+      ]
+    },
+    {
+      "id": "BG2.22",
+      "chapter": 2,
+      "verse": 22,
+      "speaker": "श्रीभगवान्",
+      "slok": "वासांसि जीर्णानि यथा विहाय नवानि गृह्णाति नरोऽपराणि | तथा शरीराणि विहाय जीर्णा- न्यन्यानि संयाति नवानि देही ||२-२२||",
+      "transliteration": "vāsāṃsi jīrṇāni yathā vihāya navāni gṛhṇāti naro.aparāṇi . tathā śarīrāṇi vihāya jīrṇāni anyāni saṃyāti navāni dehī ||2-22||",
+      "meaning": "।।2.22।। जैसे मनुष्य जीर्ण वस्त्रों को त्यागकर दूसरे नये वस्त्रों को धारण करता है, वैसे ही देही जीवात्मा पुराने शरीरों को त्याग कर दूसरे नए शरीरों को प्राप्त होता है।।",
+      "tags": [
+        "karma",
+        "mind",
+        "success"
+      ]
+    },
+    {
+      "id": "BG2.23",
+      "chapter": 2,
+      "verse": 23,
+      "speaker": "श्रीभगवान्",
+      "slok": "नैनं छिन्दन्ति शस्त्राणि नैनं दहति पावकः | न चैनं क्लेदयन्त्यापो न शोषयति मारुतः ||२-२३||",
+      "transliteration": "nainaṃ chindanti śastrāṇi nainaṃ dahati pāvakaḥ . na cainaṃ kledayantyāpo na śoṣayati mārutaḥ ||2-23||",
+      "meaning": "।।2.23।। इस आत्मा को शस्त्र काट नहीं सकते और न अग्नि इसे जला सकती है ; जल इसे गीला नहीं कर सकता और वायु इसे सुखा नहीं सकती।।",
+      "tags": [
+        "karma",
+        "mind",
+        "success"
+      ]
+    },
+    {
+      "id": "BG2.24",
+      "chapter": 2,
+      "verse": 24,
+      "speaker": "श्रीभगवान्",
+      "slok": "अच्छेद्योऽयमदाह्योऽयमक्लेद्योऽशोष्य एव च | नित्यः सर्वगतः स्थाणुरचलोऽयं सनातनः ||२-२४||",
+      "transliteration": "acchedyo.ayamadāhyo.ayamakledyo.aśoṣya eva ca . nityaḥ sarvagataḥ sthāṇuracalo.ayaṃ sanātanaḥ ||2-24||",
+      "meaning": "।।2.24।। क्योंकि यह आत्मा अच्छेद्य (काटी नहीं जा सकती), अदाह्य (जलाई नहीं जा सकती), अक्लेद्य (गीली नहीं हो सकती ) और अशोष्य (सुखाई नहीं जा सकती) है; यह नित्य, सर्वगत, स्थाणु (स्थिर), अचल और सनातन है।।",
+      "tags": [
+        "karma",
+        "mind",
+        "success"
+      ]
+    },
+    {
+      "id": "BG2.25",
+      "chapter": 2,
+      "verse": 25,
+      "speaker": "श्रीभगवान्",
+      "slok": "अव्यक्तोऽयमचिन्त्योऽयमविकार्योऽयमुच्यते | तस्मादेवं विदित्वैनं नानुशोचितुमर्हसि ||२-२५||",
+      "transliteration": "avyakto.ayamacintyo.ayamavikāryo.ayamucyate . tasmādevaṃ viditvainaṃ nānuśocitumarhasi ||2-25||",
+      "meaning": "।।2.25।। यह आत्मा अव्यक्त, अचिन्त्य और अविकारी कहा जाता है; इसलिए इसको इस प्रकार जानकर तुमको शोक करना उचित नहीं है।।",
+      "tags": [
+        "karma",
+        "mind",
+        "success"
+      ]
+    },
+    {
+      "id": "BG2.26",
+      "chapter": 2,
+      "verse": 26,
+      "speaker": "श्रीभगवान्",
+      "slok": "अथ चैनं नित्यजातं नित्यं वा मन्यसे मृतम् | तथापि त्वं महाबाहो नैवं शोचितुमर्हसि ||२-२६||",
+      "transliteration": "atha cainaṃ nityajātaṃ nityaṃ vā manyase mṛtam . tathāpi tvaṃ mahābāho naivaṃ śocitumarhasi ||2-26||",
+      "meaning": "।।2.26।। और यदि तुम आत्मा को नित्य जन्मने और नित्य मरने वाला मानो तो भी, हे महाबाहो ! इस प्रकार शोक करना तुम्हारे लिए उचित नहीं है।।",
+      "tags": [
+        "karma",
+        "mind",
+        "success"
+      ]
+    },
+    {
+      "id": "BG2.27",
+      "chapter": 2,
+      "verse": 27,
+      "speaker": "श्रीभगवान्",
+      "slok": "जातस्य हि ध्रुवो मृत्युर्ध्रुवं जन्म मृतस्य च | तस्मादपरिहार्येऽर्थे न त्वं शोचितुमर्हसि ||२-२७||",
+      "transliteration": "jātasya hi dhruvo mṛtyurdhruvaṃ janma mṛtasya ca . tasmādaparihārye.arthe na tvaṃ śocitumarhasi ||2-27||",
+      "meaning": "।।2.27।। जन्मने वाले की मृत्यु निश्चित है और मरने वाले का जन्म निश्चित है; इसलिए जो अटल है अपरिहार्य - है उसके विषय में तुमको शोक नहीं करना चाहिये।।",
+      "tags": [
+        "karma",
+        "mind",
+        "success"
+      ]
+    },
+    {
+      "id": "BG2.28",
+      "chapter": 2,
+      "verse": 28,
+      "speaker": "श्रीभगवान्",
+      "slok": "अव्यक्तादीनि भूतानि व्यक्तमध्यानि भारत | अव्यक्तनिधनान्येव तत्र का परिदेवना ||२-२८||",
+      "transliteration": "avyaktādīni bhūtāni vyaktamadhyāni bhārata . avyaktanidhanānyeva tatra kā paridevanā ||2-28||",
+      "meaning": "।।2.28।। हे भारत ! समस्त प्राणी जन्म से पूर्व और मृत्यु के बाद अव्यक्त अवस्था में रहते हैं और बीच में व्यक्त होते हैं। फिर उसमें चिन्ता या शोक की क्या बात है ?",
+      "tags": [
+        "karma",
+        "mind",
+        "success"
+      ]
+    },
+    {
+      "id": "BG2.29",
+      "chapter": 2,
+      "verse": 29,
+      "speaker": "श्रीभगवान्",
+      "slok": "आश्चर्यवत्पश्यति कश्चिदेन- माश्चर्यवद्वदति तथैव चान्यः | आश्चर्यवच्चैनमन्यः शृणोति श्रुत्वाप्येनं वेद न चैव कश्चित् ||२-२९||",
+      "transliteration": "āścaryavatpaśyati kaścidenam āścaryavadvadati tathaiva cānyaḥ . āścaryavaccainamanyaḥ śṛṇoti śrutvāpyenaṃ veda na caiva kaścit ||2-29||",
+      "meaning": "।।2.29।। कोई इसे आश्चर्य के समान देखता है; कोई इसके विषय में आश्चर्य के समान कहता है; और कोई अन्य पुरुष इसे आश्चर्य के समान सुनता है; और फिर कोई सुनकर भी नहीं जानता।।",
+      "tags": [
+        "karma",
+        "mind",
+        "success"
+      ]
+    },
+    {
+      "id": "BG2.30",
+      "chapter": 2,
+      "verse": 30,
+      "speaker": "श्रीभगवान्",
+      "slok": "देही नित्यमवध्योऽयं देहे सर्वस्य भारत | तस्मात्सर्वाणि भूतानि न त्वं शोचितुमर्हसि ||२-३०||",
+      "transliteration": "dehī nityamavadhyo.ayaṃ dehe sarvasya bhārata . tasmātsarvāṇi bhūtāni na tvaṃ śocitumarhasi ||2-30||",
+      "meaning": "।।2.30।। हे भारत ! यह देही आत्मा सबके शरीर में सदा ही अवध्य है, इसलिए समस्त प्राणियों के लिए तुम्हें शोक करना उचित नहीं।।",
+      "tags": [
+        "karma",
+        "mind",
+        "success"
+      ]
+    },
+    {
+      "id": "BG2.31",
+      "chapter": 2,
+      "verse": 31,
+      "speaker": "श्रीभगवान्",
+      "slok": "स्वधर्ममपि चावेक्ष्य न विकम्पितुमर्हसि | धर्म्याद्धि युद्धाच्छ्रेयोऽन्यत्क्षत्रियस्य न विद्यते ||२-३१||",
+      "transliteration": "svadharmamapi cāvekṣya na vikampitumarhasi . dharmyāddhi yuddhācchreyo.anyatkṣatriyasya na vidyate ||2-31||",
+      "meaning": "।।2.31।। और स्वधर्म को भी देखकर तुमको विचलित होना उचित नहीं है, क्योंकि धर्मयुक्त युद्ध से बढ़कर दूसरा कोई कल्याणकारक कर्त्तव्य क्षत्रिय के लिये नहीं है।।",
+      "tags": [
+        "karma",
+        "mind",
+        "success"
+      ]
+    },
+    {
+      "id": "BG2.32",
+      "chapter": 2,
+      "verse": 32,
+      "speaker": "श्रीभगवान्",
+      "slok": "यदृच्छया चोपपन्नं स्वर्गद्वारमपावृतम् | सुखिनः क्षत्रियाः पार्थ लभन्ते युद्धमीदृशम् ||२-३२||",
+      "transliteration": "yadṛcchayā copapannaṃ svargadvāramapāvṛtam . sukhinaḥ kṣatriyāḥ pārtha labhante yuddhamīdṛśam ||2-32||",
+      "meaning": "।।2.32।। और हे पार्थ ! अपने आप प्राप्त हुए और स्वर्ग के लिए खुले हुए द्वाररूप इस प्रकार के युद्ध को भाग्यवान क्षत्रिय लोग ही पाते हैं।।",
+      "tags": [
+        "karma",
+        "mind",
+        "success"
+      ]
+    },
+    {
+      "id": "BG2.33",
+      "chapter": 2,
+      "verse": 33,
+      "speaker": "श्रीभगवान्",
+      "slok": "अथ चेत्त्वमिमं धर्म्यं संग्रामं न करिष्यसि | ततः स्वधर्मं कीर्तिं च हित्वा पापमवाप्स्यसि ||२-३३||",
+      "transliteration": "atha cettvamimaṃ dharmyaṃ saṃgrāmaṃ na kariṣyasi . tataḥ svadharmaṃ kīrtiṃ ca hitvā pāpamavāpsyasi ||2-33||",
+      "meaning": "।।2.33।। और यदि तुम इस धर्मयुद्ध को स्वीकार नहीं करोगे, तो स्वधर्म और कीर्ति को खोकर पाप को प्राप्त करोगे।।",
+      "tags": [
+        "karma",
+        "mind",
+        "success"
+      ]
+    },
+    {
+      "id": "BG2.34",
+      "chapter": 2,
+      "verse": 34,
+      "speaker": "श्रीभगवान्",
+      "slok": "अकीर्तिं चापि भूतानि कथयिष्यन्ति तेऽव्ययाम् | सम्भावितस्य चाकीर्तिर्मरणादतिरिच्यते ||२-३४||",
+      "transliteration": "akīrtiṃ cāpi bhūtāni kathayiṣyanti te.avyayām . sambhāvitasya cākīrtirmaraṇādatiricyate ||2-34||",
+      "meaning": "।।2.34।। और सब लोग तुम्हारी बहुत काल तक रहने वाली अपकीर्ति को भी कहते रहेंगे; और सम्मानित पुरुष के लिए अपकीर्ति मरण से भी अधिक होती है।।",
+      "tags": [
+        "karma",
+        "mind",
+        "success"
+      ]
+    },
+    {
+      "id": "BG2.35",
+      "chapter": 2,
+      "verse": 35,
+      "speaker": "श्रीभगवान्",
+      "slok": "भयाद्रणादुपरतं मंस्यन्ते त्वां महारथाः | येषां च त्वं बहुमतो भूत्वा यास्यसि लाघवम् ||२-३५||",
+      "transliteration": "bhayādraṇāduparataṃ maṃsyante tvāṃ mahārathāḥ . yeṣāṃ ca tvaṃ bahumato bhūtvā yāsyasi lāghavam ||2-35||",
+      "meaning": "।।2.35।। और जिनके लिए तुम बहुत माननीय हो उनके लिए अब तुम तुच्छता को प्राप्त होओगे, वे महारथी लोग तुम्हें भय के कारण युद्ध से निवृत्त हुआ मानेंगे।।",
+      "tags": [
+        "karma",
+        "mind",
+        "success"
+      ]
+    },
+    {
+      "id": "BG2.36",
+      "chapter": 2,
+      "verse": 36,
+      "speaker": "श्रीभगवान्",
+      "slok": "अवाच्यवादांश्च बहून्वदिष्यन्ति तवाहिताः | निन्दन्तस्तव सामर्थ्यं ततो दुःखतरं नु किम् ||२-३६||",
+      "transliteration": "avācyavādāṃśca bahūnvadiṣyanti tavāhitāḥ . nindantastava sāmarthyaṃ tato duḥkhataraṃ nu kim ||2-36||",
+      "meaning": "।।2.36।। तुम्हारे शत्रु तुम्हारे सार्मथ्य की निन्दा करते हुए बहुत से अकथनीय वचनों को कहेंगे, फिर उससे अधिक दु:ख क्या होगा ?",
+      "tags": [
+        "karma",
+        "mind",
+        "success"
+      ]
+    },
+    {
+      "id": "BG2.37",
+      "chapter": 2,
+      "verse": 37,
+      "speaker": "श्रीभगवान्",
+      "slok": "हतो वा प्राप्स्यसि स्वर्गं जित्वा वा भोक्ष्यसे महीम् | तस्मादुत्तिष्ठ कौन्तेय युद्धाय कृतनिश्चयः ||२-३७||",
+      "transliteration": "hato vā prāpsyasi svargaṃ jitvā vā bhokṣyase mahīm . tasmāduttiṣṭha kaunteya yuddhāya kṛtaniścayaḥ ||2-37||",
+      "meaning": "।।2.37।। युद्ध में मरकर तुम स्वर्ग प्राप्त करोगे या जीतकर पृथ्वी को भोगोगे; इसलिय, हे कौन्तेय ! युद्ध का निश्चय कर तुम खड़े हो जाओ।।",
+      "tags": [
+        "karma",
+        "mind",
+        "success"
+      ]
+    },
+    {
+      "id": "BG2.38",
+      "chapter": 2,
+      "verse": 38,
+      "speaker": "श्रीभगवान्",
+      "slok": "सुखदुःखे समे कृत्वा लाभालाभौ जयाजयौ | ततो युद्धाय युज्यस्व नैवं पापमवाप्स्यसि ||२-३८||",
+      "transliteration": "sukhaduḥkhe same kṛtvā lābhālābhau jayājayau . tato yuddhāya yujyasva naivaṃ pāpamavāpsyasi ||2-38||",
+      "meaning": "।।2.38।। सुख-दु:ख, लाभ-हानि और जय-पराजय को समान करके युद्ध के लिये तैयार हो जाओ; इस प्रकार तुमको पाप नहीं होगा।।",
+      "tags": [
+        "karma",
+        "mind",
+        "success"
+      ]
+    },
+    {
+      "id": "BG2.39",
+      "chapter": 2,
+      "verse": 39,
+      "speaker": "श्रीभगवान्",
+      "slok": "एषा तेऽभिहिता साङ्ख्ये बुद्धिर्योगे त्विमां शृणु | बुद्ध्या युक्तो यया पार्थ कर्मबन्धं प्रहास्यसि ||२-३९||",
+      "transliteration": "eṣā te.abhihitā sāṅkhye buddhiryoge tvimāṃ śṛṇu . buddhyā yukto yayā pārtha karmabandhaṃ prahāsyasi ||2-39||",
+      "meaning": "।।2.39।। हे पार्थ ! तुम्हें सांख्य विषयक ज्ञान कहा गया और अब इस (कर्म) योग से सम्बन्धित ज्ञान को सुनो जिस ज्ञान से युक्त होकर तुम कर्मबन्ध का नाश कर सकोगे।।",
+      "tags": [
+        "karma",
+        "mind",
+        "success"
+      ]
+    },
+    {
+      "id": "BG2.40",
+      "chapter": 2,
+      "verse": 40,
+      "speaker": "श्रीभगवान्",
+      "slok": "नेहाभिक्रमनाशोऽस्ति प्रत्यवायो न विद्यते | स्वल्पमप्यस्य धर्मस्य त्रायते महतो भयात् ||२-४०||",
+      "transliteration": "nehābhikramanāśo.asti pratyavāyo na vidyate . svalpamapyasya dharmasya trāyate mahato bhayāt ||2-40||",
+      "meaning": "।।2.40।। इसमें क्रमनाश और प्रत्यवाय दोष नहीं है। इस धर्म (योग) का अल्प अभ्यास भी महान् भय से रक्षण करता है।।",
+      "tags": [
+        "karma",
+        "mind",
+        "success"
+      ]
+    },
+    {
+      "id": "BG2.41",
+      "chapter": 2,
+      "verse": 41,
+      "speaker": "श्रीभगवान्",
+      "slok": "व्यवसायात्मिका बुद्धिरेकेह कुरुनन्दन | बहुशाखा ह्यनन्ताश्च बुद्धयोऽव्यवसायिनाम् ||२-४१||",
+      "transliteration": "vyavasāyātmikā buddhirekeha kurunandana . bahuśākhā hyanantāśca buddhayo.avyavasāyinām ||2-41||",
+      "meaning": "।।2.41।। हे कुरुनन्दन ! इस (विषय) में निश्चयात्मक बुद्धि एक ही है, अज्ञानी पुरुषों की बुद्धियां (संकल्प) बहुत भेदों वाली और अनन्त होती हैं।।",
+      "tags": [
+        "karma",
+        "mind",
+        "success"
+      ]
+    },
+    {
+      "id": "BG2.42",
+      "chapter": 2,
+      "verse": 42,
+      "speaker": "श्रीभगवान्",
+      "slok": "यामिमां पुष्पितां वाचं प्रवदन्त्यविपश्चितः | वेदवादरताः पार्थ नान्यदस्तीति वादिनः ||२-४२||",
+      "transliteration": "yāmimāṃ puṣpitāṃ vācaṃ pravadantyavipaścitaḥ . vedavādaratāḥ pārtha nānyadastīti vādinaḥ ||2-42||",
+      "meaning": "।।2.42।। हे पार्थ अविवेकी पुरुष वेदवाद में रमते हुये जो यह पुष्पिता (दिखावटी शोभा की) वाणी बोलते हैं? इससे (स्वर्ग से) बढ़कर और कुछ नहीं है।।।",
+      "tags": [
+        "karma",
+        "mind",
+        "success"
+      ]
+    },
+    {
+      "id": "BG2.43",
+      "chapter": 2,
+      "verse": 43,
+      "speaker": "श्रीभगवान्",
+      "slok": "कामात्मानः स्वर्गपरा जन्मकर्मफलप्रदाम् | क्रियाविशेषबहुलां भोगैश्वर्यगतिं प्रति ||२-४३||",
+      "transliteration": "kāmātmānaḥ svargaparā janmakarmaphalapradām . kriyāviśeṣabahulāṃ bhogaiśvaryagatiṃ prati ||2-43||",
+      "meaning": "।।2.43।। कामनाओं से युक्त? स्वर्ग को ही श्रेष्ठ मानने वाले लोग भोग और ऐश्वर्य को प्राप्त कराने वाली अनेक क्रियाओं को बताते हैं जो (वास्तव में) जन्मरूप कर्मफल को देने वाली होती हैं।।",
+      "tags": [
+        "karma",
+        "mind",
+        "success"
+      ]
+    },
+    {
+      "id": "BG2.44",
+      "chapter": 2,
+      "verse": 44,
+      "speaker": "श्रीभगवान्",
+      "slok": "भोगैश्वर्यप्रसक्तानां तयापहृतचेतसाम् | व्यवसायात्मिका बुद्धिः समाधौ न विधीयते ||२-४४||",
+      "transliteration": "bhogaiśvaryaprasaktānāṃ tayāpahṛtacetasām . vyavasāyātmikā buddhiḥ samādhau na vidhīyate ||2-44||",
+      "meaning": "।।2.44।।उससे जिनका चित्त हर लिया गया है ऐसे भोग और एश्र्वर्य‌ मॆ आसक्ति रखने वाले पुरुषों के अन्तकरण मे निश्चयात्मक् बुद्धि नही हॊती अर्थात वे ध्यान का अभ्यास करने योग्य‌ नही होते।",
+      "tags": [
+        "karma",
+        "mind",
+        "success"
+      ]
+    },
+    {
+      "id": "BG2.45",
+      "chapter": 2,
+      "verse": 45,
+      "speaker": "श्रीभगवान्",
+      "slok": "त्रैगुण्यविषया वेदा निस्त्रैगुण्यो भवार्जुन | निर्द्वन्द्वो नित्यसत्त्वस्थो निर्योगक्षेम आत्मवान् ||२-४५||",
+      "transliteration": "traiguṇyaviṣayā vedā nistraiguṇyo bhavārjuna . nirdvandvo nityasattvastho niryogakṣema ātmavān ||2-45||",
+      "meaning": "।।2.45।। हे अर्जुन वेदों का विषय तीन गुणों से सम्बन्धित (संसार से) है तुम त्रिगुणातीत? निर्द्वन्द्व? नित्य सत्त्व (शुद्धता) में स्थित? योगक्षेम से रहित और आत्मवान् बनो।।",
+      "tags": [
+        "karma",
+        "mind",
+        "success"
+      ]
+    },
+    {
+      "id": "BG2.46",
+      "chapter": 2,
+      "verse": 46,
+      "speaker": "श्रीभगवान्",
+      "slok": "यावानर्थ उदपाने सर्वतः सम्प्लुतोदके | तावान्सर्वेषु वेदेषु ब्राह्मणस्य विजानतः ||२-४६||",
+      "transliteration": "yāvānartha udapāne sarvataḥ samplutodake . tāvānsarveṣu vedeṣu brāhmaṇasya vijānataḥ ||2-46||",
+      "meaning": "।।2.46।। सब ओर से परिपूर्ण जलराशि के होने पर मनुष्य का छोटे जलाशय में जितना प्रयोजन रहता है? आत्मज्ञानी ब्राह्मण का सभी वेदों में उतना ही प्रयोजन रहता है।।",
+      "tags": [
+        "karma",
+        "mind",
+        "success"
+      ]
+    },
+    {
+      "id": "BG2.47",
+      "chapter": 2,
+      "verse": 47,
+      "speaker": "श्रीभगवान्",
+      "slok": "कर्मण्येवाधिकारस्ते मा फलेषु कदाचन | मा कर्मफलहेतुर्भूर्मा ते सङ्गोऽस्त्वकर्मणि ||२-४७||",
+      "transliteration": "karmaṇyevādhikāraste mā phaleṣu kadācana . mā karmaphalaheturbhūrmā te saṅgo.astvakarmaṇi ||2-47||",
+      "meaning": "।।2.47।। कर्म करने मात्र में तुम्हारा अधिकार है? फल में कभी नहीं। तुम कर्मफल के हेतु वाले मत होना और अकर्म में भी तुम्हारी आसक्ति न हो।।",
+      "tags": [
+        "karma",
+        "mind",
+        "success"
+      ]
+    },
+    {
+      "id": "BG2.48",
+      "chapter": 2,
+      "verse": 48,
+      "speaker": "श्रीभगवान्",
+      "slok": "योगस्थः कुरु कर्माणि सङ्गं त्यक्त्वा धनञ्जय | सिद्ध्यसिद्ध्योः समो भूत्वा समत्वं योग उच्यते ||२-४८||",
+      "transliteration": "yogasthaḥ kuru karmāṇi saṅgaṃ tyaktvā dhanañjaya . siddhyasiddhyoḥ samo bhūtvā samatvaṃ yoga ucyate ||2-48||",
+      "meaning": "।।2.48।। हे धनंजय आसक्ति को त्याग कर तथा सिद्धि और असिद्धि में समभाव होकर योग में स्थित हुये तुम कर्म करो। यह समभाव ही योग कहलाता है।।",
+      "tags": [
+        "karma",
+        "mind",
+        "success"
+      ]
+    },
+    {
+      "id": "BG2.49",
+      "chapter": 2,
+      "verse": 49,
+      "speaker": "श्रीभगवान्",
+      "slok": "दूरेण ह्यवरं कर्म बुद्धियोगाद्धनञ्जय | बुद्धौ शरणमन्विच्छ कृपणाः फलहेतवः ||२-४९||",
+      "transliteration": "dūreṇa hyavaraṃ karma buddhiyogāddhanañjaya . buddhau śaraṇamanviccha kṛpaṇāḥ phalahetavaḥ ||2-49||",
+      "meaning": "।।2.49।। इस बुद्धियोग की तुलना में(सकाम) कर्म अत्यन्त निकृष्ट हैं? इसलिये हे धनंजय तुम बद्धि की शरण लो फल की इच्छा करनेवाले कृपण (दीन) हैं।।",
+      "tags": [
+        "karma",
+        "mind",
+        "success"
+      ]
+    },
+    {
+      "id": "BG2.50",
+      "chapter": 2,
+      "verse": 50,
+      "speaker": "श्रीभगवान्",
+      "slok": "बुद्धियुक्तो जहातीह उभे सुकृतदुष्कृते | तस्माद्योगाय युज्यस्व योगः कर्मसु कौशलम् ||२-५०||",
+      "transliteration": "buddhiyukto jahātīha ubhe sukṛtaduṣkṛte . tasmādyogāya yujyasva yogaḥ karmasu kauśalam ||2-50||",
+      "meaning": "।।2.50।। समत्वबुद्धि युक्त पुरुष यहां (इस जीवन में) पुण्य और पाप इन दोनों कर्मों को त्याग देता है? इसलिये तुम योग से युक्त हो जाओ। कर्मों में कुशलता योग है।।",
+      "tags": [
+        "karma",
+        "mind",
+        "success"
+      ]
+    },
+    {
+      "id": "BG2.51",
+      "chapter": 2,
+      "verse": 51,
+      "speaker": "श्रीभगवान्",
+      "slok": "कर्मजं बुद्धियुक्ता हि फलं त्यक्त्वा मनीषिणः | जन्मबन्धविनिर्मुक्ताः पदं गच्छन्त्यनामयम् ||२-५१||",
+      "transliteration": "karmajaṃ buddhiyuktā hi phalaṃ tyaktvā manīṣiṇaḥ . janmabandhavinirmuktāḥ padaṃ gacchantyanāmayam ||2-51||",
+      "meaning": "।।2.51।। बुद्धियोग युक्त मनीषी लोग कर्मजन्य फलों को त्यागकर जन्मरूप बन्धन से मुक्त हुये अनामय अर्थात् निर्दोष पद को प्राप्त होते हैं।।",
+      "tags": [
+        "karma",
+        "mind",
+        "success"
+      ]
+    },
+    {
+      "id": "BG2.52",
+      "chapter": 2,
+      "verse": 52,
+      "speaker": "श्रीभगवान्",
+      "slok": "यदा ते मोहकलिलं बुद्धिर्व्यतितरिष्यति | तदा गन्तासि निर्वेदं श्रोतव्यस्य श्रुतस्य च ||२-५२||",
+      "transliteration": "yadā te mohakalilaṃ buddhirvyatitariṣyati . tadā gantāsi nirvedaṃ śrotavyasya śrutasya ca ||2-52||",
+      "meaning": "।।2.52।। जब तुम्हारी बुद्धि मोहरूप दलदल (कलिल) को तर जायेगी तब तुम उन सब वस्तुओं से निर्वेद (वैराग्य) को प्राप्त हो जाओगे? जो सुनने योग्य और सुनी हुई हैं।।",
+      "tags": [
+        "karma",
+        "mind",
+        "success"
+      ]
+    },
+    {
+      "id": "BG2.53",
+      "chapter": 2,
+      "verse": 53,
+      "speaker": "श्रीभगवान्",
+      "slok": "श्रुतिविप्रतिपन्ना ते यदा स्थास्यति निश्चला | समाधावचला बुद्धिस्तदा योगमवाप्स्यसि ||२-५३||",
+      "transliteration": "śrutivipratipannā te yadā sthāsyati niścalā . samādhāvacalā buddhistadā yogamavāpsyasi ||2-53||",
+      "meaning": "।।2.53।। जब अनेक प्रकार के विषयों को सुनने से विचलित हुई तुम्हारी बुद्धि आत्मस्वरूप में अचल और स्थिर हो जायेगी तब तुम (परमार्थ) योग को प्राप्त करोगे।।",
+      "tags": [
+        "karma",
+        "mind",
+        "success"
+      ]
+    },
+    {
+      "id": "BG2.54",
+      "chapter": 2,
+      "verse": 54,
+      "speaker": "अर्जुन",
+      "slok": "अर्जुन उवाच | स्थितप्रज्ञस्य का भाषा समाधिस्थस्य केशव | स्थितधीः किं प्रभाषेत किमासीत व्रजेत किम् ||२-५४||",
+      "transliteration": "arjuna uvāca . sthitaprajñasya kā bhāṣā samādhisthasya keśava . sthitadhīḥ kiṃ prabhāṣeta kimāsīta vrajeta kim ||2-54||",
+      "meaning": "।।2.54।। अर्जुन ने कहा -- हे केशव समाधि में स्थित स्थिर बुद्धि वाले पुरुष का क्या लक्षण है स्थिर बुद्धि पुरुष कैसे बोलता है कैसे बैठता है कैसे चलता है",
+      "tags": [
+        "karma",
+        "mind",
+        "success"
+      ]
+    },
+    {
+      "id": "BG2.55",
+      "chapter": 2,
+      "verse": 55,
+      "speaker": "श्रीभगवान्",
+      "slok": "श्रीभगवानुवाच | प्रजहाति यदा कामान्सर्वान्पार्थ मनोगतान् | आत्मन्येवात्मना तुष्टः स्थितप्रज्ञस्तदोच्यते ||२-५५||",
+      "transliteration": "śrībhagavānuvāca . prajahāti yadā kāmānsarvānpārtha manogatān . ātmanyevātmanā tuṣṭaḥ sthitaprajñastadocyate ||2-55||",
+      "meaning": "।।2.55।। श्री भगवान् ने कहा -- हे पार्थ? जिस समय पुरुष मन में स्थित सब कामनाओं को त्याग देता है और आत्मा से ही आत्मा में सन्तुष्ट रहता है? उस समय वह स्थितप्रज्ञ कहलाता है।।",
+      "tags": [
+        "karma",
+        "mind",
+        "success"
+      ]
+    },
+    {
+      "id": "BG2.56",
+      "chapter": 2,
+      "verse": 56,
+      "speaker": "श्रीभगवान्",
+      "slok": "दुःखेष्वनुद्विग्नमनाः सुखेषु विगतस्पृहः | वीतरागभयक्रोधः स्थितधीर्मुनिरुच्यते ||२-५६||",
+      "transliteration": "duḥkheṣvanudvignamanāḥ sukheṣu vigataspṛhaḥ . vītarāgabhayakrodhaḥ sthitadhīrmunirucyate ||2-56||",
+      "meaning": "।।2.56।। दुख में जिसका मन उद्विग्न नहीं होता सुख में जिसकी स्पृहा निवृत्त हो गयी है? जिसके मन से राग? भय और क्रोध नष्ट हो गये हैं? वह मुनि स्थितप्रज्ञ कहलाता है।।",
+      "tags": [
+        "karma",
+        "mind",
+        "success"
+      ]
+    },
+    {
+      "id": "BG2.57",
+      "chapter": 2,
+      "verse": 57,
+      "speaker": "श्रीभगवान्",
+      "slok": "यः सर्वत्रानभिस्नेहस्तत्तत्प्राप्य शुभाशुभम् | नाभिनन्दति न द्वेष्टि तस्य प्रज्ञा प्रतिष्ठिता ||२-५७||",
+      "transliteration": "yaḥ sarvatrānabhisnehastattatprāpya śubhāśubham . nābhinandati na dveṣṭi tasya prajñā pratiṣṭhitā ||2-57||",
+      "meaning": "।।2.57।। जो सर्वत्र अति स्नेह से रहित हुआ उन शुभ तथा अशुभ वस्तुओं को प्राप्त कर न प्रसन्न होता है और न द्वेष करता है? उसकी प्रज्ञा प्रतिष्ठित (स्थिर) है।।",
+      "tags": [
+        "karma",
+        "mind",
+        "success"
+      ]
+    },
+    {
+      "id": "BG2.58",
+      "chapter": 2,
+      "verse": 58,
+      "speaker": "श्रीभगवान्",
+      "slok": "यदा संहरते चायं कूर्मोऽङ्गानीव सर्वशः | इन्द्रियाणीन्द्रियार्थेभ्यस्तस्य प्रज्ञा प्रतिष्ठिता ||२-५८||",
+      "transliteration": "yadā saṃharate cāyaṃ kūrmo.aṅgānīva sarvaśaḥ . indriyāṇīndriyārthebhyastasya prajñā pratiṣṭhitā ||2-58||",
+      "meaning": "।।2.58।। कछुवा अपने अंगों को जैसे समेट लेता है वैसे ही यह पुरुष जब सब ओर से अपनी इन्द्रियों को इन्द्रियों के विषयों से परावृत्त कर लेता है? तब उसकी बुद्धि स्थिर होती है।।",
+      "tags": [
+        "karma",
+        "mind",
+        "success"
+      ]
+    },
+    {
+      "id": "BG2.59",
+      "chapter": 2,
+      "verse": 59,
+      "speaker": "श्रीभगवान्",
+      "slok": "विषया विनिवर्तन्ते निराहारस्य देहिनः | रसवर्जं रसोऽप्यस्य परं दृष्ट्वा निवर्तते ||२-५९||",
+      "transliteration": "viṣayā vinivartante nirāhārasya dehinaḥ . rasavarjaṃ raso.apyasya paraṃ dṛṣṭvā nivartate ||2-59||",
+      "meaning": "।।2.59।। निराहारी देही पुरुष से विषय तो निवृत्त (दूर) हो जाते हैं? परन्तु (उनके प्रति) राग नहीं परम तत्व को देखने पर इस (पुरुष) का राग भी निवृत्त हो जाता है।।",
+      "tags": [
+        "karma",
+        "mind",
+        "success"
+      ]
+    },
+    {
+      "id": "BG2.60",
+      "chapter": 2,
+      "verse": 60,
+      "speaker": "श्रीभगवान्",
+      "slok": "यततो ह्यपि कौन्तेय पुरुषस्य विपश्चितः | इन्द्रियाणि प्रमाथीनि हरन्ति प्रसभं मनः ||२-६०||",
+      "transliteration": "yatato hyapi kaunteya puruṣasya vipaścitaḥ . indriyāṇi pramāthīni haranti prasabhaṃ manaḥ ||2-60||",
+      "meaning": "।।2.60।। हे कौन्तेय (संयम का) प्रयत्न करते हुए बुद्धिमान (विपश्चित) पुरुष के भी मन को ये इन्द्रियां बलपूर्वक हर लेती हैं।।",
+      "tags": [
+        "karma",
+        "mind",
+        "success"
+      ]
+    },
+    {
+      "id": "BG2.61",
+      "chapter": 2,
+      "verse": 61,
+      "speaker": "श्रीभगवान्",
+      "slok": "तानि सर्वाणि संयम्य युक्त आसीत मत्परः | वशे हि यस्येन्द्रियाणि तस्य प्रज्ञा प्रतिष्ठिता ||२-६१||",
+      "transliteration": "tāni sarvāṇi saṃyamya yukta āsīta matparaḥ . vaśe hi yasyendriyāṇi tasya prajñā pratiṣṭhitā ||2-61||",
+      "meaning": "।।2.61।। उन सब इन्द्रियों को संयमित कर युक्त और मत्पर होवे। जिस पुरुष की इन्द्रियां वश में होती हैं? उसकी प्रज्ञा प्रतिष्ठित होती है।।",
+      "tags": [
+        "karma",
+        "mind",
+        "success"
+      ]
+    },
+    {
+      "id": "BG2.62",
+      "chapter": 2,
+      "verse": 62,
+      "speaker": "श्रीभगवान्",
+      "slok": "ध्यायतो विषयान्पुंसः सङ्गस्तेषूपजायते | सङ्गात्सञ्जायते कामः कामात्क्रोधोऽभिजायते ||२-६२||",
+      "transliteration": "dhyāyato viṣayānpuṃsaḥ saṅgasteṣūpajāyate . saṅgātsañjāyate kāmaḥ kāmātkrodho.abhijāyate ||2-62||",
+      "meaning": "।।2.62।। विषयों का चिन्तन करने वाले पुरुष की उसमें आसक्ति हो जाती है? आसक्ति से इच्छा और इच्छा से क्रोध उत्पन्न होता है।।",
+      "tags": [
+        "karma",
+        "mind",
+        "success"
+      ]
+    },
+    {
+      "id": "BG2.63",
+      "chapter": 2,
+      "verse": 63,
+      "speaker": "श्रीभगवान्",
+      "slok": "क्रोधाद्भवति सम्मोहः सम्मोहात्स्मृतिविभ्रमः | स्मृतिभ्रंशाद् बुद्धिनाशो बुद्धिनाशात्प्रणश्यति ||२-६३||",
+      "transliteration": "krodhādbhavati sammohaḥ sammohātsmṛtivibhramaḥ . smṛtibhraṃśād buddhināśo buddhināśātpraṇaśyati ||2-63||",
+      "meaning": "।।2.63।। क्रोध से उत्पन्न होता है मोह और मोह से स्मृति विभ्रम। स्मृति के भ्रमित होने पर बुद्धि का नाश होता है और बुद्धि के नाश होने से वह मनुष्य नष्ट हो जाता है।।",
+      "tags": [
+        "karma",
+        "mind",
+        "success"
+      ]
+    },
+    {
+      "id": "BG2.64",
+      "chapter": 2,
+      "verse": 64,
+      "speaker": "श्रीभगवान्",
+      "slok": "रागद्वेषविमुक्तैस्तु विषयानिन्द्रियैश्चरन् | (or वियुक्तैस्तु) आत्मवश्यैर्विधेयात्मा प्रसादमधिगच्छति ||२-६४||",
+      "transliteration": "rāgadveṣavimuktaistu viṣayānindriyaiścaran . orviyuktaistu ātmavaśyairvidheyātmā prasādamadhigacchati ||2-64||",
+      "meaning": "।।2.64।। आत्मसंयमी (विधेयात्मा) पुरुष रागद्वेष से रहित अपने वश में की हुई (आत्मवश्यै) इन्द्रियों द्वारा विषयों को भोगता हुआ प्रसन्नता (प्रस्ेााद) प्राप्त करता है।।",
+      "tags": [
+        "karma",
+        "mind",
+        "success"
+      ]
+    },
+    {
+      "id": "BG2.65",
+      "chapter": 2,
+      "verse": 65,
+      "speaker": "श्रीभगवान्",
+      "slok": "प्रसादे सर्वदुःखानां हानिरस्योपजायते | प्रसन्नचेतसो ह्याशु बुद्धिः पर्यवतिष्ठते ||२-६५||",
+      "transliteration": "prasāde sarvaduḥkhānāṃ hānirasyopajāyate . prasannacetaso hyāśu buddhiḥ paryavatiṣṭhate ||2-65||",
+      "meaning": "।।2.65।। प्रसाद के होने पर सम्पूर्ण दुखों का अन्त हो जाता है और प्रसन्नचित्त पुरुष की बुद्धि ही शीघ्र ही स्थिर हो जाती है।।",
+      "tags": [
+        "karma",
+        "mind",
+        "success"
+      ]
+    },
+    {
+      "id": "BG2.66",
+      "chapter": 2,
+      "verse": 66,
+      "speaker": "श्रीभगवान्",
+      "slok": "नास्ति बुद्धिरयुक्तस्य न चायुक्तस्य भावना | न चाभावयतः शान्तिरशान्तस्य कुतः सुखम् ||२-६६||",
+      "transliteration": "nāsti buddhirayuktasya na cāyuktasya bhāvanā . na cābhāvayataḥ śāntiraśāntasya kutaḥ sukham ||2-66||",
+      "meaning": "।।2.66।। (संयमरहित) अयुक्त पुरुष को (आत्म) ज्ञान नहीं होता और अयुक्त को भावना और ध्यान की क्षमता नहीं होती भावना रहित पुरुष को शान्ति नहीं मिलती अशान्त पुरुष को सुख कहाँ",
+      "tags": [
+        "karma",
+        "mind",
+        "success"
+      ]
+    },
+    {
+      "id": "BG2.67",
+      "chapter": 2,
+      "verse": 67,
+      "speaker": "श्रीभगवान्",
+      "slok": "इन्द्रियाणां हि चरतां यन्मनोऽनुविधीयते | तदस्य हरति प्रज्ञां वायुर्नावमिवाम्भसि ||२-६७||",
+      "transliteration": "indriyāṇāṃ hi caratāṃ yanmano.anuvidhīyate . tadasya harati prajñāṃ vāyurnāvamivāmbhasi ||2-67||",
+      "meaning": "।।2.67।। जल में वायु जैसे नाव को हर लेता है वैसे ही विषयों में विरचती हुई इन्द्रियों के बीच में जिस इन्द्रिय का अनुकरण मन करता है? वह एक ही इन्द्रिय इसकी प्रज्ञा को हर लेती है।।",
+      "tags": [
+        "karma",
+        "mind",
+        "success"
+      ]
+    },
+    {
+      "id": "BG2.68",
+      "chapter": 2,
+      "verse": 68,
+      "speaker": "श्रीभगवान्",
+      "slok": "तस्माद्यस्य महाबाहो निगृहीतानि सर्वशः | इन्द्रियाणीन्द्रियार्थेभ्यस्तस्य प्रज्ञा प्रतिष्ठिता ||२-६८||",
+      "transliteration": "tasmādyasya mahābāho nigṛhītāni sarvaśaḥ . indriyāṇīndriyārthebhyastasya prajñā pratiṣṭhitā ||2-68||",
+      "meaning": "।।2.68।। इसलिये? हे महाबाहो जिस पुरुष की इन्द्रियाँ सब प्रकार इन्द्रियों के विषयों के वश में की हुई होती हैं? उसकी बुद्धि स्थिर होती है।।",
+      "tags": [
+        "karma",
+        "mind",
+        "success"
+      ]
+    },
+    {
+      "id": "BG2.69",
+      "chapter": 2,
+      "verse": 69,
+      "speaker": "श्रीभगवान्",
+      "slok": "या निशा सर्वभूतानां तस्यां जागर्ति संयमी | यस्यां जाग्रति भूतानि सा निशा पश्यतो मुनेः ||२-६९||",
+      "transliteration": "yā niśā sarvabhūtānāṃ tasyāṃ jāgarti saṃyamī . yasyāṃ jāgrati bhūtāni sā niśā paśyato muneḥ ||2-69||",
+      "meaning": "।।2.69।। सब प्रणियों के लिए जो रात्रि है? उसमें संयमी पुरुष जागता है और जहाँ सब प्राणी जागते हैं? वह (तत्त्व को) देखने वाले मुनि के लिए रात्रि है।।",
+      "tags": [
+        "karma",
+        "mind",
+        "success"
+      ]
+    },
+    {
+      "id": "BG2.70",
+      "chapter": 2,
+      "verse": 70,
+      "speaker": "श्रीभगवान्",
+      "slok": "आपूर्यमाणमचलप्रतिष्ठं समुद्रमापः प्रविशन्ति यद्वत् | तद्वत्कामा यं प्रविशन्ति सर्वे स शान्तिमाप्नोति न कामकामी ||२-७०||",
+      "transliteration": "āpūryamāṇamacalapratiṣṭhaṃ samudramāpaḥ praviśanti yadvat . tadvatkāmā yaṃ praviśanti sarve sa śāntimāpnoti na kāmakāmī ||2-70||",
+      "meaning": "।।2.70।। जैसे सब ओर से परिपूर्ण अचल प्रतिष्ठा वाले समुद्र में (अनेक नदियों के) जल (उसे विचलित किये बिना) समा जाते हैं? वैसे ही जिस पुरुष के प्रति कामनाओं के विषय उसमें (विकार उत्पन्न किये बिना) समा जाते हैं? वह पुरुष शान्ति प्राप्त करता है? न कि भोगों की कामना करने वाला पुरुष।।",
+      "tags": [
+        "karma",
+        "mind",
+        "success"
+      ]
+    },
+    {
+      "id": "BG2.71",
+      "chapter": 2,
+      "verse": 71,
+      "speaker": "श्रीभगवान्",
+      "slok": "विहाय कामान्यः सर्वान्पुमांश्चरति निःस्पृहः | निर्ममो निरहङ्कारः स शान्तिमधिगच्छति ||२-७१||",
+      "transliteration": "vihāya kāmānyaḥ sarvānpumāṃścarati niḥspṛhaḥ . nirmamo nirahaṅkāraḥ sa śāntimadhigacchati ||2-71||",
+      "meaning": "।।2.71।। जो पुरुष सब कामनाओं को त्यागकर स्पृहारहित? ममभाव रहित और निरहंकार हुआ विचरण करता है? वह शान्ति प्राप्त करता है।।",
+      "tags": [
+        "karma",
+        "mind",
+        "success"
+      ]
+    },
+    {
+      "id": "BG2.72",
+      "chapter": 2,
+      "verse": 72,
+      "speaker": "श्रीभगवान्",
+      "slok": "एषा ब्राह्मी स्थितिः पार्थ नैनां प्राप्य विमुह्यति | स्थित्वास्यामन्तकालेऽपि ब्रह्मनिर्वाणमृच्छति ||२-७२||",
+      "transliteration": "eṣā brāhmī sthitiḥ pārtha naināṃ prāpya vimuhyati . sthitvāsyāmantakāle.api brahmanirvāṇamṛcchati ||2-72||",
+      "meaning": "।।2.72।। हे पार्थ यह ब्राह्मी स्थिति है। इसे प्राप्त कर पुरुष मोहित नहीं होता। अन्तकाल में भी इस निष्ठा में स्थित होकर ब्रह्मनिर्वाण (ब्रह्म के साथ एकत्व) को प्राप्त होता है।।",
+      "tags": [
+        "karma",
+        "mind",
+        "success"
+      ]
+    },
+    {
+      "id": "BG2.73",
+      "chapter": 2,
+      "verse": 73,
+      "speaker": "श्रीभगवान्",
+      "slok": "ॐ तत्सदिति श्रीमद्भगवद्गीतासूपनिषत्सु ब्रह्मविद्यायां योगशास्त्रे श्रीकृष्णार्जुनसंवादे साङ्ख्ययोगो नाम द्वितीयोऽध्यायः ||२||",
+      "transliteration": "OM tatsaditi śrīmadbhagavadgītāsūpaniṣatsu brahmavidyāyāṃ yogaśāstre śrīkṛṣṇārjunasaṃvāde sāṅkhyayogo nāma dvitīyo.adhyāyaḥ ||2-73||",
+      "meaning": "Swami Tejomayananda did not comment on this sloka",
+      "tags": [
+        "karma",
+        "mind",
+        "success"
+      ]
+    }
+  ]
+}

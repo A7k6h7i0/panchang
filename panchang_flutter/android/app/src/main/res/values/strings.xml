@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Meta (Facebook) Config -->
+    <string name="facebook_app_id">2002447890310864</string>
+    <string name="facebook_client_token">c3fc10283089105cd400d91aa4cbdbe0</string>
+    <string name="fb_login_protocol_scheme">fb2002447890310864</string>
+    <string name="app_name">Talking Calendar</string>
+</resources>

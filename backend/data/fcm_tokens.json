@@ -1,0 +1,37 @@
+{
+  "updatedAt": "2026-04-23T12:11:05.264Z",
+  "tokens": [
+    {
+      "token": "fywwK1NQQjqbFLcscLOFNc:APA91bGIvmwqNkUoNCneFvNkAJnNiJxsCU12hx_8wq6Hsg4eRSK_b9GKatmeGpllxCpjHR5pYzoUwAQ4N9EHvbWuPq5qsZfFZUajJT3ZpCzuM_VZvmMGimc",
+      "userId": null,
+      "userEmail": null,
+      "platform": "android",
+      "source": "flutter_fcm",
+      "appVersion": "1.0.2+2",
+      "appName": "Talking Calendar",
+      "deviceModel": "V2315",
+      "deviceBrand": "vivo",
+      "deviceManufacturer": "vivo",
+      "osVersion": "Android 15",
+      "createdAt": "2026-04-23T11:48:31.789Z",
+      "updatedAt": "2026-04-23T11:48:54.654Z",
+      "lastSeenAt": "2026-04-23T11:48:54.654Z"
+    },
+    {
+      "token": "dVXSGXc7Sliubj75CWgJS9:APA91bHMRDcen9I5ik5GkzfxejwjfMuydpaWIjIP-MoD2EaCyl2xVaZDMZIIp28Y-XHqRZNsIIEJxBrr-I9X5jau6JnMhIHzRS8q5HEw_lNt5c2PmHASL5I",
+      "userId": null,
+      "userEmail": null,
+      "platform": "android",
+      "source": "flutter_fcm",
+      "appVersion": "1.0.2+2",
+      "appName": "Talking Calendar",
+      "deviceModel": "V2315",
+      "deviceBrand": "vivo",
+      "deviceManufacturer": "vivo",
+      "osVersion": "Android 15",
+      "createdAt": "2026-04-23T11:54:12.229Z",
+      "updatedAt": "2026-04-23T12:11:05.264Z",
+      "lastSeenAt": "2026-04-23T12:11:05.264Z"
+    }
+  ]
+}

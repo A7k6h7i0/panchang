@@ -1,0 +1,41 @@
+.page-background {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background: transparent;
+  isolation: isolate;
+  overflow-x: hidden;
+}
+
+.page-background::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(180deg, #4a2f00 0%, #3b2500 55%, #2b1b00 100%);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.page-background::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(74, 47, 0, 0.18), rgba(43, 27, 0, 0.28));
+  z-index: 0;
+  pointer-events: none;
+}
+
+.page-background > * {
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 640px) {
+  .page-background {
+    min-height: 100svh;
+  }
+
+  .page-background::before {
+    background: linear-gradient(180deg, #4a2f00 0%, #3b2500 55%, #2b1b00 100%);
+  }
+}

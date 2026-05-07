@@ -1,0 +1,414 @@
+{
+  "chapter": 5,
+  "meta": {
+    "chapter_number": 5,
+    "verses_count": 29,
+    "name": "कर्मसंन्यासयोग",
+    "translation": "Karma Sanyasa Yoga",
+    "transliteration": "Karm Sanyās Yog",
+    "meaning": {
+      "en": "Path of Renunciation",
+      "hi": "कर्मयोग-कृष्णभावनाभावित कर्म"
+    },
+    "summary": {
+      "en": "The fifth chapter of the Bhagavad Gita is Karma Sanyasa Yoga. In this chapter, Krishna compares the paths of renunciation in actions (Karma Sanyas) and actions with detachment (Karma Yoga) and explains that both are means to reach the same goal and we can choose either. A wise person should perform his/her worldly duties without attachment to the fruits of his/her actions and dedicate them to God. This way they remain unaffected by sin and eventually attain liberation.",
+      "hi": "भगवद गीता का पांचवा अध्याय कर्मसन्यासयोग योग है। इस अध्याय में श्रीकृष्ण ने कर्मयोग और कर्मसन्यासयोग कि तुलना करते हुआ यह बतलाया है कि यह दोनों मार्ग एक ही लक्ष्य तक पहुँचने के माध्यम हैं। इसलिए हम इनमें से किसी भी मार्ग का चुनाव कर सकते हैं। एक बुद्धिमान व्यक्ति को अपने कर्मों को भगवान को समर्पित करते हुए अथवा उनके फल कि चिंता करे बिना अपने सांसारिक कर्तव्यों का पालन करते रहना चाहिए। इस तरह वे पाप से अप्रभावित रहते हैं और अंततः मुक्ति प्राप्त करते हैं।"
+    },
+    "themes": [
+      "mind",
+      "karma"
+    ]
+  },
+  "verses": [
+    {
+      "id": "BG5.1",
+      "chapter": 5,
+      "verse": 1,
+      "speaker": "अर्जुन",
+      "slok": "अर्जुन उवाच | संन्यासं कर्मणां कृष्ण पुनर्योगं च शंससि | यच्छ्रेय एतयोरेकं तन्मे ब्रूहि सुनिश्चितम् ||५-१||",
+      "transliteration": "arjuna uvāca . saṃnyāsaṃ karmaṇāṃ kṛṣṇa punaryogaṃ ca śaṃsasi . yacchreya etayorekaṃ tanme brūhi suniścitam ||5-1||",
+      "meaning": "।।5.1।। अर्जुन ने कहा हे -- कृष्ण ! आप कर्मों के संन्यास की और फिर योग (कर्म के आचरण) की प्रशंसा करते हैं। इन दोनों में एक जो निश्चय पूर्वक श्रेयस्कर है, उसको मेरे लिए कहिये।।",
+      "tags": [
+        "mind",
+        "karma"
+      ]
+    },
+    {
+      "id": "BG5.2",
+      "chapter": 5,
+      "verse": 2,
+      "speaker": "श्रीभगवान्",
+      "slok": "श्रीभगवानुवाच | संन्यासः कर्मयोगश्च निःश्रेयसकरावुभौ | तयोस्तु कर्मसंन्यासात्कर्मयोगो विशिष्यते ||५-२||",
+      "transliteration": "śrībhagavānuvāca . saṃnyāsaḥ karmayogaśca niḥśreyasakarāvubhau . tayostu karmasaṃnyāsātkarmayogo viśiṣyate ||5-2||",
+      "meaning": "।।5.2।। श्रीभगवान् ने कहा -- कर्मसंन्यास और कर्मयोग ये दोनों ही परम कल्याणकारक हैं; परन्तु उन दोनों में कर्मसंन्यास से कर्मयोग श्रेष्ठ है।।",
+      "tags": [
+        "mind",
+        "karma"
+      ]
+    },
+    {
+      "id": "BG5.3",
+      "chapter": 5,
+      "verse": 3,
+      "speaker": "श्रीभगवान्",
+      "slok": "ज्ञेयः स नित्यसंन्यासी यो न द्वेष्टि न काङ्क्षति | निर्द्वन्द्वो हि महाबाहो सुखं बन्धात्प्रमुच्यते ||५-३||",
+      "transliteration": "jñeyaḥ sa nityasaṃnyāsī yo na dveṣṭi na kāṅkṣati . nirdvandvo hi mahābāho sukhaṃ bandhātpramucyate ||5-3||",
+      "meaning": "।।5.3।। जो पुरुष न किसी से द्वेष करता है और न किसी की आकांक्षा, वह सदा संन्यासी ही समझने योग्य है; क्योंकि, हे महाबाहो ! द्वन्द्वों से रहित पुरुष सहज ही बन्धन मुक्त हो जाता है।।",
+      "tags": [
+        "mind",
+        "karma"
+      ]
+    },
+    {
+      "id": "BG5.4",
+      "chapter": 5,
+      "verse": 4,
+      "speaker": "श्रीभगवान्",
+      "slok": "साङ्ख्ययोगौ पृथग्बालाः प्रवदन्ति न पण्डिताः | एकमप्यास्थितः सम्यगुभयोर्विन्दते फलम् ||५-४||",
+      "transliteration": "sāṅkhyayogau pṛthagbālāḥ pravadanti na paṇḍitāḥ . ekamapyāsthitaḥ samyagubhayorvindate phalam ||5-4||",
+      "meaning": "।।5.4।। बालक अर्थात् बालबुद्धि के लोग सांख्य (संन्यास) और योग को परस्पर भिन्न समझते हैं; किसी एक में भी सम्यक् प्रकार से स्थित हुआ पुरुष दोनों के फल को प्राप्त कर लेता है।।",
+      "tags": [
+        "mind",
+        "karma"
+      ]
+    },
+    {
+      "id": "BG5.5",
+      "chapter": 5,
+      "verse": 5,
+      "speaker": "श्रीभगवान्",
+      "slok": "यत्साङ्ख्यैः प्राप्यते स्थानं तद्योगैरपि गम्यते | एकं साङ्ख्यं च योगं च यः पश्यति स पश्यति ||५-५||",
+      "transliteration": "yatsāṅkhyaiḥ prāpyate sthānaṃ tadyogairapi gamyate . ekaṃ sāṅkhyaṃ ca yogaṃ ca yaḥ paśyati sa paśyati ||5-5||",
+      "meaning": "।।5.5।। जो स्थान ज्ञानियों द्वारा प्राप्त किया जाता है, उसी स्थान पर कर्मयोगी भी पहुँचते हैं। इसलिए जो पुरुष सांख्य और योग को (फलरूप से) एक ही देखता है, वही (वास्तव में) देखता है।।",
+      "tags": [
+        "mind",
+        "karma"
+      ]
+    },
+    {
+      "id": "BG5.6",
+      "chapter": 5,
+      "verse": 6,
+      "speaker": "श्रीभगवान्",
+      "slok": "संन्यासस्तु महाबाहो दुःखमाप्तुमयोगतः | योगयुक्तो मुनिर्ब्रह्म नचिरेणाधिगच्छति ||५-६||",
+      "transliteration": "saṃnyāsastu mahābāho duḥkhamāptumayogataḥ . yogayukto munirbrahma nacireṇādhigacchati ||5-6||",
+      "meaning": "।।5.6।। परन्तु, हे महाबाहो ! योग के बिना संन्यास प्राप्त होना कठिन है; योगयुक्त मननशील पुरुष परमात्मा को शीघ्र ही प्राप्त होता है।।",
+      "tags": [
+        "mind",
+        "karma"
+      ]
+    },
+    {
+      "id": "BG5.7",
+      "chapter": 5,
+      "verse": 7,
+      "speaker": "श्रीभगवान्",
+      "slok": "योगयुक्तो विशुद्धात्मा विजितात्मा जितेन्द्रियः | सर्वभूतात्मभूतात्मा कुर्वन्नपि न लिप्यते ||५-७||",
+      "transliteration": "yogayukto viśuddhātmā vijitātmā jitendriyaḥ . sarvabhūtātmabhūtātmā kurvannapi na lipyate ||5-7||",
+      "meaning": "।।5.7।। जो पुरुष योगयुक्त, विशुद्ध अन्तकरण वाला, शरीर को वश में किये हुए, जितेन्द्रिय तथा भूतमात्र में स्थित आत्मा के साथ एकत्व अनुभव किये हुए है वह कर्म करते हुए भी उनसे लिप्त नहीं होता।।",
+      "tags": [
+        "mind",
+        "karma"
+      ]
+    },
+    {
+      "id": "BG5.8",
+      "chapter": 5,
+      "verse": 8,
+      "speaker": "श्रीभगवान्",
+      "slok": "नैव किञ्चित्करोमीति युक्तो मन्येत तत्त्ववित् | पश्यञ्शृण्वन्स्पृशञ्जिघ्रन्नश्नन्गच्छन्स्वपञ्श्वसन् ||५-८||",
+      "transliteration": "naiva kiñcitkaromīti yukto manyeta tattvavit . paśyañśruṇvanspṛśañjighrannaśnangacchansvapañśvasan ||5-8||",
+      "meaning": "।।5.8।। तत्त्ववित् युक्त पुरुष यह सोचेगा (अर्थात् जानता है) कि \"मैं किंचित् मात्र कर्म नहीं करता हूँ\" देखता हुआ, सुनता हुआ, स्पर्श करता हुआ, सूंघता हुआ, खाता हुआ, चलता हुआ, सोता हुआ, श्वास लेता हुआ,।।",
+      "tags": [
+        "mind",
+        "karma"
+      ]
+    },
+    {
+      "id": "BG5.9",
+      "chapter": 5,
+      "verse": 9,
+      "speaker": "श्रीभगवान्",
+      "slok": "प्रलपन्विसृजन्गृह्णन्नुन्मिषन्निमिषन्नपि | इन्द्रियाणीन्द्रियार्थेषु वर्तन्त इति धारयन् ||५-९||",
+      "transliteration": "pralapanvisṛjangṛhṇannunmiṣannimiṣannapi . indriyāṇīndriyārtheṣu vartanta iti dhārayan ||5-9||",
+      "meaning": "।।5.9।। बोलता हुआ, त्यागता हुआ, ग्रहण करता हुआ तथा आँखों को खोलता और बन्द करता हुआ (वह) निश्चयात्मक रूप से जानता है कि सब इन्द्रियाँ अपने-अपने विषयों में विचरण कर रही हैं।।",
+      "tags": [
+        "mind",
+        "karma"
+      ]
+    },
+    {
+      "id": "BG5.10",
+      "chapter": 5,
+      "verse": 10,
+      "speaker": "श्रीभगवान्",
+      "slok": "ब्रह्मण्याधाय कर्माणि सङ्गं त्यक्त्वा करोति यः | लिप्यते न स पापेन पद्मपत्रमिवाम्भसा ||५-१०||",
+      "transliteration": "brahmaṇyādhāya karmāṇi saṅgaṃ tyaktvā karoti yaḥ . lipyate na sa pāpena padmapatramivāmbhasā ||5-10||",
+      "meaning": "।।5.10।। जो पुरुष सब कर्म ब्रह्म में अर्पण करके और आसक्ति को त्यागकर करता है, वह पुरुष कमल के पत्ते के सदृश पाप से लिप्त नहीं होता।।",
+      "tags": [
+        "mind",
+        "karma"
+      ]
+    },
+    {
+      "id": "BG5.11",
+      "chapter": 5,
+      "verse": 11,
+      "speaker": "श्रीभगवान्",
+      "slok": "कायेन मनसा बुद्ध्या केवलैरिन्द्रियैरपि | योगिनः कर्म कुर्वन्ति सङ्गं त्यक्त्वात्मशुद्धये ||५-११||",
+      "transliteration": "kāyena manasā buddhyā kevalairindriyairapi . yoginaḥ karma kurvanti saṅgaṃ tyaktvātmaśuddhaye ||5-11||",
+      "meaning": "।।5.11।। योगीजन, शरीर, मन, बुद्धि और इन्द्रियों द्वारा आसक्ति को त्याग कर आत्मशुद्धि (चित्तशुद्धि) के लिए कर्म करते हैं।।",
+      "tags": [
+        "mind",
+        "karma"
+      ]
+    },
+    {
+      "id": "BG5.12",
+      "chapter": 5,
+      "verse": 12,
+      "speaker": "श्रीभगवान्",
+      "slok": "युक्तः कर्मफलं त्यक्त्वा शान्तिमाप्नोति नैष्ठिकीम् | अयुक्तः कामकारेण फले सक्तो निबध्यते ||५-१२||",
+      "transliteration": "yuktaḥ karmaphalaṃ tyaktvā śāntimāpnoti naiṣṭhikīm . ayuktaḥ kāmakāreṇa phale sakto nibadhyate ||5-12||",
+      "meaning": "।।5.12।। युक्त पुरुष कर्मफल का त्याग करके परम शान्ति को प्राप्त होता है; और अयुक्त पुरुष फल में आसक्त हुआ कामना के द्वारा बँधता है।।",
+      "tags": [
+        "mind",
+        "karma"
+      ]
+    },
+    {
+      "id": "BG5.13",
+      "chapter": 5,
+      "verse": 13,
+      "speaker": "श्रीभगवान्",
+      "slok": "सर्वकर्माणि मनसा संन्यस्यास्ते सुखं वशी | नवद्वारे पुरे देही नैव कुर्वन्न कारयन् ||५-१३||",
+      "transliteration": "sarvakarmāṇi manasā saṃnyasyāste sukhaṃ vaśī . navadvāre pure dehī naiva kurvanna kārayan ||5-13||",
+      "meaning": "।।5.13।। सब कर्मों का मन से संन्यास करके संयमी पुरुष नवद्वार वाली शरीर रूप नगरी में सुख से रहता हुआ न कर्म करता है और न करवाता है।।",
+      "tags": [
+        "mind",
+        "karma"
+      ]
+    },
+    {
+      "id": "BG5.14",
+      "chapter": 5,
+      "verse": 14,
+      "speaker": "श्रीभगवान्",
+      "slok": "न कर्तृत्वं न कर्माणि लोकस्य सृजति प्रभुः | न कर्मफलसंयोगं स्वभावस्तु प्रवर्तते ||५-१४||",
+      "transliteration": "na kartṛtvaṃ na karmāṇi lokasya sṛjati prabhuḥ . na karmaphalasaṃyogaṃ svabhāvastu pravartate ||5-14||",
+      "meaning": "।।5.14।। लोकमात्र के लिए प्रभु (ईश्वर) न कर्तृत्व, न कर्म और न कर्मफल के संयोग को रचता है। परन्तु प्रकृति (सब कुछ) करती है।।",
+      "tags": [
+        "mind",
+        "karma"
+      ]
+    },
+    {
+      "id": "BG5.15",
+      "chapter": 5,
+      "verse": 15,
+      "speaker": "श्रीभगवान्",
+      "slok": "नादत्ते कस्यचित्पापं न चैव सुकृतं विभुः | अज्ञानेनावृतं ज्ञानं तेन मुह्यन्ति जन्तवः ||५-१५||",
+      "transliteration": "nādatte kasyacitpāpaṃ na caiva sukṛtaṃ vibhuḥ . ajñānenāvṛtaṃ jñānaṃ tena muhyanti jantavaḥ ||5-15||",
+      "meaning": "।।5.15।। विभु परमात्मा न किसी के पापकर्म को और न पुण्यकर्म को ही ग्रहण करता है; (किन्तु) अज्ञान से ज्ञान ढका हुआ है, इससे सब जीव मोहित होते हैं।।",
+      "tags": [
+        "mind",
+        "karma"
+      ]
+    },
+    {
+      "id": "BG5.16",
+      "chapter": 5,
+      "verse": 16,
+      "speaker": "श्रीभगवान्",
+      "slok": "ज्ञानेन तु तदज्ञानं येषां नाशितमात्मनः | तेषामादित्यवज्ज्ञानं प्रकाशयति तत्परम् ||५-१६||",
+      "transliteration": "jñānena tu tadajñānaṃ yeṣāṃ nāśitamātmanaḥ . teṣāmādityavajjñānaṃ prakāśayati tatparam ||5-16||",
+      "meaning": "।।5.16।। परन्तु जिनका वह अज्ञान आत्मज्ञान से नष्ट हो जाता है, उनके लिए वह ज्ञान, सूर्य के सदृश, परमात्मा को प्रकाशित करता है।।",
+      "tags": [
+        "mind",
+        "karma"
+      ]
+    },
+    {
+      "id": "BG5.17",
+      "chapter": 5,
+      "verse": 17,
+      "speaker": "श्रीभगवान्",
+      "slok": "तद्बुद्धयस्तदात्मानस्तन्निष्ठास्तत्परायणाः | गच्छन्त्यपुनरावृत्तिं ज्ञाननिर्धूतकल्मषाः ||५-१७||",
+      "transliteration": "tadbuddhayastadātmānastanniṣṭhāstatparāyaṇāḥ . gacchantyapunarāvṛttiṃ jñānanirdhūtakalmaṣāḥ ||5-17||",
+      "meaning": "।।5.17।। जिनकी बुद्धि उस (परमात्मा) में स्थित है, जिनका मन तद्रूप हुआ है, उसमें ही जिनकी निष्ठा है, वह (ब्रह्म) ही जिनका परम लक्ष्य है, ज्ञान के द्वारा पापरहित पुरुष अपुनरावृत्ति को प्राप्त होते हैं, अर्थात् उनका पुनर्जन्म नहीं होता है।।",
+      "tags": [
+        "mind",
+        "karma"
+      ]
+    },
+    {
+      "id": "BG5.18",
+      "chapter": 5,
+      "verse": 18,
+      "speaker": "श्रीभगवान्",
+      "slok": "विद्याविनयसम्पन्ने ब्राह्मणे गवि हस्तिनि | शुनि चैव श्वपाके च पण्डिताः समदर्शिनः ||५-१८||",
+      "transliteration": "vidyāvinayasampanne brāhmaṇe gavi hastini . śuni caiva śvapāke ca paṇḍitāḥ samadarśinaḥ ||5-18||",
+      "meaning": "।।5.18।। (ऐसे वे) ज्ञानीजन विद्या और विनय से सम्पन्न ब्राह्मण, तथा गाय, हाथी, श्वान और चाण्डाल में भी सम तत्त्व को देखते हैं।।",
+      "tags": [
+        "mind",
+        "karma"
+      ]
+    },
+    {
+      "id": "BG5.19",
+      "chapter": 5,
+      "verse": 19,
+      "speaker": "श्रीभगवान्",
+      "slok": "इहैव तैर्जितः सर्गो येषां साम्ये स्थितं मनः | निर्दोषं हि समं ब्रह्म तस्माद् ब्रह्मणि ते स्थिताः ||५-१९||",
+      "transliteration": "ihaiva tairjitaḥ sargo yeṣāṃ sāmye sthitaṃ manaḥ . nirdoṣaṃ hi samaṃ brahma tasmād brahmaṇi te sthitāḥ ||5-19||",
+      "meaning": "।।5.19।। जिनका मन समत्वभाव में स्थित है, उनके द्वारा यहीं पर यह सर्ग जीत लिया जाता है; क्योंकि ब्रह्म निर्दोष और सम है इसलिये वे ब्रह्म में ही स्थित हैं।।",
+      "tags": [
+        "mind",
+        "karma"
+      ]
+    },
+    {
+      "id": "BG5.20",
+      "chapter": 5,
+      "verse": 20,
+      "speaker": "श्रीभगवान्",
+      "slok": "न प्रहृष्येत्प्रियं प्राप्य नोद्विजेत्प्राप्य चाप्रियम् | स्थिरबुद्धिरसम्मूढो ब्रह्मविद् ब्रह्मणि स्थितः ||५-२०||",
+      "transliteration": "na prahṛṣyetpriyaṃ prāpya nodvijetprāpya cāpriyam . sthirabuddhirasammūḍho brahmavid brahmaṇi sthitaḥ ||5-20||",
+      "meaning": "।।5.20।। जो स्थिरबुद्धि, संमोहरहित ब्रह्मवित् पुरुष ब्रह्म में स्थित है, वह प्रिय वस्तु को प्राप्त होकर हर्षित नहीं होता और अप्रिय को पाकर उद्विग्न नहीं होता।।",
+      "tags": [
+        "mind",
+        "karma"
+      ]
+    },
+    {
+      "id": "BG5.21",
+      "chapter": 5,
+      "verse": 21,
+      "speaker": "श्रीभगवान्",
+      "slok": "बाह्यस्पर्शेष्वसक्तात्मा विन्दत्यात्मनि यत्सुखम् | स ब्रह्मयोगयुक्तात्मा सुखमक्षयमश्नुते ||५-२१||",
+      "transliteration": "bāhyasparśeṣvasaktātmā vindatyātmani yatsukham . sa brahmayogayuktātmā sukhamakṣayamaśnute ||5-21||",
+      "meaning": "।।5.21।। बाह्य विषयों में आसक्तिरहित अन्त:करण वाला पुरुष आत्मा में ही सुख प्राप्त करता है; ब्रह्म के ध्यान में समाहित चित्त वाला पुरुष अक्षय सुख प्राप्त करता है।।",
+      "tags": [
+        "mind",
+        "karma"
+      ]
+    },
+    {
+      "id": "BG5.22",
+      "chapter": 5,
+      "verse": 22,
+      "speaker": "श्रीभगवान्",
+      "slok": "ये हि संस्पर्शजा भोगा दुःखयोनय एव ते | आद्यन्तवन्तः कौन्तेय न तेषु रमते बुधः ||५-२२||",
+      "transliteration": "ye hi saṃsparśajā bhogā duḥkhayonaya eva te . ādyantavantaḥ kaunteya na teṣu ramate budhaḥ ||5-22||",
+      "meaning": "।।5.22।। हे कौन्तेय (इन्द्रिय तथा विषयों के) संयोग से उत्पन्न होने वाले जो भोग हैं वे दु:ख के ही हेतु हैं, क्योंकि वे आदि-अन्त वाले हैं। बुद्धिमान् पुरुष उनमें नहीं रमता।।",
+      "tags": [
+        "mind",
+        "karma"
+      ]
+    },
+    {
+      "id": "BG5.23",
+      "chapter": 5,
+      "verse": 23,
+      "speaker": "श्रीभगवान्",
+      "slok": "शक्नोतीहैव यः सोढुं प्राक्शरीरविमोक्षणात् | कामक्रोधोद्भवं वेगं स युक्तः स सुखी नरः ||५-२३||",
+      "transliteration": "śaknotīhaiva yaḥ soḍhuṃ prākśarīravimokṣaṇāt . kāmakrodhodbhavaṃ vegaṃ sa yuktaḥ sa sukhī naraḥ ||5-23||",
+      "meaning": "।।5.23।। जो मनुष्य इसी लोक में शरीर त्यागने के पूर्व ही काम और क्रोध से उत्पन्न हुए वेग को सहन करने में समर्थ है, वह योगी (युक्त) और सुखी मनुष्य है।।",
+      "tags": [
+        "mind",
+        "karma"
+      ]
+    },
+    {
+      "id": "BG5.24",
+      "chapter": 5,
+      "verse": 24,
+      "speaker": "श्रीभगवान्",
+      "slok": "योऽन्तःसुखोऽन्तरारामस्तथान्तर्ज्योतिरेव यः | स योगी ब्रह्मनिर्वाणं ब्रह्मभूतोऽधिगच्छति ||५-२४||",
+      "transliteration": "yo.antaḥsukho.antarārāmastathāntarjyotireva yaḥ . sa yogī brahmanirvāṇaṃ brahmabhūto.adhigacchati ||5-24||",
+      "meaning": "।।5.24।। जो पुरुष अन्तरात्मा में ही सुख वाला, आत्मा में ही आराम वाला तथा आत्मा में ही ज्ञान वाला है, वह योगी ब्रह्मरूप बनकर ब्रह्मनिर्वाण अर्थात् परम मोक्ष को प्राप्त होता है।।",
+      "tags": [
+        "mind",
+        "karma"
+      ]
+    },
+    {
+      "id": "BG5.25",
+      "chapter": 5,
+      "verse": 25,
+      "speaker": "श्रीभगवान्",
+      "slok": "लभन्ते ब्रह्मनिर्वाणमृषयः क्षीणकल्मषाः | छिन्नद्वैधा यतात्मानः सर्वभूतहिते रताः ||५-२५||",
+      "transliteration": "labhante brahmanirvāṇamṛṣayaḥ kṣīṇakalmaṣāḥ . chinnadvaidhā yatātmānaḥ sarvabhūtahite ratāḥ ||5-25||",
+      "meaning": "।।5.25।। वे ऋषिगण मोक्ष को प्राप्त होते हैं - जिनके पाप नष्ट हो गये हैं, जो छिन्नसंशय, संयमी और भूतमात्र के हित में रमने वाले हैं।।",
+      "tags": [
+        "mind",
+        "karma"
+      ]
+    },
+    {
+      "id": "BG5.26",
+      "chapter": 5,
+      "verse": 26,
+      "speaker": "श्रीभगवान्",
+      "slok": "कामक्रोधवियुक्तानां यतीनां यतचेतसाम् | अभितो ब्रह्मनिर्वाणं वर्तते विदितात्मनाम् ||५-२६||",
+      "transliteration": "kāmakrodhaviyuktānāṃ yatīnāṃ yatacetasām . abhito brahmanirvāṇaṃ vartate viditātmanām ||5-26||",
+      "meaning": "।।5.26।। काम और क्रोध से रहित, संयतचित्त वाले तथा आत्मा को जानने वाले यतियों के लिए सब ओर मोक्ष (या ब्रह्मानन्द) विद्यमान रहता है।।",
+      "tags": [
+        "mind",
+        "karma"
+      ]
+    },
+    {
+      "id": "BG5.27",
+      "chapter": 5,
+      "verse": 27,
+      "speaker": "श्रीभगवान्",
+      "slok": "स्पर्शान्कृत्वा बहिर्बाह्यांश्चक्षुश्चैवान्तरे भ्रुवोः | प्राणापानौ समौ कृत्वा नासाभ्यन्तरचारिणौ ||५-२७||",
+      "transliteration": "sparśānkṛtvā bahirbāhyāṃścakṣuścaivāntare bhruvoḥ . prāṇāpānau samau kṛtvā nāsābhyantaracāriṇau ||5-27||",
+      "meaning": "।।5.27।। बाह्य विषयों को बाहर ही रखकर नेत्रों की दृष्टि को भृकुटि के बीच में स्थित करके तथा नासिका में विचरने वाले प्राण और अपानवायु को सम करके,।।",
+      "tags": [
+        "mind",
+        "karma"
+      ]
+    },
+    {
+      "id": "BG5.28",
+      "chapter": 5,
+      "verse": 28,
+      "speaker": "श्रीभगवान्",
+      "slok": "यतेन्द्रियमनोबुद्धिर्मुनिर्मोक्षपरायणः | विगतेच्छाभयक्रोधो यः सदा मुक्त एव सः ||५-२८||",
+      "transliteration": "yatendriyamanobuddhirmunirmokṣaparāyaṇaḥ . vigatecchābhayakrodho yaḥ sadā mukta eva saḥ ||5-28||",
+      "meaning": "।।5.28।। जिस पुरुष की इन्द्रियाँ, मन और बुद्धि संयत हैं, ऐसा मोक्ष परायण मुनि इच्छा, भय और क्रोध से रहित है, वह सदा मुक्त ही है।।",
+      "tags": [
+        "mind",
+        "karma"
+      ]
+    },
+    {
+      "id": "BG5.29",
+      "chapter": 5,
+      "verse": 29,
+      "speaker": "श्रीभगवान्",
+      "slok": "भोक्तारं यज्ञतपसां सर्वलोकमहेश्वरम् | सुहृदं सर्वभूतानां ज्ञात्वा मां शान्तिमृच्छति ||५-२९||",
+      "transliteration": "bhoktāraṃ yajñatapasāṃ sarvalokamaheśvaram . suhṛdaṃ sarvabhūtānāṃ jñātvā māṃ śāntimṛcchati ||5-29||",
+      "meaning": "।।5.29।। (साधक भक्त) मुझे यज्ञ और तपों का भोक्ता और सम्पूर्ण लोकों का महान् ईश्वर तथा भूतमात्र का सुहृद् (मित्र) जानकर शान्ति को प्राप्त होता है।।",
+      "tags": [
+        "mind",
+        "karma"
+      ]
+    },
+    {
+      "id": "BG5.30",
+      "chapter": 5,
+      "verse": 30,
+      "speaker": "श्रीभगवान्",
+      "slok": "ॐ तत्सदिति श्रीमद्भगवद्गीतासूपनिषत्सु ब्रह्मविद्यायां योगशास्त्रे श्रीकृष्णार्जुनसंवादे संन्यासयोगो नाम पञ्चमोऽध्यायः ||५||",
+      "transliteration": "OM tatsaditi śrīmadbhagavadgītāsūpaniṣatsu brahmavidyāyāṃ yogaśāstre śrīkṛṣṇārjunasaṃvāde saṃnyāsayogo nāma pañcamo.adhyāyaḥ ||5-30||",
+      "meaning": "Swami Tejomayananda did not comment on this sloka",
+      "tags": [
+        "mind",
+        "karma"
+      ]
+    }
+  ]
+}

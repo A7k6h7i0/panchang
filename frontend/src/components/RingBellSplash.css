@@ -1,0 +1,190 @@
+.ring-bell-splash {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: grid;
+  place-items: center;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  color: #f7f1e2;
+  animation: ringBellFadeIn 700ms ease-out both;
+}
+
+.ring-bell-splash--exit {
+  animation: ringBellFadeOut 900ms ease-in forwards;
+}
+
+.ring-bell-splash__content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(18px, 3.5vw, 28px);
+  text-align: center;
+  width: min(100%, 680px);
+  padding: clamp(24px, 6vw, 48px);
+  margin: 0 auto;
+}
+
+.ring-bell-splash__headline {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.1em;
+  max-width: none;
+  font-size: clamp(1.4rem, 4vw, 3.2rem);
+  line-height: 1.06;
+  font-weight: 900;
+  letter-spacing: 0.01em;
+  color: #fff7ea;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.ring-bell-splash__headline-line {
+  display: block;
+  white-space: nowrap;
+}
+
+.ring-bell-splash__headline-line--accent {
+  color: #fff1c9;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.55), 0 0 18px rgba(255, 196, 92, 0.2);
+}
+
+.ring-bell-splash__logo {
+  display: block;
+  width: min(70vw, 420px);
+  max-width: 420px;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 10px 24px rgba(0, 0, 0, 0.45));
+}
+
+.ring-bell-splash__cta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  width: min(100%, 420px);
+  justify-content: center;
+  transform: translateY(-56px);
+}
+
+.ring-bell-splash__cta .tap-container {
+  width: 48px;
+  height: 48px;
+  align-self: flex-end;
+}
+
+.ring-bell-splash__cta .hand {
+  width: 48px;
+  height: 48px;
+}
+
+.ring-bell-splash__button {
+  margin-top: 0;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.42);
+  background: rgba(255, 255, 255, 0.06);
+  color: #f7f1e2;
+  font-size: clamp(0.78rem, 1.8vw, 0.88rem);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform 200ms ease, box-shadow 200ms ease, background-color 200ms ease;
+  font-weight: 900;
+  line-height: 1.1;
+  flex: 1 1 auto;
+  min-width: 0;
+  width: min(100%, 420px);
+  max-width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  flex-wrap: nowrap;
+  white-space: normal;
+  box-sizing: border-box;
+  transform: translateY(0);
+}
+
+.ring-bell-splash__button:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.ring-bell-splash__button:focus-visible {
+  outline: 2px solid rgba(241, 201, 122, 0.9);
+  outline-offset: 3px;
+}
+
+@media (max-width: 640px) {
+  .ring-bell-splash__content {
+    gap: 16px;
+    padding: 20px;
+  }
+
+  .ring-bell-splash__headline {
+    max-width: none;
+    font-size: clamp(1.05rem, 4.8vw, 1.9rem);
+  }
+
+  .ring-bell-splash__logo {
+    width: min(82vw, 320px);
+  }
+
+  .ring-bell-splash__button {
+    width: min(100%, 320px);
+    padding: 7px 10px;
+    transform: translateY(0);
+  }
+
+  .ring-bell-splash__cta {
+    transform: translateY(-32px);
+    gap: 4px;
+    width: min(100%, 320px);
+    align-items: flex-end;
+  }
+
+  .ring-bell-splash__cta .tap-container {
+    width: 44px;
+    height: 44px;
+    align-self: flex-end;
+  }
+
+  .ring-bell-splash__cta .hand {
+    width: 44px;
+    height: 44px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ring-bell-splash,
+  .ring-bell-splash--exit {
+    animation: none;
+  }
+
+  .ring-bell-splash__button {
+    transition: none;
+  }
+}
+
+@keyframes ringBellFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes ringBellFadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}

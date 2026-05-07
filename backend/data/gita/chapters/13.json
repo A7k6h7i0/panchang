@@ -1,0 +1,457 @@
+{
+  "chapter": 13,
+  "meta": {
+    "chapter_number": 13,
+    "verses_count": 35,
+    "name": "क्षेत्र-क्षेत्रज्ञविभागयोग",
+    "translation": "Ksetra Ksetrajna Vibhaaga Yoga",
+    "transliteration": "Kṣhetra Kṣhetrajña Vibhāg Yog",
+    "meaning": {
+      "en": "Yoga through Distinguishing the Field and the Knower of the Field",
+      "hi": "प्रकृति, पुरुष तथा चेतना"
+    },
+    "summary": {
+      "en": "The thirteenth chapter of the Bhagavad Gita is Ksetra Ksetrajna Vibhaaga Yoga. The word kshetra means the field, and the kshetrajna means the knower of the field. We can think of our material body as the field and our immortal soul as the knower of the field. In this chapter, Krishna discriminates between the physical body and the immortal soul. He explains that the physical body is temporary and perishable whereas the soul is permanent and eternal. The physical body can be destroyed but the soul can never be destroyed. The chapter then describes God, who is the Supreme Soul. All the individual souls have originated from the Supreme Soul. One who clearly understands the difference between the body, the Soul and the Supreme Soul attains the realization of Brahman.",
+      "hi": "भगवद गीता का तेरवाह अध्याय क्षेत्र-क्षेत्रज्ञविभागयोग है। क्षेत्र शब्द का मतलब भूमि और क्षेत्ररक्षण का मतलब क्षेत्र का जानकार है। हमारा भौतिक शरीर क्षेत्र के सामान है और हमारी अमर आत्मा क्षेत्र के जानकार के सामान है। इस अध्याय में, कृष्ण भौतिक शरीर और अमर आत्मा के बीच भेद करते हैं। वह बताते हैं कि भौतिक शरीर अस्थायी और विनाशकारी है जबकि आत्मा स्थायी और शाश्वत है। भौतिक शरीर नष्ट हो सकता है लेकिन आत्मा कभी भी नष्ट नहीं हो सकती। यह अध्याय फिर भगवान का वर्णन करता है, जो की सर्वोच्च आत्मा हैं। सभी व्यक्तिगत आत्माएं सर्वोच्च आत्मा से उत्पन्न हुई हैं। जो स्पष्ट रूप से शरीर, आत्मा और सर्वोच्च आत्मा के बीच अंतर को समझ लेता है वह परमात्मा को प्राप्त कर लेता है।"
+    },
+    "themes": [
+      "mind",
+      "karma"
+    ]
+  },
+  "verses": [
+    {
+      "id": "BG13.1",
+      "chapter": 13,
+      "verse": 1,
+      "speaker": "अर्जुन",
+      "slok": "अर्जुन उवाच | प्रकृतिं पुरुषं चैव क्षेत्रं क्षेत्रज्ञमेव च | एतद्वेदितुमिच्छामि ज्ञानं ज्ञेयं च केशव ||१३-१||",
+      "transliteration": "arjuna uvāca . prakṛtiṃ puruṣaṃ caiva kṣetraṃ kṣetrajñameva ca . etadveditumicchāmi jñānaṃ jñeyaṃ ca keśava ||13-1||",
+      "meaning": "।।13.1।। अर्जुन ने कहा -- हे केशव ! मैं, प्रकृति और पुरुष, क्षेत्र और क्षेत्रज्ञ तथा ज्ञान और ज्ञेय को जानना चाहता हूँ।।",
+      "tags": [
+        "mind"
+      ]
+    },
+    {
+      "id": "BG13.2",
+      "chapter": 13,
+      "verse": 2,
+      "speaker": "श्रीभगवान्",
+      "slok": "श्रीभगवानुवाच | इदं शरीरं कौन्तेय क्षेत्रमित्यभिधीयते | एतद्यो वेत्ति तं प्राहुः क्षेत्रज्ञ इति तद्विदः ||१३-२||",
+      "transliteration": "śrībhagavānuvāca . idaṃ śarīraṃ kaunteya kṣetramityabhidhīyate . etadyo vetti taṃ prāhuḥ kṣetrajña iti tadvidaḥ ||13-2||",
+      "meaning": "।।13.2।। श्रीभगवान् ने कहा -- हे कौन्तेय ! यह शरीर क्षेत्र कहा जाता है और इसको जो जानता है, उसे तत्त्वज्ञ जन, क्षेत्रज्ञ कहते हैं।।",
+      "tags": [
+        "mind"
+      ]
+    },
+    {
+      "id": "BG13.3",
+      "chapter": 13,
+      "verse": 3,
+      "speaker": "श्रीभगवान्",
+      "slok": "क्षेत्रज्ञं चापि मां विद्धि सर्वक्षेत्रेषु भारत | क्षेत्रक्षेत्रज्ञयोर्ज्ञानं यत्तज्ज्ञानं मतं मम ||१३-३||",
+      "transliteration": "kṣetrajñaṃ cāpi māṃ viddhi sarvakṣetreṣu bhārata . kṣetrakṣetrajñayorjñānaṃ yattajjñānaṃ mataṃ mama ||13-3||",
+      "meaning": "।।13.3।। हे भारत ! तुम समस्त क्षेत्रों में क्षेत्रज्ञ मुझे ही जानो। क्षेत्र और क्षेत्रज्ञ का जो ज्ञान है, वही (वास्तव में) ज्ञान है , ऐसा मेरा मत है।।",
+      "tags": [
+        "mind"
+      ]
+    },
+    {
+      "id": "BG13.4",
+      "chapter": 13,
+      "verse": 4,
+      "speaker": "श्रीभगवान्",
+      "slok": "तत्क्षेत्रं यच्च यादृक्च यद्विकारि यतश्च यत् | स च यो यत्प्रभावश्च तत्समासेन मे शृणु ||१३-४||",
+      "transliteration": "tatkṣetraṃ yacca yādṛkca yadvikāri yataśca yat . sa ca yo yatprabhāvaśca tatsamāsena me śṛṇu ||13-4||",
+      "meaning": "।।13.4।। इसलिये, वह क्षेत्र जो है और जैसा है तथा जिन विकारों वाला है, और जिस (कारण) से जो (कार्य) हुआ है तथा वह (क्षेत्रज्ञ) भी जो है और जिस प्रभाव वाला है, वह संक्षेप में मुझसे सुनो।।",
+      "tags": [
+        "mind"
+      ]
+    },
+    {
+      "id": "BG13.5",
+      "chapter": 13,
+      "verse": 5,
+      "speaker": "श्रीभगवान्",
+      "slok": "ऋषिभिर्बहुधा गीतं छन्दोभिर्विविधैः पृथक् | ब्रह्मसूत्रपदैश्चैव हेतुमद्भिर्विनिश्चितैः ||१३-५||",
+      "transliteration": "ṛṣibhirbahudhā gītaṃ chandobhirvividhaiḥ pṛthak . brahmasūtrapadaiścaiva hetumadbhirviniścitaiḥ ||13-5||",
+      "meaning": "।।13.5।। (क्षेत्र-क्षेत्रज्ञ के विषय में) ऋषियों द्वारा विभिन्न और विविध छन्दों में बहुत प्रकार से गाया गया है, तथा सम्यक् प्रकार से निश्चित किये हुये युक्तियुक्त ब्रह्मसूत्र के पदों द्वारा (अर्थात् ब्रह्म के सूचक शब्दों द्वारा) भी (वैसे ही कहा गया है)।।",
+      "tags": [
+        "mind"
+      ]
+    },
+    {
+      "id": "BG13.6",
+      "chapter": 13,
+      "verse": 6,
+      "speaker": "श्रीभगवान्",
+      "slok": "महाभूतान्यहंकारो बुद्धिरव्यक्तमेव च | इन्द्रियाणि दशैकं च पञ्च चेन्द्रियगोचराः ||१३-६||",
+      "transliteration": "mahābhūtānyahaṃkāro buddhiravyaktameva ca . indriyāṇi daśaikaṃ ca pañca cendriyagocarāḥ ||13-6||",
+      "meaning": "।।13.6।। पंच महाभूत, अहंकार, बुद्धि, अव्यक्त (प्रकृति), दस इन्द्रियाँ, एक मन, इन्द्रियों के पाँच विषय।।",
+      "tags": [
+        "mind"
+      ]
+    },
+    {
+      "id": "BG13.7",
+      "chapter": 13,
+      "verse": 7,
+      "speaker": "श्रीभगवान्",
+      "slok": "इच्छा द्वेषः सुखं दुःखं संघातश्चेतना धृतिः | एतत्क्षेत्रं समासेन सविकारमुदाहृतम् ||१३-७||",
+      "transliteration": "icchā dveṣaḥ sukhaṃ duḥkhaṃ saṃghātaścetanā dhṛtiḥ . etatkṣetraṃ samāsena savikāramudāhṛtam ||13-7||",
+      "meaning": "।।13.7।। इच्छा, द्वेष, सुख, दुख, संघात (स्थूलदेह), चेतना (अन्त:करण की चेतन वृत्ति) तथा धृति - इस प्रकार यह क्षेत्र विकारों के सहित संक्षेप में कहा गया है।।",
+      "tags": [
+        "mind"
+      ]
+    },
+    {
+      "id": "BG13.8",
+      "chapter": 13,
+      "verse": 8,
+      "speaker": "श्रीभगवान्",
+      "slok": "अमानित्वमदम्भित्वमहिंसा क्षान्तिरार्जवम् | आचार्योपासनं शौचं स्थैर्यमात्मविनिग्रहः ||१३-८||",
+      "transliteration": "amānitvamadambhitvamahiṃsā kṣāntirārjavam . ācāryopāsanaṃ śaucaṃ sthairyamātmavinigrahaḥ ||13-8||",
+      "meaning": "।।13.8।। अमानित्व, अदम्भित्व, अहिंसा, क्षमा, आर्जव, आचार्य की सेवा, शुद्धि, स्थिरता और आत्मसंयम।।",
+      "tags": [
+        "mind"
+      ]
+    },
+    {
+      "id": "BG13.9",
+      "chapter": 13,
+      "verse": 9,
+      "speaker": "श्रीभगवान्",
+      "slok": "इन्द्रियार्थेषु वैराग्यमनहंकार एव च | जन्ममृत्युजराव्याधिदुःखदोषानुदर्शनम् ||१३-९||",
+      "transliteration": "indriyārtheṣu vairāgyamanahaṃkāra eva ca . janmamṛtyujarāvyādhiduḥkhadoṣānudarśanam ||13-9||",
+      "meaning": "।।13.9।। इन्द्रियों के विषय के प्रति वैराग्य, अहंकार का अभाव, जन्म, मृत्यु, वृद्धवस्था, व्याधि और दुख में दोष दर्शन...৷৷.।।",
+      "tags": [
+        "mind"
+      ]
+    },
+    {
+      "id": "BG13.10",
+      "chapter": 13,
+      "verse": 10,
+      "speaker": "श्रीभगवान्",
+      "slok": "असक्तिरनभिष्वङ्गः पुत्रदारगृहादिषु | नित्यं च समचित्तत्वमिष्टानिष्टोपपत्तिषु ||१३-१०||",
+      "transliteration": "asaktiranabhiṣvaṅgaḥ putradāragṛhādiṣu . nityaṃ ca samacittatvamiṣṭāniṣṭopapattiṣu ||13-10||",
+      "meaning": "।।13.10।। आसक्ति तथा पुत्र, पत्नी, गृह आदि में अनभिष्वङ्ग (तादात्म्य का अभाव); और इष्ट और अनिष्ट की प्राप्ति में समचित्तता।।",
+      "tags": [
+        "mind"
+      ]
+    },
+    {
+      "id": "BG13.11",
+      "chapter": 13,
+      "verse": 11,
+      "speaker": "श्रीभगवान्",
+      "slok": "मयि चानन्ययोगेन भक्तिरव्यभिचारिणी | विविक्तदेशसेवित्वमरतिर्जनसंसदि ||१३-११||",
+      "transliteration": "mayi cānanyayogena bhaktiravyabhicāriṇī . viviktadeśasevitvamaratirjanasaṃsadi ||13-11||",
+      "meaning": "।।13.11।। अनन्ययोग के द्वारा मुझमें अव्यभिचारिणी भक्ति; एकान्त स्थान में रहने का स्वभाव और (असंस्कृत) जनों के समुदाय में अरुचि।।",
+      "tags": [
+        "mind"
+      ]
+    },
+    {
+      "id": "BG13.12",
+      "chapter": 13,
+      "verse": 12,
+      "speaker": "श्रीभगवान्",
+      "slok": "अध्यात्मज्ञाननित्यत्वं तत्त्वज्ञानार्थदर्शनम् | एतज्ज्ञानमिति प्रोक्तमज्ञानं यदतोऽन्यथा ||१३-१२||",
+      "transliteration": "adhyātmajñānanityatvaṃ tattvajñānārthadarśanam . etajjñānamiti proktamajñānaṃ yadato.anyathā ||13-12||",
+      "meaning": "।।13.12।। अध्यात्मज्ञान में नित्यत्व अर्थात् स्थिरता तथा तत्त्वज्ञान के अर्थ रूप परमात्मा का दर्शन, यह सब तो ज्ञान कहा गया है, और जो इससे विपरीत है, वह अज्ञान है।।",
+      "tags": [
+        "mind"
+      ]
+    },
+    {
+      "id": "BG13.13",
+      "chapter": 13,
+      "verse": 13,
+      "speaker": "श्रीभगवान्",
+      "slok": "ज्ञेयं यत्तत्प्रवक्ष्यामि यज्ज्ञात्वामृतमश्नुते | अनादिमत्परं ब्रह्म न सत्तन्नासदुच्यते ||१३-१३||",
+      "transliteration": "jñeyaṃ yattatpravakṣyāmi yajjñātvāmṛtamaśnute . anādi matparaṃ brahma na sattannāsaducyate ||13-13||",
+      "meaning": "।।13.13।। मैं उस ज्ञेय वस्तु को स्पष्ट कहूंगा जिसे जानकर मनुष्य अमृतत्व को प्राप्त करता है। वह ज्ञेय है - अनादि, परम ब्रह्म, जो न सत् और न असत् ही कहा जा सकता है।।",
+      "tags": [
+        "mind"
+      ]
+    },
+    {
+      "id": "BG13.14",
+      "chapter": 13,
+      "verse": 14,
+      "speaker": "श्रीभगवान्",
+      "slok": "सर्वतः पाणिपादं तत्सर्वतोऽक्षिशिरोमुखम् | सर्वतः श्रुतिमल्लोके सर्वमावृत्य तिष्ठति ||१३-१४||",
+      "transliteration": "sarvataḥ pāṇipādaṃ tatsarvato.akṣiśiromukham . sarvataḥ śrutimalloke sarvamāvṛtya tiṣṭhati ||13-14||",
+      "meaning": "।।13.14।। वह सब ओर हाथ-पैर वाला है और सब ओर से नेत्र, शिर और मुखवाला तथा सब ओर से श्रोत्रवाला है; वह जगत् में सबको व्याप्त करके स्थित है।।",
+      "tags": [
+        "mind"
+      ]
+    },
+    {
+      "id": "BG13.15",
+      "chapter": 13,
+      "verse": 15,
+      "speaker": "श्रीभगवान्",
+      "slok": "सर्वेन्द्रियगुणाभासं सर्वेन्द्रियविवर्जितम् | असक्तं सर्वभृच्चैव निर्गुणं गुणभोक्तृ च ||१३-१५||",
+      "transliteration": "sarvendriyaguṇābhāsaṃ sarvendriyavivarjitam . asaktaṃ sarvabhṛccaiva nirguṇaṃ guṇabhoktṛ ca ||13-15||",
+      "meaning": "।।13.15।। वह समस्त इन्द्रियों के गुणो (कार्यों) के द्वारा प्रकाशित होने वाला, परन्तु (वस्तुत:) समस्त इन्द्रियों से रहित है; आसक्ति रहित तथा गुण रहित होते हुए भी सबको धारणपोषण करने वाला और गुणों का भोक्ता है।।",
+      "tags": [
+        "mind"
+      ]
+    },
+    {
+      "id": "BG13.16",
+      "chapter": 13,
+      "verse": 16,
+      "speaker": "श्रीभगवान्",
+      "slok": "बहिरन्तश्च भूतानामचरं चरमेव च | सूक्ष्मत्वात्तदविज्ञेयं दूरस्थं चान्तिके च तत् ||१३-१६||",
+      "transliteration": "bahirantaśca bhūtānāmacaraṃ carameva ca . sūkṣmatvāttadavijñeyaṃ dūrasthaṃ cāntike ca tat ||13-16||",
+      "meaning": "।।13.16।। (वह ब्रह्म) भूत मात्र के अन्तर्बाह्य स्थित है; वह चर है और अचर भी। सूक्ष्म होने से वह अविज्ञेय है; वह सुदूर और अत्यन्त समीपस्थ भी है।।",
+      "tags": [
+        "mind"
+      ]
+    },
+    {
+      "id": "BG13.17",
+      "chapter": 13,
+      "verse": 17,
+      "speaker": "श्रीभगवान्",
+      "slok": "अविभक्तं च भूतेषु विभक्तमिव च स्थितम् | भूतभर्तृ च तज्ज्ञेयं ग्रसिष्णु प्रभविष्णु च ||१३-१७||",
+      "transliteration": "avibhaktaṃ ca bhūteṣu vibhaktamiva ca sthitam . bhūtabhartṛ ca tajjñeyaṃ grasiṣṇu prabhaviṣṇu ca ||13-17||",
+      "meaning": "।।13.17।। और वह अविभक्त है, तथापि वह भूतों में विभक्त के समान स्थित है। वह ज्ञेय ब्रह्म भूतमात्र का भर्ता, संहारकर्ता और उत्पत्ति कर्ता है।।",
+      "tags": [
+        "mind"
+      ]
+    },
+    {
+      "id": "BG13.18",
+      "chapter": 13,
+      "verse": 18,
+      "speaker": "श्रीभगवान्",
+      "slok": "ज्योतिषामपि तज्ज्योतिस्तमसः परमुच्यते | ज्ञानं ज्ञेयं ज्ञानगम्यं हृदि सर्वस्य विष्ठितम् ||१३-१८||",
+      "transliteration": "jyotiṣāmapi tajjyotistamasaḥ paramucyate . jñānaṃ jñeyaṃ jñānagamyaṃ hṛdi sarvasya viṣṭhitam ||13-18||",
+      "meaning": "।।13.18।। (वह ब्रह्म) ज्योतियों की भी ज्योति और (अज्ञान) अन्धकार से परे कहा जाता है। वह ज्ञान (चैतन्यस्वरूप) ज्ञेय और ज्ञान के द्वारा जानने योग्य (ज्ञानगम्य) है। वह सभी के हृदय में स्थित है।।",
+      "tags": [
+        "mind"
+      ]
+    },
+    {
+      "id": "BG13.19",
+      "chapter": 13,
+      "verse": 19,
+      "speaker": "श्रीभगवान्",
+      "slok": "इति क्षेत्रं तथा ज्ञानं ज्ञेयं चोक्तं समासतः | मद्भक्त एतद्विज्ञाय मद्भावायोपपद्यते ||१३-१९||",
+      "transliteration": "iti kṣetraṃ tathā jñānaṃ jñeyaṃ coktaṃ samāsataḥ . madbhakta etadvijñāya madbhāvāyopapadyate ||13-19||",
+      "meaning": "।।13.19।। इस प्रकार, (मेरे द्वारा) क्षेत्र, ज्ञान और ज्ञेय को संक्षेपत: कहा गया। इसे तत्त्व से जानकर (विज्ञाय) मेरा भक्त मेरे स्वरूप को प्राप्त होता है।।",
+      "tags": [
+        "mind"
+      ]
+    },
+    {
+      "id": "BG13.20",
+      "chapter": 13,
+      "verse": 20,
+      "speaker": "श्रीभगवान्",
+      "slok": "प्रकृतिं पुरुषं चैव विद्ध्यनादी उभावपि | विकारांश्च गुणांश्चैव विद्धि प्रकृतिसम्भवान् ||१३-२०||",
+      "transliteration": "prakṛtiṃ puruṣaṃ caiva viddhyanādi ubhāvapi . vikārāṃśca guṇāṃścaiva viddhi prakṛtisambhavān ||13-20||",
+      "meaning": "।।13.20।। प्रकृति और पुरुष इन दोनों को ही तुम अनादि जानो। और तुम यह भी जानो कि सभी विकार और गुण प्रकृति से ही उत्पन्न हुए हैं।।",
+      "tags": [
+        "mind"
+      ]
+    },
+    {
+      "id": "BG13.21",
+      "chapter": 13,
+      "verse": 21,
+      "speaker": "श्रीभगवान्",
+      "slok": "कार्यकारणकर्तृत्वे हेतुः प्रकृतिरुच्यते | पुरुषः सुखदुःखानां भोक्तृत्वे हेतुरुच्यते ||१३-२१||",
+      "transliteration": "kāryakāraṇakartṛtve hetuḥ prakṛtirucyate . puruṣaḥ sukhaduḥkhānāṃ bhoktṛtve heturucyate ||13-21||",
+      "meaning": "।।13.21।। कार्य और कारण के उत्पन्न करने में हेतु प्रकृति कही जाती है और पुरुष सुख-दु:ख के भोक्तृत्व में हेतु कहा जाता है।।",
+      "tags": [
+        "mind"
+      ]
+    },
+    {
+      "id": "BG13.22",
+      "chapter": 13,
+      "verse": 22,
+      "speaker": "श्रीभगवान्",
+      "slok": "पुरुषः प्रकृतिस्थो हि भुङ्क्ते प्रकृतिजान्गुणान् | कारणं गुणसङ्गोऽस्य सदसद्योनिजन्मसु ||१३-२२||",
+      "transliteration": "puruṣaḥ prakṛtistho hi bhuṅkte prakṛtijānguṇān . kāraṇaṃ guṇasaṅgo.asya sadasadyonijanmasu ||13-22||",
+      "meaning": "।।13.22।। प्रकृति में स्थित पुरुष प्रकृति से उत्पन्न गुणों को भोगता है। इन गुणों का संग ही इस पुरुष (जीव) के शुभ और अशुभ योनियों में जन्म लेने का कारण है।।",
+      "tags": [
+        "mind"
+      ]
+    },
+    {
+      "id": "BG13.23",
+      "chapter": 13,
+      "verse": 23,
+      "speaker": "श्रीभगवान्",
+      "slok": "उपद्रष्टानुमन्ता च भर्ता भोक्ता महेश्वरः | परमात्मेति चाप्युक्तो देहेऽस्मिन्पुरुषः परः ||१३-२३||",
+      "transliteration": "upadraṣṭānumantā ca bhartā bhoktā maheśvaraḥ . paramātmeti cāpyukto dehe.asminpuruṣaḥ paraḥ ||13-23||",
+      "meaning": "।।13.23।। परम पुरुष ही इस देह में उपद्रष्टा, अनुमन्ता ,भर्ता, भोक्ता, महेश्वर और परमात्मा कहा जाता है।।",
+      "tags": [
+        "mind"
+      ]
+    },
+    {
+      "id": "BG13.24",
+      "chapter": 13,
+      "verse": 24,
+      "speaker": "श्रीभगवान्",
+      "slok": "य एवं वेत्ति पुरुषं प्रकृतिं च गुणैः सह | सर्वथा वर्तमानोऽपि न स भूयोऽभिजायते ||१३-२४||",
+      "transliteration": "ya evaṃ vetti puruṣaṃ prakṛtiṃ ca guṇaiḥ saha . sarvathā vartamāno.api na sa bhūyo.abhijāyate ||13-24||",
+      "meaning": "।।13.24।। इस प्रकार पुरुष और गुणों के सहित प्रकृति को जो मनुष्य जानता है, वह सब प्रकार से रहता हुआ (व्यवहार करता हुआ) भी पुन: नहीं जन्मता है।।",
+      "tags": [
+        "mind"
+      ]
+    },
+    {
+      "id": "BG13.25",
+      "chapter": 13,
+      "verse": 25,
+      "speaker": "श्रीभगवान्",
+      "slok": "ध्यानेनात्मनि पश्यन्ति केचिदात्मानमात्मना | अन्ये साङ्ख्येन योगेन कर्मयोगेन चापरे ||१३-२५||",
+      "transliteration": "dhyānenātmani paśyanti kecidātmānamātmanā . anye sāṅkhyena yogena karmayogena cāpare ||13-25||",
+      "meaning": "।।13.25।। कोई पुरुष ध्यान के अभ्यास से आत्मा को आत्मा (हृदय) में आत्मा (शुद्ध बुद्धि) के द्वारा देखते हैं; अन्य लोग सांख्य योग के द्वारा तथा कोई साधक कर्मयोग से (आत्मा को देखते हैं )।।",
+      "tags": [
+        "mind",
+        "karma"
+      ]
+    },
+    {
+      "id": "BG13.26",
+      "chapter": 13,
+      "verse": 26,
+      "speaker": "श्रीभगवान्",
+      "slok": "अन्ये त्वेवमजानन्तः श्रुत्वान्येभ्य उपासते | तेऽपि चातितरन्त्येव मृत्युं श्रुतिपरायणाः ||१३-२६||",
+      "transliteration": "anye tvevamajānantaḥ śrutvānyebhya upāsate . te.api cātitarantyeva mṛtyuṃ śrutiparāyaṇāḥ ||13-26||",
+      "meaning": "।।13.26।। परन्तु, अन्य लोग जो स्वयं इस प्रकार न जानते हुए, दूसरों से (आचार्यों से) सुनकर ही उपासना करते हैं, वे श्रुतिपरायण (अर्थात् श्रवण ही जिनके लिए परम साधन है) लोग भी मृत्यु को नि:सन्देह तर जाते हैं।।",
+      "tags": [
+        "mind"
+      ]
+    },
+    {
+      "id": "BG13.27",
+      "chapter": 13,
+      "verse": 27,
+      "speaker": "श्रीभगवान्",
+      "slok": "यावत्सञ्जायते किञ्चित्सत्त्वं स्थावरजङ्गमम् | क्षेत्रक्षेत्रज्ञसंयोगात्तद्विद्धि भरतर्षभ ||१३-२७||",
+      "transliteration": "yāvatsañjāyate kiñcitsattvaṃ sthāvarajaṅgamam . kṣetrakṣetrajñasaṃyogāttadviddhi bharatarṣabha ||13-27||",
+      "meaning": "।।13.27।। हे भरत श्रेष्ठ ! यावन्मात्र जो कुछ भी स्थावर जंगम (चराचर) वस्तु उत्पन्न होती है, उस सबको तुम क्षेत्र और क्षेत्रज्ञ के संयोग से उत्पन्न हुई जानो।।",
+      "tags": [
+        "mind"
+      ]
+    },
+    {
+      "id": "BG13.28",
+      "chapter": 13,
+      "verse": 28,
+      "speaker": "श्रीभगवान्",
+      "slok": "समं सर्वेषु भूतेषु तिष्ठन्तं परमेश्वरम् | विनश्यत्स्वविनश्यन्तं यः पश्यति स पश्यति ||१३-२८||",
+      "transliteration": "samaṃ sarveṣu bhūteṣu tiṣṭhantaṃ parameśvaram . vinaśyatsvavinaśyantaṃ yaḥ paśyati sa paśyati ||13-28||",
+      "meaning": "।।13.28।। जो पुरुष समस्त नश्वर भूतों में अनश्वर परमेश्वर को समभाव से स्थित देखता है, वही (वास्तव में) देखता है।।",
+      "tags": [
+        "mind"
+      ]
+    },
+    {
+      "id": "BG13.29",
+      "chapter": 13,
+      "verse": 29,
+      "speaker": "श्रीभगवान्",
+      "slok": "समं पश्यन्हि सर्वत्र समवस्थितमीश्वरम् | न हिनस्त्यात्मनात्मानं ततो याति परां गतिम् ||१३-२९||",
+      "transliteration": "samaṃ paśyanhi sarvatra samavasthitamīśvaram . na hinastyātmanātmānaṃ tato yāti parāṃ gatim ||13-29||",
+      "meaning": "।।13.29।। निश्चय ही, वह पुरुष सर्वत्र सम भाव से स्थित परमेश्वर को समान हुआ आत्मा (स्वयं) के द्वारा आत्मा (स्वयं) का नाश नहीं करता है, इससे वह परम गति को प्राप्त होता है।।",
+      "tags": [
+        "mind"
+      ]
+    },
+    {
+      "id": "BG13.30",
+      "chapter": 13,
+      "verse": 30,
+      "speaker": "श्रीभगवान्",
+      "slok": "प्रकृत्यैव च कर्माणि क्रियमाणानि सर्वशः | यः पश्यति तथात्मानमकर्तारं स पश्यति ||१३-३०||",
+      "transliteration": "prakṛtyaiva ca karmāṇi kriyamāṇāni sarvaśaḥ . yaḥ paśyati tathātmānamakartāraṃ sa paśyati ||13-30||",
+      "meaning": "।।13.30।। जो पुरुष समस्त कर्मों को सर्वश: प्रकृति द्वारा ही किये गये देखता है तथा आत्मा को अकर्ता देखता है, वही (वास्तव में) देखता है।।",
+      "tags": [
+        "mind"
+      ]
+    },
+    {
+      "id": "BG13.31",
+      "chapter": 13,
+      "verse": 31,
+      "speaker": "श्रीभगवान्",
+      "slok": "यदा भूतपृथग्भावमेकस्थमनुपश्यति | तत एव च विस्तारं ब्रह्म सम्पद्यते तदा ||१३-३१||",
+      "transliteration": "yadā bhūtapṛthagbhāvamekasthamanupaśyati . tata eva ca vistāraṃ brahma sampadyate tadā ||13-31||",
+      "meaning": "।।13.31।। यह पुरुष जब भूतों के पृथक् भावों को एक (परमात्मा) में स्थित देखता है तथा उस (परमात्मा) से ही यह विस्तार हुआ जानता है, तब वह ब्रह्म को प्राप्त होता है।।",
+      "tags": [
+        "mind"
+      ]
+    },
+    {
+      "id": "BG13.32",
+      "chapter": 13,
+      "verse": 32,
+      "speaker": "श्रीभगवान्",
+      "slok": "अनादित्वान्निर्गुणत्वात्परमात्मायमव्ययः | शरीरस्थोऽपि कौन्तेय न करोति न लिप्यते ||१३-३२||",
+      "transliteration": "anāditvānnirguṇatvātparamātmāyamavyayaḥ . śarīrastho.api kaunteya na karoti na lipyate ||13-32||",
+      "meaning": "।।13.32।। हे कौन्तेय ! अनादि और निर्गुण होने से यह परमात्मा अव्यय है। शरीर में स्थित हुआ भी, वस्तुत:, वह न (कर्म) करता है और न (फलों से) लिप्त होता है।।",
+      "tags": [
+        "mind"
+      ]
+    },
+    {
+      "id": "BG13.33",
+      "chapter": 13,
+      "verse": 33,
+      "speaker": "श्रीभगवान्",
+      "slok": "यथा सर्वगतं सौक्ष्म्यादाकाशं नोपलिप्यते | सर्वत्रावस्थितो देहे तथात्मा नोपलिप्यते ||१३-३३||",
+      "transliteration": "yathā sarvagataṃ saukṣmyādākāśaṃ nopalipyate . sarvatrāvasthito dehe tathātmā nopalipyate ||13-33||",
+      "meaning": "।।13.33।। जिस प्रकार सर्वगत आकाश सूक्ष्म होने के कारण लिप्त नहीं होता, उसी प्रकार सर्वत्र देह में स्थित आत्मा लिप्त नहीं होता।।",
+      "tags": [
+        "mind"
+      ]
+    },
+    {
+      "id": "BG13.34",
+      "chapter": 13,
+      "verse": 34,
+      "speaker": "श्रीभगवान्",
+      "slok": "यथा प्रकाशयत्येकः कृत्स्नं लोकमिमं रविः | क्षेत्रं क्षेत्री तथा कृत्स्नं प्रकाशयति भारत ||१३-३४||",
+      "transliteration": "yathā prakāśayatyekaḥ kṛtsnaṃ lokamimaṃ raviḥ . kṣetraṃ kṣetrī tathā kṛtsnaṃ prakāśayati bhārata ||13-34||",
+      "meaning": "।।13.34।। हे भारत ! जिस प्रकार एक ही सूर्य इस सम्पूर्ण लोक को प्रकाशित करता है, उसी प्रकार एक ही क्षेत्री (क्षेत्रज्ञ) सम्पूर्ण क्षेत्र को प्रकाशित करता है।।",
+      "tags": [
+        "mind"
+      ]
+    },
+    {
+      "id": "BG13.35",
+      "chapter": 13,
+      "verse": 35,
+      "speaker": "श्रीभगवान्",
+      "slok": "क्षेत्रक्षेत्रज्ञयोरेवमन्तरं ज्ञानचक्षुषा | भूतप्रकृतिमोक्षं च ये विदुर्यान्ति ते परम् ||१३-३५||",
+      "transliteration": "kṣetrakṣetrajñayorevamantaraṃ jñānacakṣuṣā . bhūtaprakṛtimokṣaṃ ca ye viduryānti te param ||13-35||",
+      "meaning": "।।13.35।। इस प्रकार, जो पुरुष ज्ञानचक्षु के द्वारा क्षेत्र और क्षेत्रज्ञ के भेद को तथा प्रकृति के विकारों से मोक्ष को जानते हैं, वे परम ब्रह्म को प्राप्त होते हैं।।",
+      "tags": [
+        "mind"
+      ]
+    },
+    {
+      "id": "BG13.36",
+      "chapter": 13,
+      "verse": 36,
+      "speaker": "श्रीभगवान्",
+      "slok": "ॐ तत्सदिति श्रीमद्भगवद्गीतासूपनिषत्सु ब्रह्मविद्यायां योगशास्त्रे श्रीकृष्णार्जुनसंवादे क्षेत्रक्षेत्रज्ञविभागयोगो नाम त्रयोदशोऽध्यायः ||१३||",
+      "transliteration": "OM tatsaditi śrīmadbhagavadgītāsūpaniṣatsu brahmavidyāyāṃ yogaśāstre śrīkṛṣṇārjunasaṃvāde kṣetrakṣetrajñavibhāgayogo nāma trayodaśo.adhyāyaḥ ||13-36||",
+      "meaning": "Swami Tejomayananda did not comment on this sloka",
+      "tags": [
+        "mind"
+      ]
+    }
+  ]
+}

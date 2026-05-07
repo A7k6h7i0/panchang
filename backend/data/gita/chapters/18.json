@@ -1,0 +1,1131 @@
+{
+  "chapter": 18,
+  "meta": {
+    "chapter_number": 18,
+    "verses_count": 78,
+    "name": "मोक्षसंन्यासयोग",
+    "translation": "Moksha Sanyaas Yoga",
+    "transliteration": "Mokṣha Sanyās Yog",
+    "meaning": {
+      "en": "Yoga through the Perfection of Renunciation and Surrender",
+      "hi": "उपसंहार-संन्यास की सिद्धि"
+    },
+    "summary": {
+      "en": "The eighteenth chapter of the Bhagavad Gita is Moksha Sanyas Yoga. Arjuna requests the Lord to explain the difference between the two types of renunciations - sanyaas(renunciation of actions) and tyaag(renunciation of desires). Krishna explains that a sanyaasi is one who abandons family and society in order to practise spiritual discipline whereas a tyaagi is one who performs their duties without attachment to the rewards of their actions and dedicating them to the God. Krishna recommends the second kind of renunciation - tyaag. Krishna then gives a detailed analysis of the effects of the three modes of material nature. He declares that the highest path of spirituality is pure, unconditional loving service unto the Supreme Divine Personality, Krishna. If we always remember Him, keep chanting His name and dedicate all our actions unto Him, take refuge in Him and make Him our Supreme goal, then by His grace, we will surely overcome all obstacles and difficulties and be freed from this cycle of birth and death.",
+      "hi": "भगवद गीता का अठारहवा अध्याय मोक्षसन्यासयोग है। अर्जुन कृष्ण से अनुरोध करते हैं कि वे संन्यास और त्याग के बीच अंतर को समझाने की कृपा करें। कृष्ण बताते हैं कि एक संन्यासी वह है जो आध्यात्मिक अनुशासन का अभ्यास करने के लिए परिवार और समाज को त्याग देता है जबकि एक त्यागी वह है जो अपने कर्मों के फलों कि चिंता करे बिना भगवन को समर्पित करके कर्म करता रहता है। कृष्ण बताते हैं कि त्याग संन्यास से श्रेष्ठ है। फिर कृष्णा भौतिक संसार के तीन प्रकार के गुणों का विस्तारपूर्वक वर्णन करते हैं। कृष्णा घोषणा करते हैं कि परमात्मा की शुद्ध एवं सत्य भक्ति ही आध्यात्मिकता का उच्चतम मार्ग है। अगर हम हर क्षण उनका स्मरण करते रहें, उनका नाम जपते रहें, अपना सर्वस्व उनको समर्पित कर दें, उन्हें ही अपना सर्वोच्च लक्ष्य बना लें तो उनकी कृपा से हम निश्चित रूप से सभी बाधाओं और कठिनाइओं को दूर कर पाएंगे और इस जन्म और मृत्यु के चक्र से मुक्त हो पाएंगे।"
+    },
+    "themes": [
+      "karma",
+      "success",
+      "fear"
+    ]
+  },
+  "verses": [
+    {
+      "id": "BG18.1",
+      "chapter": 18,
+      "verse": 1,
+      "speaker": "अर्जुन",
+      "slok": "अर्जुन उवाच | संन्यासस्य महाबाहो तत्त्वमिच्छामि वेदितुम् | त्यागस्य च हृषीकेश पृथक्केशिनिषूदन ||१८-१||",
+      "transliteration": "arjuna uvāca . saṃnyāsasya mahābāho tattvamicchāmi veditum . tyāgasya ca hṛṣīkeśa pṛthakkeśiniṣūdana ||18-1||",
+      "meaning": "।।18.1।। अर्जुन ने कहा -- हे महाबाहो ! हे हृषीकेश ! हे केशनिषूदन ! मैं संन्यास और त्याग के तत्त्व को पृथक्-पृथक् जानना चाहता हूँ।।",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.2",
+      "chapter": 18,
+      "verse": 2,
+      "speaker": "श्रीभगवान्",
+      "slok": "श्रीभगवानुवाच | काम्यानां कर्मणां न्यासं संन्यासं कवयो विदुः | सर्वकर्मफलत्यागं प्राहुस्त्यागं विचक्षणाः ||१८-२||",
+      "transliteration": "śrībhagavānuvāca . kāmyānāṃ karmaṇāṃ nyāsaṃ saṃnyāsaṃ kavayo viduḥ . sarvakarmaphalatyāgaṃ prāhustyāgaṃ vicakṣaṇāḥ ||18-2||",
+      "meaning": "।।18.2।। श्रीभगवान् ने कहा -- (कुछ) कवि (पण्डित) जन काम्य कर्मों के त्याग को \"संन्यास\" समझते हैं और विचारशील जन समस्त कर्मों के फलों के त्याग को \"त्याग\" कहते हैं।।",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.3",
+      "chapter": 18,
+      "verse": 3,
+      "speaker": "श्रीभगवान्",
+      "slok": "त्याज्यं दोषवदित्येके कर्म प्राहुर्मनीषिणः | यज्ञदानतपःकर्म न त्याज्यमिति चापरे ||१८-३||",
+      "transliteration": "tyājyaṃ doṣavadityeke karma prāhurmanīṣiṇaḥ . yajñadānatapaḥkarma na tyājyamiti cāpare ||18-3||",
+      "meaning": "।।18.3।। कुछ मनीषी जन कहते हैं कि समस्त कर्म दोषयुक्त होने के कारण त्याज्य हैं; और अन्य जन कहते हैं कि यज्ञ, दान और तपरूप कर्म त्याज्य नहीं हैं।।",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.4",
+      "chapter": 18,
+      "verse": 4,
+      "speaker": "श्रीभगवान्",
+      "slok": "निश्चयं शृणु मे तत्र त्यागे भरतसत्तम | त्यागो हि पुरुषव्याघ्र त्रिविधः सम्प्रकीर्तितः ||१८-४||",
+      "transliteration": "niścayaṃ śṛṇu me tatra tyāge bharatasattama . tyāgo hi puruṣavyāghra trividhaḥ samprakīrtitaḥ ||18-4||",
+      "meaning": "।।18.4।। हे भरतसत्तम ! उस त्याग के विषय में तुम मेरे निर्णय को सुनो। हे पुरुष श्रेष्ठ ! वह त्याग तीन प्रकार का कहा गया है।।",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.5",
+      "chapter": 18,
+      "verse": 5,
+      "speaker": "श्रीभगवान्",
+      "slok": "यज्ञदानतपःकर्म न त्याज्यं कार्यमेव तत् | यज्ञो दानं तपश्चैव पावनानि मनीषिणाम् ||१८-५||",
+      "transliteration": "yajñadānatapaḥkarma na tyājyaṃ kāryameva tat . yajño dānaṃ tapaścaiva pāvanāni manīṣiṇām ||18-5||",
+      "meaning": "।।18.5।। यज्ञ, दान और तपरूप कर्म त्याज्य नहीं है, किन्तु वह नि:सन्देह कर्तव्य है; यज्ञ, दान और तप ये मनीषियों (साधकों) को पवित्र करने वाले हैं।।",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.6",
+      "chapter": 18,
+      "verse": 6,
+      "speaker": "श्रीभगवान्",
+      "slok": "एतान्यपि तु कर्माणि सङ्गं त्यक्त्वा फलानि च | कर्तव्यानीति मे पार्थ निश्चितं मतमुत्तमम् ||१८-६||",
+      "transliteration": "etānyapi tu karmāṇi saṅgaṃ tyaktvā phalāni ca . kartavyānīti me pārtha niścitaṃ matamuttamam ||18-6||",
+      "meaning": "।।18.6।। हे पार्थ ! इन कर्मों को भी, फल और आसक्ति को त्यागकर करना चाहिए, यह मेरा निश्चय किया हुआ उत्तम मत है।।",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.7",
+      "chapter": 18,
+      "verse": 7,
+      "speaker": "श्रीभगवान्",
+      "slok": "नियतस्य तु संन्यासः कर्मणो नोपपद्यते | मोहात्तस्य परित्यागस्तामसः परिकीर्तितः ||१८-७||",
+      "transliteration": "niyatasya tu saṃnyāsaḥ karmaṇo nopapadyate . mohāttasya parityāgastāmasaḥ parikīrtitaḥ ||18-7||",
+      "meaning": "।।18.7।। नियत कर्म का त्याग उचित नहीं है; मोहवश उसका त्याग करना \"तामस त्याग\" कहा गया है।।",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.8",
+      "chapter": 18,
+      "verse": 8,
+      "speaker": "श्रीभगवान्",
+      "slok": "दुःखमित्येव यत्कर्म कायक्लेशभयात्त्यजेत् | स कृत्वा राजसं त्यागं नैव त्यागफलं लभेत् ||१८-८||",
+      "transliteration": "duḥkhamityeva yatkarma kāyakleśabhayāttyajet . sa kṛtvā rājasaṃ tyāgaṃ naiva tyāgaphalaṃ labhet ||18-8||",
+      "meaning": "।।18.8।। जो मनुष्य, कर्म को दु:ख समझकर शारीरिक कष्ट के भय से त्याग देता है, वह पुरुष उस राजसिक त्याग को करके कदापि त्याग के फल को प्राप्त नहीं होता है।।",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.9",
+      "chapter": 18,
+      "verse": 9,
+      "speaker": "श्रीभगवान्",
+      "slok": "कार्यमित्येव यत्कर्म नियतं क्रियतेऽर्जुन | सङ्गं त्यक्त्वा फलं चैव स त्यागः सात्त्विको मतः ||१८-९||",
+      "transliteration": "kāryamityeva yatkarma niyataṃ kriyate.arjuna . saṅgaṃ tyaktvā phalaṃ caiva sa tyāgaḥ sāttviko mataḥ ||18-9||",
+      "meaning": "।।18.9।। हे अर्जुन ! \"कर्म करना कर्तव्य है\" ऐसा समझकर जो नियत कर्म आसक्ति और फल को त्यागकर किया जाता है, वही सात्त्विक त्याग माना गया है।।",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.10",
+      "chapter": 18,
+      "verse": 10,
+      "speaker": "श्रीभगवान्",
+      "slok": "न द्वेष्ट्यकुशलं कर्म कुशले नानुषज्जते | त्यागी सत्त्वसमाविष्टो मेधावी छिन्नसंशयः ||१८-१०||",
+      "transliteration": "na dveṣṭyakuśalaṃ karma kuśale nānuṣajjate . tyāgī sattvasamāviṣṭo medhāvī chinnasaṃśayaḥ ||18-10||",
+      "meaning": "।।18.10।। जो पुरुष अकुशल (अशुभ) कर्म से द्वेष नहीं करता और कुशल (शुभ) कर्म में आसक्त नहीं होता, वह सत्त्वगुण से सम्पन्न पुरुष संशयरहित, मेधावी (ज्ञानी) और त्यागी है।।",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.11",
+      "chapter": 18,
+      "verse": 11,
+      "speaker": "श्रीभगवान्",
+      "slok": "न हि देहभृता शक्यं त्यक्तुं कर्माण्यशेषतः | यस्तु कर्मफलत्यागी स त्यागीत्यभिधीयते ||१८-११||",
+      "transliteration": "na hi dehabhṛtā śakyaṃ tyaktuṃ karmāṇyaśeṣataḥ . yastu karmaphalatyāgī sa tyāgītyabhidhīyate ||18-11||",
+      "meaning": "।।18.11।। क्योंकि देहधारी पुरुष के द्वारा अशेष कर्मों का त्याग संभव नहीं है, इसलिए जो कर्मफल त्यागी है, वही पुरुष त्यागी कहा जाता है।।",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.12",
+      "chapter": 18,
+      "verse": 12,
+      "speaker": "श्रीभगवान्",
+      "slok": "अनिष्टमिष्टं मिश्रं च त्रिविधं कर्मणः फलम् | भवत्यत्यागिनां प्रेत्य न तु संन्यासिनां क्वचित् ||१८-१२||",
+      "transliteration": "aniṣṭamiṣṭaṃ miśraṃ ca trividhaṃ karmaṇaḥ phalam . bhavatyatyāgināṃ pretya na tu saṃnyāsināṃ kvacit ||18-12||",
+      "meaning": "।।18.12।। कर्मों के शुभ, अशुभ और मिश्र ये त्रिविध फल केवल अत्यागी जनों को मरण के पश्चात् भी प्राप्त होते हैं; परन्तु संन्यासी पुरुषों को कदापि नहीं।।",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.13",
+      "chapter": 18,
+      "verse": 13,
+      "speaker": "श्रीभगवान्",
+      "slok": "पञ्चैतानि महाबाहो कारणानि निबोध मे | साङ्ख्ये कृतान्ते प्रोक्तानि सिद्धये सर्वकर्मणाम् ||१८-१३||",
+      "transliteration": "pañcaitāni mahābāho kāraṇāni nibodha me . sāṅkhye kṛtānte proktāni siddhaye sarvakarmaṇām ||18-13||",
+      "meaning": "।।18.13।। हे महाबाहो ! समस्त कर्मों की सिद्धि के लिए ये पांच कारण सांख्य सिद्धांत में कहे गये हैं, जिनको तुम मुझसे भलीभांति जानो।।",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.14",
+      "chapter": 18,
+      "verse": 14,
+      "speaker": "श्रीभगवान्",
+      "slok": "अधिष्ठानं तथा कर्ता करणं च पृथग्विधम् | विविधाश्च पृथक्चेष्टा दैवं चैवात्र पञ्चमम् ||१८-१४||",
+      "transliteration": "adhiṣṭhānaṃ tathā kartā karaṇaṃ ca pṛthagvidham . vividhāśca pṛthakceṣṭā daivaṃ caivātra pañcamam ||18-14||",
+      "meaning": "।।18.14।। अधिष्ठान (शरीर), कर्ता ,विविध करण (इन्द्रियादि) ,विविध और पृथक्-पृथक् चेष्टाएं तथा पाँचवा हेतु दैव है।।",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.15",
+      "chapter": 18,
+      "verse": 15,
+      "speaker": "श्रीभगवान्",
+      "slok": "शरीरवाङ्मनोभिर्यत्कर्म प्रारभते नरः | न्याय्यं वा विपरीतं वा पञ्चैते तस्य हेतवः ||१८-१५||",
+      "transliteration": "śarīravāṅmanobhiryatkarma prārabhate naraḥ . nyāyyaṃ vā viparītaṃ vā pañcaite tasya hetavaḥ ||18-15||",
+      "meaning": "।।18.15।। मनुष्य अपने शरीर, वाणी और मन से जो कोई न्याय्य (उचित) या विपरीत (अनुचित) कर्म करता है, उसके ये पाँच कारण ही हैं।।",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.16",
+      "chapter": 18,
+      "verse": 16,
+      "speaker": "श्रीभगवान्",
+      "slok": "तत्रैवं सति कर्तारमात्मानं केवलं तु यः | पश्यत्यकृतबुद्धित्वान्न स पश्यति दुर्मतिः ||१८-१६||",
+      "transliteration": "tatraivaṃ sati kartāramātmānaṃ kevalaṃ tu yaḥ . paśyatyakṛtabuddhitvānna sa paśyati durmatiḥ ||18-16||",
+      "meaning": "।।18.16।। अब इस स्थिति में जो पुरुष असंस्कृत बुद्धि होने के कारण, केवल शुद्ध आत्मा को कर्ता समझता हैं, वह दुर्मति पुरुष (यथार्थ) नहीं देखता है।।",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.17",
+      "chapter": 18,
+      "verse": 17,
+      "speaker": "श्रीभगवान्",
+      "slok": "यस्य नाहंकृतो भावो बुद्धिर्यस्य न लिप्यते | हत्वाऽपि स इमाँल्लोकान्न हन्ति न निबध्यते ||१८-१७||",
+      "transliteration": "yasya nāhaṃkṛto bhāvo buddhiryasya na lipyate . hatvā.api sa imā.Nllokānna hanti na nibadhyate ||18-17||",
+      "meaning": "।।18.17।। जिस पुरुष में अहंकार का भाव नहीं है और बुद्धि किसी (गुण दोष) से लिप्त नहीं होती, वह पुरुष इन सब लोकों को मारकर भी वास्तव में न मरता है और न (पाप से) बँधता है।।",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.18",
+      "chapter": 18,
+      "verse": 18,
+      "speaker": "श्रीभगवान्",
+      "slok": "ज्ञानं ज्ञेयं परिज्ञाता त्रिविधा कर्मचोदना | करणं कर्म कर्तेति त्रिविधः कर्मसंग्रहः ||१८-१८||",
+      "transliteration": "jñānaṃ jñeyaṃ parijñātā trividhā karmacodanā . karaṇaṃ karma karteti trividhaḥ karmasaṃgrahaḥ ||18-18||",
+      "meaning": "।।18.18।। ज्ञान, ज्ञेय और परिज्ञाता ये त्रिविध कर्म प्रेरक हैं, और, करण, कर्म. कर्ता ये त्रिविध कर्म संग्रह हैं।।",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.19",
+      "chapter": 18,
+      "verse": 19,
+      "speaker": "श्रीभगवान्",
+      "slok": "ज्ञानं कर्म च कर्ताच त्रिधैव गुणभेदतः | प्रोच्यते गुणसङ्ख्याने यथावच्छृणु तान्यपि ||१८-१९||",
+      "transliteration": "jñānaṃ karma ca kartāca tridhaiva guṇabhedataḥ . procyate guṇasaṅkhyāne yathāvacchṛṇu tānyapi ||18-19||",
+      "meaning": "।।18.19।। ज्ञान, कर्म और कर्ता भी गुणों के भेद से सांख्यशास्त्र (गुणसंख्याने) में त्रिविध ही कहे गये हैं; उनको भी तुम मुझ से यथावत् श्रवण करो।।",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.20",
+      "chapter": 18,
+      "verse": 20,
+      "speaker": "श्रीभगवान्",
+      "slok": "सर्वभूतेषु येनैकं भावमव्ययमीक्षते | अविभक्तं विभक्तेषु तज्ज्ञानं विद्धि सात्त्विकम् ||१८-२०||",
+      "transliteration": "sarvabhūteṣu yenaikaṃ bhāvamavyayamīkṣate . avibhaktaṃ vibhakteṣu tajjñānaṃ viddhi sāttvikam ||18-20||",
+      "meaning": "।।18.20।। जिस ज्ञान से मनुष्य, विभक्त रूप में स्थित समस्त भूतों में एक अविभक्त और अविनाशी (अव्यय) स्वरूप को देखता है, उस ज्ञान को तुम सात्त्विक जानो।।",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.21",
+      "chapter": 18,
+      "verse": 21,
+      "speaker": "श्रीभगवान्",
+      "slok": "पृथक्त्वेन तु यज्ज्ञानं नानाभावान्पृथग्विधान् | वेत्ति सर्वेषु भूतेषु तज्ज्ञानं विद्धि राजसम् ||१८-२१||",
+      "transliteration": "pṛthaktvena tu yajjñānaṃ nānābhāvānpṛthagvidhān . vetti sarveṣu bhūteṣu tajjñānaṃ viddhi rājasam ||18-21||",
+      "meaning": "।।18.21।। जिस ज्ञान के द्वारा मनुष्य समस्त भूतों में नाना भावों को पृथक्-पृथक् जानता है, उस ज्ञान को तुम राजस जानो।।",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.22",
+      "chapter": 18,
+      "verse": 22,
+      "speaker": "श्रीभगवान्",
+      "slok": "यत्तु कृत्स्नवदेकस्मिन्कार्ये सक्तमहैतुकम् | अतत्त्वार्थवदल्पं च तत्तामसमुदाहृतम् ||१८-२२||",
+      "transliteration": "yattu kṛtsnavadekasminkārye saktamahaitukam . atattvārthavadalpaṃ ca tattāmasamudāhṛtam ||18-22||",
+      "meaning": "।।18.22।। और जिस ज्ञान के द्वारा मनुष्य एक कार्य (शरीर) में ही आसक्त हो जाता है, मानो वह (कार्य ही) पूर्ण वस्तु हो तथा जो (ज्ञान) हेतुरहित (अयुक्तिक), तत्त्वार्थ से रहित तथा संकुचित (अल्प) है, वह (ज्ञान) तामस है।।",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.23",
+      "chapter": 18,
+      "verse": 23,
+      "speaker": "श्रीभगवान्",
+      "slok": "नियतं सङ्गरहितमरागद्वेषतः कृतम् | अफलप्रेप्सुना कर्म यत्तत्सात्त्विकमुच्यते ||१८-२३||",
+      "transliteration": "niyataṃ saṅgarahitamarāgadveṣataḥ kṛtam . aphalaprepsunā karma yattatsāttvikamucyate ||18-23||",
+      "meaning": "।।18.23।। जो कर्म (शास्त्रविधि से) नियत और संगरहित है, तथा फल को न चाहने वाले पुरुष के द्वारा बिना किसी राग द्वेष के किया गया है, वह (कर्म) सात्त्विक कहा जाता है।।",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.24",
+      "chapter": 18,
+      "verse": 24,
+      "speaker": "श्रीभगवान्",
+      "slok": "यत्तु कामेप्सुना कर्म साहंकारेण वा पुनः | क्रियते बहुलायासं तद्राजसमुदाहृतम् ||१८-२४||",
+      "transliteration": "yattu kāmepsunā karma sāhaṃkāreṇa vā punaḥ . kriyate bahulāyāsaṃ tadrājasamudāhṛtam ||18-24||",
+      "meaning": "।।18.24।। और जो कर्म बहुत परिश्रम से युक्त है तथा फल की कामना वाले, अहंकारयुक्त पुरुष के द्वारा किया जाता है, वह कर्म राजस कहा गया है।।",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.25",
+      "chapter": 18,
+      "verse": 25,
+      "speaker": "श्रीभगवान्",
+      "slok": "अनुबन्धं क्षयं हिंसामनपेक्ष्य च पौरुषम् | मोहादारभ्यते कर्म यत्तत्तामसमुच्यते ||१८-२५||",
+      "transliteration": "anubandhaṃ kṣayaṃ hiṃsāmanapekṣya ca pauruṣam . mohādārabhyate karma yattattāmasamucyate ||18-25||",
+      "meaning": "।।18.25।। जो कर्म परिणाम, हानि, हिंसा और सार्मथ्य (पौरुषम्) का विचार न करके केवल मोहवश आरम्भ किया जाता है, वह कर्म तामस कहलाता है।।",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.26",
+      "chapter": 18,
+      "verse": 26,
+      "speaker": "श्रीभगवान्",
+      "slok": "मुक्तसङ्गोऽनहंवादी धृत्युत्साहसमन्वितः | सिद्ध्यसिद्ध्योर्निर्विकारः कर्ता सात्त्विक उच्यते ||१८-२६||",
+      "transliteration": "muktasaṅgo.anahaṃvādī dhṛtyutsāhasamanvitaḥ . siddhyasiddhyornirvikāraḥ kartā sāttvika ucyate ||18-26||",
+      "meaning": "।।18.26।। जो कर्ता संगरहित, अहंमन्यता से रहित, धैर्य और उत्साह से युक्त एवं कार्य की सिद्धि (सफलता) और असिद्धि (विफलता) में निर्विकार रहता है, वह कर्ता सात्त्विक कहा जाता है।।",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.27",
+      "chapter": 18,
+      "verse": 27,
+      "speaker": "श्रीभगवान्",
+      "slok": "रागी कर्मफलप्रेप्सुर्लुब्धो हिंसात्मकोऽशुचिः | हर्षशोकान्वितः कर्ता राजसः परिकीर्तितः ||१८-२७||",
+      "transliteration": "rāgī karmaphalaprepsurlubdho hiṃsātmako.aśuciḥ . harṣaśokānvitaḥ kartā rājasaḥ parikīrtitaḥ ||18-27||",
+      "meaning": "।।18.27।। रागी, कर्मफल का इच्छुक, लोभी, हिंसक स्वभाव वाला, अशुद्ध और हर्षशोक से युक्त कर्ता राजस कहलाता है।।",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.28",
+      "chapter": 18,
+      "verse": 28,
+      "speaker": "श्रीभगवान्",
+      "slok": "अयुक्तः प्राकृतः स्तब्धः शठो नैष्कृतिकोऽलसः | विषादी दीर्घसूत्री च कर्ता तामस उच्यते ||१८-२८||",
+      "transliteration": "ayuktaḥ prākṛtaḥ stabdhaḥ śaṭho naiṣkṛtiko.alasaḥ . viṣādī dīrghasūtrī ca kartā tāmasa ucyate ||18-28||",
+      "meaning": "।।18.28।। अयुक्त, प्राकृत, स्तब्ध, शठ, नैष्कृतिक, आलसी, विषादी और दीर्घसूत्री कर्ता तामस कहा जाता है।।",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.29",
+      "chapter": 18,
+      "verse": 29,
+      "speaker": "श्रीभगवान्",
+      "slok": "बुद्धेर्भेदं धृतेश्चैव गुणतस्त्रिविधं शृणु | प्रोच्यमानमशेषेण पृथक्त्वेन धनञ्जय ||१८-२९||",
+      "transliteration": "buddherbhedaṃ dhṛteścaiva guṇatastrividhaṃ śṛṇu . procyamānamaśeṣeṇa pṛthaktvena dhanañjaya ||18-29||",
+      "meaning": "।।18.29।। हे धनंजय ! मेरे द्वारा अशेषत: और पृथकत: कहे जाने वाले, गुणों के कारण उत्पन्न हुए बुद्धि और धृति के त्रिविध भेद को सुनो।।",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.30",
+      "chapter": 18,
+      "verse": 30,
+      "speaker": "श्रीभगवान्",
+      "slok": "प्रवृत्तिं च निवृत्तिं च कार्याकार्ये भयाभये | बन्धं मोक्षं च या वेत्ति बुद्धिः सा पार्थ सात्त्विकी ||१८-३०||",
+      "transliteration": "pravṛttiṃ ca nivṛttiṃ ca kāryākārye bhayābhaye . bandhaṃ mokṣaṃ ca yā vetti buddhiḥ sā pārtha sāttvikī ||18-30||",
+      "meaning": "।।18.30।। हे पार्थ ! जो बुद्धि प्रवृत्ति और निवृत्ति, कार्य और अकार्य, भय और अभय तथा बन्ध और मोक्ष को तत्त्वत जानती है, वह बुद्धि सात्विकी है।।",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.31",
+      "chapter": 18,
+      "verse": 31,
+      "speaker": "श्रीभगवान्",
+      "slok": "यया धर्ममधर्मं च कार्यं चाकार्यमेव च | अयथावत्प्रजानाति बुद्धिः सा पार्थ राजसी ||१८-३१||",
+      "transliteration": "yayā dharmamadharmaṃ ca kāryaṃ cākāryameva ca . ayathāvatprajānāti buddhiḥ sā pārtha rājasī ||18-31||",
+      "meaning": "।।18.31।। हे पार्थ ! जिस बुद्धि के द्वारा मनुष्य धर्म और अधर्म को तथा कर्तव्य और अकर्तव्य को यथावत् नहीं जानता है, वह बुद्धि राजसी है।।",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.32",
+      "chapter": 18,
+      "verse": 32,
+      "speaker": "श्रीभगवान्",
+      "slok": "अधर्मं धर्ममिति या मन्यते तमसावृता | सर्वार्थान्विपरीतांश्च बुद्धिः सा पार्थ तामसी ||१८-३२||",
+      "transliteration": "adharmaṃ dharmamiti yā manyate tamasāvṛtā . sarvārthānviparītāṃśca buddhiḥ sā pārtha tāmasī ||18-32||",
+      "meaning": "।।18.32।। हे पार्थ ! तमस् (अज्ञान अन्ध:कार) से आवृत जो बुद्धि अधर्म को ही धर्म मानती है और सभी पदार्थों को विपरीत रूप से जानती है, वह बुद्धि तामसी है।।",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.33",
+      "chapter": 18,
+      "verse": 33,
+      "speaker": "श्रीभगवान्",
+      "slok": "धृत्या यया धारयते मनःप्राणेन्द्रियक्रियाः | योगेनाव्यभिचारिण्या धृतिः सा पार्थ सात्त्विकी ||१८-३३||",
+      "transliteration": "dhṛtyā yayā dhārayate manaḥprāṇendriyakriyāḥ . yogenāvyabhicāriṇyā dhṛtiḥ sā pārtha sāttvikī ||18-33||",
+      "meaning": "।।18.33।। सात्त्विकी है।।",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.34",
+      "chapter": 18,
+      "verse": 34,
+      "speaker": "श्रीभगवान्",
+      "slok": "यया तु धर्मकामार्थान्धृत्या धारयतेऽर्जुन | प्रसङ्गेन फलाकाङ्क्षी धृतिः सा पार्थ राजसी ||१८-३४||",
+      "transliteration": "yayā tu dharmakāmārthāndhṛtyā dhārayate.arjuna . prasaṅgena phalākāṅkṣī dhṛtiḥ sā pārtha rājasī ||18-34||",
+      "meaning": "।।18.34।। हे पृथापुत्र अर्जुन ! कर्मफल का इच्छुक पुरुष अति आसक्ति (प्रसंग) से जिस धृति के द्वारा धर्म, अर्थ और काम (इन तीन पुरुषार्थों) को धारण करता है, वह धृति राजसी है।।",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.35",
+      "chapter": 18,
+      "verse": 35,
+      "speaker": "श्रीभगवान्",
+      "slok": "यया स्वप्नं भयं शोकं विषादं मदमेव च | न विमुञ्चति दुर्मेधा धृतिः सा पार्थ तामसी ||१८-३५||",
+      "transliteration": "yayā svapnaṃ bhayaṃ śokaṃ viṣādaṃ madameva ca . na vimuñcati durmedhā dhṛtiḥ sā pārtha tāmasī ||18-35||",
+      "meaning": "।।18.35।। हो पार्थ ! दुर्बुद्धि पुरुष जिस धारणा के द्वारा, स्वप्न, भय, शोक, विषाद और मद को नहीं त्यागता है, वह धृति तामसी है।।",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.36",
+      "chapter": 18,
+      "verse": 36,
+      "speaker": "श्रीभगवान्",
+      "slok": "सुखं त्विदानीं त्रिविधं शृणु मे भरतर्षभ | अभ्यासाद्रमते यत्र दुःखान्तं च निगच्छति ||१८-३६||",
+      "transliteration": "sukhaṃ tvidānīṃ trividhaṃ śṛṇu me bharatarṣabha . abhyāsādramate yatra duḥkhāntaṃ ca nigacchati ||18-36||",
+      "meaning": "।।18.36।। हे भरतश्रेष्ठ ! अब तुम त्रिविध सुख को मुझसे सुनो, जिसमें (साधक पुरुष) अभ्यास से रमता है और दु:खों के अन्त को प्राप्त होता है (जहाँ उसके दु:खों का अन्त हो जाता है।)।।",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.37",
+      "chapter": 18,
+      "verse": 37,
+      "speaker": "श्रीभगवान्",
+      "slok": "यत्तदग्रे विषमिव परिणामेऽमृतोपमम् | तत्सुखं सात्त्विकं प्रोक्तमात्मबुद्धिप्रसादजम् ||१८-३७||",
+      "transliteration": "yattadagre viṣamiva pariṇāme.amṛtopamam . tatsukhaṃ sāttvikaṃ proktamātmabuddhiprasādajam ||18-37||",
+      "meaning": "।।18.37।। जो सुख प्रथम (प्रारम्भ में) विष के समान (भासता) है, परन्तु परिणाम में अमृत के समान है, वह आत्मबुद्धि के प्रसाद से उत्पन्न सुख सात्त्विक कहा गया है।।",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.38",
+      "chapter": 18,
+      "verse": 38,
+      "speaker": "श्रीभगवान्",
+      "slok": "विषयेन्द्रियसंयोगाद्यत्तदग्रेऽमृतोपमम् | परिणामे विषमिव तत्सुखं राजसं स्मृतम् ||१८-३८||",
+      "transliteration": "viṣayendriyasaṃyogādyattadagre.amṛtopamam . pariṇāme viṣamiva tatsukhaṃ rājasaṃ smṛtam ||18-38||",
+      "meaning": "।।18.38।। जो सुख विषयों और इन्द्रियों के संयोग से उत्पन्न होता है, वह प्रथम तो अमृत के समान, परन्तु परिणाम में विष तुल्य होता है, वह सुख राजस कहा गया है।।",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.39",
+      "chapter": 18,
+      "verse": 39,
+      "speaker": "श्रीभगवान्",
+      "slok": "यदग्रे चानुबन्धे च सुखं मोहनमात्मनः | निद्रालस्यप्रमादोत्थं तत्तामसमुदाहृतम् ||१८-३९||",
+      "transliteration": "yadagre cānubandhe ca sukhaṃ mohanamātmanaḥ . nidrālasyapramādotthaṃ tattāmasamudāhṛtam ||18-39||",
+      "meaning": "।।18.39।। जो सुख प्रारम्भ में और परिणाम (अनुबन्ध) में भी आत्मा (मनुष्य) को मोहित करने वाला होता है, वह निद्रा, आलस्य और प्रमाद से उत्पन्न सुख तामस कहा जाता है।।",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.40",
+      "chapter": 18,
+      "verse": 40,
+      "speaker": "श्रीभगवान्",
+      "slok": "न तदस्ति पृथिव्यां वा दिवि देवेषु वा पुनः | सत्त्वं प्रकृतिजैर्मुक्तं यदेभिः स्यात्त्रिभिर्गुणैः ||१८-४०||",
+      "transliteration": "na tadasti pṛthivyāṃ vā divi deveṣu vā punaḥ . sattvaṃ prakṛtijairmuktaṃ yadebhiḥ syāttribhirguṇaiḥ ||18-40||",
+      "meaning": "।।18.40।। पृथ्वी पर अथवा स्वर्ग के देवताओं में ऐसा कोई प्राणी (सत्त्वं अर्थात् विद्यमान वस्तु) नहीं है जो प्रकृति से उत्पन्न इन तीन गुणों से मुक्त (रहित) हो।।",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.41",
+      "chapter": 18,
+      "verse": 41,
+      "speaker": "श्रीभगवान्",
+      "slok": "ब्राह्मणक्षत्रियविशां शूद्राणां च परन्तप | कर्माणि प्रविभक्तानि स्वभावप्रभवैर्गुणैः ||१८-४१||",
+      "transliteration": "brāhmaṇakṣatriyaviśāṃ śūdrāṇāṃ ca parantapa . karmāṇi pravibhaktāni svabhāvaprabhavairguṇaiḥ ||18-41||",
+      "meaning": "।।18.41।। हे परन्तप! ब्राह्मणों, क्षत्रियों, वैश्यों और शूद्रों के कर्म, स्वभाव से उत्पन्न गुणों के अनुसार विभक्त किये गये हैं।।",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.42",
+      "chapter": 18,
+      "verse": 42,
+      "speaker": "श्रीभगवान्",
+      "slok": "शमो दमस्तपः शौचं क्षान्तिरार्जवमेव च | ज्ञानं विज्ञानमास्तिक्यं ब्रह्मकर्म स्वभावजम् ||१८-४२||",
+      "transliteration": "śamo damastapaḥ śaucaṃ kṣāntirārjavameva ca . jñānaṃ vijñānamāstikyaṃ brahmakarma svabhāvajam ||18-42||",
+      "meaning": "।।18.42।। शम, दम, तप, शौच, क्षान्ति, आर्जव, ज्ञान, विज्ञान और आस्तिक्य - ये ब्राह्मण के स्वाभाविक कर्म हैं।।",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.43",
+      "chapter": 18,
+      "verse": 43,
+      "speaker": "श्रीभगवान्",
+      "slok": "शौर्यं तेजो धृतिर्दाक्ष्यं युद्धे चाप्यपलायनम् | दानमीश्वरभावश्च क्षात्रं कर्म स्वभावजम् ||१८-४३||",
+      "transliteration": "śauryaṃ tejo dhṛtirdākṣyaṃ yuddhe cāpyapalāyanam . dānamīśvarabhāvaśca kṣātraṃ karma svabhāvajam ||18-43||",
+      "meaning": "।।18.43।। शौर्य, तेज, धृति, दाक्ष्य (दक्षता), युद्ध से पलायन न करना, दान और ईश्वर भाव (स्वामी भाव) - ये सब क्षत्रिय के स्वाभाविक कर्म हैं।।",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.44",
+      "chapter": 18,
+      "verse": 44,
+      "speaker": "श्रीभगवान्",
+      "slok": "कृषिगौरक्ष्यवाणिज्यं वैश्यकर्म स्वभावजम् | परिचर्यात्मकं कर्म शूद्रस्यापि स्वभावजम् ||१८-४४||",
+      "transliteration": "kṛṣigaurakṣyavāṇijyaṃ vaiśyakarma svabhāvajam . paricaryātmakaṃ karma śūdrasyāpi svabhāvajam ||18-44||",
+      "meaning": "।।18.44।। कृषि, गौपालन तथा वाणिज्य - ये वैश्य के स्वाभाविक कर्म हैं, और शूद्र का स्वाभाविक कर्म है परिचर्या अर्थात् सेवा करना।।",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.45",
+      "chapter": 18,
+      "verse": 45,
+      "speaker": "श्रीभगवान्",
+      "slok": "स्वे स्वे कर्मण्यभिरतः संसिद्धिं लभते नरः | स्वकर्मनिरतः सिद्धिं यथा विन्दति तच्छृणु ||१८-४५||",
+      "transliteration": "sve sve karmaṇyabhirataḥ saṃsiddhiṃ labhate naraḥ . svakarmanirataḥ siddhiṃ yathā vindati tacchṛṇu ||18-45||",
+      "meaning": "।।5.10।। जो पुरुष सब कर्म ब्रह्म में अर्पण करके और आसक्ति को त्यागकर करता है, वह पुरुष कमल के पत्ते के सदृश पाप से लिप्त नहीं होता।।",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.46",
+      "chapter": 18,
+      "verse": 46,
+      "speaker": "श्रीभगवान्",
+      "slok": "यतः प्रवृत्तिर्भूतानां येन सर्वमिदं ततम् | स्वकर्मणा तमभ्यर्च्य सिद्धिं विन्दति मानवः ||१८-४६||",
+      "transliteration": "yataḥ pravṛttirbhūtānāṃ yena sarvamidaṃ tatam . svakarmaṇā tamabhyarcya siddhiṃ vindati mānavaḥ ||18-46||",
+      "meaning": "।।18.46।। जिस (परमात्मा) से भूतमात्र की प्रवृत्ति अर्थात् उत्पत्ति हुई है और जिससे यह सम्पूर्ण जगत् व्याप्त है, उस (परमात्मा) की स्वकर्म द्वारा पूजा करके मनुष्य सिद्धि को प्राप्त होता है।।",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.47",
+      "chapter": 18,
+      "verse": 47,
+      "speaker": "श्रीभगवान्",
+      "slok": "श्रेयान्स्वधर्मो विगुणः परधर्मात्स्वनुष्ठितात् | स्वभावनियतं कर्म कुर्वन्नाप्नोति किल्बिषम् ||१८-४७||",
+      "transliteration": "śreyānsvadharmo viguṇaḥ paradharmātsvanuṣṭhitāt . svabhāvaniyataṃ karma kurvannāpnoti kilbiṣam ||18-47||",
+      "meaning": "।।18.47।। सम्यक् अनुष्ठित परधर्म की अपेक्षा गुणरहित स्वधर्म श्रेष्ठ है। (क्योंकि) स्वभाव से नियत किये गये कर्म को करते हुए मनुष्य पाप को नहीं प्राप्त करता।।",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.48",
+      "chapter": 18,
+      "verse": 48,
+      "speaker": "श्रीभगवान्",
+      "slok": "सहजं कर्म कौन्तेय सदोषमपि न त्यजेत् | सर्वारम्भा हि दोषेण धूमेनाग्निरिवावृताः ||१८-४८||",
+      "transliteration": "sahajaṃ karma kaunteya sadoṣamapi na tyajet . sarvārambhā hi doṣeṇa dhūmenāgnirivāvṛtāḥ ||18-48||",
+      "meaning": "।।18.48।। हे कौन्तेय ! दोषयुक्त होने पर भी सहज कर्म को नहीं त्यागना चाहिए; क्योंकि सभी कर्म दोष से आवृत होते है, जैसे धुयें से अग्नि।।",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.49",
+      "chapter": 18,
+      "verse": 49,
+      "speaker": "श्रीभगवान्",
+      "slok": "असक्तबुद्धिः सर्वत्र जितात्मा विगतस्पृहः | नैष्कर्म्यसिद्धिं परमां संन्यासेनाधिगच्छति ||१८-४९||",
+      "transliteration": "asaktabuddhiḥ sarvatra jitātmā vigataspṛhaḥ . naiṣkarmyasiddhiṃ paramāṃ saṃnyāsenādhigacchati ||18-49||",
+      "meaning": "।।18.49।। सर्वत्र आसक्ति रहित बुद्धि वाला वह पुरुष जो स्पृहारहित तथा जितात्मा है, संन्यास के द्वारा परम नैर्ष्कम्य सिद्धि को प्राप्त होता है।।",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.50",
+      "chapter": 18,
+      "verse": 50,
+      "speaker": "श्रीभगवान्",
+      "slok": "सिद्धिं प्राप्तो यथा ब्रह्म तथाप्नोति निबोध मे | समासेनैव कौन्तेय निष्ठा ज्ञानस्य या परा ||१८-५०||",
+      "transliteration": "siddhiṃ prāpto yathā brahma tathāpnoti nibodha me . samāsenaiva kaunteya niṣṭhā jñānasya yā parā ||18-50||",
+      "meaning": "।।18.50।। सिद्धि को प्राप्त पुरुष किस प्रकार ब्रह्म को प्राप्त होता है, तथा ज्ञान की परा निष्ठा को भी तुम मुझसे संक्षेप में जानो।।",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.51",
+      "chapter": 18,
+      "verse": 51,
+      "speaker": "श्रीभगवान्",
+      "slok": "बुद्ध्या विशुद्धया युक्तो धृत्यात्मानं नियम्य च | शब्दादीन्विषयांस्त्यक्त्वा रागद्वेषौ व्युदस्य च ||१८-५१||",
+      "transliteration": "buddhyā viśuddhayā yukto dhṛtyātmānaṃ niyamya ca . śabdādīnviṣayāṃstyaktvā rāgadveṣau vyudasya ca ||18-51||",
+      "meaning": "।।18.51।। विशुद्ध बुद्धि से युक्त, धृति से आत्मसंयम कर, शब्दादि विषयों को त्याग कर और राग-द्वेष का परित्याग कर....৷৷৷৷।।",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.52",
+      "chapter": 18,
+      "verse": 52,
+      "speaker": "श्रीभगवान्",
+      "slok": "विविक्तसेवी लघ्वाशी यतवाक्कायमानसः | ध्यानयोगपरो नित्यं वैराग्यं समुपाश्रितः ||१८-५२||",
+      "transliteration": "viviktasevī laghvāśī yatavākkāyamānasaḥ . dhyānayogaparo nityaṃ vairāgyaṃ samupāśritaḥ ||18-52||",
+      "meaning": "।।18.52।। विविक्त सेवी, लघ्वाशी (मिताहारी) जिसने अपने शरीर, वाणी और मन को संयत किया है, ध्यानयोग के अभ्यास में सदैव तत्पर तथा वैराग्य पर समाश्रित।।",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.53",
+      "chapter": 18,
+      "verse": 53,
+      "speaker": "श्रीभगवान्",
+      "slok": "अहंकारं बलं दर्पं कामं क्रोधं परिग्रहम् | विमुच्य निर्ममः शान्तो ब्रह्मभूयाय कल्पते ||१८-५३||",
+      "transliteration": "ahaṃkāraṃ balaṃ darpaṃ kāmaṃ krodhaṃ parigraham . vimucya nirmamaḥ śānto brahmabhūyāya kalpate ||18-53||",
+      "meaning": "।।18.53।। अहंकार, बल, दर्प, काम, क्रोध और परिग्रह को त्याग कर ममत्वभाव से रहित और शान्त पुरुष ब्रह्म प्राप्ति के योग्य बन जाता है।।",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.54",
+      "chapter": 18,
+      "verse": 54,
+      "speaker": "श्रीभगवान्",
+      "slok": "ब्रह्मभूतः प्रसन्नात्मा न शोचति न काङ्क्षति | समः सर्वेषु भूतेषु मद्भक्तिं लभते पराम् ||१८-५४||",
+      "transliteration": "brahmabhūtaḥ prasannātmā na śocati na kāṅkṣati . samaḥ sarveṣu bhūteṣu madbhaktiṃ labhate parām ||18-54||",
+      "meaning": "।।18.54।। ब्रह्मभूत (जो साधक ब्रह्म बन गया है), प्रसन्न मन वाला पुरुष न इच्छा करता है और न शोक, समस्त भूतों के प्रति सम होकर वह मेरी परा भक्ति को प्राप्त करता है।।",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.55",
+      "chapter": 18,
+      "verse": 55,
+      "speaker": "श्रीभगवान्",
+      "slok": "भक्त्या मामभिजानाति यावान्यश्चास्मि तत्त्वतः | ततो मां तत्त्वतो ज्ञात्वा विशते तदनन्तरम् ||१८-५५||",
+      "transliteration": "bhaktyā māmabhijānāti yāvānyaścāsmi tattvataḥ . tato māṃ tattvato jñātvā viśate tadanantaram ||18-55||",
+      "meaning": "।।18.55।। (उस परा) भक्ति के द्वारा मुझे वह तत्त्वत: जानता है कि मैं कितना (व्यापक) हूँ तथा मैं क्या हूँ। (इस प्रकार) तत्त्वत: जानने के पश्चात् तत्काल ही वह मुझमें प्रवेश कर जाता है, अर्थात् मत्स्वरूप बन जाता है।।",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.56",
+      "chapter": 18,
+      "verse": 56,
+      "speaker": "श्रीभगवान्",
+      "slok": "सर्वकर्माण्यपि सदा कुर्वाणो मद्व्यपाश्रयः | मत्प्रसादादवाप्नोति शाश्वतं पदमव्ययम् ||१८-५६||",
+      "transliteration": "sarvakarmāṇyapi sadā kurvāṇo madvyapāśrayaḥ . matprasādādavāpnoti śāśvataṃ padamavyayam ||18-56||",
+      "meaning": "।।18.56।। जो पुरुष मदाश्रित होकर सदैव समस्त कर्मों को करता है, वह मेरे प्रसाद (अनुग्रह) से शाश्वत, अव्यय पद को प्राप्त कर लेता है।।",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.57",
+      "chapter": 18,
+      "verse": 57,
+      "speaker": "श्रीभगवान्",
+      "slok": "चेतसा सर्वकर्माणि मयि संन्यस्य मत्परः | बुद्धियोगमुपाश्रित्य मच्चित्तः सततं भव ||१८-५७||",
+      "transliteration": "cetasā sarvakarmāṇi mayi saṃnyasya matparaḥ . buddhiyogamupāśritya maccittaḥ satataṃ bhava ||18-57||",
+      "meaning": "।।18.57।। मन से समस्त कर्मों का संन्यास मुझमें करके मत्परायण होकर बुद्धियोग का आश्रय लेकर तुम सतत मच्चित्त बनो।।",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.58",
+      "chapter": 18,
+      "verse": 58,
+      "speaker": "श्रीभगवान्",
+      "slok": "मच्चित्तः सर्वदुर्गाणि मत्प्रसादात्तरिष्यसि | अथ चेत्त्वमहंकारान्न श्रोष्यसि विनङ्क्ष्यसि ||१८-५८||",
+      "transliteration": "maccittaḥ sarvadurgāṇi matprasādāttariṣyasi . atha cettvamahaṃkārānna śroṣyasi vinaṅkṣyasi ||18-58||",
+      "meaning": "।।18.58।। मच्चित्त होकर तुम मेरी कृपा से समस्त कठिनाइयों (सर्वदुर्गाणि) को पार कर जाओगे; और यदि अहंकारवश (इस उपदेश को) नहीं सुनोगे, तो तुम नष्ट हो जाओगे।।",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.59",
+      "chapter": 18,
+      "verse": 59,
+      "speaker": "श्रीभगवान्",
+      "slok": "यदहंकारमाश्रित्य न योत्स्य इति मन्यसे | मिथ्यैष व्यवसायस्ते प्रकृतिस्त्वां नियोक्ष्यति ||१८-५९||",
+      "transliteration": "yadahaṃkāramāśritya na yotsya iti manyase . mithyaiṣa vyavasāyaste prakṛtistvāṃ niyokṣyati ||18-59||",
+      "meaning": "।।18.59।। और अहंकारवश तुम जो यह सोच रहे हो, \"मैं युद्ध नहीं करूंगा\", यह तुम्हारा निश्चय मिथ्या है, (क्योंकि) प्रकृति (तुम्हारा स्वभाव) ही तुम्हें (बलात् कर्म में) प्रवृत्त करेगी।।",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.60",
+      "chapter": 18,
+      "verse": 60,
+      "speaker": "श्रीभगवान्",
+      "slok": "स्वभावजेन कौन्तेय निबद्धः स्वेन कर्मणा | कर्तुं नेच्छसि यन्मोहात्करिष्यस्यवशोपि तत् ||१८-६०||",
+      "transliteration": "svabhāvajena kaunteya nibaddhaḥ svena karmaṇā . kartuṃ necchasi yanmohātkariṣyasyavaśopi tat ||18-60||",
+      "meaning": "।।18.60।। हे कौन्तेय ! तुम अपने स्वाभाविक कर्मों से बंधे हो, (अत:) मोहवशात् जिस कर्म को तुम करना नहीं चाहते हो, वही तुम विवश होकर करोगे।।",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.61",
+      "chapter": 18,
+      "verse": 61,
+      "speaker": "श्रीभगवान्",
+      "slok": "ईश्वरः सर्वभूतानां हृद्देशेऽर्जुन तिष्ठति | भ्रामयन्सर्वभूतानि यन्त्रारूढानि मायया ||१८-६१||",
+      "transliteration": "īśvaraḥ sarvabhūtānāṃ hṛddeśe.arjuna tiṣṭhati . bhrāmayansarvabhūtāni yantrārūḍhāni māyayā ||18-61||",
+      "meaning": "।।18.61।। हे अर्जुन (मानों किसी) यन्त्र पर आरूढ़ समस्त भूतों को ईश्वर अपनी माया से घुमाता हुआ (भ्रामयन्) भूतमात्र के हृदय में स्थित रहता है।।",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.62",
+      "chapter": 18,
+      "verse": 62,
+      "speaker": "श्रीभगवान्",
+      "slok": "तमेव शरणं गच्छ सर्वभावेन भारत | तत्प्रसादात्परां शान्तिं स्थानं प्राप्स्यसि शाश्वतम् ||१८-६२||",
+      "transliteration": "tameva śaraṇaṃ gaccha sarvabhāvena bhārata . tatprasādātparāṃ śāntiṃ sthānaṃ prāpsyasi śāśvatam ||18-62||",
+      "meaning": "।।18.62।। हे भारत ! तुम सम्पूर्ण भाव से उसी (ईश्वर) की शरण में जाओ। उसके प्रसाद से तुम परम शान्ति और शाश्वत स्थान को प्राप्त करोगे।।",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.63",
+      "chapter": 18,
+      "verse": 63,
+      "speaker": "श्रीभगवान्",
+      "slok": "इति ते ज्ञानमाख्यातं गुह्याद्गुह्यतरं मया | विमृश्यैतदशेषेण यथेच्छसि तथा कुरु ||१८-६३||",
+      "transliteration": "iti te jñānamākhyātaṃ guhyādguhyataraṃ mayā . vimṛśyaitadaśeṣeṇa yathecchasi tathā kuru ||18-63||",
+      "meaning": "।।18.63।। इस प्रकार समस्त गोपनीयों से अधिक गुह्य ज्ञान मैंने तुमसे कहा; इस पर पूर्ण विचार (विमृश्य) करने के पश्चात् तुम्हारी जैसी इच्छा हो, वैसा तुम करो।।",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.64",
+      "chapter": 18,
+      "verse": 64,
+      "speaker": "श्रीभगवान्",
+      "slok": "सर्वगुह्यतमं भूयः शृणु मे परमं वचः | इष्टोऽसि मे दृढमिति ततो वक्ष्यामि ते हितम् ||१८-६४||",
+      "transliteration": "sarvaguhyatamaṃ bhūyaḥ śṛṇu me paramaṃ vacaḥ . iṣṭo.asi me dṛḍhamiti tato vakṣyāmi te hitam ||18-64||",
+      "meaning": "।।18.64।। पुन: एक बार तुम मुझसे समस्त गुह्यों में गुह्यतम परम वचन (उपदेश) को सुनो। तुम मुझे अतिशय प्रिय हो, इसलिए मैं तुम्हें तुम्हारे हित की बात कहूंगा।।",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.65",
+      "chapter": 18,
+      "verse": 65,
+      "speaker": "श्रीभगवान्",
+      "slok": "मन्मना भव मद्भक्तो मद्याजी मां नमस्कुरु | मामेवैष्यसि सत्यं ते प्रतिजाने प्रियोऽसि मे ||१८-६५||",
+      "transliteration": "manmanā bhava madbhakto madyājī māṃ namaskuru . māmevaiṣyasi satyaṃ te pratijāne priyo.asi me ||18-65||",
+      "meaning": "।।18.65।। तुम मच्चित, मद्भक्त और मेरे पूजक (मद्याजी) बनो और मुझे नमस्कार करो; (इस प्रकार) तुम मुझे ही प्राप्त होगे; यह मैं तुम्हे सत्य वचन देता हूँ,(क्योंकि) तुम मेरे प्रिय हो।।",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.66",
+      "chapter": 18,
+      "verse": 66,
+      "speaker": "श्रीभगवान्",
+      "slok": "सर्वधर्मान्परित्यज्य मामेकं शरणं व्रज | अहं त्वा सर्वपापेभ्यो मोक्षयिष्यामि मा शुचः ||१८-६६||",
+      "transliteration": "sarvadharmānparityajya māmekaṃ śaraṇaṃ vraja . ahaṃ tvāṃ sarvapāpebhyo mokṣyayiṣyāmi mā śucaḥ ||18-66||",
+      "meaning": "।।18.66।। सब धर्मों का परित्याग करके तुम एक मेरी ही शरण में आओ, मैं तुम्हें समस्त पापों से मुक्त कर दूँगा, तुम शोक मत करो।।",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.67",
+      "chapter": 18,
+      "verse": 67,
+      "speaker": "श्रीभगवान्",
+      "slok": "इदं ते नातपस्काय नाभक्ताय कदाचन | न चाशुश्रूषवे वाच्यं न च मां योऽभ्यसूयति ||१८-६७||",
+      "transliteration": "idaṃ te nātapaskāya nābhaktāya kadācana . na cāśuśrūṣave vācyaṃ na ca māṃ yo.abhyasūyati ||18-67||",
+      "meaning": "।।18.67।। यह ज्ञान ऐसे पुरुष से नहीं कहना चाहिए, जो अतपस्क (तपरहित) है, और न उसे जो अभक्त है; उसे भी नहीं जो अशुश्रुषु (सेवा में अतत्पर) है और उस पुरुष से भी नहीं कहना चाहिए, जो मुझ (ईश्वर) से असूया करता है, अर्थात् मुझ में दोष देखता है।।",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.68",
+      "chapter": 18,
+      "verse": 68,
+      "speaker": "श्रीभगवान्",
+      "slok": "य इदं परमं गुह्यं मद्भक्तेष्वभिधास्यति | भक्तिं मयि परां कृत्वा मामेवैष्यत्यसंशयः ||१८-६८||",
+      "transliteration": "ya idaṃ paramaṃ guhyaṃ madbhakteṣvabhidhāsyati . bhaktiṃ mayi parāṃ kṛtvā māmevaiṣyatyasaṃśayaḥ ||18-68||",
+      "meaning": "।।18.68।। जो पुरुष मुझसे परम प्रेम (परा भक्ति) करके इस परम गुह्य ज्ञान का उपदेश मेरे भक्तों को देता है, वह नि:सन्देह मुझे ही प्राप्त होता है।।",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.69",
+      "chapter": 18,
+      "verse": 69,
+      "speaker": "श्रीभगवान्",
+      "slok": "न च तस्मान्मनुष्येषु कश्चिन्मे प्रियकृत्तमः | भविता न च मे तस्मादन्यः प्रियतरो भुवि ||१८-६९||",
+      "transliteration": "na ca tasmānmanuṣyeṣu kaścinme priyakṛttamaḥ . bhavitā na ca me tasmādanyaḥ priyataro bhuvi ||18-69||",
+      "meaning": "।।18.69।। न तो उससे बढ़कर मेरा अतिशय प्रिय कार्य करने वाला मनुष्यों में कोई है और न उससे बढ़कर मेरा प्रिय इस पृथ्वी पर दूसरा कोई होगा।।",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.70",
+      "chapter": 18,
+      "verse": 70,
+      "speaker": "श्रीभगवान्",
+      "slok": "अध्येष्यते च य इमं धर्म्यं संवादमावयोः | ज्ञानयज्ञेन तेनाहमिष्टः स्यामिति मे मतिः ||१८-७०||",
+      "transliteration": "adhyeṣyate ca ya imaṃ dharmyaṃ saṃvādamāvayoḥ . jñānayajñena tenāhamiṣṭaḥ syāmiti me matiḥ ||18-70||",
+      "meaning": "।।18.70।। जो पुरुष, हम दोनों के इस धर्ममय संवाद का पठन करेगा, उसके द्वारा मैं ज्ञानयज्ञ से पूजित होऊँगा - ऐसा मेरा मत है।।",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.71",
+      "chapter": 18,
+      "verse": 71,
+      "speaker": "श्रीभगवान्",
+      "slok": "श्रद्धावाननसूयश्च शृणुयादपि यो नरः | सोऽपि मुक्तः शुभाँल्लोकान्प्राप्नुयात्पुण्यकर्मणाम् ||१८-७१||",
+      "transliteration": "śraddhāvānanasūyaśca śṛṇuyādapi yo naraḥ . so.api muktaḥ śubhā.Nllokānprāpnuyātpuṇyakarmaṇām ||18-71||",
+      "meaning": "।।18.71।। तथा जो श्रद्धावान् और अनसुयु (दोषदृष्टि रहित) पुरुष इसका श्रवणमात्र भी करेगा, वह भी (पापों से) मुक्त होकर पुण्यकर्मियों के शुभ (श्रेष्ठ) लोकों को प्राप्त कर लेगा।।",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.72",
+      "chapter": 18,
+      "verse": 72,
+      "speaker": "श्रीभगवान्",
+      "slok": "कच्चिदेतच्छ्रुतं पार्थ त्वयैकाग्रेण चेतसा | कच्चिदज्ञानसम्मोहः प्रनष्टस्ते धनञ्जय ||१८-७२||",
+      "transliteration": "kaccidetacchrutaṃ pārtha tvayaikāgreṇa cetasā . kaccidajñānasammohaḥ pranaṣṭaste dhanañjaya ||18-72||",
+      "meaning": "।।18.72।। हे पार्थ ! क्या इसे (मेरे उपदेश को) तुमने एकाग्रचित्त होकर श्रवण किया ? और हे धनञ्जय ! क्या तुम्हारा अज्ञान जनित संमोह पूर्णतया नष्ट हुआ ?",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.73",
+      "chapter": 18,
+      "verse": 73,
+      "speaker": "अर्जुन",
+      "slok": "अर्जुन उवाच | नष्टो मोहः स्मृतिर्लब्धा त्वत्प्रसादान्मयाच्युत | स्थितोऽस्मि गतसन्देहः करिष्ये वचनं तव ||१८-७३||",
+      "transliteration": "arjuna uvāca . naṣṭo mohaḥ smṛtirlabdhā tvatprasādānmayācyuta . sthito.asmi gatasandehaḥ kariṣye vacanaṃ tava ||18-73||",
+      "meaning": "।।18.73।। अर्जुन ने कहा -- हे अच्युत ! आपके कृपाप्रसाद से मेरा मोह नष्ट हो गया है, और मुझे स्मृति (ज्ञान) प्राप्त हो गयी है? अब मैं संशयरहित हो गया हूँ और मैं आपके वचन (आज्ञा) का पालन करूँगा।।",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.74",
+      "chapter": 18,
+      "verse": 74,
+      "speaker": "सञ्जय",
+      "slok": "सञ्जय उवाच | इत्यहं वासुदेवस्य पार्थस्य च महात्मनः | संवादमिममश्रौषमद्भुतं रोमहर्षणम् ||१८-७४||",
+      "transliteration": "sañjaya uvāca . ityahaṃ vāsudevasya pārthasya ca mahātmanaḥ . saṃvādamimamaśrauṣamadbhutaṃ romaharṣaṇam ||18-74||",
+      "meaning": "।।18.74।। संजय ने कहा -- इस प्रकार मैंने भगवान् वासुदेव और महात्मा अर्जुन के इस अद्भुत और रोमान्चक संवाद का वर्णन किया।।",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.75",
+      "chapter": 18,
+      "verse": 75,
+      "speaker": "सञ्जय",
+      "slok": "व्यासप्रसादाच्छ्रुतवानेतद्गुह्यमहं परम् | योगं योगेश्वरात्कृष्णात्साक्षात्कथयतः स्वयम् ||१८-७५||",
+      "transliteration": "vyāsaprasādācchrutavānetadguhyamahaṃ param . yogaṃ yogeśvarātkṛṣṇātsākṣātkathayataḥ svayam ||18-75||",
+      "meaning": "।।18.75।। व्यास जी की कृपा से मैंने इस परम् गुह्य योग को साक्षात् कहते हुए स्वयं योगोश्वर श्रीकृष्ण भगवान् से सुना।।",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.76",
+      "chapter": 18,
+      "verse": 76,
+      "speaker": "सञ्जय",
+      "slok": "राजन्संस्मृत्य संस्मृत्य संवादमिममद्भुतम् | केशवार्जुनयोः पुण्यं हृष्यामि च मुहुर्मुहुः ||१८-७६||",
+      "transliteration": "rājansaṃsmṛtya saṃsmṛtya saṃvādamimamadbhutam . keśavārjunayoḥ puṇyaṃ hṛṣyāmi ca muhurmuhuḥ ||18-76||",
+      "meaning": "।।18.76।। हे राजन् ! भगवान् केशव और अर्जुन के इस अद्भुत और पुण्य (पवित्र) संवाद को स्मरण करके मैं बारम्बार हर्षित होता हूँ।।",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.77",
+      "chapter": 18,
+      "verse": 77,
+      "speaker": "सञ्जय",
+      "slok": "तच्च संस्मृत्य संस्मृत्य रूपमत्यद्भुतं हरेः | विस्मयो मे महान् राजन्हृष्यामि च पुनः पुनः ||१८-७७||",
+      "transliteration": "tacca saṃsmṛtya saṃsmṛtya rūpamatyadbhutaṃ hareḥ . vismayo me mahān rājanhṛṣyāmi ca punaḥ punaḥ ||18-77||",
+      "meaning": "।।18.77।। हे राजन ! श्री हरि के अति अद्भुत रूप को भी पुन: पुन: स्मरण करके मुझे महान् विस्मय होता है और मैं बारम्बार हर्षित हो रहा हूँ।।",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.78",
+      "chapter": 18,
+      "verse": 78,
+      "speaker": "सञ्जय",
+      "slok": "यत्र योगेश्वरः कृष्णो यत्र पार्थो धनुर्धरः | तत्र श्रीर्विजयो भूतिर्ध्रुवा नीतिर्मतिर्मम ||१८-७८||",
+      "transliteration": "yatra yogeśvaraḥ kṛṣṇo yatra pārtho dhanurdharaḥ . tatra śrīrvijayo bhūtirdhruvā nītirmatirmama ||18-78||",
+      "meaning": "।।18.78।। जहाँ योगेश्वर श्रीकृष्ण हैं और जहाँ धनुर्धारी अर्जुन है वहीं पर श्री, विजय, विभूति और ध्रुव नीति है, ऐसा मेरा मत है।।",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG18.79",
+      "chapter": 18,
+      "verse": 79,
+      "speaker": "सञ्जय",
+      "slok": "ॐ तत्सदिति श्रीमद्भगवद्गीतासूपनिषत्सु ब्रह्मविद्यायां योगशास्त्रे श्रीकृष्णार्जुनसंवादे मोक्षसंन्यासयोगो नाम अष्टादशोऽध्यायः ||१८||",
+      "transliteration": "OM tatsaditi śrīmadbhagavadgītāsūpaniṣatsu brahmavidyāyāṃ yogaśāstre śrīkṛṣṇārjunasaṃvāde mokṣasaṃnyāsayogo nāma aṣṭādaśo.adhyāyaḥ ||18-79||",
+      "meaning": "Swami Tejomayananda did not comment on this sloka",
+      "tags": [
+        "karma",
+        "success",
+        "fear"
+      ]
+    }
+  ]
+}

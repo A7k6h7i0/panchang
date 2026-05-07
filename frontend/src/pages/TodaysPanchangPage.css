@@ -1,0 +1,468 @@
+@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Playfair+Display:wght@500;600;700&family=Poppins:wght@600;700;800&display=swap");
+
+.todays-panchang-shell {
+  min-height: 100svh;
+  padding: 16px;
+  background:
+    radial-gradient(circle at top, rgba(255, 176, 60, 0.15), transparent 34%),
+    linear-gradient(180deg, #140502 0%, #241005 55%, #140502 100%);
+}
+
+.todays-panchang-stage {
+  min-height: calc(100svh - 32px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.todays-panchang-poster {
+  position: relative;
+  width: min(100%, 682px);
+  aspect-ratio: 682 / 1024;
+  overflow: hidden;
+  border-radius: 28px;
+  background-position: center;
+  background-size: cover;
+  box-shadow: 0 34px 90px rgba(0, 0, 0, 0.7);
+}
+
+.todays-panchang-fade {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at center, rgba(255, 218, 130, 0.08), transparent 45%),
+    linear-gradient(180deg, rgba(33, 10, 0, 0.06), rgba(33, 10, 0, 0.1));
+  pointer-events: none;
+}
+
+.poster-block {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.gold-heading,
+.poster-title-text,
+.poster-welcome-line1,
+.poster-welcome-line2,
+.poster-day-text,
+.poster-paksha-text,
+.poster-paksha-text,
+.poster-label,
+.poster-nakshatra-label {
+  background: linear-gradient(180deg, #fff8d7 0%, #ffe18a 22%, #ffcb53 50%, #e99a24 78%, #fff2b3 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow:
+    0 0 10px rgba(255, 205, 76, 0.35),
+    2px 2px 6px rgba(0, 0, 0, 0.68);
+}
+
+.poster-label {
+  font-family: "Cinzel", "Times New Roman", serif;
+  font-size: clamp(0.9rem, 2.15vw, 1.2rem);
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  line-height: 1;
+}
+
+.poster-title-text {
+  font-family: "Cinzel", "Times New Roman", serif;
+  font-size: clamp(1.35rem, 4.35vw, 2.5rem);
+  font-weight: 900;
+  letter-spacing: 0.01em;
+  line-height: 1;
+  background: linear-gradient(180deg, #fff3b5 0%, #ffe57b 18%, #ffcf3f 38%, #f2b61e 62%, #fff1a6 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow:
+    0 0 8px rgba(255, 217, 104, 0.58),
+    0 0 18px rgba(245, 177, 25, 0.42),
+    2px 2px 6px rgba(112, 58, 0, 0.52);
+  -webkit-text-stroke: 0.35px rgba(125, 73, 0, 0.28);
+}
+
+.poster-welcome-line1,
+.poster-welcome-line2 {
+  font-family: "Cinzel", "Times New Roman", serif;
+  font-size: clamp(0.88rem, 2.1vw, 1.16rem);
+  font-weight: 600;
+  color: #fff7e4;
+  line-height: 1;
+  text-shadow:
+    0 0 10px rgba(255, 215, 120, 0.16),
+    2px 2px 6px rgba(0, 0, 0, 0.82);
+}
+
+.poster-welcome-line2 {
+  margin-top: 0.18em;
+  font-size: clamp(0.8rem, 1.95vw, 1.02rem);
+  font-weight: 500;
+}
+
+.poster-day-text {
+  font-family: "Cinzel", "Times New Roman", serif;
+  font-size: clamp(1.2rem, 3.1vw, 1.9rem);
+  font-weight: 900;
+  letter-spacing: 0.03em;
+  line-height: 1;
+  color: #fffdf7;
+  text-shadow:
+    0 0 10px rgba(255, 255, 255, 0.18),
+    2px 2px 6px rgba(0, 0, 0, 0.72);
+}
+
+.poster-paksha-text {
+  font-family: "Cinzel", "Times New Roman", serif;
+  font-size: clamp(0.9rem, 2.1vw, 1.18rem);
+  font-weight: 600;
+  line-height: 1;
+  color: #fffdf7;
+  text-shadow:
+    0 0 10px rgba(255, 255, 255, 0.14),
+    2px 2px 6px rgba(0, 0, 0, 0.72);
+}
+
+.poster-time-text,
+.poster-nakshatra-text,
+.poster-sun-text {
+  font-family: "Cinzel", "Times New Roman", serif;
+  color: #fff7e4;
+  line-height: 1;
+  text-shadow:
+    0 0 10px rgba(255, 215, 120, 0.16),
+    2px 2px 6px rgba(0, 0, 0, 0.82);
+}
+
+.poster-time-text {
+  font-size: clamp(0.9rem, 2.15vw, 1.2rem);
+  font-weight: 800;
+  letter-spacing: 0.008em;
+  white-space: nowrap;
+}
+
+.poster-nakshatra-text {
+  font-family: "Cinzel", "Times New Roman", serif;
+  font-size: clamp(0.92rem, 2vw, 1.08rem);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.poster-icon {
+  display: inline-block;
+  margin-right: 0.28em;
+  color: #ffd86b;
+  text-shadow:
+    0 0 10px rgba(255, 219, 122, 0.35),
+    2px 2px 6px rgba(0, 0, 0, 0.65);
+}
+
+.poster-icon-sunrise,
+.poster-icon-sunset {
+  font-size: 0.95em;
+}
+
+.poster-icon-nakshatra {
+  font-size: 0.9em;
+}
+
+.poster-sun-text {
+  font-family: "Cinzel", "Times New Roman", serif;
+  font-size: clamp(0.82rem, 1.9vw, 1.05rem);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.poster-sun-label,
+.poster-yearname-label {
+  background: linear-gradient(180deg, #fff8d7 0%, #ffe18a 22%, #ffcb53 50%, #e99a24 78%, #fff2b3 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow:
+    0 0 10px rgba(255, 205, 76, 0.35),
+    2px 2px 6px rgba(0, 0, 0, 0.68);
+}
+
+.poster-sun-value,
+.poster-yearname-value {
+  color: #fffdf7;
+  text-shadow:
+    0 0 10px rgba(255, 255, 255, 0.18),
+    2px 2px 6px rgba(0, 0, 0, 0.72);
+}
+
+.poster-nakshatra-label {
+  background: linear-gradient(180deg, #fff8d7 0%, #ffe18a 22%, #ffcb53 50%, #e99a24 78%, #fff2b3 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow:
+    0 0 10px rgba(255, 205, 76, 0.35),
+    2px 2px 6px rgba(0, 0, 0, 0.68);
+}
+
+.poster-nakshatra-value {
+  color: #fffdf7;
+  text-shadow:
+    0 0 10px rgba(255, 255, 255, 0.18),
+    2px 2px 6px rgba(0, 0, 0, 0.72);
+}
+
+.poster-rahu-label {
+  top: 41.35%;
+  width: 46%;
+  left: 45%;
+  transform: translate(calc(-50% - 40px), -50%);
+}
+
+.poster-rahu-time {
+  top: 44.9%;
+  width: 66%;
+  left: 52%;
+
+}
+
+.poster-shubh-label {
+  top: 50.9%;
+  width: 50%;
+  left: 47%;
+}
+
+.poster-shubh-time {
+  top: 53.9%;
+  width: 66%;
+  left: 52%;
+
+}
+
+.poster-nakshatra {
+  top: 59.9%;
+  width: 58%;
+  left: 47%;
+
+}
+
+.poster-title {
+  top: 9.4%;
+  width: 72%;
+}
+
+.poster-welcome {
+  top: 15.1%;
+  width: 66%;
+}
+
+.poster-day {
+  top: 28.0%;
+  width: 54%;
+}
+
+.poster-paksha {
+  top: 31.24%;
+  width: 62%;
+}
+
+.poster-sunrise {
+  top: 63.35%;
+  left: 44%;
+  width: 38%;
+  
+}
+
+.poster-sunset {
+  top: 67.35%;
+  left: 43.1%;
+  width: 38%;
+}
+
+.poster-yearname {
+  top: 75.9%;
+  width: 38%;
+  left: 44.9%;
+}
+
+.poster-yearname-text {
+  font-family: "Cinzel", "Times New Roman", serif;
+  font-size: clamp(0.92rem, 2.15vw, 1.15rem);
+  font-weight: 700;
+  letter-spacing: 0.025em;
+  line-height: 1;
+  background: linear-gradient(180deg, #fff8d7 0%, #ffe18a 22%, #ffcb53 50%, #e99a24 78%, #fff2b3 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow:
+    0 0 10px rgba(255, 205, 76, 0.35),
+    2px 2px 6px rgba(0, 0, 0, 0.68);
+}
+
+.poster-yearname-label {
+  margin-right: 0.28em;
+}
+
+.poster-error {
+  position: absolute;
+  left: 50%;
+  bottom: 2%;
+  transform: translateX(-50%);
+  width: 74%;
+  border-radius: 14px;
+  background: rgba(70, 15, 5, 0.66);
+  color: #ffe4c6;
+  padding: 8px 12px;
+  text-align: center;
+  font-size: 12px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(3px);
+}
+
+@media (max-width: 640px) {
+  .todays-panchang-shell {
+    padding: 0;
+  }
+
+  .todays-panchang-stage {
+    min-height: 100svh;
+  }
+
+  .todays-panchang-poster {
+    width: 100vw;
+    height: 100svh;
+    max-width: 100vw;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .poster-title {
+    top: 9.1%;  
+    width: 78%;
+  }
+
+  .poster-title-text {
+    font-size: clamp(1.08rem, 5vw, 1.58rem);
+  }
+
+  .poster-welcome {
+    top: 15.1%;
+    width: 74%;
+  }
+
+  .poster-welcome-line1 {
+    font-size: clamp(0.66rem, 3.1vw, 0.82rem);
+  }
+
+  .poster-welcome-line2 {
+    font-size: clamp(0.6rem, 2.8vw, 0.74rem);
+  }
+
+  .poster-day {
+    top: 23.2%;
+    width: 66%;
+  }
+
+  .poster-day-text {
+    font-size: clamp(0.88rem, 4.4vw, 1.22rem);
+  }
+
+  .poster-paksha {
+    top: 32%;
+    width: 72%;
+  }
+
+  .poster-paksha-text {
+    font-size: clamp(0.64rem, 3.1vw, 0.82rem);
+  }
+
+  .poster-rahu-label {
+    top: 41.9%;
+    width: 54%;
+    transform: translate(calc(-50% - 6px), -50%);
+  }
+
+  .poster-rahu-time,
+  .poster-shubh-time {
+    width: 68%;
+  }
+
+  .poster-rahu-time {
+    top: 45.2%;
+  }
+
+  .poster-shubh-label {
+    top: 50.65%;
+    width: 58%;
+  }
+
+  .poster-shubh-time {
+    top: 54.2%;
+  }
+
+  .poster-nakshatra {
+    top: 59.75%;
+    width: 66%;
+    text-align: center;
+  }
+
+  .poster-sunrise {
+    top: 63.7%;
+    width: 46%;
+  }
+
+  .poster-sunset {
+    top: 67.7%;
+    width: 46%;
+  }
+
+  .poster-yearname {
+    top: 76.05%;
+    width: 50%;
+  }
+
+  .poster-nakshatra {
+    text-align: center;
+  }
+}
+
+@media (max-width: 400px) {
+  .poster-title-text {
+    font-size: clamp(1rem, 5.7vw, 1.52rem);
+  }
+
+  .poster-welcome-line1 {
+    font-size: clamp(0.56rem, 3vw, 0.68rem);
+  }
+
+  .poster-welcome-line2 {
+    font-size: clamp(0.5rem, 2.8vw, 0.62rem);
+  }
+
+  .poster-day-text {
+    font-size: clamp(0.74rem, 4vw, 0.98rem);
+  }
+
+  .poster-paksha-text {
+    font-size: clamp(0.52rem, 2.9vw, 0.66rem);
+  }
+
+  .poster-time-text {
+    font-size: clamp(0.68rem, 3.5vw, 0.9rem);
+  }
+
+  .poster-nakshatra-text {
+    font-size: clamp(0.68rem, 3.5vw, 0.88rem);
+  }
+
+  .poster-sun-text,
+  .poster-yearname-text {
+    font-size: clamp(0.64rem, 3.2vw, 0.8rem);
+  }
+}

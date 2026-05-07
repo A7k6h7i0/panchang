@@ -1,0 +1,353 @@
+{
+  "chapter": 16,
+  "meta": {
+    "chapter_number": 16,
+    "verses_count": 24,
+    "name": "दैवासुरसम्पद्विभागयोग",
+    "translation": "Daivasura Sampad Vibhaga Yoga",
+    "transliteration": "Daivāsura Sampad Vibhāg Yog",
+    "meaning": {
+      "en": "Yoga through Discerning the Divine and Demoniac Natures",
+      "hi": "दैवी तथा आसुरी स्वभाव"
+    },
+    "summary": {
+      "en": "The sixteenth chapter of the Bhagavad Gita is Daivasura Sampad Vibhaga Yoga. In this chapter, Krishna describes explicitly the two kinds of natures among human beings - divine and demoniac. Those who possess demonaic qualities associate themselves with the modes of passion and ignorance do not follow the regulations of the scriptures and embrace materialistic views. These people attain lower births and further material bondage. But people who possess divine qualities, follow the instructions of the scriptures, associate themselves with the mode of goodness and purify the mind through spiritual practices. This leads to the enhancement of divine qualities and they eventually attain spiritual realization.",
+      "hi": "भगवद गीता का सोलहवा अध्याय दैवासुरसम्पद्विभागयोग है। इस अध्याय में, कृष्ण स्पष्ट रूप से मानवों की दो प्रकार की प्रकृतियों का वर्णन करते हैं- दैवीय और दानवीय। दानवीय स्वभाव वाले लोग स्वयं को लालसा और अज्ञान के तरीकों से जोड़ते हैं, शास्त्रों के नियमों का पालन नहीं करते हैं और भौतिक विचारों को ग्रहण करते हैं। ये लोग निचली जातियों में जन्म लेते हैं और भौतिक बंधनों में और भी बंध जाते हैं। परन्तु जो लोग दैवीय स्वभाव वाले होते हैं, वे शास्त्रों के निर्देशों का पालन करते हैं, अच्छे काम करते हैं और आध्यात्मिक प्रथाओं के माध्यम से मन को शुद्ध करते हैं। इससे दैवीय गुणों में वृद्धि होती है और वे अंततः आध्यात्मिक प्राप्ति प्राप्त करते हैं।"
+    },
+    "themes": [
+      "fear",
+      "success",
+      "mind",
+      "karma"
+    ]
+  },
+  "verses": [
+    {
+      "id": "BG16.1",
+      "chapter": 16,
+      "verse": 1,
+      "speaker": "श्रीभगवान्",
+      "slok": "श्रीभगवानुवाच | अभयं सत्त्वसंशुद्धिर्ज्ञानयोगव्यवस्थितिः | दानं दमश्च यज्ञश्च स्वाध्यायस्तप आर्जवम् ||१६-१||",
+      "transliteration": "śrībhagavānuvāca . abhayaṃ sattvasaṃśuddhirjñānayogavyavasthitiḥ . dānaṃ damaśca yajñaśca svādhyāyastapa ārjavam ||16-1||",
+      "meaning": "।।16.1।। श्री भगवान् ने कहा -- अभय, अन्त:करण की शुद्धि, ज्ञानयोग में दृढ़ स्थिति, दान, दम, यज्ञ, स्वाध्याय, तप और आर्जव।।",
+      "tags": [
+        "fear",
+        "success"
+      ]
+    },
+    {
+      "id": "BG16.2",
+      "chapter": 16,
+      "verse": 2,
+      "speaker": "श्रीभगवान्",
+      "slok": "अहिंसा सत्यमक्रोधस्त्यागः शान्तिरपैशुनम् | दया भूतेष्वलोलुप्त्वं मार्दवं ह्रीरचापलम् ||१६-२||",
+      "transliteration": "ahiṃsā satyamakrodhastyāgaḥ śāntirapaiśunam . dayā bhūteṣvaloluptvaṃ mārdavaṃ hrīracāpalam ||16-2||",
+      "meaning": "।।16.2।। अहिंसा, सत्य, क्रोध का अभाव, त्याग, शान्ति, अपैशुनम् (किसी की निन्दा न करना), भूतमात्र के प्रति दया, अलोलुपता , मार्दव (कोमलता), लज्जा, अचंचलता।।",
+      "tags": [
+        "fear",
+        "success"
+      ]
+    },
+    {
+      "id": "BG16.3",
+      "chapter": 16,
+      "verse": 3,
+      "speaker": "श्रीभगवान्",
+      "slok": "तेजः क्षमा धृतिः शौचमद्रोहो नातिमानिता | भवन्ति सम्पदं दैवीमभिजातस्य भारत ||१६-३||",
+      "transliteration": "tejaḥ kṣamā dhṛtiḥ śaucamadroho nātimānitā . bhavanti sampadaṃ daivīmabhijātasya bhārata ||16-3||",
+      "meaning": "।।16.3।। हे भारत ! तेज, क्षमा, धैर्य, शौच (शुद्धि), अद्रोह और अतिमान (गर्व) का अभाव ये सब दैवी संपदा को प्राप्त पुरुष के लक्षण हैं।।",
+      "tags": [
+        "fear",
+        "success"
+      ]
+    },
+    {
+      "id": "BG16.4",
+      "chapter": 16,
+      "verse": 4,
+      "speaker": "श्रीभगवान्",
+      "slok": "दम्भो दर्पोऽभिमानश्च क्रोधः पारुष्यमेव च | अज्ञानं चाभिजातस्य पार्थ सम्पदमासुरीम् ||१६-४||",
+      "transliteration": "dambho darpo.abhimānaśca krodhaḥ pāruṣyameva ca . ajñānaṃ cābhijātasya pārtha sampadamāsurīm ||16-4||",
+      "meaning": "।।16.4।। हे पार्थ ! दम्भ, दर्प, अभिमान, क्रोध, कठोर वाणी (पारुष्य) और अज्ञान यह सब आसुरी सम्पदा है।।",
+      "tags": [
+        "fear",
+        "success"
+      ]
+    },
+    {
+      "id": "BG16.5",
+      "chapter": 16,
+      "verse": 5,
+      "speaker": "श्रीभगवान्",
+      "slok": "दैवी सम्पद्विमोक्षाय निबन्धायासुरी मता | मा शुचः सम्पदं दैवीमभिजातोऽसि पाण्डव ||१६-५||",
+      "transliteration": "daivī sampadvimokṣāya nibandhāyāsurī matā . mā śucaḥ sampadaṃ daivīmabhijāto.asi pāṇḍava ||16-5||",
+      "meaning": "।।16.5।। हे पाण्डव ! दैवी सम्पदा मोक्ष के लिए और आसुरी सम्पदा बन्धन के लिए मानी गयी है, तुम शोक मत करो, क्योंकि तुम दैवी सम्पदा को प्राप्त हुए हो।।",
+      "tags": [
+        "fear",
+        "success"
+      ]
+    },
+    {
+      "id": "BG16.6",
+      "chapter": 16,
+      "verse": 6,
+      "speaker": "श्रीभगवान्",
+      "slok": "द्वौ भूतसर्गौ लोकेऽस्मिन्दैव आसुर एव च | दैवो विस्तरशः प्रोक्त आसुरं पार्थ मे शृणु ||१६-६||",
+      "transliteration": "dvau bhūtasargau loke.asmindaiva āsura eva ca . daivo vistaraśaḥ prokta āsuraṃ pārtha me śṛṇu ||16-6||",
+      "meaning": "।।16.6।। हे पार्थ ! इस लोक में दो प्रकार की भूतिसृष्टि है, दैवी और आसुरी। उनमें देवों का स्वभाव (दैवी सम्पदा) विस्तारपूर्वक कहा गया है; अब असुरों के स्वभाव को विस्तरश: मुझसे सुनो।।",
+      "tags": [
+        "fear",
+        "success",
+        "mind"
+      ]
+    },
+    {
+      "id": "BG16.7",
+      "chapter": 16,
+      "verse": 7,
+      "speaker": "श्रीभगवान्",
+      "slok": "प्रवृत्तिं च निवृत्तिं च जना न विदुरासुराः | न शौचं नापि चाचारो न सत्यं तेषु विद्यते ||१६-७||",
+      "transliteration": "pravṛttiṃ ca nivṛttiṃ ca janā na vidurāsurāḥ . na śaucaṃ nāpi cācāro na satyaṃ teṣu vidyate ||16-7||",
+      "meaning": "।।16.7।। आसुरी स्वभाव के लोग न प्रवृत्ति को; जानते हैं और न निवृत्ति को उनमें न शुद्धि होती है, न सदाचार और न सत्य ही होता है।।",
+      "tags": [
+        "fear",
+        "success"
+      ]
+    },
+    {
+      "id": "BG16.8",
+      "chapter": 16,
+      "verse": 8,
+      "speaker": "श्रीभगवान्",
+      "slok": "असत्यमप्रतिष्ठं ते जगदाहुरनीश्वरम् | अपरस्परसम्भूतं किमन्यत्कामहैतुकम् ||१६-८||",
+      "transliteration": "asatyamapratiṣṭhaṃ te jagadāhuranīśvaram . aparasparasambhūtaṃ kimanyatkāmahaitukam ||16-8||",
+      "meaning": "।।16.8।। वे कहते हैं कि यह जगत् आश्रयरहित, असत्य और ईश्वर रहित है, यह (स्त्रीपुरुष के) परस्पर कामुक संबंध से ही उत्पन्न हुआ है, और (इसका कारण) क्या हो सकता है?",
+      "tags": [
+        "fear",
+        "success"
+      ]
+    },
+    {
+      "id": "BG16.9",
+      "chapter": 16,
+      "verse": 9,
+      "speaker": "श्रीभगवान्",
+      "slok": "एतां दृष्टिमवष्टभ्य नष्टात्मानोऽल्पबुद्धयः | प्रभवन्त्युग्रकर्माणः क्षयाय जगतोऽहिताः ||१६-९||",
+      "transliteration": "etāṃ dṛṣṭimavaṣṭabhya naṣṭātmāno.alpabuddhayaḥ . prabhavantyugrakarmāṇaḥ kṣayāya jagato.ahitāḥ ||16-9||",
+      "meaning": "।।16.9।। इस दृष्टि का अवलम्बन करके नष्टस्वभाव के अल्प बुद्धि वाले, घोर कर्म करने वाले लोग जगत् के शत्रु (अहित चाहने वाले) के रूप में उसका नाश करने के लिए उत्पन्न होते हैं।।",
+      "tags": [
+        "fear",
+        "success"
+      ]
+    },
+    {
+      "id": "BG16.10",
+      "chapter": 16,
+      "verse": 10,
+      "speaker": "श्रीभगवान्",
+      "slok": "काममाश्रित्य दुष्पूरं दम्भमानमदान्विताः | मोहाद्गृहीत्वासद्ग्राहान्प्रवर्तन्तेऽशुचिव्रताः ||१६-१०||",
+      "transliteration": "kāmamāśritya duṣpūraṃ dambhamānamadānvitāḥ . mohādgṛhītvāsadgrāhānpravartante.aśucivratāḥ ||16-10||",
+      "meaning": "।।16.10।। दम्भ, मान और मद से युक्त कभी न पूर्ण होने वाली कामनाओं का आश्रय लिये, मोहवश मिथ्या धारणाओं को ग्रहण करके ये अशुद्ध संकल्पों के लोग जगत् में कार्य करते हैं।।",
+      "tags": [
+        "fear",
+        "success"
+      ]
+    },
+    {
+      "id": "BG16.11",
+      "chapter": 16,
+      "verse": 11,
+      "speaker": "श्रीभगवान्",
+      "slok": "चिन्तामपरिमेयां च प्रलयान्तामुपाश्रिताः | कामोपभोगपरमा एतावदिति निश्चिताः ||१६-११||",
+      "transliteration": "cintāmaparimeyāṃ ca pralayāntāmupāśritāḥ . kāmopabhogaparamā etāvaditi niścitāḥ ||16-11||",
+      "meaning": "।।16.11।। मरणपर्यन्त रहने वाली अपरिमित चिन्ताओं से ग्रस्त और विषयोपभोग को ही परम लक्ष्य मानने वाले ये आसुरी लोग इस निश्चित मत के होते हैं कि \"इतना ही (सत्य, आनन्द) है\"।।",
+      "tags": [
+        "fear",
+        "success"
+      ]
+    },
+    {
+      "id": "BG16.12",
+      "chapter": 16,
+      "verse": 12,
+      "speaker": "श्रीभगवान्",
+      "slok": "आशापाशशतैर्बद्धाः कामक्रोधपरायणाः | ईहन्ते कामभोगार्थमन्यायेनार्थसञ्चयान् ||१६-१२||",
+      "transliteration": "āśāpāśaśatairbaddhāḥ kāmakrodhaparāyaṇāḥ . īhante kāmabhogārthamanyāyenārthasañcayān ||16-12||",
+      "meaning": "।।16.12।। सैकड़ों आशापाशों से बन्धे हुये, काम और क्रोध के वश में ये लोग विषयभोगों की पूर्ति के लिये अन्यायपूर्वक धन का संग्रह करने के लिये चेष्टा करते हैं।।",
+      "tags": [
+        "fear",
+        "success"
+      ]
+    },
+    {
+      "id": "BG16.13",
+      "chapter": 16,
+      "verse": 13,
+      "speaker": "श्रीभगवान्",
+      "slok": "इदमद्य मया लब्धमिमं प्राप्स्ये मनोरथम् | इदमस्तीदमपि मे भविष्यति पुनर्धनम् ||१६-१३||",
+      "transliteration": "idamadya mayā labdhamimaṃ prāpsye manoratham . idamastīdamapi me bhaviṣyati punardhanam ||16-13||",
+      "meaning": "।।16.13।। मैंने आज यह पाया है और इस मनोरथ को भी प्राप्त करूंगा, मेरे पास यह इतना धन है और इससे भी अधिक धन भविष्य में होगा।।",
+      "tags": [
+        "fear",
+        "success"
+      ]
+    },
+    {
+      "id": "BG16.14",
+      "chapter": 16,
+      "verse": 14,
+      "speaker": "श्रीभगवान्",
+      "slok": "असौ मया हतः शत्रुर्हनिष्ये चापरानपि | ईश्वरोऽहमहं भोगी सिद्धोऽहं बलवान्सुखी ||१६-१४||",
+      "transliteration": "asau mayā hataḥ śatrurhaniṣye cāparānapi . īśvaro.ahamahaṃ bhogī siddho.ahaṃ balavānsukhī ||16-14||",
+      "meaning": "।।16.14।। \"यह शत्रु मेरे द्वारा मारा गया है और दूसरे शत्रुओं को भी मैं मारूंगा\", \"मैं ईश्वर हूँ और भोगी हूँ\", \"मैं सिद्ध पुरुष हूँ\", \"मैं बलवान और सुखी हूँ\",।।",
+      "tags": [
+        "fear",
+        "success"
+      ]
+    },
+    {
+      "id": "BG16.15",
+      "chapter": 16,
+      "verse": 15,
+      "speaker": "श्रीभगवान्",
+      "slok": "आढ्योऽभिजनवानस्मि कोऽन्योऽस्ति सदृशो मया | यक्ष्ये दास्यामि मोदिष्य इत्यज्ञानविमोहिताः ||१६-१५||",
+      "transliteration": "āḍhyo.abhijanavānasmi ko.anyo.asti sadṛśo mayā . yakṣye dāsyāmi modiṣya ityajñānavimohitāḥ ||16-15||",
+      "meaning": "।।16.15।। \"मैं धनवान् और श्रेष्ठकुल में जन्मा हूँ। मेरे समान दूसरा कौन है?\",'मैं यज्ञ करूंगा', 'मैं दान दूँगा', 'मैं मौज करूँगा' - इस प्रकार के अज्ञान से वे मोहित होते हैं।।",
+      "tags": [
+        "fear",
+        "success"
+      ]
+    },
+    {
+      "id": "BG16.16",
+      "chapter": 16,
+      "verse": 16,
+      "speaker": "श्रीभगवान्",
+      "slok": "अनेकचित्तविभ्रान्ता मोहजालसमावृताः | प्रसक्ताः कामभोगेषु पतन्ति नरकेऽशुचौ ||१६-१६||",
+      "transliteration": "anekacittavibhrāntā mohajālasamāvṛtāḥ . prasaktāḥ kāmabhogeṣu patanti narake.aśucau ||16-16||",
+      "meaning": "।।16.16।। अनेक प्रकार से भ्रमित चित्त वाले, मोह जाल में फँसे तथा विषयभोगों में आसक्त ये लोग घोर, अपवित्र नरक में गिरते हैं।।",
+      "tags": [
+        "fear",
+        "success"
+      ]
+    },
+    {
+      "id": "BG16.17",
+      "chapter": 16,
+      "verse": 17,
+      "speaker": "श्रीभगवान्",
+      "slok": "आत्मसम्भाविताः स्तब्धा धनमानमदान्विताः | यजन्ते नामयज्ञैस्ते दम्भेनाविधिपूर्वकम् ||१६-१७||",
+      "transliteration": "ātmasambhāvitāḥ stabdhā dhanamānamadānvitāḥ . yajante nāmayajñaiste dambhenāvidhipūrvakam ||16-17||",
+      "meaning": "।।16.17।। अपने आप को ही श्रेष्ठ मानने वाले, स्तब्ध (गर्वयुक्त), धन और मान के मद से युक्त लोग शास्त्रविधि से रहित केवल नाममात्र के यज्ञों द्वारा दम्भपूर्वक यजन करते हैं।।",
+      "tags": [
+        "fear",
+        "success"
+      ]
+    },
+    {
+      "id": "BG16.18",
+      "chapter": 16,
+      "verse": 18,
+      "speaker": "श्रीभगवान्",
+      "slok": "अहंकारं बलं दर्पं कामं क्रोधं च संश्रिताः | मामात्मपरदेहेषु प्रद्विषन्तोऽभ्यसूयकाः ||१६-१८||",
+      "transliteration": "ahaṃkāraṃ balaṃ darpaṃ kāmaṃ krodhaṃ ca saṃśritāḥ . māmātmaparadeheṣu pradviṣanto.abhyasūyakāḥ ||16-18||",
+      "meaning": "।।16.18।। अहंकार, बल, दर्प, काम और क्रोध के वशीभूत हुए परनिन्दा करने वाले ये लोग अपने और दूसरों के शरीर में स्थित मुझ (परमात्मा) से द्वेष करने वाले होते हैं।।",
+      "tags": [
+        "fear",
+        "success"
+      ]
+    },
+    {
+      "id": "BG16.19",
+      "chapter": 16,
+      "verse": 19,
+      "speaker": "श्रीभगवान्",
+      "slok": "तानहं द्विषतः क्रुरान्संसारेषु नराधमान् | क्षिपाम्यजस्रमशुभानासुरीष्वेव योनिषु ||१६-१९||",
+      "transliteration": "tānahaṃ dviṣataḥ krurānsaṃsāreṣu narādhamān . kṣipāmyajasramaśubhānāsurīṣveva yoniṣu ||16-19||",
+      "meaning": "।।16.19।। ऐसे उन द्वेष करने वाले, क्रूरकर्मी और नराधमों को मैं संसार में बारम्बार (अजस्रम्) आसुरी योनियों में ही गिराता हूँ अर्थात् उत्पन्न करता हूँ।।",
+      "tags": [
+        "fear",
+        "success"
+      ]
+    },
+    {
+      "id": "BG16.20",
+      "chapter": 16,
+      "verse": 20,
+      "speaker": "श्रीभगवान्",
+      "slok": "आसुरीं योनिमापन्ना मूढा जन्मनि जन्मनि | मामप्राप्यैव कौन्तेय ततो यान्त्यधमां गतिम् ||१६-२०||",
+      "transliteration": "āsurīṃ yonimāpannā mūḍhā janmani janmani . māmaprāpyaiva kaunteya tato yāntyadhamāṃ gatim ||16-20||",
+      "meaning": "।।16.20।। हे कौन्तेय ! वे मूढ़ पुरुष जन्मजन्मान्तर में आसुरी योनि को प्राप्त होते हैं और ( इस प्रकार) मुझे प्राप्त न होकर अधम गति को प्राप्त होते है।।",
+      "tags": [
+        "fear",
+        "success"
+      ]
+    },
+    {
+      "id": "BG16.21",
+      "chapter": 16,
+      "verse": 21,
+      "speaker": "श्रीभगवान्",
+      "slok": "त्रिविधं नरकस्येदं द्वारं नाशनमात्मनः | कामः क्रोधस्तथा लोभस्तस्मादेतत्त्रयं त्यजेत् ||१६-२१||",
+      "transliteration": "trividhaṃ narakasyedaṃ dvāraṃ nāśanamātmanaḥ . kāmaḥ krodhastathā lobhastasmādetattrayaṃ tyajet ||16-21||",
+      "meaning": "।।16.21।। काम, क्रोध और लोभ ये आत्मनाश के त्रिविध द्वार हैं, इसलिए इन तीनों को त्याग देना चाहिए।।",
+      "tags": [
+        "fear",
+        "success"
+      ]
+    },
+    {
+      "id": "BG16.22",
+      "chapter": 16,
+      "verse": 22,
+      "speaker": "श्रीभगवान्",
+      "slok": "एतैर्विमुक्तः कौन्तेय तमोद्वारैस्त्रिभिर्नरः | आचरत्यात्मनः श्रेयस्ततो याति परां गतिम् ||१६-२२||",
+      "transliteration": "etairvimuktaḥ kaunteya tamodvāraistribhirnaraḥ . ācaratyātmanaḥ śreyastato yāti parāṃ gatim ||16-22||",
+      "meaning": "।।16.22।। हे कौन्तेय ! नरक के इन तीनों द्वारों से विमुक्त पुरुष अपने कल्याण के साधन का आचरण करता है और इस प्रकार परा गति को प्राप्त होता है।।",
+      "tags": [
+        "fear",
+        "success"
+      ]
+    },
+    {
+      "id": "BG16.23",
+      "chapter": 16,
+      "verse": 23,
+      "speaker": "श्रीभगवान्",
+      "slok": "यः शास्त्रविधिमुत्सृज्य वर्तते कामकारतः | न स सिद्धिमवाप्नोति न सुखं न परां गतिम् ||१६-२३||",
+      "transliteration": "yaḥ śāstravidhimutsṛjya vartate kāmakārataḥ . na sa siddhimavāpnoti na sukhaṃ na parāṃ gatim ||16-23||",
+      "meaning": "।।16.23।। जो पुरुष शास्त्रविधि को त्यागकर अपनी कामना से प्रेरित होकर ही कार्य करता है, वह न पूर्णत्व की सिद्धि प्राप्त करता है, न सुख और न परा गति।।",
+      "tags": [
+        "fear",
+        "success"
+      ]
+    },
+    {
+      "id": "BG16.24",
+      "chapter": 16,
+      "verse": 24,
+      "speaker": "श्रीभगवान्",
+      "slok": "तस्माच्छास्त्रं प्रमाणं ते कार्याकार्यव्यवस्थितौ | ज्ञात्वा शास्त्रविधानोक्तं कर्म कर्तुमिहार्हसि ||१६-२४||",
+      "transliteration": "tasmācchāstraṃ pramāṇaṃ te kāryākāryavyavasthitau . jñātvā śāstravidhānoktaṃ karma kartumihārhasi ||16-24||",
+      "meaning": "।।16.24।। इसलिए तुम्हारे लिए कर्तव्य और अकर्तव्य की व्यवस्था (निर्णय) में शास्त्र ही प्रमाण है शास्त्रोक्त विधान को जानकर तुम्हें अपने कर्म करने चाहिए।।",
+      "tags": [
+        "fear",
+        "success",
+        "karma"
+      ]
+    },
+    {
+      "id": "BG16.25",
+      "chapter": 16,
+      "verse": 25,
+      "speaker": "श्रीभगवान्",
+      "slok": "ॐ तत्सदिति श्रीमद्भगवद्गीतासूपनिषत्सु ब्रह्मविद्यायां योगशास्त्रे श्रीकृष्णार्जुनसंवादे दैवासुरसम्पद्विभागयोगो नाम षोडशोऽध्यायः ||१६||",
+      "transliteration": "OM tatsaditi śrīmadbhagavadgītāsūpaniṣatsu brahmavidyāyāṃ yogaśāstre śrīkṛṣṇārjunasaṃvāde daivāsurasampadvibhāgayogo nāma ṣoḍaśo.adhyāyaḥ ||16-25||",
+      "meaning": "Swami Tejomayananda did not comment on this sloka",
+      "tags": [
+        "fear",
+        "success"
+      ]
+    }
+  ]
+}

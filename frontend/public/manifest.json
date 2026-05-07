@@ -1,0 +1,28 @@
+{
+  "name": "Panchang Calendar",
+  "short_name": "Panchang",
+  "description": "Panchang app with temples, purohits, pooja stores, and astrology tools.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#201106",
+  "theme_color": "#8c3c1e",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/RingBell-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/RingBell-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/RingBell-512-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

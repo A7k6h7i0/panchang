@@ -1,0 +1,47 @@
+name: panchang_flutter
+description: "A new Flutter project."
+publish_to: 'none'
+version: 1.0.5+3
+environment:
+  sdk: ^3.10.7
+
+dependencies:
+  flutter:
+    sdk: flutter
+  webview_flutter: ^4.13.1
+  facebook_app_events: ^0.26.0
+  cupertino_icons: ^1.0.8
+  flutter_compass: ^0.8.1
+  permission_handler: ^12.0.1
+  geolocator: ^14.0.2
+  alarm: ^5.2.1
+  firebase_core: ^4.6.0
+  firebase_analytics: ^12.2.0
+  firebase_messaging: ^16.0.0
+  flutter_local_notifications: ^21.0.0
+  google_sign_in: ^7.2.0
+  firebase_auth: ^6.3.0
+  cloud_firestore: ^6.2.0
+  device_info_plus: ^12.2.0
+  package_info_plus: ^9.0.0
+  shared_preferences: ^2.5.5
+  share_plus: ^12.0.2
+  google_mobile_ads: ^8.0.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  flutter_launcher_icons: ^0.14.2
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/logo.png 
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: assets/logo.png
+  min_sdk_android: 21
+

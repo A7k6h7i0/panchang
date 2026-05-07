@@ -1,0 +1,598 @@
+{
+  "chapter": 3,
+  "meta": {
+    "chapter_number": 3,
+    "verses_count": 43,
+    "name": "कर्मयोग",
+    "translation": "Karma Yoga",
+    "transliteration": "Karm Yog",
+    "meaning": {
+      "en": "Path of Selfless Service",
+      "hi": "कर्मयोग"
+    },
+    "summary": {
+      "en": "The third chapter of the Bhagavad Gita is Karma Yoga or the Path of Selfless Service. Here Lord Krishna emphasizes the importance of karma in life. He reveals that it is important for every human being to engage in some sort of activity in this material world. Further, he describes the kinds of actions that lead to bondage and the kinds that lead to liberation. Those persons who continue to perform their respective duties externally for the pleasure of the Supreme, without attachment to its rewards get liberation at the end.",
+      "hi": "भगवद गीता का तीसरा अध्याय कर्मयोग या निःस्वार्थ सेवा का मार्ग है। इस अध्याय में भगवान श्रीकृष्ण जीवन में कर्म के महत्व पर जोर देते हैं। वे बताते हैं कि इस भौतिक संसार में हर मनुष्य का किसी न किसी प्रकार की क्रिया में सम्मिलित होना अनिवार्य है। इसके अलावा, वह उन कार्यों के बारे में बताते हैं जो मनुष्य को बांधते हैं अथवा वे जो मनुष्य को मुक्ति दिलाते हैं। वे मनुष्य जो अपने कर्तव्यों को भगवन की ख़ुशी के लिए एवं बिना फल की अपेक्षा किये हुए निरंतर करते रहते हैं, वे अंत में मुक्ति प्राप्त करते हैं।"
+    },
+    "themes": [
+      "karma",
+      "success",
+      "mind"
+    ]
+  },
+  "verses": [
+    {
+      "id": "BG3.1",
+      "chapter": 3,
+      "verse": 1,
+      "speaker": "अर्जुन",
+      "slok": "अर्जुन उवाच | ज्यायसी चेत्कर्मणस्ते मता बुद्धिर्जनार्दन | तत्किं कर्मणि घोरे मां नियोजयसि केशव ||३-१||",
+      "transliteration": "arjuna uvāca . jyāyasī cetkarmaṇaste matā buddhirjanārdana . tatkiṃ karmaṇi ghore māṃ niyojayasi keśava ||3-1||",
+      "meaning": "।।3.1।। हे जनार्दन यदि आपको यह मान्य है कि कर्म से ज्ञान श्रेष्ठ है तो फिर हे केशव आप मुझे इस भयंकर कर्म में क्यों प्रवृत्त करते हैं",
+      "tags": [
+        "karma",
+        "success"
+      ]
+    },
+    {
+      "id": "BG3.2",
+      "chapter": 3,
+      "verse": 2,
+      "speaker": "अर्जुन",
+      "slok": "व्यामिश्रेणेव वाक्येन बुद्धिं मोहयसीव मे | तदेकं वद निश्चित्य येन श्रेयोऽहमाप्नुयाम् ||३-२||",
+      "transliteration": "vyāmiśreṇeva vākyena buddhiṃ mohayasīva me . tadekaṃ vada niścitya yena śreyo.ahamāpnuyām ||3-2||",
+      "meaning": "।।3.2।। आप इस मिश्रित वाक्य से मेरी बुद्धि को मोहितसा करते हैं अत आप उस एक (मार्ग) को निश्चित रूप से कहिये जिससे मैं परम श्रेय को प्राप्त कर सकूँ।।",
+      "tags": [
+        "karma",
+        "success"
+      ]
+    },
+    {
+      "id": "BG3.3",
+      "chapter": 3,
+      "verse": 3,
+      "speaker": "श्रीभगवान्",
+      "slok": "श्रीभगवानुवाच | लोकेऽस्मिन् द्विविधा निष्ठा पुरा प्रोक्ता मयानघ | ज्ञानयोगेन साङ्ख्यानां कर्मयोगेन योगिनाम् ||३-३||",
+      "transliteration": "śrībhagavānuvāca . loke.asmina dvividhā niṣṭhā purā proktā mayānagha . jñānayogena sāṅkhyānāṃ karmayogena yoginām ||3-3||",
+      "meaning": "।।3.3।। श्री भगवान् ने कहा हे निष्पाप (अनघ) अर्जुन इस श्लोक में दो प्रकार की निष्ठा मेरे द्वारा पहले कही गयी है ज्ञानियों की (सांख्यानां) ज्ञानयोग से और योगियों की कर्मयोग से।।",
+      "tags": [
+        "karma",
+        "success"
+      ]
+    },
+    {
+      "id": "BG3.4",
+      "chapter": 3,
+      "verse": 4,
+      "speaker": "श्रीभगवान्",
+      "slok": "न कर्मणामनारम्भान्नैष्कर्म्यं पुरुषोऽश्नुते | न च संन्यसनादेव सिद्धिं समधिगच्छति ||३-४||",
+      "transliteration": "na karmaṇāmanārambhānnaiṣkarmyaṃ puruṣo.aśnute . na ca saṃnyasanādeva siddhiṃ samadhigacchati ||3-4||",
+      "meaning": "।।3.4।। कर्मों के न करने से मनुष्य नैर्ष्कम्य को प्राप्त नहीं होता और न कर्मों के संन्यास से ही वह सिद्धि (पूर्णत्व) प्राप्त करता है।।",
+      "tags": [
+        "karma",
+        "success"
+      ]
+    },
+    {
+      "id": "BG3.5",
+      "chapter": 3,
+      "verse": 5,
+      "speaker": "श्रीभगवान्",
+      "slok": "न हि कश्चित्क्षणमपि जातु तिष्ठत्यकर्मकृत् | कार्यते ह्यवशः कर्म सर्वः प्रकृतिजैर्गुणैः ||३-५||",
+      "transliteration": "na hi kaścitkṣaṇamapi jātu tiṣṭhatyakarmakṛt . kāryate hyavaśaḥ karma sarvaḥ prakṛtijairguṇaiḥ ||3-5||",
+      "meaning": "।।3.5।। कोई भी पुरुष कभी क्षणमात्र भी बिना कर्म किए नहीं रह सकता क्योंकि प्रकृति से उत्पन्न गुणों के द्वारा अवश हुए सब (पुरुषों) से कर्म करवा लिया जाता है।।",
+      "tags": [
+        "karma",
+        "success"
+      ]
+    },
+    {
+      "id": "BG3.6",
+      "chapter": 3,
+      "verse": 6,
+      "speaker": "श्रीभगवान्",
+      "slok": "कर्मेन्द्रियाणि संयम्य य आस्ते मनसा स्मरन् | इन्द्रियार्थान्विमूढात्मा मिथ्याचारः स उच्यते ||३-६||",
+      "transliteration": "karmendriyāṇi saṃyamya ya āste manasā smaran . indriyārthānvimūḍhātmā mithyācāraḥ sa ucyate ||3-6||",
+      "meaning": "।।3.6।। जो मूढ बुद्धि पुरुष कर्मेन्द्रियों का निग्रह कर इन्द्रियों के भोगों का मन से स्मरण (चिन्तन) करता रहता है वह मिथ्याचारी (दम्भी) कहा जाता है।।",
+      "tags": [
+        "karma",
+        "success"
+      ]
+    },
+    {
+      "id": "BG3.7",
+      "chapter": 3,
+      "verse": 7,
+      "speaker": "श्रीभगवान्",
+      "slok": "यस्त्विन्द्रियाणि मनसा नियम्यारभतेऽर्जुन | कर्मेन्द्रियैः कर्मयोगमसक्तः स विशिष्यते ||३-७||",
+      "transliteration": "yastvindriyāṇi manasā niyamyārabhate.arjuna . karmendriyaiḥ karmayogamasaktaḥ sa viśiṣyate ||3-7||",
+      "meaning": "।।3.7।। परन्तु हे अर्जुन जो पुरुष मन से इन्द्रियों को वश में करके अनासक्त हुआ कर्मेंन्द्रियों से कर्मयोग का आचरण करता है वह श्रेष्ठ है।।",
+      "tags": [
+        "karma",
+        "success"
+      ]
+    },
+    {
+      "id": "BG3.8",
+      "chapter": 3,
+      "verse": 8,
+      "speaker": "श्रीभगवान्",
+      "slok": "नियतं कुरु कर्म त्वं कर्म ज्यायो ह्यकर्मणः | शरीरयात्रापि च ते न प्रसिद्ध्येदकर्मणः ||३-८||",
+      "transliteration": "niyataṃ kuru karma tvaṃ karma jyāyo hyakarmaṇaḥ . śarīrayātrāpi ca te na prasiddhyedakarmaṇaḥ ||3-8||",
+      "meaning": "।।3.8।। तुम (अपने) नियत (कर्तव्य) कर्म करो क्योंकि अकर्म से श्रेष्ठ कर्म है। तुम्हारे अकर्म होने से (तुम्हारा) शरीर निर्वाह भी नहीं सिद्ध होगा।।",
+      "tags": [
+        "karma",
+        "success"
+      ]
+    },
+    {
+      "id": "BG3.9",
+      "chapter": 3,
+      "verse": 9,
+      "speaker": "श्रीभगवान्",
+      "slok": "यज्ञार्थात्कर्मणोऽन्यत्र लोकोऽयं कर्मबन्धनः | तदर्थं कर्म कौन्तेय मुक्तसङ्गः समाचर ||३-९||",
+      "transliteration": "yajñārthātkarmaṇo.anyatra loko.ayaṃ karmabandhanaḥ . tadarthaṃ karma kaunteya muktasaṅgaḥ samācara ||3-9||",
+      "meaning": "।।3.9।। यज्ञ के लिये किये हुए कर्म के अतिरिक्त अन्य कर्म में प्रवृत्त हुआ यह पुरुष कर्मों द्वारा बंधता है इसलिए हे कौन्तेय आसक्ति को त्यागकर यज्ञ के निमित्त ही कर्म का सम्यक् आचरण करो।।",
+      "tags": [
+        "karma",
+        "success"
+      ]
+    },
+    {
+      "id": "BG3.10",
+      "chapter": 3,
+      "verse": 10,
+      "speaker": "श्रीभगवान्",
+      "slok": "सहयज्ञाः प्रजाः सृष्ट्वा पुरोवाच प्रजापतिः | अनेन प्रसविष्यध्वमेष वोऽस्त्विष्टकामधुक् ||३-१०||",
+      "transliteration": "sahayajñāḥ prajāḥ sṛṣṭvā purovāca prajāpatiḥ . anena prasaviṣyadhvameṣa vo.astviṣṭakāmadhuk ||3-10||",
+      "meaning": "।।3.10।। प्रजापति (सृष्टिकर्त्ता) ने (सृष्टि के) आदि में यज्ञ सहित प्रजा का निर्माण कर कहा इस यज्ञ द्वारा तुम वृद्धि को प्राप्त हो और यह यज्ञ तुम्हारे लिये इच्छित कामनाओं को पूर्ण करने वाला (इष्टकामधुक्) होवे।।",
+      "tags": [
+        "karma",
+        "success"
+      ]
+    },
+    {
+      "id": "BG3.11",
+      "chapter": 3,
+      "verse": 11,
+      "speaker": "श्रीभगवान्",
+      "slok": "देवान्भावयतानेन ते देवा भावयन्तु वः | परस्परं भावयन्तः श्रेयः परमवाप्स्यथ ||३-११||",
+      "transliteration": "devānbhāvayatānena te devā bhāvayantu vaḥ . parasparaṃ bhāvayantaḥ śreyaḥ paramavāpsyatha ||3-11||",
+      "meaning": "।।3.11।। तुम लोग इस यज्ञ द्वारा देवताओं की उन्नति करो और वे देवतागण तुम्हारी उन्नति करें। इस प्रकार परस्पर उन्नति करते हुये परम श्रेय को तुम प्राप्त होगे।।",
+      "tags": [
+        "karma",
+        "success"
+      ]
+    },
+    {
+      "id": "BG3.12",
+      "chapter": 3,
+      "verse": 12,
+      "speaker": "श्रीभगवान्",
+      "slok": "इष्टान्भोगान्हि वो देवा दास्यन्ते यज्ञभाविताः | तैर्दत्तानप्रदायैभ्यो यो भुङ्क्ते स्तेन एव सः ||३-१२||",
+      "transliteration": "iṣṭānbhogānhi vo devā dāsyante yajñabhāvitāḥ . tairdattānapradāyaibhyo yo bhuṅkte stena eva saḥ ||3-12||",
+      "meaning": "।।3.12।। यज्ञ द्वारा पोषित देवतागण तुम्हें इष्ट भोग प्रदान करेंगे। उनके द्वारा दिये हुये भोगों को जो पुरुष उनको दिये बिना ही भोगता है वह निश्चय ही चोर है।।",
+      "tags": [
+        "karma",
+        "success"
+      ]
+    },
+    {
+      "id": "BG3.13",
+      "chapter": 3,
+      "verse": 13,
+      "speaker": "श्रीभगवान्",
+      "slok": "यज्ञशिष्टाशिनः सन्तो मुच्यन्ते सर्वकिल्बिषैः | भुञ्जते ते त्वघं पापा ये पचन्त्यात्मकारणात् ||३-१३||",
+      "transliteration": "yajñaśiṣṭāśinaḥ santo mucyante sarvakilbiṣaiḥ . bhuñjate te tvaghaṃ pāpā ye pacantyātmakāraṇāt ||3-13||",
+      "meaning": "।।3.13।। यज्ञ के अवशिष्ट अन्न को खाने वाले श्रेष्ठ पुरुष सब पापों से मुक्त हो जाते हैं किन्तु जो लोग केवल स्वयं के लिये ही पकाते हैं वे तो पापों को ही खाते हैं।।",
+      "tags": [
+        "karma",
+        "success"
+      ]
+    },
+    {
+      "id": "BG3.14",
+      "chapter": 3,
+      "verse": 14,
+      "speaker": "श्रीभगवान्",
+      "slok": "अन्नाद्भवन्ति भूतानि पर्जन्यादन्नसम्भवः | यज्ञाद्भवति पर्जन्यो यज्ञः कर्मसमुद्भवः ||३-१४||",
+      "transliteration": "annādbhavanti bhūtāni parjanyādannasambhavaḥ . yajñādbhavati parjanyo yajñaḥ karmasamudbhavaḥ ||3-14||",
+      "meaning": "।।3.14।। समस्त प्राणी अन्न से उत्पन्न होते हैं अन्न की उत्पत्ति पर्जन्य से। पर्जन्य की उत्पत्ति यज्ञ से और यज्ञ कर्मों से उत्पन्न होता है।।",
+      "tags": [
+        "karma",
+        "success"
+      ]
+    },
+    {
+      "id": "BG3.15",
+      "chapter": 3,
+      "verse": 15,
+      "speaker": "श्रीभगवान्",
+      "slok": "कर्म ब्रह्मोद्भवं विद्धि ब्रह्माक्षरसमुद्भवम् | तस्मात्सर्वगतं ब्रह्म नित्यं यज्ञे प्रतिष्ठितम् ||३-१५||",
+      "transliteration": "karma brahmodbhavaṃ viddhi brahmākṣarasamudbhavam . tasmātsarvagataṃ brahma nityaṃ yajñe pratiṣṭhitam ||3-15||",
+      "meaning": "।।3.15।। कर्म की उत्पत्ति ब्रह्माजी से होती है और ब्रह्माजी अक्षर तत्त्व से व्यक्त होते हैं। इसलिये सर्व व्यापी ब्रह्म सदा ही यज्ञ में प्रतिष्ठित है।।",
+      "tags": [
+        "karma",
+        "success"
+      ]
+    },
+    {
+      "id": "BG3.16",
+      "chapter": 3,
+      "verse": 16,
+      "speaker": "श्रीभगवान्",
+      "slok": "एवं प्रवर्तितं चक्रं नानुवर्तयतीह यः | अघायुरिन्द्रियारामो मोघं पार्थ स जीवति ||३-१६||",
+      "transliteration": "evaṃ pravartitaṃ cakraṃ nānuvartayatīha yaḥ . aghāyurindriyārāmo moghaṃ pārtha sa jīvati ||3-16||",
+      "meaning": "।।3.16।। जो पुरुष यहाँ इस प्रकार प्रवर्तित हुए चक्र का अनुवर्तन नहीं करता हे पार्थ इंन्द्रियों में रमने वाला वह पाप आयु पुरुष व्यर्थ ही जीता है।।",
+      "tags": [
+        "karma",
+        "success"
+      ]
+    },
+    {
+      "id": "BG3.17",
+      "chapter": 3,
+      "verse": 17,
+      "speaker": "श्रीभगवान्",
+      "slok": "यस्त्वात्मरतिरेव स्यादात्मतृप्तश्च मानवः | आत्मन्येव च सन्तुष्टस्तस्य कार्यं न विद्यते ||३-१७||",
+      "transliteration": "yastvātmaratireva syādātmatṛptaśca mānavaḥ . ātmanyeva ca santuṣṭastasya kāryaṃ na vidyate ||3-17||",
+      "meaning": "।।3.17।। परन्तु जो मनुष्य आत्मा में ही रमने वाला आत्मा में ही तृप्त तथा आत्मा में ही सन्तुष्ट हो उसके लिये कोई कर्तव्य नहीं रहता।।",
+      "tags": [
+        "karma",
+        "success"
+      ]
+    },
+    {
+      "id": "BG3.18",
+      "chapter": 3,
+      "verse": 18,
+      "speaker": "श्रीभगवान्",
+      "slok": "नैव तस्य कृतेनार्थो नाकृतेनेह कश्चन | न चास्य सर्वभूतेषु कश्चिदर्थव्यपाश्रयः ||३-१८||",
+      "transliteration": "naiva tasya kṛtenārtho nākṛteneha kaścana . na cāsya sarvabhūteṣu kaścidarthavyapāśrayaḥ ||3-18||",
+      "meaning": "।।3.18।। इस जगत् में उस पुरुष का कृत और अकृत से कोई प्रयोजन नहीं है और न वह किसी वस्तु के लिये भूतमात्र पर आश्रित होता है।।",
+      "tags": [
+        "karma",
+        "success"
+      ]
+    },
+    {
+      "id": "BG3.19",
+      "chapter": 3,
+      "verse": 19,
+      "speaker": "श्रीभगवान्",
+      "slok": "तस्मादसक्तः सततं कार्यं कर्म समाचर | असक्तो ह्याचरन्कर्म परमाप्नोति पूरुषः ||३-१९||",
+      "transliteration": "tasmādasaktaḥ satataṃ kāryaṃ karma samācara . asakto hyācarankarma paramāpnoti pūruṣaḥ ||3-19||",
+      "meaning": "।।3.19।। इसलिए, तुम अनासक्त होकर सदैव कर्तव्य कर्म का सम्यक् आचरण करो; क्योकि, अनासक्त पुरुष कर्म करता हुआ परमात्मा को प्राप्त होता है।।",
+      "tags": [
+        "karma",
+        "success"
+      ]
+    },
+    {
+      "id": "BG3.20",
+      "chapter": 3,
+      "verse": 20,
+      "speaker": "श्रीभगवान्",
+      "slok": "कर्मणैव हि संसिद्धिमास्थिता जनकादयः | लोकसंग्रहमेवापि सम्पश्यन्कर्तुमर्हसि ||३-२०||",
+      "transliteration": "karmaṇaiva hi saṃsiddhimāsthitā janakādayaḥ . lokasaṃgrahamevāpi sampaśyankartumarhasi ||3-20||",
+      "meaning": "।।3.20।। जनकादि (ज्ञानी जन) भी कर्म द्वारा ही संसिद्धि को प्राप्त हुये लोक संग्रह (लोक रक्षण) को भी देखते हुये; तुम कर्म करने योग्य हो।।",
+      "tags": [
+        "karma",
+        "success"
+      ]
+    },
+    {
+      "id": "BG3.21",
+      "chapter": 3,
+      "verse": 21,
+      "speaker": "श्रीभगवान्",
+      "slok": "यद्यदाचरति श्रेष्ठस्तत्तदेवेतरो जनः | स यत्प्रमाणं कुरुते लोकस्तदनुवर्तते ||३-२१||",
+      "transliteration": "yadyadācarati śreṣṭhastattadevetaro janaḥ . sa yatpramāṇaṃ kurute lokastadanuvartate ||3-21||",
+      "meaning": "।।3.21।। श्रेष्ठ पुरुष जैसा आचरण करता है, अन्य लोग भी वैसा ही अनुकरण करते हैं; वह पुरुष जो कुछ प्रमाण कर देता है, लोग भी उसका अनुसरण करते हैं।।",
+      "tags": [
+        "karma",
+        "success"
+      ]
+    },
+    {
+      "id": "BG3.22",
+      "chapter": 3,
+      "verse": 22,
+      "speaker": "श्रीभगवान्",
+      "slok": "न मे पार्थास्ति कर्तव्यं त्रिषु लोकेषु किञ्चन | नानवाप्तमवाप्तव्यं वर्त एव च कर्मणि ||३-२२||",
+      "transliteration": "na me pārthāsti kartavyaṃ triṣu lokeṣu kiñcana . nānavāptamavāptavyaṃ varta eva ca karmaṇi ||3-22||",
+      "meaning": "।।3.22।। यद्यपि मुझे त्रैलोक्य में कुछ भी कर्तव्य नहीं हैं तथा किंचित भी प्राप्त होने योग्य (अवाप्तव्यम्) वस्तु अप्राप्त नहीं है, तो भी मैं कर्म में ही बर्तता हूँ।।",
+      "tags": [
+        "karma",
+        "success"
+      ]
+    },
+    {
+      "id": "BG3.23",
+      "chapter": 3,
+      "verse": 23,
+      "speaker": "श्रीभगवान्",
+      "slok": "यदि ह्यहं न वर्तेयं जातु कर्मण्यतन्द्रितः | मम वर्त्मानुवर्तन्ते मनुष्याः पार्थ सर्वशः ||३-२३||",
+      "transliteration": "yadi hyahaṃ na varteyaṃ jātu karmaṇyatandritaḥ . mama vartmānuvartante manuṣyāḥ pārtha sarvaśaḥ ||3-23||",
+      "meaning": "।।3.23।। यदि मैं सावधान हुआ (अतन्द्रित:) कदाचित कर्म में न लगा रहूँ तो, हे पार्थ ! सब प्रकार से मनुष्य मेरे मार्ग (र्वत्म) का अनुसरण करेंगे।।",
+      "tags": [
+        "karma",
+        "success"
+      ]
+    },
+    {
+      "id": "BG3.24",
+      "chapter": 3,
+      "verse": 24,
+      "speaker": "श्रीभगवान्",
+      "slok": "उत्सीदेयुरिमे लोका न कुर्यां कर्म चेदहम् | सङ्करस्य च कर्ता स्यामुपहन्यामिमाः प्रजाः ||३-२४||",
+      "transliteration": "utsīdeyurime lokā na kuryāṃ karma cedaham . saṅkarasya ca kartā syāmupahanyāmimāḥ prajāḥ ||3-24||",
+      "meaning": "।।3.24।। यदि मैं कर्म न करूँ, तो ये समस्त लोक नष्ट हो जायेंगे; और मैं वर्णसंकर का कर्ता तथा इस प्रजा का हनन करने वाला होऊँगा।।",
+      "tags": [
+        "karma",
+        "success"
+      ]
+    },
+    {
+      "id": "BG3.25",
+      "chapter": 3,
+      "verse": 25,
+      "speaker": "श्रीभगवान्",
+      "slok": "सक्ताः कर्मण्यविद्वांसो यथा कुर्वन्ति भारत | कुर्याद्विद्वांस्तथासक्तश्चिकीर्षुर्लोकसंग्रहम् ||३-२५||",
+      "transliteration": "saktāḥ karmaṇyavidvāṃso yathā kurvanti bhārata . kuryādvidvāṃstathāsaktaścikīrṣurlokasaṃgraham ||3-25||",
+      "meaning": "।।3.25।। हे भारत ! कर्म में आसक्त हुए अज्ञानीजन जैसे कर्म करते हैं वैसे ही विद्वान् पुरुष अनासक्त होकर, लोकसंग्रह (लोक कल्याण) की इच्छा से कर्म करे।।",
+      "tags": [
+        "karma",
+        "success"
+      ]
+    },
+    {
+      "id": "BG3.26",
+      "chapter": 3,
+      "verse": 26,
+      "speaker": "श्रीभगवान्",
+      "slok": "न बुद्धिभेदं जनयेदज्ञानां कर्मसङ्गिनाम् | जोषयेत्सर्वकर्माणि विद्वान्युक्तः समाचरन् ||३-२६||",
+      "transliteration": "na buddhibhedaṃ janayedajñānāṃ karmasaṅginām . joṣayetsarvakarmāṇi vidvānyuktaḥ samācaran ||3-26||",
+      "meaning": "।।3.26।। ज्ञानी पुरुष, कर्मों में आसक्त अज्ञानियों की बुद्धि में भ्रम उत्पन्न न करे, स्वयं (भक्ति से) युक्त होकर कर्मों का सम्यक् आचरण कर, उनसे भी वैसा ही कराये।।",
+      "tags": [
+        "karma",
+        "success"
+      ]
+    },
+    {
+      "id": "BG3.27",
+      "chapter": 3,
+      "verse": 27,
+      "speaker": "श्रीभगवान्",
+      "slok": "प्रकृतेः क्रियमाणानि गुणैः कर्माणि सर्वशः | अहङ्कारविमूढात्मा कर्ताहमिति मन्यते ||३-२७||",
+      "transliteration": "prakṛteḥ kriyamāṇāni guṇaiḥ karmāṇi sarvaśaḥ . ahaṅkāravimūḍhātmā kartāhamiti manyate ||3-27||",
+      "meaning": "।।3.27।। सम्पूर्ण कर्म प्रकृति के गुणों द्वारा किये जाते हैं, अहंकार से मोहित हुआ पुरुष, \"मैं कर्ता हूँ\" ऐसा मान लेता है।।",
+      "tags": [
+        "karma",
+        "success"
+      ]
+    },
+    {
+      "id": "BG3.28",
+      "chapter": 3,
+      "verse": 28,
+      "speaker": "श्रीभगवान्",
+      "slok": "तत्त्ववित्तु महाबाहो गुणकर्मविभागयोः | गुणा गुणेषु वर्तन्त इति मत्वा न सज्जते ||३-२८||",
+      "transliteration": "tattvavittu mahābāho guṇakarmavibhāgayoḥ . guṇā guṇeṣu vartanta iti matvā na sajjate ||3-28||",
+      "meaning": "।।3.28।। परन्तु हे महाबाहो ! गुण और कर्म के विभाग के सत्य (तत्त्व)को जानने वाला ज्ञानी पुरुष यह जानकर कि \"गुण गुणों में बर्तते हैं\" (कर्म में) आसक्त नहीं होता।।",
+      "tags": [
+        "karma",
+        "success"
+      ]
+    },
+    {
+      "id": "BG3.29",
+      "chapter": 3,
+      "verse": 29,
+      "speaker": "श्रीभगवान्",
+      "slok": "प्रकृतेर्गुणसम्मूढाः सज्जन्ते गुणकर्मसु | तानकृत्स्नविदो मन्दान्कृत्स्नविन्न विचालयेत् ||३-२९||",
+      "transliteration": "prakṛterguṇasammūḍhāḥ sajjante guṇakarmasu . tānakṛtsnavido mandānkṛtsnavinna vicālayet ||3-29||",
+      "meaning": "।।3.29।। प्रकृति के गुणों से मोहित हुए पुरुष गुण और कर्म में आसक्त होते हैं, उन अपूर्ण ज्ञान वाले (अकृत्स्नविद:) मंदबुद्धि पुरुषों को पूर्ण ज्ञान प्राप्त पुरुष विचलित न करे।।",
+      "tags": [
+        "karma",
+        "success"
+      ]
+    },
+    {
+      "id": "BG3.30",
+      "chapter": 3,
+      "verse": 30,
+      "speaker": "श्रीभगवान्",
+      "slok": "मयि सर्वाणि कर्माणि संन्यस्याध्यात्मचेतसा | निराशीर्निर्ममो भूत्वा युध्यस्व विगतज्वरः ||३-३०||",
+      "transliteration": "mayi sarvāṇi karmāṇi saṃnyasyādhyātmacetasā . nirāśīrnirmamo bhūtvā yudhyasva vigatajvaraḥ ||3-30||",
+      "meaning": "।।3.30।। सम्पूर्ण कर्मों का मुझ में संन्यास करके, आशा और ममता से रहित होकर, संतापरहित हुए तुम युद्ध करो।।",
+      "tags": [
+        "karma",
+        "success"
+      ]
+    },
+    {
+      "id": "BG3.31",
+      "chapter": 3,
+      "verse": 31,
+      "speaker": "श्रीभगवान्",
+      "slok": "ये मे मतमिदं नित्यमनुतिष्ठन्ति मानवाः | श्रद्धावन्तोऽनसूयन्तो मुच्यन्ते तेऽपि कर्मभिः ||३-३१||",
+      "transliteration": "ye me matamidaṃ nityamanutiṣṭhanti mānavāḥ . śraddhāvanto.anasūyanto mucyante te.api karmabhiḥ ||3-31||",
+      "meaning": "।।3.31।। जो मनुष्य दोष बुद्धि से रहित (अनसूयन्त:) और श्रद्धा से युक्त हुए सदा मेरे इस मत (उपदेश) का अनुष्ठानपूर्वक पालन करते हैं, वे कर्मों से (बन्धन से) मुक्त हो जाते हैं।।",
+      "tags": [
+        "karma",
+        "success"
+      ]
+    },
+    {
+      "id": "BG3.32",
+      "chapter": 3,
+      "verse": 32,
+      "speaker": "श्रीभगवान्",
+      "slok": "ये त्वेतदभ्यसूयन्तो नानुतिष्ठन्ति मे मतम् | सर्वज्ञानविमूढांस्तान्विद्धि नष्टानचेतसः ||३-३२||",
+      "transliteration": "ye tvetadabhyasūyanto nānutiṣṭhanti me matam . sarvajñānavimūḍhāṃstānviddhi naṣṭānacetasaḥ ||3-32||",
+      "meaning": "।।3.32।। परन्तु जो दोष दृष्टि वाले मूढ़ लोग इस मेरे मत का पालन नहीं करते, उन सब ज्ञानों में मोहित चित्तवालों को नष्ट हुये ही तुम समझो।।",
+      "tags": [
+        "karma",
+        "success"
+      ]
+    },
+    {
+      "id": "BG3.33",
+      "chapter": 3,
+      "verse": 33,
+      "speaker": "श्रीभगवान्",
+      "slok": "सदृशं चेष्टते स्वस्याः प्रकृतेर्ज्ञानवानपि | प्रकृतिं यान्ति भूतानि निग्रहः किं करिष्यति ||३-३३||",
+      "transliteration": "sadṛśaṃ ceṣṭate svasyāḥ prakṛterjñānavānapi . prakṛtiṃ yānti bhūtāni nigrahaḥ kiṃ kariṣyati ||3-33||",
+      "meaning": "।।3.33।। ज्ञानवान् पुरुष भी अपनी प्रकृति के अनुसार चेष्टा करता है। सभी प्राणी अपनी प्रकृति पर ही जाते हैं, फिर इनमें (किसी का) निग्रह क्या करेगा।।",
+      "tags": [
+        "karma",
+        "success"
+      ]
+    },
+    {
+      "id": "BG3.34",
+      "chapter": 3,
+      "verse": 34,
+      "speaker": "श्रीभगवान्",
+      "slok": "इन्द्रियस्येन्द्रियस्यार्थे रागद्वेषौ व्यवस्थितौ | तयोर्न वशमागच्छेत्तौ ह्यस्य परिपन्थिनौ ||३-३४||",
+      "transliteration": "indriyasyendriyasyārthe rāgadveṣau vyavasthitau . tayorna vaśamāgacchettau hyasya paripanthinau ||3-34||",
+      "meaning": "।।3.34।। इन्द्रियइन्द्रिय (अर्थात् प्रत्येक इन्द्रिय) के विषय के प्रति (मन में) रागद्वेष रहते हैं; मनुष्य को चाहिये कि वह उन दोनों के वश में न हो; क्योंकि वे इसके (मनुष्य के) शत्रु हैं।।",
+      "tags": [
+        "karma",
+        "success"
+      ]
+    },
+    {
+      "id": "BG3.35",
+      "chapter": 3,
+      "verse": 35,
+      "speaker": "श्रीभगवान्",
+      "slok": "श्रेयान्स्वधर्मो विगुणः परधर्मात्स्वनुष्ठितात् | स्वधर्मे निधनं श्रेयः परधर्मो भयावहः ||३-३५||",
+      "transliteration": "śreyānsvadharmo viguṇaḥ paradharmātsvanuṣṭhitāt . svadharme nidhanaṃ śreyaḥ paradharmo bhayāvahaḥ ||3-35||",
+      "meaning": "।।3.35।। सम्यक् प्रकार से अनुष्ठित परधर्म की अपेक्षा गुणरहित स्वधर्म का पालन श्रेयष्कर है; स्वधर्म में मरण कल्याणकारक है (किन्तु) परधर्म भय को देने वाला है।।",
+      "tags": [
+        "karma",
+        "success"
+      ]
+    },
+    {
+      "id": "BG3.36",
+      "chapter": 3,
+      "verse": 36,
+      "speaker": "अर्जुन",
+      "slok": "अर्जुन उवाच | अथ केन प्रयुक्तोऽयं पापं चरति पूरुषः | अनिच्छन्नपि वार्ष्णेय बलादिव नियोजितः ||३-३६||",
+      "transliteration": "arjuna uvāca . atha kena prayukto.ayaṃ pāpaṃ carati pūruṣaḥ . anicchannapi vārṣṇeya balādiva niyojitaḥ ||3-36||",
+      "meaning": "।।3.36।। अर्जुन ने कहा -- हे वार्ष्णेय ! फिर यह पुरुष बलपूर्वक बाध्य किये हुये के समान अनिच्छा होते हुये भी किसके द्वारा प्रेरित होकर पाप का आचरण करता है?",
+      "tags": [
+        "karma",
+        "success"
+      ]
+    },
+    {
+      "id": "BG3.37",
+      "chapter": 3,
+      "verse": 37,
+      "speaker": "श्रीभगवान्",
+      "slok": "श्रीभगवानुवाच | काम एष क्रोध एष रजोगुणसमुद्भवः | महाशनो महापाप्मा विद्ध्येनमिह वैरिणम् ||३-३७||",
+      "transliteration": "śrībhagavānuvāca . kāma eṣa krodha eṣa rajoguṇasamudbhavaḥ . mahāśano mahāpāpmā viddhyenamiha vairiṇam ||3-37||",
+      "meaning": "।।3.37।। श्रीभगवान् ने कहा -- रजोगुण में उत्पन्न हुई यह 'कामना' है, यही क्रोध है; यह महाशना (जिसकी भूख बड़ी हो) और महापापी है, इसे ही तुम यहाँ (इस जगत् में) शत्रु जानो।।",
+      "tags": [
+        "karma",
+        "success"
+      ]
+    },
+    {
+      "id": "BG3.38",
+      "chapter": 3,
+      "verse": 38,
+      "speaker": "श्रीभगवान्",
+      "slok": "धूमेनाव्रियते वह्निर्यथादर्शो मलेन च | यथोल्बेनावृतो गर्भस्तथा तेनेदमावृतम् ||३-३८||",
+      "transliteration": "dhūmenāvriyate vahniryathādarśo malena ca . yatholbenāvṛto garbhastathā tenedamāvṛtam ||3-38||",
+      "meaning": "।।3.38।। जैसे धुयें से अग्नि और धूलि से दर्पण ढक जाता है तथा जैसे भ्रूण गर्भाशय से ढका रहता है, वैसे उस (काम) के द्वारा यह (ज्ञान) आवृत होता है।।",
+      "tags": [
+        "karma",
+        "success"
+      ]
+    },
+    {
+      "id": "BG3.39",
+      "chapter": 3,
+      "verse": 39,
+      "speaker": "श्रीभगवान्",
+      "slok": "आवृतं ज्ञानमेतेन ज्ञानिनो नित्यवैरिणा | कामरूपेण कौन्तेय दुष्पूरेणानलेन च ||३-३९||",
+      "transliteration": "āvṛtaṃ jñānametena jñānino nityavairiṇā . kāmarūpeṇa kaunteya duṣpūreṇānalena ca ||3-39||",
+      "meaning": "।।3.39।। हे कौन्तेय ! अग्नि के समान जिसको तृप्त करना कठिन है ऐसे कामरूप, ज्ञानी के इस नित्य शत्रु द्वारा ज्ञान आवृत है।।",
+      "tags": [
+        "karma",
+        "success"
+      ]
+    },
+    {
+      "id": "BG3.40",
+      "chapter": 3,
+      "verse": 40,
+      "speaker": "श्रीभगवान्",
+      "slok": "इन्द्रियाणि मनो बुद्धिरस्याधिष्ठानमुच्यते | एतैर्विमोहयत्येष ज्ञानमावृत्य देहिनम् ||३-४०||",
+      "transliteration": "indriyāṇi mano buddhirasyādhiṣṭhānamucyate . etairvimohayatyeṣa jñānamāvṛtya dehinam ||3-40||",
+      "meaning": "।।3.40।। इन्द्रियाँ, मन और बुद्धि इसके निवास स्थान कहे जाते हैं; यह काम इनके द्वारा ही ज्ञान को आच्छादित करके देही पुरुष को मोहित करता है।।",
+      "tags": [
+        "karma",
+        "success"
+      ]
+    },
+    {
+      "id": "BG3.41",
+      "chapter": 3,
+      "verse": 41,
+      "speaker": "श्रीभगवान्",
+      "slok": "तस्मात्त्वमिन्द्रियाण्यादौ नियम्य भरतर्षभ | पाप्मानं प्रजहि ह्येनं ज्ञानविज्ञाननाशनम् ||३-४१||",
+      "transliteration": "tasmāttvamindriyāṇyādau niyamya bharatarṣabha . pāpmānaṃ prajahi hyenaṃ jñānavijñānanāśanam ||3-41||",
+      "meaning": "।।3.41।। इसलिये, हे अर्जुन ! तुम पहले इन्द्रियों को वश में करके, ज्ञान और विज्ञान के नाशक इस कामरूप पापी को नष्ट करो।।",
+      "tags": [
+        "karma",
+        "success",
+        "mind"
+      ]
+    },
+    {
+      "id": "BG3.42",
+      "chapter": 3,
+      "verse": 42,
+      "speaker": "श्रीभगवान्",
+      "slok": "इन्द्रियाणि पराण्याहुरिन्द्रियेभ्यः परं मनः | मनसस्तु परा बुद्धिर्यो बुद्धेः परतस्तु सः ||३-४२||",
+      "transliteration": "indriyāṇi parāṇyāhurindriyebhyaḥ paraṃ manaḥ . manasastu parā buddhiryo buddheḥ paratastu saḥ ||3-42||",
+      "meaning": "।।3.42।। (शरीर से) परे (श्रेष्ठ) इन्द्रियाँ कही जाती हैं; इन्द्रियों से परे मन है और मन से परे बुद्धि है, और जो बुद्धि से भी परे है, वह है आत्मा।।",
+      "tags": [
+        "karma",
+        "success"
+      ]
+    },
+    {
+      "id": "BG3.43",
+      "chapter": 3,
+      "verse": 43,
+      "speaker": "श्रीभगवान्",
+      "slok": "एवं बुद्धेः परं बुद्ध्वा संस्तभ्यात्मानमात्मना | जहि शत्रुं महाबाहो कामरूपं दुरासदम् ||३-४३||",
+      "transliteration": "evaṃ buddheḥ paraṃ buddhvā saṃstabhyātmānamātmanā . jahi śatruṃ mahābāho kāmarūpaṃ durāsadam ||3-43||",
+      "meaning": "।।3.43।। इस प्रकार बुद्धि से परे (शुद्ध) आत्मा को जानकर आत्मा (बुद्धि) के द्वारा आत्मा (मन) को वश में करके, हे महाबाहो ! तुम इस दुर्जेय (दुरासदम्) कामरूप शत्रु को मारो।।",
+      "tags": [
+        "karma",
+        "success"
+      ]
+    },
+    {
+      "id": "BG3.44",
+      "chapter": 3,
+      "verse": 44,
+      "speaker": "श्रीभगवान्",
+      "slok": "ॐ तत्सदिति श्रीमद्भगवद्गीतासूपनिषत्सु ब्रह्मविद्यायां योगशास्त्रे श्रीकृष्णार्जुनसंवादे कर्मयोगो नाम तृतीयोऽध्यायः ||३||",
+      "transliteration": "OM tatsaditi śrīmadbhagavadgītāsūpaniṣatsu brahmavidyāyāṃ yogaśāstre śrīkṛṣṇārjunasaṃvāde karmayogo nāma tṛtīyo.adhyāyaḥ ||3-44||",
+      "meaning": "Swami Tejomayananda did not comment on this sloka",
+      "tags": [
+        "karma",
+        "success"
+      ]
+    }
+  ]
+}

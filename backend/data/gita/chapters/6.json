@@ -1,0 +1,653 @@
+{
+  "chapter": 6,
+  "meta": {
+    "chapter_number": 6,
+    "verses_count": 47,
+    "name": "ध्यानयोग",
+    "translation": "Dhyana Yoga",
+    "transliteration": "Dhyān Yog",
+    "meaning": {
+      "en": "Path of Meditation",
+      "hi": "ध्यानयोग"
+    },
+    "summary": {
+      "en": "The sixth chapter of the Bhagavad Gita is Dhyana Yoga. In this chapter, Krishna reveals the Yoga of Meditation and how to practise this Yoga. He discusses the role of action in preparing for Meditation, how performing duties in devotion purifies one's mind and heightens one's spiritual consciousness. He explains in detail the obstacles that one faces when trying to control their mind and the exact methods by which one can conquer their mind. He reveals how one can focus their mind on Paramatma and unite with the God.",
+      "hi": "भगवद गीता का छठा अध्याय ध्यान योग है। इस अध्याय में कृष्ण बताते हैं कि हम किस प्रकार ध्यान योग का अभ्यास कर सकते हैं। वे ध्यान की तैयारी में कर्म की भूमिका पर चर्चा करते हैं अथवा बताते हैं कि किस प्रकार भक्ति में किया गए कर्म मनुष्ये के मन को शुद्ध करते हैं और उसकी आध्यात्मिक चेतना की वृद्धि में सहायता करते हैं। वे उन बाधाओं का विस्तारपूर्वक वर्णन करते हैं जो कि मनुष्य को अपने दिमाग को नियंत्रित करते समय झेलनी पड़ती हैं अथवा उन सटीक तरीकों का वर्णन करते हैं जिनसे एक मनुष्य अपने दिमाग को जीत सकता है। उन्होंने प्रकट किया की हम किस प्रकार परमात्मा पर अपना ध्यान केंद्रित करके भगवान के साथ एक हो सकते हैं।"
+    },
+    "themes": [
+      "mind",
+      "fear",
+      "karma"
+    ]
+  },
+  "verses": [
+    {
+      "id": "BG6.1",
+      "chapter": 6,
+      "verse": 1,
+      "speaker": "श्रीभगवान्",
+      "slok": "श्रीभगवानुवाच | अनाश्रितः कर्मफलं कार्यं कर्म करोति यः | स संन्यासी च योगी च न निरग्निर्न चाक्रियः ||६-१||",
+      "transliteration": "śrībhagavānuvāca . anāśritaḥ karmaphalaṃ kāryaṃ karma karoti yaḥ . sa saṃnyāsī ca yogī ca na niragnirna cākriyaḥ ||6-1||",
+      "meaning": "।।6.1।। श्रीभगवान् ने कहा -- जो पुरुष कर्मफल पर आश्रित न होकर कर्तव्य कर्म करता है, वह संन्यासी और योगी है, न कि वह जिसने केवल अग्नि का और क्रियायों का त्याग किया है।।",
+      "tags": [
+        "mind",
+        "fear",
+        "karma"
+      ]
+    },
+    {
+      "id": "BG6.2",
+      "chapter": 6,
+      "verse": 2,
+      "speaker": "श्रीभगवान्",
+      "slok": "यं संन्यासमिति प्राहुर्योगं तं विद्धि पाण्डव | न ह्यसंन्यस्तसङ्कल्पो योगी भवति कश्चन ||६-२||",
+      "transliteration": "yaṃ saṃnyāsamiti prāhuryogaṃ taṃ viddhi pāṇḍava . na hyasaṃnyastasaṅkalpo yogī bhavati kaścana ||6-2||",
+      "meaning": "।।6.2।। हे पाण्डव ! जिसको (शास्त्रवित्) संन्यास कहते हैं, उसी को तुम योग समझो; क्योंकि संकल्पों को न त्यागने वाला कोई भी पुरुष योगी नहीं होता।।",
+      "tags": [
+        "mind",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG6.3",
+      "chapter": 6,
+      "verse": 3,
+      "speaker": "श्रीभगवान्",
+      "slok": "आरुरुक्षोर्मुनेर्योगं कर्म कारणमुच्यते | योगारूढस्य तस्यैव शमः कारणमुच्यते ||६-३||",
+      "transliteration": "ārurukṣormuneryogaṃ karma kāraṇamucyate . yogārūḍhasya tasyaiva śamaḥ kāraṇamucyate ||6-3||",
+      "meaning": "।।6.3।। योग में आरूढ़ होने की इच्छा वाले मुनि के लिए कर्म करना ही हेतु (साधन) कहा है और योगारूढ़ हो जाने पर उसी पुरुष के लिए शम को (शांति, संकल्पसंन्यास) साधन कहा गया है।।",
+      "tags": [
+        "mind",
+        "fear",
+        "karma"
+      ]
+    },
+    {
+      "id": "BG6.4",
+      "chapter": 6,
+      "verse": 4,
+      "speaker": "श्रीभगवान्",
+      "slok": "यदा हि नेन्द्रियार्थेषु न कर्मस्वनुषज्जते | सर्वसङ्कल्पसंन्यासी योगारूढस्तदोच्यते ||६-४||",
+      "transliteration": "yadā hi nendriyārtheṣu na karmasvanuṣajjate . sarvasaṅkalpasaṃnyāsī yogārūḍhastadocyate ||6-4||",
+      "meaning": "।।6.4।। जब (साधक) न इन्द्रियों के विषयों में और न कर्मों में आसक्त होता है तब सर्व संकल्पों के संन्यासी को योगारूढ़ कहा जाता है।।",
+      "tags": [
+        "mind",
+        "fear",
+        "karma"
+      ]
+    },
+    {
+      "id": "BG6.5",
+      "chapter": 6,
+      "verse": 5,
+      "speaker": "श्रीभगवान्",
+      "slok": "उद्धरेदात्मनात्मानं नात्मानमवसादयेत् | आत्मैव ह्यात्मनो बन्धुरात्मैव रिपुरात्मनः ||६-५||",
+      "transliteration": "uddharedātmanātmānaṃ nātmānamavasādayet . ātmaiva hyātmano bandhurātmaiva ripurātmanaḥ ||6-5||",
+      "meaning": "।।6.5।। मनुष्य को अपने द्वारा अपना उद्धार करना चाहिये और अपना अध: पतन नहीं करना चाहिये; क्योंकि आत्मा ही आत्मा का मित्र है और आत्मा (मनुष्य स्वयं) ही आत्मा का (अपना) शत्रु है।।",
+      "tags": [
+        "mind",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG6.6",
+      "chapter": 6,
+      "verse": 6,
+      "speaker": "श्रीभगवान्",
+      "slok": "बन्धुरात्मात्मनस्तस्य येनात्मैवात्मना जितः | अनात्मनस्तु शत्रुत्वे वर्तेतात्मैव शत्रुवत् ||६-६||",
+      "transliteration": "bandhurātmātmanastasya yenātmaivātmanā jitaḥ . anātmanastu śatrutve vartetātmaiva śatruvat ||6-6||",
+      "meaning": "।।6.6।। जिसने आत्मा (इंद्रियों,आदि) को आत्मा के द्वारा जीत लिया है, उस पुरुष का आत्मा उसका मित्र होता है, परन्तु अजितेन्द्रिय के लिए आत्मा शत्रु के समान स्थित होता है।।",
+      "tags": [
+        "mind",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG6.7",
+      "chapter": 6,
+      "verse": 7,
+      "speaker": "श्रीभगवान्",
+      "slok": "जितात्मनः प्रशान्तस्य परमात्मा समाहितः | शीतोष्णसुखदुःखेषु तथा मानापमानयोः ||६-७||",
+      "transliteration": "jitātmanaḥ praśāntasya paramātmā samāhitaḥ . śītoṣṇasukhaduḥkheṣu tathā mānāpamānayoḥ ||6-7||",
+      "meaning": "।।6.7।। शीत-उष्ण, सुख-दु:ख तथा मान-अपमान में जो प्रशान्त रहता है, ऐसे जितात्मा पुरुष के लिये परमात्मा सम्यक् प्रकार से स्थित है, अर्थात्, आत्मरूप से विद्यमान है।।",
+      "tags": [
+        "mind",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG6.8",
+      "chapter": 6,
+      "verse": 8,
+      "speaker": "श्रीभगवान्",
+      "slok": "ज्ञानविज्ञानतृप्तात्मा कूटस्थो विजितेन्द्रियः | युक्त इत्युच्यते योगी समलोष्टाश्मकाञ्चनः ||६-८||",
+      "transliteration": "jñānavijñānatṛptātmā kūṭastho vijitendriyaḥ . yukta ityucyate yogī samaloṣṭāśmakāñcanaḥ ||6-8||",
+      "meaning": "।।6.8।। जो योगी ज्ञान और विज्ञान से तृप्त है, जो विकार रहित (कूटस्थ) और जितेन्द्रिय है, जिसको मिट्टी, पाषाण और कंचन समान है, वह (परमात्मा से) युक्त कहलाता है।।",
+      "tags": [
+        "mind",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG6.9",
+      "chapter": 6,
+      "verse": 9,
+      "speaker": "श्रीभगवान्",
+      "slok": "सुहृन्मित्रार्युदासीनमध्यस्थद्वेष्यबन्धुषु | साधुष्वपि च पापेषु समबुद्धिर्विशिष्यते ||६-९||",
+      "transliteration": "suhṛnmitrāryudāsīnamadhyasthadveṣyabandhuṣu . sādhuṣvapi ca pāpeṣu samabuddhirviśiṣyate ||6-9||",
+      "meaning": "।।6.9।। जो पुरुष सुहृद्, मित्र, शत्रु, उदासीन, मध्यस्थ, द्वेषी और बान्धवों में तथा धर्मात्माओं में और पापियों में भी समान भाव वाला है, वह श्रेष्ठ है।।",
+      "tags": [
+        "mind",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG6.10",
+      "chapter": 6,
+      "verse": 10,
+      "speaker": "श्रीभगवान्",
+      "slok": "योगी युञ्जीत सततमात्मानं रहसि स्थितः | एकाकी यतचित्तात्मा निराशीरपरिग्रहः ||६-१०||",
+      "transliteration": "yogī yuñjīta satatamātmānaṃ rahasi sthitaḥ . ekākī yatacittātmā nirāśīraparigrahaḥ ||6-10||",
+      "meaning": "।।6.10।। शरीर और मन को संयमित किया हुआ योगी एकान्त स्थान पर अकेला रहता हुआ आशा और परिग्रह से मुक्त होकर निरन्तर मन को आत्मा में स्थिर करे।।",
+      "tags": [
+        "mind",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG6.11",
+      "chapter": 6,
+      "verse": 11,
+      "speaker": "श्रीभगवान्",
+      "slok": "शुचौ देशे प्रतिष्ठाप्य स्थिरमासनमात्मनः | नात्युच्छ्रितं नातिनीचं चैलाजिनकुशोत्तरम् ||६-११||",
+      "transliteration": "śucau deśe pratiṣṭhāpya sthiramāsanamātmanaḥ . nātyucchritaṃ nātinīcaṃ cailājinakuśottaram ||6-11||",
+      "meaning": "।।6.11।। शुद्ध (स्वच्छ) भूमि में कुश, मृगशाला और उस पर वस्त्र रखा हो ऐसे अपने आसन को न अति ऊँचा और न अति नीचा स्थिर स्थापित करके....৷৷.।।",
+      "tags": [
+        "mind",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG6.12",
+      "chapter": 6,
+      "verse": 12,
+      "speaker": "श्रीभगवान्",
+      "slok": "तत्रैकाग्रं मनः कृत्वा यतचित्तेन्द्रियक्रियः | उपविश्यासने युञ्ज्याद्योगमात्मविशुद्धये ||६-१२||",
+      "transliteration": "tatraikāgraṃ manaḥ kṛtvā yatacittendriyakriyaḥ . upaviśyāsane yuñjyādyogamātmaviśuddhaye ||6-12||",
+      "meaning": "।।6.12।। वहाँ (आसन में बैठकर) मन को एकाग्र करके, चित्त और इन्द्रियों की क्रियाओं को वश में किये हुये आत्मशुद्धि के लिए योग का अभ्यास करे।।",
+      "tags": [
+        "mind",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG6.13",
+      "chapter": 6,
+      "verse": 13,
+      "speaker": "श्रीभगवान्",
+      "slok": "समं कायशिरोग्रीवं धारयन्नचलं स्थिरः | सम्प्रेक्ष्य नासिकाग्रं स्वं दिशश्चानवलोकयन् ||६-१३||",
+      "transliteration": "samaṃ kāyaśirogrīvaṃ dhārayannacalaṃ sthiraḥ . samprekṣya nāsikāgraṃ svaṃ diśaścānavalokayan ||6-13||",
+      "meaning": "।।6.13।। काया, सिर और ग्रीवा को समान और अचल धारण किये हुए स्थिर होकर अपनी नासिका के अग्र भाग को देखकर अन्य दिशाओं को न देखता हुआ।।",
+      "tags": [
+        "mind",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG6.14",
+      "chapter": 6,
+      "verse": 14,
+      "speaker": "श्रीभगवान्",
+      "slok": "प्रशान्तात्मा विगतभीर्ब्रह्मचारिव्रते स्थितः | मनः संयम्य मच्चित्तो युक्त आसीत मत्परः ||६-१४||",
+      "transliteration": "praśāntātmā vigatabhīrbrahmacārivrate sthitaḥ . manaḥ saṃyamya maccitto yukta āsīta matparaḥ ||6-14||",
+      "meaning": "।।6.14।। (साधक को) प्रशान्त अन्त:करण, निर्भय और ब्रह्मचर्य ब्रत में स्थित होकर, मन को संयमित करके चित्त को मुझमें लगाकर मुझे ही परम लक्ष्य समझकर बैठना चाहिए।।",
+      "tags": [
+        "mind",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG6.15",
+      "chapter": 6,
+      "verse": 15,
+      "speaker": "श्रीभगवान्",
+      "slok": "युञ्जन्नेवं सदात्मानं योगी नियतमानसः | शान्तिं निर्वाणपरमां मत्संस्थामधिगच्छति ||६-१५||",
+      "transliteration": "yuñjannevaṃ sadātmānaṃ yogī niyatamānasaḥ . śāntiṃ nirvāṇaparamāṃ matsaṃsthāmadhigacchati ||6-15||",
+      "meaning": "।।6.15।। इस प्रकार सदा मन को स्थिर करने का प्रयास करता हुआ संयमित मन का योगी मुझमें स्थित परम निर्वाण (मोक्ष) स्वरूप शांति को प्राप्त होता है।।",
+      "tags": [
+        "mind",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG6.16",
+      "chapter": 6,
+      "verse": 16,
+      "speaker": "श्रीभगवान्",
+      "slok": "नात्यश्नतस्तु योगोऽस्ति न चैकान्तमनश्नतः | न चातिस्वप्नशीलस्य जाग्रतो नैव चार्जुन ||६-१६||",
+      "transliteration": "nātyaśnatastu yogo.asti na caikāntamanaśnataḥ . na cātisvapnaśīlasya jāgrato naiva cārjuna ||6-16||",
+      "meaning": "।।6.16।। परन्तु, हे अर्जुन ! यह योग उस पुरुष के लिए सम्भव नहीं होता, जो अधिक खाने वाला है या बिल्कुल न खाने वाला है तथा जो अधिक सोने वाला है या सदा जागने वाला है।।",
+      "tags": [
+        "mind",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG6.17",
+      "chapter": 6,
+      "verse": 17,
+      "speaker": "श्रीभगवान्",
+      "slok": "युक्ताहारविहारस्य युक्तचेष्टस्य कर्मसु | युक्तस्वप्नावबोधस्य योगो भवति दुःखहा ||६-१७||",
+      "transliteration": "yuktāhāravihārasya yuktaceṣṭasya karmasu . yuktasvapnāvabodhasya yogo bhavati duḥkhahā ||6-17||",
+      "meaning": "।।6.17।। उस पुरुष के लिए योग दु:खनाशक होता है, जो युक्त आहार और विहार करने वाला है, यथायोग्य चेष्टा करने वाला है और परिमित शयन और जागरण करने वाला है।।",
+      "tags": [
+        "mind",
+        "fear",
+        "karma"
+      ]
+    },
+    {
+      "id": "BG6.18",
+      "chapter": 6,
+      "verse": 18,
+      "speaker": "श्रीभगवान्",
+      "slok": "यदा विनियतं चित्तमात्मन्येवावतिष्ठते | निःस्पृहः सर्वकामेभ्यो युक्त इत्युच्यते तदा ||६-१८||",
+      "transliteration": "yadā viniyataṃ cittamātmanyevāvatiṣṭhate . niḥspṛhaḥ sarvakāmebhyo yukta ityucyate tadā ||6-18||",
+      "meaning": "।।6.18।। वश में किया हुआ चित्त जिस कालमें अपने स्वरुपमें ही स्थित हो जाता है और स्वयं सम्पूर्ण पदार्थों नि: स्पृह हो जाता है, उस कालमें वह योगी कहा जाता है।",
+      "tags": [
+        "mind",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG6.19",
+      "chapter": 6,
+      "verse": 19,
+      "speaker": "श्रीभगवान्",
+      "slok": "यथा दीपो निवातस्थो नेङ्गते सोपमा स्मृता | योगिनो यतचित्तस्य युञ्जतो योगमात्मनः ||६-१९||",
+      "transliteration": "yathā dīpo nivātastho neṅgate sopamā smṛtā . yogino yatacittasya yuñjato yogamātmanaḥ ||6-19||",
+      "meaning": "।।6.19।। जैसे स्पन्दनरहित वायुके स्थानमें स्थित दीपककी लौ चेष्टारहित हो जाती है, योगका अभ्यास करते हुए यतचित्तवाले योगीके चित्तकी वैसी ही उपमा कही गयी है।।",
+      "tags": [
+        "mind",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG6.20",
+      "chapter": 6,
+      "verse": 20,
+      "speaker": "श्रीभगवान्",
+      "slok": "यत्रोपरमते चित्तं निरुद्धं योगसेवया | यत्र चैवात्मनात्मानं पश्यन्नात्मनि तुष्यति ||६-२०||",
+      "transliteration": "yatroparamate cittaṃ niruddhaṃ yogasevayā . yatra caivātmanātmānaṃ paśyannātmani tuṣyati ||6-20||",
+      "meaning": "।।6.20।। योगका सेवन करनेसे जिस अवस्थामें निरुध्द चित्त उपराम हो जाता है तथा जिस अवस्थामें स्वयं अपने-आपमें अपने-आपको देखता हुआ अपने-आपमें सन्तुष्ट हो जाता है।।",
+      "tags": [
+        "mind",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG6.21",
+      "chapter": 6,
+      "verse": 21,
+      "speaker": "श्रीभगवान्",
+      "slok": "सुखमात्यन्तिकं यत्तद् बुद्धिग्राह्यमतीन्द्रियम् | वेत्ति यत्र न चैवायं स्थितश्चलति तत्त्वतः ||६-२१||",
+      "transliteration": "sukhamātyantikaṃ yattad buddhigrāhyamatīndriyam . vetti yatra na caivāyaṃ sthitaścalati tattvataḥ ||6-21||",
+      "meaning": "।।6.21।। जो सुख आत्यन्तिक, अतीन्द्रिय और बुध्दिग्राह्म है, उस सुखका जिस अवस्थामें अनुभव करता है और जिस सुखमें स्थित हुआ यह ध्यानयोगी फिर कभी तत्वसे विचलित नहीं होता है।।",
+      "tags": [
+        "mind",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG6.22",
+      "chapter": 6,
+      "verse": 22,
+      "speaker": "श्रीभगवान्",
+      "slok": "यं लब्ध्वा चापरं लाभं मन्यते नाधिकं ततः | यस्मिन्स्थितो न दुःखेन गुरुणापि विचाल्यते ||६-२२||",
+      "transliteration": "yaṃ labdhvā cāparaṃ lābhaṃ manyate nādhikaṃ tataḥ . yasminsthito na duḥkhena guruṇāpi vicālyate ||6-22||",
+      "meaning": "।।6.22।। जिस लाभकी प्राप्ति होनेपर उससे अधिक कोई दूसरा लाभ उसके माननेमें भी नहीं आता और जिसमें स्थित होनेपर वह बड़े भारी दु:ख से भी विचलित नहीं होता है।।",
+      "tags": [
+        "mind",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG6.23",
+      "chapter": 6,
+      "verse": 23,
+      "speaker": "श्रीभगवान्",
+      "slok": "तं विद्याद् दुःखसंयोगवियोगं योगसंज्ञितम् | स निश्चयेन योक्तव्यो योगोऽनिर्विण्णचेतसा ||६-२३||",
+      "transliteration": "taṃ vidyād duḥkhasaṃyogaviyogaṃ yogasaṃjñitam . sa niścayena yoktavyo yogo.anirviṇṇacetasā ||6-23||",
+      "meaning": "।।6.23।। दु:ख के संयोग से वियोग है, उसीको 'योग' नामसे जानना चाहिये । (वह योग जिस ध्यानयोग लक्ष्य है,) उस ध्यानयोका अभ्यास न उकताये हुए चित्तसे निश्चयपूर्वक करना चाहिये।।",
+      "tags": [
+        "mind",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG6.24",
+      "chapter": 6,
+      "verse": 24,
+      "speaker": "श्रीभगवान्",
+      "slok": "सङ्कल्पप्रभवान्कामांस्त्यक्त्वा सर्वानशेषतः | मनसैवेन्द्रियग्रामं विनियम्य समन्ततः ||६-२४||",
+      "transliteration": "saṅkalpaprabhavānkāmāṃstyaktvā sarvānaśeṣataḥ . manasaivendriyagrāmaṃ viniyamya samantataḥ ||6-24||",
+      "meaning": "।।6.24।। संकल्प से उत्पन्न समस्त कामनाओं को नि:शेष रूप से परित्याग कर मन के द्वारा इन्द्रिय समुदाय को सब ओर से सम्यक् प्रकार वश में करके।।",
+      "tags": [
+        "mind",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG6.25",
+      "chapter": 6,
+      "verse": 25,
+      "speaker": "श्रीभगवान्",
+      "slok": "शनैः शनैरुपरमेद् बुद्ध्या धृतिगृहीतया | आत्मसंस्थं मनः कृत्वा न किञ्चिदपि चिन्तयेत् ||६-२५||",
+      "transliteration": "śanaiḥ śanairuparamed buddhyā dhṛtigṛhītayā . ātmasaṃsthaṃ manaḥ kṛtvā na kiñcidapi cintayet ||6-25||",
+      "meaning": "।।6.25।। शनै: शनै: धैर्ययुक्त बुद्धि के द्वारा (योगी) उपरामता (शांति) को प्राप्त होवे; मन को आत्मा में स्थित करके फिर अन्य कुछ भी चिन्तन न करे।।",
+      "tags": [
+        "mind",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG6.26",
+      "chapter": 6,
+      "verse": 26,
+      "speaker": "श्रीभगवान्",
+      "slok": "यतो यतो निश्चरति मनश्चञ्चलमस्थिरम् | ततस्ततो नियम्यैतदात्मन्येव वशं नयेत् ||६-२६||",
+      "transliteration": "yato yato niścarati manaścañcalamasthiram . tatastato niyamyaitadātmanyeva vaśaṃ nayet ||6-26||",
+      "meaning": "।।6.26।। यह चंचल और अस्थिर मन जिन कारणों से (विषयों में) विचरण करता है, उनसे संयमित करके उसे आत्मा के ही वश में लावे अर्थात् आत्मा में स्थिर करे।।",
+      "tags": [
+        "mind",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG6.27",
+      "chapter": 6,
+      "verse": 27,
+      "speaker": "श्रीभगवान्",
+      "slok": "प्रशान्तमनसं ह्येनं योगिनं सुखमुत्तमम् | उपैति शान्तरजसं ब्रह्मभूतमकल्मषम् ||६-२७||",
+      "transliteration": "praśāntamanasaṃ hyenaṃ yoginaṃ sukhamuttamam . upaiti śāntarajasaṃ brahmabhūtamakalmaṣam ||6-27||",
+      "meaning": "।।6.27।। जिसका मन प्रशान्त है, जो पापरहित (अकल्मषम्) है और जिसका रजोगुण (विक्षेप) शांत हुआ है, ऐसे ब्रह्मरूप हुए इस योगी को उत्तम सुख प्राप्त होता है।।",
+      "tags": [
+        "mind",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG6.28",
+      "chapter": 6,
+      "verse": 28,
+      "speaker": "श्रीभगवान्",
+      "slok": "युञ्जन्नेवं सदात्मानं योगी विगतकल्मषः | सुखेन ब्रह्मसंस्पर्शमत्यन्तं सुखमश्नुते ||६-२८||",
+      "transliteration": "yuñjannevaṃ sadātmānaṃ yogī vigatakalmaṣaḥ . sukhena brahmasaṃsparśamatyantaṃ sukhamaśnute ||6-28||",
+      "meaning": "।।6.28।। इस प्रकार मन को सदा आत्मा में स्थिर करने का योग करने वाला पापरहित योगी सुखपूर्वक ब्रह्मसंस्पर्श का परम सुख प्राप्त करता है।।",
+      "tags": [
+        "mind",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG6.29",
+      "chapter": 6,
+      "verse": 29,
+      "speaker": "श्रीभगवान्",
+      "slok": "सर्वभूतस्थमात्मानं सर्वभूतानि चात्मनि | ईक्षते योगयुक्तात्मा सर्वत्र समदर्शनः ||६-२९||",
+      "transliteration": "sarvabhūtasthamātmānaṃ sarvabhūtāni cātmani . īkṣate yogayuktātmā sarvatra samadarśanaḥ ||6-29||",
+      "meaning": "।।6.29।। योगयुक्त अन्त:करण वाला और सर्वत्र समदर्शी योगी आत्मा को सब भूतों में और भूतमात्र को आत्मा में देखता है।।",
+      "tags": [
+        "mind",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG6.30",
+      "chapter": 6,
+      "verse": 30,
+      "speaker": "श्रीभगवान्",
+      "slok": "यो मां पश्यति सर्वत्र सर्वं च मयि पश्यति | तस्याहं न प्रणश्यामि स च मे न प्रणश्यति ||६-३०||",
+      "transliteration": "yo māṃ paśyati sarvatra sarvaṃ ca mayi paśyati . tasyāhaṃ na praṇaśyāmi sa ca me na praṇaśyati ||6-30||",
+      "meaning": "।।6.30।। जो पुरुष मुझे सर्वत्र देखता है और सबको मुझमें देखता है, उसके लिए मैं नष्ट नहीं होता (अर्थात् उसके लिए मैं दूर नहीं होता) और वह मुझसे वियुक्त नहीं होता।।",
+      "tags": [
+        "mind",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG6.31",
+      "chapter": 6,
+      "verse": 31,
+      "speaker": "श्रीभगवान्",
+      "slok": "सर्वभूतस्थितं यो मां भजत्येकत्वमास्थितः | सर्वथा वर्तमानोऽपि स योगी मयि वर्तते ||६-३१||",
+      "transliteration": "sarvabhūtasthitaṃ yo māṃ bhajatyekatvamāsthitaḥ . sarvathā vartamāno.api sa yogī mayi vartate ||6-31||",
+      "meaning": "।।6.31।। जो पुरुष एकत्वभाव मंे स्थित हुआ सम्पूर्ण भूतों में स्थित मुझे भजता है, वह योगी सब प्रकार से वर्तता हुआ (रहता हुआ) मुझमें स्थित रहता है।।",
+      "tags": [
+        "mind",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG6.32",
+      "chapter": 6,
+      "verse": 32,
+      "speaker": "श्रीभगवान्",
+      "slok": "आत्मौपम्येन सर्वत्र समं पश्यति योऽर्जुन | सुखं वा यदि वा दुःखं स योगी परमो मतः ||६-३२||",
+      "transliteration": "ātmaupamyena sarvatra samaṃ paśyati yo.arjuna . sukhaṃ vā yadi vā duḥkhaṃ sa yogī paramo mataḥ ||6-32||",
+      "meaning": "।।6.32।। हे अर्जुन ! जो पुरुष अपने समान सर्वत्र सम देखता है, चाहे वह सुख हो या दु:ख, वह परम योगी माना गया है।।",
+      "tags": [
+        "mind",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG6.33",
+      "chapter": 6,
+      "verse": 33,
+      "speaker": "अर्जुन",
+      "slok": "अर्जुन उवाच | योऽयं योगस्त्वया प्रोक्तः साम्येन मधुसूदन | एतस्याहं न पश्यामि चञ्चलत्वात्स्थितिं स्थिराम् ||६-३३||",
+      "transliteration": "arjuna uvāca . yo.ayaṃ yogastvayā proktaḥ sāmyena madhusūdana . etasyāhaṃ na paśyāmi cañcalatvātsthitiṃ sthirām ||6-33||",
+      "meaning": "।।6.33।। अर्जुन ने कहा -- हे मधुसूदन ! जो यह साम्य योग आपने कहा, मैं मन के चंचल होने से इसकी चिरस्थायी स्थिति को नहीं देखता हूं।।",
+      "tags": [
+        "mind",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG6.34",
+      "chapter": 6,
+      "verse": 34,
+      "speaker": "अर्जुन",
+      "slok": "चञ्चलं हि मनः कृष्ण प्रमाथि बलवद् दृढम् | तस्याहं निग्रहं मन्ये वायोरिव सुदुष्करम् ||६-३४||",
+      "transliteration": "cañcalaṃ hi manaḥ kṛṣṇa pramāthi balavad dṛḍham . tasyāhaṃ nigrahaṃ manye vāyoriva suduṣkaram ||6-34||",
+      "meaning": "।।6.34।। क्योंकि हे कृष्ण ! यह मन चंचल और प्रमथन स्वभाव का तथा बलवान् और दृढ़ है; उसका निग्रह करना मैं वायु के समान अति दुष्कर मानता हूँ ।।",
+      "tags": [
+        "mind",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG6.35",
+      "chapter": 6,
+      "verse": 35,
+      "speaker": "श्रीभगवान्",
+      "slok": "श्रीभगवानुवाच | असंशयं महाबाहो मनो दुर्निग्रहं चलम् | अभ्यासेन तु कौन्तेय वैराग्येण च गृह्यते ||६-३५||",
+      "transliteration": "śrībhagavānuvāca . asaṃśayaṃ mahābāho mano durnigrahaṃ calam . abhyāsena tu kaunteya vairāgyeṇa ca gṛhyate ||6-35||",
+      "meaning": "।।6.35।। श्रीभगवान् कहते हैं -- हे महबाहो ! नि:सन्देह मन चंचल और कठिनता से वश में होने वाला है; परन्तु, हे कुन्तीपुत्र ! उसे अभ्यास और वैराग्य के द्वारा वश में किया जा सकता है।।",
+      "tags": [
+        "mind",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG6.36",
+      "chapter": 6,
+      "verse": 36,
+      "speaker": "श्रीभगवान्",
+      "slok": "असंयतात्मना योगो दुष्प्राप इति मे मतिः | वश्यात्मना तु यतता शक्योऽवाप्तुमुपायतः ||६-३६||",
+      "transliteration": "asaṃyatātmanā yogo duṣprāpa iti me matiḥ . vaśyātmanā tu yatatā śakyo.avāptumupāyataḥ ||6-36||",
+      "meaning": "।।6.36।। असंयत मन के पुरुष द्वारा योग प्राप्त होना कठिन है, परन्तु स्वाधीन मन वाले प्रयत्नशील पुरुष द्वारा उपाय से योग प्राप्त होना संभव है, यह मेरा मत है।।",
+      "tags": [
+        "mind",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG6.37",
+      "chapter": 6,
+      "verse": 37,
+      "speaker": "अर्जुन",
+      "slok": "अर्जुन उवाच | अयतिः श्रद्धयोपेतो योगाच्चलितमानसः | अप्राप्य योगसंसिद्धिं कां गतिं कृष्ण गच्छति ||६-३७||",
+      "transliteration": "arjuna uvāca . ayatiḥ śraddhayopeto yogāccalitamānasaḥ . aprāpya yogasaṃsiddhiṃ kāṃ gatiṃ kṛṣṇa gacchati ||6-37||",
+      "meaning": "।।6.37।। अर्जुन ने कहा -- हे कृष्ण ! जिसका मन योग से चलायमान हो गया है, ऐसा अपूर्ण प्रयत्न वाला (अयति) श्रद्धायुक्त पुरुष योग की सिद्धि को न प्राप्त होकर किस गति को प्राप्त होता है?",
+      "tags": [
+        "mind",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG6.38",
+      "chapter": 6,
+      "verse": 38,
+      "speaker": "अर्जुन",
+      "slok": "कच्चिन्नोभयविभ्रष्टश्छिन्नाभ्रमिव नश्यति | अप्रतिष्ठो महाबाहो विमूढो ब्रह्मणः पथि ||६-३८||",
+      "transliteration": "kaccinnobhayavibhraṣṭaśchinnābhramiva naśyati . apratiṣṭho mahābāho vimūḍho brahmaṇaḥ pathi ||6-38||",
+      "meaning": "।।6.38।। हे महबाहो ! क्या वह ब्रह्म के मार्ग में मोहित तथा आश्रयरहित पुरुष छिन्न-भिन्न मेघ के समान दोनों ओर से भ्रष्ट हुआ नष्ट तो नहीं हो जाता है?",
+      "tags": [
+        "mind",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG6.39",
+      "chapter": 6,
+      "verse": 39,
+      "speaker": "अर्जुन",
+      "slok": "एतन्मे संशयं कृष्ण छेत्तुमर्हस्यशेषतः | त्वदन्यः संशयस्यास्य छेत्ता न ह्युपपद्यते ||६-३९||",
+      "transliteration": "etanme saṃśayaṃ kṛṣṇa chettumarhasyaśeṣataḥ . tvadanyaḥ saṃśayasyāsya chettā na hyupapadyate ||6-39||",
+      "meaning": "।।6.39।। हे कृष्ण ! मेरे इस संशय को नि:शेष रूप से छेदन (निराकरण) करने के लिए आप ही योग्य है; क्योंकि आपके अतिरिक्त अन्य कोई इस संशय का छेदन करन वाला (छेत्ता) मिलना संभव नहीं है।।",
+      "tags": [
+        "mind",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG6.40",
+      "chapter": 6,
+      "verse": 40,
+      "speaker": "श्रीभगवान्",
+      "slok": "श्रीभगवानुवाच | पार्थ नैवेह नामुत्र विनाशस्तस्य विद्यते | न हि कल्याणकृत्कश्चिद् दुर्गतिं तात गच्छति ||६-४०||",
+      "transliteration": "śrībhagavānuvāca . pārtha naiveha nāmutra vināśastasya vidyate . na hi kalyāṇakṛtkaścid durgatiṃ tāta gacchati ||6-40||",
+      "meaning": "।।6.40।। श्रीभगवान् ने कहा -- हे पार्थ ! उस पुरुष का, न तो इस लोक में और न ही परलोक में ही नाश होता है; हे तात ! कोई भी शुभ कर्म करने वाला दुर्गति को नहीं प्राप्त होता है।।",
+      "tags": [
+        "mind",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG6.41",
+      "chapter": 6,
+      "verse": 41,
+      "speaker": "श्रीभगवान्",
+      "slok": "प्राप्य पुण्यकृतां लोकानुषित्वा शाश्वतीः समाः | शुचीनां श्रीमतां गेहे योगभ्रष्टोऽभिजायते ||६-४१||",
+      "transliteration": "prāpya puṇyakṛtāṃ lokānuṣitvā śāśvatīḥ samāḥ . śucīnāṃ śrīmatāṃ gehe yogabhraṣṭo.abhijāyate ||6-41||",
+      "meaning": "।।6.41।। योगभ्रष्ट पुरुष पुण्यवानों के लोकों को प्राप्त होकर वहाँ दीर्घकाल तक वास करके शुद्ध आचरण वाले श्रीमन्त (धनवान) पुरुषों के घर में जन्म लेता है।।",
+      "tags": [
+        "mind",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG6.42",
+      "chapter": 6,
+      "verse": 42,
+      "speaker": "श्रीभगवान्",
+      "slok": "अथवा योगिनामेव कुले भवति धीमताम् | एतद्धि दुर्लभतरं लोके जन्म यदीदृशम् ||६-४२||",
+      "transliteration": "athavā yogināmeva kule bhavati dhīmatām . etaddhi durlabhataraṃ loke janma yadīdṛśam ||6-42||",
+      "meaning": "।।6.42।। अथवा, (साधक) ज्ञानवान् योगियों के ही कुल में जन्म लेता है, परन्तु इस प्रकार का जन्म इस लोक में नि:संदेह अति दुर्लभ है।।",
+      "tags": [
+        "mind",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG6.43",
+      "chapter": 6,
+      "verse": 43,
+      "speaker": "श्रीभगवान्",
+      "slok": "तत्र तं बुद्धिसंयोगं लभते पौर्वदेहिकम् | यतते च ततो भूयः संसिद्धौ कुरुनन्दन ||६-४३||",
+      "transliteration": "tatra taṃ buddhisaṃyogaṃ labhate paurvadehikam . yatate ca tato bhūyaḥ saṃsiddhau kurunandana ||6-43||",
+      "meaning": "।।6.43।। हे कुरुनन्दन ! वह पुरुष वहाँ पूर्व देह में प्राप्त किये गये ज्ञान से सम्पन्न होकर योगसंसिद्धि के लिए उससे भी अधिक प्रयत्न करता है।।",
+      "tags": [
+        "mind",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG6.44",
+      "chapter": 6,
+      "verse": 44,
+      "speaker": "श्रीभगवान्",
+      "slok": "पूर्वाभ्यासेन तेनैव ह्रियते ह्यवशोऽपि सः | जिज्ञासुरपि योगस्य शब्दब्रह्मातिवर्तते ||६-४४||",
+      "transliteration": "pūrvābhyāsena tenaiva hriyate hyavaśo.api saḥ . jijñāsurapi yogasya śabdabrahmātivartate ||6-44||",
+      "meaning": "।।6.44।। उसी पूर्वाभ्यास के कारण वह अवश हुआ योग की ओर आकर्षित होता है। योग का जो केवल जिज्ञासु है वह शब्दब्रह्म का अतिक्रमण करता है।।",
+      "tags": [
+        "mind",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG6.45",
+      "chapter": 6,
+      "verse": 45,
+      "speaker": "श्रीभगवान्",
+      "slok": "प्रयत्नाद्यतमानस्तु योगी संशुद्धकिल्बिषः | अनेकजन्मसंसिद्धस्ततो याति परां गतिम् ||६-४५||",
+      "transliteration": "prayatnādyatamānastu yogī saṃśuddhakilbiṣaḥ . anekajanmasaṃsiddhastato yāti parāṃ gatim ||6-45||",
+      "meaning": "।।6.45।। परन्तु प्रयत्नपूर्वक अभ्यास करने वाला योगी सम्पूर्ण पापों से शुद्ध होकर अनेक जन्मों से (शनै: शनै:) सिद्ध होता हुआ, तब परम गति को प्राप्त होता है।।",
+      "tags": [
+        "mind",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG6.46",
+      "chapter": 6,
+      "verse": 46,
+      "speaker": "श्रीभगवान्",
+      "slok": "तपस्विभ्योऽधिको योगी ज्ञानिभ्योऽपि मतोऽधिकः | कर्मिभ्यश्चाधिको योगी तस्माद्योगी भवार्जुन ||६-४६||",
+      "transliteration": "tapasvibhyo.adhiko yogī jñānibhyo.api mato.adhikaḥ . karmibhyaścādhiko yogī tasmādyogī bhavārjuna ||6-46||",
+      "meaning": "।।6.46।। क्योंकि योगी तपस्वियों से श्रेष्ठ है और (केवल शास्त्र के) ज्ञान वालों से भी श्रेष्ठ माना गया है तथा कर्म करने वालों से भी योगी श्रेष्ठ है, इसलिए हे अर्जुन तुम योगी बनो।।",
+      "tags": [
+        "mind",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG6.47",
+      "chapter": 6,
+      "verse": 47,
+      "speaker": "श्रीभगवान्",
+      "slok": "योगिनामपि सर्वेषां मद्गतेनान्तरात्मना | श्रद्धावान्भजते यो मां स मे युक्ततमो मतः ||६-४७||",
+      "transliteration": "yogināmapi sarveṣāṃ madgatenāntarātmanā . śraddhāvānbhajate yo māṃ sa me yuktatamo mataḥ ||6-47||",
+      "meaning": "।।6.47।। समस्त योगियों में जो भी श्रद्धावान् योगी मुझ में युक्त हुये अन्तरात्मा से (अर्थात् एकत्व भाव से मुझे भजता है, वह मुझे युक्ततम (सर्वश्रेष्ठ) मान्य है।।",
+      "tags": [
+        "mind",
+        "fear"
+      ]
+    },
+    {
+      "id": "BG6.48",
+      "chapter": 6,
+      "verse": 48,
+      "speaker": "श्रीभगवान्",
+      "slok": "ॐ तत्सदिति श्रीमद्भगवद्गीतासूपनिषत्सु ब्रह्मविद्यायां योगशास्त्रे श्रीकृष्णार्जुनसंवादे आत्मसंयमयोगो नाम षष्ठोऽध्यायः ||६||",
+      "transliteration": "OM tatsaditi śrīmadbhagavadgītāsūpaniṣatsu brahmavidyāyāṃ yogaśāstre śrīkṛṣṇārjunasaṃvāde ātmasaṃyamayogo nāma ṣaṣṭho.adhyāyaḥ ||6-48||",
+      "meaning": "Swami Tejomayananda did not comment on this sloka",
+      "tags": [
+        "mind",
+        "fear"
+      ]
+    }
+  ]
+}
