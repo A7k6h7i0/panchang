@@ -58,6 +58,12 @@ function stripLeadingSerialNumber(value) {
     .trim();
 }
 
+function normalizeDoshaTypeValue(value) {
+  return normalizeText(
+    stripLeadingSerialNumber(String(value || "").replace(/\([^)]*\)/g, " "))
+  );
+}
+
 function normalizeCategory(entry, index) {
   const label = String(entry?.label || entry?.name || entry?.title || "").trim();
   const id = String(entry?.id || entry?.slug || slugify(label) || `category-${index}`).trim();
@@ -197,8 +203,8 @@ export function recordMatchesFilters(record, { query, categoryId, doshaTypeId })
   }
 
   if (doshaTypeId && doshaTypeId !== "all") {
-    const needle = slugify(doshaTypeId);
-    const matchesType = record.doshaTypes.some((type) => slugify(type) === needle);
+    const needle = normalizeDoshaTypeValue(doshaTypeId);
+    const matchesType = record.doshaTypes.some((type) => normalizeDoshaTypeValue(type) === needle);
     if (!matchesType) return false;
   }
 

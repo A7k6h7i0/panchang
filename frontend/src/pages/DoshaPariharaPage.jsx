@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import PageShell from "./PageShell";
 import { DOSHA_PARIHARA_DATA_URL, normalizeDoshaPariharaDataset, normalizeText, recordMatchesFilters, scoreDoshaPariharaRecord } from "../utils/doshaParihara";
 import { UiIcon } from "../components/UiIcons";
+import { DOSHA_DROPDOWN_LABELS } from "../data/doshaDropdownOptions";
 import { useLanguage } from "../hooks/useLanguage";
 import { translations } from "../translations";
 
@@ -484,9 +485,9 @@ export default function DoshaPariharaPage() {
   const doshaTypeOptions = useMemo(
     () => [
       { id: "all", label: t.allTypes || "All Types" },
-      ...doshaTypes.map((doshaType) => ({ id: doshaType.id, label: doshaType.label })),
+      ...DOSHA_DROPDOWN_LABELS.map((label) => ({ id: label, label })),
     ],
-    [doshaTypes, t.allTypes]
+    [t.allTypes]
   );
   const liveQuery = normalizeText(query);
   const commitSearch = useCallback(() => {
