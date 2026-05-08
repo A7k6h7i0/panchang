@@ -143,21 +143,38 @@ const collectSearchText = (item) => {
     item?.name,
     item?.title,
     item?.display_name,
+    item?.keywords,
+    item?.keyword,
     item?.area,
+    item?.area_name,
     item?.location,
     item?.address,
     item?.place,
     item?.city,
+    item?.district,
+    item?.state,
+    item?.country,
+    item?.pincode,
+    item?.zip,
+    item?.postalCode,
     item?.temple,
     item?.temple_name,
     item?.templeName,
     item?.associated_temple,
     item?.specialization,
     item?.specialization_name,
+    item?.speciality,
+    item?.specialities,
+    item?.specialty,
     item?.pooja_type,
     item?.poojaType,
     item?.services,
+    item?.service,
+    item?.service_name,
+    item?.services_offered,
     item?.service_types,
+    item?.subcategory,
+    item?.subCategory,
     item?.category,
     item?.tags,
   ];
@@ -1022,24 +1039,23 @@ function ServiceSearchPanel({
       if (requestId !== requestIdRef.current) return;
       const baseItems = filterByResolvedType(items);
       const filtered = baseItems.filter((item) => matchesSearchQuery(item, cleaned));
-      const withDistance = ensureDistance(filtered, userLocationRef.current);
+      const searchMatches = filtered.length > 0 ? filtered : baseItems;
+      const withDistance = ensureDistance(searchMatches, userLocationRef.current);
       const sorted = sortByDistance(withDistance);
       if (nextType === "purohit") {
         const recentFiltered = filterByResolvedType(recentItemsSafe).filter((item) =>
           matchesSearchQuery(item, cleaned)
         );
         const merged = mergeUniqueServices(recentFiltered, sorted);
-        const ensured = await ensureMinimumResults(nextType, merged, controller);
         if (requestId !== requestIdRef.current) return;
-        setServiceResults(ensured);
+        setServiceResults(merged);
       } else if (nextType === "astrologer") {
         const recentFiltered = filterByResolvedType(recentItemsSafe).filter((item) =>
           matchesSearchQuery(item, cleaned)
         );
         const merged = mergeUniqueServices(recentFiltered, sorted);
-        const ensured = await ensureMinimumResults(nextType, merged, controller);
         if (requestId !== requestIdRef.current) return;
-        setServiceResults(ensured);
+        setServiceResults(merged);
       } else {
         const recentFiltered = filterByResolvedType(recentItemsSafe).filter((item) =>
           matchesSearchQuery(item, cleaned)

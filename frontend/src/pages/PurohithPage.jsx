@@ -96,12 +96,6 @@ export default function PurohithPage() {
           title={title}
           subtitle={subtitle}
           recentItems={recentPurohits}
-          noResultsModalConfig={{
-            title: "",
-            message: "If you are a purohith,\nBe the first to add a purohith within this area.",
-            actionLabel: t.addPurohithButton || "Add Purohith",
-            onAction: openAddForm,
-          }}
         />
       </div>
     </PageShell>

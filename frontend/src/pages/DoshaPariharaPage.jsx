@@ -304,9 +304,9 @@ function DoshaTypeDropdown({ options, value, onChange, placeholderLabel }) {
           <div
             className="flex h-[100dvh] w-screen flex-col"
             style={{
-              background: "rgba(40, 18, 6, 0.98)",
+              background: "rgba(212, 168, 71, 0.12)",
               border: "1px solid rgba(255, 220, 120, 0.18)",
-              boxShadow: "0 16px 36px rgba(0, 0, 0, 0.32)",
+              boxShadow: "0 16px 36px rgba(0, 0, 0, 0.22)",
             }}
             onPointerDownCapture={(event) => event.stopPropagation()}
             onTouchStartCapture={(event) => event.stopPropagation()}
