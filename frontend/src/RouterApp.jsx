@@ -69,7 +69,7 @@ export default function RouterApp() {
   const useWhiteText = true;
 
   return (
-    <PageBackground className={useWhiteText ? "app-white-text" : ""}>
+      <PageBackground className={useWhiteText ? "app-white-text" : ""}>
       <AutoTranslator />
       <RingBellSplash
         backgroundUrl="/RingBell.png"

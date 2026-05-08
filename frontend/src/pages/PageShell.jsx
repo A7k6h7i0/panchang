@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import GlobalShortcutButtons from "../components/GlobalShortcutButtons";
 import { UiIcon } from "../components/UiIcons";
 
 export default function PageShell({
@@ -75,6 +76,7 @@ export default function PageShell({
           </div>
         </div>
       </header>
+      <GlobalShortcutButtons />
       <main className="mx-auto w-full max-w-6xl min-w-0 px-4 py-4">{children}</main>
     </div>
   );

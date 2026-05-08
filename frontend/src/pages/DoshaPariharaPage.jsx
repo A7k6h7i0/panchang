@@ -138,9 +138,9 @@ function RecordCard({ record, query, doshaIndex }) {
       state={routeState}
       className="group block overflow-hidden rounded-2xl transition duration-300 hover:-translate-y-0.5"
       style={{
-        background: "linear-gradient(180deg, rgba(20, 10, 6, 0.5) 0%, rgba(35, 16, 9, 0.66) 100%)",
+        background: "transparent",
         border: "1.5px solid rgba(255, 183, 77, 0.4)",
-        boxShadow: "0 8px 20px rgba(0, 0, 0, 0.28)",
+        boxShadow: "0 0 10px rgba(212, 168, 71, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.05)",
       }}
     >
       <div className="p-3 sm:p-4">
@@ -247,7 +247,6 @@ function RecordCard({ record, query, doshaIndex }) {
 
 function DoshaTypeDropdown({ options, value, onChange, placeholderLabel }) {
   const [open, setOpen] = useState(false);
-  const dropdownRef = useRef(null);
   const selectedOption = useMemo(
     () => options.find((option) => option.id === value) || null,
     [options, value]
@@ -256,44 +255,35 @@ function DoshaTypeDropdown({ options, value, onChange, placeholderLabel }) {
   useEffect(() => {
     if (!open) return undefined;
 
-    const handlePointerDown = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setOpen(false);
-      }
-    };
-
     const handleKeyDown = (event) => {
       if (event.key === "Escape") {
         setOpen(false);
       }
     };
 
-    document.addEventListener("mousedown", handlePointerDown);
-    document.addEventListener("touchstart", handlePointerDown);
     window.addEventListener("keydown", handleKeyDown);
 
     return () => {
-      document.removeEventListener("mousedown", handlePointerDown);
-      document.removeEventListener("touchstart", handlePointerDown);
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [open]);
 
   return (
-    <div ref={dropdownRef} className="relative">
+    <>
       <button
         type="button"
-        onClick={() => setOpen((prev) => !prev)}
-        className="flex w-full items-center justify-between gap-3 rounded-xl px-4 py-3 text-left text-[15px] font-semibold outline-none transition"
+        onClick={() => setOpen(true)}
+        className="flex w-full items-center justify-between gap-3 rounded-xl px-4 py-3 text-left text-[15px] font-semibold outline-none transition hover:scale-[1.01]"
         style={{
-          background: "rgba(40, 18, 6, 0.72)",
+          background: "transparent",
           border: "1.5px solid rgba(255, 183, 77, 0.4)",
-          boxShadow: "0 12px 30px rgba(0, 0, 0, 0.22)",
+          boxShadow: "0 0 10px rgba(212, 168, 71, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.08)",
           color: "#FFE8C5",
           colorScheme: "dark",
         }}
-        aria-haspopup="listbox"
+        aria-haspopup="dialog"
         aria-expanded={open}
+        aria-label="Open dosha type selector"
       >
         <span className="truncate">{selectedOption?.label || placeholderLabel || "All Types"}</span>
         <UiIcon name="chevronDown" size={16} color="#FFD49E" />
@@ -301,43 +291,73 @@ function DoshaTypeDropdown({ options, value, onChange, placeholderLabel }) {
 
       {open ? (
         <div
-          className="absolute left-0 right-0 top-full z-30 mt-2 overflow-hidden rounded-2xl"
-          style={{
-            background: "rgba(40, 18, 6, 0.96)",
-            border: "1.5px solid rgba(255, 183, 77, 0.34)",
-            boxShadow: "0 16px 36px rgba(0, 0, 0, 0.28)",
+          className="fixed inset-0 z-[1010] flex items-center justify-center bg-black/55 p-4 backdrop-blur-sm"
+          onPointerDown={(event) => {
+            if (event.target === event.currentTarget) {
+              setOpen(false);
+            }
           }}
-          role="listbox"
         >
-          <div className="px-4 py-2 text-[10px] font-black uppercase tracking-[0.22em] text-amber-100">
-            Select Dosha Type
-          </div>
-          <div className="max-h-72 overflow-auto">
-            {options.map((option) => {
-              const isActive = option.id === value;
-              return (
-                <button
-                  key={option.id}
-                  type="button"
-                  onClick={() => {
-                    onChange(option.id);
-                    setOpen(false);
-                  }}
-                  className="block w-full border-t border-amber-300/10 px-4 py-3 text-left transition hover:bg-amber-300/10"
-                  style={{
-                    background: isActive ? "rgba(255, 183, 77, 0.16)" : "transparent",
-                  }}
-                  role="option"
-                  aria-selected={isActive}
-                >
-                  <div className="text-sm font-bold text-amber-50">{option.label}</div>
-                </button>
-              );
-            })}
+          <div
+            className="w-full max-w-sm rounded-2xl p-4 shadow-2xl"
+            style={{
+              background: "rgba(40, 18, 6, 0.92)",
+              border: "1px solid rgba(255, 220, 120, 0.28)",
+              boxShadow: "0 16px 36px rgba(0, 0, 0, 0.32)",
+            }}
+            onPointerDownCapture={(event) => event.stopPropagation()}
+            onTouchStartCapture={(event) => event.stopPropagation()}
+          >
+            <div className="mb-3 flex items-center justify-between gap-3">
+              <h3 className="text-base font-black text-amber-100">Select Dosha Type</h3>
+              <button
+                type="button"
+                onClick={() => setOpen(false)}
+                className="rounded-lg px-3 py-1.5 text-xs font-bold text-amber-100"
+                style={{
+                  background: "transparent",
+                  border: "1px solid rgba(255, 183, 77, 0.45)",
+                }}
+              >
+                Close
+              </button>
+            </div>
+            <div
+              className="max-h-[70vh] overflow-y-auto rounded-xl p-1"
+              style={{
+                WebkitOverflowScrolling: "touch",
+                touchAction: "pan-y",
+              }}
+            >
+              {options.map((option) => {
+                const isActive = option.id === value;
+                return (
+                  <button
+                    key={option.id}
+                    type="button"
+                    onClick={() => {
+                      onChange(option.id);
+                      setOpen(false);
+                    }}
+                    className={`mb-2 block w-full rounded-xl px-4 py-3 text-left text-sm font-semibold transition-all duration-200 ${
+                      isActive ? "bg-amber-300/15 text-white" : "bg-transparent text-amber-100 hover:bg-amber-300/10"
+                    }`}
+                    style={{
+                      border: "1px solid rgba(255, 183, 77, 0.22)",
+                      boxShadow: isActive ? "inset 0 0 0 1px rgba(255, 220, 150, 0.2)" : "none",
+                    }}
+                    role="option"
+                    aria-selected={isActive}
+                  >
+                    <span className="block break-words whitespace-normal leading-5">{option.label}</span>
+                  </button>
+                );
+              })}
+            </div>
           </div>
         </div>
       ) : null}
-    </div>
+    </>
   );
 }
 
@@ -541,17 +561,16 @@ export default function DoshaPariharaPage() {
         <section
           className="rounded-2xl p-3 sm:p-4"
           style={{
-            background: "linear-gradient(180deg, rgba(20, 10, 6, 0.5) 0%, rgba(35, 16, 9, 0.65) 100%)",
+            background: "transparent",
             border: "1.5px solid rgba(255, 183, 77, 0.4)",
-            boxShadow: "0 4px 15px rgba(255, 107, 53, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.16), inset 0 -1px 0 rgba(139, 69, 19, 0.14)",
+            boxShadow: "0 0 10px rgba(212, 168, 71, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.08)",
           }}
         >
-          <div className="rounded-2xl p-3 sm:p-4" style={{ background: "rgba(255, 255, 255, 0.03)", border: "1px solid rgba(255, 183, 77, 0.14)" }}>
             <div className="max-w-2xl">
               <div className="text-[11px] font-black uppercase tracking-[0.28em] text-amber-100">
                 {t.localTempleSearch || "Local Temple Search"}
               </div>
-              <h1 className="mt-2 text-2xl font-black leading-tight text-amber-50 sm:text-[2.75rem]">
+              <h1 className="mt-2 text-2xl font-black leading-tight text-amber-50 sm:text-[2.5rem] lg:text-[2.75rem]">
                 {t.doshaParihara || "Dosha Parihara"}
               </h1>
               <p className="mt-2 max-w-2xl text-sm font-semibold leading-6 text-amber-100/80">
@@ -561,11 +580,17 @@ export default function DoshaPariharaPage() {
             </div>
 
             <div className="mt-4 grid gap-3">
-              <div className="rounded-2xl p-3" style={{ background: "rgba(255, 255, 255, 0.03)", border: "1px solid rgba(255, 183, 77, 0.14)" }}>
+              <div
+                className="rounded-2xl p-3"
+                style={{
+                  background: "transparent",
+                  border: "1px solid rgba(255, 183, 77, 0.14)",
+                }}
+              >
                 <label className="block text-[11px] font-black uppercase tracking-[0.22em] text-amber-100">
                   {t.search || "Search"}
                 </label>
-                <div className="mt-2 flex gap-2">
+                <div className="mt-2 flex flex-col gap-2 sm:flex-row">
                   <div className="relative min-w-0 flex-1">
                     <input
                       ref={queryInputRef}
@@ -615,7 +640,7 @@ export default function DoshaPariharaPage() {
                       <div
                         className="absolute left-0 right-0 top-full z-20 mt-2 overflow-hidden rounded-2xl"
                         style={{
-                          background: "rgba(40, 18, 6, 0.96)",
+                          background: "rgba(40, 18, 6, 0.88)",
                           border: "1.5px solid rgba(255, 183, 77, 0.34)",
                           boxShadow: "0 16px 36px rgba(0, 0, 0, 0.28)",
                         }}
@@ -623,7 +648,7 @@ export default function DoshaPariharaPage() {
                         <div className="px-4 py-2 text-[10px] font-black uppercase tracking-[0.22em] text-amber-100">
                           Suggestions
                         </div>
-                        <div className="max-h-72 overflow-auto">
+                        <div className="max-h-72 overflow-auto" style={{ WebkitOverflowScrolling: "touch" }}>
                           {searchSuggestions.map((record) => (
                             <Link
                               key={record.id}
@@ -665,32 +690,32 @@ export default function DoshaPariharaPage() {
                       }
                       queryInputRef.current?.focus?.();
                     }}
-                    className="shrink-0 rounded-xl px-4 py-3 text-sm font-black uppercase tracking-[0.14em] text-amber-50"
+                    className="w-full shrink-0 rounded-xl px-4 py-3 text-sm font-black uppercase tracking-[0.14em] text-amber-50 sm:w-auto"
                     style={{
                       background: "linear-gradient(135deg, rgba(255, 186, 75, 0.24) 0%, rgba(255, 143, 41, 0.18) 100%)",
                       border: "1px solid rgba(255, 183, 77, 0.28)",
                     }}
-                    >
-                      Search
-                    </button>
-                  </div>
-                  {suggestedDoshaLabel ? (
-                    <div className="mt-2 text-xs font-semibold text-amber-100/80">
-                      Did you mean{" "}
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setQuery(suggestedDoshaLabel);
-                          queryInputRef.current?.focus?.();
-                        }}
-                        className="font-black text-amber-50 underline decoration-amber-200/60 decoration-2 underline-offset-4 transition hover:text-amber-100"
-                      >
-                        {suggestedDoshaLabel}
-                      </button>
-                      ?
-                    </div>
-                  ) : null}
+                  >
+                    Search
+                  </button>
                 </div>
+                {suggestedDoshaLabel ? (
+                  <div className="mt-2 text-xs font-semibold text-amber-100/80">
+                    Did you mean{" "}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setQuery(suggestedDoshaLabel);
+                        queryInputRef.current?.focus?.();
+                      }}
+                      className="font-black text-amber-50 underline decoration-amber-200/60 decoration-2 underline-offset-4 transition hover:text-amber-100"
+                    >
+                      {suggestedDoshaLabel}
+                    </button>
+                    ?
+                  </div>
+                ) : null}
+              </div>
 
               <div>
                 <div className="mb-2 text-[11px] font-black uppercase tracking-[0.24em] text-amber-100">
@@ -704,28 +729,27 @@ export default function DoshaPariharaPage() {
                 />
               </div>
             </div>
-          </div>
         </section>
 
         {error ? (
-          <section className="mt-4 rounded-2xl p-4 text-sm font-semibold text-amber-100/80" style={{ background: "rgba(78, 22, 18, 0.66)", border: "1px solid rgba(255, 120, 90, 0.28)" }}>
+          <section className="mt-4 rounded-2xl p-4 text-sm font-semibold text-amber-100/80" style={{ background: "transparent", border: "1px solid rgba(255, 120, 90, 0.28)" }}>
             {error}
           </section>
         ) : null}
 
         {loading ? (
-          <section className="mt-4 rounded-2xl p-4 text-sm font-semibold text-amber-100/80" style={{ background: "rgba(255, 255, 255, 0.04)", border: "1px solid rgba(255, 183, 77, 0.18)" }}>
+          <section className="mt-4 rounded-2xl p-4 text-sm font-semibold text-amber-100/80" style={{ background: "transparent", border: "1px solid rgba(255, 183, 77, 0.18)" }}>
             Loading local dosha parihara data...
           </section>
         ) : null}
 
         {!loading && !records.length ? (
-          <section className="mt-4 rounded-2xl p-5 text-sm font-semibold text-amber-100/80" style={{ background: "rgba(255, 255, 255, 0.04)", border: "1px solid rgba(255, 183, 77, 0.18)" }}>
+          <section className="mt-4 rounded-2xl p-5 text-sm font-semibold text-amber-100/80" style={{ background: "transparent", border: "1px solid rgba(255, 183, 77, 0.18)" }}>
             No temples match your search yet. Try a broader keyword or clear the dosha type filter.
           </section>
         ) : null}
 
-        <section className="mt-4 grid gap-3">
+        <section className="mt-4 grid gap-3 sm:gap-4">
           {records.map((record) => (
             <RecordCard key={record.id} record={record} query={query} doshaIndex={doshaIndex} />
           ))}

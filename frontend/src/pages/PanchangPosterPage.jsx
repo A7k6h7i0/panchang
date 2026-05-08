@@ -3,6 +3,7 @@ import { buildIsoDatetime, findActiveByTime, safeDateFromIso, ymdToday } from ".
 import { getLocalPanchang } from "../services/astrologyApi";
 import { translations } from "../translations";
 import { getAstroDefaults } from "../utils/appSettings";
+import GlobalShortcutButtons from "../components/GlobalShortcutButtons";
 import { useLanguage } from "../hooks/useLanguage";
 import { findLocalDayByYmd, normalizeDayRecord } from "../utils/localPanchang";
 import "./PanchangPosterPage.css";
@@ -211,6 +212,7 @@ export default function PanchangPosterPage() {
 
   return (
     <div className="panchang-poster-shell">
+      <GlobalShortcutButtons />
       <main className="panchang-poster-stage">
         <section className="panchang-poster-artboard" aria-label="Panchang poster">
           <img
@@ -252,4 +254,3 @@ export default function PanchangPosterPage() {
     </div>
   );
 }
-

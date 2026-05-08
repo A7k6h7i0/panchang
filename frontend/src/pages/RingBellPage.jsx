@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import GlobalShortcutButtons from "../components/GlobalShortcutButtons";
 import { useLanguage } from "../hooks/useLanguage";
 import { translations } from "../translations";
 
@@ -297,6 +298,7 @@ export default function RingBellPage() {
         backgroundRepeat: "no-repeat",
       }}
     >
+      <GlobalShortcutButtons />
       {/* Header */}
       <header className="sticky top-0 z-20 px-4 pt-3">
         <div

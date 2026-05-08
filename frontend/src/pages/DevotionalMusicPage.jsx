@@ -1,4 +1,5 @@
 import { useState } from "react";
+import GlobalShortcutButtons from "../components/GlobalShortcutButtons";
 
 function ControlButton({ label, onClick, large = false, icon = null }) {
   return (
@@ -53,6 +54,7 @@ export default function DevotionalMusicPage() {
 
   return (
     <div className="min-h-screen p-2 sm:p-4 md:p-6 flex items-center justify-center bg-[#4a0f1b]">
+      <GlobalShortcutButtons />
       <main
         className="relative w-full max-w-[430px] md:max-w-[560px] aspect-[9/16] max-h-[92vh] rounded-xl overflow-hidden"
         style={{
@@ -109,4 +111,3 @@ export default function DevotionalMusicPage() {
     </div>
   );
 }
-

@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { buildIsoDatetime, findActiveByTime, safeDateFromIso } from "./astrology/components/formatters";
 import Rashiphalalu from "./components/Rashiphalalu";
 import Chatbot from "./components/Chatbot";
+import GlobalShortcutButtons from "./components/GlobalShortcutButtons";
 import CountrySelectorButton from "./components/CountrySelectorButton";
 import YearSelectorPopup from "./components/YearSelectorPopup";
 import { UiIcon } from "./components/UiIcons";
@@ -1722,14 +1723,15 @@ export default function HomePage() {
                 "linear-gradient(180deg, #4a2f00 0%, #3b2500 55%, #2b1b00 100%)",
               backgroundSize: "cover",
               backgroundPosition: "center",
-              backgroundRepeat: "no-repeat",
-            }}
-          >
-            <header
-              className="sticky top-0 z-10 px-4 py-3 backdrop-blur-md"
-              style={{
-                background: "transparent",
-                borderBottom: "1.5px solid rgba(255, 183, 77, 0.25)",
+            backgroundRepeat: "no-repeat",
+          }}
+        >
+          <GlobalShortcutButtons allowHomeRoute />
+          <header
+            className="sticky top-0 z-10 px-4 py-3 backdrop-blur-md"
+            style={{
+              background: "transparent",
+              borderBottom: "1.5px solid rgba(255, 183, 77, 0.25)",
                 backdropFilter: "none",
               }}
             >
@@ -1914,14 +1916,15 @@ export default function HomePage() {
               background: "linear-gradient(180deg, #4a2f00 0%, #3b2500 55%, #2b1b00 100%)",
               backgroundSize: "cover",
               backgroundPosition: "center",
-              backgroundRepeat: "no-repeat",
-            }}
-          >
-            <Rashiphalalu
-              language={language}
-              translations={t}
-              selectedRashi={selectedRashi}
-              setSelectedRashi={setSelectedRashi}
+            backgroundRepeat: "no-repeat",
+          }}
+        >
+          <GlobalShortcutButtons allowHomeRoute />
+          <Rashiphalalu
+            language={language}
+            translations={t}
+            selectedRashi={selectedRashi}
+            setSelectedRashi={setSelectedRashi}
               onBack={closeDailyHoroscope}
               isInline={false}
             />
@@ -1959,14 +1962,15 @@ export default function HomePage() {
                 "linear-gradient(180deg, #4a2f00 0%, #3b2500 55%, #2b1b00 100%)",
               backgroundSize: "cover",
               backgroundPosition: "center",
-              backgroundRepeat: "no-repeat",
-            }}
-          >
-            <header
-              className="sticky top-0 z-10 px-4 py-3 backdrop-blur-md"
-              style={{
-                background: "transparent",
-                borderBottom: "1.5px solid rgba(255, 183, 77, 0.25)",
+            backgroundRepeat: "no-repeat",
+          }}
+        >
+          <GlobalShortcutButtons allowHomeRoute />
+          <header
+            className="sticky top-0 z-10 px-4 py-3 backdrop-blur-md"
+            style={{
+              background: "transparent",
+              borderBottom: "1.5px solid rgba(255, 183, 77, 0.25)",
                 backdropFilter: "none",
               }}
             >
@@ -2203,7 +2207,7 @@ export default function HomePage() {
         className="fixed z-40 inline-flex items-center justify-center rounded-full h-12 w-12 sm:h-14 sm:w-14 backdrop-blur-md"
         style={{
           right: "1rem",
-          bottom: "100px",  // Roughly 6.25rem to sit gracefully above the nav
+          bottom: "88px",  // Lifted slightly for better spacing
           background: "linear-gradient(145deg, rgba(255, 210, 155, 0.18) 0%, rgba(255, 150, 80, 0.12) 55%, rgba(255, 120, 45, 0.16) 100%)",
           border: "2px solid rgba(255, 226, 176, 0.65)",
           boxShadow: "0 12px 28px rgba(0, 0, 0, 0.35), 0 0 26px rgba(255, 145, 65, 0.3), inset 0 1px 8px rgba(255, 250, 240, 0.18)",
@@ -2233,7 +2237,7 @@ export default function HomePage() {
         className="fixed z-40 inline-flex items-center justify-center rounded-full h-12 w-12 sm:h-14 sm:w-14 backdrop-blur-md"
         style={{
           right: "1rem",
-          bottom: "160px",
+          bottom: "148px",
           background: "linear-gradient(145deg, rgba(255, 210, 155, 0.2) 0%, rgba(255, 150, 80, 0.12) 55%, rgba(255, 120, 45, 0.18) 100%)",
           border: "2px solid rgba(255, 226, 176, 0.7)",
           boxShadow: "0 12px 28px rgba(0, 0, 0, 0.35), 0 0 26px rgba(255, 145, 65, 0.3), inset 0 1px 8px rgba(255, 250, 240, 0.2)",

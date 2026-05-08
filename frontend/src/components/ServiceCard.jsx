@@ -10,7 +10,14 @@ import {
 
 const SHARED_BORDER = "1.5px solid rgba(255, 183, 77, 0.4)";
 
-function ServiceCardComponent({ item, resolvedType, transparent = false, onClick, clickable = false }) {
+function ServiceCardComponent({
+  item,
+  resolvedType,
+  transparent = false,
+  surfaceTone = "default",
+  onClick,
+  clickable = false,
+}) {
   const name = getServiceDisplayName(item);
   const address = getServiceAddress(item);
   const rating = getServiceRatingLabel(item);
@@ -45,7 +52,9 @@ function ServiceCardComponent({ item, resolvedType, transparent = false, onClick
       style={{
         background: transparent
           ? "transparent"
-          : "linear-gradient(180deg, rgba(20, 10, 6, 0.5) 0%, rgba(35, 16, 9, 0.65) 100%)",
+          : surfaceTone === "dosha"
+            ? "linear-gradient(180deg, #4a2f00 0%, #3b2500 55%, #2b1b00 100%)"
+            : "linear-gradient(180deg, rgba(20, 10, 6, 0.5) 0%, rgba(35, 16, 9, 0.65) 100%)",
         border: SHARED_BORDER,
         boxShadow: transparent
           ? "0 4px 15px rgba(255, 107, 53, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.16), inset 0 -1px 0 rgba(139, 69, 19, 0.14)"
@@ -125,7 +134,9 @@ function ServiceCardComponent({ item, resolvedType, transparent = false, onClick
           style={{
             background: transparent
               ? "transparent"
-              : "var(--calendar-orange-gradient)",
+              : surfaceTone === "dosha"
+                ? "linear-gradient(135deg, rgba(255, 186, 75, 0.24) 0%, rgba(255, 143, 41, 0.18) 100%)"
+                : "var(--calendar-orange-gradient)",
             border: SHARED_BORDER,
             color: "#ffedb3",
             opacity: hasPhone ? 1 : 0.55,
@@ -149,7 +160,9 @@ function ServiceCardComponent({ item, resolvedType, transparent = false, onClick
           style={{
             background: transparent
               ? "transparent"
-              : "linear-gradient(135deg, rgba(42, 90, 31, 0.95) 0%, rgba(90, 150, 69, 0.95) 100%)",
+              : surfaceTone === "dosha"
+                ? "rgba(255, 255, 255, 0.05)"
+                : "linear-gradient(135deg, rgba(42, 90, 31, 0.95) 0%, rgba(90, 150, 69, 0.95) 100%)",
             border: SHARED_BORDER,
             color: "#ffedb3",
             opacity: hasMaps ? 1 : 0.55,
@@ -171,6 +184,7 @@ const ServiceCard = memo(
     return (
       prevProps.resolvedType === nextProps.resolvedType &&
       prevProps.transparent === nextProps.transparent &&
+      prevProps.surfaceTone === nextProps.surfaceTone &&
       prevProps.clickable === nextProps.clickable &&
       prevProps.item?.place_id === nextProps.item?.place_id &&
       prevProps.item?._id === nextProps.item?._id &&

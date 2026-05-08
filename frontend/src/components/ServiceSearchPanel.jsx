@@ -195,7 +195,15 @@ function getSpeechRecognitionLanguage(language) {
   return "en-IN";
 }
 
-function ServiceSearchPanel({ serviceType, title, subtitle, recentItems, noResultsModalConfig, transparent = false }) {
+function ServiceSearchPanel({
+  serviceType,
+  title,
+  subtitle,
+  recentItems,
+  noResultsModalConfig,
+  transparent = false,
+  panelTone = "default",
+}) {
   const navigate = useNavigate();
   const { language } = useLanguage();
   const normalizedType = String(serviceType || "").toLowerCase();
@@ -1253,12 +1261,15 @@ function ServiceSearchPanel({ serviceType, title, subtitle, recentItems, noResul
 
   return (
     <>
+      {panelTone === "dosha" ? null : null}
       <div
         className="w-full min-w-0 overflow-hidden rounded-2xl p-3 backdrop-blur-md"
         style={{
           background: transparent
             ? "transparent"
-            : "linear-gradient(180deg, #4a2f00 0%, #3b2500 55%, #2b1b00 100%)",
+            : panelTone === "dosha"
+              ? "linear-gradient(180deg, #4a2f00 0%, #3b2500 55%, #2b1b00 100%)"
+              : "linear-gradient(180deg, #4a2f00 0%, #3b2500 55%, #2b1b00 100%)",
           border: "1.5px solid rgba(255, 183, 77, 0.4)",
           boxShadow: transparent
             ? "0 0 18px rgba(255, 140, 50, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.12)"
@@ -1276,8 +1287,8 @@ function ServiceSearchPanel({ serviceType, title, subtitle, recentItems, noResul
           ) : null}
         </div>
 
-        <div className="mt-3 flex min-w-0 flex-wrap gap-2">
-          <div className="relative min-w-0 flex-1">
+        <div className="mt-3 flex min-w-0 flex-nowrap gap-2">
+          <div className="relative min-w-0 flex-[1.35]">
             <input
               type="text"
               value={serviceQuery}
@@ -1335,7 +1346,7 @@ function ServiceSearchPanel({ serviceType, title, subtitle, recentItems, noResul
           <button
             type="button"
             onClick={() => searchServices(resolvedType, serviceQuery)}
-            className="shrink-0 rounded-lg px-3 py-2 text-xs font-bold uppercase tracking-wide"
+            className="shrink-0 rounded-lg px-2.5 py-2 text-[10px] font-bold uppercase tracking-wide sm:px-3 sm:text-xs"
             style={{
               background: transparent ? "transparent" : "var(--calendar-orange-gradient)",
               border: "1.5px solid rgba(255, 183, 77, 0.4)",

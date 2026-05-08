@@ -1218,7 +1218,7 @@ function App() {
         className="fixed z-40 inline-flex items-center justify-center rounded-full h-12 w-12 sm:h-14 sm:w-14 backdrop-blur-md"
         style={{
           right: "1rem",
-          bottom: "5.25rem",
+          bottom: "4.75rem",
           background:
             "linear-gradient(145deg, rgba(255, 210, 155, 0.18) 0%, rgba(255, 150, 80, 0.12) 55%, rgba(255, 120, 45, 0.16) 100%)",
           border: "2px solid rgba(255, 226, 176, 0.65)",
@@ -1251,7 +1251,7 @@ function App() {
         className="fixed z-40 inline-flex items-center justify-center rounded-full h-12 w-12 sm:h-14 sm:w-14 backdrop-blur-md"
         style={{
           right: "1rem",
-          bottom: "10.5rem",
+          bottom: "9.75rem",
           background:
             "linear-gradient(145deg, rgba(255, 210, 155, 0.2) 0%, rgba(255, 150, 80, 0.12) 55%, rgba(255, 120, 45, 0.18) 100%)",
           border: "2px solid rgba(255, 226, 176, 0.7)",

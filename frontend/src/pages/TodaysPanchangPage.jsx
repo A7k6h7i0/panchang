@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { buildIsoDatetime, findActiveByTime, safeDateFromIso, ymdToday } from "../astrology/components/formatters";
+import GlobalShortcutButtons from "../components/GlobalShortcutButtons";
 import { useLanguage } from "../hooks/useLanguage";
 import { getLocalPanchang } from "../services/astrologyApi";
 import { translations } from "../translations";
@@ -203,6 +204,7 @@ export default function TodaysPanchangPage() {
 
   return (
     <div className="todays-panchang-shell">
+      <GlobalShortcutButtons />
       <div className="todays-panchang-stage">
         <div
           className="todays-panchang-poster"
@@ -286,4 +288,3 @@ export default function TodaysPanchangPage() {
     </div>
   );
 }
-

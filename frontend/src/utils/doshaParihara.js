@@ -51,6 +51,13 @@ function asList(value) {
     .filter(Boolean);
 }
 
+function stripLeadingSerialNumber(value) {
+  return String(value || "")
+    .trim()
+    .replace(/^\d+\s*[-.)]?\s*/u, "")
+    .trim();
+}
+
 function normalizeCategory(entry, index) {
   const label = String(entry?.label || entry?.name || entry?.title || "").trim();
   const id = String(entry?.id || entry?.slug || slugify(label) || `category-${index}`).trim();
@@ -63,15 +70,15 @@ function normalizeCategory(entry, index) {
 }
 
 function normalizeDoshaType(entry, index) {
-  const label = String(entry?.label || entry?.name || entry?.title || "").trim();
+  const label = stripLeadingSerialNumber(entry?.label || entry?.name || entry?.title || "");
   const id = String(entry?.id || entry?.slug || slugify(label) || `dosha-${index}`).trim();
   return {
     id,
     label: label || id,
     categoryId: String(entry?.categoryId || entry?.category_id || "").trim(),
-    aliases: asList(entry?.aliases),
+    aliases: asList(entry?.aliases).map(stripLeadingSerialNumber).filter(Boolean),
     description: String(entry?.description || "").trim(),
-    problemKeywords: asList(entry?.problemKeywords || entry?.problems || entry?.issues),
+    problemKeywords: asList(entry?.problemKeywords || entry?.problems || entry?.issues).map(stripLeadingSerialNumber).filter(Boolean),
   };
 }
 
@@ -80,8 +87,8 @@ export function normalizeDoshaPariharaRecord(record, index, categoryLookup, dosh
   const location = String(record?.location || record?.city || record?.place || record?.area || "").trim();
   const id = String(record?.id || record?.slug || slugify(`${templeName}-${location}`) || `record-${index}`).trim();
   const categoryIds = asList(record?.categoryIds || record?.category_ids || record?.category || record?.categories);
-  const doshaTypes = asList(record?.doshaTypes || record?.dosha_types || record?.dosha || record?.doshaName);
-  const problemKeywords = asList(record?.problemKeywords || record?.problems || record?.issueKeywords);
+  const doshaTypes = asList(record?.doshaTypes || record?.dosha_types || record?.dosha || record?.doshaName).map(stripLeadingSerialNumber).filter(Boolean);
+  const problemKeywords = asList(record?.problemKeywords || record?.problems || record?.issueKeywords).map(stripLeadingSerialNumber).filter(Boolean);
   const ritualName = String(record?.ritualName || record?.ritual_name || record?.poojaName || record?.pooja_name || "").trim();
   const speciality = String(record?.templeSpeciality || record?.speciality || record?.specialization || "").trim();
   const description = String(record?.description || "").trim();

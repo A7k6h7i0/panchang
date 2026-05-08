@@ -1,4 +1,5 @@
 import { useState } from "react";
+import GlobalShortcutButtons from "../components/GlobalShortcutButtons";
 
 const MANTRAS = [
   {
@@ -116,6 +117,7 @@ export default function MantrasPosterPage() {
 
   return (
     <div className="min-h-screen p-2 sm:p-4 md:p-6 flex items-center justify-center bg-[#4a0f1b]">
+      <GlobalShortcutButtons />
       <main
         className="relative w-full max-w-[430px] md:max-w-[900px] aspect-[9/16] md:aspect-[16/10] max-h-[92vh] rounded-xl overflow-hidden"
         style={{
