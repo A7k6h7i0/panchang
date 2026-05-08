@@ -143,6 +143,10 @@ const collectSearchText = (item) => {
     item?.name,
     item?.title,
     item?.display_name,
+    item?.business_name,
+    item?.businessName,
+    item?.shop_name,
+    item?.shopName,
     item?.keywords,
     item?.keyword,
     item?.area,
@@ -161,6 +165,8 @@ const collectSearchText = (item) => {
     item?.temple_name,
     item?.templeName,
     item?.associated_temple,
+    item?.main_category,
+    item?.categories,
     item?.specialization,
     item?.specialization_name,
     item?.speciality,
@@ -176,6 +182,11 @@ const collectSearchText = (item) => {
     item?.subcategory,
     item?.subCategory,
     item?.category,
+    item?.phone,
+    item?.phone_number,
+    item?.mobile,
+    item?.website,
+    item?.link,
     item?.description,
     item?.about,
     item?.bio,
@@ -752,7 +763,7 @@ function ServiceSearchPanel({
           writeServiceSnapshotCache(nextType, mergedWithRecent, {
             source: "nearby",
           });
-          return;
+          return mergedWithRecent;
         }
         lastActualNearbyCountRef.current[nextType] = 0;
         const ensured = await ensureMinimumResults(nextType, allFiltered, controller);
@@ -764,7 +775,7 @@ function ServiceSearchPanel({
         writeServiceSnapshotCache(nextType, mergedWithRecent, {
           source: "nearby",
         });
-        return;
+        return mergedWithRecent;
       } else if (nextType === "astrologer") {
         const allItems = await fetchAllAstrologers(controller);
         const allFiltered = filterByResolvedType(allItems);
@@ -786,7 +797,7 @@ function ServiceSearchPanel({
           writeServiceSnapshotCache(nextType, mergedWithRecent, {
             source: "nearby",
           });
-          return;
+          return mergedWithRecent;
         }
         lastActualNearbyCountRef.current[nextType] = 0;
         const ensured = await ensureMinimumResults(nextType, allFiltered, controller);
@@ -798,7 +809,7 @@ function ServiceSearchPanel({
         writeServiceSnapshotCache(nextType, mergedWithRecent, {
           source: "nearby",
         });
-        return;
+        return mergedWithRecent;
       } else {
         if (!location) {
           lastActualNearbyCountRef.current[nextType] = 0;
@@ -813,7 +824,7 @@ function ServiceSearchPanel({
             writeServiceSnapshotCache(nextType, fallbackResults, {
               source: "fallback",
             });
-            return;
+            return fallbackResults;
           }
           throw new Error("Location permission denied. Please allow location access to find nearby results.");
         }
@@ -851,6 +862,7 @@ function ServiceSearchPanel({
       writeServiceSnapshotCache(nextType, mergedWithRecent, {
         source: "nearby",
       });
+      return mergedWithRecent;
     } catch (err) {
       if (err?.name === "AbortError") return;
       lastActualNearbyCountRef.current[nextType] = 0;
@@ -866,7 +878,7 @@ function ServiceSearchPanel({
             writeServiceSnapshotCache(nextType, mergedWithRecent, {
               source: "fallback",
             });
-            return;
+            return mergedWithRecent;
           }
         }
       } catch {
@@ -882,6 +894,7 @@ function ServiceSearchPanel({
       } else {
         setServiceErrorSafe(err?.message || "Unable to fetch nearby results.");
       }
+      return [];
     } finally {
       if (requestId === requestIdRef.current) {
         setServiceLoading(false);
@@ -1005,7 +1018,7 @@ function ServiceSearchPanel({
     };
   }, [speechLanguage]);
 
-  const searchServices = useCallback(async (nextType, query) => {
+  const searchServices = useCallback((nextType, query) => {
     const trimmed = String(query || "").trim();
     const cleaned = trimmed.replace(/\\/g, "").trim();
     if (!cleaned) {
@@ -1022,60 +1035,23 @@ function ServiceSearchPanel({
       return;
     }
     setServiceHasInteracted(true);
-    const currentResults = serviceResultsRef.current;
-    preSearchResultsRef.current = currentResults; // Keep showing these while searching
     setServiceErrorSafe("");
-    setServiceLoading(true);
-    serviceAbortRef.current?.abort?.();
-    const controller = new AbortController();
-    serviceAbortRef.current = controller;
-    const requestId = ++requestIdRef.current;
-
-    try {
-      const url =
-        nextType === "purohit"
-          ? `${LOCAL_API_BASE_URL}/api/purohith?limit=100`
-          : nextType === "astrologer"
-            ? `${SERVICE_API_BASE_URL}/api/astrologers?limit=100`
-            : nextType === "store"
-            ? `${LOCAL_API_BASE_URL}/api/stores?limit=100`
-            : `${LOCAL_API_BASE_URL}/api/temples?limit=100`;
-      const items = await fetchServiceList(url, controller.signal);
-      if (requestId !== requestIdRef.current) return;
-      const filtered = items.filter((item) => matchesSearchQuery(item, cleaned));
-      const searchMatches = filtered.length > 0 ? filtered : items;
-      const withDistance = ensureDistance(searchMatches, userLocationRef.current);
-      const sorted = sortByDistance(withDistance);
-      if (nextType === "purohit") {
-        const recentFiltered = recentItemsSafe.filter((item) =>
-          matchesSearchQuery(item, cleaned)
-        );
-        const merged = mergeUniqueServices(recentFiltered, sorted);
-        if (requestId !== requestIdRef.current) return;
-        setServiceResults(merged);
-      } else if (nextType === "astrologer") {
-        const recentFiltered = recentItemsSafe.filter((item) =>
-          matchesSearchQuery(item, cleaned)
-        );
-        const merged = mergeUniqueServices(recentFiltered, sorted);
-        if (requestId !== requestIdRef.current) return;
-        setServiceResults(merged);
-      } else {
-        const recentFiltered = recentItemsSafe.filter((item) =>
-          matchesSearchQuery(item, cleaned)
-        );
-        const merged = mergeUniqueServices(recentFiltered, sorted);
-        if (requestId !== requestIdRef.current) return;
-        setServiceResults(merged);
-      }
-    } catch (err) {
-      if (err?.name === "AbortError") return;
-      setServiceErrorSafe(err?.message || "Unable to search results.");
-    } finally {
-      if (requestId === requestIdRef.current) {
-        setServiceLoading(false);
-      }
-    }
+    const baseResults =
+      lastNearbyRef.current[nextType] ||
+      (nextType === "purohit"
+        ? allPurohits
+        : nextType === "astrologer"
+          ? allAstrologers
+          : []);
+    const sourceItems = Array.isArray(baseResults) ? baseResults : [];
+    const filtered = sourceItems.filter((item) => matchesSearchQuery(item, cleaned));
+    const withDistance = ensureDistance(filtered, userLocationRef.current);
+    const sorted = sortByDistance(withDistance);
+    const recentFiltered = recentItemsSafe.filter((item) =>
+      matchesSearchQuery(item, cleaned)
+    );
+    const merged = mergeUniqueServices(recentFiltered, sorted);
+    setServiceResults(merged);
   // The callback deliberately tracks the current search helpers and cached datasets.
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
