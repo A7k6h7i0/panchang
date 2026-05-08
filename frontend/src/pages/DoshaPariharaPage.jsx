@@ -570,39 +570,8 @@ export default function DoshaPariharaPage() {
   return (
     <PageShell title={t.doshaParihara || "Dosha Parihara"} transparent>
       <div className="mx-auto w-full max-w-4xl">
-        <section
-          className="rounded-2xl p-3 sm:p-4"
-          style={{
-            background: "transparent",
-            border: "1.5px solid rgba(255, 183, 77, 0.4)",
-            boxShadow: "0 0 10px rgba(212, 168, 71, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.08)",
-          }}
-        >
-            <div className="max-w-2xl">
-              <div className="text-[11px] font-black uppercase tracking-[0.28em] text-amber-100">
-                {t.localTempleSearch || "Local Temple Search"}
-              </div>
-              <h1 className="mt-2 text-2xl font-black leading-tight text-amber-50 sm:text-[2.5rem] lg:text-[2.75rem]">
-                {t.doshaParihara || "Dosha Parihara"}
-              </h1>
-              <p className="mt-2 max-w-2xl text-sm font-semibold leading-6 text-amber-100/80">
-                {t.doshaPariharaSubtitle ||
-                  "Search temples and remedy centers by dosha type, ritual, state, or the problem you want to address."}
-              </p>
-            </div>
-
             <div className="mt-4 grid gap-3">
-              <div
-                className="rounded-2xl p-3"
-                style={{
-                  background: "transparent",
-                  border: "1px solid rgba(255, 183, 77, 0.14)",
-                }}
-              >
-                <label className="block text-[11px] font-black uppercase tracking-[0.22em] text-amber-100">
-                  {t.search || "Search"}
-                </label>
-                <div className="mt-2 flex flex-col gap-2 sm:flex-row">
+              <div className="flex flex-col gap-2 sm:flex-row">
                   <div className="relative min-w-0 flex-1">
                     <input
                       ref={queryInputRef}
@@ -722,7 +691,7 @@ export default function DoshaPariharaPage() {
                 ) : null}
               </div>
 
-              <div>
+              <div className="mt-2">
                 <div className="mb-2 text-[11px] font-black uppercase tracking-[0.24em] text-amber-100">
                   {t.doshaTypes || "Dosha Types"}
                 </div>
@@ -734,8 +703,6 @@ export default function DoshaPariharaPage() {
                 />
               </div>
             </div>
-        </section>
-
         {error ? (
           <section className="mt-4 rounded-2xl p-4 text-sm font-semibold text-amber-100/80" style={{ background: "transparent", border: "1px solid rgba(255, 120, 90, 0.28)" }}>
             {error}
@@ -765,7 +732,6 @@ export default function DoshaPariharaPage() {
             />
           ))}
         </section>
-      </div>
     </PageShell>
   );
 }
