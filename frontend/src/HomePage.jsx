@@ -2207,7 +2207,7 @@ export default function HomePage() {
         className="fixed z-40 inline-flex items-center justify-center rounded-full h-12 w-12 sm:h-14 sm:w-14 backdrop-blur-md"
         style={{
           right: "1rem",
-          bottom: "88px",  // Lifted slightly for better spacing
+          bottom: "100px",  // Nudged upward slightly
           background: "linear-gradient(145deg, rgba(255, 210, 155, 0.18) 0%, rgba(255, 150, 80, 0.12) 55%, rgba(255, 120, 45, 0.16) 100%)",
           border: "2px solid rgba(255, 226, 176, 0.65)",
           boxShadow: "0 12px 28px rgba(0, 0, 0, 0.35), 0 0 26px rgba(255, 145, 65, 0.3), inset 0 1px 8px rgba(255, 250, 240, 0.18)",
@@ -2237,7 +2237,7 @@ export default function HomePage() {
         className="fixed z-40 inline-flex items-center justify-center rounded-full h-12 w-12 sm:h-14 sm:w-14 backdrop-blur-md"
         style={{
           right: "1rem",
-          bottom: "148px",
+          bottom: "160px",
           background: "linear-gradient(145deg, rgba(255, 210, 155, 0.2) 0%, rgba(255, 150, 80, 0.12) 55%, rgba(255, 120, 45, 0.18) 100%)",
           border: "2px solid rgba(255, 226, 176, 0.7)",
           boxShadow: "0 12px 28px rgba(0, 0, 0, 0.35), 0 0 26px rgba(255, 145, 65, 0.3), inset 0 1px 8px rgba(255, 250, 240, 0.2)",
