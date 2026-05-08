@@ -595,7 +595,7 @@ export default function DoshaPariharaPage() {
               <div
                 className="rounded-2xl p-3"
                 style={{
-                  background: "rgba(212, 168, 71, 0.12)",
+                  background: "transparent",
                   border: "1px solid rgba(255, 183, 77, 0.14)",
                 }}
               >
@@ -616,7 +616,7 @@ export default function DoshaPariharaPage() {
                       placeholder="Search dosha, temple, ritual, or problem..."
                       className="w-full rounded-xl px-4 py-3 pr-12 text-[15px] font-semibold outline-none"
                       style={{
-                        background: "rgba(212, 168, 71, 0.12)",
+                        background: "rgba(212, 168, 71, 0.18)",
                         border: "1px solid rgba(255, 183, 77, 0.22)",
                         color: "#FFE8C5",
                       }}
