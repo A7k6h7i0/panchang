@@ -1881,12 +1881,12 @@ export default function HomePage() {
             shellless
           />
           <HomeNavButton
-            label="Dosha Parihara"
+            label={t.doshaParihara || "Dosha Parihara"}
             onClick={() => navigate("/dosha-parihara")}
             shellless
           />
           <HomeNavButton
-            label="365 Days Pooja"
+            label={t.days365Pooja || "365 Days Pooja"}
             onClick={() => navigate("/365-days-pooja")}
             shellless
           />

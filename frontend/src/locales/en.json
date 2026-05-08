@@ -1,6 +1,12 @@
 ﻿{
   "appTitle": "Talking Calendar",
   "appSubtitle": "Hindu Calendar with Tithi & Nakshatra",
+  "days365Pooja": "365 Days Pooja",
+  "doshaParihara": "Dosha Parihara",
+  "localTempleSearch": "Local Temple Search",
+  "doshaPariharaSubtitle": "Search temples and remedy centers by dosha type, ritual, state, or the problem you want to address.",
+  "doshaTypes": "Dosha Types",
+  "allTypes": "All Types",
   "settingsTitle": "Settings",
   "settingsLanguageTitle": "Language",
   "settingsLanguageSubtitle": "App language for local astrology requests and UI.",

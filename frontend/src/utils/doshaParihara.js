@@ -17,6 +17,31 @@ export function slugify(value) {
     .replace(/^-+|-+$/g, "");
 }
 
+function isPlaceholderWebsite(value) {
+  return /^(website|web site|default|default website|sample|example|placeholder|none|null|n\/a|na|not available|coming soon|cafe|caffe|test|demo|local|localhost)$/i.test(
+    String(value || "").trim()
+  );
+}
+
+function normalizeWebsiteUrl(value) {
+  const raw = String(value || "").trim();
+  if (!raw || isPlaceholderWebsite(raw) || /\s{2,}/.test(raw)) return "";
+
+  const candidate = /^https?:\/\//i.test(raw) || /^\/\//.test(raw) ? raw : `https://${raw}`;
+
+  try {
+    const url = new URL(candidate.startsWith("//") ? `https:${candidate}` : candidate);
+    const hostname = String(url.hostname || "").toLowerCase();
+    if (!hostname || hostname === "localhost" || !hostname.includes(".")) return "";
+    if (isPlaceholderWebsite(hostname) || /(^|\.)(example|placeholder|default|website|cafe|caffe|test|demo|local)(\.|$)/i.test(hostname)) {
+      return "";
+    }
+    return url.toString();
+  } catch {
+    return "";
+  }
+}
+
 function asList(value) {
   if (!value) return [];
   if (Array.isArray(value)) return value.map((entry) => String(entry || "").trim()).filter(Boolean);
@@ -64,7 +89,10 @@ export function normalizeDoshaPariharaRecord(record, index, categoryLookup, dosh
   const district = String(record?.district || "").trim();
   const state = String(record?.state || "").trim();
   const contact = record?.contact && typeof record.contact === "object" ? record.contact : {};
-  const website = String(record?.website || contact?.website || "").trim();
+  const isBlockedWebsiteTemple =
+    /kukke-subramanya-sarpa-dosha-parihara/i.test(id) ||
+    /kukke subramanya temple/i.test(templeName);
+  const website = isBlockedWebsiteTemple ? "" : normalizeWebsiteUrl(record?.website || contact?.website || "");
   const phone = String(record?.phone || contact?.phone || "").trim();
   const images = Array.isArray(record?.images) ? record.images.map((entry) => String(entry || "").trim()).filter(Boolean) : [];
 

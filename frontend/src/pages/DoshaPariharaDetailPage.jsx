@@ -2,6 +2,8 @@ import { useEffect, useMemo, useState } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
 import PageShell from "./PageShell";
 import { DOSHA_PARIHARA_DATA_URL, findDoshaPariharaRecord, normalizeDoshaPariharaDataset } from "../utils/doshaParihara";
+import { translations } from "../translations";
+import { useLanguage } from "../hooks/useLanguage";
 
 function Tag({ children }) {
   return (
@@ -10,7 +12,7 @@ function Tag({ children }) {
       style={{
         background: "rgba(255, 255, 255, 0.05)",
         border: "1px solid rgba(255, 183, 77, 0.18)",
-        color: "#FFF0D5",
+        color: "#FFF4D8",
       }}
     >
       {children}
@@ -28,10 +30,10 @@ function InfoTile({ label, value }) {
         border: "1px solid rgba(255, 183, 77, 0.16)",
       }}
     >
-      <div className="text-[11px] font-black uppercase tracking-[0.2em]" style={{ color: "#FFD49E" }}>
+      <div className="text-[11px] font-black uppercase tracking-[0.2em] text-amber-100">
         {label}
       </div>
-      <div className="mt-2 text-sm font-semibold leading-6 text-[#FFF1DB]">{value}</div>
+      <div className="mt-2 text-sm font-semibold leading-6 text-amber-100/80">{value}</div>
     </div>
   );
 }
@@ -42,7 +44,7 @@ function ActionLink({ href, label, external = false, primary = false }) {
       href={href}
       target={external ? "_blank" : undefined}
       rel={external ? "noreferrer" : undefined}
-      className="rounded-xl px-4 py-3 text-center text-sm font-black text-[#FFF5E5] transition hover:scale-[1.01]"
+      className="rounded-xl px-4 py-3 text-center text-sm font-black text-amber-50 transition hover:scale-[1.01]"
       style={{
         background: primary ? "rgba(255, 183, 77, 0.16)" : "rgba(255, 255, 255, 0.05)",
         border: "1px solid rgba(255, 183, 77, 0.18)",
@@ -54,10 +56,12 @@ function ActionLink({ href, label, external = false, primary = false }) {
 }
 
 export default function DoshaPariharaDetailPage() {
+  const { language } = useLanguage();
   const params = useParams();
   const location = useLocation();
   const [dataset, setDataset] = useState({ records: [] });
   const [loading, setLoading] = useState(true);
+  const t = translations[language] || translations.en;
 
   const identifier = params.itemId || "";
 
@@ -100,12 +104,12 @@ export default function DoshaPariharaDetailPage() {
   }, [dataset.records, identifier, location.state?.record]);
 
   useEffect(() => {
-    const title = record?.templeName ? `${record.templeName} | Dosha Parihara` : "Dosha Parihara";
+    const title = record?.templeName ? `${record.templeName} | ${t.doshaParihara || "Dosha Parihara"}` : t.doshaParihara || "Dosha Parihara";
     document.title = title;
 
     const description = record
       ? `${record.templeName} in ${record.location || record.state || "India"} for ${record.ritualName || "local parihara search"}.`
-      : "Dosha Parihara temple details.";
+      : `${t.doshaParihara || "Dosha Parihara"} temple details.`;
 
     let meta = document.querySelector('meta[name="description"]');
     if (!meta) {
@@ -114,10 +118,15 @@ export default function DoshaPariharaDetailPage() {
       document.head.appendChild(meta);
     }
     meta.content = description;
-  }, [record]);
+  }, [record, t.doshaParihara]);
 
   return (
-    <PageShell title="Dosha Parihara" transparent backTo="/dosha-parihara" backLabel="Back to Dosha Parihara">
+    <PageShell
+      title={t.doshaParihara || "Dosha Parihara"}
+      transparent
+      backTo="/dosha-parihara"
+      backLabel={`Back to ${t.doshaParihara || "Dosha Parihara"}`}
+    >
       <div className="mx-auto w-full max-w-5xl space-y-4">
         {!record && !loading ? (
           <section
@@ -127,14 +136,14 @@ export default function DoshaPariharaDetailPage() {
               border: "1.5px solid rgba(255, 183, 77, 0.28)",
             }}
           >
-            <div className="text-lg font-black text-[#FFF5E2]">Temple details not found.</div>
-            <p className="mt-2 text-sm leading-6 text-[#FFE0B4]">
+            <div className="text-lg font-black text-amber-50">Temple details not found.</div>
+            <p className="mt-2 text-sm leading-6 text-amber-100/80">
               The local record was not found. Go back to the list and open another entry.
             </p>
             <div className="mt-4">
               <Link
                 to="/dosha-parihara"
-                className="inline-flex rounded-xl px-4 py-2 text-sm font-black text-[#FFF3D8]"
+                className="inline-flex rounded-xl px-4 py-2 text-sm font-black text-amber-50"
                 style={{
                   background: "rgba(255, 183, 77, 0.15)",
                   border: "1px solid rgba(255, 183, 77, 0.26)",
@@ -155,13 +164,13 @@ export default function DoshaPariharaDetailPage() {
               boxShadow: "0 18px 40px rgba(0, 0, 0, 0.24)",
             }}
           >
-            <div className="text-[11px] font-black uppercase tracking-[0.28em]" style={{ color: "#FFD49E" }}>
+            <div className="text-[11px] font-black uppercase tracking-[0.28em] text-amber-100">
               Temple Detail
             </div>
-            <h1 className="mt-2 text-3xl font-black leading-tight text-[#FFF6E6] sm:text-4xl">
+            <h1 className="mt-2 text-3xl font-black leading-tight text-amber-50 sm:text-4xl">
               {record.templeName}
             </h1>
-            <p className="mt-2 text-sm font-semibold leading-6 text-[#FFE1B8]">
+            <p className="mt-2 text-sm font-semibold leading-6 text-amber-100/80">
               {record.location}
               {record.district ? ` • ${record.district}` : ""}
               {record.state ? ` • ${record.state}` : ""}
@@ -185,7 +194,7 @@ export default function DoshaPariharaDetailPage() {
               {record.website ? <ActionLink href={record.website} label="Visit Website" external /> : null}
               <Link
                 to="/dosha-parihara"
-                className="rounded-xl px-4 py-3 text-center text-sm font-black text-[#FFF5E5] transition hover:scale-[1.01]"
+                className="rounded-xl px-4 py-3 text-center text-sm font-black text-amber-50 transition hover:scale-[1.01]"
                 style={{
                   background: "rgba(255, 183, 77, 0.16)",
                   border: "1px solid rgba(255, 183, 77, 0.26)",
@@ -200,3 +209,6 @@ export default function DoshaPariharaDetailPage() {
     </PageShell>
   );
 }
+
+
+

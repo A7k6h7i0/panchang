@@ -1,42 +1,1233 @@
 {
-  "updatedAt": "2026-05-07",
+  "updatedAt": "2026-05-08",
   "categories": [
-    { "id": "graha-dosha", "label": "Graha Dosha", "aliases": ["Planetary Dosha", "Navagraha"] },
-    { "id": "marriage", "label": "Marriage", "aliases": ["Vivaha", "Relationship"] },
-    { "id": "health", "label": "Health", "aliases": ["Body", "Wellness"] },
-    { "id": "career", "label": "Career", "aliases": ["Job", "Profession"] },
-    { "id": "education", "label": "Education", "aliases": ["Study", "Learning"] },
-    { "id": "finance", "label": "Finance", "aliases": ["Money", "Debt"] },
-    { "id": "family", "label": "Family", "aliases": ["Home", "Relations"] },
-    { "id": "general", "label": "General", "aliases": ["Protection", "Obstacles"] }
+    {
+      "id": "graha-dosha",
+      "label": "Graha Dosha",
+      "aliases": [
+        "Planetary Dosha",
+        "Navagraha"
+      ]
+    },
+    {
+      "id": "marriage",
+      "label": "Marriage",
+      "aliases": [
+        "Vivaha",
+        "Relationship"
+      ]
+    },
+    {
+      "id": "health",
+      "label": "Health",
+      "aliases": [
+        "Body",
+        "Wellness"
+      ]
+    },
+    {
+      "id": "career",
+      "label": "Career",
+      "aliases": [
+        "Job",
+        "Profession"
+      ]
+    },
+    {
+      "id": "education",
+      "label": "Education",
+      "aliases": [
+        "Study",
+        "Learning"
+      ]
+    },
+    {
+      "id": "finance",
+      "label": "Finance",
+      "aliases": [
+        "Money",
+        "Debt"
+      ]
+    },
+    {
+      "id": "family",
+      "label": "Family",
+      "aliases": [
+        "Home",
+        "Relations"
+      ]
+    },
+    {
+      "id": "general",
+      "label": "General",
+      "aliases": [
+        "Protection",
+        "Obstacles"
+      ]
+    }
   ],
   "doshaTypes": [
-    { "id": "kuja-dosha", "label": "Kuja Dosha", "aliases": ["Manglik", "Mangal Dosha"], "categoryId": "marriage" },
-    { "id": "kalasarpa-dosha", "label": "Kalasarpa Dosha", "aliases": ["Kaal Sarp Dosha", "Kala Sarpa"], "categoryId": "graha-dosha" },
-    { "id": "rahu-dosha", "label": "Rahu Dosha", "aliases": ["Rahu Graha Dosha"], "categoryId": "graha-dosha" },
-    { "id": "ketu-dosha", "label": "Ketu Dosha", "aliases": ["Ketu Graha Dosha"], "categoryId": "graha-dosha" },
-    { "id": "shani-dosha", "label": "Shani Dosha", "aliases": ["Saturn Dosha"], "categoryId": "graha-dosha" },
-    { "id": "surya-dosha", "label": "Surya Dosha", "aliases": ["Sun Dosha"], "categoryId": "graha-dosha" },
-    { "id": "chandra-dosha", "label": "Chandra Dosha", "aliases": ["Moon Dosha"], "categoryId": "graha-dosha" },
-    { "id": "budha-dosha", "label": "Budha Dosha", "aliases": ["Mercury Dosha"], "categoryId": "graha-dosha" },
-    { "id": "guru-dosha", "label": "Guru Dosha", "aliases": ["Jupiter Dosha"], "categoryId": "graha-dosha" },
-    { "id": "shukra-dosha", "label": "Shukra Dosha", "aliases": ["Venus Dosha"], "categoryId": "marriage" },
-    { "id": "pitru-dosha", "label": "Pitru Dosha", "aliases": ["Pitra Dosha", "Ancestor Dosha"], "categoryId": "family" },
-    { "id": "nadi-dosha", "label": "Nadi Dosha", "aliases": ["Nadi Dosh"], "categoryId": "marriage" },
-    { "id": "bhakoot-dosha", "label": "Bhakoot Dosha", "aliases": ["Bhakut Dosha"], "categoryId": "marriage" },
-    { "id": "gana-dosha", "label": "Gana Dosha", "aliases": ["Gana Dosh"], "categoryId": "marriage" },
-    { "id": "rajju-dosha", "label": "Rajju Dosha", "aliases": ["Rajju Dosh"], "categoryId": "marriage" },
-    { "id": "punarphoo-dosha", "label": "Punarphoo Dosha", "aliases": ["Punarpoo Dosha"], "categoryId": "family" },
-    { "id": "grahan-dosha", "label": "Grahan Dosha", "aliases": ["Eclipse Dosha"], "categoryId": "graha-dosha" },
-    { "id": "daridra-dosha", "label": "Daridra Dosha", "aliases": ["Poverty Dosha"], "categoryId": "finance" },
-    { "id": "santana-dosha", "label": "Santana Dosha", "aliases": ["Putra Dosha", "Child Delay"], "categoryId": "family" },
-    { "id": "vivaha-dosha", "label": "Vivaha Dosha", "aliases": ["Marriage Dosha", "Delay in Marriage"], "categoryId": "marriage" },
-    { "id": "health-block", "label": "Health Block", "aliases": ["Health Issues", "Illness"], "categoryId": "health" },
-    { "id": "career-block", "label": "Career Block", "aliases": ["Career Issues", "Job Problems"], "categoryId": "career" },
-    { "id": "education-block", "label": "Education Block", "aliases": ["Education Problems", "Study Block"], "categoryId": "education" },
-    { "id": "finance-block", "label": "Finance Block", "aliases": ["Financial Problems", "Debt Problems"], "categoryId": "finance" },
-    { "id": "family-block", "label": "Family Block", "aliases": ["Family Disputes", "Home Issues"], "categoryId": "family" },
-    { "id": "obstacle-dosha", "label": "Obstacle Dosha", "aliases": ["Repeated Failure", "Blockages"], "categoryId": "general" }
+    {
+      "id": "46-ananta-kaalsarp-dosha",
+      "label": "46 Ananta Kaalsarp Dosha",
+      "categoryId": "family",
+      "aliases": [],
+      "description": "",
+      "problemKeywords": []
+    },
+    {
+      "id": "47-kulika-kaalsarp-dosha",
+      "label": "47 Kulika Kaalsarp Dosha",
+      "categoryId": "family",
+      "aliases": [],
+      "description": "",
+      "problemKeywords": []
+    },
+    {
+      "id": "48-vasuki-kaalsarp-dosha",
+      "label": "48 Vasuki Kaalsarp Dosha",
+      "categoryId": "family",
+      "aliases": [],
+      "description": "",
+      "problemKeywords": []
+    },
+    {
+      "id": "49-shankhapala-kaalsarp-dosha",
+      "label": "49 Shankhapala Kaalsarp Dosha",
+      "categoryId": "family",
+      "aliases": [],
+      "description": "",
+      "problemKeywords": []
+    },
+    {
+      "id": "50-padma-kaalsarp-dosha",
+      "label": "50 Padma Kaalsarp Dosha",
+      "categoryId": "family",
+      "aliases": [],
+      "description": "",
+      "problemKeywords": []
+    },
+    {
+      "id": "51-mahapadma-kaalsarp-dosha",
+      "label": "51 Mahapadma Kaalsarp Dosha",
+      "categoryId": "family",
+      "aliases": [],
+      "description": "",
+      "problemKeywords": []
+    },
+    {
+      "id": "52-takshaka-kaalsarp-dosha",
+      "label": "52 Takshaka Kaalsarp Dosha",
+      "categoryId": "family",
+      "aliases": [],
+      "description": "",
+      "problemKeywords": []
+    },
+    {
+      "id": "53-karkotaka-kaalsarp-dosha",
+      "label": "53 Karkotaka Kaalsarp Dosha",
+      "categoryId": "family",
+      "aliases": [],
+      "description": "",
+      "problemKeywords": []
+    },
+    {
+      "id": "54-shankhachuda-kaalsarp-dosha",
+      "label": "54 Shankhachuda Kaalsarp Dosha",
+      "categoryId": "family",
+      "aliases": [],
+      "description": "",
+      "problemKeywords": []
+    },
+    {
+      "id": "55-ghataka-kaalsarp-dosha",
+      "label": "55 Ghataka Kaalsarp Dosha",
+      "categoryId": "family",
+      "aliases": [],
+      "description": "",
+      "problemKeywords": []
+    },
+    {
+      "id": "56-vishadhara-kaalsarp-dosha",
+      "label": "56 Vishadhara Kaalsarp Dosha",
+      "categoryId": "family",
+      "aliases": [],
+      "description": "",
+      "problemKeywords": []
+    },
+    {
+      "id": "57-sheshnaga-kaalsarp-dosha",
+      "label": "57 Sheshnaga Kaalsarp Dosha",
+      "categoryId": "family",
+      "aliases": [],
+      "description": "",
+      "problemKeywords": []
+    },
+    {
+      "id": "amavasya-janana-dosha",
+      "label": "Amavasya Janana Dosha",
+      "categoryId": "family",
+      "aliases": [],
+      "description": "Birth on New Moon day",
+      "problemKeywords": []
+    },
+    {
+      "id": "ananta-kaalsarp-dosha",
+      "label": "Ananta Kaalsarp Dosha",
+      "categoryId": "family",
+      "aliases": [],
+      "description": "",
+      "problemKeywords": []
+    },
+    {
+      "id": "angaraka-dosha",
+      "label": "Angaraka Dosha",
+      "categoryId": "graha-dosha",
+      "aliases": [
+        "Mars and Rahu Conjunction"
+      ],
+      "description": "Mars and Rahu conjunction",
+      "problemKeywords": []
+    },
+    {
+      "id": "ardhastama-shani",
+      "label": "Ardhastama Shani",
+      "categoryId": "graha-dosha",
+      "aliases": [
+        "Saturn in 4th House"
+      ],
+      "description": "Saturn in the 4th house",
+      "problemKeywords": []
+    },
+    {
+      "id": "ashtama-shani",
+      "label": "Ashtama Shani",
+      "categoryId": "graha-dosha",
+      "aliases": [
+        "Saturn in 8th House"
+      ],
+      "description": "Saturn in the 8th house",
+      "problemKeywords": []
+    },
+    {
+      "id": "ashwayuja-gandam",
+      "label": "Ashwayuja Gandam",
+      "categoryId": "family",
+      "aliases": [],
+      "description": "Ashwini star flaw",
+      "problemKeywords": []
+    },
+    {
+      "id": "aslesha-gandam",
+      "label": "Aslesha Gandam",
+      "categoryId": "family",
+      "aliases": [],
+      "description": "Aslesha star flaw",
+      "problemKeywords": []
+    },
+    {
+      "id": "astangata-graha-dosha",
+      "label": "Astangata Graha Dosha",
+      "categoryId": "graha-dosha",
+      "aliases": [],
+      "description": "Combust planet flaw",
+      "problemKeywords": []
+    },
+    {
+      "id": "bhakoot-dosha",
+      "label": "Bhakoot Dosha",
+      "aliases": [
+        "Bhakut Dosha",
+        "Moon Sign Compatibility"
+      ],
+      "categoryId": "marriage",
+      "description": "Relative Moon sign position flaw",
+      "problemKeywords": []
+    },
+    {
+      "id": "bhratru-shapa",
+      "label": "Bhratru Shapa",
+      "categoryId": "family",
+      "aliases": [],
+      "description": "Curse of the Brother",
+      "problemKeywords": []
+    },
+    {
+      "id": "bhukampa-janana-dosha",
+      "label": "Bhukampa Janana Dosha",
+      "categoryId": "general",
+      "aliases": [],
+      "description": "Birth during an earthquake",
+      "problemKeywords": []
+    },
+    {
+      "id": "brahma-shapa",
+      "label": "Brahma Shapa",
+      "categoryId": "family",
+      "aliases": [
+        "Brahmin Curse"
+      ],
+      "description": "Curse of a learned person",
+      "problemKeywords": []
+    },
+    {
+      "id": "brahmasthana-vastu-dosha",
+      "label": "Brahmasthana Vastu Dosha",
+      "categoryId": "general",
+      "aliases": [
+        "Center Vastu Dosha"
+      ],
+      "description": "Defect in Center",
+      "problemKeywords": []
+    },
+    {
+      "id": "budha-dosha",
+      "label": "Budha Dosha",
+      "aliases": [
+        "Mercury Dosha"
+      ],
+      "categoryId": "graha-dosha"
+    },
+    {
+      "id": "career-block",
+      "label": "Career Block",
+      "aliases": [
+        "Career Issues",
+        "Job Problems"
+      ],
+      "categoryId": "career"
+    },
+    {
+      "id": "chandala-dosha",
+      "label": "Chandala Dosha",
+      "categoryId": "graha-dosha",
+      "aliases": [],
+      "description": "Degraded conduct flaw",
+      "problemKeywords": []
+    },
+    {
+      "id": "chandra-dosha",
+      "label": "Chandra Dosha",
+      "aliases": [
+        "Moon Dosha"
+      ],
+      "categoryId": "graha-dosha"
+    },
+    {
+      "id": "dagdha-rashi-dosha",
+      "label": "Dagdha Rashi Dosha",
+      "categoryId": "graha-dosha",
+      "aliases": [],
+      "description": "Burnt sign flaw",
+      "problemKeywords": []
+    },
+    {
+      "id": "dahana-dosha",
+      "label": "Dahana Dosha",
+      "categoryId": "graha-dosha",
+      "aliases": [],
+      "description": "Combustion flaw",
+      "problemKeywords": []
+    },
+    {
+      "id": "daridra-dosha",
+      "label": "Daridra Dosha",
+      "aliases": [
+        "Poverty Dosha"
+      ],
+      "categoryId": "graha-dosha",
+      "description": "Flaw of Poverty",
+      "problemKeywords": []
+    },
+    {
+      "id": "durmuhurtha-dosha",
+      "label": "Durmuhurtha Dosha",
+      "categoryId": "general",
+      "aliases": [
+        "Dur Muhurta Dosha"
+      ],
+      "description": "Inauspicious moment",
+      "problemKeywords": []
+    },
+    {
+      "id": "dwara-dosha",
+      "label": "Dwara Dosha",
+      "categoryId": "general",
+      "aliases": [
+        "Main Door Defect"
+      ],
+      "description": "Main door defect",
+      "problemKeywords": []
+    },
+    {
+      "id": "dwirdwadasha-dosha",
+      "label": "Dwirdwadasha Dosha",
+      "categoryId": "graha-dosha",
+      "aliases": [],
+      "description": "2nd 12th house relationship",
+      "problemKeywords": []
+    },
+    {
+      "id": "education-block",
+      "label": "Education Block",
+      "aliases": [
+        "Education Problems",
+        "Study Block"
+      ],
+      "categoryId": "education"
+    },
+    {
+      "id": "ekadasha-dosha",
+      "label": "Ekadasha Dosha",
+      "categoryId": "graha-dosha",
+      "aliases": [],
+      "description": "11th house related flaw",
+      "problemKeywords": []
+    },
+    {
+      "id": "family-block",
+      "label": "Family Block",
+      "aliases": [
+        "Family Disputes",
+        "Home Issues"
+      ],
+      "categoryId": "family"
+    },
+    {
+      "id": "finance-block",
+      "label": "Finance Block",
+      "aliases": [
+        "Financial Problems",
+        "Debt Problems"
+      ],
+      "categoryId": "finance"
+    },
+    {
+      "id": "gana-dosha",
+      "label": "Gana Dosha",
+      "aliases": [
+        "Gana Dosh",
+        "Temperamental Incompatibility"
+      ],
+      "categoryId": "marriage",
+      "description": "Temperamental incompatibility",
+      "problemKeywords": []
+    },
+    {
+      "id": "gandamoola-dosha",
+      "label": "Gandamoola Dosha",
+      "categoryId": "family",
+      "aliases": [
+        "Gand Mool Dosha"
+      ],
+      "description": "Birth in critical junction stars",
+      "problemKeywords": []
+    },
+    {
+      "id": "ghataka-kaalsarp-dosha",
+      "label": "Ghataka Kaalsarp Dosha",
+      "categoryId": "family",
+      "aliases": [],
+      "description": "",
+      "problemKeywords": []
+    },
+    {
+      "id": "graha-yuddha-dosha",
+      "label": "Graha Yuddha Dosha",
+      "categoryId": "graha-dosha",
+      "aliases": [],
+      "description": "Planetary war flaw",
+      "problemKeywords": []
+    },
+    {
+      "id": "grahan-dosha",
+      "label": "Grahan Dosha",
+      "aliases": [
+        "Eclipse Dosha"
+      ],
+      "categoryId": "graha-dosha",
+      "description": "Eclipse flaw Sun/Moon with Rahu/Ketu",
+      "problemKeywords": []
+    },
+    {
+      "id": "grahan-janana-dosha",
+      "label": "Grahan Janana Dosha",
+      "categoryId": "family",
+      "aliases": [
+        "Eclipse Birth Dosha"
+      ],
+      "description": "Birth during an Eclipse",
+      "problemKeywords": []
+    },
+    {
+      "id": "gulika-dosha",
+      "label": "Gulika Dosha",
+      "categoryId": "general",
+      "aliases": [],
+      "description": "Influence of Gulika",
+      "problemKeywords": []
+    },
+    {
+      "id": "guru-chandala-dosha",
+      "label": "Guru Chandala Dosha",
+      "categoryId": "graha-dosha",
+      "aliases": [
+        "Jupiter Rahu/Ketu Conjunction"
+      ],
+      "description": "Jupiter Rahu/Ketu conjunction",
+      "problemKeywords": []
+    },
+    {
+      "id": "guru-dosha",
+      "label": "Guru Dosha",
+      "aliases": [
+        "Jupiter Dosha"
+      ],
+      "categoryId": "graha-dosha"
+    },
+    {
+      "id": "health-block",
+      "label": "Health Block",
+      "aliases": [
+        "Health Issues",
+        "Illness"
+      ],
+      "categoryId": "health"
+    },
+    {
+      "id": "jadatwa-dosha",
+      "label": "Jadatwa Dosha",
+      "categoryId": "graha-dosha",
+      "aliases": [],
+      "description": "Mental dullness flaw",
+      "problemKeywords": []
+    },
+    {
+      "id": "jupiter-in-6th-house",
+      "label": "Jupiter in 6th House",
+      "categoryId": "general",
+      "aliases": [],
+      "description": "Enmity/Health issues",
+      "problemKeywords": []
+    },
+    {
+      "id": "jupiter-neecha-dosha",
+      "label": "Jupiter Neecha Dosha",
+      "categoryId": "graha-dosha",
+      "aliases": [
+        "Jupiter Debilitation"
+      ],
+      "description": "Jupiter Debilitation",
+      "problemKeywords": []
+    },
+    {
+      "id": "jyestha-gandam",
+      "label": "Jyestha Gandam",
+      "categoryId": "family",
+      "aliases": [],
+      "description": "Jyestha star flaw",
+      "problemKeywords": []
+    },
+    {
+      "id": "kaalsarp-dosha",
+      "label": "Kaalsarp Dosha",
+      "categoryId": "graha-dosha",
+      "aliases": [
+        "Kalasarpa Dosha",
+        "Kalsarpa Dosha",
+        "Kala Sarpa Dosha"
+      ],
+      "description": "Serpentine Curse/Yoke",
+      "problemKeywords": []
+    },
+    {
+      "id": "kalasarpa-dosha",
+      "label": "Kalasarpa Dosha",
+      "aliases": [
+        "Kaal Sarp Dosha",
+        "Kala Sarpa"
+      ],
+      "categoryId": "graha-dosha"
+    },
+    {
+      "id": "karkotaka-kaalsarp-dosha",
+      "label": "Karkotaka Kaalsarp Dosha",
+      "categoryId": "family",
+      "aliases": [],
+      "description": "",
+      "problemKeywords": []
+    },
+    {
+      "id": "kemadruma-dosha",
+      "label": "Kemadruma Dosha",
+      "categoryId": "marriage",
+      "aliases": [
+        "Moon with no nearby planets"
+      ],
+      "description": "Loneliness/Poverty flaw Moon with no planets nearby",
+      "problemKeywords": []
+    },
+    {
+      "id": "ketu-dosha",
+      "label": "Ketu Dosha",
+      "aliases": [
+        "Ketu Graha Dosha",
+        "South Node Dosha"
+      ],
+      "categoryId": "graha-dosha",
+      "description": "Flaw caused by South Node",
+      "problemKeywords": []
+    },
+    {
+      "id": "ketu-in-8th-house",
+      "label": "Ketu in 8th House",
+      "categoryId": "general",
+      "aliases": [],
+      "description": "Health/Longevity issues",
+      "problemKeywords": []
+    },
+    {
+      "id": "krishna-paksha-chaturdashi-dosha",
+      "label": "Krishna Paksha Chaturdashi Dosha",
+      "categoryId": "family",
+      "aliases": [],
+      "description": "Birth on the 14th lunar day of dark fortnight",
+      "problemKeywords": []
+    },
+    {
+      "id": "kuja-dosha",
+      "label": "Kuja Dosha",
+      "aliases": [
+        "Manglik",
+        "Mangal Dosha"
+      ],
+      "categoryId": "marriage"
+    },
+    {
+      "id": "kulika-kaalsarp-dosha",
+      "label": "Kulika Kaalsarp Dosha",
+      "categoryId": "family",
+      "aliases": [],
+      "description": "",
+      "problemKeywords": []
+    },
+    {
+      "id": "lagna-sandhi-dosha",
+      "label": "Lagna Sandhi Dosha",
+      "categoryId": "graha-dosha",
+      "aliases": [],
+      "description": "Birth at the junction of two ascendants",
+      "problemKeywords": []
+    },
+    {
+      "id": "magha-gandam",
+      "label": "Magha Gandam",
+      "categoryId": "family",
+      "aliases": [],
+      "description": "Magha star flaw",
+      "problemKeywords": []
+    },
+    {
+      "id": "mahapadma-kaalsarp-dosha",
+      "label": "Mahapadma Kaalsarp Dosha",
+      "categoryId": "family",
+      "aliases": [],
+      "description": "",
+      "problemKeywords": []
+    },
+    {
+      "id": "mahendra-dosha",
+      "label": "Mahendra Dosha",
+      "categoryId": "marriage",
+      "aliases": [
+        "Longevity Dosha"
+      ],
+      "description": "Longevity/Well-being flaw",
+      "problemKeywords": []
+    },
+    {
+      "id": "mangala-dosha",
+      "label": "Mangala Dosha",
+      "categoryId": "graha-dosha",
+      "aliases": [
+        "Kuja Dosha",
+        "Mangal Dosha"
+      ],
+      "description": "Mars Defect/Kuja Dosha",
+      "problemKeywords": []
+    },
+    {
+      "id": "mars-neecha-dosha",
+      "label": "Mars Neecha Dosha",
+      "categoryId": "graha-dosha",
+      "aliases": [
+        "Mars Debilitation"
+      ],
+      "description": "Mars Debilitation",
+      "problemKeywords": []
+    },
+    {
+      "id": "matru-shapa",
+      "label": "Matru Shapa",
+      "categoryId": "family",
+      "aliases": [],
+      "description": "Curse of the Mother",
+      "problemKeywords": []
+    },
+    {
+      "id": "mercury-neecha-dosha",
+      "label": "Mercury Neecha Dosha",
+      "categoryId": "graha-dosha",
+      "aliases": [
+        "Mercury Debilitation"
+      ],
+      "description": "Mercury Debilitation",
+      "problemKeywords": []
+    },
+    {
+      "id": "moola-gandam",
+      "label": "Moola Gandam",
+      "categoryId": "family",
+      "aliases": [],
+      "description": "Moola star flaw",
+      "problemKeywords": []
+    },
+    {
+      "id": "moon-neecha-dosha",
+      "label": "Moon Neecha Dosha",
+      "categoryId": "graha-dosha",
+      "aliases": [
+        "Moon Debilitation"
+      ],
+      "description": "Moon Debilitation",
+      "problemKeywords": []
+    },
+    {
+      "id": "mukkopi-dosha",
+      "label": "Mukkopi Dosha",
+      "categoryId": "graha-dosha",
+      "aliases": [],
+      "description": "Short tempered flaw",
+      "problemKeywords": []
+    },
+    {
+      "id": "nadi-dosha",
+      "label": "Nadi Dosha",
+      "aliases": [
+        "Nadi Dosh",
+        "Pulse Dosha"
+      ],
+      "categoryId": "marriage",
+      "description": "Pulse/Physiological incompatibility",
+      "problemKeywords": []
+    },
+    {
+      "id": "nakshatra-sandhi-dosha",
+      "label": "Nakshatra Sandhi Dosha",
+      "categoryId": "graha-dosha",
+      "aliases": [],
+      "description": "Planet at the junction of two stars",
+      "problemKeywords": []
+    },
+    {
+      "id": "northeast-vastu-dosha",
+      "label": "Northeast Vastu Dosha",
+      "categoryId": "general",
+      "aliases": [
+        "Ishanya Vastu Dosha"
+      ],
+      "description": "Defect in North East",
+      "problemKeywords": []
+    },
+    {
+      "id": "northwest-vastu-dosha",
+      "label": "Northwest Vastu Dosha",
+      "categoryId": "general",
+      "aliases": [
+        "Vayavya Vastu Dosha"
+      ],
+      "description": "Defect in North West",
+      "problemKeywords": []
+    },
+    {
+      "id": "obstacle-dosha",
+      "label": "Obstacle Dosha",
+      "aliases": [
+        "Repeated Failure",
+        "Blockages"
+      ],
+      "categoryId": "general"
+    },
+    {
+      "id": "paapa-kartari-dosha",
+      "label": "Paapa Kartari Dosha",
+      "categoryId": "marriage",
+      "aliases": [
+        "Hemmed by Malefics"
+      ],
+      "description": "Hemmed by malefics",
+      "problemKeywords": []
+    },
+    {
+      "id": "padma-kaalsarp-dosha",
+      "label": "Padma Kaalsarp Dosha",
+      "categoryId": "family",
+      "aliases": [],
+      "description": "",
+      "problemKeywords": []
+    },
+    {
+      "id": "paksha-randhra-dosha",
+      "label": "Paksha Randhra Dosha",
+      "categoryId": "general",
+      "aliases": [],
+      "description": "Flaw in the lunar fortnight",
+      "problemKeywords": []
+    },
+    {
+      "id": "patni-shapa",
+      "label": "Patni Shapa",
+      "categoryId": "family",
+      "aliases": [],
+      "description": "Curse of the Wife",
+      "problemKeywords": []
+    },
+    {
+      "id": "pitri-dosha",
+      "label": "Pitri Dosha",
+      "categoryId": "graha-dosha",
+      "aliases": [
+        "Pitru Dosha",
+        "Pitra Dosha"
+      ],
+      "description": "Ancestral Curse/Flaw",
+      "problemKeywords": []
+    },
+    {
+      "id": "pitru-dosha",
+      "label": "Pitru Dosha",
+      "aliases": [
+        "Pitra Dosha",
+        "Ancestor Dosha"
+      ],
+      "categoryId": "family"
+    },
+    {
+      "id": "preta-shapa",
+      "label": "Preta Shapa",
+      "categoryId": "family",
+      "aliases": [
+        "Spirit Curse"
+      ],
+      "description": "Curse of a departed soul",
+      "problemKeywords": []
+    },
+    {
+      "id": "punarphoo-dosha",
+      "label": "Punarphoo Dosha",
+      "aliases": [
+        "Punarpoo Dosha"
+      ],
+      "categoryId": "family"
+    },
+    {
+      "id": "rahu-dosha",
+      "label": "Rahu Dosha",
+      "aliases": [
+        "Rahu Graha Dosha",
+        "North Node Dosha"
+      ],
+      "categoryId": "graha-dosha",
+      "description": "Flaw caused by North Node",
+      "problemKeywords": []
+    },
+    {
+      "id": "rahu-in-7th-house",
+      "label": "Rahu in 7th House",
+      "categoryId": "general",
+      "aliases": [],
+      "description": "Marriage/Partnership issues",
+      "problemKeywords": []
+    },
+    {
+      "id": "rahu-kaala-dosha",
+      "label": "Rahu Kaala Dosha",
+      "categoryId": "general",
+      "aliases": [
+        "Rahu Kalam Dosha"
+      ],
+      "description": "Inauspicious time of Rahu",
+      "problemKeywords": []
+    },
+    {
+      "id": "rajju-dosha",
+      "label": "Rajju Dosha",
+      "aliases": [
+        "Rajju Dosh",
+        "Marriage Lifespan Dosha"
+      ],
+      "categoryId": "marriage",
+      "description": "Duration of married life flaw",
+      "problemKeywords": []
+    },
+    {
+      "id": "rashi-sandhi-dosha",
+      "label": "Rashi Sandhi Dosha",
+      "categoryId": "graha-dosha",
+      "aliases": [],
+      "description": "Planet at the junction of two signs",
+      "problemKeywords": []
+    },
+    {
+      "id": "revati-gandam",
+      "label": "Revati Gandam",
+      "categoryId": "family",
+      "aliases": [],
+      "description": "Revati star flaw",
+      "problemKeywords": []
+    },
+    {
+      "id": "sade-sati",
+      "label": "Sade Sati",
+      "categoryId": "graha-dosha",
+      "aliases": [
+        "Saturn Sade Sati"
+      ],
+      "description": "7.5 years transit of Saturn",
+      "problemKeywords": []
+    },
+    {
+      "id": "sandhyakala-janana-dosha",
+      "label": "Sandhyakala Janana Dosha",
+      "categoryId": "general",
+      "aliases": [],
+      "description": "Birth during twilight",
+      "problemKeywords": []
+    },
+    {
+      "id": "sankranti-janana-dosha",
+      "label": "Sankranti Janana Dosha",
+      "categoryId": "family",
+      "aliases": [],
+      "description": "Birth during Sun transit into a new sign",
+      "problemKeywords": []
+    },
+    {
+      "id": "santana-dosha",
+      "label": "Santana Dosha",
+      "aliases": [
+        "Putra Dosha",
+        "Child Delay"
+      ],
+      "categoryId": "family",
+      "description": "Obstacles in Children",
+      "problemKeywords": []
+    },
+    {
+      "id": "sarpa-shapa",
+      "label": "Sarpa Shapa",
+      "categoryId": "family",
+      "aliases": [
+        "Serpent Curse"
+      ],
+      "description": "Curse of the Serpents",
+      "problemKeywords": []
+    },
+    {
+      "id": "saturn-in-1st-house",
+      "label": "Saturn in 1st House",
+      "categoryId": "general",
+      "aliases": [],
+      "description": "Personal struggles",
+      "problemKeywords": []
+    },
+    {
+      "id": "saturn-neecha-dosha",
+      "label": "Saturn Neecha Dosha",
+      "categoryId": "graha-dosha",
+      "aliases": [
+        "Saturn Debilitation"
+      ],
+      "description": "Saturn Debilitation",
+      "problemKeywords": []
+    },
+    {
+      "id": "shakata-dosha",
+      "label": "Shakata Dosha",
+      "categoryId": "graha-dosha",
+      "aliases": [],
+      "description": "Unstable fortune",
+      "problemKeywords": []
+    },
+    {
+      "id": "shani-dosha",
+      "label": "Shani Dosha",
+      "aliases": [
+        "Saturn Dosha"
+      ],
+      "categoryId": "graha-dosha"
+    },
+    {
+      "id": "shankhachuda-kaalsarp-dosha",
+      "label": "Shankhachuda Kaalsarp Dosha",
+      "categoryId": "family",
+      "aliases": [],
+      "description": "",
+      "problemKeywords": []
+    },
+    {
+      "id": "shankhapala-kaalsarp-dosha",
+      "label": "Shankhapala Kaalsarp Dosha",
+      "categoryId": "family",
+      "aliases": [],
+      "description": "",
+      "problemKeywords": []
+    },
+    {
+      "id": "shashtashtaka-dosha",
+      "label": "Shashtashtaka Dosha",
+      "categoryId": "graha-dosha",
+      "aliases": [],
+      "description": "6th 8th house relationship",
+      "problemKeywords": []
+    },
+    {
+      "id": "sheshnaga-kaalsarp-dosha",
+      "label": "Sheshnaga Kaalsarp Dosha",
+      "categoryId": "family",
+      "aliases": [],
+      "description": "",
+      "problemKeywords": []
+    },
+    {
+      "id": "shrapit-dosha",
+      "label": "Shrapit Dosha",
+      "categoryId": "graha-dosha",
+      "aliases": [
+        "Saturn and Rahu Conjunction"
+      ],
+      "description": "Cursed flaw Saturn and Rahu conjunction",
+      "problemKeywords": []
+    },
+    {
+      "id": "shukra-dosha",
+      "label": "Shukra Dosha",
+      "aliases": [
+        "Venus Dosha"
+      ],
+      "categoryId": "marriage"
+    },
+    {
+      "id": "southeast-vastu-dosha",
+      "label": "Southeast Vastu Dosha",
+      "categoryId": "general",
+      "aliases": [
+        "Agneya Vastu Dosha"
+      ],
+      "description": "Defect in South East",
+      "problemKeywords": []
+    },
+    {
+      "id": "southwest-vastu-dosha",
+      "label": "Southwest Vastu Dosha",
+      "categoryId": "general",
+      "aliases": [
+        "Nairuthi Vastu Dosha"
+      ],
+      "description": "Defect in South West",
+      "problemKeywords": []
+    },
+    {
+      "id": "stri-deergha-dosha",
+      "label": "Stri Deergha Dosha",
+      "categoryId": "marriage",
+      "aliases": [
+        "Constellation Distance Dosha"
+      ],
+      "description": "Distance between constellations flaw",
+      "problemKeywords": []
+    },
+    {
+      "id": "sun-neecha-dosha",
+      "label": "Sun Neecha Dosha",
+      "categoryId": "graha-dosha",
+      "aliases": [
+        "Sun Debilitation"
+      ],
+      "description": "Sun Debilitation",
+      "problemKeywords": []
+    },
+    {
+      "id": "surya-dosha",
+      "label": "Surya Dosha",
+      "aliases": [
+        "Sun Dosha"
+      ],
+      "categoryId": "graha-dosha"
+    },
+    {
+      "id": "takshaka-kaalsarp-dosha",
+      "label": "Takshaka Kaalsarp Dosha",
+      "categoryId": "family",
+      "aliases": [],
+      "description": "",
+      "problemKeywords": []
+    },
+    {
+      "id": "tithi-shoonya-dosha",
+      "label": "Tithi Shoonya Dosha",
+      "categoryId": "graha-dosha",
+      "aliases": [],
+      "description": "Zero power lunar day",
+      "problemKeywords": []
+    },
+    {
+      "id": "ulkapata-dosha",
+      "label": "Ulkapata Dosha",
+      "categoryId": "general",
+      "aliases": [],
+      "description": "Meteor fall disturbance",
+      "problemKeywords": []
+    },
+    {
+      "id": "vaidhriti-yoga-dosha",
+      "label": "Vaidhriti Yoga Dosha",
+      "categoryId": "family",
+      "aliases": [
+        "Vaidhriti Dosha"
+      ],
+      "description": "Birth in Vaidhriti Yoga",
+      "problemKeywords": []
+    },
+    {
+      "id": "vakra-graha-dosha",
+      "label": "Vakra Graha Dosha",
+      "categoryId": "graha-dosha",
+      "aliases": [],
+      "description": "Retrogression flaw",
+      "problemKeywords": []
+    },
+    {
+      "id": "varjya-dosha",
+      "label": "Varjya Dosha",
+      "categoryId": "general",
+      "aliases": [],
+      "description": "Avoidable time period",
+      "problemKeywords": []
+    },
+    {
+      "id": "vashya-dosha",
+      "label": "Vashya Dosha",
+      "categoryId": "marriage",
+      "aliases": [
+        "Dominance Incompatibility"
+      ],
+      "description": "Dominance incompatibility",
+      "problemKeywords": []
+    },
+    {
+      "id": "vasuki-kaalsarp-dosha",
+      "label": "Vasuki Kaalsarp Dosha",
+      "categoryId": "family",
+      "aliases": [],
+      "description": "",
+      "problemKeywords": []
+    },
+    {
+      "id": "vedha-dosha",
+      "label": "Vedha Dosha",
+      "categoryId": "marriage",
+      "aliases": [
+        "Obstruction Dosha"
+      ],
+      "description": "Obstruction flaw",
+      "problemKeywords": []
+    },
+    {
+      "id": "veedi-potu-dosha",
+      "label": "Veedi Potu Dosha",
+      "categoryId": "general",
+      "aliases": [
+        "Road Thrust Dosha"
+      ],
+      "description": "Road thrust defect",
+      "problemKeywords": []
+    },
+    {
+      "id": "venus-neecha-dosha",
+      "label": "Venus Neecha Dosha",
+      "categoryId": "graha-dosha",
+      "aliases": [
+        "Venus Debilitation"
+      ],
+      "description": "Venus Debilitation",
+      "problemKeywords": []
+    },
+    {
+      "id": "vidya-dosha",
+      "label": "Vidya Dosha",
+      "categoryId": "family",
+      "aliases": [
+        "Education Block"
+      ],
+      "description": "Obstacles in Education",
+      "problemKeywords": []
+    },
+    {
+      "id": "visha-dosha",
+      "label": "Visha Dosha",
+      "categoryId": "graha-dosha",
+      "aliases": [
+        "Poison Dosha"
+      ],
+      "description": "Poison flaw Moon and Saturn conjunction",
+      "problemKeywords": []
+    },
+    {
+      "id": "vishadhara-kaalsarp-dosha",
+      "label": "Vishadhara Kaalsarp Dosha",
+      "categoryId": "family",
+      "aliases": [],
+      "description": "",
+      "problemKeywords": []
+    },
+    {
+      "id": "vivaha-dosha",
+      "label": "Vivaha Dosha",
+      "aliases": [
+        "Marriage Dosha",
+        "Delay in Marriage"
+      ],
+      "categoryId": "marriage"
+    },
+    {
+      "id": "vyatipata-yoga-dosha",
+      "label": "Vyatipata Yoga Dosha",
+      "categoryId": "family",
+      "aliases": [
+        "Vyatipata Dosha"
+      ],
+      "description": "Birth in Vyatipata Yoga",
+      "problemKeywords": []
+    },
+    {
+      "id": "yamaganda-dosha",
+      "label": "Yamaganda Dosha",
+      "categoryId": "general",
+      "aliases": [],
+      "description": "Inauspicious time of Yama",
+      "problemKeywords": []
+    },
+    {
+      "id": "yoni-dosha",
+      "label": "Yoni Dosha",
+      "categoryId": "marriage",
+      "aliases": [
+        "Biological Compatibility"
+      ],
+      "description": "Biological incompatibility",
+      "problemKeywords": []
+    }
   ],
   "records": [
     {
@@ -45,15 +1236,35 @@
       "location": "Tirunageswaram, Kumbakonam",
       "district": "Thanjavur",
       "state": "Tamil Nadu",
-      "categoryIds": ["graha-dosha", "general"],
-      "doshaTypes": ["Rahu Dosha", "Ketu Dosha"],
-      "problemKeywords": ["Rahu/Ketu Dosha", "Obstacles", "Fear", "Career Issues"],
+      "categoryIds": [
+        "graha-dosha",
+        "general"
+      ],
+      "doshaTypes": [
+        "Rahu Dosha",
+        "Ketu Dosha"
+      ],
+      "problemKeywords": [
+        "Rahu/Ketu Dosha",
+        "Obstacles",
+        "Fear",
+        "Career Issues"
+      ],
       "ritualName": "Rahu-Ketu Parihara Pooja",
       "templeSpeciality": "Starter reference for Rahu and Ketu search queries",
       "description": "Local starter data for the Dosha Parihara module. This entry is ready to be replaced by the Excel-imported temple record.",
-      "keywords": ["rahu", "ketu", "parihara", "graha dosha", "obstacles"],
+      "keywords": [
+        "rahu",
+        "ketu",
+        "parihara",
+        "graha dosha",
+        "obstacles"
+      ],
       "address": "Tirunageswaram, Kumbakonam, Tamil Nadu",
-      "contact": { "phone": "", "website": "" },
+      "contact": {
+        "phone": "",
+        "website": ""
+      },
       "images": []
     },
     {
@@ -62,15 +1273,35 @@
       "location": "Subramanya, Karnataka",
       "district": "Dakshina Kannada",
       "state": "Karnataka",
-      "categoryIds": ["graha-dosha", "marriage", "general"],
-      "doshaTypes": ["Kalasarpa Dosha", "Kuja Dosha"],
-      "problemKeywords": ["Marriage Delay", "Sarpa Dosha", "Repeated Failure"],
+      "categoryIds": [
+        "graha-dosha",
+        "marriage",
+        "general"
+      ],
+      "doshaTypes": [
+        "Kalasarpa Dosha",
+        "Kuja Dosha"
+      ],
+      "problemKeywords": [
+        "Marriage Delay",
+        "Sarpa Dosha",
+        "Repeated Failure"
+      ],
       "ritualName": "Sarpa Dosha Parihara",
       "templeSpeciality": "Starter reference for snake-dosha and marriage searches",
       "description": "Local starter data for search and filtering. Add the verified temple details from the Excel source sheet here.",
-      "keywords": ["sarpa", "kalasarpa", "kuja", "manglik", "marriage delay"],
+      "keywords": [
+        "sarpa",
+        "kalasarpa",
+        "kuja",
+        "manglik",
+        "marriage delay"
+      ],
       "address": "Subramanya, Karnataka",
-      "contact": { "phone": "", "website": "" },
+      "contact": {
+        "phone": "",
+        "website": ""
+      },
       "images": []
     },
     {
@@ -79,15 +1310,64 @@
       "location": "Thirunallar, Karaikal",
       "district": "Karaikal",
       "state": "Puducherry",
-      "categoryIds": ["graha-dosha", "career", "general"],
-      "doshaTypes": ["Shani Dosha"],
-      "problemKeywords": ["Career Issues", "Job Instability", "Delays", "Stress"],
+      "categoryIds": [
+        "graha-dosha",
+        "career",
+        "general"
+      ],
+      "doshaTypes": [
+        "Shani Dosha",
+        "Sade Sati",
+        "Ashtama Shani",
+        "Ardhastama Shani",
+        "Guru Chandala Dosha",
+        "Shrapit Dosha",
+        "Visha Dosha",
+        "Sun Neecha Dosha",
+        "Moon Neecha Dosha",
+        "Mercury Neecha Dosha",
+        "Jupiter Neecha Dosha",
+        "Venus Neecha Dosha",
+        "Saturn Neecha Dosha",
+        "Daridra Dosha",
+        "Shakata Dosha",
+        "Chandala Dosha",
+        "Jadatwa Dosha",
+        "Mukkopi Dosha",
+        "Dahana Dosha",
+        "Dagdha Rashi Dosha",
+        "Tithi Shoonya Dosha",
+        "Lagna Sandhi Dosha",
+        "Rashi Sandhi Dosha",
+        "Nakshatra Sandhi Dosha",
+        "Astangata Graha Dosha",
+        "Vakra Graha Dosha",
+        "Graha Yuddha Dosha",
+        "Shashtashtaka Dosha",
+        "Dwirdwadasha Dosha",
+        "Ekadasha Dosha"
+      ],
+      "problemKeywords": [
+        "Career Issues",
+        "Job Instability",
+        "Delays",
+        "Stress"
+      ],
       "ritualName": "Shani Parihara Pooja",
       "templeSpeciality": "Starter reference for Shani-related queries",
       "description": "Local starter data for Shani-related parihara searches. The final dataset can be swapped in from the Excel import.",
-      "keywords": ["shani", "saturn", "career", "delays", "stress"],
+      "keywords": [
+        "shani",
+        "saturn",
+        "career",
+        "delays",
+        "stress"
+      ],
       "address": "Thirunallar, Karaikal, Puducherry",
-      "contact": { "phone": "", "website": "" },
+      "contact": {
+        "phone": "",
+        "website": ""
+      },
       "images": []
     },
     {
@@ -96,15 +1376,49 @@
       "location": "Mayiladuthurai, Tamil Nadu",
       "district": "Mayiladuthurai",
       "state": "Tamil Nadu",
-      "categoryIds": ["health", "graha-dosha", "general"],
-      "doshaTypes": ["Surya Dosha", "Chandra Dosha", "Health Block"],
-      "problemKeywords": ["Health Issues", "Long-term Illness", "Wellness", "Recovery"],
+      "categoryIds": [
+        "health",
+        "graha-dosha",
+        "general"
+      ],
+      "doshaTypes": [
+        "Surya Dosha",
+        "Chandra Dosha",
+        "Health Block",
+        "Gandamoola Dosha",
+        "Ashwayuja Gandam",
+        "Aslesha Gandam",
+        "Magha Gandam",
+        "Jyestha Gandam",
+        "Moola Gandam",
+        "Revati Gandam",
+        "Amavasya Janana Dosha",
+        "Krishna Paksha Chaturdashi Dosha",
+        "Sankranti Janana Dosha",
+        "Vyatipata Yoga Dosha",
+        "Vaidhriti Yoga Dosha"
+      ],
+      "problemKeywords": [
+        "Health Issues",
+        "Long-term Illness",
+        "Wellness",
+        "Recovery"
+      ],
       "ritualName": "Arogya Parihara Pooja",
       "templeSpeciality": "Starter reference for health-related searches",
       "description": "Local starter record for health issue and wellness-related queries.",
-      "keywords": ["health", "wellness", "illness", "surya", "chandra"],
+      "keywords": [
+        "health",
+        "wellness",
+        "illness",
+        "surya",
+        "chandra"
+      ],
       "address": "Vaitheeswaran Koil, Tamil Nadu",
-      "contact": { "phone": "", "website": "" },
+      "contact": {
+        "phone": "",
+        "website": ""
+      },
       "images": []
     },
     {
@@ -113,15 +1427,43 @@
       "location": "Mangadu, Chennai",
       "district": "Chennai",
       "state": "Tamil Nadu",
-      "categoryIds": ["marriage", "family", "general"],
-      "doshaTypes": ["Vivaha Dosha", "Nadi Dosha", "Bhakoot Dosha"],
-      "problemKeywords": ["Marriage Delay", "Matching Problems", "Family Support"],
+      "categoryIds": [
+        "marriage",
+        "family",
+        "general"
+      ],
+      "doshaTypes": [
+        "Vivaha Dosha",
+        "Nadi Dosha",
+        "Bhakoot Dosha",
+        "Gana Dosha",
+        "Yoni Dosha",
+        "Stri Deergha Dosha",
+        "Vashya Dosha",
+        "Mahendra Dosha",
+        "Rajju Dosha",
+        "Vedha Dosha"
+      ],
+      "problemKeywords": [
+        "Marriage Delay",
+        "Matching Problems",
+        "Family Support"
+      ],
       "ritualName": "Vivaha Parihara",
       "templeSpeciality": "Starter reference for marriage-delay searches",
       "description": "Local starter record for marriage delay and relationship queries.",
-      "keywords": ["vivaha", "marriage", "nadi", "bhakoot", "family"],
+      "keywords": [
+        "vivaha",
+        "marriage",
+        "nadi",
+        "bhakoot",
+        "family"
+      ],
       "address": "Mangadu, Chennai, Tamil Nadu",
-      "contact": { "phone": "", "website": "" },
+      "contact": {
+        "phone": "",
+        "website": ""
+      },
       "images": []
     },
     {
@@ -130,15 +1472,35 @@
       "location": "Alangudi, Tamil Nadu",
       "district": "Thanjavur",
       "state": "Tamil Nadu",
-      "categoryIds": ["education", "career", "graha-dosha"],
-      "doshaTypes": ["Guru Dosha", "Education Block"],
-      "problemKeywords": ["Education Problems", "Learning Block", "Career Growth"],
+      "categoryIds": [
+        "education",
+        "career",
+        "graha-dosha"
+      ],
+      "doshaTypes": [
+        "Guru Dosha",
+        "Education Block"
+      ],
+      "problemKeywords": [
+        "Education Problems",
+        "Learning Block",
+        "Career Growth"
+      ],
       "ritualName": "Guru Parihara Pooja",
       "templeSpeciality": "Starter reference for education and growth searches",
       "description": "Local starter entry for study and professional growth related searches.",
-      "keywords": ["guru", "education", "study", "career", "growth"],
+      "keywords": [
+        "guru",
+        "education",
+        "study",
+        "career",
+        "growth"
+      ],
       "address": "Alangudi, Tamil Nadu",
-      "contact": { "phone": "", "website": "" },
+      "contact": {
+        "phone": "",
+        "website": ""
+      },
       "images": []
     },
     {
@@ -147,15 +1509,45 @@
       "location": "Kanchipuram, Tamil Nadu",
       "district": "Kanchipuram",
       "state": "Tamil Nadu",
-      "categoryIds": ["education", "family", "general"],
-      "doshaTypes": ["Budha Dosha", "Education Block"],
-      "problemKeywords": ["Education Problems", "Exam Stress", "Focus", "Memory"],
+      "categoryIds": [
+        "education",
+        "family",
+        "general"
+      ],
+      "doshaTypes": [
+        "Budha Dosha",
+        "Education Block",
+        "Nadi Dosha",
+        "Gana Dosha",
+        "Bhakoot Dosha",
+        "Yoni Dosha",
+        "Stri Deergha Dosha",
+        "Vashya Dosha",
+        "Mahendra Dosha",
+        "Rajju Dosha",
+        "Vedha Dosha"
+      ],
+      "problemKeywords": [
+        "Education Problems",
+        "Exam Stress",
+        "Focus",
+        "Memory"
+      ],
       "ritualName": "Saraswati and Budha Parihara",
       "templeSpeciality": "Starter reference for study and exam related queries",
       "description": "Local starter data for students and exam-related searches.",
-      "keywords": ["education", "study", "exam", "memory", "focus"],
+      "keywords": [
+        "education",
+        "study",
+        "exam",
+        "memory",
+        "focus"
+      ],
       "address": "Kanchipuram, Tamil Nadu",
-      "contact": { "phone": "", "website": "" },
+      "contact": {
+        "phone": "",
+        "website": ""
+      },
       "images": []
     },
     {
@@ -164,15 +1556,44 @@
       "location": "Tiruchendur, Tamil Nadu",
       "district": "Thoothukudi",
       "state": "Tamil Nadu",
-      "categoryIds": ["career", "general", "family"],
-      "doshaTypes": ["Obstacle Dosha", "Career Block", "Kuja Dosha"],
-      "problemKeywords": ["Career Issues", "Job Change", "Repeated Failure"],
+      "categoryIds": [
+        "career",
+        "general",
+        "family"
+      ],
+      "doshaTypes": [
+        "Obstacle Dosha",
+        "Career Block",
+        "Kuja Dosha",
+        "Saturn in 1st House",
+        "Northeast Vastu Dosha",
+        "Southwest Vastu Dosha",
+        "Southeast Vastu Dosha",
+        "Northwest Vastu Dosha",
+        "Brahmasthana Vastu Dosha",
+        "Dwara Dosha",
+        "Veedi Potu Dosha"
+      ],
+      "problemKeywords": [
+        "Career Issues",
+        "Job Change",
+        "Repeated Failure"
+      ],
       "ritualName": "Obstacle Removal Pooja",
       "templeSpeciality": "Starter reference for career-block searches",
       "description": "Local starter entry for career hurdles and repeated failure queries.",
-      "keywords": ["career", "job", "obstacles", "failure", "progress"],
+      "keywords": [
+        "career",
+        "job",
+        "obstacles",
+        "failure",
+        "progress"
+      ],
       "address": "Tiruchendur, Tamil Nadu",
-      "contact": { "phone": "", "website": "" },
+      "contact": {
+        "phone": "",
+        "website": ""
+      },
       "images": []
     },
     {
@@ -181,15 +1602,37 @@
       "location": "Near Kumbakonam, Tamil Nadu",
       "district": "Thanjavur",
       "state": "Tamil Nadu",
-      "categoryIds": ["finance", "family", "general"],
-      "doshaTypes": ["Daridra Dosha", "Finance Block", "Pitru Dosha"],
-      "problemKeywords": ["Financial Problems", "Debt", "Money Loss", "Family Support"],
+      "categoryIds": [
+        "finance",
+        "family",
+        "general"
+      ],
+      "doshaTypes": [
+        "Daridra Dosha",
+        "Finance Block",
+        "Pitru Dosha"
+      ],
+      "problemKeywords": [
+        "Financial Problems",
+        "Debt",
+        "Money Loss",
+        "Family Support"
+      ],
       "ritualName": "Lakshmi Parihara",
       "templeSpeciality": "Starter reference for money and debt related searches",
       "description": "Local starter entry for finance and debt related search queries.",
-      "keywords": ["finance", "debt", "money", "loss", "lakshmi"],
+      "keywords": [
+        "finance",
+        "debt",
+        "money",
+        "loss",
+        "lakshmi"
+      ],
       "address": "Near Kumbakonam, Tamil Nadu",
-      "contact": { "phone": "", "website": "" },
+      "contact": {
+        "phone": "",
+        "website": ""
+      },
       "images": []
     },
     {
@@ -198,15 +1641,35 @@
       "location": "Srikalahasti, Andhra Pradesh",
       "district": "Tirupati",
       "state": "Andhra Pradesh",
-      "categoryIds": ["graha-dosha", "general"],
-      "doshaTypes": ["Rahu Dosha", "Ketu Dosha", "Grahan Dosha"],
-      "problemKeywords": ["Rahu/Ketu Dosha", "Obstacles", "Negative Energy"],
+      "categoryIds": [
+        "graha-dosha",
+        "general"
+      ],
+      "doshaTypes": [
+        "Rahu Dosha",
+        "Ketu Dosha",
+        "Grahan Dosha"
+      ],
+      "problemKeywords": [
+        "Rahu/Ketu Dosha",
+        "Obstacles",
+        "Negative Energy"
+      ],
       "ritualName": "Rahu-Ketu Nivarana",
       "templeSpeciality": "Starter reference for Rahu and Ketu searches",
       "description": "Local starter record for general obstacle removal queries.",
-      "keywords": ["rahu", "ketu", "grahan", "obstacles", "energy"],
+      "keywords": [
+        "rahu",
+        "ketu",
+        "grahan",
+        "obstacles",
+        "energy"
+      ],
       "address": "Srikalahasti, Andhra Pradesh",
-      "contact": { "phone": "", "website": "" },
+      "contact": {
+        "phone": "",
+        "website": ""
+      },
       "images": []
     },
     {
@@ -215,15 +1678,37 @@
       "location": "Palani, Tamil Nadu",
       "district": "Dindigul",
       "state": "Tamil Nadu",
-      "categoryIds": ["family", "general", "career"],
-      "doshaTypes": ["Punarphoo Dosha", "Family Block"],
-      "problemKeywords": ["Family Disputes", "Relationship Stress", "Career Issues"],
+      "categoryIds": [
+        "family",
+        "general",
+        "career"
+      ],
+      "doshaTypes": [
+        "Punarphoo Dosha",
+        "Family Block",
+        "Vidya Dosha",
+        "Santana Dosha"
+      ],
+      "problemKeywords": [
+        "Family Disputes",
+        "Relationship Stress",
+        "Career Issues"
+      ],
       "ritualName": "General Parihara Pooja",
       "templeSpeciality": "Starter reference for family and obstacle queries",
       "description": "Local starter entry for family stress and repeated blockage searches.",
-      "keywords": ["family", "stress", "repeated failure", "career", "remedy"],
+      "keywords": [
+        "family",
+        "stress",
+        "repeated failure",
+        "career",
+        "remedy"
+      ],
       "address": "Palani, Tamil Nadu",
-      "contact": { "phone": "", "website": "" },
+      "contact": {
+        "phone": "",
+        "website": ""
+      },
       "images": []
     },
     {
@@ -232,15 +1717,39 @@
       "location": "Tamil Nadu",
       "district": "Various",
       "state": "Tamil Nadu",
-      "categoryIds": ["graha-dosha", "general"],
-      "doshaTypes": ["Surya Dosha", "Chandra Dosha", "Budha Dosha", "Shukra Dosha"],
-      "problemKeywords": ["All Graha Doshas", "Life Issues", "General Remedy"],
+      "categoryIds": [
+        "graha-dosha",
+        "general"
+      ],
+      "doshaTypes": [
+        "Surya Dosha",
+        "Chandra Dosha",
+        "Budha Dosha",
+        "Shukra Dosha",
+        "Kemadruma Dosha",
+        "Paapa Kartari Dosha",
+        "Jupiter in 6th House"
+      ],
+      "problemKeywords": [
+        "All Graha Doshas",
+        "Life Issues",
+        "General Remedy"
+      ],
       "ritualName": "Navagraha Parihara",
       "templeSpeciality": "Starter reference for broad graha-dosha queries",
       "description": "Local starter record for broad searches that do not match a single issue only.",
-      "keywords": ["navagraha", "surya", "chandra", "budha", "shukra"],
+      "keywords": [
+        "navagraha",
+        "surya",
+        "chandra",
+        "budha",
+        "shukra"
+      ],
       "address": "Tamil Nadu",
-      "contact": { "phone": "", "website": "" },
+      "contact": {
+        "phone": "",
+        "website": ""
+      },
       "images": []
     },
     {
@@ -249,15 +1758,44 @@
       "location": "Tirupati, Andhra Pradesh",
       "district": "Tirupati",
       "state": "Andhra Pradesh",
-      "categoryIds": ["education", "career", "family"],
-      "doshaTypes": ["Education Block", "Career Block", "Family Block"],
-      "problemKeywords": ["Education Problems", "Job Problems", "Family Stress"],
+      "categoryIds": [
+        "education",
+        "career",
+        "family"
+      ],
+      "doshaTypes": [
+        "Education Block",
+        "Career Block",
+        "Family Block",
+        "Saturn in 1st House",
+        "Northeast Vastu Dosha",
+        "Southwest Vastu Dosha",
+        "Southeast Vastu Dosha",
+        "Northwest Vastu Dosha",
+        "Brahmasthana Vastu Dosha",
+        "Dwara Dosha",
+        "Veedi Potu Dosha"
+      ],
+      "problemKeywords": [
+        "Education Problems",
+        "Job Problems",
+        "Family Stress"
+      ],
       "ritualName": "Sudarshana and Vishnu Parihara",
       "templeSpeciality": "Starter reference for protection and progress searches",
       "description": "Local starter entry for people searching education and work-related remedies.",
-      "keywords": ["education", "career", "protection", "progress", "vishnu"],
+      "keywords": [
+        "education",
+        "career",
+        "protection",
+        "progress",
+        "vishnu"
+      ],
       "address": "Tirupati, Andhra Pradesh",
-      "contact": { "phone": "", "website": "" },
+      "contact": {
+        "phone": "",
+        "website": ""
+      },
       "images": []
     },
     {
@@ -266,15 +1804,37 @@
       "location": "Thiruvananthapuram, Kerala",
       "district": "Thiruvananthapuram",
       "state": "Kerala",
-      "categoryIds": ["family", "health", "general"],
-      "doshaTypes": ["Pitru Dosha", "Health Block"],
-      "problemKeywords": ["Family Issues", "Health Issues", "Long-term Stress"],
+      "categoryIds": [
+        "family",
+        "health",
+        "general"
+      ],
+      "doshaTypes": [
+        "Pitru Dosha",
+        "Health Block",
+        "Vidya Dosha",
+        "Santana Dosha"
+      ],
+      "problemKeywords": [
+        "Family Issues",
+        "Health Issues",
+        "Long-term Stress"
+      ],
       "ritualName": "Ancestral and Arogya Parihara",
       "templeSpeciality": "Starter reference for family and health search terms",
       "description": "Local starter data for family support and health-related remedial searches.",
-      "keywords": ["family", "health", "pitru", "stress", "support"],
+      "keywords": [
+        "family",
+        "health",
+        "pitru",
+        "stress",
+        "support"
+      ],
       "address": "Thiruvananthapuram, Kerala",
-      "contact": { "phone": "", "website": "" },
+      "contact": {
+        "phone": "",
+        "website": ""
+      },
       "images": []
     },
     {
@@ -283,15 +1843,44 @@
       "location": "Madurai, Tamil Nadu",
       "district": "Madurai",
       "state": "Tamil Nadu",
-      "categoryIds": ["marriage", "finance", "family"],
-      "doshaTypes": ["Vivaha Dosha", "Daridra Dosha", "Nadi Dosha"],
-      "problemKeywords": ["Marriage Delay", "Financial Problems", "Relationship Issues"],
+      "categoryIds": [
+        "marriage",
+        "finance",
+        "family"
+      ],
+      "doshaTypes": [
+        "Vivaha Dosha",
+        "Daridra Dosha",
+        "Nadi Dosha",
+        "Gana Dosha",
+        "Bhakoot Dosha",
+        "Yoni Dosha",
+        "Stri Deergha Dosha",
+        "Vashya Dosha",
+        "Mahendra Dosha",
+        "Rajju Dosha",
+        "Vedha Dosha"
+      ],
+      "problemKeywords": [
+        "Marriage Delay",
+        "Financial Problems",
+        "Relationship Issues"
+      ],
       "ritualName": "Marriage and Lakshmi Parihara",
       "templeSpeciality": "Starter reference for marriage and prosperity searches",
       "description": "Local starter entry for marriage delay and money-related problems.",
-      "keywords": ["marriage", "finance", "lakshmi", "relationship", "prosperity"],
+      "keywords": [
+        "marriage",
+        "finance",
+        "lakshmi",
+        "relationship",
+        "prosperity"
+      ],
       "address": "Madurai, Tamil Nadu",
-      "contact": { "phone": "", "website": "" },
+      "contact": {
+        "phone": "",
+        "website": ""
+      },
       "images": []
     },
     {
@@ -300,15 +1889,67 @@
       "location": "Ujjain, Madhya Pradesh",
       "district": "Ujjain",
       "state": "Madhya Pradesh",
-      "categoryIds": ["graha-dosha", "career", "general"],
-      "doshaTypes": ["Shani Dosha", "Grahan Dosha"],
-      "problemKeywords": ["Career Issues", "Delays", "Obstacle Removal"],
+      "categoryIds": [
+        "graha-dosha",
+        "career",
+        "general"
+      ],
+      "doshaTypes": [
+        "Shani Dosha",
+        "Grahan Dosha",
+        "Sade Sati",
+        "Ashtama Shani",
+        "Ardhastama Shani",
+        "Guru Chandala Dosha",
+        "Shrapit Dosha",
+        "Visha Dosha",
+        "Kemadruma Dosha",
+        "Paapa Kartari Dosha",
+        "Sun Neecha Dosha",
+        "Moon Neecha Dosha",
+        "Mercury Neecha Dosha",
+        "Jupiter Neecha Dosha",
+        "Venus Neecha Dosha",
+        "Saturn Neecha Dosha",
+        "Daridra Dosha",
+        "Shakata Dosha",
+        "Chandala Dosha",
+        "Jadatwa Dosha",
+        "Mukkopi Dosha",
+        "Dahana Dosha",
+        "Dagdha Rashi Dosha",
+        "Tithi Shoonya Dosha",
+        "Lagna Sandhi Dosha",
+        "Rashi Sandhi Dosha",
+        "Nakshatra Sandhi Dosha",
+        "Astangata Graha Dosha",
+        "Vakra Graha Dosha",
+        "Graha Yuddha Dosha",
+        "Shashtashtaka Dosha",
+        "Dwirdwadasha Dosha",
+        "Ekadasha Dosha",
+        "Jupiter in 6th House"
+      ],
+      "problemKeywords": [
+        "Career Issues",
+        "Delays",
+        "Obstacle Removal"
+      ],
       "ritualName": "Shani and Grahan Parihara",
       "templeSpeciality": "Starter reference for broad planetary remedy searches",
       "description": "Local starter entry for users looking for Saturn and eclipse-related remedies.",
-      "keywords": ["shani", "grahan", "career", "delays", "remedy"],
+      "keywords": [
+        "shani",
+        "grahan",
+        "career",
+        "delays",
+        "remedy"
+      ],
       "address": "Ujjain, Madhya Pradesh",
-      "contact": { "phone": "", "website": "" },
+      "contact": {
+        "phone": "",
+        "website": ""
+      },
       "images": []
     },
     {
@@ -317,15 +1958,35 @@
       "location": "Pathanamthitta, Kerala",
       "district": "Pathanamthitta",
       "state": "Kerala",
-      "categoryIds": ["general", "family", "career"],
-      "doshaTypes": ["Obstacle Dosha", "Punarphoo Dosha"],
-      "problemKeywords": ["Repeated Failure", "Family Stress", "Career Blocks"],
+      "categoryIds": [
+        "general",
+        "family",
+        "career"
+      ],
+      "doshaTypes": [
+        "Obstacle Dosha",
+        "Punarphoo Dosha"
+      ],
+      "problemKeywords": [
+        "Repeated Failure",
+        "Family Stress",
+        "Career Blocks"
+      ],
       "ritualName": "General Parihara and Vrata",
       "templeSpeciality": "Starter reference for obstacle removal searches",
       "description": "Local starter data for repeated failure, family, and career blockage searches.",
-      "keywords": ["obstacle", "failure", "family", "career", "vrata"],
+      "keywords": [
+        "obstacle",
+        "failure",
+        "family",
+        "career",
+        "vrata"
+      ],
       "address": "Pathanamthitta, Kerala",
-      "contact": { "phone": "", "website": "" },
+      "contact": {
+        "phone": "",
+        "website": ""
+      },
       "images": []
     },
     {
@@ -334,15 +1995,65 @@
       "location": "Shingnapur, Maharashtra",
       "district": "Ahmednagar",
       "state": "Maharashtra",
-      "categoryIds": ["graha-dosha", "career", "general"],
-      "doshaTypes": ["Shani Dosha", "Sade Sati", "Obstacle Dosha"],
-      "problemKeywords": ["Career Issues", "Delays", "Negative Energy", "Obstacles"],
+      "categoryIds": [
+        "graha-dosha",
+        "career",
+        "general"
+      ],
+      "doshaTypes": [
+        "Shani Dosha",
+        "Sade Sati",
+        "Obstacle Dosha",
+        "Ashtama Shani",
+        "Ardhastama Shani",
+        "Guru Chandala Dosha",
+        "Shrapit Dosha",
+        "Visha Dosha",
+        "Sun Neecha Dosha",
+        "Moon Neecha Dosha",
+        "Mercury Neecha Dosha",
+        "Jupiter Neecha Dosha",
+        "Venus Neecha Dosha",
+        "Saturn Neecha Dosha",
+        "Daridra Dosha",
+        "Shakata Dosha",
+        "Chandala Dosha",
+        "Jadatwa Dosha",
+        "Mukkopi Dosha",
+        "Dahana Dosha",
+        "Dagdha Rashi Dosha",
+        "Tithi Shoonya Dosha",
+        "Lagna Sandhi Dosha",
+        "Rashi Sandhi Dosha",
+        "Nakshatra Sandhi Dosha",
+        "Astangata Graha Dosha",
+        "Vakra Graha Dosha",
+        "Graha Yuddha Dosha",
+        "Shashtashtaka Dosha",
+        "Dwirdwadasha Dosha",
+        "Ekadasha Dosha"
+      ],
+      "problemKeywords": [
+        "Career Issues",
+        "Delays",
+        "Negative Energy",
+        "Obstacles"
+      ],
       "ritualName": "Shani Abhishekam and Special Poojas",
       "templeSpeciality": "Official Shani temple known for Saturn-related rituals and blessings",
       "description": "Temple in Maharashtra widely associated with Lord Shani worship and remedies for Saturn-related challenges.",
-      "keywords": ["shani", "saturn", "sade sati", "career", "obstacles"],
+      "keywords": [
+        "shani",
+        "saturn",
+        "sade sati",
+        "career",
+        "obstacles"
+      ],
       "address": "Shingnapur, Ahmednagar District, Maharashtra",
-      "contact": { "phone": "+91 2427 238110", "website": "https://www.shanishingnapurtemple.com/" },
+      "contact": {
+        "phone": "+91 2427 238110",
+        "website": "https://www.shanishingnapurtemple.com/"
+      },
       "images": []
     },
     {
@@ -351,15 +2062,69 @@
       "location": "Trimbak, Maharashtra",
       "district": "Nashik",
       "state": "Maharashtra",
-      "categoryIds": ["graha-dosha", "family", "general"],
-      "doshaTypes": ["Pitru Dosha", "Kalsarpa Dosha", "Sarpa Dosha"],
-      "problemKeywords": ["Ancestral Curse", "Rahu/Ketu Dosha", "Life Obstacles", "Family Issues"],
+      "categoryIds": [
+        "graha-dosha",
+        "family",
+        "general"
+      ],
+      "doshaTypes": [
+        "Pitru Dosha",
+        "Kalsarpa Dosha",
+        "Sarpa Dosha",
+        "Pitri Dosha",
+        "Kaalsarp Dosha",
+        "Sarpa Shapa",
+        "Brahma Shapa",
+        "Matru Shapa",
+        "Bhratru Shapa",
+        "Patni Shapa",
+        "Preta Shapa",
+        "46 Ananta Kaalsarp Dosha",
+        "47 Kulika Kaalsarp Dosha",
+        "48 Vasuki Kaalsarp Dosha",
+        "49 Shankhapala Kaalsarp Dosha",
+        "50 Padma Kaalsarp Dosha",
+        "51 Mahapadma Kaalsarp Dosha",
+        "52 Takshaka Kaalsarp Dosha",
+        "53 Karkotaka Kaalsarp Dosha",
+        "54 Shankhachuda Kaalsarp Dosha",
+        "55 Ghataka Kaalsarp Dosha",
+        "56 Vishadhara Kaalsarp Dosha",
+        "57 Sheshnaga Kaalsarp Dosha",
+        "Ananta Kaalsarp Dosha",
+        "Kulika Kaalsarp Dosha",
+        "Vasuki Kaalsarp Dosha",
+        "Shankhapala Kaalsarp Dosha",
+        "Padma Kaalsarp Dosha",
+        "Mahapadma Kaalsarp Dosha",
+        "Takshaka Kaalsarp Dosha",
+        "Karkotaka Kaalsarp Dosha",
+        "Shankhachuda Kaalsarp Dosha",
+        "Ghataka Kaalsarp Dosha",
+        "Vishadhara Kaalsarp Dosha",
+        "Sheshnaga Kaalsarp Dosha"
+      ],
+      "problemKeywords": [
+        "Ancestral Curse",
+        "Rahu/Ketu Dosha",
+        "Life Obstacles",
+        "Family Issues"
+      ],
       "ritualName": "Narayan Nagbali and Kalsarpa Pooja",
       "templeSpeciality": "Famous for Narayan Nagbali and Pitru dosha remedies near the Godavari source",
       "description": "Trimbakeshwar is strongly associated with Narayan Nagbali for Pitru dosha and Kalsarpa rituals in Maharashtra.",
-      "keywords": ["pitru", "narayan nagbali", "kalsarpa", "rahu", "ketu"],
+      "keywords": [
+        "pitru",
+        "narayan nagbali",
+        "kalsarpa",
+        "rahu",
+        "ketu"
+      ],
       "address": "Trimbak, Nashik District, Maharashtra",
-      "contact": { "phone": "", "website": "https://www.trimbakeshwar.net/" },
+      "contact": {
+        "phone": "",
+        "website": "https://www.trimbakeshwar.net/"
+      },
       "images": []
     },
     {
@@ -368,15 +2133,37 @@
       "location": "Subramanya, Karnataka",
       "district": "Dakshina Kannada",
       "state": "Karnataka",
-      "categoryIds": ["graha-dosha", "family", "general"],
-      "doshaTypes": ["Sarpa Dosha", "Kala Sarpa Dosha", "Kuja Dosha"],
-      "problemKeywords": ["Marriage Delay", "Serpent Afflictions", "Life Obstacles", "Child Delay"],
+      "categoryIds": [
+        "graha-dosha",
+        "family",
+        "general"
+      ],
+      "doshaTypes": [
+        "Sarpa Dosha",
+        "Kala Sarpa Dosha",
+        "Kuja Dosha"
+      ],
+      "problemKeywords": [
+        "Marriage Delay",
+        "Serpent Afflictions",
+        "Life Obstacles",
+        "Child Delay"
+      ],
       "ritualName": "Sarpa Samskara and Ashlesha Bali",
       "templeSpeciality": "Renowned in Karnataka for Sarpa Samskara and serpent-related remedies",
       "description": "Kukke Subramanya is one of the best known Karnataka temples for serpent-related dosha remedies and obstacle removal.",
-      "keywords": ["sarpa", "kalasarpa", "ashlesha bali", "kuja", "marriage delay"],
+      "keywords": [
+        "sarpa",
+        "kalasarpa",
+        "ashlesha bali",
+        "kuja",
+        "marriage delay"
+      ],
       "address": "Subramanya, Dakshina Kannada, Karnataka",
-      "contact": { "phone": "", "website": "https://kukke.org/" },
+      "contact": {
+        "phone": "",
+        "website": "https://kukke.org/"
+      },
       "images": []
     },
     {
@@ -385,15 +2172,60 @@
       "location": "Srikalahasti, Andhra Pradesh",
       "district": "Tirupati",
       "state": "Andhra Pradesh",
-      "categoryIds": ["graha-dosha", "general"],
-      "doshaTypes": ["Rahu Dosha", "Ketu Dosha", "Grahan Dosha"],
-      "problemKeywords": ["Rahu/Ketu Dosha", "Eclipse Effects", "Obstacles", "Negative Energy"],
+      "categoryIds": [
+        "graha-dosha",
+        "general"
+      ],
+      "doshaTypes": [
+        "Rahu Dosha",
+        "Ketu Dosha",
+        "Grahan Dosha",
+        "Gandamoola Dosha",
+        "Ashwayuja Gandam",
+        "Aslesha Gandam",
+        "Magha Gandam",
+        "Jyestha Gandam",
+        "Moola Gandam",
+        "Revati Gandam",
+        "Amavasya Janana Dosha",
+        "Krishna Paksha Chaturdashi Dosha",
+        "Sankranti Janana Dosha",
+        "Grahan Janana Dosha",
+        "Vyatipata Yoga Dosha",
+        "Vaidhriti Yoga Dosha",
+        "Gulika Dosha",
+        "Yamaganda Dosha",
+        "Rahu Kaala Dosha",
+        "Varjya Dosha",
+        "Durmuhurtha Dosha",
+        "Paksha Randhra Dosha",
+        "Sandhyakala Janana Dosha",
+        "Ulkapata Dosha",
+        "Bhukampa Janana Dosha",
+        "Ketu in 8th House",
+        "Rahu in 7th House"
+      ],
+      "problemKeywords": [
+        "Rahu/Ketu Dosha",
+        "Eclipse Effects",
+        "Obstacles",
+        "Negative Energy"
+      ],
       "ritualName": "Rahu-Ketu Dosha Nivarana Pooja",
       "templeSpeciality": "Widely known in Andhra Pradesh for Rahu-Ketu dosha nivarana rituals",
       "description": "Sri Kalahasti is a major Andhra Pradesh temple associated with Rahu-Ketu dosha nivarana pooja.",
-      "keywords": ["rahu", "ketu", "grahan", "nivarana", "obstacles"],
+      "keywords": [
+        "rahu",
+        "ketu",
+        "grahan",
+        "nivarana",
+        "obstacles"
+      ],
       "address": "Srikalahasti, Tirupati District, Andhra Pradesh",
-      "contact": { "phone": "", "website": "https://srikalahastitemple.org.in/" },
+      "contact": {
+        "phone": "",
+        "website": "https://srikalahastitemple.org.in/"
+      },
       "images": []
     },
     {
@@ -402,15 +2234,40 @@
       "location": "Ujjain, Madhya Pradesh",
       "district": "Ujjain",
       "state": "Madhya Pradesh",
-      "categoryIds": ["graha-dosha", "marriage", "career"],
-      "doshaTypes": ["Kuja Dosha", "Mangal Dosha", "Kalsarpa Dosha"],
-      "problemKeywords": ["Marriage Delay", "Relationship Issues", "Career Issues", "Mangal Problems"],
+      "categoryIds": [
+        "graha-dosha",
+        "marriage",
+        "career"
+      ],
+      "doshaTypes": [
+        "Kuja Dosha",
+        "Mangal Dosha",
+        "Kalsarpa Dosha",
+        "Mangala Dosha",
+        "Angaraka Dosha",
+        "Mars Neecha Dosha"
+      ],
+      "problemKeywords": [
+        "Marriage Delay",
+        "Relationship Issues",
+        "Career Issues",
+        "Mangal Problems"
+      ],
       "ritualName": "Mangal Dosh Nivaran Puja",
       "templeSpeciality": "Madhya Pradesh temple associated with Mangal dosh and Kaal Sarp remedies",
       "description": "Mangalnath in Ujjain is associated with Mangal dosh nivaran and is used by devotees for marriage-related remedy searches.",
-      "keywords": ["mangal", "kuja", "manglik", "mangal dosh", "marriage delay"],
+      "keywords": [
+        "mangal",
+        "kuja",
+        "manglik",
+        "mangal dosh",
+        "marriage delay"
+      ],
       "address": "Ujjain, Madhya Pradesh",
-      "contact": { "phone": "", "website": "https://mangalnath.org/" },
+      "contact": {
+        "phone": "",
+        "website": "https://mangalnath.org/"
+      },
       "images": []
     },
     {
@@ -419,15 +2276,46 @@
       "location": "Guwahati, Assam",
       "district": "Kamrup Metropolitan",
       "state": "Assam",
-      "categoryIds": ["graha-dosha", "general"],
-      "doshaTypes": ["Surya Dosha", "Chandra Dosha", "Budha Dosha", "Guru Dosha", "Shukra Dosha", "Shani Dosha", "Rahu Dosha", "Ketu Dosha", "Grahan Dosha"],
-      "problemKeywords": ["Planetary Imbalance", "Astrology", "Shanti", "Career Issues"],
+      "categoryIds": [
+        "graha-dosha",
+        "general"
+      ],
+      "doshaTypes": [
+        "Surya Dosha",
+        "Chandra Dosha",
+        "Budha Dosha",
+        "Guru Dosha",
+        "Shukra Dosha",
+        "Shani Dosha",
+        "Rahu Dosha",
+        "Ketu Dosha",
+        "Grahan Dosha",
+        "Kemadruma Dosha",
+        "Paapa Kartari Dosha",
+        "Jupiter in 6th House"
+      ],
+      "problemKeywords": [
+        "Planetary Imbalance",
+        "Astrology",
+        "Shanti",
+        "Career Issues"
+      ],
       "ritualName": "Navagraha Puja, Homa, and Shanti",
       "templeSpeciality": "Major planetary temple in Guwahati with nine lingas representing the Navagraha",
       "description": "Official tourism sources describe this temple as a center for Navagraha worship, astrology, and shanti ceremonies.",
-      "keywords": ["navagraha", "planetary", "shanti", "rahu", "ketu", "shani"],
+      "keywords": [
+        "navagraha",
+        "planetary",
+        "shanti",
+        "rahu",
+        "ketu",
+        "shani"
+      ],
       "address": "Chitrasal Hill, Guwahati, Assam",
-      "contact": { "phone": "", "website": "https://www.incredibleindia.gov.in/en/assam/guwahati/navagraha-temple" },
+      "contact": {
+        "phone": "",
+        "website": "https://www.incredibleindia.gov.in/en/assam/guwahati/navagraha-temple"
+      },
       "images": []
     },
     {
@@ -436,15 +2324,67 @@
       "location": "Gaya, Bihar",
       "district": "Gaya",
       "state": "Bihar",
-      "categoryIds": ["family", "general"],
-      "doshaTypes": ["Pitru Dosha", "Santana Dosha"],
-      "problemKeywords": ["Pind Daan", "Tarpan", "Ancestral Rites", "Family Issues"],
+      "categoryIds": [
+        "family",
+        "general"
+      ],
+      "doshaTypes": [
+        "Pitru Dosha",
+        "Santana Dosha",
+        "Pitri Dosha",
+        "Kaalsarp Dosha",
+        "Sarpa Shapa",
+        "Brahma Shapa",
+        "Matru Shapa",
+        "Bhratru Shapa",
+        "Patni Shapa",
+        "Preta Shapa",
+        "46 Ananta Kaalsarp Dosha",
+        "47 Kulika Kaalsarp Dosha",
+        "48 Vasuki Kaalsarp Dosha",
+        "49 Shankhapala Kaalsarp Dosha",
+        "50 Padma Kaalsarp Dosha",
+        "51 Mahapadma Kaalsarp Dosha",
+        "52 Takshaka Kaalsarp Dosha",
+        "53 Karkotaka Kaalsarp Dosha",
+        "54 Shankhachuda Kaalsarp Dosha",
+        "55 Ghataka Kaalsarp Dosha",
+        "56 Vishadhara Kaalsarp Dosha",
+        "57 Sheshnaga Kaalsarp Dosha",
+        "Ananta Kaalsarp Dosha",
+        "Kulika Kaalsarp Dosha",
+        "Vasuki Kaalsarp Dosha",
+        "Shankhapala Kaalsarp Dosha",
+        "Padma Kaalsarp Dosha",
+        "Mahapadma Kaalsarp Dosha",
+        "Takshaka Kaalsarp Dosha",
+        "Karkotaka Kaalsarp Dosha",
+        "Shankhachuda Kaalsarp Dosha",
+        "Ghataka Kaalsarp Dosha",
+        "Vishadhara Kaalsarp Dosha",
+        "Sheshnaga Kaalsarp Dosha"
+      ],
+      "problemKeywords": [
+        "Pind Daan",
+        "Tarpan",
+        "Ancestral Rites",
+        "Family Issues"
+      ],
       "ritualName": "Shraddh, Tarpan, and Pind Daan",
       "templeSpeciality": "Key pilgrimage center for Pitra Paksha and ancestral rituals in Gaya",
       "description": "Ministry of Tourism and Bihar Tourism describe Gaya and Vishnupad Temple as central to Pitra Paksha rituals and ancestral offerings.",
-      "keywords": ["pitru", "pitra paksha", "pind daan", "tarpan", "ancestral"],
+      "keywords": [
+        "pitru",
+        "pitra paksha",
+        "pind daan",
+        "tarpan",
+        "ancestral"
+      ],
       "address": "Gaya, Bihar",
-      "contact": { "phone": "", "website": "https://tourism.bihar.gov.in/en/events/2025/pitripaksha" },
+      "contact": {
+        "phone": "",
+        "website": "https://tourism.bihar.gov.in/en/events/2025/pitripaksha"
+      },
       "images": []
     },
     {
@@ -453,15 +2393,64 @@
       "location": "Kharsali, Uttarkashi",
       "district": "Uttarkashi",
       "state": "Uttarakhand",
-      "categoryIds": ["graha-dosha", "general"],
-      "doshaTypes": ["Shani Dosha", "Obstacle Dosha"],
-      "problemKeywords": ["Saturn Afflictions", "Delays", "Obstacles", "Negative Energy"],
+      "categoryIds": [
+        "graha-dosha",
+        "general"
+      ],
+      "doshaTypes": [
+        "Shani Dosha",
+        "Obstacle Dosha",
+        "Sade Sati",
+        "Ashtama Shani",
+        "Ardhastama Shani",
+        "Guru Chandala Dosha",
+        "Shrapit Dosha",
+        "Visha Dosha",
+        "Sun Neecha Dosha",
+        "Moon Neecha Dosha",
+        "Mercury Neecha Dosha",
+        "Jupiter Neecha Dosha",
+        "Venus Neecha Dosha",
+        "Saturn Neecha Dosha",
+        "Daridra Dosha",
+        "Shakata Dosha",
+        "Chandala Dosha",
+        "Jadatwa Dosha",
+        "Mukkopi Dosha",
+        "Dahana Dosha",
+        "Dagdha Rashi Dosha",
+        "Tithi Shoonya Dosha",
+        "Lagna Sandhi Dosha",
+        "Rashi Sandhi Dosha",
+        "Nakshatra Sandhi Dosha",
+        "Astangata Graha Dosha",
+        "Vakra Graha Dosha",
+        "Graha Yuddha Dosha",
+        "Shashtashtaka Dosha",
+        "Dwirdwadasha Dosha",
+        "Ekadasha Dosha"
+      ],
+      "problemKeywords": [
+        "Saturn Afflictions",
+        "Delays",
+        "Obstacles",
+        "Negative Energy"
+      ],
       "ritualName": "Shani Worship and Oil Offering",
       "templeSpeciality": "Hill temple at Kharsali dedicated to Shani Maharaj",
       "description": "District administration content describes the Kharsali shrine as the Shani temple, making it a strong Saturn-related reference.",
-      "keywords": ["shani", "saturn", "kharsali", "obstacles", "delays"],
+      "keywords": [
+        "shani",
+        "saturn",
+        "kharsali",
+        "obstacles",
+        "delays"
+      ],
       "address": "Kharsali, Uttarkashi, Uttarakhand",
-      "contact": { "phone": "", "website": "https://s3ef575e8837d065a1683c022d2077d342.s3waas.gov.in/shani-temple/" },
+      "contact": {
+        "phone": "",
+        "website": "https://s3ef575e8837d065a1683c022d2077d342.s3waas.gov.in/shani-temple/"
+      },
       "images": []
     },
     {
@@ -470,15 +2459,65 @@
       "location": "Munganoor, Hyderabad",
       "district": "Hyderabad",
       "state": "Telangana",
-      "categoryIds": ["graha-dosha", "career", "general"],
-      "doshaTypes": ["Shani Dosha", "Obstacle Dosha"],
-      "problemKeywords": ["Shani Dosha", "Job Problems", "Financial Problems", "Life Challenges"],
+      "categoryIds": [
+        "graha-dosha",
+        "career",
+        "general"
+      ],
+      "doshaTypes": [
+        "Shani Dosha",
+        "Obstacle Dosha",
+        "Sade Sati",
+        "Ashtama Shani",
+        "Ardhastama Shani",
+        "Guru Chandala Dosha",
+        "Shrapit Dosha",
+        "Visha Dosha",
+        "Sun Neecha Dosha",
+        "Moon Neecha Dosha",
+        "Mercury Neecha Dosha",
+        "Jupiter Neecha Dosha",
+        "Venus Neecha Dosha",
+        "Saturn Neecha Dosha",
+        "Daridra Dosha",
+        "Shakata Dosha",
+        "Chandala Dosha",
+        "Jadatwa Dosha",
+        "Mukkopi Dosha",
+        "Dahana Dosha",
+        "Dagdha Rashi Dosha",
+        "Tithi Shoonya Dosha",
+        "Lagna Sandhi Dosha",
+        "Rashi Sandhi Dosha",
+        "Nakshatra Sandhi Dosha",
+        "Astangata Graha Dosha",
+        "Vakra Graha Dosha",
+        "Graha Yuddha Dosha",
+        "Shashtashtaka Dosha",
+        "Dwirdwadasha Dosha",
+        "Ekadasha Dosha"
+      ],
+      "problemKeywords": [
+        "Shani Dosha",
+        "Job Problems",
+        "Financial Problems",
+        "Life Challenges"
+      ],
       "ritualName": "Tailabhishekam and Shani Gruh Shanti Homam",
       "templeSpeciality": "Temple known for Shani remedies and devotee-performed tailabhishekam",
       "description": "The temple site states that devotees visit for tailabhishekam, japam, tarpanam, and Shani gruh shanti homam.",
-      "keywords": ["shani", "tailabhishekam", "homam", "saturn", "hyderabad"],
+      "keywords": [
+        "shani",
+        "tailabhishekam",
+        "homam",
+        "saturn",
+        "hyderabad"
+      ],
       "address": "Munganoor, Hyderabad, Telangana",
-      "contact": { "phone": "+91 9393584460", "website": "https://shanitemplehyd.com/" },
+      "contact": {
+        "phone": "+91 9393584460",
+        "website": "https://shanitemplehyd.com/"
+      },
       "images": []
     },
     {
@@ -487,15 +2526,48 @@
       "location": "Mopidevi, Andhra Pradesh",
       "district": "Krishna",
       "state": "Andhra Pradesh",
-      "categoryIds": ["graha-dosha", "general"],
-      "doshaTypes": ["Rahu Dosha", "Ketu Dosha", "Grahan Dosha"],
-      "problemKeywords": ["Rahu/Ketu Dosha", "Obstacles", "Progeny", "Planetary Imbalance"],
+      "categoryIds": [
+        "graha-dosha",
+        "general"
+      ],
+      "doshaTypes": [
+        "Rahu Dosha",
+        "Ketu Dosha",
+        "Grahan Dosha",
+        "Grahan Janana Dosha",
+        "Gulika Dosha",
+        "Yamaganda Dosha",
+        "Rahu Kaala Dosha",
+        "Varjya Dosha",
+        "Durmuhurtha Dosha",
+        "Paksha Randhra Dosha",
+        "Sandhyakala Janana Dosha",
+        "Ulkapata Dosha",
+        "Bhukampa Janana Dosha",
+        "Ketu in 8th House",
+        "Rahu in 7th House"
+      ],
+      "problemKeywords": [
+        "Rahu/Ketu Dosha",
+        "Obstacles",
+        "Progeny",
+        "Planetary Imbalance"
+      ],
       "ritualName": "Rahu-Ketu and Sarpa Poojas",
       "templeSpeciality": "Temple associated with serpent worship and Rahu-Ketu related rituals",
       "description": "Incredible India describes Mopidevi as a spiritually potent shrine associated with serpent worship and rituals for Rahu-Ketu and related doshas.",
-      "keywords": ["rahu", "ketu", "sarpa", "mopidevi", "dosha"],
+      "keywords": [
+        "rahu",
+        "ketu",
+        "sarpa",
+        "mopidevi",
+        "dosha"
+      ],
       "address": "Mopidevi, Krishna District, Andhra Pradesh",
-      "contact": { "phone": "", "website": "https://www.incredibleindia.gov.in/en/andhra-pradesh/machilipatnam/mopidevi-temple" },
+      "contact": {
+        "phone": "",
+        "website": "https://www.incredibleindia.gov.in/en/andhra-pradesh/machilipatnam/mopidevi-temple"
+      },
       "images": []
     },
     {
@@ -504,15 +2576,38 @@
       "location": "Konark, Odisha",
       "district": "Puri",
       "state": "Odisha",
-      "categoryIds": ["graha-dosha", "general"],
-      "doshaTypes": ["Surya Dosha", "Grahan Dosha"],
-      "problemKeywords": ["Sun Worship", "Planetary Imbalance", "Astrology", "Shanti"],
+      "categoryIds": [
+        "graha-dosha",
+        "general"
+      ],
+      "doshaTypes": [
+        "Surya Dosha",
+        "Grahan Dosha",
+        "Kemadruma Dosha",
+        "Paapa Kartari Dosha",
+        "Jupiter in 6th House"
+      ],
+      "problemKeywords": [
+        "Sun Worship",
+        "Planetary Imbalance",
+        "Astrology",
+        "Shanti"
+      ],
       "ritualName": "Navagraha Worship and Homa",
       "templeSpeciality": "Sun temple with an important Navagraha slab and planetary worship tradition",
       "description": "Odisha tourism notes the Navagraha slab at Konark and the temple's long association with planetary worship.",
-      "keywords": ["konark", "sun", "navagraha", "surya", "homa"],
+      "keywords": [
+        "konark",
+        "sun",
+        "navagraha",
+        "surya",
+        "homa"
+      ],
       "address": "Konark, Puri District, Odisha",
-      "contact": { "phone": "", "website": "https://odisha.gov.in/odisha-tourism/important-tourist-pointskonark" },
+      "contact": {
+        "phone": "",
+        "website": "https://odisha.gov.in/odisha-tourism/important-tourist-pointskonark"
+      },
       "images": []
     },
     {
@@ -521,15 +2616,63 @@
       "location": "Ramgarh, Rajasthan",
       "district": "Sikar",
       "state": "Rajasthan",
-      "categoryIds": ["graha-dosha", "general"],
-      "doshaTypes": ["Shani Dosha", "Obstacle Dosha"],
-      "problemKeywords": ["Saturn Afflictions", "Obstacles", "Delays"],
+      "categoryIds": [
+        "graha-dosha",
+        "general"
+      ],
+      "doshaTypes": [
+        "Shani Dosha",
+        "Obstacle Dosha",
+        "Sade Sati",
+        "Ashtama Shani",
+        "Ardhastama Shani",
+        "Guru Chandala Dosha",
+        "Shrapit Dosha",
+        "Visha Dosha",
+        "Sun Neecha Dosha",
+        "Moon Neecha Dosha",
+        "Mercury Neecha Dosha",
+        "Jupiter Neecha Dosha",
+        "Venus Neecha Dosha",
+        "Saturn Neecha Dosha",
+        "Daridra Dosha",
+        "Shakata Dosha",
+        "Chandala Dosha",
+        "Jadatwa Dosha",
+        "Mukkopi Dosha",
+        "Dahana Dosha",
+        "Dagdha Rashi Dosha",
+        "Tithi Shoonya Dosha",
+        "Lagna Sandhi Dosha",
+        "Rashi Sandhi Dosha",
+        "Nakshatra Sandhi Dosha",
+        "Astangata Graha Dosha",
+        "Vakra Graha Dosha",
+        "Graha Yuddha Dosha",
+        "Shashtashtaka Dosha",
+        "Dwirdwadasha Dosha",
+        "Ekadasha Dosha"
+      ],
+      "problemKeywords": [
+        "Saturn Afflictions",
+        "Obstacles",
+        "Delays"
+      ],
       "ritualName": "Shani Worship",
       "templeSpeciality": "Historic Shani shrine referenced in Rajasthan tourism coverage of Ramgarh",
       "description": "Rajasthan tourism notes a little Shani temple in Ramgarh, making it a useful local Saturn-related reference.",
-      "keywords": ["shani", "ramgarh", "rajasthan", "saturn", "temple"],
+      "keywords": [
+        "shani",
+        "ramgarh",
+        "rajasthan",
+        "saturn",
+        "temple"
+      ],
       "address": "Ramgarh, Rajasthan",
-      "contact": { "phone": "", "website": "https://www.tourism.rajasthan.gov.in/travel-diaries/laxmisthan.html" },
+      "contact": {
+        "phone": "",
+        "website": "https://www.tourism.rajasthan.gov.in/travel-diaries/laxmisthan.html"
+      },
       "images": []
     },
     {
@@ -538,15 +2681,33 @@
       "location": "Bundu, Ranchi",
       "district": "Ranchi",
       "state": "Jharkhand",
-      "categoryIds": ["graha-dosha", "general"],
-      "doshaTypes": ["Surya Dosha"],
-      "problemKeywords": ["Sun Worship", "Planetary Balance", "Astrology"],
+      "categoryIds": [
+        "graha-dosha",
+        "general"
+      ],
+      "doshaTypes": [
+        "Surya Dosha"
+      ],
+      "problemKeywords": [
+        "Sun Worship",
+        "Planetary Balance",
+        "Astrology"
+      ],
       "ritualName": "Surya Worship",
       "templeSpeciality": "Chariot-shaped sun temple on the Tata Road near Bundu",
       "description": "Jharkhand government describes this as the Sun Temple and a notable pilgrimage stop, which makes it a reasonable Surya-focused entry.",
-      "keywords": ["sun", "surya", "ranchi", "bundu", "temple"],
+      "keywords": [
+        "sun",
+        "surya",
+        "ranchi",
+        "bundu",
+        "temple"
+      ],
       "address": "Bundu, Ranchi, Jharkhand",
-      "contact": { "phone": "", "website": "https://cm.jharkhand.gov.in/sun-temple" },
+      "contact": {
+        "phone": "",
+        "website": "https://cm.jharkhand.gov.in/sun-temple"
+      },
       "images": []
     }
   ]
