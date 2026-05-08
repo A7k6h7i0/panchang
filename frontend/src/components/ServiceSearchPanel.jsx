@@ -176,6 +176,11 @@ const collectSearchText = (item) => {
     item?.subcategory,
     item?.subCategory,
     item?.category,
+    item?.description,
+    item?.about,
+    item?.bio,
+    item?.summary,
+    item?.workingTempleName,
     item?.tags,
   ];
 
@@ -197,7 +202,7 @@ const matchesSearchQuery = (item, query) => {
   if (!haystack) return false;
   const tokens = normalizeSearchText(query).split(" ").filter(Boolean);
   if (!tokens.length) return true;
-  return tokens.every((token) => haystack.includes(token));
+  return tokens.some((token) => haystack.includes(token));
 };
 
 function getSpeechRecognitionCtor() {
@@ -1029,35 +1034,34 @@ function ServiceSearchPanel({
     try {
       const url =
         nextType === "purohit"
-          ? `${SERVICE_API_BASE_URL}/api/purohits?search=${encodeURIComponent(cleaned)}`
+          ? `${LOCAL_API_BASE_URL}/api/purohith?limit=100`
           : nextType === "astrologer"
-            ? `${SERVICE_API_BASE_URL}/api/astrologers?search=${encodeURIComponent(cleaned)}`
-          : nextType === "store"
-            ? `${LOCAL_API_BASE_URL}/api/stores?search=${encodeURIComponent(cleaned)}`
-            : `${LOCAL_API_BASE_URL}/api/temples?search=${encodeURIComponent(cleaned)}`;
+            ? `${SERVICE_API_BASE_URL}/api/astrologers?limit=100`
+            : nextType === "store"
+            ? `${LOCAL_API_BASE_URL}/api/stores?limit=100`
+            : `${LOCAL_API_BASE_URL}/api/temples?limit=100`;
       const items = await fetchServiceList(url, controller.signal);
       if (requestId !== requestIdRef.current) return;
-      const baseItems = filterByResolvedType(items);
-      const filtered = baseItems.filter((item) => matchesSearchQuery(item, cleaned));
-      const searchMatches = filtered.length > 0 ? filtered : baseItems;
+      const filtered = items.filter((item) => matchesSearchQuery(item, cleaned));
+      const searchMatches = filtered.length > 0 ? filtered : items;
       const withDistance = ensureDistance(searchMatches, userLocationRef.current);
       const sorted = sortByDistance(withDistance);
       if (nextType === "purohit") {
-        const recentFiltered = filterByResolvedType(recentItemsSafe).filter((item) =>
+        const recentFiltered = recentItemsSafe.filter((item) =>
           matchesSearchQuery(item, cleaned)
         );
         const merged = mergeUniqueServices(recentFiltered, sorted);
         if (requestId !== requestIdRef.current) return;
         setServiceResults(merged);
       } else if (nextType === "astrologer") {
-        const recentFiltered = filterByResolvedType(recentItemsSafe).filter((item) =>
+        const recentFiltered = recentItemsSafe.filter((item) =>
           matchesSearchQuery(item, cleaned)
         );
         const merged = mergeUniqueServices(recentFiltered, sorted);
         if (requestId !== requestIdRef.current) return;
         setServiceResults(merged);
       } else {
-        const recentFiltered = filterByResolvedType(recentItemsSafe).filter((item) =>
+        const recentFiltered = recentItemsSafe.filter((item) =>
           matchesSearchQuery(item, cleaned)
         );
         const merged = mergeUniqueServices(recentFiltered, sorted);
