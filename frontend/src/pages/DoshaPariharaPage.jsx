@@ -294,7 +294,7 @@ function DoshaTypeDropdown({ options, value, onChange, placeholderLabel }) {
 
       {open ? (
         <div
-          className="fixed inset-0 z-[1010] flex items-center justify-center bg-black/55 p-4 backdrop-blur-sm"
+          className="fixed inset-0 z-[1010] bg-black/65 backdrop-blur-sm"
           onPointerDown={(event) => {
             if (event.target === event.currentTarget) {
               setOpen(false);
@@ -302,17 +302,17 @@ function DoshaTypeDropdown({ options, value, onChange, placeholderLabel }) {
           }}
         >
           <div
-            className="w-full max-w-sm rounded-2xl p-4 shadow-2xl"
+            className="flex h-[100dvh] w-screen flex-col"
             style={{
-              background: "rgba(40, 18, 6, 0.92)",
-              border: "1px solid rgba(255, 220, 120, 0.28)",
+              background: "rgba(40, 18, 6, 0.98)",
+              border: "1px solid rgba(255, 220, 120, 0.18)",
               boxShadow: "0 16px 36px rgba(0, 0, 0, 0.32)",
             }}
             onPointerDownCapture={(event) => event.stopPropagation()}
             onTouchStartCapture={(event) => event.stopPropagation()}
           >
-            <div className="mb-3 flex items-center justify-between gap-3">
-              <h3 className="text-base font-black text-amber-100">Select Dosha Type</h3>
+            <div className="flex items-center justify-between gap-3 border-b border-amber-300/12 px-4 py-4 sm:px-6">
+              <h3 className="text-base font-black text-amber-100 sm:text-lg">Select Dosha Type</h3>
               <button
                 type="button"
                 onClick={() => setOpen(false)}
@@ -326,7 +326,7 @@ function DoshaTypeDropdown({ options, value, onChange, placeholderLabel }) {
               </button>
             </div>
             <div
-              className="max-h-[70vh] overflow-y-auto rounded-xl p-1"
+              className="flex-1 overflow-y-auto px-4 py-4 sm:px-6"
               style={{
                 WebkitOverflowScrolling: "touch",
                 touchAction: "pan-y",
@@ -342,7 +342,7 @@ function DoshaTypeDropdown({ options, value, onChange, placeholderLabel }) {
                       onChange(option.id);
                       setOpen(false);
                     }}
-                    className={`mb-2 block w-full rounded-xl px-4 py-3 text-left text-sm font-semibold transition-all duration-200 ${
+                    className={`mb-3 block w-full rounded-2xl px-4 py-4 text-left text-sm font-semibold transition-all duration-200 ${
                       isActive ? "bg-amber-300/15 text-white" : "bg-transparent text-amber-100 hover:bg-amber-300/10"
                     }`}
                     style={{
@@ -568,175 +568,231 @@ export default function DoshaPariharaPage() {
     }
   }, [isListening, speechLanguage, stopVoiceSearch, voiceSupported]);
 
+  const hasSearchQuery = query.trim().length > 0;
+
   return (
     <PageShell title={t.doshaParihara || "Dosha Parihara"} transparent>
-      <div className="mx-auto w-full max-w-4xl">
-            <div className="mt-4 grid gap-3">
-              <div className="flex flex-col gap-2 sm:flex-row">
-                  <div className="relative min-w-0 flex-1">
-                    <input
-                      ref={queryInputRef}
-                      value={query}
-                      onChange={(event) => setQuery(event.target.value)}
-                      onKeyDown={(event) => {
-                        if (event.key !== "Enter") return;
-                        event.preventDefault();
-                        commitSearch();
-                      }}
-                      placeholder="Search dosha, temple, ritual, or problem..."
-                      className="w-full rounded-xl px-4 py-3 pr-12 text-[15px] font-semibold outline-none"
-                      style={{
-                        background: "rgba(212, 168, 71, 0.18)",
-                        border: "1px solid rgba(255, 183, 77, 0.22)",
-                        color: "#FFE8C5",
-                      }}
-                    />
-                    <button
-                      type="button"
-                      onClick={startVoiceSearch}
-                      disabled={!voiceSupported}
-                      className="absolute right-2 top-1/2 inline-flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full transition"
-                      style={{
-                        background: isListening
-                          ? "linear-gradient(180deg, rgba(255, 87, 87, 0.95) 0%, rgba(190, 40, 40, 0.95) 100%)"
-                          : "rgba(255, 255, 255, 0.04)",
-                        color: voiceSupported ? (isListening ? "#ffffff" : "#ffedb3") : "rgba(255, 237, 179, 0.45)",
-                        opacity: voiceSupported ? 1 : 0.7,
-                        border: "1px solid rgba(255, 183, 77, 0.2)",
-                      }}
-                      title={
-                        voiceSupported
-                          ? isListening
-                            ? "Stop voice search"
-                            : "Search by voice"
-                          : "Voice input not supported"
-                      }
-                      aria-label={
-                        voiceSupported
-                          ? isListening
-                            ? "Stop voice search"
-                            : "Search by voice"
-                          : "Voice input not supported"
-                        }
-                      >
-                        <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor" aria-hidden="true">
-                          <path d="M12 15a3 3 0 0 0 3-3V7a3 3 0 1 0-6 0v5a3 3 0 0 0 3 3Zm5-3a1 1 0 1 1 2 0a7 7 0 0 1-6 6.93V21h3a1 1 0 1 1 0 2H8a1 1 0 1 1 0-2h3v-2.07A7 7 0 0 1 5 12a1 1 0 1 1 2 0a5 5 0 0 0 10 0Z" />
-                        </svg>
-                      </button>
-                    {searchSuggestions.length ? (
-                      <div
-                        className="absolute left-0 right-0 top-full z-20 mt-2 overflow-hidden rounded-2xl"
-                        style={{
-                          background: "rgba(40, 18, 6, 0.88)",
-                          border: "1.5px solid rgba(255, 183, 77, 0.34)",
-                          boxShadow: "0 16px 36px rgba(0, 0, 0, 0.28)",
+      <div className="mx-auto w-full max-w-4xl px-4 sm:px-6">
+        <div className="mt-4 grid gap-3">
+          <div className="flex flex-col gap-2 sm:flex-row">
+            <div className="relative min-w-0 flex-1">
+              <input
+                ref={queryInputRef}
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
+                onKeyDown={(event) => {
+                  if (event.key !== "Enter") return;
+                  event.preventDefault();
+                  commitSearch();
+                }}
+                placeholder="Search dosha, temple, ritual, or problem..."
+                className="w-full rounded-xl px-4 py-3 pr-12 text-[15px] font-semibold outline-none"
+                style={{
+                  background: "rgba(212, 168, 71, 0.18)",
+                  border: "1px solid rgba(255, 183, 77, 0.22)",
+                  color: "#FFE8C5",
+                }}
+              />
+              <button
+                type="button"
+                onClick={startVoiceSearch}
+                disabled={!voiceSupported}
+                className="absolute right-2 top-1/2 inline-flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full transition"
+                style={{
+                  background: isListening
+                    ? "linear-gradient(180deg, rgba(255, 87, 87, 0.95) 0%, rgba(190, 40, 40, 0.95) 100%)"
+                    : "rgba(255, 255, 255, 0.04)",
+                  color: voiceSupported ? (isListening ? "#ffffff" : "#ffedb3") : "rgba(255, 237, 179, 0.45)",
+                  opacity: voiceSupported ? 1 : 0.7,
+                  border: "1px solid rgba(255, 183, 77, 0.2)",
+                }}
+                title={
+                  voiceSupported
+                    ? isListening
+                      ? "Stop voice search"
+                      : "Search by voice"
+                    : "Voice input not supported"
+                }
+                aria-label={
+                  voiceSupported
+                    ? isListening
+                      ? "Stop voice search"
+                      : "Search by voice"
+                    : "Voice input not supported"
+                }
+              >
+                <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor" aria-hidden="true">
+                  <path d="M12 15a3 3 0 0 0 3-3V7a3 3 0 1 0-6 0v5a3 3 0 0 0 3 3Zm5-3a1 1 0 1 1 2 0a7 7 0 0 1-6 6.93V21h3a1 1 0 1 1 0 2H8a1 1 0 1 1 0-2h3v-2.07A7 7 0 0 1 5 12a1 1 0 1 1 2 0a5 5 0 0 0 10 0Z" />
+                </svg>
+              </button>
+              {!hasSearchQuery && searchSuggestions.length ? (
+                <div
+                  className="absolute left-0 right-0 top-full z-20 mt-2 overflow-hidden rounded-2xl"
+                  style={{
+                    background: "rgba(40, 18, 6, 0.88)",
+                    border: "1.5px solid rgba(255, 183, 77, 0.34)",
+                    boxShadow: "0 16px 36px rgba(0, 0, 0, 0.28)",
+                  }}
+                >
+                  <div className="px-4 py-2 text-[10px] font-black uppercase tracking-[0.22em] text-amber-100">
+                    Suggestions
+                  </div>
+                  <div className="max-h-72 overflow-auto" style={{ WebkitOverflowScrolling: "touch" }}>
+                    {searchSuggestions.map((record) => (
+                      <Link
+                        key={record.id}
+                        to={`/dosha-parihara/${encodeURIComponent(record.id)}`}
+                        state={{ record }}
+                        onPointerDown={dismissKeyboard}
+                        onClick={() => {
+                          dismissKeyboard();
+                          setQuery(record.templeName || "");
                         }}
+                        className="block border-t border-amber-300/10 px-4 py-3 text-left transition hover:bg-amber-300/10"
                       >
-                        <div className="px-4 py-2 text-[10px] font-black uppercase tracking-[0.22em] text-amber-100">
-                          Suggestions
+                        <div className="text-sm font-bold text-amber-50">{record.templeName}</div>
+                        <div className="mt-1 text-xs leading-5 text-amber-100/80">
+                          {[record.location, record.district, record.state].filter(Boolean).join(" â€¢ ")}
                         </div>
-                        <div className="max-h-72 overflow-auto" style={{ WebkitOverflowScrolling: "touch" }}>
-                          {searchSuggestions.map((record) => (
-                            <Link
-                              key={record.id}
-                              to={`/dosha-parihara/${encodeURIComponent(record.id)}`}
-                              state={{ record }}
-                              onPointerDown={dismissKeyboard}
-                              onClick={() => {
-                                dismissKeyboard();
-                                setQuery(record.templeName || "");
+                        <div className="mt-2 flex flex-wrap gap-1.5">
+                          {sortDoshaChips(record.doshaTypes || [], liveQuery).slice(0, 4).map((item) => (
+                            <span
+                              key={item}
+                              className="rounded-full px-2 py-0.5 text-[9px] font-black uppercase tracking-[0.14em]"
+                              style={{
+                                background: "rgba(255, 255, 255, 0.05)",
+                                color: "#FFE4B5",
+                                border: "1px solid rgba(255, 183, 77, 0.14)",
                               }}
-                              className="block border-t border-amber-300/10 px-4 py-3 text-left transition hover:bg-amber-300/10"
                             >
-                              <div className="text-sm font-bold text-amber-50">{record.templeName}</div>
-                              <div className="mt-1 text-xs leading-5 text-amber-100/80">
-                                {[record.location, record.district, record.state].filter(Boolean).join(" • ")}
-                              </div>
-                              <div className="mt-2 flex flex-wrap gap-1.5">
-                                {sortDoshaChips(record.doshaTypes || [], liveQuery).slice(0, 4).map((item) => (
-                                  <span
-                                    key={item}
-                                    className="rounded-full px-2 py-0.5 text-[9px] font-black uppercase tracking-[0.14em]"
-                                    style={{
-                                      background: "rgba(255, 255, 255, 0.05)",
-                                      color: "#FFE4B5",
-                                      border: "1px solid rgba(255, 183, 77, 0.14)",
-                                    }}
-                                  >
-                                    {item}
-                                  </span>
-                                ))}
-                              </div>
-                            </Link>
+                              {item}
+                            </span>
                           ))}
                         </div>
-                      </div>
-                    ) : null}
+                      </Link>
+                    ))}
                   </div>
                 </div>
-                {suggestedDoshaLabel ? (
-                  <div className="mt-2 text-xs font-semibold text-amber-100/80">
-                    Did you mean{" "}
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setQuery(suggestedDoshaLabel);
-                        dismissKeyboard();
-                      }}
-                      className="font-black text-amber-50 underline decoration-amber-200/60 decoration-2 underline-offset-4 transition hover:text-amber-100"
-                    >
-                      {suggestedDoshaLabel}
-                    </button>
-                    ?
-                  </div>
-                ) : null}
-              </div>
-
-              <div className="mt-2">
-                <div className="mb-2 text-[11px] font-black uppercase tracking-[0.24em] text-amber-100">
-                  {t.doshaTypes || "Dosha Types"}
-                </div>
-                <DoshaTypeDropdown
-                  options={doshaTypeOptions}
-                  value={activeDoshaType}
-                  onChange={setActiveDoshaType}
-                  placeholderLabel={t.allTypes || "All Types"}
-                />
-              </div>
+              ) : null}
             </div>
-        {error ? (
-          <section className="mt-4 rounded-2xl p-4 text-sm font-semibold text-amber-100/80" style={{ background: "transparent", border: "1px solid rgba(255, 120, 90, 0.28)" }}>
-            {error}
-          </section>
-        ) : null}
+          </div>
 
-        {loading ? (
-          <section className="mt-4 rounded-2xl p-4 text-sm font-semibold text-amber-100/80" style={{ background: "transparent", border: "1px solid rgba(255, 183, 77, 0.18)" }}>
-            Loading local dosha parihara data...
-          </section>
-        ) : null}
+          {suggestedDoshaLabel ? (
+            <div className="mt-2 text-xs font-semibold text-amber-100/80">
+              Did you mean{" "}
+              <button
+                type="button"
+                onClick={() => {
+                  setQuery(suggestedDoshaLabel);
+                  dismissKeyboard();
+                }}
+                className="font-black text-amber-50 underline decoration-amber-200/60 decoration-2 underline-offset-4 transition hover:text-amber-100"
+              >
+                {suggestedDoshaLabel}
+              </button>
+              ?
+            </div>
+          ) : null}
 
-        {!loading && !records.length ? (
-          <section className="mt-4 rounded-2xl p-5 text-sm font-semibold text-amber-100/80" style={{ background: "transparent", border: "1px solid rgba(255, 183, 77, 0.18)" }}>
-            No temples match your search yet. Try a broader keyword or clear the dosha type filter.
-          </section>
-        ) : null}
-
-        <section className="mt-4 grid gap-3 sm:gap-4">
-          {records.map((record) => (
-            <RecordCard
-              key={record.id}
-              record={record}
-              query={query}
-              doshaIndex={doshaIndex}
-              onSelect={dismissKeyboard}
+          <div className="mt-2">
+            <div className="mb-2 text-[11px] font-black uppercase tracking-[0.24em] text-amber-100">
+              {t.doshaTypes || "Dosha Types"}
+            </div>
+            <DoshaTypeDropdown
+              options={doshaTypeOptions}
+              value={activeDoshaType}
+              onChange={setActiveDoshaType}
+              placeholderLabel={t.allTypes || "All Types"}
             />
-          ))}
-        </section>
+          </div>
+        </div>
+      </div>
+
+      <div className="mx-auto w-full max-w-none px-4 pb-8 sm:px-6 lg:px-8">
+        {hasSearchQuery ? (
+          <>
+            {error ? (
+              <section
+                className="mt-4 rounded-2xl p-4 text-sm font-semibold text-amber-100/80"
+                style={{ background: "transparent", border: "1px solid rgba(255, 120, 90, 0.28)" }}
+              >
+                {error}
+              </section>
+            ) : null}
+
+            {loading ? (
+              <section
+                className="mt-4 rounded-2xl p-4 text-sm font-semibold text-amber-100/80"
+                style={{ background: "transparent", border: "1px solid rgba(255, 183, 77, 0.18)" }}
+              >
+                Loading local dosha parihara data...
+              </section>
+            ) : null}
+
+            {!loading && !records.length ? (
+              <section
+                className="mt-4 rounded-2xl p-5 text-sm font-semibold text-amber-100/80"
+                style={{ background: "transparent", border: "1px solid rgba(255, 183, 77, 0.18)" }}
+              >
+                No temples match your search yet. Try a broader keyword or clear the dosha type filter.
+              </section>
+            ) : null}
+
+            <section className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 sm:gap-4">
+              {records.map((record) => (
+                <RecordCard
+                  key={record.id}
+                  record={record}
+                  query={query}
+                  doshaIndex={doshaIndex}
+                  onSelect={dismissKeyboard}
+                />
+              ))}
+            </section>
+          </>
+        ) : (
+          <>
+            {error ? (
+              <section
+                className="mt-4 rounded-2xl p-4 text-sm font-semibold text-amber-100/80"
+                style={{ background: "transparent", border: "1px solid rgba(255, 120, 90, 0.28)" }}
+              >
+                {error}
+              </section>
+            ) : null}
+
+            {loading ? (
+              <section
+                className="mt-4 rounded-2xl p-4 text-sm font-semibold text-amber-100/80"
+                style={{ background: "transparent", border: "1px solid rgba(255, 183, 77, 0.18)" }}
+              >
+                Loading local dosha parihara data...
+              </section>
+            ) : null}
+
+            {!loading && !records.length ? (
+              <section
+                className="mt-4 rounded-2xl p-5 text-sm font-semibold text-amber-100/80"
+                style={{ background: "transparent", border: "1px solid rgba(255, 183, 77, 0.18)" }}
+              >
+                No temples match your search yet. Try a broader keyword or clear the dosha type filter.
+              </section>
+            ) : null}
+
+            <section className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-3 sm:gap-4">
+              {records.map((record) => (
+                <RecordCard
+                  key={record.id}
+                  record={record}
+                  query={query}
+                  doshaIndex={doshaIndex}
+                  onSelect={dismissKeyboard}
+                />
+              ))}
+            </section>
+          </>
+        )}
+      </div>
     </PageShell>
   );
 }
-
-
-
-
