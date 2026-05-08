@@ -487,6 +487,13 @@ export default function DoshaPariharaPage() {
     [doshaTypes, t.allTypes]
   );
   const liveQuery = normalizeText(query);
+  const commitSearch = useCallback(() => {
+    const nextQuery = query.trim();
+    if (nextQuery !== query) {
+      setQuery(nextQuery);
+    }
+    queryInputRef.current?.blur?.();
+  }, [query]);
 
   const records = useMemo(() => {
     const filtered = (dataset.records || []).filter((record) =>
@@ -596,6 +603,11 @@ export default function DoshaPariharaPage() {
                       ref={queryInputRef}
                       value={query}
                       onChange={(event) => setQuery(event.target.value)}
+                      onKeyDown={(event) => {
+                        if (event.key !== "Enter") return;
+                        event.preventDefault();
+                        commitSearch();
+                      }}
                       placeholder="Search dosha, temple, ritual, or problem..."
                       className="w-full rounded-xl px-4 py-3 pr-12 text-[15px] font-semibold outline-none"
                       style={{
@@ -682,22 +694,6 @@ export default function DoshaPariharaPage() {
                       </div>
                     ) : null}
                   </div>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      if (query.trim()) {
-                        setQuery(query.trim());
-                      }
-                      queryInputRef.current?.focus?.();
-                    }}
-                    className="w-full shrink-0 rounded-xl px-4 py-3 text-sm font-black uppercase tracking-[0.14em] text-amber-50 sm:w-auto"
-                    style={{
-                      background: "linear-gradient(135deg, rgba(255, 186, 75, 0.24) 0%, rgba(255, 143, 41, 0.18) 100%)",
-                      border: "1px solid rgba(255, 183, 77, 0.28)",
-                    }}
-                  >
-                    Search
-                  </button>
                 </div>
                 {suggestedDoshaLabel ? (
                   <div className="mt-2 text-xs font-semibold text-amber-100/80">
