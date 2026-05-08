@@ -5,16 +5,6 @@ import { DOSHA_PARIHARA_DATA_URL, normalizeDoshaPariharaDataset, normalizeText, 
 import { UiIcon } from "../components/UiIcons";
 import { useLanguage } from "../hooks/useLanguage";
 
-const QUICK_SEARCHES = [
-  "Kuja Dosha",
-  "Rahu/Ketu Dosha",
-  "Marriage Delay",
-  "Education Problems",
-  "Health Issues",
-  "Financial Problems",
-  "Career Issues",
-];
-
 const VOICE_LANGUAGE_MAP = {
   en: "en-IN",
   hi: "hi-IN",
@@ -23,33 +13,6 @@ const VOICE_LANGUAGE_MAP = {
   kn: "kn-IN",
   ta: "ta-IN",
 };
-
-function Pill({ active = false, children, onClick, title }) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      title={title}
-      className="min-w-0 max-w-full rounded-xl px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.12em] transition hover:scale-[1.01] sm:text-[11px]"
-      style={{
-        background: active
-          ? "linear-gradient(135deg, rgba(255, 186, 75, 0.26) 0%, rgba(255, 143, 41, 0.2) 100%)"
-          : "transparent",
-        border: active ? "1.5px solid rgba(255, 183, 77, 0.4)" : "1.5px solid rgba(255, 183, 77, 0.22)",
-        color: "#FFF4DF",
-        boxShadow: active
-          ? "0 0 10px rgba(212, 168, 71, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.08)"
-          : "0 0 10px rgba(212, 168, 71, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.04)",
-        whiteSpace: "normal",
-        lineHeight: 1.15,
-        wordBreak: "break-word",
-        overflowWrap: "anywhere",
-      }}
-    >
-      {children}
-    </button>
-  );
-}
 
 function getSpeechRecognitionCtor() {
   if (typeof window === "undefined") return null;
@@ -160,9 +123,8 @@ export default function DoshaPariharaPage() {
   const { language } = useLanguage();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [dataset, setDataset] = useState({ categories: [], doshaTypes: [], records: [] });
+  const [dataset, setDataset] = useState({ doshaTypes: [], records: [] });
   const [query, setQuery] = useState("");
-  const [activeCategory, setActiveCategory] = useState("all");
   const [activeDoshaType, setActiveDoshaType] = useState("all");
   const [voiceSupported, setVoiceSupported] = useState(false);
   const [isListening, setIsListening] = useState(false);
@@ -264,15 +226,14 @@ export default function DoshaPariharaPage() {
     };
   }, [speechLanguage]);
 
-  const categories = useMemo(() => dataset.categories || [], [dataset.categories]);
   const doshaTypes = useMemo(() => dataset.doshaTypes || [], [dataset.doshaTypes]);
   const normalizedQuery = normalizeText(deferredQuery);
+  const liveQuery = normalizeText(query);
 
   const records = useMemo(() => {
     const filtered = (dataset.records || []).filter((record) =>
       recordMatchesFilters(record, {
         query: normalizedQuery,
-        categoryId: activeCategory,
         doshaTypeId: activeDoshaType,
       })
     );
@@ -282,11 +243,27 @@ export default function DoshaPariharaPage() {
       if (scoreDiff !== 0) return scoreDiff;
       return String(a.templeName || "").localeCompare(String(b.templeName || ""));
     });
-  }, [activeCategory, activeDoshaType, dataset.records, normalizedQuery]);
+  }, [activeDoshaType, dataset.records, normalizedQuery]);
 
-  const updateSearch = (value) => {
-    setQuery(value);
-  };
+  const searchSuggestions = useMemo(() => {
+    if (!liveQuery) return [];
+
+    const filtered = (dataset.records || []).filter((record) =>
+      recordMatchesFilters(record, {
+        query: liveQuery,
+        doshaTypeId: activeDoshaType,
+      })
+    );
+
+    return filtered
+      .slice()
+      .sort((a, b) => {
+        const scoreDiff = scoreDoshaPariharaRecord(b, liveQuery) - scoreDoshaPariharaRecord(a, liveQuery);
+        if (scoreDiff !== 0) return scoreDiff;
+        return String(a.templeName || "").localeCompare(String(b.templeName || ""));
+      })
+      .slice(0, 6);
+  }, [activeDoshaType, dataset.records, liveQuery]);
 
   const stopVoiceSearch = useCallback(() => {
     const recognition = recognitionRef.current;
@@ -354,7 +331,7 @@ export default function DoshaPariharaPage() {
                     <input
                       ref={queryInputRef}
                       value={query}
-                      onChange={(event) => updateSearch(event.target.value)}
+                      onChange={(event) => setQuery(event.target.value)}
                       placeholder="Search dosha, temple, ritual, or problem..."
                       className="w-full rounded-xl px-4 py-3 pr-12 text-[15px] font-semibold outline-none"
                       style={{
@@ -395,6 +372,51 @@ export default function DoshaPariharaPage() {
                         <path d="M12 15a3 3 0 0 0 3-3V7a3 3 0 1 0-6 0v5a3 3 0 0 0 3 3Zm5-3a1 1 0 1 1 2 0a7 7 0 0 1-6 6.93V21h3a1 1 0 1 1 0 2H8a1 1 0 1 1 0-2h3v-2.07A7 7 0 0 1 5 12a1 1 0 1 1 2 0a5 5 0 0 0 10 0Z" />
                       </svg>
                     </button>
+                    {searchSuggestions.length ? (
+                      <div
+                        className="absolute left-0 right-0 top-full z-20 mt-2 overflow-hidden rounded-2xl"
+                        style={{
+                          background: "rgba(40, 18, 6, 0.96)",
+                          border: "1.5px solid rgba(255, 183, 77, 0.34)",
+                          boxShadow: "0 16px 36px rgba(0, 0, 0, 0.28)",
+                        }}
+                      >
+                        <div className="px-4 py-2 text-[10px] font-black uppercase tracking-[0.22em]" style={{ color: "#FFD49E" }}>
+                          Suggestions
+                        </div>
+                        <div className="max-h-72 overflow-auto">
+                          {searchSuggestions.map((record) => (
+                            <Link
+                              key={record.id}
+                              to={`/dosha-parihara/${encodeURIComponent(record.id)}`}
+                              state={{ record }}
+                              onClick={() => setQuery(record.templeName || "")}
+                              className="block border-t border-amber-300/10 px-4 py-3 text-left transition hover:bg-amber-300/10"
+                            >
+                              <div className="text-sm font-bold text-[#FFF4DB]">{record.templeName}</div>
+                              <div className="mt-1 text-xs leading-5 text-[#FFE1B8]">
+                                {[record.location, record.district, record.state].filter(Boolean).join(" • ")}
+                              </div>
+                              <div className="mt-2 flex flex-wrap gap-1.5">
+                                {(record.doshaTypes || []).slice(0, 2).map((item) => (
+                                  <span
+                                    key={item}
+                                    className="rounded-full px-2 py-0.5 text-[9px] font-black uppercase tracking-[0.14em]"
+                                    style={{
+                                      background: "rgba(255, 255, 255, 0.05)",
+                                      color: "#FFE4B5",
+                                      border: "1px solid rgba(255, 183, 77, 0.14)",
+                                    }}
+                                  >
+                                    {item}
+                                  </span>
+                                ))}
+                              </div>
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+                    ) : null}
                   </div>
                   <button
                     type="button"
@@ -415,47 +437,36 @@ export default function DoshaPariharaPage() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
-                {QUICK_SEARCHES.map((item) => (
-                  <Pill key={item} onClick={() => updateSearch(item)}>{item}</Pill>
-                ))}
-              </div>
-
-              <div>
-                <div className="mb-2 text-[11px] font-black uppercase tracking-[0.24em]" style={{ color: "#FFD49E" }}>
-                  Categories
-                </div>
-                <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
-                  <Pill active={activeCategory === "all"} onClick={() => setActiveCategory("all")}>All</Pill>
-                  {categories.map((category) => (
-                    <Pill
-                      key={category.id}
-                      active={activeCategory === category.id}
-                      onClick={() => setActiveCategory(category.id)}
-                      title={category.description}
-                    >
-                      {category.label}
-                    </Pill>
-                  ))}
-                </div>
-              </div>
-
               <div>
                 <div className="mb-2 text-[11px] font-black uppercase tracking-[0.24em]" style={{ color: "#FFD49E" }}>
                   Dosha Types
                 </div>
-                <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
-                  <Pill active={activeDoshaType === "all"} onClick={() => setActiveDoshaType("all")}>All Types</Pill>
-                  {doshaTypes.map((doshaType) => (
-                    <Pill
-                      key={doshaType.id}
-                      active={activeDoshaType === doshaType.id}
-                      onClick={() => setActiveDoshaType(doshaType.id)}
-                      title={doshaType.description}
-                    >
-                      {doshaType.label}
-                    </Pill>
-                  ))}
+                <div className="relative">
+                  <select
+                    value={activeDoshaType}
+                    onChange={(event) => setActiveDoshaType(event.target.value)}
+                    className="w-full appearance-none rounded-xl px-4 py-3 pr-10 text-[15px] font-semibold outline-none"
+                    style={{
+                      background: "rgba(40, 18, 6, 0.72)",
+                      border: "1.5px solid rgba(255, 183, 77, 0.4)",
+                      boxShadow: "0 12px 30px rgba(0, 0, 0, 0.22)",
+                      color: "#FFF4D8",
+                      colorScheme: "dark",
+                    }}
+                  >
+                    <option value="all">All Types</option>
+                    {doshaTypes.map((doshaType) => (
+                      <option key={doshaType.id} value={doshaType.id}>
+                        {doshaType.label}
+                      </option>
+                    ))}
+                  </select>
+                  <span
+                    aria-hidden="true"
+                    className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-[#FFD49E]"
+                  >
+                    ▾
+                  </span>
                 </div>
               </div>
             </div>
@@ -476,7 +487,7 @@ export default function DoshaPariharaPage() {
 
         {!loading && !records.length ? (
           <section className="mt-4 rounded-2xl p-5 text-sm font-semibold text-[#FFE0B6]" style={{ background: "rgba(255, 255, 255, 0.04)", border: "1px solid rgba(255, 183, 77, 0.18)" }}>
-            No temples match your search yet. Try a broader keyword or clear the category filter.
+            No temples match your search yet. Try a broader keyword or clear the dosha type filter.
           </section>
         ) : null}
 

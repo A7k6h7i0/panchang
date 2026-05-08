@@ -18,7 +18,7 @@ function Tag({ children }) {
   );
 }
 
-function DetailRow({ label, value }) {
+function InfoTile({ label, value }) {
   if (!value) return null;
   return (
     <div
@@ -31,14 +31,12 @@ function DetailRow({ label, value }) {
       <div className="text-[11px] font-black uppercase tracking-[0.2em]" style={{ color: "#FFD49E" }}>
         {label}
       </div>
-      <div className="mt-2 text-sm font-semibold leading-6 text-[#FFF1DB]">
-        {value}
-      </div>
+      <div className="mt-2 text-sm font-semibold leading-6 text-[#FFF1DB]">{value}</div>
     </div>
   );
 }
 
-function DetailAction({ href, label, external = false }) {
+function ActionLink({ href, label, external = false, primary = false }) {
   return (
     <a
       href={href}
@@ -46,7 +44,7 @@ function DetailAction({ href, label, external = false }) {
       rel={external ? "noreferrer" : undefined}
       className="rounded-xl px-4 py-3 text-center text-sm font-black text-[#FFF5E5] transition hover:scale-[1.01]"
       style={{
-        background: "rgba(255, 255, 255, 0.05)",
+        background: primary ? "rgba(255, 183, 77, 0.16)" : "rgba(255, 255, 255, 0.05)",
         border: "1px solid rgba(255, 183, 77, 0.18)",
       }}
     >
@@ -149,187 +147,54 @@ export default function DoshaPariharaDetailPage() {
         ) : null}
 
         {record ? (
-          <>
-            <section
-              className="overflow-hidden rounded-[30px]"
-              style={{
-                background: "linear-gradient(180deg, rgba(20, 10, 6, 0.72) 0%, rgba(35, 16, 9, 0.86) 100%)",
-                border: "1.5px solid rgba(255, 183, 77, 0.32)",
-                boxShadow: "0 18px 40px rgba(0, 0, 0, 0.24)",
-              }}
-            >
-              <div className="grid gap-0 lg:grid-cols-[1.15fr_0.85fr]">
-                <div className="p-5 sm:p-6">
-                  <div className="text-[11px] font-black uppercase tracking-[0.28em]" style={{ color: "#FFD49E" }}>
-                    Temple Detail
-                  </div>
-                  <h1 className="mt-2 text-3xl font-black leading-tight text-[#FFF6E6] sm:text-4xl">
-                    {record.templeName}
-                  </h1>
-                  <p className="mt-2 text-sm font-semibold leading-6 text-[#FFE1B8]">
-                    {record.location}
-                    {record.district ? ` • ${record.district}` : ""}
-                    {record.state ? ` • ${record.state}` : ""}
-                  </p>
+          <section
+            className="rounded-[30px] p-5 sm:p-6"
+            style={{
+              background: "linear-gradient(180deg, rgba(20, 10, 6, 0.72) 0%, rgba(35, 16, 9, 0.86) 100%)",
+              border: "1.5px solid rgba(255, 183, 77, 0.32)",
+              boxShadow: "0 18px 40px rgba(0, 0, 0, 0.24)",
+            }}
+          >
+            <div className="text-[11px] font-black uppercase tracking-[0.28em]" style={{ color: "#FFD49E" }}>
+              Temple Detail
+            </div>
+            <h1 className="mt-2 text-3xl font-black leading-tight text-[#FFF6E6] sm:text-4xl">
+              {record.templeName}
+            </h1>
+            <p className="mt-2 text-sm font-semibold leading-6 text-[#FFE1B8]">
+              {record.location}
+              {record.district ? ` • ${record.district}` : ""}
+              {record.state ? ` • ${record.state}` : ""}
+            </p>
 
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    {(record.categoryLabels || []).map((item) => (
-                      <Tag key={item}>{item}</Tag>
-                    ))}
-                  </div>
+            <div className="mt-4 flex flex-wrap gap-2">
+              {(record.doshaTypes || []).map((item) => (
+                <Tag key={item}>{item}</Tag>
+              ))}
+            </div>
 
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    {(record.doshaTypes || []).map((item) => (
-                      <Tag key={item}>{item}</Tag>
-                    ))}
-                  </div>
+            <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              <InfoTile label="Ritual" value={record.ritualName || "Not listed"} />
+              <InfoTile label="Location" value={record.location || record.state || "Not listed"} />
+              <InfoTile label="Coverage" value={`${(record.problemKeywords || []).length || 0} problems`} />
+              <InfoTile label="Temple Speciality" value={record.speciality || "Not listed"} />
+            </div>
 
-                  <div className="mt-5 grid gap-3 sm:grid-cols-3">
-                    <div
-                      className="rounded-2xl p-4"
-                      style={{
-                        background: "rgba(255, 255, 255, 0.04)",
-                        border: "1px solid rgba(255, 183, 77, 0.16)",
-                      }}
-                    >
-                      <div className="text-[10px] font-black uppercase tracking-[0.22em]" style={{ color: "#FFD49E" }}>
-                        Ritual
-                      </div>
-                      <div className="mt-2 text-sm font-bold text-[#FFF2DC]">{record.ritualName || "Not listed"}</div>
-                    </div>
-                    <div
-                      className="rounded-2xl p-4"
-                      style={{
-                        background: "rgba(255, 255, 255, 0.04)",
-                        border: "1px solid rgba(255, 183, 77, 0.16)",
-                      }}
-                    >
-                      <div className="text-[10px] font-black uppercase tracking-[0.22em]" style={{ color: "#FFD49E" }}>
-                        Location
-                      </div>
-                      <div className="mt-2 text-sm font-bold text-[#FFF2DC]">{record.location || record.state || "Not listed"}</div>
-                    </div>
-                    <div
-                      className="rounded-2xl p-4"
-                      style={{
-                        background: "rgba(255, 255, 255, 0.04)",
-                        border: "1px solid rgba(255, 183, 77, 0.16)",
-                      }}
-                    >
-                      <div className="text-[10px] font-black uppercase tracking-[0.22em]" style={{ color: "#FFD49E" }}>
-                        Coverage
-                      </div>
-                      <div className="mt-2 text-sm font-bold text-[#FFF2DC]">
-                        {(record.problemKeywords || []).length || 0} problems
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="border-t border-amber-300/15 bg-black/10 p-5 sm:p-6 lg:border-l lg:border-t-0">
-                  <div
-                    className="flex min-h-[220px] items-end overflow-hidden rounded-[26px] p-5"
-                    style={{
-                      background:
-                        "radial-gradient(circle at top right, rgba(255, 214, 126, 0.28), transparent 40%), linear-gradient(160deg, rgba(255, 176, 77, 0.18) 0%, rgba(71, 31, 11, 0.92) 100%)",
-                      border: "1px solid rgba(255, 183, 77, 0.18)",
-                    }}
-                  >
-                    <div>
-                      <div className="text-[11px] font-black uppercase tracking-[0.26em]" style={{ color: "#FFD49E" }}>
-                        Temple Snapshot
-                      </div>
-                      <div className="mt-2 text-xl font-black text-[#FFF6E8]">
-                        {record.templeName}
-                      </div>
-                      <div className="mt-2 text-sm leading-6 text-[#FFE0B6]">
-                        {record.speciality || "Local parihara reference for temple search and remedies."}
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-1">
-                    {record.phone ? (
-                      <DetailAction href={`tel:${record.phone}`} label="Call Temple" />
-                    ) : null}
-                    {record.website ? (
-                      <DetailAction href={record.website} label="Visit Website" external />
-                    ) : null}
-                    <Link
-                      to="/dosha-parihara"
-                      className="rounded-xl px-4 py-3 text-center text-sm font-black text-[#FFF5E5] transition hover:scale-[1.01]"
-                      style={{
-                        background: "rgba(255, 183, 77, 0.16)",
-                        border: "1px solid rgba(255, 183, 77, 0.26)",
-                      }}
-                    >
-                      Back to Search
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            </section>
-
-            <section className="grid gap-3 md:grid-cols-2">
-              <DetailRow label="Ritual / Pooja Name" value={record.ritualName} />
-              <DetailRow label="Temple Speciality" value={record.speciality} />
-              <DetailRow label="Problems Covered" value={(record.problemKeywords || []).join(", ")} />
-              <DetailRow label="Address" value={record.address || record.location} />
-            </section>
-
-            <section className="grid gap-3 md:grid-cols-2">
-              <DetailRow label="Description" value={record.description} />
-              <DetailRow label="Search Keywords" value={(record.keywords || []).join(", ")} />
-            </section>
-
-            <section className="grid gap-3 lg:grid-cols-[1.1fr_0.9fr]">
-              <div
-                className="rounded-[26px] p-5"
+            <div className="mt-5 grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
+              {record.phone ? <ActionLink href={`tel:${record.phone}`} label="Call Temple" /> : null}
+              {record.website ? <ActionLink href={record.website} label="Visit Website" external /> : null}
+              <Link
+                to="/dosha-parihara"
+                className="rounded-xl px-4 py-3 text-center text-sm font-black text-[#FFF5E5] transition hover:scale-[1.01]"
                 style={{
-                  background: "rgba(255, 255, 255, 0.04)",
-                  border: "1px solid rgba(255, 183, 77, 0.18)",
+                  background: "rgba(255, 183, 77, 0.16)",
+                  border: "1px solid rgba(255, 183, 77, 0.26)",
                 }}
               >
-                <div className="text-[11px] font-black uppercase tracking-[0.24em]" style={{ color: "#FFD49E" }}>
-                  Quick Summary
-                </div>
-                <div className="mt-3 text-sm leading-7 text-[#FFF0D8]">
-                  Search this temple by any of these terms:{" "}
-                  <span className="font-black text-[#FFE19A]">
-                    {[
-                      record.templeName,
-                      record.location,
-                      ...(record.doshaTypes || []),
-                      ...(record.problemKeywords || []),
-                      record.ritualName,
-                    ]
-                      .filter(Boolean)
-                      .join(" • ")}
-                  </span>
-                </div>
-              </div>
-
-              <div
-                className="rounded-[26px] p-5"
-                style={{
-                  background: "rgba(255, 255, 255, 0.04)",
-                  border: "1px solid rgba(255, 183, 77, 0.18)",
-                }}
-              >
-                <div className="text-[11px] font-black uppercase tracking-[0.24em]" style={{ color: "#FFD49E" }}>
-                  Related Search Ideas
-                </div>
-                <div className="mt-3 flex flex-wrap gap-2">
-                  {[record.templeName, record.ritualName, ...(record.doshaTypes || []), ...(record.problemKeywords || [])]
-                    .filter(Boolean)
-                    .slice(0, 10)
-                    .map((item) => (
-                      <Tag key={item}>{item}</Tag>
-                    ))}
-                </div>
-              </div>
-            </section>
-          </>
+                Back to Search
+              </Link>
+            </div>
+          </section>
         ) : null}
       </div>
     </PageShell>
