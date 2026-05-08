@@ -122,7 +122,7 @@ function sortDoshaChips(doshaTypes, query) {
   });
 }
 
-function RecordCard({ record, query, doshaIndex }) {
+function RecordCard({ record, query, doshaIndex, onSelect }) {
   const routeState = { record };
   const locationText = [record.location, record.district, record.state].filter(Boolean).join(" • ");
   const resolvedQuery = resolveDoshaQuery(query, doshaIndex);
@@ -136,6 +136,8 @@ function RecordCard({ record, query, doshaIndex }) {
     <Link
       to={`/dosha-parihara/${encodeURIComponent(record.id)}`}
       state={routeState}
+      onPointerDown={onSelect}
+      onClick={onSelect}
       className="group block overflow-hidden rounded-2xl transition duration-300 hover:-translate-y-0.5"
       style={{
         background: "transparent",
@@ -494,6 +496,9 @@ export default function DoshaPariharaPage() {
     }
     queryInputRef.current?.blur?.();
   }, [query]);
+  const dismissKeyboard = useCallback(() => {
+    queryInputRef.current?.blur?.();
+  }, []);
 
   const records = useMemo(() => {
     const filtered = (dataset.records || []).filter((record) =>
@@ -666,7 +671,11 @@ export default function DoshaPariharaPage() {
                               key={record.id}
                               to={`/dosha-parihara/${encodeURIComponent(record.id)}`}
                               state={{ record }}
-                              onClick={() => setQuery(record.templeName || "")}
+                              onPointerDown={dismissKeyboard}
+                              onClick={() => {
+                                dismissKeyboard();
+                                setQuery(record.templeName || "");
+                              }}
                               className="block border-t border-amber-300/10 px-4 py-3 text-left transition hover:bg-amber-300/10"
                             >
                               <div className="text-sm font-bold text-amber-50">{record.templeName}</div>
@@ -702,7 +711,7 @@ export default function DoshaPariharaPage() {
                       type="button"
                       onClick={() => {
                         setQuery(suggestedDoshaLabel);
-                        queryInputRef.current?.focus?.();
+                        dismissKeyboard();
                       }}
                       className="font-black text-amber-50 underline decoration-amber-200/60 decoration-2 underline-offset-4 transition hover:text-amber-100"
                     >
@@ -747,7 +756,13 @@ export default function DoshaPariharaPage() {
 
         <section className="mt-4 grid gap-3 sm:gap-4">
           {records.map((record) => (
-            <RecordCard key={record.id} record={record} query={query} doshaIndex={doshaIndex} />
+            <RecordCard
+              key={record.id}
+              record={record}
+              query={query}
+              doshaIndex={doshaIndex}
+              onSelect={dismissKeyboard}
+            />
           ))}
         </section>
       </div>

@@ -46,8 +46,9 @@ function ActionLink({ href, label, external = false, primary = false }) {
       rel={external ? "noreferrer" : undefined}
       className="rounded-xl px-4 py-3 text-center text-sm font-black text-amber-50 transition hover:scale-[1.01]"
       style={{
-        background: primary ? "rgba(255, 183, 77, 0.16)" : "rgba(255, 255, 255, 0.05)",
-        border: "1px solid rgba(255, 183, 77, 0.18)",
+        background: primary ? "rgba(255, 183, 77, 0.14)" : "transparent",
+        border: "1.5px solid rgba(255, 183, 77, 0.28)",
+        boxShadow: "0 0 10px rgba(212, 168, 71, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.05)",
       }}
     >
       {label}
@@ -132,8 +133,9 @@ export default function DoshaPariharaDetailPage() {
           <section
             className="rounded-[26px] p-5"
             style={{
-              background: "rgba(20, 10, 6, 0.68)",
-              border: "1.5px solid rgba(255, 183, 77, 0.28)",
+              background: "transparent",
+              border: "1.5px solid rgba(255, 183, 77, 0.4)",
+              boxShadow: "0 0 10px rgba(212, 168, 71, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.08)",
             }}
           >
             <div className="text-lg font-black text-amber-50">Temple details not found.</div>
@@ -159,9 +161,9 @@ export default function DoshaPariharaDetailPage() {
           <section
             className="rounded-[30px] p-5 sm:p-6"
             style={{
-              background: "linear-gradient(180deg, rgba(20, 10, 6, 0.72) 0%, rgba(35, 16, 9, 0.86) 100%)",
-              border: "1.5px solid rgba(255, 183, 77, 0.32)",
-              boxShadow: "0 18px 40px rgba(0, 0, 0, 0.24)",
+              background: "transparent",
+              border: "1.5px solid rgba(255, 183, 77, 0.4)",
+              boxShadow: "0 0 10px rgba(212, 168, 71, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.08)",
             }}
           >
             <div className="text-[11px] font-black uppercase tracking-[0.28em] text-amber-100">
