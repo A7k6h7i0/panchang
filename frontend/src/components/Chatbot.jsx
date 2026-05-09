@@ -13,19 +13,19 @@ const defaultSettings = {
 
 const chatbotTranslations = {
   en: {
-    appTitle: "Panchanga Friend",
+    appTitle: "Panchang Friend",
     newChat: "New Chat",
     confirmNewChat: "Start a new chat? Current chat will be deleted.",
     close: "Close",
   },
   te: {
-    appTitle: "Panchanga Friend",
+    appTitle: "Panchang Friend",
     newChat: "New Chat",
     confirmNewChat: "Start a new chat? Current chat will be deleted.",
     close: "Close",
   },
   hi: {
-    appTitle: "Panchanga Friend",
+    appTitle: "Panchang Friend",
     newChat: "New Chat",
     confirmNewChat: "Start a new chat? Current chat will be deleted.",
     close: "Close",
