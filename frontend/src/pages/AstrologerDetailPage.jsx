@@ -10,6 +10,8 @@ export default function AstrologerDetailPage() {
       pageTitle="Astrologers"
       backTo="/astrologers"
       backLabel="Back to Astrologers"
+      showHeaderAddress={false}
+      showDirections={false}
     />
   );
 }

@@ -161,6 +161,9 @@ export default function ServiceDetailPage({
   pageTitle,
   backTo,
   backLabel,
+  showHeaderAddress = true,
+  showQuickFactsAddress = true,
+  showDirections = true,
 }) {
   const location = useLocation();
   const params = useParams();
@@ -297,12 +300,12 @@ export default function ServiceDetailPage({
             <div className="text-lg font-black sm:text-xl" style={{ color: "#FFF7E9" }}>
               {name || serviceLabel(resolvedType)}
             </div>
-            {address ? (
+            {showHeaderAddress && address ? (
               <div className="mt-1 text-[12px] leading-5 sm:text-sm" style={{ color: "#FFD9A3" }}>
                 {address}
               </div>
             ) : null}
-            <div className="mt-3 grid grid-cols-3 gap-2 sm:gap-3">
+            <div className={`mt-3 grid gap-2 sm:gap-3 ${showDirections ? "grid-cols-3" : "grid-cols-2"}`}>
               <ActionTile
                 href={phone ? `tel:${phone}` : ""}
                 label="Call"
@@ -310,14 +313,16 @@ export default function ServiceDetailPage({
                 background="linear-gradient(135deg, rgba(112, 79, 30, 0.98) 0%, rgba(77, 51, 17, 0.98) 100%)"
                 disabled={!phone}
               />
-              <ActionTile
-                href={directionsLink}
-                label="Directions"
-                icon={<DirectionsIcon />}
-                background="linear-gradient(135deg, rgba(38, 95, 173, 0.98) 0%, rgba(25, 74, 145, 0.98) 100%)"
-                external
-                disabled={!address && !name}
-              />
+              {showDirections ? (
+                <ActionTile
+                  href={directionsLink}
+                  label="Directions"
+                  icon={<DirectionsIcon />}
+                  background="linear-gradient(135deg, rgba(38, 95, 173, 0.98) 0%, rgba(25, 74, 145, 0.98) 100%)"
+                  external
+                  disabled={!address && !name}
+                />
+              ) : null}
               <ActionTile
                 href={website || ""}
                 label={website ? "Website" : "Website not available"}
@@ -355,12 +360,14 @@ export default function ServiceDetailPage({
                   </div>
                   <div className="mt-1">{phone || "Not available"}</div>
                 </div>
-                <div>
-                  <div className="text-[11px] font-black uppercase tracking-[0.18em]" style={{ color: "#FFD39A" }}>
-                    Address
+                {showQuickFactsAddress ? (
+                  <div>
+                    <div className="text-[11px] font-black uppercase tracking-[0.18em]" style={{ color: "#FFD39A" }}>
+                      Address
+                    </div>
+                    <div className="mt-1">{address || "Address not available"}</div>
                   </div>
-                  <div className="mt-1">{address || "Address not available"}</div>
-                </div>
+                ) : null}
                 {workdayTiming ? (
                   <div>
                     <div className="text-[11px] font-black uppercase tracking-[0.18em]" style={{ color: "#FFD39A" }}>

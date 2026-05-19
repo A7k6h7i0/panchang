@@ -10,6 +10,8 @@ export default function TempleDetailPage() {
       pageTitle="Temple"
       backTo="/temples"
       backLabel="Back to Temples"
+      showHeaderAddress={false}
+      showDirections={false}
     />
   );
 }

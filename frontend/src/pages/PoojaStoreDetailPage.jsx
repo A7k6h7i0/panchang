@@ -10,6 +10,8 @@ export default function PoojaStoreDetailPage() {
       pageTitle="Pooja Store"
       backTo="/pooja-stores"
       backLabel="Back to Pooja Stores"
+      showHeaderAddress={false}
+      showDirections={false}
     />
   );
 }

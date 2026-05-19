@@ -10,6 +10,8 @@ export default function PurohithDetailPage() {
       pageTitle="Purohith"
       backTo="/purohith"
       backLabel="Back to Purohiths"
+      showHeaderAddress={false}
+      showDirections={false}
     />
   );
 }

@@ -172,11 +172,6 @@ export default function DoshaPariharaDetailPage() {
             <h1 className="mt-2 text-3xl font-black leading-tight text-amber-50 sm:text-4xl">
               {record.templeName}
             </h1>
-            <p className="mt-2 text-sm font-semibold leading-6 text-amber-100/80">
-              {record.location}
-              {record.district ? ` • ${record.district}` : ""}
-              {record.state ? ` • ${record.state}` : ""}
-            </p>
 
             <div className="mt-4 flex flex-wrap gap-2">
               {(record.doshaTypes || []).map((item) => (
